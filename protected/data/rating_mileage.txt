@@ -1,0 +1,62 @@
+ALTER TABLE `agents` ADD `agt_last_thirtydays_kms` MEDIUMINT NULL DEFAULT NULL AFTER `agt_overall_score`;
+
+UPDATE agents, (
+SELECT bkg_agent_id,  SUM(bkg_trip_distance) AS total  
+FROM booking
+WHERE bkg_active=1 AND bkg_status IN (5,6,7) AND bkg_booking_type=1 AND bkg_pickup_date>DATE_ADD(NOW(), INTERVAL -30 DAY)
+GROUP BY bkg_agent_id) bkg 
+SET agt_last_thirtydays_kms = bkg.total 
+WHERE agt_id=bkg_agent_id and agt_active=1;
+
+
+
+SELECT ROUND((MAX(agt_last_thirtydays_kms))/5) AS first_slot,
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS second_slot, 
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS third_slot, 
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS fourth_slot, 
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS fifth_slot 
+FROM agents;
+
+
+ALTER TABLE `agents` ADD `agt_mileage_score` TINYINT NULL DEFAULT NULL AFTER `agt_last_thirtydays_kms`;
+
+
+
+UPDATE agents, (
+SELECT ROUND((MAX(agt_last_thirtydays_kms))/5) AS first_slot 
+FROM agents) bkg 
+SET agt_mileage_score=5 
+WHERE agt_last_thirtydays_kms<bkg.first_slot AND agt_last_thirtydays_kms IS NOT NULL;
+
+UPDATE agents, (
+SELECT ROUND((MAX(agt_last_thirtydays_kms))/5) AS first_slot, 
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS second_slot
+FROM agents) bkg 
+SET agt_mileage_score=4 
+WHERE agt_last_thirtydays_kms>bkg.first_slot AND agt_last_thirtydays_kms<bkg.second_slot;
+
+UPDATE agents, (
+SELECT ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS second_slot, 
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS third_slot 
+FROM agents) bkg 
+SET agt_mileage_score=3 
+WHERE agt_last_thirtydays_kms>bkg.second_slot AND agt_last_thirtydays_kms<bkg.third_slot;
+
+UPDATE agents, (
+SELECT ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS third_slot,
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS fourth_slot 
+FROM agents) bkg 
+SET agt_mileage_score=2 
+WHERE agt_last_thirtydays_kms>bkg.third_slot AND agt_last_thirtydays_kms<bkg.fourth_slot;
+
+UPDATE agents, (
+SELECT ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS fourth_slot, 
+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5)+ROUND((MAX(agt_last_thirtydays_kms))/5) AS fifth_slot 
+FROM agents) bkg 
+SET agt_mileage_score=1 
+WHERE agt_last_thirtydays_kms>bkg.fourth_slot AND agt_last_thirtydays_kms<=bkg.fifth_slot;
+
+
+
+
+

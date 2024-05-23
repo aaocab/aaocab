@@ -1,0 +1,5 @@
+{"source":{"address":"Terminal 3, Indira Gandhi International Airport, New Delhi, Delhi 110037, India","latitude":28.5550838,"longitude":77.0844015,"city":"Delhi"},"destination":{"address":"Pocket C, South East Delhi, Delhi","latitude":28.5290816,"longitude":77.2884983,"city":"Delhi"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-09 19:45:00","end_time":"2023-12-05 10:49:20","search_id":"656da0ddb6d9690017ffb530","one_way_distance":28,"one_way_duration":49,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["AE","NC","PC","ST","TOLL"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"AIRPORT","airport_type":"PICKUP"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 180 minutes from now.","link":null,"response":null}

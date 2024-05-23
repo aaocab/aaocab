@@ -1,0 +1,55 @@
+ALTER TABLE `booking` ADD `bkg_shuttle_id` INT NULL AFTER `bkg_lead_id`, ADD INDEX (`bkg_shuttle_id`);
+ALTER TABLE `booking_temp` ADD `bkg_shuttle_id` INT NULL AFTER `bkg_package_id`;
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+
+
+CREATE TABLE `shuttle` (
+  `slt_id` int(11) NOT NULL,
+  `slt_pickup_datetime` datetime NOT NULL,
+  `slt_from_city` int(11) NOT NULL,
+  `slt_to_city` int(11) NOT NULL,
+  `slt_pickup_location` varchar(255) DEFAULT NULL,
+  `slt_drop_location` varchar(255) DEFAULT NULL,
+  `slt_pickup_lat` varchar(100) DEFAULT NULL,
+  `slt_pickup_long` varchar(100) DEFAULT NULL,
+  `slt_drop_lat` varchar(100) DEFAULT NULL,
+  `slt_drop_long` varchar(100) DEFAULT NULL,
+  `slt_time_slot` tinyint(4) NOT NULL,
+  `slt_seat_availability` tinyint(4) NOT NULL,
+  `slt_price_per_seat` mediumint(9) NOT NULL,
+  `slt_gst` mediumint(9) NOT NULL,
+  `slt_toll_tax` mediumint(9) DEFAULT NULL,
+  `slt_driver_allowance` mediumint(9) DEFAULT NULL,
+  `slt_state_tax` mediumint(9) DEFAULT NULL,
+  `slt_base_fare` mediumint(9) NOT NULL,
+  `slt_vendor_amount` mediumint(9) DEFAULT NULL,
+  `slt_vnd_id` int(11) DEFAULT NULL,
+  `slt_created_by` smallint(6) DEFAULT NULL,
+  `slt_created_at` timestamp NULL DEFAULT current_timestamp(),
+  `slt_status` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `shuttle`
+--
+ALTER TABLE `shuttle`
+  ADD PRIMARY KEY (`slt_id`);
+
+ 
+ALTER TABLE `shuttle`
+  MODIFY `slt_id` int(11) NOT NULL AUTO_INCREMENT;
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
+
+

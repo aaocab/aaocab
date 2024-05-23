@@ -1,0 +1,15 @@
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_big_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-etios.jpg', 'Assured Sedan', 'Assured Sedan', '4', '15', '11', '5', '0', '1', '1', '2', CURRENT_TIMESTAMP, '1', NULL);
+
+UPDATE `vehicle_types` SET `vht_fuel_type` = '1' WHERE `vehicle_types`.`vht_id` = 78;
+
+UPDATE `vehicle_types` SET `vht_average_mileage` = '15', `vht_estimated_cost` = '11', `vht_bag_capacity` = '1', `vht_big_bag_capacity` = '2' WHERE `vehicle_types`.`vht_id` = 78;
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_big_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-innova.png', 'Assured Innova', 'Assured Innova', '6', '10', '15', '6', '0', '1', '2', '3', CURRENT_TIMESTAMP, '1', NULL);
+
+UPDATE `vehicle_types` SET `vht_image` = 'images/cabs/car-etios.jpg' WHERE `vehicle_types`.`vht_id` = 80;
+
+ALTER TABLE `vehicle_types` CHANGE `vht_car_type` `vht_car_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=>Compact,2=>SUV,3=>Seadan,4=>Tempo Traveller,5=>Assured Dzire, 6=>Assured Innova';
+
+UPDATE `vehicle_types` SET `vht_make` = 'Assured innova' WHERE `vehicle_types`.`vht_id` = 81;
+
+UPDATE `vehicle_types` SET `vht_make` = 'Assured dzire' WHERE `vehicle_types`.`vht_id` = 80;

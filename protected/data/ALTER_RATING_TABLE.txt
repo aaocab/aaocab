@@ -1,0 +1,44 @@
+ALTER TABLE `ratings` ADD `rtg_driver_ontime` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_vendor_reply_status`,
+ ADD `rtg_driver_softspokon` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_driver_ontime`,
+ ADD `rtg_driver_respectfully` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_driver_softspokon`,
+ ADD `rtg_driver_helpful` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_driver_respectfully`,
+ ADD `rtg_driver_safely` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_driver_helpful`,
+ ADD `rtg_driver_vendor_mismatch` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_driver_safely`,
+ ADD `rtg_driver_cmt` VARCHAR(1024) NULL DEFAULT NULL AFTER `rtg_driver_vendor_mismatch`;
+
+
+ALTER TABLE `ratings` ADD `rtg_car_clean` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_driver_cmt`,
+ ADD `rtg_car_good_cond` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_car_clean`,
+ ADD `rtg_car_commercial` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_car_good_cond`,
+ ADD `rtg_car_vendor_mismatch` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_car_commercial`;
+
+ALTER TABLE `ratings` ADD `rtg_car_cmt` VARCHAR(1024) NULL DEFAULT NULL AFTER `rtg_car_vendor_mismatch`;
+
+
+ALTER TABLE `ratings` ADD `rtg_csr_polite` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_car_cmt`,
+ ADD `rtg_csr_well_communicate` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_csr_polite`,
+ ADD `rtg_csr_professional` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_csr_well_communicate`,
+ ADD `rtg_csr_cmt` VARCHAR(1024) NULL DEFAULT NULL AFTER `rtg_csr_professional`;
+
+ALTER TABLE `ratings` ADD `rtg_platform_exp` TINYINT(4) NULL DEFAULT NULL AFTER `rtg_csr_cmt`,
+ ADD `rtg_platform_exp_cmt` VARCHAR(256) NULL DEFAULT NULL AFTER `rtg_platform_exp`;
+ALTER TABLE `ratings` CHANGE `rtg_platform_exp_cmt` `rtg_platform_exp_cmt` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `ratings` CHANGE `rtg_customer_reply` `rtg_customer_reply` VARCHAR(2048) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+ CHANGE `rtg_vendor_reply` `rtg_vendor_reply` VARCHAR(2048) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `vendors` CHANGE `vnd_driver_mismatch` `vnd_driver_mismatch_count` INT(11) NOT NULL DEFAULT '0', CHANGE `vnd_car_mismatch` `vnd_car_mismatch_count` INT(11) NOT NULL DEFAULT '0';
+
+
+ALTER TABLE `ratings` CHANGE `rtg_driver_vendor_mismatch` `rtg_driver_vendor_match` TINYINT(4) NULL DEFAULT NULL, 
+CHANGE `rtg_car_vendor_mismatch` `rtg_car_vendor_match` TINYINT(4) NULL DEFAULT NULL;
+
+
+
+
+
+
+
+
+
+

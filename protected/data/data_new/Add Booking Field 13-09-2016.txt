@@ -1,0 +1,9 @@
+ALTER TABLE `booking` ADD `bkg_chargeable_distance` MEDIUMINT NULL DEFAULT NULL AFTER `bkg_refund_amount`;
+ALTER TABLE `booking` ADD `bkg_garage_time` DATETIME  NULL DEFAULT NULL AFTER `bkg_chargeable_distance`;
+ALTER TABLE `booking` ADD `bkg_pickup_pincode` VARCHAR(10) NULL DEFAULT NULL AFTER `bkg_pickup_address`;
+ALTER TABLE `booking` ADD `bkg_drop_pincode` VARCHAR(10) NULL DEFAULT NULL AFTER `bkg_pickup_pincode`;
+
+UPDATE cities1 cty1 INNER JOIN cities cty ON cty1.cty_id=cty.cty_id SET cty.cty_lat=cty1.cty_lat;
+UPDATE cities1 cty1 INNER JOIN cities cty ON cty1.cty_id=cty.cty_id SET cty.cty_long=cty1.cty_long;
+
+ALTER TABLE `booking_route` ADD `brt_from_pincode` VARCHAR(10) NULL DEFAULT NULL AFTER `brt_from_location`, ADD `brt_to_pincode` VARCHAR(10) NULL DEFAULT NULL AFTER `brt_from_pincode`;

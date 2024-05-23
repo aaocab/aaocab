@@ -1,0 +1,1 @@
+ALTER TABLE `cab_availabilities` ADD `cav_total_amount` MEDIUMINT NULL AFTER `cav_amount`;

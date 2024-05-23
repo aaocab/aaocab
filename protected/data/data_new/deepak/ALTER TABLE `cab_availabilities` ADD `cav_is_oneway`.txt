@@ -1,0 +1,1 @@
+ALTER TABLE `cab_availabilities` ADD `cav_is_oneway` TINYINT NOT NULL DEFAULT '0' AFTER `cav_modified_at`, ADD `cav_is_shared` TINYINT NOT NULL DEFAULT '0' AFTER `cav_is_oneway`;

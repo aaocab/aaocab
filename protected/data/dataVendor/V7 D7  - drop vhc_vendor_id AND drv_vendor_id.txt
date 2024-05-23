@@ -1,0 +1,8 @@
+ALTER TABLE vehicles DROP FOREIGN KEY vehicles_ibfk_1;
+
+ALTER TABLE `vehicles` DROP `vhc_vendor_id`;
+
+
+ALTER TABLE drivers DROP FOREIGN KEY drivers_ibfk_1;
+
+ALTER TABLE `drivers` DROP `drv_vendor_id`;

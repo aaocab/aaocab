@@ -1,0 +1,2 @@
+ALTER TABLE `booking` ADD `bkg_profit_flag` TINYINT(4) NULL DEFAULT NULL AFTER `bkg_contact_gozo`;
+ALTER TABLE `booking` CHANGE `bkg_profit_flag` `bkg_non_profit_flag` TINYINT(4) NULL DEFAULT NULL;

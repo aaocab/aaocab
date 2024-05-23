@@ -1,0 +1,1 @@
+ALTER TABLE `vendors` ADD `vnd_driver_mismatch` INT(11) NOT NULL DEFAULT '0' AFTER `vnd_admin`, ADD `vnd_car_mismatch` INT(11) NOT NULL DEFAULT '0' AFTER `vnd_driver_mismatch`;

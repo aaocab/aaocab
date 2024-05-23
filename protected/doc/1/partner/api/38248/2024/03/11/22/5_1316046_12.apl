@@ -1,0 +1,5 @@
+{"tnc":1,"referenceId":"BAC10dxfgtfo","tripType":1,"cabType":"73","fare":{"advanceReceived":3000,"totalAmount":5000,"mojoFare":4000},"platform":{"deviceName":"Mozilla\/5.0 (Windows NT 10.0; WOW64) AppleWebKit\/537 .36 (KHTML, like Gecko) Chrome\/53.0.2785.116 Safari\/537.36","ip":"0.0.0.0","type":"4"},"apkVersion":"2.2.61128","sendEmail":1,"sendSms":1,"routes":[{"startDate":"2024-03-18","startTime":"22:30:00","source":{"address":"Ashok Nagar Block B Nehru Nagar III Nehru Nagar MC5XW3R Ashok Nagar Nehru Nagar III Nehru Na","coordinates":{"latitude":"28.65985239999999","longitude":"77.447633"}},"destination":{"address":"IGI AirportT2","coordinates":{"latitude":"28.55730800","longitude":"77.08718700"}}}],"traveller":{"firstName":"Saurabh","lastName":"Singh","primaryContact":{"code":91,"number":"7827188996"},"alternateContact":{"code":91,"number":""},"email":"rattanjoea@gmail.com"},"additionalInfo":{}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"success":false,"errorCode":104,"errors":["Reference Id already exists"]}

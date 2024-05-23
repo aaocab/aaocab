@@ -1,0 +1,35 @@
+
+CREATE TABLE `profitability_surge` (
+  `prs_id` int(11) NOT NULL,
+  `prs_area_type` tinyint(4) NOT NULL COMMENT '1 =>''City'', 2=>''Zone'', 3=>''State'', 4=>''Region'', 5=>''Default''',
+  `prs_from_area` int(11) NOT NULL,
+  `prs_to_area` int(11) NOT NULL,
+  `prs_cab_type_id` tinyint(4) NOT NULL,
+  `prs_booking_type` tinyint(4) NOT NULL,
+  `prs_count_bookings` smallint(6) NOT NULL,
+  `prs_count_profit_bookings` smallint(6) NOT NULL,
+  `prs_surge` decimal(7,2) NOT NULL,
+  `prs_booking_percentage` decimal(7,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `profitability_surge`
+--
+ALTER TABLE `profitability_surge`
+  ADD PRIMARY KEY (`prs_id`),
+  ADD KEY `prs_cab_type_id` (`prs_cab_type_id`),
+  ADD KEY `prs_from_area` (`prs_from_area`,`prs_to_area`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `profitability_surge`
+--
+ALTER TABLE `profitability_surge`
+  MODIFY `prs_id` int(11) NOT NULL AUTO_INCREMENT;

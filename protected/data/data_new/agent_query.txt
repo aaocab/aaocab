@@ -1,0 +1,1 @@
+UPDATE agents SET agt_commission_value=1,agt_commission=5 WHERE agt_type IN(0,1)

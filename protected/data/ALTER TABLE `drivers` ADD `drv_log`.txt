@@ -1,0 +1,13 @@
+ALTER TABLE `drivers` ADD `drv_log` VARCHAR(5000) NULL AFTER `drv_history`;
+
+ALTER TABLE `vehicle_types` ADD `vht_log` VARCHAR(5000) NULL ;
+
+ALTER TABLE `vehicles` ADD `vhc_log` VARCHAR(5000) NULL ;
+
+ALTER TABLE `cities` ADD `cty_log` VARCHAR(5000) NULL ;
+
+ALTER TABLE `route` ADD `rut_log` VARCHAR(5000) NULL ;
+
+ALTER TABLE `agents` ADD `agt_log` VARCHAR(5000) NULL ;
+
+ALTER TABLE `promotions` ADD `prm_log` VARCHAR(5000) NULL ;

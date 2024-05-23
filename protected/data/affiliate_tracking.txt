@@ -1,0 +1,28 @@
+CREATE TABLE `affiliate_tracking` (
+  `aft_id` int(11) NOT NULL,
+  `aft_ref_type` int(11) NOT NULL DEFAULT '1',
+  `aft_aff_id` int(11) NOT NULL DEFAULT '0',
+  `aft_bkg_id` int(11) DEFAULT NULL,
+  `aft_url` varchar(500) DEFAULT NULL,
+  `aft_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `affiliate_tracking`
+--
+ALTER TABLE `affiliate_tracking`
+  ADD PRIMARY KEY (`aft_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `affiliate_tracking`
+--
+ALTER TABLE `affiliate_tracking`
+  MODIFY `aft_id` int(11) NOT NULL AUTO_INCREMENT;

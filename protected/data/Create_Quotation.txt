@@ -1,0 +1,56 @@
+CREATE TABLE `quotation` (
+  `qot_id` int(11) NOT NULL,
+  `qot_code` varchar(50) DEFAULT NULL,
+  `qot_user_id` int(11) DEFAULT NULL,
+  `qot_trip_type` tinyint(4) DEFAULT NULL,
+  `qot_start_date` datetime DEFAULT NULL,
+  `qot_end_date` datetime DEFAULT NULL,
+  `qot_name` varchar(100) DEFAULT NULL,
+  `qot_email` varchar(100) DEFAULT NULL,
+  `qot_phone` varchar(20) DEFAULT NULL,
+  `qot_passenger` tinyint(4) DEFAULT NULL,
+  `qot_luggage` tinyint(4) DEFAULT NULL,
+  `qot_pickup_point` varchar(100) DEFAULT NULL,
+  `qot_drop_point` varchar(100) DEFAULT NULL,
+  `qot_pickup_city` int(11) DEFAULT NULL,
+  `qot_drop_city` int(11) DEFAULT NULL,
+  `qot_pickup_pincode` varchar(50) DEFAULT NULL,
+  `qot_drop_pincode` varchar(50) DEFAULT NULL,
+  `qot_create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `qot_status` tinyint(4) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `quotation`
+--
+ALTER TABLE `quotation`
+  ADD PRIMARY KEY (`qot_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+
+
+
+
+ALTER TABLE `quotation` ADD INDEX( `qot_user_id`);
+-- AUTO_INCREMENT for table `quotation`
+--
+ALTER TABLE `quotation`
+  MODIFY `qot_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `quotation` ADD FOREIGN KEY (`qot_user_id`) REFERENCES `users`(`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+ALTER TABLE `quotation` ADD `qot_user_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `qot_user_id`;
+
+
+ALTER TABLE `quotation` ADD `qot_car_type` TINYINT(4) NULL DEFAULT NULL AFTER `qot_trip_type`, ADD `qot_special_needs` VARCHAR(200) NULL DEFAULT NULL AFTER `qot_car_type`;
+

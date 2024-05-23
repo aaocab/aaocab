@@ -1,0 +1,1 @@
+ALTER TABLE `promotions` ADD `prm_activate_on` TINYINT NULL DEFAULT '0' COMMENT '0:immediate;1:on booking completed' AFTER `prm_applicable_type`;

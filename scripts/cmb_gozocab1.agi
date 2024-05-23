@@ -1,0 +1,411 @@
+#!/usr/bin/php -q
+<?php
+#error_reporting(E_ALL);
+#ini_set("display_errors",1);
+set_time_limit(30);
+
+require('/var/lib/asterisk/agi-bin/phpagi/phpagi.php');
+
+require('/srv/www/htdocs/vicidial/dbconnect_mysqli.php');
+
+require('/srv/www/htdocs/scripts/api_config.php');
+$agi = new AGI();
+$agi->verbose("START");
+
+function initNewCall($agi, $number = null)
+{
+	$agi->answer();
+	$userNumber		 = $callerNumber	 = $agi->request['agi_callerid'];
+	if ($number !== null)
+	{
+		$userNumber = $number;
+	}
+	try
+	{
+		$result	 = UserNumber($userNumber, $agi);
+		$userId	 = $result["consumerId"];
+		$data	 = setNewFollowup($callerNumber, $userId, $agi);
+		exit;
+	}
+	catch (Exception $ex)
+	{
+		$code = $ex->getCode();
+		if (in_array($code, [105, 106]))
+		{
+			if ($number !== null)
+			{
+				$agi->stream_file("Customer-Phone-Not-Found");
+			}
+			verifyNewExistingCustomer($agi);
+			exit;
+		}
+		$agi->hangup();
+	}
+}
+
+function initVendorCall($agi, $number = null)
+{
+	$agi->answer();
+	$vendorNumber	 = $callerNumber	 = $agi->request['agi_callerid'];
+	$queId			 = $agi->request['agi_queid'];
+	if ($number !== null)
+	{
+		$vendorNumber = $number;
+	}
+	try
+	{
+		$result		 = VendorNumber($vendorNumber, $agi);
+		$vendorId	 = $result["vendorId"];
+		$data		 = setVendorFollowup($callerNumber,$queId, $vendorId, $agi);
+		exit;
+	}
+	catch (Exception $ex)
+	{
+		$code = $ex->getCode();
+		if (in_array($code, [105, 106]))
+		{
+			if ($number !== null)
+			{
+				$agi->stream_file("Vendor-Phone-Not-Found");
+			}
+			verifyExistingVendor($agi);
+			exit;
+		}
+		$agi->hangup();
+	}
+}
+
+function verifyExistingVendor()
+{
+	$result	 = $agi->get_data('Enter-Phone', 15000, 15);
+	$phone	 = $result['result'];
+	$agi->verbose("Phone Number: " . $phone);
+	$confirm = confirmNumber($phone, $agi);
+	if ($confirm)
+	{
+		initVendorCall($agi, $phone);
+	}
+	else
+	{
+		verifyExistingVendor($agi);
+	}
+}
+
+function verifyNewExistingCustomer($agi)
+{
+	$agi->answer();
+	$callerNumber	 = $agi->request['agi_callerid'];
+	$result			 = $agi->get_data('Menu-New-Existing-Customer', 15000, 1);
+	$keys			 = $result['result'];
+	if ($keys == "2")//new user
+	{
+		$data = setNewFollowup($callerNumber, null, $agi);
+		exit;
+	}
+	if ($keys == "1")
+	{
+		$result	 = $agi->get_data('Enter-Phone', 15000, 15);
+		$phone	 = $result['result'];
+		$agi->verbose("Phone Number: " . $phone);
+		$confirm = confirmNumber($phone, $agi);
+		if ($confirm)
+		{
+			initNewCall($agi, $phone);
+		}
+		else
+		{
+			verifyNewExistingCustomer($agi);
+		}
+		exit;
+	}
+}
+
+function confirmNumber($number, $agi)
+{
+	$agi->stream_file("Number-Entered");
+	$agi->say_digits($number);
+
+	$result	 = $agi->get_data('Confirm-Number', 15000, 1);
+	$keys	 = $result['result'];
+	$success = ($keys == "1");
+	return $success;
+}
+
+function PlayUserIVR($callerNumber, $agi)
+{
+	$agi->answer();
+	$result = $agi->get_data('Ask-BookingID-English-Hindi-8khz', 20000, 1);
+
+	$keys = $result['result'];
+	if ($keys == "1")//new user
+	{
+		$data = setNewFollowup($callerNumber, null, $agi);
+	}
+	else //existing user asking for registered number
+	{
+		$result	 = $agi->get_data('Ask-BookingID-English-Hindi-8khz', 30000, 12);
+		$keys	 = $result['result'];
+		$agi->verbose("You entered $keys");
+		$result	 = UserNumber($keys, $agi);
+		if ($result)
+		{
+			$userId	 = $result["consumerId"];
+			$data	 = setNewFollowup($callerNumber, $userId, $agi);
+		}
+		else
+		{
+			$agi->stream_file(''); //user not registered
+			initNewCall($agi);
+		}
+	}
+
+	//CallAPI($callerType,'9593575493',$agi,$keys); # for customer->driver
+
+	CallAPI($callerType, $phone_number, $agi, $keys, $sip);  # for driver->customer
+}
+
+$UNIQUEID = trim($agi->request['agi_uniqueid']);
+$agi->verbose($UNIQUEID);
+
+function CallAPI($urlPath, $params, $agi)
+{
+	global $base_url;
+
+	$agi->verbose("CURL PARAMS: " . json_encode($params), 3);
+	// create curl resource
+	$queryString = http_build_query($params);
+	$api_url	 = $base_url . $urlPath . "?" . $queryString;
+	$agi->verbose("CURL URL: " . $api_url, 3);
+	$ch			 = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $api_url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+	$output = curl_exec($ch);
+	curl_close($ch);
+
+	if (curl_errno($ch))  //catch if curl error exists and show it
+	{
+		$agi->verbose('Curl error: ' . curl_error($ch), 1);
+		return false;
+	}
+	$response = json_decode($output, true);
+	$agi->verbose($output, 2);
+	return $response;
+}
+
+function verifyEntityNumber($agi, $number, $entity = 0)
+{
+	$params					 = [];
+	$params["callerNumber"]	 = $number;
+	$params["checkEntity"]	 = $entity;
+	$urlPath				 = "/dialer/getContactProfile";
+
+	$response = CallAPI($urlPath, $params, $agi);
+	return $response;
+}
+
+function EntityNumber($type, $number, $agi)
+{
+	$result = verifyEntityNumber($agi, $number, $type);
+
+	$success = $result["success"];
+
+	if ($success)
+	{
+		return $result["data"];
+	}
+	else
+	{
+		$errorMessage	 = json_encode($result["errors"]);
+		$errorCode		 = $result["errorCode"];
+		throw new Exception($errorMessage, $errorCode);
+	}
+}
+
+function VendorNumber($number, $agi)
+{
+	return EntityNumber(2, $number, $agi);
+}
+
+function UserNumber($number, $agi)
+{
+	return EntityNumber(1, $number, $agi);
+}
+
+function DriverNumber($number, $agi)
+{
+	return verifyEntityNumber($agi, $number, 3);
+}
+
+function setFollowup($params, $agi)
+{
+	$number	 = $params['callerNumber'];
+	$data	 = UserNumber($number, $agi);
+	if (!$data)
+	{
+		return false;
+	}
+	$id			 = $data['consumerId'];
+	$response	 = setNewFollowup($number, $id, $agi);
+
+	return $response;
+}
+
+/*
+ * if only number is supplied, followup will be created for the number. it will check contact id associted.
+ * if id (userid) is supplied, followup will be created for the userId and call back will come on the number.
+ */
+
+function setNewFollowup($number, $userId = null, $agi)
+{
+	$params					 = [];
+	$params["callerNumber"]	 = $number;
+	if ($userId > 0)
+	{
+		$params['userId'] = $userId;
+	}
+
+	$urlPath = "/dialer/setNewFollowup";
+
+	$response = CallAPI($urlPath, $params, $agi);
+
+	if ($response['success'])
+	{
+		$data		 = $response['data'];
+		$queueNumber = $data['queNo'];
+		$waitTime	 = $data['waitTime'];
+
+		$agi->verbose(json_encode($data), 2);
+		$agi->stream_file("Request-Accepted-Caller-Number");
+		$agi->say_number($queueNumber);
+		$agi->stream_file("Estimated-Call-Back-Time");
+		$agi->say_number($waitTime);
+		$agi->stream_file("Estimated-Minutes");
+		$agi->stream_file("Estimated-Call-Back-Time-Hindi");
+		$agi->say_number($waitTime);
+		$agi->stream_file("Estimated-Minutes");
+	}
+	else
+	{
+		
+	}
+	$agi->hangup();
+	return $response;
+}
+
+function setVendorFollowup($number, $queId = '', $vendorId = null, $agi)
+{
+	$params					 = [];
+	$params["callerNumber"]	 = $number;
+	$params["queId"]		 = $queId;
+	if ($vendorId > 0)
+	{
+		$params['vendorId'] = $vendorId;
+	}
+
+	$urlPath = "/dialer/setVendorFollowup";
+
+	$response = CallAPI($urlPath, $params, $agi);
+
+	if ($response['success'])
+	{
+		$data		 = $response['data'];
+		$queueNumber = $data['queNo'];
+		$waitTime	 = $data['waitTime'];
+
+		$agi->verbose(json_encode($data), 2);
+		$agi->stream_file("Request-Accepted-Caller-Number");
+		$agi->say_number($queueNumber);
+		$agi->stream_file("Estimated-Call-Back-Time");
+		$agi->say_number($waitTime);
+		$agi->stream_file("Estimated-Minutes");
+		$agi->stream_file("Estimated-Call-Back-Time-Hindi");
+		$agi->say_number($waitTime);
+		$agi->stream_file("Estimated-Minutes");
+	}
+	else
+	{
+		
+	}
+	$agi->hangup();
+	return $response;
+}
+
+function setExistingFollowup($number, $bkgId, $id = null, $agi)
+{
+	
+}
+
+function UpdateLog($dest_number, $agi)
+{
+	global $link;
+	$UNIQUEID	 = $agi->request['agi_uniqueid'];
+	$agi->verbose("UpdateLog::UNIQUEID: $UNIQUEID");
+	$usql		 = "UPDATE elision_recording_log SET dest_phone_number ='" . $dest_number . "' WHERE uniqueid='" . $UNIQUEID . "'";
+	$agi->verbose($usql);
+	mysqli_query($link, $usql);
+}
+
+function MakeCall($dest_number, $agi, $sip = 'gozo')
+{
+	UpdateLog($dest_number, $agi);
+	$agi->verbose($dest_number);
+	$result = $agi->exec("DIAL", "SIP/$sip/$dest_number,30,Ttor");
+	return $result;
+}
+
+function PlayIVR($respcode, $agi, $callerType, $phone_number, $dest_number, $sip)
+{
+	if ($respcode == '101')
+	{
+		UpdateLog('101', $agi);
+		$agi->answer();
+
+		//$agi->stream_file('Ask-BookingID-English-Hindi-8khz');
+		$result = $agi->get_data('Ask-BookingID-English-Hindi-8khz', 20000, 6);
+
+		$keys = $result['result'];
+
+		$agi->verbose("You entered $keys");
+
+		//CallAPI($callerType,'9593575493',$agi,$keys); # for customer->driver
+
+		CallAPI($callerType, $phone_number, $agi, $keys, $sip);  # for driver->customer
+	}
+	if ($respcode == '110')
+	{
+		UpdateLog('110', $agi);
+		$agi->answer();
+
+		$agi->stream_file('NoMatch-BookingID-Hindi-English-8khz');
+		$agi->exec("AGI", "agi-VDAD_ALL_inbound.agi,CID-----LB-----gozo_existing-----gozo-3--------------------998-----1-----001------------------------------");
+	}
+
+	if ($respcode == '111')
+	{
+		UpdateLog('111', $agi);
+		$agi->answer();
+		$agi->exec("AGI", "agi-VDAD_ALL_inbound.agi,CID-----LB-----gozo_existing-----gozo-3--------------------998-----1-----001------------------------------");
+	}
+
+
+	if ($respcode == '102')
+	{
+		UpdateLog('102', $agi);
+		$agi->answer();
+
+		//	$agi->stream_file('Ask-BookingID-English-Hindi-8khz');
+		$result = $agi->get_data('Ask-BookingID-English-Hindi-8khz', 20000, 6);
+
+		$keys = $result['result'];
+
+		$agi->verbose("You entered $keys");
+
+		//CallAPI($callerType,'9593575493',$agi,$keys); # for customer->driver
+
+		CallAPI($callerType, $phone_number, $agi, $keys, $sip);  # for driver->customer
+	}
+}

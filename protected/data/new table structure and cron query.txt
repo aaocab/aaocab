@@ -1,0 +1,204 @@
+Agents Table :->
+
+ALTER TABLE `agents` CHANGE `agt_type` `agt_type` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0 =>Registered, 1 => MeterDown, 2 => Both, 3 => Exclusive';
+
+ALTER TABLE `agents`  ADD `agt_overall_rating` TINYINT NULL DEFAULT NULL  AFTER `agt_tnc_datetime`,  ADD `agt_no_of_cabs` SMALLINT NULL DEFAULT NULL  AFTER `agt_overall_rating`,  ADD `agt_overall_trips` SMALLINT UNSIGNED NULL DEFAULT NULL  AFTER `agt_no_of_cabs`,  ADD `agt_last_thirtyday_trips` SMALLINT NULL DEFAULT NULL  AFTER `agt_overall_trips`,  ADD `agt_no_of_drivers` SMALLINT NULL DEFAULT NULL  AFTER `agt_last_thirtyday_trips`,  ADD `agt_bank_name` VARCHAR(100) NULL DEFAULT NULL  AFTER `agt_no_of_drivers`,  ADD `agt_bank_branch` VARCHAR(100) NULL DEFAULT NULL  AFTER `agt_bank_name`,  ADD `agt_bank_ifsc` VARCHAR(20) NULL DEFAULT NULL  AFTER `agt_bank_branch`,  ADD `agt_bank_account_no` VARCHAR(20) NULL DEFAULT NULL  AFTER `agt_bank_ifsc`,  ADD `agt_overall_amount` MEDIUMINT NULL DEFAULT NULL  AFTER `agt_bank_account_no`,  ADD `agt_last_thirtyday_amount` MEDIUMINT NULL DEFAULT NULL  AFTER `agt_overall_amount`,  ADD `agt_last_trip_datetime` DATETIME NULL DEFAULT NULL  AFTER `agt_last_thirtyday_amount`,  ADD `agt_first_trip_datetime` DATETIME NULL DEFAULT NULL  AFTER `agt_last_trip_datetime`;
+
+ALTER TABLE `agents` CHANGE `agt_overall_trips` `agt_total_trips` SMALLINT(5) UNSIGNED NULL DEFAULT NULL;
+
+ALTER TABLE `agents` CHANGE `agt_overall_amount` `agt_total_amount` MEDIUMINT(9) NULL DEFAULT NULL;
+
+ALTER TABLE `agents` CHANGE `agt_no_of_cabs` `agt_total_vehicles` SMALLINT(6) NULL DEFAULT NULL;
+
+ALTER TABLE `agents` CHANGE `agt_no_of_drivers` `agt_total_drivers` SMALLINT(6) NULL DEFAULT NULL;
+
+ALTER TABLE `agents` ADD `agt_is_exclusive` TINYINT NOT NULL DEFAULT '0' AFTER `agt_tnc_datetime`;
+
+
+Vehicles Table :->
+
+ALTER TABLE `vehicles` ADD `vhc_overall_rating` TINYINT NULL DEFAULT NULL AFTER `vhc_is_attached`, ADD `vhc_total_kms` MEDIUMINT NULL DEFAULT NULL AFTER `vhc_overall_rating`, ADD `vhc_gozo_kms` MEDIUMINT NULL DEFAULT NULL AFTER `vhc_total_kms`, ADD `vhc_vin` VARCHAR(50) NULL DEFAULT NULL AFTER `vhc_gozo_kms`, ADD `vhc_total_trips` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `vhc_vin`, ADD `vhc_last_thirtyday_trips` SMALLINT NULL DEFAULT NULL AFTER `vhc_total_trips`, ADD `vhc_home_city` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `vhc_last_thirtyday_trips`, ADD `vhc_default_driver` SMALLINT NULL DEFAULT NULL AFTER `vhc_home_city`;
+
+
+
+Users Table :->
+
+ALTER TABLE `users` ADD `usr_overall_rating` TINYINT NULL DEFAULT NULL AFTER `usr_active`, ADD `usr_last_trip_datetime` DATETIME NULL DEFAULT NULL AFTER `usr_overall_rating`, ADD `usr_last_trip_source_city` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `usr_last_trip_datetime`, ADD `usr_last_trip_destination_city` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `usr_last_trip_source_city`, ADD `usr_last_trip_amount` MEDIUMINT NULL DEFAULT NULL AFTER `usr_last_trip_destination_city`, ADD `usr_total_trips` SMALLINT NULL DEFAULT NULL AFTER `usr_last_trip_amount`, ADD `usr_gozo_kms` MEDIUMINT NULL DEFAULT NULL AFTER `usr_total_trips`, ADD `usr_total_amount` MEDIUMINT NULL DEFAULT NULL AFTER `usr_gozo_kms`, ADD `usr_preferences` VARCHAR(1024) NULL DEFAULT NULL AFTER `usr_total_amount`, ADD `usr_attributes` VARCHAR(1024) NULL DEFAULT NULL AFTER `usr_preferences`;
+
+
+
+Drivers Table :->
+
+ALTER TABLE `drivers` ADD `drv_overall_rating` TINYINT NULL DEFAULT NULL AFTER `drv_is_attached`, ADD `drv_total_trips` SMALLINT UNSIGNED NULL DEFAULT NULL AFTER `drv_overall_rating`, ADD `drv_last_thirtyday_trips` SMALLINT NULL DEFAULT NULL AFTER `drv_total_trips`, ADD `drv_gozo_kms` MEDIUMINT NULL DEFAULT NULL AFTER `drv_last_thirtyday_trips`, ADD `drv_aadhaar_no` VARCHAR(20) NULL DEFAULT NULL AFTER `drv_gozo_kms`, ADD `drv_description` VARCHAR(2048) NULL DEFAULT NULL AFTER `drv_aadhaar_no`, ADD `drv_history` VARCHAR(2048) NULL DEFAULT NULL AFTER `drv_description`;
+
+
+Agents Cron :->
+
+
+[agt_overall_rating] 
+UPDATE agents, (
+	SELECT bkg_agent_id,ROUND(AVG(rtg_customer_overall)) as rating from ratings 
+	LEFT JOIN booking on bkg_id = rtg_booking_id 
+	WHERE rtg_customer_overall>0 AND rtg_active=1 AND bkg_active=1 AND bkg_status BETWEEN 3 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25'
+	GROUP BY bkg_agent_id) bkg 
+SET agt_overall_rating = bkg.rating 
+WHERE agt_id=bkg_agent_id and agt_active=1; 
+
+
+[agt_total_vehicles]
+UPDATE agents, (SELECT vhc_agent_id,  COUNT(*) AS total FROM vehicles WHERE vhc_active=1  GROUP BY vhc_agent_id) vhc 
+SET agt_total_vehicles = vhc.total 
+WHERE agt_id=vhc_agent_id AND agt_active=1; 
+ 
+
+[agt_total_trips]
+UPDATE agents, (
+	SELECT bkg_agent_id,  COUNT(*) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status<8 AND DATE(bkg_pickup_date)>='2015-10-25' 
+	GROUP BY bkg_agent_id) bkg 
+SET agt_total_trips = bkg.total WHERE agt_id=bkg_agent_id AND agt_active=1; 
+
+
+[agt_last_thirtyday_trips] 
+UPDATE agents, (
+	SELECT bkg_agent_id, COUNT(*) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status<8 AND bkg_pickup_date>DATE_ADD(NOW(), INTERVAL -30 DAY) 
+	GROUP BY bkg_agent_id) bkg 
+SET agt_last_thirtyday_trips = bkg.total WHERE agt_id=bkg_agent_id AND agt_active=1;
+ 
+
+[agt_total_drivers]
+UPDATE agents, (
+	SELECT drv_agent_id,  COUNT(*) AS total FROM drivers
+	WHERE drv_active=1  
+	GROUP BY drv_agent_id) drv 
+SET agt_total_drivers = drv.total WHERE agt_id=drv_agent_id AND agt_active=1;
+ 
+
+[agt_total_amount]
+UPDATE agents, (
+	SELECT bkg_agent_id,  SUM(bkg_amount) AS total FROM booking
+ 	WHERE bkg_active=1 AND bkg_status<8 AND DATE(bkg_pickup_date)>='2015-10-25' 
+	GROUP BY bkg_agent_id) bkg 
+SET agt_total_amount = bkg.total WHERE agt_id=bkg_agent_id AND agt_active=1;
+
+ 
+[agt_last_thirtyday_amount]
+UPDATE agents, (
+	SELECT bkg_agent_id, SUM(bkg_amount) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status<8 AND bkg_pickup_date>DATE_ADD(NOW(), INTERVAL -30 DAY) 
+	GROUP BY bkg_agent_id) bkg 
+SET agt_last_thirtyday_amount = bkg.total WHERE agt_id=bkg_agent_id AND agt_active=1;
+
+ 
+[agt_last_trip_datetime]
+UPDATE agents, (
+	SELECT bkg_agent_id,  MAX(bkg_pickup_date) AS date_time FROM booking 
+	WHERE bkg_active=1 AND bkg_status<8 
+	GROUP BY bkg_agent_id) bkg 
+SET agt_last_trip_datetime = bkg.date_time WHERE agt_id=bkg_agent_id AND agt_active=1;
+
+ 
+[agt_first_trip_datetime]
+UPDATE agents, (
+	SELECT bkg_agent_id,  MIN(bkg_pickup_date) AS date_time FROM booking 
+	WHERE bkg_active=1 AND bkg_status<8 
+	GROUP BY bkg_agent_id) bkg 
+SET agt_first_trip_datetime = bkg.date_time WHERE agt_id=bkg_agent_id AND agt_active=1;
+
+
+
+Vehicles Cron :->
+
+
+[vhc_overall_rating] 
+UPDATE vehicles, (
+	SELECT bkg_vehicle_id,ROUND(AVG(if(rtg_customer_car=NULL,rtg_customer_overall,rtg_customer_car))) AS rating FROM ratings 
+	LEFT JOIN booking ON bkg_id = rtg_booking_id 
+	WHERE rtg_customer_overall>0 AND rtg_active=1 AND bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25'
+	GROUP BY bkg_vehicle_id) bkg 
+	SET vhc_overall_rating = bkg.rating 
+	WHERE vhc_id=bkg_vehicle_id AND vhc_active=1;
+
+
+
+[vhc_gozo_kms]
+UPDATE vehicles, (
+	SELECT bkg_vehicle_id,  SUM(bkg_trip_distance) AS total FROM booking
+ 	WHERE bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25' AND bkg_booking_type=1
+	GROUP BY bkg_vehicle_id) bkg 
+	SET vhc_gozo_kms = bkg.total 
+	WHERE vhc_id=bkg_vehicle_id AND vhc_active=1;
+
+
+[vhc_total_trips]
+UPDATE vehicles, (
+	SELECT bkg_vehicle_id,  COUNT(*) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25' 
+	GROUP BY bkg_vehicle_id) bkg 
+	SET vhc_total_trips = bkg.total 
+    	WHERE vhc_id=bkg_vehicle_id AND vhc_active=1;
+
+
+
+[vhc_last_thirtyday_trips]
+UPDATE vehicles, (
+	SELECT bkg_vehicle_id, COUNT(*) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND bkg_pickup_date>DATE_ADD(NOW(), INTERVAL -30 DAY) 
+	GROUP BY bkg_vehicle_id) bkg 
+	SET vhc_last_thirtyday_trips = bkg.total 	
+    	WHERE vhc_id=bkg_vehicle_id AND vhc_active=1;
+
+
+
+Drivers Cron :->
+
+
+
+[drv_overall_rating] 
+UPDATE drivers, (
+	SELECT bkg_driver_id,ROUND(AVG(if(rtg_customer_driver=NULL,rtg_customer_overall,rtg_customer_driver))) AS rating FROM ratings 
+	LEFT JOIN booking ON bkg_id = rtg_booking_id 
+	WHERE rtg_customer_overall>0 AND rtg_active=1 AND bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25'
+	GROUP BY bkg_driver_id) bkg 
+	SET drv_overall_rating = bkg.rating 
+	WHERE drv_id=bkg_driver_id AND drv_active=1;
+
+
+
+[drv_gozo_kms]
+UPDATE drivers, (
+	SELECT bkg_driver_id,  SUM(bkg_trip_distance) AS total FROM booking
+ 	WHERE bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25' AND bkg_booking_type=1 
+	GROUP BY bkg_driver_id) bkg 
+	SET drv_gozo_kms = bkg.total 
+	WHERE drv_id=bkg_driver_id AND drv_active=1;
+
+
+[drv_total_trips]
+UPDATE drivers, (
+	SELECT bkg_driver_id,  COUNT(*) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND DATE(bkg_pickup_date)>='2015-10-25' 
+	GROUP BY bkg_driver_id) bkg 
+	SET drv_total_trips = bkg.total 
+    	WHERE drv_id=bkg_driver_id AND drv_active=1;
+
+
+
+[drv_last_thirtyday_trips]
+UPDATE drivers, (
+	SELECT bkg_driver_id, COUNT(*) AS total FROM booking 
+	WHERE bkg_active=1 AND bkg_status BETWEEN 5 AND 7 AND bkg_pickup_date>DATE_ADD(NOW(), INTERVAL -30 DAY) 
+	GROUP BY bkg_driver_id) bkg 
+	SET drv_last_thirtyday_trips = bkg.total 	
+    	WHERE drv_id=bkg_driver_id AND drv_active=1;
+
+
+
+
+
+
+
+
+
+

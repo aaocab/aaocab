@@ -1,0 +1,74 @@
+ALTER TABLE `users` ADD `usr_corporate_id` INT NULL DEFAULT NULL AFTER `usr_invite_clicked`;
+ALTER TABLE `booking` ADD `bkg_corporate_markup` INT NULL DEFAULT '0' AFTER `bkg_price_surge_id`;
+ALTER TABLE `booking` ADD `bkg_corporate_remunerator` TINYINT NULL DEFAULT '1' COMMENT '1:user,2:company' AFTER `bkg_price_surge_id`;
+ALTER TABLE `booking` CHANGE `bkg_corporate_remunerator` `bkg_corporate_remunerator` TINYINT(4) NULL DEFAULT NULL COMMENT '1:user,2:company';
+ALTER TABLE `booking` ADD `bkg_corporate_id` INT NULL DEFAULT '0' AFTER `bkg_corporate_remunerator`;
+
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Sep 29, 2016 at 02:55 PM
+-- Server version: 5.7.6-m16-log
+-- PHP Version: 5.6.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `gozo_60915`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `corporate`
+--
+
+CREATE TABLE `corporate` (
+  `crp_id` int(11) NOT NULL,
+  `crp_fname` varchar(150) DEFAULT NULL,
+  `crp_lname` varchar(150) DEFAULT NULL,
+  `crp_company` varchar(150) DEFAULT NULL,
+  `crp_owner` varchar(150) DEFAULT NULL,
+  `crp_code` varchar(150) DEFAULT NULL,
+  `crp_country_code` varchar(10) DEFAULT NULL,
+  `crp_contact` varchar(20) DEFAULT NULL,
+  `crp_email` varchar(150) DEFAULT NULL,
+  `crp_address` varchar(300) DEFAULT NULL,
+  `crp_discount_type` tinyint(4) DEFAULT '1',
+  `crp_discount_amount` mediumint(9) DEFAULT '0',
+  `crp_credit_limit` tinyint(4) DEFAULT '0',
+  `crp_bank_name` varchar(150) DEFAULT NULL,
+  `crp_bank_branch` varchar(150) DEFAULT NULL,
+  `crp_bank_ifsc` varchar(150) DEFAULT NULL,
+  `crp_bank_account_no` varchar(150) DEFAULT NULL,
+  `crp_agreement` tinyint(4) DEFAULT NULL,
+  `crp_agreement_date` date DEFAULT NULL,
+  `crp_agreement_file` varchar(250) DEFAULT NULL,
+  `crp_id_proof` varchar(250) DEFAULT NULL,
+  `crp_active` tinyint(4) NOT NULL DEFAULT '1',
+  `crp_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `crp_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `corporate`
+--
+ALTER TABLE `corporate`
+  ADD PRIMARY KEY (`crp_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `corporate`
+--
+ALTER TABLE `corporate`
+  MODIFY `crp_id` int(11) NOT NULL AUTO_INCREMENT;

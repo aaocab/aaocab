@@ -1,0 +1,31 @@
+ 
+SET FOREIGN_KEY_CHECKS=0;
+ 
+START TRANSACTION;
+ 
+
+CREATE TABLE `custom_quote` (
+  `cqt_id` int(11) NOT NULL,
+  `cqt_from_city` mediumint(8) UNSIGNED NOT NULL,
+  `cqt_description` varchar(1000) NOT NULL,
+  `cqt_pickup_date` datetime NOT NULL,
+  `cqt_cab_type` tinyint(4) DEFAULT NULL,
+  `cqt_active` tinyint(4) NOT NULL DEFAULT 1,
+  `cqt_created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ 
+ALTER TABLE `custom_quote`
+  ADD PRIMARY KEY (`cqt_id`),
+  ADD KEY `cqt_from_city` (`cqt_from_city`),
+  ADD KEY `cqt_cab_type` (`cqt_cab_type`);
+
+ 
+ALTER TABLE `custom_quote`
+  MODIFY `cqt_id` int(11) NOT NULL AUTO_INCREMENT;
+
+ 
+ALTER TABLE `custom_quote`
+  ADD CONSTRAINT `custom_quote_ibfk_1` FOREIGN KEY (`cqt_from_city`) REFERENCES `cities` (`cty_id`);
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;

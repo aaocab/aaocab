@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_tags` VARCHAR(700) NULL DEFAULT NULL AFTER `bkg_assign_csr`;

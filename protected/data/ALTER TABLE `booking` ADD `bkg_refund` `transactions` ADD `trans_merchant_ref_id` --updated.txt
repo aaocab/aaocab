@@ -1,0 +1,3 @@
+ALTER TABLE `booking` ADD `bkg_refund` FLOAT(16,2)  NULL DEFAULT '0' AFTER `bkg_amount_due`;
+ALTER TABLE `transactions` ADD `trans_merchant_ref_id` VARCHAR(50) NULL AFTER `trans_response_details`, 
+ADD `trans_ref_id` VARCHAR(50) NULL AFTER `trans_merchant_ref_id`;

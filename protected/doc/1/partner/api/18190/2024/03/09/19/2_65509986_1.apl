@@ -1,0 +1,5 @@
+{"source":{"address":"HSR Layout, Bengaluru, Karnataka, India","latitude":12.9121181,"longitude":77.6445548,"city":"Bangalore"},"destination":{"address":"KIAL Rd, Devanahalli, Bengaluru, Karnataka 560300, India","latitude":13.1989089,"longitude":77.70681309999999,"city":"Bangalore"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-09 21:55:00","end_time":"2024-03-09 23:14:45","search_id":"65ec7055867ae700175df42e","one_way_distance":54,"one_way_duration":80,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["AE","NC","PC","ST","TOLL"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"AIRPORT","airport_type":"DROP"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 180 minutes from now.","link":null,"response":null}

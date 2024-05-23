@@ -1,0 +1,28 @@
+CREATE TABLE `tracking` (
+  `tkg_id` int(11) NOT NULL,
+  `tkg_aff_id` int(11) NOT NULL DEFAULT '0',
+  `tkg_referrer` varchar(1000) DEFAULT NULL,
+  `tkg_ref_type` int(11) NOT NULL DEFAULT '1',
+  `tkg_count` int(11) NOT NULL DEFAULT '1',
+  `tkg_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tracking`
+--
+ALTER TABLE `tracking`
+  ADD PRIMARY KEY (`tkg_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tracking`
+--
+ALTER TABLE `tracking`
+  MODIFY `tkg_id` int(11) NOT NULL AUTO_INCREMENT;

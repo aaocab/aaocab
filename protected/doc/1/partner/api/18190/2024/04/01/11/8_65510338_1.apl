@@ -1,0 +1,5 @@
+{"source":{"address":"Tushar Banerjee, Sangati Colony, Netaji Nagar, Kolkata, West Bengal, India","latitude":22.4773313,"longitude":88.36219419999999,"city":"Kolkata"},"destination":{"address":"Netaji Subhas Chandra Bose International Airport, Kolkata","latitude":22.652043,"longitude":88.44633,"city":"Kolkata"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-04-01 18:00:00","end_time":"2024-04-01 20:13:13","distance":195,"fare_details":{"base_fare":3848,"total_driver_charges":0,"total_days_charged":null,"state_tax":0,"toll_charges":0,"total_fare":3848},"search_id":"lkkkkkkkkkkkk","vehicle_type":"sedan","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"SDN313","type":"sedan","subcategory":"basic","combustion_type":"Unknown","model":"Unknown","make_year_type":"Unknown","cancellation_rule":"FLEXI"},"search_tags":["B2C"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"response":{"success":true,"reference_number":"3898526","verification_code":"809190","tnc":"https:\/\/www.gozocabs.com\/terms"}}

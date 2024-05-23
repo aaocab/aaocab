@@ -1,0 +1,5 @@
+{"source":{"address":"Connaught Place, New Delhi, Delhi, India","latitude":28.6304203,"longitude":77.21772159999999,"city":"Delhi"},"destination":{"address":"Baba Mohan Ram Mandir, Gaurav Path, Alampur, U.I.T., Bhiwadi, Rajasthan, India","latitude":28.2029636,"longitude":76.83618659999999,"city":"Bhiwadi"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-11 13:40:00","end_time":"2024-03-11 20:33:25","search_id":"65eea542699a970038rr618ssse7c","one_way_distance":70,"one_way_duration":93,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["ST","TOLL","NC","PC"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"NONE"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 60 minutes from now.","link":null,"response":null}

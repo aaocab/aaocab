@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_email_alert_before_pickup` TINYINT(4) NOT NULL DEFAULT '0' AFTER `bkg_return_trip_remind`, ADD `bkg_sms_alert_before_pickup` TINYINT(4) NOT NULL DEFAULT '0' AFTER `bkg_email_alert_before_pickup`;

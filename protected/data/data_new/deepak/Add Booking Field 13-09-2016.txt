@@ -1,0 +1,35 @@
+CREATE TABLE `driver_cab_docs` (
+  `dcd_id` int(11) NOT NULL,
+  `dcd_vhc_id` int(11) NOT NULL,
+  `dcd_drv_id` int(11) NOT NULL,
+  `dcd_vhc_doc_ids` varchar(200) DEFAULT NULL,
+  `dcd_drv_doc_ids` varchar(200) DEFAULT NULL,
+  `dcd_user_type` tinyint(4) NOT NULL COMMENT '1=>CONSUMER ,2=>VENDOR,3=>DRIVER,4=>ADMIN,5=>AGENT,6=>CORPORATE,10=>SYSTEM',
+  `dcd_user_id` int(11) NOT NULL,
+  `dcd_cat_count` tinyint(4) NOT NULL DEFAULT 0,
+  `dcd_processed` tinyint(4) NOT NULL DEFAULT 0,
+  `dcd_date_uploaded_on` timestamp NULL DEFAULT current_timestamp(),
+  `dcd_status` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `driver_cab_docs`
+--
+ALTER TABLE `driver_cab_docs`
+  ADD PRIMARY KEY (`dcd_id`),
+  ADD UNIQUE KEY `dcd_vhc_id` (`dcd_vhc_id`),
+  ADD UNIQUE KEY `dcd_drv_id` (`dcd_drv_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `driver_cab_docs`
+--
+ALTER TABLE `driver_cab_docs`
+  MODIFY `dcd_id` int(11) NOT NULL AUTO_INCREMENT;

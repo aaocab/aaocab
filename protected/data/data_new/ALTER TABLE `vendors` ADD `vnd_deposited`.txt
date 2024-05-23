@@ -1,0 +1,1 @@
+ALTER TABLE `vendors` ADD `vnd_deposited` MEDIUMINT NOT NULL DEFAULT '0' AFTER `vnd_credit_limit`;

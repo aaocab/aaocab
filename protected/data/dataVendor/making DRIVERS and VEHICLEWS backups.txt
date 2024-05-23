@@ -1,0 +1,5 @@
+CREATE TABLE vehicles_bak LIKE vehicles; 
+INSERT into vehicles_bak SELECT * FROM vehicles;
+
+CREATE TABLE drivers_bak LIKE drivers; 
+INSERT into drivers_bak SELECT * FROM drivers;

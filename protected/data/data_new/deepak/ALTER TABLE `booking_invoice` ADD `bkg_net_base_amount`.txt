@@ -1,0 +1,5 @@
+ALTER TABLE `booking_invoice` ADD `bkg_net_base_amount` MEDIUMINT AS ( bkg_base_amount + bkg_additional_charge + bkg_extra_charge -bkg_discount_amount) VIRTUAL AFTER `bkg_surge_differentiate_amount`;
+ 
+ALTER TABLE `booking_invoice` ADD `bkg_partner_commission` MEDIUMINT AS (round(IFNULL(bkg_cp_comm_value,0) * IF(IFNULL(bkg_cp_comm_type,0)=2,1, bkg_net_base_amount*.01))) VIRTUAL AFTER `bkg_net_base_amount`;
+
+ 

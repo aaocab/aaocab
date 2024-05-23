@@ -1,0 +1,1 @@
+ALTER TABLE `vehicle_types` CHANGE `vht_big_bag_capacity` `vht_big_bag_capacity` TINYINT(4) NULL;

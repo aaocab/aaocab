@@ -1,0 +1,1 @@
+ALTER TABLE `booking_temp` ADD `bkg_flight_no` VARCHAR(500) NULL AFTER `bkg_advance`, ADD `bkg_flight_info` VARCHAR(800) NULL AFTER `bkg_flight_no`;

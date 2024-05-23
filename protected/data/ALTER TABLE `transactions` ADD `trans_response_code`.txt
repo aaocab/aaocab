@@ -1,0 +1,1 @@
+ALTER TABLE `transactions` ADD `trans_response_code` VARCHAR(100) NULL AFTER `trans_response_details`, ADD `trans_response_message` VARCHAR(255) NULL AFTER `trans_response_code`, ADD `trans_txn_id` VARCHAR(255) NULL AFTER `trans_response_message`;

@@ -1,0 +1,31 @@
+
+
+CREATE TABLE `unsubscribe` (
+  `usb_id` int(11) NOT NULL,
+  `usb_email` varchar(200) NOT NULL,
+  `usb_create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `unsubscribe`
+--
+ALTER TABLE `unsubscribe`
+  ADD PRIMARY KEY (`usb_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `unsubscribe`
+--
+ALTER TABLE `unsubscribe`
+  MODIFY `usb_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `unsubscribe` ADD `usb_active` TINYINT(4) NOT NULL DEFAULT '1' AFTER `usb_create_date`;
+

@@ -1,0 +1,4 @@
+UPDATE booking_cab,vehicle_map SET bcb_cab_id=vhc_id WHERE bcb_cab_id = vhc_id1;
+
+
+UPDATE booking_cab,driver_map SET bcb_driver_id=drv_id WHERE bcb_driver_id = drv_id1;

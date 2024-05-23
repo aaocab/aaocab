@@ -1,0 +1,28 @@
+
+CREATE TABLE `driver_merged` (
+  `dmg_id` int(11) NOT NULL,
+  `dmg_drv_id` int(11) NOT NULL,
+  `dmg_drv_merged_id` int(11) NOT NULL,
+  `dmg_added_by` int(11) NOT NULL,
+  `dmg_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `driver_merged`
+--
+ALTER TABLE `driver_merged`
+  ADD PRIMARY KEY (`dmg_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `driver_merged`
+--
+ALTER TABLE `driver_merged`
+  MODIFY `dmg_id` int(11) NOT NULL AUTO_INCREMENT;

@@ -1,0 +1,2 @@
+ALTER TABLE `agents` ADD `agt_notes` VARCHAR(5000) NULL AFTER `agt_log`, ADD `agt_credit_limit` MEDIUMINT NULL AFTER `agt_notes`;
+ALTER TABLE `agents` ADD `agt_credit_throttle_level` TINYINT NULL DEFAULT NULL AFTER `agt_return_zone`;

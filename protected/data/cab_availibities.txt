@@ -1,0 +1,1 @@
+ALTER TABLE `cab_availabilities` ADD `cav_amount` MEDIUMINT NULL DEFAULT NULL AFTER `cav_modified_at`, ADD `cav_duration` TINYINT NULL DEFAULT NULL AFTER `cav_amount`;

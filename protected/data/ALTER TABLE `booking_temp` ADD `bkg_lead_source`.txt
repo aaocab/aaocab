@@ -1,0 +1,1 @@
+ALTER TABLE `booking_temp` ADD `bkg_lead_source` SMALLINT NULL COMMENT '\'1\' => \'Call me to make booking\', \'2\' => \'Changed my mind\', \'3\' => \'Agent\', \'4\' => \'Zopim\', \'5\' => \'Email\', \'6\' => \'Sms/WhatsApp\', \'7\' => \'Phone call\', \'8\' => \'Incomplete booking\', \'9\' => \'Unverified Booking\',' AFTER `bkg_log_type`;

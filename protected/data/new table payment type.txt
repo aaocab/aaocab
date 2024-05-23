@@ -1,0 +1,37 @@
+
+CREATE TABLE `payment_type` (
+  `ptp_id` tinyint(3) UNSIGNED NOT NULL,
+  `ptp_type_id` tinyint(4) DEFAULT NULL,
+  `ptp_name` varchar(100) NOT NULL,
+  `ptp_display_name` varchar(255) DEFAULT NULL,
+  `ptp_detail` varchar(1000) NOT NULL,
+  `ptp_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ptp_modified` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `ptp_active` tinyint(5) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `payment_type`
+--
+
+
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `payment_type`
+--
+ALTER TABLE `payment_type`
+  ADD PRIMARY KEY (`ptp_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `payment_type`
+--
+ALTER TABLE `payment_type`
+  MODIFY `ptp_id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;

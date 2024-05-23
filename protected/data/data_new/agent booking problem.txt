@@ -1,0 +1,1 @@
+SELECT * FROM `booking` WHERE bkg_corporate_credit > 0 AND bkg_advance_amount = 0 AND (bkg_user_name NOT LIKE '%test%' OR bkg_user_lname NOT LIKE '%test%') and bkg_status > 1 AND bkg_status<8

@@ -1,0 +1,5 @@
+{"source":{"address":"Dn-3, DN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091","latitude":22.5755,"longitude":88.4336,"city":"Delhi"},"destination":{"address":"Asansol Railway Station, West Entrance, Munshi Bazar, Asansol, West Bengal, India","latitude":23.6907,"longitude":86.9768,"city":"Kolkata"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-23 12:30:00","end_time":"2024-03-23 16:35:16","distance":143,"fare_details":{"base_fare":4187,"total_driver_charges":0,"total_days_charged":null,"state_tax":100,"toll_charges":415,"total_fare":4702},"search_id":"65f556ccdd14c44444490017240cca","vehicle_type":"sedan","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"SDN313","type":"sedan","subcategory":"basic","combustion_type":"Unknown","model":"Unknown","make_year_type":"Unknown"},"search_tags":["B2C"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"response":{"success":true,"reference_number":"3898455","verification_code":"833904","tnc":"https:\/\/www.gozocabs.com\/terms"}}

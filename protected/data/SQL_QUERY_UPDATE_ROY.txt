@@ -1,0 +1,7 @@
+ALTER TABLE `booking_invoice` ADD `bkg_cancel_gst` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_cancel_charge`;
+ALTER TABLE `partner_settings` ADD `pts_generate_invoice_to` MEDIUMINT(9) NULL DEFAULT NULL AFTER `pts_send_invoice_to`;
+
+UPDATE `partner_settings` SET `pts_generate_invoice_to`= pts_send_invoice_to WHERE 1
+UPDATE `partner_settings` SET `pts_generate_invoice_to`= 2 WHERE pts_generate_invoice_to=1
+UPDATE `partner_settings` SET `pts_generate_invoice_to`= 1 WHERE pts_generate_invoice_to=0
+

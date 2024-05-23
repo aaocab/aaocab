@@ -1,0 +1,72 @@
+Table structure for table `zon_cty`
+--
+
+CREATE TABLE `zon_cty` (
+  `zcty_id` int(11) NOT NULL,
+  `zcty_zon_id` int(11) NOT NULL,
+  `zcty_cty_id` mediumint(9) UNSIGNED NOT NULL,
+  `zcty_active` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 => Active, 0 => Inactive',
+  `zcty_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `zon_cty`
+--
+ALTER TABLE `zon_cty`
+  ADD PRIMARY KEY (`zcty_id`),
+  ADD KEY `zcty_zon_id` (`zcty_zon_id`),
+  ADD KEY `zcty_cty_id` (`zcty_cty_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `zon_cty`
+--
+ALTER TABLE `zon_cty`
+  MODIFY `zcty_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `zon_cty`
+--
+ALTER TABLE `zon_cty`
+  ADD CONSTRAINT `zon_cty_ibfk_1` FOREIGN KEY (`zcty_zon_id`) REFERENCES `zones` (`zon_id`),
+  ADD CONSTRAINT `zon_cty_ibfk_2` FOREIGN KEY (`zcty_cty_id`) REFERENCES `cities` (`cty_id`);
+
+Table structure for table `zones`
+--
+
+CREATE TABLE `zones` (
+  `zon_id` int(11) NOT NULL,
+  `zon_name` varchar(255) NOT NULL,
+  `zon_active` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 => Active, 0 => Inactive',
+  `zon_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `zones`
+--
+ALTER TABLE `zones`
+  ADD PRIMARY KEY (`zon_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `zones`
+--
+ALTER TABLE `zones`
+  MODIFY `zon_id` int(11) NOT NULL AUTO_INCREMENT;

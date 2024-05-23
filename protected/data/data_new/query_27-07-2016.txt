@@ -1,0 +1,10 @@
+ALTER TABLE `booking_route` ADD `brt_vendor_request_cnt` TINYINT NULL DEFAULT '0' AFTER `brt_status`;
+ALTER TABLE `booking_cab` ADD `bkg_bcb_id` INT(11) NULL AFTER `bcb_id`;
+ALTER TABLE `booking_cab` CHANGE `bkg_bcb_id` `bcb_bkg_id` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `booking_route` CHANGE `brt_vendor_request_cnt` `brt_vendor_request_cnt` TINYINT(4) NOT NULL DEFAULT '0';
+UPDATE booking_cab bcb LEFT JOIN booking_route brt ON brt.brt_bcb_id=bcb.bcb_id SET bcb.bcb_bkg_id=brt.brt_bkg_id;
+UPDATE booking_route brt JOIN booking_old bkg ON bkg.bkg_id=brt.brt_bkg_id SET brt.brt_vendor_request_cnt=bkg.bkg_vendor_request_cnt;
+ALTER TABLE `booking_cab` ADD `bcb_vhc_number` VARCHAR(50) NULL AFTER `bcb_cab_trips`;
+ALTER TABLE `booking_cab` CHANGE `bcb_vhc_number` `bcb_cab_number` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+UPDATE booking_cab bcb LEFT JOIN vehicles vhc ON vhc.vhc_id=bcb.bcb_cab_id SET bcb.bcb_cab_number=vhc.vhc_number
+

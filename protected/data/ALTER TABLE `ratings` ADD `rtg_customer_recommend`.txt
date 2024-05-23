@@ -1,0 +1,1 @@
+ALTER TABLE `ratings` ADD `rtg_customer_recommend` TINYINT NULL AFTER `rtg_booking_id`;

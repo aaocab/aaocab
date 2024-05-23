@@ -1,0 +1,4 @@
+ALTER TABLE `booking` ADD `bkg_bill_fullname` VARCHAR(255) NULL AFTER `bkg_advance`, ADD `bkg_bill_email` VARCHAR(255) NULL AFTER `bkg_bill_fullname`, ADD `bkg_bill_address` VARCHAR(255) NULL AFTER `bkg_bill_email`, ADD `bkg_bill_country` VARCHAR(255) NULL AFTER `bkg_bill_address`, ADD `bkg_bill_state` VARCHAR(255) NULL AFTER `bkg_bill_country`, ADD `bkg_bill_city` VARCHAR(255) NULL AFTER `bkg_bill_state`, ADD `bkg_bill_postalcode` VARCHAR(10) NULL AFTER `bkg_bill_city`;
+
+
+ALTER TABLE `booking` ADD `bkg_bill_contact` VARCHAR(255) NULL AFTER `bkg_bill_fullname`;

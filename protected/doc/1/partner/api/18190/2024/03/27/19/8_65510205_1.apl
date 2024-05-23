@@ -1,0 +1,5 @@
+{"source":{"address":"Terminal 2, Chhatrapati Shivaji International Airport, Mumbai, Terminal 2, Chhatrapati Shivaji Airport, Mumbai","latitude":19.0974,"longitude":72.8745,"city":"Mumbai"},"destination":{"address":"Oxford Olympia Society A-Wing, Karpe Nagar, Bhumkar Nagar, Wakad, Pimpri-Chinchwad, Maharashtra, India","latitude":18.6013875,"longitude":73.7514171,"city":"Pune"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-22 12:30:00","end_time":"2024-03-22 16:35:16","distance":143,"fare_details":{"base_fare":2746,"total_driver_charges":0,"total_days_charged":null,"state_tax":100,"toll_charges":415,"total_fare":3261},"search_id":"65f556ccdd14c44444490017240cca","vehicle_type":"sedan","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"SDN313","type":"sedan","subcategory":"basic","combustion_type":"Unknown","model":"Unknown","make_year_type":"Unknown"},"search_tags":["B2C"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"response":{"success":true,"reference_number":"3898501","verification_code":"874221","tnc":"https:\/\/www.gozocabs.com\/terms"}}

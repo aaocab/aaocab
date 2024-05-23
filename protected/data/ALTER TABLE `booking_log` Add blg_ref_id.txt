@@ -1,0 +1,1 @@
+ALTER TABLE `booking_log` ADD `blg_ref_id` INT(11) NULL DEFAULT NULL AFTER `blg_id`;

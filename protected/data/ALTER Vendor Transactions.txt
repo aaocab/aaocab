@@ -1,0 +1,2 @@
+ALTER TABLE `vendor_transactions` CHANGE `ven_trans_amount` `ven_trans_amount` FLOAT(16,2) NULL DEFAULT NULL;
+ALTER TABLE `vendor_transactions` CHANGE `ven_trans_amount` `ven_trans_amount` FLOAT(16,2) NULL DEFAULT '0';

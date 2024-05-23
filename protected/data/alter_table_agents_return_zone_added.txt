@@ -1,0 +1,1 @@
+ALTER TABLE `agents` ADD `agt_return_zone` VARCHAR(1024) NULL AFTER `agt_log`;

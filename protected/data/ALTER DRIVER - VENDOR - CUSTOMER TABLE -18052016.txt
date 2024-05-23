@@ -1,0 +1,6 @@
+ALTER TABLE `drivers` ADD `drv_mark_driver_status` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `drv_mark_driver_count`;
+
+
+ALTER TABLE `vehicles` ADD `vhc_mark_car_status` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `vhc_mark_car_count`;
+
+

@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_cancel_id` SMALLINT UNSIGNED NULL AFTER `bkg_delete_reason`;

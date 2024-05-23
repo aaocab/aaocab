@@ -1,0 +1,5 @@
+{"source":{"address":"Delhi Cantt Railway Station, Jail Road, Nangal Village, Delhi Cantonment, New Delhi, Delhi, India","latitude":28.6105073,"longitude":77.1145653,"city":"Delhi"},"destination":{"address":"Jim Corbett National Park, Uttarakhand, India","latitude":29.5521551,"longitude":78.88321069999999,"city":"Jim Corbett (national Park)"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-16 18:45:00","end_time":"2024-03-17 00:33:50","search_id":"65f43ba0d95e28001ffff4925b4","one_way_distance":237,"one_way_duration":304,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["ST","TOLL","NC","PC"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"NONE"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Route not supported","link":null,"response":null}

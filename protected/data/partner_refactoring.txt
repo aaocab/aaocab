@@ -1,0 +1,37 @@
+RENAME table partners to agents;
+
+ALTER TABLE `agents` CHANGE `prt_id` `agt_id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `prt_fname` `agt_fname` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `prt_lname` `agt_lname` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_username` `agt_username` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_password` `agt_password` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_phone` `agt_phone` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `prt_email` `agt_email` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_contact_person` `agt_contact_person` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_phone_country_code` `agt_phone_country_code` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_contact_number` `agt_contact_number` VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `agents` CHANGE `prt_alt_contact_number` `agt_alt_contact_number` VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_address` `agt_address` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_company` `agt_company` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_city` `agt_city` INT(11) NULL DEFAULT NULL, CHANGE `prt_active` `agt_active` TINYINT(4) NOT NULL DEFAULT '1', CHANGE `prt_modified_date` `agt_modified_date` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `prt_create_date` `agt_create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `prt_type` `agt_type` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0 =>Registered, 1 => MeterDown, 2 => Both, 3 => Exclusive', CHANGE `prt_device` `agt_device` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_os_version` `agt_os_version` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_device_uuid` `agt_device_uuid` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_apk_version` `agt_apk_version` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+
+ALTER TABLE `agents` CHANGE `prt_mac_address` `agt_mac_address` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_serial` `agt_serial` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_longitude` `agt_longitude` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_latitude` `agt_latitude` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_tnc_id` `agt_tnc_id` INT(11) NULL DEFAULT NULL, CHANGE `prt_tnc` `agt_tnc` TINYINT(4) NOT NULL DEFAULT '0', CHANGE `prt_tnc_datetime` `agt_tnc_datetime` DATETIME NULL DEFAULT NULL, CHANGE `prt_overall_rating` `agt_overall_rating` FLOAT NULL DEFAULT NULL, CHANGE `prt_overall_score` `agt_overall_score` TINYINT(4) NULL DEFAULT NULL, CHANGE `prt_total_trips` `agt_total_trips` SMALLINT(5) UNSIGNED NULL DEFAULT NULL, CHANGE `prt_last_thirtyday_trips` `agt_last_thirtyday_trips` SMALLINT(6) NULL DEFAULT NULL, CHANGE `prt_total_amount` `agt_total_amount` MEDIUMINT(9) NULL DEFAULT NULL, CHANGE `prt_last_thirtyday_amount` `agt_last_thirtyday_amount` MEDIUMINT(9) NULL DEFAULT NULL, CHANGE `prt_last_trip_datetime` `agt_last_trip_datetime` DATETIME NULL DEFAULT NULL, CHANGE `prt_first_trip_datetime` `agt_first_trip_datetime` DATETIME NULL DEFAULT NULL, CHANGE `prt_code_password` `agt_code_password` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_api_key` `agt_api_key` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_pic_path` `agt_pic_path` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `prt_log` `agt_log` VARCHAR(5000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `app_tokens` CHANGE `apt_user_type` `apt_user_type` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1:consumer;2:vendor;3:meterdown,4:agent,5:driver';
+
+ALTER TABLE `booking` CHANGE `bkg_partner_id` `bkg_agent_id` INT(11) NULL DEFAULT NULL;
+
+ALTER TABLE `booking_temp` CHANGE `bkg_partner_id` `bkg_agent_id` INT(11) NULL DEFAULT NULL;
+
+
+
+11/08/2016
+
+ALTER TABLE `agents`  ADD `agt_confirm_email` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_log`,  ADD `agt_customer_confirm_email` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_confirm_email`,  ADD `agt_confirm_sms` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_customer_confirm_email`,  ADD `agt_customer_confirm_sms` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_confirm_sms`,  ADD `agt_driver_assign_email` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_customer_confirm_sms`,  ADD `agt_customer_driver_assign_email` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_driver_assign_email`,  ADD `agt_driver_assign_sms` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_customer_driver_assign_email`,  ADD `agt_customer_driver_assign_sms` TINYINT NOT NULL DEFAULT '1'  AFTER `agt_driver_assign_sms`;
+
+
+13/08/2016
+
+ALTER TABLE `agents` ADD `agt_commission_value` TINYINT NULL DEFAULT NULL AFTER `agt_customer_driver_assign_sms`, ADD `agt_commission` MEDIUMINT NULL DEFAULT NULL AFTER `agt_commission_value`;
+
+ALTER TABLE `agents` CHANGE `agt_commission_value` `agt_commission_value` TINYINT(4) NULL DEFAULT NULL COMMENT '1 => Percentage, 2 => Fixed Value';
+
+16/08/2016
+
+ALTER TABLE `agents` ADD `agt_gozo_commission_value` TINYINT NULL DEFAULT NULL COMMENT '1 => Percentage, 2 => Fixed Value' AFTER `agt_commission`, ADD `agt_gozo_commission` MEDIUMINT NULL DEFAULT NULL AFTER `agt_gozo_commission_value`;
+
+23/08/2016
+
+ALTER TABLE `agents` ADD `agt_allow_discount` TINYINT NOT NULL DEFAULT '0' AFTER `agt_gozo_commission`;
+
+ALTER TABLE `agents` ADD `agt_verify_phone` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_allow_discount`;

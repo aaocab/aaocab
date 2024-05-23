@@ -1,0 +1,5 @@
+{"source":{"address":"Bengaluru, Bangalore Division, Karnataka","latitude":12.9715987,"longitude":77.5945627,"city":"Bangalore"},"destination":{"address":"Mysuru, Mysore Division, Karnataka","latitude":12.2958104,"longitude":76.6393805,"city":"Mysore"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-20 19:05:00","end_time":"2024-03-20 23:00:17","search_id":"65fac8f8903741001e3ea46d","one_way_distance":144,"one_way_duration":205,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["AE","NC","PC","ST","TOLL"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"NONE"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 180 minutes from now.","link":null,"response":null}

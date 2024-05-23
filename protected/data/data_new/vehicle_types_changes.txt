@@ -1,0 +1,5 @@
+UPDATE `vehicle_types` SET `vht_model` = 'Sedan' WHERE `vehicle_types`.`vht_id` = 26;
+
+UPDATE `vehicle_types` SET `vht_model` = 'Compact' WHERE `vehicle_types`.`vht_id` = 25;
+
+UPDATE `vehicle_types` SET `vht_model` = 'SUV' WHERE `vehicle_types`.`vht_id` = 24;

@@ -1,0 +1,42 @@
+
+
+CREATE TABLE `agent_transactions` (
+  `agt_trans_id` int(11) NOT NULL,
+  `agt_ptp_id` tinyint(3) UNSIGNED DEFAULT NULL,
+  `agt_agent_id` int(11) DEFAULT NULL,
+  `agt_booking_id` int(11) DEFAULT NULL,
+  `agt_trip_id` int(11) DEFAULT NULL,
+  `agt_trans_code` varchar(50) DEFAULT NULL,
+  `agt_trans_type` tinyint(3) UNSIGNED DEFAULT NULL,
+  `agt_trans_mode` tinyint(3) UNSIGNED DEFAULT NULL,
+  `agt_trans_remarks` varchar(200) DEFAULT NULL,
+  `agt_trans_amount` float(16,2) NOT NULL DEFAULT '0.00',
+  `agt_admin_id` int(11) DEFAULT NULL,
+  `agt_trans_active` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
+  `agt_trans_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `agt_trans_response_details` varchar(1000) DEFAULT NULL,
+  `agt_trans_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `agent_transactions`
+--
+ALTER TABLE `agent_transactions`
+  ADD PRIMARY KEY (`agt_trans_id`),
+  ADD KEY `trans_ven_id` (`agt_admin_id`),
+  ADD KEY `ven_booking_id` (`agt_booking_id`),
+  ADD KEY `agt_agent_id` (`agt_agent_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `agent_transactions`
+--
+ALTER TABLE `agent_transactions`
+  MODIFY `agt_trans_id` int(11) NOT NULL AUTO_INCREMENT;

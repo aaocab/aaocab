@@ -1,0 +1,7 @@
+/* 
+ * Booking
+ */
+var Master = function ()
+{
+
+}

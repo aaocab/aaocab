@@ -1,0 +1,7 @@
+ALTER TABLE `booking` ADD `bkg_payment_expiry_time` DATETIME NULL AFTER `bkg_create_date`;
+
+
+
+update booking SET `bkg_payment_expiry_time` = GREATEST(DATE_ADD(bkg_create_date, INTERVAL 1 HOUR), DATE_SUB(bkg_pickup_date, INTERVAL 12 HOUR)) WHERE bkg_status IN (2,3,5,6,7,9) AND `bkg_payment_expiry_time` IS NULL;
+
+ALTER TABLE `booking` ADD `bkg_quoted_vendor_amount` MEDIUMINT NULL DEFAULT '0' AFTER `bkg_vendor_amount`;

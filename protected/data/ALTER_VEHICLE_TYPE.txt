@@ -1,0 +1,1 @@
+ALTER TABLE `vehicle_types` CHANGE `vht_car_type` `vht_car_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=>Compact,2=>SUV,3=>Seadan,4=>Tempo Traveller,5=> Assured Dzire,6 => Assured Innova';

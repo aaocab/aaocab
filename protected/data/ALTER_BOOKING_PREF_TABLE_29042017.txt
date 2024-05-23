@@ -1,0 +1,1 @@
+ALTER TABLE `booking_pref` ADD `bpr_keep_fresh_msg_cnt` INT(11) NOT NULL DEFAULT '0' AFTER `bpr_trv_send_app`;

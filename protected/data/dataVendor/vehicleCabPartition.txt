@@ -1,0 +1,1 @@
+ALTER TABLE vehicle_stats ADD vhs_is_partition TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0=>No,1=>Yes ' AFTER vhs_modified_date;

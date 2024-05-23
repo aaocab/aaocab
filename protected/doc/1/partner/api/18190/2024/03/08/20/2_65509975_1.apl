@@ -1,0 +1,5 @@
+{"source":{"address":"Delhi, India","latitude":28.7040592,"longitude":77.10249019999999,"city":"Delhi"},"destination":{"address":"Haridwar Railway Station Grounds, Shikhu Pur, Devpura, Haridwar, Uttarakhand, India","latitude":29.9457651,"longitude":78.15231510000001,"city":"Haridwar"},"stopovers":[],"trip_type":"ONE_WAY","is_instant_search":true,"start_time":"2024-03-08 21:25:00","end_time":"2024-03-09 01:15:55","search_id":"65eb0c9f83b3bf00467185c1","one_way_distance":242,"one_way_duration":251,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["ST","TOLL","NC","PC"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"NONE"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 60 minutes from now.","link":null,"response":null}

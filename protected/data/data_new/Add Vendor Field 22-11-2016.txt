@@ -1,0 +1,1 @@
+ALTER TABLE `vendors` ADD `vnd_beneficiary_name` VARCHAR(255) NULL DEFAULT NULL AFTER `vnd_bank_branch`, ADD `vnd_account_type` TINYINT(4) NOT NULL DEFAULT '0' AFTER `vnd_beneficiary_name`;

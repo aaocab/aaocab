@@ -1,0 +1,56 @@
+.select2-container .select2-choice{
+    background-color: #FFF;
+}
+@media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+        .table-responsive .table td:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 30%;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+        }
+        .table-responsive .table td {
+            padding-left: 40% !important;
+        }
+    }
+
+
+@media (max-width: 767px) {
+
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+}
+@media (min-width: 1200px) {
+}
+
+
+@media (min-width: 1200px) {
+
+}
+@media (max-width: 767px) {
+
+}
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+@media (min-width: 1200px) {
+
+}

@@ -1,0 +1,7 @@
+ALTER TABLE `vendor_vehicle` ADD `vvhc_digital_sign` VARCHAR(200) NULL DEFAULT NULL AFTER `vvhc_vhc_id`, ADD `vvhc_digital_ip` VARCHAR(50) NULL DEFAULT NULL AFTER `vvhc_digital_sign`, ADD `vvhc_digital_undertaking` VARCHAR(200) NULL DEFAULT NULL AFTER `vvhc_digital_ip`, ADD `vvhc_draft_undertaking` VARCHAR(200) NULL DEFAULT NULL AFTER `vvhc_digital_undertaking`, ADD `vvhc_digital_uuid` VARCHAR(200) NULL DEFAULT NULL AFTER `vvhc_draft_undertaking`;
+
+
+ALTER TABLE `vendor_vehicle` ADD `vvhc_digital_lat` VARCHAR(100) NULL DEFAULT NULL AFTER `vvhc_digital_uuid`, ADD `vvhc_digital_long` VARCHAR(100) NULL DEFAULT NULL AFTER `vvhc_digital_lat`, ADD `vvhc_digital_os` VARCHAR(100) NULL DEFAULT NULL AFTER `vvhc_digital_long`, ADD `vvhc_digital_flag` INT(11) NULL DEFAULT '0' AFTER `vvhc_digital_os`, ADD `vvhc_digital_date` DATETIME NULL DEFAULT NULL AFTER `vvhc_digital_flag`;
+
+
+ALTER TABLE `vendor_vehicle` ADD `vvhc_reg_no` VARCHAR(50) NULL DEFAULT NULL AFTER `vvhc_vhc_id`, ADD `vvhc_vhc_owner` VARCHAR(50) NULL DEFAULT NULL AFTER `vvhc_reg_no`, ADD `vvhc_vhc_owner_auth_date` VARCHAR(50) NULL DEFAULT NULL AFTER `vvhc_vhc_owner`;

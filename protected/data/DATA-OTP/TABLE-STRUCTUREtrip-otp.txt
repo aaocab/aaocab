@@ -1,0 +1,41 @@
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+
+
+CREATE TABLE `trip_otplog` (
+  `trl_id` int(11) NOT NULL,
+  `trl_bkg_id` int(11) DEFAULT NULL,
+  `trl_drv_id` int(11) DEFAULT NULL,
+  `trl_platform` tinyint(4) DEFAULT NULL COMMENT '1=>SMS,2=>APP,3=>URL',
+  `trl_msg` varchar(200) DEFAULT NULL,
+  `trl_otp` varchar(200) DEFAULT NULL,
+  `trl_phNumber` varchar(255) DEFAULT NULL,
+  `trl_date` datetime DEFAULT NULL,
+  `trl_status` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `trip_otplog`
+--
+ALTER TABLE `trip_otplog`
+  ADD PRIMARY KEY (`trl_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `trip_otplog`
+--
+ALTER TABLE `trip_otplog`
+  MODIFY `trl_id` int(11) NOT NULL AUTO_INCREMENT;
+SET FOREIGN_KEY_CHECKS=1;
+
+
+ALTER TABLE `agent_api_tracking` CHANGE `aat_type` `aat_type` TINYINT(4) NOT NULL COMMENT '1 => \'cityList\', 2 => \'getQuote\', 3 => \'createBooking\', 4 => \'getDetails\', 5 => \'cancellationList\', 6 => \'cancelBooking\', 7 => \'getTnc\', 8 => \'holdBooking\', 9 => \'cabDriverUpdate\', 10 => \'updateBooking\',11=>\'OTP Update\'';

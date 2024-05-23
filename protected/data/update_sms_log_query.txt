@@ -1,0 +1,6 @@
+ALTER TABLE `sms_log` ADD `message2` VARCHAR(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `message`;
+
+UPDATE `sms_log` SET sms_log.message2=sms_log.message WHERE 1
+
+
+ALTER TABLE `sms_log` CHANGE `message2` `message` VARCHAR(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

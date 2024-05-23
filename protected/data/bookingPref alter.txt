@@ -1,0 +1,1 @@
+ALTER TABLE `booking_pref` ADD `bpr_isfullpayment` TINYINT NULL DEFAULT '0' AFTER `bpr_keep_fresh_msg_cnt`;

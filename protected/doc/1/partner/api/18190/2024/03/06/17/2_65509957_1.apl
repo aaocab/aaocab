@@ -1,0 +1,5 @@
+{"source":{"address":"Erode, Tamil Nadu, India","latitude":11.34104,"longitude":77.71716,"city":"Erode"},"destination":{"address":"Coimbatore International Airport - CJB, Airport Road, Peelamedu, Coimbatore, Tamil Nadu, India","latitude":11.03043,"longitude":77.03909,"city":"Coimbatore"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-06 17:30:00","end_time":"2024-03-06 08:40:00","search_id":"65e854fec6c45c00361f1341","one_way_distance":100,"partner_name":"GOMMT","search_tags":["FF","B2C"],"mandatory_inclusions":[],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"DROP"},"package_distance":100}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 180 minutes from now.","link":null,"response":null}

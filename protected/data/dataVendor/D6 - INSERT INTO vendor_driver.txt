@@ -1,0 +1,4 @@
+INSERT INTO vendor_driver (vdrv_drv_id, vdrv_vnd_id)
+SELECT distinct dhm.drv_id, drv_vendor_id from drivers_bak dbk 
+JOIN driver_map dhm on dhm.drv_id1 = dbk.drv_id  AND 
+dbk.drv_vendor_id IS NOT NULL;

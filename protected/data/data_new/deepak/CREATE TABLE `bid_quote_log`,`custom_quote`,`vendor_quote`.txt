@@ -1,0 +1,125 @@
+ 
+
+SET FOREIGN_KEY_CHECKS=0; 
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+ 
+
+CREATE TABLE `bid_quote_log` (
+  `bql_id` int(11) NOT NULL,
+  `bql_vqt_id` int(11) NOT NULL,
+  `bql_desc` varchar(5000) NOT NULL,
+  `bql_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `bql_active` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custom_quote`
+--
+
+CREATE TABLE `custom_quote` (
+  `cqt_id` int(11) NOT NULL,
+  `cqt_from_city` mediumint(8) UNSIGNED NOT NULL,
+  `cqt_description` varchar(1000) NOT NULL,
+  `cqt_pickup_date` datetime NOT NULL,
+  `cqt_cab_type` tinyint(4) DEFAULT NULL,
+  `cqt_no_of_days` tinyint(4) NOT NULL DEFAULT 1,
+  `cqt_booking_type` varchar(50) DEFAULT NULL,
+  `cqt_active` tinyint(4) NOT NULL DEFAULT 1,
+  `cqt_user_entity_type` tinyint(4) DEFAULT NULL,
+  `cqt_user_entity_id` int(11) DEFAULT NULL,
+  `cqt_created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendor_quote`
+--
+
+CREATE TABLE `vendor_quote` (
+  `vqt_id` int(11) NOT NULL,
+  `vqt_cqt_id` int(11) NOT NULL,
+  `vqt_vendor_id` int(11) NOT NULL,
+  `vqt_amount` mediumint(9) DEFAULT NULL,
+  `vqt_description` varchar(5000) DEFAULT NULL,
+  `vqt_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `vqt_status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=>Accepted 0=> Denied',
+  `vqt_active` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=>Valid 0=> Invalid'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bid_quote_log`
+--
+ALTER TABLE `bid_quote_log`
+  ADD PRIMARY KEY (`bql_id`),
+  ADD KEY `bql_vqt_id` (`bql_vqt_id`);
+
+--
+-- Indexes for table `custom_quote`
+--
+ALTER TABLE `custom_quote`
+  ADD PRIMARY KEY (`cqt_id`),
+  ADD KEY `cqt_from_city` (`cqt_from_city`),
+  ADD KEY `cqt_cab_type` (`cqt_cab_type`);
+
+--
+-- Indexes for table `vendor_quote`
+--
+ALTER TABLE `vendor_quote`
+  ADD PRIMARY KEY (`vqt_id`),
+  ADD KEY `vqt_cqt_id` (`vqt_cqt_id`),
+  ADD KEY `vqt_vendor_id` (`vqt_vendor_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `bid_quote_log`
+--
+ALTER TABLE `bid_quote_log`
+  MODIFY `bql_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+
+--
+-- AUTO_INCREMENT for table `custom_quote`
+--
+ALTER TABLE `custom_quote`
+  MODIFY `cqt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT for table `vendor_quote`
+--
+ALTER TABLE `vendor_quote`
+  MODIFY `vqt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bid_quote_log`
+--
+ALTER TABLE `bid_quote_log`
+  ADD CONSTRAINT `bid_quote_log_ibfk_1` FOREIGN KEY (`bql_vqt_id`) REFERENCES `vendor_quote` (`vqt_id`);
+
+--
+-- Constraints for table `custom_quote`
+--
+ALTER TABLE `custom_quote`
+  ADD CONSTRAINT `custom_quote_ibfk_1` FOREIGN KEY (`cqt_from_city`) REFERENCES `cities` (`cty_id`);
+
+--
+-- Constraints for table `vendor_quote`
+--
+ALTER TABLE `vendor_quote`
+  ADD CONSTRAINT `vendor_quote_ibfk_1` FOREIGN KEY (`vqt_cqt_id`) REFERENCES `custom_quote` (`cqt_id`),
+  ADD CONSTRAINT `vendor_quote_ibfk_2` FOREIGN KEY (`vqt_vendor_id`) REFERENCES `vendors` (`vnd_id`);
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;

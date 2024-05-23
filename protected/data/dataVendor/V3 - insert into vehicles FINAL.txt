@@ -1,0 +1,13 @@
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+TRUNCATE TABLE `vehicles`;
+
+
+insert into vehicles (vhc_id,vhc_number,vhc_type_id, vhc_year, vhc_color, vhc_insurance_exp_date, vhc_tax_exp_date, vhc_dop, vhc_owned_or_rented, vhc_created_at, vhc_modified_at, vhc_active, vhc_description, vhc_is_attached, vhc_overall_rating, vhc_total_kms, vhc_gozo_kms, vhc_vin, vhc_total_trips, vhc_last_thirtyday_trips, vhc_home_city, vhc_default_driver, vhc_log, vhc_mark_car_count, vhc_approved, vhc_permits_certificate, vhc_pollution_certificate, vhc_reg_certificate, vhc_rear_plate, vhc_front_plate, vhc_pollution_exp_date, vhc_reg_exp_date, vhc_commercial_exp_date, vhc_fitness_certificate, vhc_fitness_cert_end_date, vhc_approved_by, vhc_ver_number, vhc_ver_model_year_color, vhc_ver_rc, vhc_ver_front_license, vhc_ver_rear_license, vhc_ver_license_commercial, vhc_ver_insurance, vhc_ver_permit, vhc_ver_fitness, vhc_is_commercial, vhc_is_freeze, vhc_insurance_proof) 
+
+select vhc_id,vhc_number,vhc_type_id, vhc_year, vhc_color, vhc_insurance_exp_date, vhc_tax_exp_date, vhc_dop, vhc_owned_or_rented, vhc_created_at, vhc_modified_at, vhc_active, vhc_description, vhc_is_attached, vhc_overall_rating, vhc_total_kms, vhc_gozo_kms, vhc_vin, vhc_total_trips, vhc_last_thirtyday_trips, vhc_home_city, vhc_default_driver, vhc_log, vhc_mark_car_count, vhc_approved, vhc_permits_certificate, vhc_pollution_certificate, vhc_reg_certificate, vhc_rear_plate, vhc_front_plate, vhc_pollution_exp_date, vhc_reg_exp_date, vhc_commercial_exp_date, vhc_fitness_certificate, vhc_fitness_cert_end_date, vhc_approved_by, vhc_ver_number, vhc_ver_model_year_color, vhc_ver_rc, vhc_ver_front_license, vhc_ver_rear_license, vhc_ver_license_commercial, vhc_ver_insurance, vhc_ver_permit, vhc_ver_fitness, vhc_is_commercial, vhc_is_freeze, vhc_insurance_proof from vehicles1 order by vhc_id;
+
+
+SET FOREIGN_KEY_CHECKS=1;

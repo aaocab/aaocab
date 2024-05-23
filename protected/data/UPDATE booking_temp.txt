@@ -1,0 +1,18 @@
+UPDATE booking_temp
+    SET
+        bkg_lead_source =
+        (
+            CASE            
+		WHEN ( bkg_log_type = 'Call me to make booking')  THEN '1'
+		WHEN ( bkg_log_type = 'Changed my mind')  THEN '2'
+		WHEN ( bkg_log_type = 'Agent')  THEN '3'
+		WHEN ( bkg_log_type = 'Zopim')  THEN '4'
+		WHEN ( bkg_log_type = 'Email')  THEN '5'
+		WHEN ( bkg_log_type = 'Sms/WhatsApp')  THEN '6'
+		WHEN ( bkg_log_type = 'Phone call')  THEN '7'
+		WHEN ( bkg_log_type = 'Incomplete booking')  THEN '8'
+		WHEN ( bkg_log_type = 'Unverified Booking')  THEN '9'             
+            END
+        )
+    WHERE
+         bkg_log_type <> ''

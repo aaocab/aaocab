@@ -1,0 +1,12 @@
+ALTER TABLE `booking` ADD INDEX(`bkg_agent_id`);
+
+ALTER TABLE `booking` ADD FOREIGN KEY (`bkg_agent_id`) REFERENCES `agents`(`agt_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+ALTER TABLE `booking` ADD `bkg_agent_markup` MEDIUMINT NOT NULL DEFAULT '0' AFTER `bkg_agent_id`, ADD `bkg_gozo_markup` MEDIUMINT NOT NULL DEFAULT '0' AFTER `bkg_agent_markup`;
+
+ALTER TABLE `booking` ADD `bkg_gozo_base_amount` INT NOT NULL AFTER `bkg_platform`;
+
+
+UPDATE `booking` SET `bkg_gozo_base_amount`=`bkg_base_amount` WHERE  `bkg_base_amount`  >  0
+

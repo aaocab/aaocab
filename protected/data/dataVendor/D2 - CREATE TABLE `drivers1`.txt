@@ -1,0 +1,11 @@
+CREATE TABLE `drivers1` LIKE drivers; 
+
+CREATE TABLE `drivers_bak` LIKE drivers; 
+insert into `drivers_bak` select * from drivers; 
+
+
+ALTER TABLE `drivers` CHANGE `drv_vendor_id` `drv_vendor_id` INT(11) NULL;
+
+ALTER TABLE `drivers1` CHANGE `drv_vendor_id` `drv_vendor_id` INT(11) NULL;
+
+ALTER TABLE `vehicles` CHANGE `vhc_vendor_id` `vhc_vendor_id` INT(11) NULL;

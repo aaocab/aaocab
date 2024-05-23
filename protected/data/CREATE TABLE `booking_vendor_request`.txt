@@ -1,0 +1,50 @@
+
+SET FOREIGN_KEY_CHECKS=0;
+
+CREATE TABLE `booking_vendor_request` (
+  `bvr_id` int(11) NOT NULL,
+  `bvr_booking_id` int(11) NOT NULL,
+  `bvr_vendor_id` int(11) NOT NULL,
+  `bvr_vendor_rating` tinyint(4) DEFAULT NULL,
+  `bvr_vendor_score` smallint(6) DEFAULT NULL,
+  `bvr_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `bvr_accepted` tinyint(4) NOT NULL DEFAULT '0',
+  `bvr_accepted_at` datetime DEFAULT NULL,
+  `bvr_assigned` tinyint(4) NOT NULL DEFAULT '0',
+  `bvr_assigned_at` datetime DEFAULT NULL,
+  `bvr_last_reminded_at` datetime DEFAULT NULL,
+  `bvr_active` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `booking_vendor_request`
+--
+ALTER TABLE `booking_vendor_request`
+  ADD PRIMARY KEY (`bvr_id`),
+  ADD KEY `bvr_booking_id` (`bvr_booking_id`),
+  ADD KEY `bvr_vendor_id` (`bvr_vendor_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `booking_vendor_request`
+--
+ALTER TABLE `booking_vendor_request`
+  MODIFY `bvr_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `booking_vendor_request`
+--
+ALTER TABLE `booking_vendor_request`
+  ADD CONSTRAINT `booking_vendor_request_ibfk_1` FOREIGN KEY (`bvr_booking_id`) REFERENCES `booking` (`bkg_id`),
+  ADD CONSTRAINT `booking_vendor_request_ibfk_2` FOREIGN KEY (`bvr_vendor_id`) REFERENCES `agents` (`agt_id`);
+SET FOREIGN_KEY_CHECKS=1;

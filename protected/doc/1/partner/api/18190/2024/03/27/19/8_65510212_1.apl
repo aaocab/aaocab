@@ -1,0 +1,5 @@
+{"source":{"address":"IbisHouse Farm Stay, near Bird Century, Malah, Rajasthan, India","latitude":27.180604,"longitude":77.48755009999999,"city":"Bharatpur"},"destination":{"address":"AJNARA HOMES, Sector 16B Road, Noida Extension Greater Noida West, Bhangel, Greater Noida, Uttar Pradesh, India","latitude":28.606858,"longitude":77.4465322,"city":"Meerut Division"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-29 11:00:00","end_time":"2024-03-29 15:13:13","distance":195,"fare_details":{"base_fare":3261,"total_driver_charges":0,"total_days_charged":null,"state_tax":0,"toll_charges":0,"total_fare":3261},"search_id":"lkkkkkkkkkkkk","vehicle_type":"sedan","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"SDN7363","type":"sedan","subcategory":"basic","combustion_type":"Unknown","model":"Unknown","make_year_type":"Unknown","cancellation_rule":"FLEXI"},"search_tags":["B2C"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"response":{"success":true,"reference_number":"3898502","verification_code":"753261","tnc":"https:\/\/www.gozocabs.com\/terms"}}

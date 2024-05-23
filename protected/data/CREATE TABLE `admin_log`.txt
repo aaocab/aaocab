@@ -1,0 +1,33 @@
+
+CREATE TABLE `admin_log` (
+  `adm_log_id` int(11) UNSIGNED NOT NULL,
+  `adm_log_user` int(11) NOT NULL,
+  `adm_log_ip` varchar(25) NOT NULL,
+  `adm_log_session` text NOT NULL,
+  `adm_log_device_info` varchar(250) NOT NULL,
+  `adm_log_last_device_type` tinyint(4) DEFAULT NULL,
+  `adm_log_in_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `adm_log_last_active` timestamp NULL DEFAULT NULL,
+  `adm_log_last_ip` varchar(50) DEFAULT NULL,
+  `adm_log_out_time` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `admin_log`
+--
+ALTER TABLE `admin_log`
+  ADD PRIMARY KEY (`adm_log_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin_log`
+--
+ALTER TABLE `admin_log`
+  MODIFY `adm_log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;

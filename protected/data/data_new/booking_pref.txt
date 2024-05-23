@@ -1,0 +1,56 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 09, 2017 at 06:46 PM
+-- Server version: 5.7.6-m16-log
+-- PHP Version: 5.6.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `gozo_70223`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking_pref`
+--
+
+CREATE TABLE `booking_pref` (
+  `bpr_id` int(11) NOT NULL,
+  `bpr_bkg_id` int(11) NOT NULL,
+  `bpr_crp_name` varchar(500) DEFAULT NULL,
+  `bpr_crp_email` varchar(250) DEFAULT NULL,
+  `bpr_crp_send_email` tinyint(4) DEFAULT NULL,
+  `bpr_crp_send_sms` tinyint(4) DEFAULT NULL,
+  `bpr_crp_send_app` tinyint(4) DEFAULT NULL,
+  `bpr_trv_send_email` tinyint(4) DEFAULT NULL,
+  `bpr_trv_send_sms` tinyint(4) DEFAULT NULL,
+  `bpr_trv_send_app` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `booking_pref`
+--
+ALTER TABLE `booking_pref`
+  ADD PRIMARY KEY (`bpr_id`),
+  ADD UNIQUE KEY `bpr_bkg_id` (`bpr_bkg_id`),
+  ADD UNIQUE KEY `bpr_id` (`bpr_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `booking_pref`
+--
+ALTER TABLE `booking_pref`
+  MODIFY `bpr_id` int(11) NOT NULL AUTO_INCREMENT;

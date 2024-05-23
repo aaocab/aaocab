@@ -1,0 +1,1 @@
+ALTER TABLE `vendors` ADD `vnd_effective_credit_limit` MEDIUMINT(9) NULL DEFAULT NULL AFTER `vnd_firm_attach`, ADD `vnd_effective_overdue_days` MEDIUMINT(9) NULL DEFAULT NULL AFTER `vnd_effective_credit_limit`;

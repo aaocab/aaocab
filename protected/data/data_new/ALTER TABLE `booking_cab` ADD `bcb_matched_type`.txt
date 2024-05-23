@@ -1,0 +1,1 @@
+ALTER TABLE `booking_cab` ADD `bcb_matched_type` TINYINT NOT NULL DEFAULT '0' AFTER `bcb_trip_type`;

@@ -1,0 +1,5 @@
+{"source":{"address":"Kempegowda International Airport (BLR), KIAL Road, Devanahalli, Bengaluru, Karnataka, India","latitude":13.19864,"longitude":77.70137,"city":"Bangalore"},"destination":{"address":"Ooty, Tamil Nadu, India","latitude":11.4102038,"longitude":76.6950324,"city":"Ooty"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-06 20:00:00","end_time":"2024-03-07 02:33:20","search_id":"65e85e9a95aa7c001786a263","one_way_distance":265,"partner_name":"GOMMT","search_tags":["FF","B2C"],"mandatory_inclusions":[],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"PICKUP"},"package_distance":265}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 180 minutes from now.","link":null,"response":null}

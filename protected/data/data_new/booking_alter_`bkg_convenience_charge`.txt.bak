@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_convenience_charge` INT NULL DEFAULT '0' AFTER `bkg_corporate_discount`;

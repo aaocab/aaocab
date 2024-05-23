@@ -1,0 +1,11 @@
+ALTER TABLE `vendors` CHANGE `vnd_effective_credit_limit` `vnd_effective_credit_limit` MEDIUMINT(9) NULL DEFAULT '0', CHANGE `vnd_effective_overdue_days` `vnd_effective_overdue_days` MEDIUMINT(9) NULL DEFAULT '0';
+
+
+UPDATE `vendors` SET vnd_effective_credit_limit=0 WHERE vnd_effective_credit_limit IS NULL
+
+
+UPDATE `vendors` SET vnd_effective_overdue_days=0 WHERE vnd_effective_overdue_days IS NULL AND vnd_active=1
+
+
+ALTER TABLE `vendors_log` CHANGE `vlg_ref_id` `vlg_user_ref_id` INT(11) NULL DEFAULT NULL;
+

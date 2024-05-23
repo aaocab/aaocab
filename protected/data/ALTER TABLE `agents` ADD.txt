@@ -1,0 +1,1 @@
+ALTER TABLE `agents` ADD `agt_mac_address` VARCHAR(150) NULL DEFAULT NULL AFTER `agt_apk_version`, ADD `agt_serial` VARCHAR(150) NULL DEFAULT NULL AFTER `agt_mac_address`, ADD `agt_longitude` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_serial`, ADD `agt_latitude` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_longitude`;

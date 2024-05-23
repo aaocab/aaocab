@@ -1,0 +1,4 @@
+ALTER TABLE `booking` ADD `bkg_review_email_count` TINYINT(4) NOT NULL DEFAULT '0' AFTER `bkg_trip_status`;
+
+
+ALTER TABLE `booking` ADD `bkg_return_trip_remind` TINYINT(4) NOT NULL DEFAULT '0' AFTER `bkg_review_email_count`;

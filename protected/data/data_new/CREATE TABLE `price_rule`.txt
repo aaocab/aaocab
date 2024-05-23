@@ -1,0 +1,53 @@
+ 
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+ 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `price_rule`
+--
+
+CREATE TABLE `price_rule` (
+  `prr_id` int(11) NOT NULL,
+  `prr_cab_type` tinyint(4) NOT NULL,
+  `prr_cab_desc` varchar(255) DEFAULT NULL,
+  `prr_trip_type` tinyint(4) NOT NULL DEFAULT 1,
+  `prr_rate_per_km` float DEFAULT NULL,
+  `prr_rate_per_km_extra` float DEFAULT NULL,
+  `prr_min_km` float DEFAULT NULL,
+  `prr_min_base_amount` int(11) DEFAULT NULL,
+  `prr_min_km_day` float DEFAULT NULL,
+  `prr_max_km_day` float DEFAULT NULL,
+  `prr_day_driver_allowance` smallint(6) DEFAULT NULL,
+  `prr_night_driver_allowance` smallint(6) DEFAULT NULL,
+  `prr_night_start_time` time DEFAULT NULL,
+  `prr_night_end_time` time DEFAULT NULL,
+  `prr_calculation_type` tinyint(4) DEFAULT NULL,
+  `prr_min_pickup_duration` mediumint(9) DEFAULT NULL,
+  `prr_active` tinyint(4) NOT NULL DEFAULT 1,
+  `prr_created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `prr_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `prr_log` varchar(4000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `price_rule`
+--
+ALTER TABLE `price_rule`
+  ADD PRIMARY KEY (`prr_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `price_rule`
+--
+ALTER TABLE `price_rule`
+  MODIFY `prr_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

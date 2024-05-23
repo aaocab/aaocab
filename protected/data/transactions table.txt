@@ -1,0 +1,51 @@
+
+
+CREATE TABLE `transactions` (
+  `trans_id` int(11) NOT NULL,
+  `trans_ptp_id` tinyint(3) UNSIGNED DEFAULT NULL,
+  `trans_booking_id` int(11) DEFAULT NULL,
+  `trans_type` tinyint(4) DEFAULT NULL,
+  `trans_mode` tinyint(4) DEFAULT NULL,
+  `trans_remarks` varchar(100) DEFAULT NULL,
+  `trans_ipaddress` varchar(100) DEFAULT NULL,
+  `trans_device_detail` varchar(1000) DEFAULT NULL,
+  `trans_user_type` tinyint(4) DEFAULT NULL,
+  `trans_user_id` int(11) DEFAULT NULL,
+  `trans_amount` float(16,2) NOT NULL,
+  `trans_active` tinyint(4) NOT NULL DEFAULT '1',
+  `trans_status` tinyint(4) DEFAULT '0',
+  `trans_start_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `trans_complete_datetime` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`trans_id`),
+  ADD KEY `trans_id` (`trans_id`,`trans_ptp_id`,`trans_booking_id`),
+  ADD KEY `trans_ptp_id` (`trans_ptp_id`),
+  ADD KEY `transactions_ibfk_1` (`trans_booking_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`trans_booking_id`) REFERENCES `booking` (`bkg_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

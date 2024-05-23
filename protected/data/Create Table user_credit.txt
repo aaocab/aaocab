@@ -1,0 +1,30 @@
+CREATE TABLE `user_credits` (
+  `ucr_id` int(10) UNSIGNED NOT NULL,
+  `ucr_user_id` int(11) NOT NULL,
+  `ucr_value` int(11) NOT NULL,
+  `ucr_used` int(11) DEFAULT NULL,
+  `ucr_validity` datetime DEFAULT NULL,
+  `ucr_desc` varchar(500) DEFAULT NULL,
+  `ucr_max_use` int(11) DEFAULT NULL,
+  `ucr_type` smallint(6) DEFAULT NULL,
+  `ucr_ref_id` int(11) DEFAULT NULL,
+  `ucr_status` tinyint(4) DEFAULT NULL,
+  `ucr_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ucr_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `user_credits`
+  ADD PRIMARY KEY (`ucr_id`),
+  ADD KEY `fk_user` (`ucr_user_id`);
+
+ALTER TABLE `user_credits`
+  MODIFY `ucr_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `user_credits`
+  ADD CONSTRAINT `user_credits_ibfk_2` FOREIGN KEY (`ucr_user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `user_credits` CHANGE `ucr_type` `ucr_type` SMALLINT(6) NULL DEFAULT NULL COMMENT '1:promo,2:refund,3:referral,4:booking,5:others';
+ALTER TABLE `user_credits` CHANGE `ucr_status` `ucr_status` TINYINT(4) NULL DEFAULT '1';
+
+ALTER TABLE `users` ADD `usr_refer_code` VARCHAR(100) NULL DEFAULT NULL AFTER `usr_mark_customer_count`, ADD `usr_referred_code` VARCHAR(100) NULL DEFAULT NULL AFTER `usr_refer_code`;
+ALTER TABLE `users` ADD UNIQUE(`usr_refer_code`);
+

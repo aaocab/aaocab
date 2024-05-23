@@ -1,0 +1,1 @@
+ALTER TABLE `booking_trail` ADD `btr_is_dem_sup_misfire` TINYINT NOT NULL DEFAULT '0' AFTER `btr_bid_start_time`;

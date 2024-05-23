@@ -1,0 +1,413 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media screen and (max-width:320px){
+	
+	
+	
+	.loginout a {
+		margin: 0px 5px 0 0;
+	}
+	
+}
+
+@media screen and (max-width:360px){
+	.looking {
+		width: 100%;
+		float: inherit;
+		padding: 10px 0 0 0;
+	}
+	.btutn{
+		width: 100% !important;
+		padding: 0 0 0 5px;
+		margin:0;
+	}
+	.searchbtn {
+		float: inherit;
+		width: 92%;
+	}
+	.searchbtnred {
+		float: inherit;
+		width: 92%;
+		margin:20px 10px;
+	}
+	.texett {
+		width: 100%;
+		float: inherit;
+		padding: 10px 0;
+	}
+	.downdrop {
+		width: 100%;
+		float: inherit;
+		padding: 0 0 20px 0;
+	}
+	.ssamml {
+		display:block !important;
+	}
+	.sertex {
+		padding:0px;
+		font-size: 14px;
+		text-align: center;
+		margin:0;
+	}
+	.custom-combobox {
+		width: 90% !important;
+	}
+	.dropi{
+		width:100% !important;
+	}
+	.drpof {
+		display: block;
+	}
+	.dropoffdnmid {
+		float:inherit;
+		width: 100% !important;
+		margin:15px 0 !important;
+	}
+	.dropoffdn {
+		width: 100% !important;
+		float:inherit;
+	}
+	.jobtext_ariea {
+		padding: 0px 0px 15px;
+	}
+	.timetime {
+		padding: 15px 0px 0px !important;
+	}
+	.socialPara {
+		padding: 0 0px 20px 5px;
+	}
+	.facebook2 {
+		margin: 0px 0px 5px;
+	}
+	.alert-bg {
+		min-width: 290px !important;
+	}
+	.stepupmov {
+		margin: 6px 0px 0px 10px;
+	}
+	.step2upmov {
+		margin: 0px 0px 10px 10px;
+	}
+		
+}
+
+@media screen and (max-width:480px){
+	
+	.dropi{
+		width:80%;
+	}
+	.dropoffdnmid {
+		width: 31%;
+		margin: 0px 15px;
+	}
+	.dropoffdn {
+		width: 31%;
+	}
+	.signupInputult{
+		width: 100%;
+		margin: 0 0 10px 0;
+	}
+	.formControl {
+		width: 100%;
+	}
+	.checke{
+		padding: 0 0 5px 0;
+		float:inherit;
+		width:100%;
+	}
+	.checkDtls{
+		float:inherit;
+		margin: 0px 0px 20px 0;
+	}
+	.checkdetls{
+		float:inherit;
+		width:inherit;
+	}
+	.poplogion{
+		width:100% !important;
+	}
+	.alert-bg {
+		min-width: 400px;
+	}
+	.warningagree {
+		margin-bottom: 10px;
+		float: inherit;
+		width: 100% !important;
+		display: block;
+	}
+	.discard {
+		float: inherit;
+		width: 100% !important;
+		display: block;
+		margin: 0 !important;
+	}
+	.alert-buttons {
+		height: inherit;
+	}
+	.signupInput{
+		width:100% !important;
+	}
+	.search_body {
+		margin: 0 0 20px 0;
+	}
+	.form-control{
+		width:100% !important;
+	}
+	.devideLinne{
+		width: 100%;
+	}
+	.myHourDiv table{
+		width:100% !important;
+	}
+	.maunuMar24 {
+		margin: 0px 0px 20px 39%;
+	}
+	.innPopReview{
+		width:90%;
+	}
+						
+}
+
+@media screen and (max-width:640px){
+	
+	.logo{
+		display: none;
+	}
+	.responsivelogo{
+		display: block;
+		margin: 20px 0px 15px 0px;
+		text-align: center;
+	}
+	.innrlogo{
+		display:none;
+	}
+	.responsiveinnrlogo{
+		display:block;
+	}
+		.responsiveinnrlogo p{
+			padding:10px;
+			font-weight:600;
+			text-align: center;
+		}
+	.upsignwidt {
+		width: 100% !important;
+		display:block;
+	}
+	.social_div a{
+	}
+	.orSocial{
+		width: 270px;
+		margin: 0px auto;
+	}
+	.cometnm{
+		width:100% !important;
+	}
+	.left_Ret {
+		width: 100%;
+		float: inherit;
+	}
+	.profile_popup {
+		width: 100%;
+	}
+	.sbmcat{
+		width:100%;
+		margin:5px 0 0 0;
+	}
+	.scroll {
+		padding: 0 15px 0 0;
+	}
+	.ditail_body{
+		text-align:left;
+	}
+	.responPart{
+		width:64% !important;
+	}
+}
+
+@media screen and (max-width:768px){
+	
+	.logoSmall {
+		text-align: center !important;
+	}
+	.innrlogo p{
+		text-align:center;
+	}
+	.signinPut {
+		margin: 5% 0px 0px;
+	}
+	.myprofile_right {
+		width: 100% !important;
+		float:inherit;
+		margin: -10px 0 0 0;
+	}
+	.myprofile_right2 {
+		padding: 30px;
+	}
+	.myprofile_left {
+		float: inherit;
+		width: 100%;
+		padding: 0px 0px 0px 0;
+	}
+	.upsignwidt {
+		width: 75%;
+	}
+	.logoSmall {
+		margin: 15px 0;
+	}
+	.rows {
+		margin-bottom: inherit;
+	}
+	.timetime{
+		padding:30px 0 0 0;
+	}
+	.searchbtnaftr {
+		width: 100%;
+		margin:30px 0 0 0;
+	}
+	.date_panel {
+		float: inherit;
+		margin: 20px auto 0;
+		width: 239px;
+	}
+	.upsignwidt {
+		padding: 0 0 40px 0;
+	}
+	.newcommuni_left{
+		border-left:none !important;
+	}
+	.twosrcbtn {
+		position: inherit;
+		bottom: inherit;
+		width: inherit;
+	}
+	.signupInput45{
+		width: 100% !important;
+		margin: inherit;
+	}
+	.toSend{
+		width: 100%;
+	}
+	.innercolom {
+		width: 100%;
+		margin: inherit;
+	}
+	.loginlogo {
+		float: inherit;
+	}
+	.logintext {
+		float: inherit;
+		width: 100%;
+		margin: inherit;
+		border-left: inherit;
+    	padding-left: inherit;
+	}
+	.sbtnaftr{
+		margin: inherit;
+	}
+	.myprofile_left ul li a {
+		background: url('../images/normal_arrow2.png') no-repeat scroll 97% 18px transparent;
+	}
+	.myprofile_left ul li a:hover{
+		background: url(../images/hover_arrow2.png) no-repeat scroll 97% 18px transparent;
+		display: block;
+		background-color: #fff;
+		border:1px solid #3d4f99;
+		position: relative;
+		text-decoration:none;
+		color:#3d4f99;
+	}
+	.myprofile_left ul li a.active{
+		background: none no-repeat scroll 97% 18px #FFF;
+		display: block;
+		background-color: #fff;
+		border:1px solid #3d4f99;
+		position: relative;
+		text-decoration:none;
+		color:#3d4f99;
+	}
+	.myprofile_left ul li a.activeslide {
+		background: url('../images/normal_arrow2_expand.png') no-repeat scroll 97% 18px transparent;
+		color: #FFF;
+	}
+	.myprofile_right {
+		padding: 20px 15px;
+	}
+	.sahubu{
+		padding:20px !important;
+	}
+	.searchInputult {
+		width: 94%;
+	}
+	.iner_leftuser {
+		width: 91%;
+	}
+	.user_chat {
+		width: 95%;
+	}
+	.babhu{
+		width: 100%;
+	}
+	.signinPut h1{
+		text-align:center;
+	}
+	.signinPut p{
+		text-align:center;
+	}
+	.dontBreak{
+		display:inherit;
+	}
+	.searchTable th{
+		display:none;
+	}
+	.searchTable td{
+		display:block;
+	}
+	.dtlstd{
+		width:inherit;
+	}
+	.toparrow3{
+		display:none;
+	}
+	.profile_popup{
+		top: 14px;
+		left: 0;
+	}
+	.gigsawe{
+		padding: 10px 0;
+	}
+		.gigsawe p{
+			text-align: left;
+		}
+		.seachPoptext{
+			padding-bottom: 15px;
+		}
+		
+	.canclepic {
+		position: absolute;
+		top: -2px;
+		right: 0px;
+	}
+
+	
+}
+
+@media screen and (max-width:1024px){
+	
+	.ssamml {
+		width: 100%;
+		display:flex;
+	}
+	.myprofile_right {
+		width: 70%;
+	}
+	.signupInput45 {
+		width: 100%;
+		margin: inherit;
+	}
+	.descriptionBtn{
+		margin:0 0 40px 0;
+	}
+	
+	
+}

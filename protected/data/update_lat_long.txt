@@ -1,0 +1,1 @@
+UPDATE cities INNER JOIN cities_temp on cities.cty_id=cities_temp.cty_id SET cities.cty_lat=cities_temp.cty_lat,cities.cty_long=cities_temp.cty_long

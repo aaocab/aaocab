@@ -1,0 +1,8 @@
+ALTER TABLE `driver_docs` CHANGE `drd_type` `drd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=> Voter Card, 2=> Pan Card, 3=> Aadhaar Card, 4=> Front Driver License, 5=>Police Verification Certificate, 6=> Back Driver License';
+
+ALTER TABLE `driver_docs` CHANGE `drd_type` `drd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=> Voter Card, 2=> Pan Card, 3=> Aadhaar Card, 4=> Driver License, 5=>Police Verification Certificate,6=> Driver Back License';
+
+
+ALTER TABLE `vehicle_docs` CHANGE `vhd_type` `vhd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=>Insurance , 2=>Front License, 3=>Rear License, 4=>Pollution Under Control, 5=>Registration Certificate, 6=>Commercial Permits, 7=>Fitness Certificate,8=>photo';
+
+

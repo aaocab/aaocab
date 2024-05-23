@@ -1,0 +1,3 @@
+ALTER TABLE `booking` ADD INDEX(`bkg_user_id`);
+
+ALTER TABLE `booking` ADD FOREIGN KEY (`bkg_user_id`) REFERENCES `users`(`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

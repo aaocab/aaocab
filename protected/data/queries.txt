@@ -1,0 +1,383 @@
+﻿ALTER TABLE `cities` 
+	ADD `cty_city_desc` VARCHAR(2048) NULL DEFAULT NULL AFTER `city_group`, 
+	ADD `cty_short_desc` VARCHAR(500) NULL DEFAULT NULL AFTER `cty_city_desc`, 
+	ADD `cty_pickup_drop_info` VARCHAR(500) NULL DEFAULT NULL AFTER `cty_short_desc`;
+
+ALTER TABLE `cities` ADD `cty_ncr` VARCHAR(500) NULL DEFAULT NULL AFTER `cty_pickup_drop_info`;
+
+
+ALTER TABLE `agents` CHANGE `agt_sedan_rate` `agt_sedan_rate` FLOAT NULL DEFAULT NULL;
+ALTER TABLE `agents` CHANGE `agt_compact_rate` `agt_compact_rate` FLOAT NULL DEFAULT NULL;
+ALTER TABLE `agents` CHANGE `agt_suv_rate` `agt_suv_rate` FLOAT NULL DEFAULT NULL;
+
+
+ALTER TABLE `sms_log` ADD `counter` TINYINT NOT NULL DEFAULT '0' AFTER `recipient`;
+
+UPDATE `gozo2`.`cities` SET `cty_city_desc` = 'Jaisalmer nicknamed "The Golden city", is a city in the Indian state of Rajasthan, located 575 kilometres (357 mi) west of the state capital Jaipur. Once known as Jaisalmer state it is a World Heritage Site. The town stands on a ridge of yellowish sandstone, crowned by a fort, which contains the palace and several ornate Jain temples. Many of the houses and temples are finely sculptured.While Jaisalmer may always have been remote, it is filled with many artistic structures and monuments of local historical importance. Jaisalmer''s medieval mud fortress and walled township make it a popular tourist destination. The surrounding desolate landscape evidences a stark, austere beauty. Camel safaris through the nearby desert dunes are popular with tourists; competition for business is fierce. Prices range wildly and one has to bargain for everything, hotel rates included. Jaisalmer is known for huge mark-ups which range between 400% to 500% depending on the product. So buying shawls, carpets, jewelry etc. can be a very time consuming and nerve rattling experience. A few quiet days spent wandering around the town and the surrounding desert can be a wonderful way of unwinding from the chaos of larger Indian cities.' WHERE `cities`.`cty_id` = 30749;
+
+UPDATE `gozo2`.`cities` SET `cty_pickup_drop_info` = 'We can arrange pickups and drops anywhere in Jaisalmer area.' WHERE `cities`.`cty_id` = 30749;
+
+
+UPDATE `gozo2`.`cities` SET `cty_city_desc` = 'Faridabad is the largest city in the north Indian state of Haryana, in Faridabad district. It is a leading industrial center and situated in the National Capital Region bordering the Indian capital New Delhi.It is surrounded by Delhi to its North, Noida to its North East, Greater Noida to its East and Gurgaon to its West. Thus it is easily accessible from all locations in National Capital Region. Down the way in South alongside National Highway 2 it has Ballabhgarh, Palwal, Mathura (along Vrindavan) and then Agra. Faridabad enjoys a prime location both geographically and politically.The river Yamuna forms the eastern district boundary with Uttar Pradesh.Faridabad close proximity to River Yamuna makes its land very appropriate for long term sustainability and for making sufficient natural resources like water available to its residents. Further unlike Gurgaon which is prone to direct hot summer winds coming from Jaipur (in Rajasthan), Faridabad is blessed because of Aravali Range Mountains between Gurgaon and Faridabad blocking hot summer winds to enter its geographical space.' WHERE `cities`.`cty_id` = 30405;
+
+UPDATE `gozo2`.`cities` SET `cty_pickup_drop_info` = 'We can arrange pickups and drops anywhere in Faridabad area.' WHERE `cities`.`cty_id` = 30405;
+
+
+UPDATE `gozo2`.`cities` SET `cty_city_desc` = 'Ghaziabad is a city in the Indian state of Uttar Pradesh. It is sometimes referred to as the "Gateway of UP" because it is close to New Delhi, on the main route into Uttar Pradesh.It is a part of the National Capital Region of Delhi.It is a large and planned industrial city, well connected by roads and railways, and is the administrative headquarters of Ghaziabad District as well as being the primary commercial, industrial and educational centre of western Uttar Pradesh and a major rail junction for North India.Recent construction works have led to the city being described by a City Mayors Foundation survey as the second fastest-growing in the world.Situated in the Upper Gangetic Plains, the city has two major divisions separated by the Hindon River, namely: Trans-Hindon on the west and Cis-Hindon on the east side.It is the second largest industrial city in Uttar Pradesh after Kanpur.Ghaziabad is situated about 2.5 km from the Hindon river. On the north it is bound by the district of Meerut, on the south by that of Bulandshahar and Gautambudh Nagar, on the south-west by Delhi and on the east by the newly formed district of Hapur. As its boundary is adjacent to Delhi, it acts as the main entrance to Uttar Pradesh and hence is also called the Gateway of Uttar Pradesh.' WHERE `cities`.`cty_id` = 30873;
+
+
+UPDATE `gozo2`.`cities` SET `cty_pickup_drop_info` = 'We can arrange pickups and drops anywhere in Ghaziabad area.' WHERE `cities`.`cty_id` = 30873;
+
+
+UPDATE `gozo2`.`cities` SET `cty_city_desc` = 'Noida, short for the New Okhla Industrial Development Authority is a planned city in India under the management of the New Okhla Industrial Development Authority (also called NOIDA). It is part of National Capital Region of India. Noida came into administrative existence on 17 April 1976 and celebrates 17 April as "Noida Day". It was set up as part of an urbanization thrust during the controversial Emergency period (1975�1977). The city was created under the UP Industrial Area Development Act by the initiatives of Sanjay Gandhi. The city has the highest per capita income in the whole National Capital Region. The Noida Authority is among the richest civic bodies in the country.Noida is famous for excellent roads and considered Country''s greenest city.Noida is located in Gautam Buddh Nagar district of Uttar Pradesh state. The district''s administrative headquarters are in the nearby town of Greater Noida. However, the district''s highest government official, the District Magistrate (DM), resides in Noida. The city is a part of the Noida Vidhan Sabha (state assembly) constituency and Gautam Buddha Nagar (Lok Sabha constituency). Minister of State for Culture, Tourism of Civil Aviation Mahesh Sharma of the BJP is the current MP of Noida.The current MLA who won in the by-elections is Vimla Batham. Noida ranked Best City in Uttar Pradesh and Best City in Housing in all of India in awards conducted by abp news in 2015(Best City Awards 2015),Noida replaced Mumbai as the second-best realty destination, according to an analyst report.Noida has emerged a hot spot for IT and IT-enabled services industry with many large companies setting up their businesses here,is becoming the preferred destinations for companies offering IT, ITeS, BPO, BTO and KPO services in various domains such as banking, financial services, insurance, pharma, auto, FMCG and manufacturing.' WHERE `cities`.`cty_id` = 30921;
+
+UPDATE `gozo2`.`cities` SET `cty_pickup_drop_info` = 'We can arrange pickups and drops anywhere in Noida area.' WHERE `cities`.`cty_id` = 30921;
+
+
+UPDATE `gozo2`.`cities` SET `cty_ncr` = 'Also avail our services from any other parts of the NCR! Gurgaon, Noida, Faridabad, Ghaziabad, Greater Noida, Delhi Airport' WHERE `cities`.`cty_id` = 30405;
+
+UPDATE `gozo2`.`cities` SET `cty_ncr` = 'Also avail our services from any other parts of the NCR! Gurgaon, Noida, Faridabad, Ghaziabad, Greater Noida, Delhi Airport' WHERE `cities`.`cty_id` = 30873;
+
+UPDATE `gozo2`.`cities` SET `cty_ncr` = 'Also avail our services from any other parts of the NCR! Gurgaon, Noida, Faridabad, Ghaziabad, Greater Noida, Delhi Airport' WHERE `cities`.`cty_id` = 30921;
+
+
+
+ALTER TABLE `booking` ADD `bkg_vendor_amount` MEDIUMINT NOT NULL DEFAULT '0' AFTER `bkg_amount`;
+ALTER TABLE `booking` CHANGE `bkg_vendor_amount` `bkg_vendor_amount` MEDIUMINT(9) NULL DEFAULT '0';
+
+21/01/2015
+
+ALTER TABLE `rate` ADD `rte_log` VARCHAR(4000) NULL DEFAULT NULL AFTER `rte_status`;
+
+25/01/2015
+
+ALTER TABLE `booking_log` ADD `blg_agent_id` INT(11) UNSIGNED NULL DEFAULT NULL AFTER `blg_admin_id`;
+ALTER TABLE `booking_log` CHANGE `blg_agent_id` `blg_agent_id` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `booking_log` ADD FOREIGN KEY (`blg_agent_id`) REFERENCES `gozo2`.`agents`(`agt_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+
+02/02/2016
+
+ALTER TABLE `booking_temp` ADD `bkg_follow_up_status` TINYINT NULL DEFAULT NULL AFTER `bkg_log_email`, ADD `bkg_follow_up_on` DATETIME NULL DEFAULT NULL AFTER `bkg_follow_up_by`;
+
+ALTER TABLE `booking_temp` ADD `bkg_follow_up_by` INT(11) UNSIGNED
+NULL AFTER `bkg_follow_up_status`;
+
+ALTER TABLE `booking_temp` ADD INDEX(`bkg_follow_up_by`);
+
+ALTER TABLE `booking_temp` CHANGE `bkg_pickup_date` `bkg_pickup_date`
+DATETIME NULL;
+
+UPDATE `gozo2`.`booking_temp` SET `bkg_pickup_date` = NULL WHERE
+`booking_temp`.`bkg_id` = 285;
+
+ALTER TABLE `booking_temp` ADD FOREIGN KEY (`bkg_follow_up_by`)
+REFERENCES `gozo2`.`admins`(`admin_id`) ON DELETE RESTRICT ON UPDATE
+RESTRICT;
+
+ALTER TABLE `vehicles` ADD `vhc_description` VARCHAR(1024) NULL DEFAULT NULL AFTER `vhc_active`;
+
+05/02/2015
+
+ALTER TABLE `booking` ADD `bkg_tnc` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_create_date`, ADD `bkg_tnc_time` DATETIME NULL DEFAULT NULL AFTER `bkg_tnc`;
+update booking SET bkg_tnc_time = bkg_create_date where 1
+update booking SET bkg_tnc = 1 where 1
+
+ALTER TABLE `booking_temp` ADD `bkg_tnc` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_follow_up_by`, ADD `bkg_tnc_time` DATETIME NULL DEFAULT NULL AFTER `bkg_tnc`
+update booking_temp SET bkg_tnc_time = bkg_create_date where 1
+update booking_temp SET bkg_tnc = 1 where 1
+
+UPDATE booking,drivers SET bkg_extdriver_contact=drv_phone WHERE drv_id=bkg_driver_id AND bkg_extdriver_contact IS NULL
+
+10/02/2016
+
+ALTER TABLE `sms_log` CHANGE `message` `message` VARCHAR(4000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+
+15/02/2016
+
+ALTER TABLE `vehicles` ADD `vhc_is_attached` TINYINT NOT NULL DEFAULT '0' AFTER `vhc_description`;
+ALTER TABLE `drivers` ADD `drv_is_attached` TINYINT NOT NULL DEFAULT '0' AFTER `drv_active`;
+
+16/02/2016
+
+ALTER TABLE `vehicle_driver` ADD `vhd_create_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `vhd_driver_id`, ADD `vhd_created_by` TINYINT NULL DEFAULT NULL AFTER `vhd_create_date`;
+ALTER TABLE `vehicle_driver` CHANGE `vhd_vehicle_id` `vhd_vehicle_id` INT(11) NOT NULL;
+ALTER TABLE `vehicle_driver` CHANGE `vhd_create_date` `vhd_create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+22/02/2016
+
+ALTER TABLE `agents` ADD `agt_type` TINYINT NOT NULL DEFAULT '0' AFTER `agt_create_date`;
+ALTER TABLE `agents` CHANGE `agt_type` `agt_type` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0 =>Registered, 1 => MeterDown, 2 => Both';
+ALTER TABLE `app_tokens` CHANGE `apt_user_type` `apt_user_type` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1:consumer;2:vendor;3:meterdown';
+
+23/02/2016
+
+Table structure for table `cab_availabilities`
+--
+
+CREATE TABLE `cab_availabilities` (
+  `cav_id` int(11) NOT NULL,
+  `cav_cab_id` int(11) NOT NULL,
+  `cav_from_city` int(11) NOT NULL,
+  `cav_to_cities` varchar(255) NOT NULL,
+  `cav_driver_id` int(11) NOT NULL,
+  `cav_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 => Available, 1 => Not Available',
+  `cav_date_time` datetime NOT NULL,
+  `cav_created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `cav_modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cab_availabilities`
+--
+ALTER TABLE `cab_availabilities`
+  ADD PRIMARY KEY (`cav_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cab_availabilities`
+--
+ALTER TABLE `cab_availabilities`
+  MODIFY `cav_id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `cab_availabilities` CHANGE `cav_status` `cav_status` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '1 => Available, 0 => Not Available';
+
+25/02/2016
+
+ALTER TABLE `agents` ADD `agt_device` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_type`, ADD `agt_os_version` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_device`, ADD `agt_device_uuid` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_os_version`, ADD `agt_apk_version` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_device_uuid`, ADD `agt_tnc` TINYINT NOT NULL DEFAULT '0' AFTER `agt_apk_version`, ADD `agt_tnc_datetime` DATETIME NULL DEFAULT NULL AFTER `agt_tnc`;
+
+
+29/02/2016
+
+ALTER TABLE `ratings` ADD `rtg_customer_reply` VARCHAR(5000) NULL DEFAULT NULL AFTER `rtg_active`, ADD `rtg_customer_reply_by` TINYINT NULL DEFAULT NULL AFTER `rtg_customer_reply`, ADD `rtg_customer_reply_datetime` DATETIME NULL DEFAULT NULL AFTER `rtg_customer_reply_by`, ADD `rtg_customer_reply_status` TINYINT NOT NULL DEFAULT '0' AFTER `rtg_customer_reply_datetime`, ADD `rtg_vendor_reply` VARCHAR(5000) NULL DEFAULT NULL AFTER `rtg_customer_reply_status`, ADD `rtg_vendor_reply_by` TINYINT NULL DEFAULT NULL AFTER `rtg_vendor_reply`, ADD `rtg_vendor_reply_datetime` DATETIME NULL DEFAULT NULL AFTER `rtg_vendor_reply_by`, ADD `rtg_vendor_reply_status` TINYINT NOT NULL DEFAULT '0' AFTER `rtg_vendor_reply_datetime`;
+
+
+03/03/2016
+
+ALTER TABLE `booking` ADD `bkg_return_id` VARCHAR(255) NULL DEFAULT NULL AFTER `bkg_tnc_time`;
+
+12/03/2016
+
+ALTER TABLE `admins` CHANGE `admin_id` `adm_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT, CHANGE `f_name` `adm_fname` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `l_name` `adm_lname` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `username` `adm_user` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `email` `adm_email` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `password` `adm_passwd` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL, CHANGE `login_attempt` `adm_attempt` INT(11) NOT NULL, CHANGE `chk_local` `adm_chk_local` TINYINT(4) NOT NULL, CHANGE `last_login` `adm_last_login` DATE NOT NULL, CHANGE `created_at` `adm_created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+14/03/2016
+
+UPDATE booking,route SET bkg_trip_distance = rut_estm_distance ,bkg_trip_duration =rut_estm_time WHERE bkg_from_city_id= rut_from_city_id AND bkg_to_city_id = rut_to_city_id AND bkg_booking_type =1 AND bkg_trip_type =1
+AND (bkg_trip_distance is null OR bkg_trip_distance =0 OR bkg_trip_distance LIKE '%km%');
+
+18/03/2016
+
+ALTER TABLE `agents` ADD `agt_home_zone` VARCHAR(1024) NULL DEFAULT NULL AFTER `agt_code_password`, ADD `agt_accepted_zone` VARCHAR(1024) NULL DEFAULT NULL AFTER `agt_home_zone`, ADD `agt_excluded_cities` VARCHAR(1024) NULL DEFAULT NULL AFTER `agt_accepted_zone`;
+
+15/04/2016
+
+ALTER TABLE `booking` ADD `bkg_advance_amount` FLOAT(16,2) NULL DEFAULT NULL AFTER `bkg_agent_id`, ADD `bkg_amount_due` FLOAT(16,2) NULL DEFAULT NULL AFTER `bkg_advance_amount`;
+
+
+22/04/2016
+
+ALTER TABLE `agents_joining` ADD `photo` VARCHAR(255) NULL DEFAULT NULL AFTER `email`, ADD `photo_path` VARCHAR(500) NULL DEFAULT NULL AFTER `photo`, ADD `license` VARCHAR(255) NULL DEFAULT NULL AFTER `photo_path`, ADD `license_path` VARCHAR(500) NULL DEFAULT NULL AFTER `license`, ADD `id_proof` VARCHAR(255) NULL DEFAULT NULL AFTER `license_path`, ADD `id_proof_path` VARCHAR(500) NULL DEFAULT NULL AFTER `id_proof`;
+
+23/04/2016
+
+ALTER TABLE `agents_joining` ADD `device_gcm_token` VARCHAR(255) NULL DEFAULT NULL AFTER `user_agent`;
+
+03/05/2016
+
+ALTER TABLE `route` ADD `rut_special_remarks` VARCHAR(2048) NULL DEFAULT NULL AFTER `rut_info`;
+
+
+07/05/2016
+
+ALTER TABLE `rate` ADD `rte_excl_amount` MEDIUMINT NOT NULL DEFAULT '0' AFTER `rte_trip_type`;
+
+
+13/05/2016
+
+ALTER TABLE `agents` ADD `agt_api_key` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_code_password`;
+
+
+24/05/2016
+
+ALTER TABLE `booking` ADD `bkg_vendor_confirm` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_service_tax_rate`;
+update booking set bkg_vendor_confirm=1 where 1;
+
+26/05/2016
+
+ALTER TABLE `admins` ADD `adm_active` TINYINT NOT NULL DEFAULT '1' AFTER `adm_created_at`;
+ALTER TABLE `admins` CHANGE `adm_attempt` `adm_attempt` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `admins` CHANGE `adm_chk_local` `adm_chk_local` TINYINT(4) NULL DEFAULT NULL;
+ALTER TABLE `admins` CHANGE `adm_last_login` `adm_last_login` DATE NULL DEFAULT NULL;
+ALTER TABLE `admins` ADD UNIQUE(`adm_user`);
+ALTER TABLE `admins` ADD `adm_log` VARCHAR(4000) NULL DEFAULT NULL AFTER `adm_active`;
+
+
+30/05/2016
+
+ALTER TABLE `drivers` ADD `drv_username` VARCHAR(255) NULL DEFAULT NULL AFTER `drv_name`, ADD `drv_password` VARCHAR(100) NULL DEFAULT NULL AFTER `drv_username`;
+ALTER TABLE `app_tokens` CHANGE `apt_user_type` `apt_user_type` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1:consumer;2:vendor;3:meterdown,4:agent,5:driver';
+ALTER TABLE `drivers` ADD `drv_tnc_id` INT(11) NULL DEFAULT NULL AFTER `drv_active`, ADD `drv_tnc` TINYINT NOT NULL DEFAULT '0' AFTER `drv_tnc_id`, ADD `drv_tnc_datetime` DATETIME NULL DEFAULT NULL AFTER `drv_tnc`;
+ALTER TABLE `drivers` ADD `drv_os_version` VARCHAR(100) NULL DEFAULT NULL AFTER `drv_tnc_datetime`, ADD `drv_device_uuid` VARCHAR(255) NULL DEFAULT NULL AFTER `drv_os_version`, ADD `drv_apk_version` VARCHAR(100) NULL DEFAULT NULL AFTER `drv_device_uuid`, ADD `drv_mac_address` VARCHAR(150) NULL DEFAULT NULL AFTER `drv_apk_version`, ADD `drv_ip_address` VARCHAR(100) NULL DEFAULT NULL AFTER `drv_mac_address`, ADD `drv_serial` VARCHAR(150) NULL DEFAULT NULL AFTER `drv_ip_address`;
+
+
+02/06/2016
+
+ALTER TABLE `drivers` ADD `drv_dob` DATE NULL DEFAULT NULL AFTER `drv_serial`, ADD `drv_marital_status` TINYINT NULL DEFAULT NULL AFTER `drv_dob`, ADD `drv_total_kms` MEDIUMINT NULL DEFAULT NULL AFTER `drv_marital_status`, ADD `drv_year_of_exp` TINYINT NULL DEFAULT NULL AFTER `drv_total_kms`, ADD `drv_frequent_cities` VARCHAR(1024) NULL DEFAULT NULL AFTER `drv_year_of_exp`, ADD `drv_pan_no` VARCHAR(20) NULL DEFAULT NULL AFTER `drv_frequent_cities`, ADD `drv_voter_id` VARCHAR(20) NULL DEFAULT NULL AFTER `drv_pan_no`;
+ALTER TABLE `drivers` CHANGE `drv_img1` `drv_aadhaar_img` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `drivers` CHANGE `drv_img1_path` `drv_aadhaar_img_path` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `drivers` CHANGE `drv_img2` `drv_pan_img` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `drivers` CHANGE `drv_img2_path` `drv_pan_img_path` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `drivers` CHANGE `drv_img3` `drv_voter_id_img` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `drivers` CHANGE `drv_img3_path` `drv_voter_id_img_path` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+03/06/2016
+
+ALTER TABLE `drivers` CHANGE `drv_year_of_exp` `drv_year_of_exp` MEDIUMINT(4) NULL DEFAULT NULL;
+
+15/06/2016
+
+ALTER TABLE `drivers` ADD `drv_code_password` VARCHAR(100) NULL DEFAULT NULL AFTER `drv_mark_driver_count`;
+
+
+22/06/2016
+
+update route set rut_active=2 where rut_active=0;
+
+
+28/06/2016
+
+ALTER TABLE `booking` ADD `bkg_trip_status` TINYINT NOT NULL DEFAULT '0' COMMENT '0 => Not Started, 1 => Started, 2 => Paused, 3 => Completed' AFTER `bkg_credits_used`;
+
+26/08/2016
+
+ALTER TABLE `booking_cab`  ADD `bcb_start_time` DATETIME NULL DEFAULT NULL  AFTER `bcb_cab_number`,  ADD `bcb_end_time` DATETIME NULL DEFAULT NULL  AFTER `bcb_start_time`,  ADD `bcb_trip_kms` INT NULL DEFAULT NULL  AFTER `bcb_end_time`,  ADD `bcb_start_lat` VARCHAR(100) NULL DEFAULT NULL  AFTER `bcb_trip_kms`,  ADD `bcb_start_long` VARCHAR(100) NULL DEFAULT NULL  AFTER `bcb_start_lat`,  ADD `bcb_end_lat` VARCHAR(100) NULL DEFAULT NULL  AFTER `bcb_start_long`,  ADD `bcb_end_long` VARCHAR(100) NULL DEFAULT NULL  AFTER `bcb_end_lat`;
+
+
+26/09/2016
+
+ALTER TABLE `agents` ADD `agt_approved` TINYINT NOT NULL DEFAULT '0' AFTER `agt_verify_phone`;
+ALTER TABLE `agents` CHANGE `agt_approved` `agt_approved` TINYINT(4) NOT NULL DEFAULT '1';
+
+
+05/10/2016
+
+ALTER TABLE `agents` ADD `agt_allowed_ip` VARCHAR(500) NULL DEFAULT NULL AFTER `agt_api_key`;
+
+
+04/11/2016
+
+ALTER TABLE `booking` ADD `bkg_no_show` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_reconfirm_id`;
+
+
+03/12/2016
+
+ALTER TABLE `notification` ADD `ntf_coin_value` INT(11) NOT NULL AFTER `ntf_message_type`;
+
+
+17/01/2017
+
+ALTER TABLE `vendors` ADD `vnd_admin` INT NULL DEFAULT NULL AFTER `vnd_effective_overdue_days`;
+
+18/01/2017
+
+ALTER TABLE `booking_temp` ADD `bkg_corporate_id` INT NOT NULL DEFAULT '0' AFTER `bkg_ref_booking_id`;
+
+24/01/2017
+
+ALTER TABLE `booking_vendor_request` ADD `bvr_bcb_id` INT NULL DEFAULT NULL AFTER `bvr_booking_id`;
+
+07/02/2017
+
+ALTER TABLE `affiliate_tracking` ADD `aft_count` INT(11) NOT NULL DEFAULT '1' AFTER `aft_bkg_id`;
+
+18/02/2017
+
+ALTER TABLE `vendors` ADD `vnd_photo_path` VARCHAR(500) NULL DEFAULT NULL AFTER `vnd_firm_attach`, ADD `vnd_aadhaar_path` VARCHAR(500) NULL DEFAULT NULL AFTER `vnd_photo_path`, ADD `vnd_pan_path` VARCHAR(500) NULL DEFAULT NULL AFTER `vnd_aadhaar_path`, ADD `vnd_voter_id_path` VARCHAR(500) NULL DEFAULT NULL AFTER `vnd_pan_path`, ADD `vnd_licence_path` VARCHAR(500) NULL DEFAULT NULL AFTER `vnd_voter_id_path`;
+
+01/03/2017
+
+ALTER TABLE `booking` ADD `bkg_ride_start` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_no_show`, ADD `bkg_ride_complete` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_ride_start`;
+
+16/03/2017
+
+ALTER TABLE `booking` ADD `bkg_trip_start_time` DATETIME NULL DEFAULT NULL AFTER `bkg_non_profit_override_flag`, ADD `bkg_trip_end_time` DATETIME NULL DEFAULT NULL AFTER `bkg_trip_start_time`, ADD `bkg_trip_start_lat` VARCHAR(100) NULL DEFAULT NULL AFTER `bkg_trip_end_time`, ADD `bkg_trip_start_long` VARCHAR(100) NULL DEFAULT NULL AFTER `bkg_trip_start_lat`, ADD `bkg_trip_end_lat` VARCHAR(100) NULL DEFAULT NULL AFTER `bkg_trip_start_long`, ADD `bkg_trip_end_long` VARCHAR(100) NULL DEFAULT NULL AFTER `bkg_trip_end_lat`, ADD `bkg_start_odometer` INT NULL DEFAULT NULL AFTER `bkg_trip_end_long`, ADD `bkg_start_odometer_path` VARCHAR(500) NULL DEFAULT NULL AFTER `bkg_start_odometer`, ADD `bkg_end_odometer` INT NULL DEFAULT NULL AFTER `bkg_start_odometer_path`, ADD `bkg_end_odometer_path` VARCHAR(500) NULL DEFAULT NULL AFTER `bkg_end_odometer`;
+
+18/03/2017
+
+ALTER TABLE `booking` ADD `bkg_extra_km` INT NULL DEFAULT NULL AFTER `bkg_end_odometer_path`, ADD `bkg_extra_km_charge` INT NULL DEFAULT NULL AFTER `bkg_extra_km`;
+
+27/03/2017
+
+ALTER TABLE `booking` ADD `bkg_arrived_for_pickup` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_extra_km_charge`;
+
+01/04/2017
+
+ALTER TABLE `booking_vendor_request` ADD `bvr_bid_amount` MEDIUMINT NOT NULL DEFAULT '0' AFTER `bvr_vendor_score`;
+
+18/04/2017
+
+ALTER TABLE `booking_vendor_request` CHANGE `bvr_vendor_rating` `bvr_vendor_rating` FLOAT NULL DEFAULT NULL;
+
+20/04/2017
+
+ALTER TABLE `admins` ADD `adm_last_password_change` TIMESTAMP NULL DEFAULT NULL AFTER `adm_created_at`;
+
+20/07/2017
+
+ALTER TABLE `booking` ADD `bkg_igst` FLOAT(8,2) NOT NULL DEFAULT '0' AFTER `bkg_service_tax_rate`, ADD `bkg_cgst` FLOAT(8,2) NOT NULL DEFAULT '0' AFTER `bkg_igst`, ADD `bkg_sgst` FLOAT(8,2) NOT NULL DEFAULT '0' AFTER `bkg_cgst`;
+ALTER TABLE `booking_temp` ADD `bkg_igst` FLOAT(8,2) NOT NULL DEFAULT '0' AFTER `bkg_is_related_lead`, ADD `bkg_cgst` FLOAT(8,2) NOT NULL DEFAULT '0' AFTER `bkg_igst`, ADD `bkg_sgst` FLOAT(8,2) NOT NULL DEFAULT '0' AFTER `bkg_cgst`;
+
+
+25/07/2017
+
+ALTER TABLE `booking` ADD `bkg_agent_ref_code` VARCHAR(255) NULL DEFAULT NULL AFTER `bkg_arrived_for_pickup`;
+
+29/07/2017
+
+ALTER TABLE `agent_api_tracking` ADD `aat_from_city` MEDIUMINT(9) NULL DEFAULT NULL AFTER `aat_type`, ADD `aat_to_city` MEDIUMINT(9) NULL DEFAULT NULL AFTER `aat_from_city`, ADD `aat_booking_id` INT(11) NULL DEFAULT NULL AFTER `aat_to_city`;
+
+31/07/2017
+
+ALTER TABLE `agent_api_tracking` ADD `aat_booking_date` DATETIME NULL DEFAULT NULL AFTER `aat_booking_id`;
+ALTER TABLE `agent_api_tracking` CHANGE `aat_booking_date` `aat_pickup_date` DATETIME NULL DEFAULT NULL;
+
+01/08/2017
+
+ALTER TABLE `agent_api_tracking` ADD `aat_from_mmt_code` VARCHAR(16) NULL DEFAULT NULL AFTER `aat_pickup_date`, ADD `aat_to_mmt_code` VARCHAR(16) NULL DEFAULT NULL AFTER `aat_from_mmt_code`, ADD `aat_booking_type` TINYINT NULL DEFAULT NULL AFTER `aat_to_mmt_code`, ADD `aat_error_type` TINYINT NULL DEFAULT NULL AFTER `aat_booking_type`, ADD `aat_error_msg` VARCHAR(1000) NULL DEFAULT NULL AFTER `aat_error_type`, ADD `aat_request_time` MEDIUMINT NULL DEFAULT NULL AFTER `aat_error_msg`;
+ALTER TABLE `agent_api_tracking` CHANGE `aat_booking_type` `aat_booking_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1 => one way, 2 => return';
+ALTER TABLE `agent_api_tracking` CHANGE `aat_error_type` `aat_error_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1 => \'City not found\', 2 => \'Route not supported\', 3 => \'Prices have increased\', 4 => others';
+
+03/08/2017
+
+ALTER TABLE `booking` ADD `bkg_is_parking_included` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_is_state_tax_included`;
+
+04/08/2017
+
+ALTER TABLE `agent_api_tracking` ADD `aat_ip_address` VARCHAR(100) NULL DEFAULT NULL AFTER `aat_request_time`;
+
+24/08/2017
+
+ALTER TABLE `booking` ADD `bkg_settled_flag` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_agent_ref_code`;
+
+01/12/2017
+
+ALTER TABLE `agent_api_tracking` CHANGE `aat_type` `aat_type` TINYINT(4) NOT NULL COMMENT '1 => \'cityList\', 2 => \'getQuote\', 3 => \'createBooking\', 4 => \'getDetails\', 5 => \'cancellationList\', 6 => \'cancelBooking\', 7 => \'getTnc\', 8 => \'holdBooking\', 9 => \'cabDriverUpdate\', 10 => \'updateBooking\'';
+
+11/01/2018
+
+ALTER TABLE `vendor_transactions` ADD `ven_trans_response_code` VARCHAR(100) NULL DEFAULT NULL AFTER `ven_trans_response_details`, ADD `ven_trans_response_message` VARCHAR(255) NULL DEFAULT NULL AFTER `ven_trans_response_code`, ADD `ven_trans_txn_id` VARCHAR(255) NULL DEFAULT NULL AFTER `ven_trans_response_message`, ADD `ven_trans_status` TINYINT NULL DEFAULT '0' AFTER `ven_trans_txn_id`, ADD `ven_trans_complete_date` DATETIME NULL DEFAULT NULL AFTER `ven_trans_status`;
+
+ALTER TABLE `vendor_transactions` CHANGE `ven_trans_status` `ven_trans_status` TINYINT(4) NULL DEFAULT '1';
+
+12/01/2018
+
+ALTER TABLE `vendor_transactions` CHANGE `ven_trans_response_details` `ven_trans_response_details` VARCHAR(5000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

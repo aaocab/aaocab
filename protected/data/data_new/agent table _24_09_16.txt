@@ -1,0 +1,25 @@
+ALTER TABLE `agents` ADD `agt_phone_two` VARCHAR(100) NOT NULL AFTER `agt_verify_phone`, ADD `agt_phone_three` VARCHAR(100) NOT NULL AFTER `agt_phone_two`, ADD `agt_fax` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_phone_three`, ADD `agt_driver_license` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_fax`, ADD `agt_license_expiry_date` DATETIME NULL DEFAULT NULL AFTER `agt_driver_license`;
+
+ALTER TABLE `agents` ADD `agt_license_issued_state` VARCHAR(150) NULL DEFAULT NULL AFTER `agt_license_expiry_date`, ADD `agt_aadhar_id` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_license_issued_state`, ADD `agt_voter_id` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_aadhar_id`, ADD `agt_company_add_proof` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_voter_id`, ADD `agt_trade_license` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_company_add_proof`, ADD `agt_bank` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_trade_license`, ADD `agt_bank_account` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_bank`, ADD `agt_branch_name` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_bank_account`, ADD `agt_swift_code` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_branch_name`, ADD `agt_ifsc_code` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_swift_code`;
+
+
+ALTER TABLE `agents` ADD `agt_is_owner_photo` TINYINT(4) NOT NULL DEFAULT '1' AFTER `agt_ifsc_code`, ADD `agt_is_license_pic` TINYINT(4) NOT NULL DEFAULT '1' AFTER `agt_is_owner_photo`, ADD `agt_is_owner_aadharcard` TINYINT(4) NOT NULL DEFAULT '1' AFTER `agt_is_license_pic`, ADD `agt_is_owner_pancard` TINYINT(4) NOT NULL DEFAULT '1' AFTER `agt_is_owner_aadharcard`, ADD `agt_is_bussiness_registration` TINYINT(4) NOT NULL DEFAULT '1' AFTER `agt_is_owner_pancard`, ADD `agt_referral_code` TINYINT(4) NOT NULL DEFAULT '1' AFTER `agt_is_bussiness_registration`;
+
+ALTER TABLE `agents` ADD `agt_location` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_referral_code`;
+ALTER TABLE `agents` ADD `agt_owner_name` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_phone_two`;
+ALTER TABLE `agents` ADD `agt_email_two` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_phone_two`;
+
+ALTER TABLE `agents` CHANGE `agt_is_owner_photo` `agt_is_owner_photo` TINYINT(4) NOT NULL DEFAULT '0', CHANGE `agt_is_license_pic` `agt_is_license_pic` TINYINT(4) NOT NULL DEFAULT '0', CHANGE `agt_is_owner_aadharcard` `agt_is_owner_aadharcard` TINYINT(4) NOT NULL DEFAULT '0', CHANGE `agt_is_owner_pancard` `agt_is_owner_pancard` TINYINT(4) NOT NULL DEFAULT '0', CHANGE `agt_is_bussiness_registration` `agt_is_bussiness_registration` TINYINT(4) NOT NULL DEFAULT '0', CHANGE `agt_referral_code` `agt_referral_code` TINYINT(4) NOT NULL DEFAULT '0';
+
+ALTER TABLE `agents` ADD `agt_is_username_pass` TINYINT NOT NULL DEFAULT '0' AFTER `agt_location`;
+
+ALTER TABLE `agents` CHANGE `agt_fname` `agt_fname` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `agents` ADD `agt_owner_photo` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_is_username_pass`;
+
+ALTER TABLE `agents` CHANGE `agt_referral_code` `agt_referral_code` VARCHAR(250) NULL DEFAULT NULL;
+
+ALTER TABLE `agents` ADD `agt_other_con_name_one` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_owner_photo`, ADD `agt_other_con_phone_one` VARCHAR(50) NULL DEFAULT NULL AFTER `agt_other_con_name_one`, ADD `agt_other_con_email_one` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_other_con_phone_one`, ADD `agt_other_con_name_two` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_other_con_email_one`, ADD `agt_other_con_phone_two` VARCHAR(50) NULL DEFAULT NULL AFTER `agt_other_con_name_two`, ADD `agt_other_con_email_two` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_other_con_phone_two`, ADD `agt_other_con_name_three` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_other_con_email_two`, ADD `agt_other_con_phone_three` VARCHAR(50) NULL DEFAULT NULL AFTER `agt_other_con_name_three`, ADD `agt_other_con_email_three` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_other_con_phone_three`;
+
+ALTER TABLE `agents` ADD `mail_sent` TINYINT(4) NOT NULL DEFAULT '0' AFTER `agt_other_con_email_three`;
+ALTER TABLE `agents` CHANGE `mail_sent` `is_mail_sent` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `agents` CHANGE `is_mail_sent` `agt_is_mail_sent` TINYINT(4) NOT NULL DEFAULT '0';

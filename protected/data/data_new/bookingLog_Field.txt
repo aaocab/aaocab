@@ -1,0 +1,1 @@
+ALTER TABLE `booking_log` ADD `blg_reason_view` TINYINT(4) NULL DEFAULT NULL, ADD `blg_reason_text` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, ADD `blg_query_from` TINYINT(4) NULL DEFAULT NULL, ADD `blg_query_via` TINYINT(4) NULL DEFAULT NULL

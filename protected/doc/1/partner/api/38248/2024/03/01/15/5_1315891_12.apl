@@ -1,0 +1,5 @@
+{"tnc":1,"referenceId":"tttt","tripType":1,"cabType":3,"fare":{"advanceReceived":0,"totalAmount":2082},"platform":{"deviceName":"","ip":"","type":""},"apkVersion":"","sendEmail":1,"sendSms":1,"routes":[{"startDate":"2024-04-19","startTime":"17:10:00","source":{"address":"Bengaluru","coordinates":{"latitude":12.9087929,"longitude":77.6424978}},"destination":{"address":"Bengaluru airport","coordinates":{"latitude":13.2007713317871,"longitude":77.7102279663086}}}],"traveller":{"firstName":"Tapesh","lastName":"","primaryContact":{"code":91,"number":9868972016},"alternateContact":{"code":91,"number":""},"email":"test.yadav4@gmail.com","companyName":"","address":"","gstin":""},"additionalInfo":{"specialInstructions":"cab should be clean","noOfPerson":4,"noOfLargeBags":0,"noOfSmallBags":3,"carrierRequired":0,"kidsTravelling":0,"seniorCitizenTravelling":0,"womanTravelling":0}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"success":false,"errorCode":104,"errors":["Reference Id already exists"]}

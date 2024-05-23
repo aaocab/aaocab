@@ -1,0 +1,32 @@
+
+CREATE TABLE `operators` (
+  `opt_id` int(11) NOT NULL,
+  `opt_email` varchar(200) DEFAULT NULL,
+  `opt_phone` varchar(200) DEFAULT NULL,
+  `opt_create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `opt_active` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `operators`
+--
+ALTER TABLE `operators`
+  ADD PRIMARY KEY (`opt_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `operators`
+--
+ALTER TABLE `operators`
+  MODIFY `opt_id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `operators` CHANGE `opt_create_date` `opt_create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE `operators` ADD `opt_company_name` VARCHAR(200) NULL DEFAULT NULL AFTER `opt_phone`;

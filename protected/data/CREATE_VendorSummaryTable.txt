@@ -1,0 +1,9 @@
+CREATE TABLE `vendors_summary` ( `vsm_id` INT(11) NOT NULL AUTO_INCREMENT , `vsm_vnd_id` INT(11) NULL DEFAULT NULL , `vsm_avg10` FLOAT(16,2) NULL DEFAULT NULL , `vsm_avg30` FLOAT(16,2) NULL DEFAULT NULL , `vsm_active` TINYINT(4) NOT NULL DEFAULT '0' , PRIMARY KEY (`vsm_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `vendors_summary` ADD INDEX( `vsm_vnd_id`);
+
+ALTER TABLE `vendors_summary` ADD FOREIGN KEY (`vsm_vnd_id`) REFERENCES `vendors`(`vnd_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+ALTER TABLE `vendors_summary` ADD `vsm_modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `vsm_active`;
+

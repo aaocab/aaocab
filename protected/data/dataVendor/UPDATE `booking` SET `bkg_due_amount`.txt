@@ -1,0 +1,1 @@
+UPDATE `booking` SET `bkg_due_amount`= `bkg_total_amount` - `bkg_advance_amount` WHERE `bkg_due_amount` IS NULL AND bkg_status NOT IN(1,8,13)

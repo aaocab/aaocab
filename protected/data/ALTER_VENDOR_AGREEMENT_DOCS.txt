@@ -1,0 +1,40 @@
+CREATE TABLE `vendor_agmt_docs` (
+  `vd_agmt_id` int(11) NOT NULL,
+  `vd_vnd_id` int(11) DEFAULT NULL,
+  `vd_agmt_req_id` varchar(50) DEFAULT NULL,
+  `vd_agmt` varchar(255) DEFAULT NULL,
+  `vd_agmt_status` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_agmt_docs`
+--
+ALTER TABLE `vendor_agmt_docs`
+  ADD PRIMARY KEY (`vd_agmt_id`),
+  ADD KEY `vd_vnd_id` (`vd_vnd_id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `vendor_agmt_docs`
+--
+ALTER TABLE `vendor_agmt_docs`
+  ADD CONSTRAINT `vendor_agmt_docs_ibfk_1` FOREIGN KEY (`vd_vnd_id`) REFERENCES `vendors` (`vnd_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+COMMIT;
+
+ALTER TABLE `vendor_agmt_docs` ADD `vd_agmt_date` DATETIME NULL DEFAULT NULL AFTER `vd_agmt_status`;
+
+ALTER TABLE `vendor_agmt_docs` ADD `vd_agmt_device_id` SMALLINT(11) NULL DEFAULT NULL AFTER `vd_agmt_req_id`;
+
+
+ALTER TABLE `vendor_agmt_docs` ADD `vd_agmt_img_no` TINYINT(4) NOT NULL DEFAULT '0' AFTER `vd_vnd_id`;
+
+
+ALTER TABLE `vendor_agreement` ADD `vag_soft_path` VARCHAR(255) NULL DEFAULT NULL AFTER `vag_digital_date`;
+

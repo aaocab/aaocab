@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `usr_acct_type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' AFTER `usr_attributes`;

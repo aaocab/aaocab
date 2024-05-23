@@ -1,0 +1,120 @@
+ALTER TABLE `vehicle_info` ADD `vif_pollution_exp_date` DATE NULL DEFAULT NULL 
+AFTER `vif_approved`, ADD `vif_reg_exp_date` DATE NULL DEFAULT NULL AFTER 
+`vif_pollution_exp_date`, ADD `vif_commercial_exp_date` DATE NULL DEFAULT NULL 
+AFTER `vif_reg_exp_date`;
+
+
+ALTER TABLE `driver_info` ADD `dif_dob_date` DATE NULL DEFAULT NULL AFTER `dif_police_certificate`;
+
+
+ALTER TABLE `vehicle_info` ADD `vif_fitness_certificate` VARCHAR(250) NULL DEFAULT NULL AFTER `vif_commercial_exp_date`;
+ALTER TABLE `vehicle_info` ADD `vif_fitness_cert_end_date` VARCHAR(250) NULL DEFAULT NULL AFTER `vif_fitness_certificate`;
+
+07/07/2016
+================
+ALTER TABLE `vehicles` ADD `vhc_pollution_exp_date` DATE NULL DEFAULT NULL AFTER `vhc_front_plate`;
+ALTER TABLE `vehicles` ADD `vhc_reg_exp_date` DATE NULL DEFAULT NULL AFTER `vhc_pollution_exp_date`;
+ALTER TABLE `vehicles` ADD `vhc_commercial_exp_date` DATE NULL DEFAULT NULL AFTER `vhc_reg_exp_date`;
+ALTER TABLE `vehicles` ADD `vhc_fitness_certificate` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_commercial_exp_date`;
+ALTER TABLE `vehicles` ADD `vhc_fitness_cert_end_date` DATE NULL DEFAULT NULL AFTER `vhc_fitness_certificate`;
+
+
+ALTER TABLE `drivers` ADD `drv_licence_path` VARCHAR(250) NULL DEFAULT NULL 
+AFTER `drv_code_password`, ADD `drv_adrs_proof1` VARCHAR(250) NULL DEFAULT NULL 
+AFTER `drv_licence_path`, ADD `drv_adrs_proof2` VARCHAR(250) NULL DEFAULT NULL 
+AFTER `drv_adrs_proof1`, ADD `drv_police_certificate` VARCHAR(250) NULL DEFAULT 
+NULL AFTER `drv_adrs_proof2`, ADD `drv_dob_date` DATE NULL DEFAULT NULL AFTER 
+`drv_police_certificate`;
+
+
+
+ALTER TABLE `drivers_info` ADD `drv_driver_id` INT NULL DEFAULT NULL AFTER `drv_dob_date`;
+ALTER TABLE `vehicles_info` ADD `vhc_vehicle_id` INT NULL DEFAULT NULL AFTER `vhc_fitness_cert_end_date`;
+
+
+INSERT INTO drivers_info(`drv_id`,`drv_name`,`drv_country_code`,`drv_phone`,`drv_email`,`drv_agent_id`,`drv_doj`,`drv_photo_path`,`drv_lic_number`,                    `drv_issue_auth`,`drv_lic_exp_date`,`drv_address`,`drv_city`,`drv_state`,`drv_zip`,`drv_bg_checked`,`drv_aadhaar_img_path`,
+`drv_pan_img_path`,`drv_voter_id_img_path`,`drv_created`,`drv_modified`,`drv_active`,`drv_dob`,`drv_is_attached`,
+ `drv_licence_path`,`drv_adrs_proof1`,`drv_adrs_proof2`,`drv_police_certificate`,`drv_dob_date`,`drv_driver_id`,drv_alt_phone
+                         
+) SELECT dif_id,dif_name,dif_country_code,dif_phone,dif_email,dif_agent_id,dif_doj,dif_photo_path,dif_lic_number,
+dif_issue_auth,dif_lic_exp_date,dif_address,dif_city,dif_state,dif_zip,dif_bg_checked,dif_aadhaar_img_path,
+dif_pan_img_path,dif_voter_id_img_path,dif_created,dif_modified,dif_active,dif_dob_date,dif_is_attached,dif_vif_licence,dif_adrs_proof1,dif_adrs_proof2,dif_police_certificate,dif_dob_date,dif_driver_id,dif_alt_phone
+
+FROM driver_info WHERE 1
+
+
+
+
+
+INSERT INTO  vehicles_info(`vhc_id`,`vhc_type_id`,`vhc_number`,`vhc_agent_id`,`vhc_year`,`vhc_color`,`vhc_insurance_exp_date`,
+`vhc_tax_exp_date`,`vhc_dop`,`vhc_owned_or_rented`,                           `vhc_created_at`,`vhc_modified_at`,`vhc_active`,`vhc_is_attached`,`vhc_approved`,`vhc_insurance_proof`,`vhc_permits_certificate`,                           `vhc_pollution_certificate`,`vhc_reg_certificate`,`vhc_rear_plate`,`vhc_front_plate`,`vhc_pollution_exp_date`,`vhc_reg_exp_date`,                          `vhc_commercial_exp_date`,`vhc_fitness_certificate`,`vhc_fitness_cert_end_date`,`vhc_vehicle_id`) 
+SELECT 	vif_id,vif_type_id,vif_number_plate,vif_agent_id,vif_year,vif_color,vif_insurance_exp_date
+,vif_tax_exp_date,vif_dop,vif_owned_or_rented,vif_created,vif_modified,vif_status,vif_is_attached,vif_approved,
+vif_insurance_proof,vif_permits_certificate,vif_pollution_certificate,vif_reg_certificate,vif_rear_plate,vif_front_plate,vif_pollution_exp_date,vif_reg_exp_date,vif_commercial_exp_date,vif_fitness_certificate,vif_fitness_cert_end_date,vif_vehicle_id
+FROM vehicle_info WHERE 1
+
+
+
+14/07/2016
+=======================
+ALTER TABLE `vehicles_info` ADD `vhc_is_edited` TINYINT NOT NULL DEFAULT '0' AFTER `vhc_vehicle_id`;
+ALTER TABLE `vehicles` ADD `vhc_approved_by` INT NULL DEFAULT NULL AFTER `vhc_fitness_cert_end_date`;
+
+18/07/2016 ======================= ALTER TABLE `vehicles` ADD `vhc_ver_number` 
+TINYINT NULL DEFAULT '0' AFTER `vhc_approved_by`, ADD `vhc_ver_model_year_color` 
+TINYINT NULL DEFAULT '0' AFTER `vhc_ver_number`, ADD `vhc_ver_rc` TINYINT NULL 
+DEFAULT '0' AFTER `vhc_ver_model_year_color`, ADD `vhc_ver_front_license` 
+TINYINT NULL DEFAULT '0' AFTER `vhc_ver_rc`, ADD `vhc_ver_rear_license` TINYINT 
+NULL DEFAULT '0' AFTER `vhc_ver_front_license`, ADD `vhc_ver_license_commercial` 
+TINYINT NULL DEFAULT '0' AFTER `vhc_ver_rear_license`, ADD `vhc_ver_insurance` 
+TINYINT NULL DEFAULT '0' AFTER `vhc_ver_license_commercial`, ADD 
+`vhc_ver_permit` TINYINT NULL DEFAULT '0' AFTER `vhc_ver_insurance`, ADD 
+`vhc_ver_fitness` TINYINT NULL DEFAULT '0' AFTER `vhc_ver_permit`;
+
+19/07/2016
+===================
+ALTER TABLE `vehicles` ADD `vhc_is_commercial` TINYINT NULL DEFAULT '0' AFTER `vhc_ver_fitness`;
+ALTER TABLE `vehicles` ADD `vhc_is_freeze` TINYINT NULL DEFAULT '0' AFTER `vhc_is_commercial`;
+ALTER TABLE `drivers` ADD `drv_is_freeze` TINYINT NULL DEFAULT '0' AFTER `drv_approved`;
+
+22/07/2016
+================
+ALTER TABLE `vehicles` CHANGE `vhc_approved` `vhc_approved` TINYINT(4) NULL DEFAULT '0' COMMENT '0:not verified,1:approved,2:pending_approval(verified),3:disapproved';
+ALTER TABLE `agents` ADD `agt_agreement` TINYINT NOT NULL DEFAULT '0' AFTER 
+`agt_assign`, ADD `agt_agreement_date` DATETIME NULL DEFAULT NULL AFTER 
+`agt_agreement`, ADD `agt_agreement_file_link` VARCHAR(250) NULL DEFAULT NULL 
+AFTER `agt_agreement_date`, ADD `agt_incorporation_year` INT NULL DEFAULT '0' 
+AFTER `agt_agreement_file_link`;
+
+
+ALTER TABLE `drivers` ADD `drv_issue_date` DATETIME NULL DEFAULT NULL AFTER `drv_is_freeze`;
+
+23/07/2016
+========================
+ALTER TABLE `vehicles` CHANGE `vhc_modified_at` `vhc_modified_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vehicles_info` CHANGE `vhc_modified_at` `vhc_modified_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP;
+
+25/07/2016 ====================== ALTER TABLE `drivers` ADD `drv_ver_adrs_proof` 
+TINYINT NULL DEFAULT '0' AFTER `drv_is_freeze`, ADD `drv_ver_licence` TINYINT 
+NULL DEFAULT '0' AFTER `drv_ver_adrs_proof`, ADD `drv_ver_police_certificate` 
+TINYINT NULL DEFAULT '0' AFTER `drv_ver_licence`;
+ALTER TABLE `drivers` ADD `drv_approved_by` INT NULL DEFAULT NULL AFTER `drv_ver_police_certificate`;
+ALTER TABLE `drivers_info` ADD `drv_is_edited` TINYINT NULL DEFAULT '0' AFTER `drv_approved`;
+
+
+UPDATE drivers v SET v.drv_approved=2 WHERE v.drv_id IN(SELECT 
+vi.drv_driver_id FROM drivers_info vi WHERE vi.drv_approved=0 AND 
+vi.drv_active=1) AND v.drv_active=1 AND v.drv_approved=0
+
+ALTER TABLE `vehicles_info` ADD `vhc_is_commercial` TINYINT NULL DEFAULT '0' AFTER `vhc_is_edited`;
+
+///////////////////////////
+UPDATE `vehicles_info` SET `vhc_active` = '0' WHERE `vehicles_info`.`vhc_id` = 4950;
+UPDATE `vehicles` SET `vhc_approved` = '0' WHERE `vehicles`.`vhc_id` = 5042;
+
+
+
+
+
+
+

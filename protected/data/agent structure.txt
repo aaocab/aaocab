@@ -1,0 +1,84 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 31, 2016 at 03:43 PM
+-- Server version: 5.7.6-m16-log
+-- PHP Version: 5.6.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `gozonew`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agents`
+--
+
+CREATE TABLE `agents` (
+  `agt_id` int(11) NOT NULL,
+  `agt_fname` varchar(200) NOT NULL,
+  `agt_lname` varchar(100) DEFAULT NULL,
+  `agt_username` varchar(255) DEFAULT NULL,
+  `agt_password` varchar(100) DEFAULT NULL,
+  `agt_phone` varchar(100) NOT NULL,
+  `agt_email` varchar(100) DEFAULT NULL,
+  `agt_contact_person` varchar(250) DEFAULT NULL,
+  `agt_phone_country_code` varchar(5) DEFAULT NULL,
+  `agt_contact_number` varchar(15) DEFAULT NULL,
+  `agt_alt_contact_number` varchar(15) DEFAULT NULL,
+  `agt_address` varchar(255) DEFAULT NULL,
+  `agt_company` varchar(150) DEFAULT NULL,
+  `agt_city` int(11) DEFAULT NULL,
+  `agt_active` tinyint(4) NOT NULL DEFAULT '1',
+  `agt_modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `agt_create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `agt_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 =>Registered, 1 => MeterDown, 2 => Both, 3 => Exclusive',
+  `agt_device` varchar(255) DEFAULT NULL,
+  `agt_os_version` varchar(100) DEFAULT NULL,
+  `agt_device_uuid` varchar(255) DEFAULT NULL,
+  `agt_apk_version` varchar(100) DEFAULT NULL,
+  `agt_mac_address` varchar(150) DEFAULT NULL,
+  `agt_serial` varchar(150) DEFAULT NULL,
+  `agt_longitude` varchar(100) DEFAULT NULL,
+  `agt_latitude` varchar(100) DEFAULT NULL,
+  `agt_tnc_id` int(11) DEFAULT NULL,
+  `agt_tnc` tinyint(4) NOT NULL DEFAULT '0',
+  `agt_tnc_datetime` datetime DEFAULT NULL,
+  `agt_overall_rating` float DEFAULT NULL,
+  `agt_overall_score` tinyint(4) DEFAULT NULL,
+  `agt_total_trips` smallint(5) UNSIGNED DEFAULT NULL,
+  `agt_last_thirtyday_trips` smallint(6) DEFAULT NULL,
+  `agt_total_amount` mediumint(9) DEFAULT NULL,
+  `agt_last_thirtyday_amount` mediumint(9) DEFAULT NULL,
+  `agt_last_trip_datetime` datetime DEFAULT NULL,
+  `agt_first_trip_datetime` datetime DEFAULT NULL,
+  `agt_code_password` varchar(100) DEFAULT NULL,
+  `agt_pic_path` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `agents`
+--
+ALTER TABLE `agents`
+  ADD PRIMARY KEY (`agt_id`),
+  ADD UNIQUE KEY `agt_username` (`agt_username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `agents`
+--
+ALTER TABLE `agents`
+  MODIFY `agt_id` int(11) NOT NULL AUTO_INCREMENT;

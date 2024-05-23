@@ -1,0 +1,47 @@
+
+CREATE TABLE `vendor_agreement` (
+  `vag_id` int(11) NOT NULL,
+  `vag_vnd_id` int(11) DEFAULT NULL,
+  `vag_agmt_ver` varchar(50) DEFAULT NULL,
+  `vag_digital_ver` varchar(50) DEFAULT NULL,
+  `vag_digital_sign` varchar(255) DEFAULT NULL,
+  `vag_digital_device_id` varchar(50) DEFAULT NULL,
+  `vag_digital_ip` varchar(50) DEFAULT NULL,
+  `vag_digital_flag` int(11) NOT NULL DEFAULT 0,
+  `vag_digital_date` datetime DEFAULT NULL,
+  `vag_soft_flag` int(11) NOT NULL DEFAULT 0,
+  `vag_soft_date` datetime DEFAULT NULL,
+  `vag_hard_flag` int(11) NOT NULL DEFAULT 0,
+  `vag_hard_date` double DEFAULT NULL,
+  `vag_active` tinyint(4) NOT NULL DEFAULT 1,
+  `vag_created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_agreement`
+--
+ALTER TABLE `vendor_agreement`
+  ADD PRIMARY KEY (`vag_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vendor_agreement`
+--
+ALTER TABLE `vendor_agreement`
+  MODIFY `vag_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+ALTER TABLE `vendor_agreement` ADD INDEX( `vag_vnd_id`); 
+
+ALTER TABLE `vendor_agreement` ADD FOREIGN KEY (`vag_vnd_id`) REFERENCES `vendors`(`vnd_id`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
+
+ALTER TABLE `vendor_agreement` CHANGE `vag_hard_date` `vag_hard_date` DATETIME NULL DEFAULT NULL; 
+
+ALTER TABLE `vendor_agreement` ADD UNIQUE( `vag_vnd_id`); 

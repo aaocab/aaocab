@@ -1,0 +1,5 @@
+ALTER TABLE `booking_temp` ADD `bkg_transfer_type` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_booking_type`;
+
+
+ALTER TABLE `booking_route` ADD `brt_from_latitude` FLOAT NULL AFTER `brt_to_location`, ADD `brt_from_longitude` FLOAT NULL AFTER `brt_from_latitude`, ADD `brt_to_latitude` FLOAT NULL AFTER `brt_from_longitude`, ADD `brt_to_longitude` FLOAT NULL AFTER `brt_to_latitude`;
+

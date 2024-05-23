@@ -1,0 +1,14 @@
+ALTER TABLE `price_rule` ADD `prr_driver_allowance_km_limit` MEDIUMINT NULL AFTER `prr_night_driver_allowance`;
+
+ALTER TABLE `price_rule` 
+CHANGE `prr_rate_per_km` `prr_rate_per_km` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_rate_per_km_extra` `prr_rate_per_km_extra` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_min_km` `prr_min_km` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_min_base_amount` `prr_min_base_amount` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_min_km_day` `prr_min_km_day` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_max_km_day` `prr_max_km_day` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_day_driver_allowance` `prr_day_driver_allowance` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_night_driver_allowance` `prr_night_driver_allowance` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_driver_allowance_km_limit` `prr_driver_allowance_km_limit` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_calculation_type` `prr_calculation_type` SMALLINT NOT NULL DEFAULT '0', 
+CHANGE `prr_min_pickup_duration` `prr_min_pickup_duration` MEDIUMINT NULL DEFAULT '0';

@@ -1,0 +1,76 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:8306
+-- Generation Time: Dec 23, 2017 at 01:06 PM
+-- Server version: 10.2.8-MariaDB
+-- PHP Version: 7.0.18
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `gozo_71213`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `city_links`
+--
+
+CREATE TABLE `city_links` (
+  `cln_id` int(11) NOT NULL,
+  `cln_user_id` int(11) DEFAULT NULL,
+  `cln_user_ip` varchar(100) DEFAULT NULL,
+  `cln_city_id` int(11) NOT NULL,
+  `cln_category` tinyint(4) NOT NULL COMMENT '1 => city page link, 2 => destination link',
+  `cln_title` varchar(250) NOT NULL,
+  `cln_url` varchar(250) NOT NULL,
+  `cln_status` int(11) NOT NULL DEFAULT 0 COMMENT '0 => unverified, 1 => verified',
+  `cln_active` int(11) NOT NULL DEFAULT 1 COMMENT '0 => inactive, 1 => active',
+  `cln_datetime` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `city_links`
+--
+
+INSERT INTO `city_links` (`cln_id`, `cln_user_id`, `cln_user_ip`, `cln_city_id`, `cln_category`, `cln_title`, `cln_url`, `cln_status`, `cln_active`, `cln_datetime`) VALUES
+(1, 374, '192.168.192.104', 30366, 2, 'best delhi tour sites', 'http://www.gozocabs.com', 0, 1, '2017-12-21 00:00:00'),
+(2, 66, '122.163.41.5', 30883, 2, 'reeeeeee', 'http://localhost:82/admpnl/booking/list', 0, 1, '2017-12-22 16:59:14'),
+(3, 66, '122.163.41.5', 30883, 2, 'sssssssss', 'aaaaa', 0, 1, '2017-12-22 19:19:42');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `city_links`
+--
+ALTER TABLE `city_links`
+  ADD PRIMARY KEY (`cln_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `city_links`
+--
+ALTER TABLE `city_links`
+  MODIFY `cln_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

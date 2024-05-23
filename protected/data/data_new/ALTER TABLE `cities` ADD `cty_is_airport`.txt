@@ -1,0 +1,7 @@
+ALTER TABLE `cities` ADD `cty_is_airport` TINYINT NOT NULL DEFAULT '0' AFTER `cty_radius`;
+
+ALTER TABLE `cities` ADD `cty_has_airport` TINYINT NOT NULL DEFAULT '0' AFTER `cty_radius`;
+
+ALTER TABLE `cities` ADD `cty_alias_name` VARCHAR(200) NULL AFTER `cty_name`;
+
+UPDATE cities set cty_is_airport = 1 WHERE `cty_name` LIKE '%airport%'

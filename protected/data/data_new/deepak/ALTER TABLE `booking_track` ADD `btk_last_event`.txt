@@ -1,0 +1,1 @@
+ALTER TABLE `booking_track` ADD `btk_last_event` SMALLINT NULL AFTER `bkg_sos_end_coordinates`, ADD `btk_last_event_time` TIMESTAMP NULL AFTER `btk_last_event`, ADD `btk_last_coordinates` VARCHAR(100) NULL AFTER `btk_last_event_time`;

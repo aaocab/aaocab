@@ -1,0 +1,2 @@
+ALTER TABLE `booking_temp` ADD `bkg_is_related_booking` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_tags`;
+ALTER TABLE `booking_temp` CHANGE `bkg_is_related_booking` `bkg_is_related_lead` TINYINT(4) NOT NULL DEFAULT '0';

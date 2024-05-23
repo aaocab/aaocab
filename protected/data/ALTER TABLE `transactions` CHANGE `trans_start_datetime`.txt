@@ -1,0 +1,7 @@
+ALTER TABLE `transactions` CHANGE `trans_start_datetime` `trans_start_datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE `transactions` ADD `trans_code` INT NOT NULL AFTER `trans_booking_id`;
+
+ALTER TABLE `transactions` CHANGE `trans_complete_datetime` `trans_complete_datetime` DATETIME NULL;
+
+ALTER TABLE `transactions` ADD `trans_response_details` VARCHAR(1000) NULL AFTER `trans_start_datetime`;

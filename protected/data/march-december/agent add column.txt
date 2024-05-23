@@ -1,0 +1,8 @@
+ALTER TABLE `agents` ADD `agt_autoassign_flag` TINYINT NULL DEFAULT '1' AFTER `agt_gstin`;
+ALTER TABLE `agents` CHANGE `agt_autoassign_flag` `agt_vendor_autoassign_flag` TINYINT(4) NULL DEFAULT '1';
+
+ALTER TABLE `agents` ADD `agt_cancel_rule` SMALLINT NULL DEFAULT '1' AFTER `agt_vendor_autoassign_flag`;
+
+agt_cancel_rule=1 default
+agt_cancel_rule=2 mmt
+agt_cancel_rule=3 savaari

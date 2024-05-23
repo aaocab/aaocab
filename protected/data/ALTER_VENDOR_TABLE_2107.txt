@@ -1,0 +1,2 @@
+ALTER TABLE `vendors` ADD `vnd_mod_day` TINYINT(4) NULL DEFAULT NULL AFTER `vnd_application_aborted`, ADD `vnd_settle_date` DATE NULL DEFAULT NULL AFTER `vnd_mod_day`;
+ALTER TABLE `vendors` ADD `vnd_invoice_date` DATETIME NULL DEFAULT NULL AFTER `vnd_mod_day`;

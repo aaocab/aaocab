@@ -1,0 +1,1 @@
+ALTER TABLE `rate` ADD `rte_minimum_markup` SMALLINT NOT NULL DEFAULT '0' AFTER `rte_vendor_amount`;

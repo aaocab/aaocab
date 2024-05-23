@@ -1,0 +1,5 @@
+update `vendor_transactions` , booking 
+SET ven_trip_id = bkg_bcb_id
+WHERE ven_booking_id IS NOT NULL 
+and ven_trip_id IS NULL and bkg_bcb_id IS NOT NULL
+AND bkg_id = ven_booking_id;

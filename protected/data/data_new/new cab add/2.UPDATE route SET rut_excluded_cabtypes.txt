@@ -1,0 +1,9 @@
+UPDATE route
+SET    rut_excluded_cabtypes = concat(rut_excluded_cabtypes, ',' ,'7,8,9')
+WHERE  rut_excluded_cabtypes != '';
+
+UPDATE route
+SET    rut_excluded_cabtypes = '7,8,9'
+WHERE  rut_excluded_cabtypes IS NULL OR rut_excluded_cabtypes = '';
+
+

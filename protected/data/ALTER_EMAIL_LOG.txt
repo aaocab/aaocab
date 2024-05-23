@@ -1,0 +1,9 @@
+ALTER TABLE `email_log` ADD `elg_mail_type` TINYINT(4) NULL DEFAULT NULL AFTER `id`;
+ALTER TABLE `email_log` CHANGE `elg_mail_type` `elg_mail_type` TINYINT(4) NULL DEFAULT '1';
+
+
+ALTER TABLE `email_log` ADD `to_name` VARCHAR(100) NULL DEFAULT NULL AFTER `address`;
+
+
+ALTER TABLE `email_log` ADD `attachments` VARCHAR(250) NULL DEFAULT NULL AFTER `status_date`;
+ALTER TABLE `email_log` CHANGE `attachments` `attachments` VARCHAR(4000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;

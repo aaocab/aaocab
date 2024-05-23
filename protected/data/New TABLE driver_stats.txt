@@ -1,0 +1,37 @@
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `driver_stats`
+--
+
+CREATE TABLE `driver_stats` (
+  `drs_id` int(11) NOT NULL,
+  `drs_drv_id` int(11) NOT NULL,
+  `drs_drv_overall_rating` decimal(10,2) NOT NULL,
+  `drs_total_trip` int(11) NOT NULL,
+  `drs_trust_score` decimal(10,2) NOT NULL,
+  `drs_no_of_star` int(11) NOT NULL,
+  `drs_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `drs_active` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `driver_stats`
+--
+ALTER TABLE `driver_stats`
+  ADD PRIMARY KEY (`drs_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `driver_stats`
+--
+ALTER TABLE `driver_stats`
+  MODIFY `drs_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

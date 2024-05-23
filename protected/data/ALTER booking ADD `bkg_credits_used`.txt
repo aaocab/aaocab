@@ -1,0 +1,11 @@
+ALTER TABLE `booking` ADD `bkg_credits_used` INT NULL DEFAULT '0' AFTER `bkg_account_flag`;
+
+
+SELECT a.*,c.`rtg_customer_car` FROM `booking` a 
+LEFT JOIN `vehicles` b ON b.vhc_id=a.bkg_vehicle_id
+LEFT JOIN `ratings` c ON c.rtg_booking_id=a.bkg_id WHERE 1=1 
+AND a.bkg_vehicle_id='2858';
+
+
+
+SELECT FROM `ratings` a LEFT JOIN 

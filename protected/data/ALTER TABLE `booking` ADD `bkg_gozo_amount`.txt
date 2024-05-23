@@ -1,0 +1,3 @@
+ALTER TABLE `booking` ADD `bkg_gozo_amount` MEDIUMINT NULL AFTER `bkg_amount`, ADD `bkg_vendor_collected` MEDIUMINT NULL AFTER `bkg_gozo_amount`;
+
+

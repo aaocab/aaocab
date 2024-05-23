@@ -1,0 +1,16 @@
+php -q /home/gcuser/public_html/cron.php booking processTransferzBookings
+php -q /home/gcuser/public_html/cron.php booking createTransferzBookings
+php -q /home/gcuser/public_html/cron.php booking PushBookingsToHornok
+php -q /home/gcuser/public_html/cron.php driver autoApprove
+php -q /home/gcuser/public_html/cron.php vehicle autoApprove
+php -q /home/gcuser/public_html/cron.php notification sendPendingWhatsapp
+php -q /home/gcuser/public_html/cron.php system processSms
+php -q /home/gcuser/public_html/cron.php booking processDriverDetailsToCustomerEvent
+php -q /home/gcuser/public_html/cron.php booking processPostVendorAssignment
+php -q /home/gcuser/public_html/cron.php vendor updateHomeZone
+php -q /home/gcuser/public_html/cron.php system AddLead
+php -q /home/gcuser/public_html/cron.php system AddSpiceLead
+php -q /home/gcuser/public_html/cron.php booking sendMissedOffersNotificationToCustomers
+php -q /home/gcuser/public_html/cron.php system autoFURDriverLate
+php -q /home/gcuser/public_html/cron.php system AutoVendorAssignedFollowup
+php -q /home/gcuser/public_html/cron.php city AutocompleteTransfer

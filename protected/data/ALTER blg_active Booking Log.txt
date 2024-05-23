@@ -1,0 +1,1 @@
+ALTER TABLE `booking_log` ADD `blg_active` TINYINT(5) NOT NULL DEFAULT '1' AFTER `blg_created`;

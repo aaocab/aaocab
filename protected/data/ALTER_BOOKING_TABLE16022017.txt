@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_non_profit_override_flag` TINYINT(4) NOT NULL DEFAULT '0' AFTER `bkg_non_profit_flag`;

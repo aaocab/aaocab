@@ -1,0 +1,1 @@
+ALTER TABLE `booking_pref` ADD `bpr_adv_reminder_sms_count` INT NOT NULL DEFAULT '0' AFTER `bpr_is_trip_verified`, ADD `bpr_adv_reminder_sms_datetime` DATETIME NULL DEFAULT NULL AFTER `bpr_adv_reminder_sms_count`;

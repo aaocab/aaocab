@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_toll_tax` TINYINT(11) NULL DEFAULT '0' AFTER `bkg_is_state_tax_included`, ADD `bkg_state_tax` TINYINT(11) NULL DEFAULT '0' AFTER `bkg_toll_tax`;

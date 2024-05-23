@@ -1,0 +1,177 @@
+UPDATE drivers SET drivers.drv_name=TRIM(drivers.drv_name), drivers.drv_phone=TRIM(drivers.drv_phone);
+UPDATE drivers_info SET drivers_info.drv_name=TRIM(drivers_info.drv_name), drivers_info.drv_phone=TRIM(drivers_info.drv_phone);
+CREATE TABLE driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1
+,a.drv_driver_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (SELECT drivers_info.drv_driver_id, drivers_info.drv_name, drivers_info.drv_phone
+                   FROM   drivers_info
+                          INNER JOIN
+                          (SELECT   drivers_info.drv_name, drivers_info.drv_phone,
+                                    MAX(IFNULL(drivers_info.drv_modified, drivers_info.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                                    INNER JOIN drivers_info
+                                      ON drivers.drv_id = drivers_info.drv_driver_id AND drivers.drv_approved = 1
+                           WHERE    drivers.drv_active IN (1, 2, 4)
+                           GROUP BY drivers_info.drv_name, drivers_info.drv_phone) b
+                            ON drivers_info.drv_phone = b.drv_phone AND drivers_info.drv_name = b.drv_name 
+                            AND drivers_info.drv_modified = b.lastUpdate) a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE  1;
+
+INSERT INTO driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1,
+      a.drv_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (
+       SELECT drivers.drv_id, drivers.drv_name, drivers.drv_phone FROM drivers
+       INNER JOIN (
+       SELECT MAX(drv_id) as drv_id, drivers.drv_name, drivers.drv_phone
+                   FROM   drivers
+                          INNER JOIN
+                          (SELECT   drivers.drv_name, drivers.drv_phone,
+                                    MAX(IFNULL(drivers.drv_modified, drivers.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                              WHERE drivers.drv_approved = 1
+                           AND   drivers.drv_active IN (1, 2, 4) AND drv_id NOT IN (
+                            SELECT driver_map.drv_id1 from driver_map
+                           )
+                           GROUP BY drivers.drv_name, drivers.drv_phone
+                          ) b
+                          ON drivers.drv_phone = b.drv_phone AND drivers.drv_name = b.drv_name 
+            AND drivers.drv_modified = b.lastUpdate GROUP BY drivers.drv_name, drivers.drv_phone) c 
+              ON drivers.drv_phone = c.drv_phone AND drivers.drv_name = c.drv_name AND drivers.drv_id = c.drv_id)
+            a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE  1;
+
+
+
+INSERT INTO driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1,
+      a.drv_driver_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (SELECT drivers_info.drv_driver_id, drivers_info.drv_name, drivers_info.drv_phone
+                   FROM   drivers_info
+                          INNER JOIN
+                          (SELECT   drivers_info.drv_name, drivers_info.drv_phone,
+                                    MAX(IFNULL(drivers_info.drv_modified, drivers_info.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                                    INNER JOIN drivers_info
+                                      ON drivers.drv_id = drivers_info.drv_driver_id AND drivers.drv_approved = 2
+                           WHERE    drivers.drv_active IN (1, 2, 4) AND drivers.drv_id NOT IN (
+                            SELECT driver_map.drv_id1 from driver_map
+                           )
+                           GROUP BY drivers_info.drv_name, drivers_info.drv_phone) b
+                            ON drivers_info.drv_phone = b.drv_phone AND drivers_info.drv_name = b.drv_name 
+                            AND drivers_info.drv_modified = b.lastUpdate) a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE  1;
+
+
+INSERT INTO driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1,
+      a.drv_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (
+       SELECT drivers.drv_id, drivers.drv_name, drivers.drv_phone FROM drivers
+       INNER JOIN (
+       SELECT MAX(drv_id) as drv_id, drivers.drv_name, drivers.drv_phone
+                   FROM   drivers
+                          INNER JOIN
+                          (SELECT   drivers.drv_name, drivers.drv_phone,
+                                    MAX(IFNULL(drivers.drv_modified, drivers.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                              WHERE drivers.drv_approved = 2
+                           AND   drivers.drv_active IN (1, 2, 4) AND drv_id NOT IN (
+                            SELECT driver_map.drv_id1 from driver_map
+                           )
+                           GROUP BY drivers.drv_name, drivers.drv_phone
+                          ) b
+                          ON drivers.drv_phone = b.drv_phone AND drivers.drv_name = b.drv_name 
+            AND drivers.drv_modified = b.lastUpdate GROUP BY drivers.drv_name, drivers.drv_phone) c 
+              ON drivers.drv_phone = c.drv_phone AND drivers.drv_name = c.drv_name AND drivers.drv_id = c.drv_id)
+            a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE  1;
+
+INSERT INTO driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1,
+      a.drv_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (
+       SELECT drivers.drv_id, drivers.drv_name, drivers.drv_phone FROM drivers
+       INNER JOIN (
+       SELECT MAX(drv_id) as drv_id, drivers.drv_name, drivers.drv_phone
+                   FROM   drivers
+                          INNER JOIN
+                          (SELECT   drivers.drv_name, drivers.drv_phone,
+                                    MAX(IFNULL(drivers.drv_modified, drivers.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                              WHERE drivers.drv_approved = 3
+                           AND   drivers.drv_active IN (1, 2, 4) AND drv_id NOT IN (
+                            SELECT driver_map.drv_id1 from driver_map
+                           )
+                           GROUP BY drivers.drv_name, drivers.drv_phone
+                          ) b
+                          ON drivers.drv_phone = b.drv_phone AND drivers.drv_name = b.drv_name 
+            AND drivers.drv_modified = b.lastUpdate GROUP BY drivers.drv_name, drivers.drv_phone) c 
+              ON drivers.drv_phone = c.drv_phone AND drivers.drv_name = c.drv_name AND drivers.drv_id = c.drv_id)
+            a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE  1;
+
+
+INSERT INTO driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1,
+      a.drv_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (
+       SELECT drivers.drv_id, drivers.drv_name, drivers.drv_phone FROM drivers
+       INNER JOIN (
+       SELECT MAX(drv_id) as drv_id, drivers.drv_name, drivers.drv_phone
+                   FROM   drivers
+                          INNER JOIN
+                          (SELECT   drivers.drv_name, drivers.drv_phone,
+                                    MAX(IFNULL(drivers.drv_modified, drivers.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                              WHERE drivers.drv_approved = 0
+                           AND   drivers.drv_active IN (1, 2, 4) AND drv_id NOT IN (
+                            SELECT driver_map.drv_id1 from driver_map
+                           )
+                           GROUP BY drivers.drv_name, drivers.drv_phone
+                          ) b
+                          ON drivers.drv_phone = b.drv_phone AND drivers.drv_name = b.drv_name 
+            AND IFNULL(drivers.drv_modified,drivers.drv_created) = b.lastUpdate GROUP BY drivers.drv_name, drivers.drv_phone) c 
+              ON drivers.drv_phone = c.drv_phone AND drivers.drv_name = c.drv_name AND drivers.drv_id = c.drv_id)
+            a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE  1;
+
+INSERT INTO driver_map
+SELECT drivers.drv_id drv_id1, drivers.drv_name drv_name1,drivers.drv_phone drv_phone1,
+      a.drv_id drv_id, a.drv_name ,a.drv_phone 
+FROM   drivers
+       INNER JOIN (
+       SELECT drivers.drv_id, drivers.drv_name, drivers.drv_phone FROM drivers
+       INNER JOIN (
+       SELECT MAX(drv_id) as drv_id, drivers.drv_name, drivers.drv_phone
+                   FROM   drivers
+                          INNER JOIN
+                          (SELECT   drivers.drv_name, drivers.drv_phone,
+                                    MAX(IFNULL(drivers.drv_modified, drivers.drv_created)) AS lastUpdate
+                                    FROM     drivers
+                              WHERE drivers.drv_approved = 0
+                           AND   drivers.drv_active IN (0) AND drv_id NOT IN (
+                            SELECT driver_map.drv_id1 from driver_map
+                           )
+                           GROUP BY drivers.drv_name, drivers.drv_phone
+                          ) b
+                          ON drivers.drv_phone = b.drv_phone AND drivers.drv_name = b.drv_name 
+            AND IFNULL(drivers.drv_modified,drivers.drv_created) = b.lastUpdate GROUP BY drivers.drv_name, drivers.drv_phone) c 
+              ON drivers.drv_phone = c.drv_phone AND drivers.drv_name = c.drv_name AND drivers.drv_id = c.drv_id)
+            a
+         ON drivers.drv_phone = a.drv_phone AND drivers.drv_name = a.drv_name 
+WHERE   drivers.drv_id IN (
+          SELECT booking_cab.bcb_driver_id FROM booking_cab
+         );

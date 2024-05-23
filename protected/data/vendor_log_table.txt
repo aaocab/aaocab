@@ -1,0 +1,7 @@
+CREATE TABLE `vendors_log` ( `vlg_id` INT(11) NOT NULL AUTO_INCREMENT , `vlg_ref_id` INT(11) NULL DEFAULT NULL , `vlg_user_type` TINYINT(3) NULL DEFAULT NULL , `vlg_vnd_id` INT(11) NULL , `vlg_desc` VARCHAR(4000) NULL DEFAULT NULL , `vlg_event_id` SMALLINT(6) NOT NULL , `vlg_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , `vlg_active` TINYINT(5) NOT NULL , PRIMARY KEY (`vlg_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `vendors_log` CHANGE `vlg_active` `vlg_active` TINYINT(5) NOT NULL DEFAULT '1';
+ALTER TABLE `vendors_log` CHANGE `vlg_event_id` `vlg_event_id` SMALLINT(6) NOT NULL DEFAULT '1';
+
+ALTER TABLE `vendors_log` ADD INDEX( `vlg_vnd_id`);
+ALTER TABLE `vendors_log` ADD FOREIGN KEY (`vlg_vnd_id`) REFERENCES `vendors`(`vnd_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

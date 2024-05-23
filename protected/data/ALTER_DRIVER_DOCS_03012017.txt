@@ -1,0 +1,11 @@
+
+
+ALTER TABLE `driver_docs` ADD `drd_sub_type` TINYINT(4) NULL DEFAULT NULL AFTER `drd_type`;
+
+
+
+UPDATE `driver_docs` SET driver_docs.drd_sub_type=1 WHERE  driver_docs.drd_type=1
+UPDATE `driver_docs` SET driver_docs.drd_sub_type=1 WHERE  driver_docs.drd_type=2
+UPDATE `driver_docs` SET driver_docs.drd_sub_type=1 WHERE  driver_docs.drd_type=3
+UPDATE `driver_docs` SET driver_docs.drd_sub_type=1 WHERE driver_docs.drd_type=4
+UPDATE `driver_docs` SET driver_docs.drd_type=4,driver_docs.drd_sub_type=2 WHERE driver_docs.drd_type=6

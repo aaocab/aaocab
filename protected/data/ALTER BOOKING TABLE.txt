@@ -1,0 +1,25 @@
+ALTER TABLE `booking` ADD `bkg_upsell_status` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `bkg_remark_check`, ADD `bkg_escalation_status` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `bkg_upsell_status`;
+
+//UPDATE `booking` SET `bkg_user_last_updated_on` = bkg_create_date WHERE bkg_id IN (11383,12130,12381,12454,12472,12480,12497,12498,12501,12517 )
+
+//ALTER TABLE `booking` CHANGE `bkg_upsell_status` `bkg_upsell_status` TINYINT(3) UNSIGNED NULL DEFAULT '0', CHANGE `bkg_escalation_status` `bkg_escalation_status` TINYINT(3) UNSIGNED NULL DEFAULT '0';
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE `booking` CHANGE `bkg_remark_check` `bkg_remark_check` TINYINT(3) UNSIGNED NULL DEFAULT NULL, CHANGE `bkg_upsell_status` `bkg_upsell_status` TINYINT(3) UNSIGNED NULL DEFAULT NULL, CHANGE `bkg_escalation_status` `bkg_escalation_status` TINYINT(3) UNSIGNED NULL DEFAULT NULL;
+
+
+
+
+
+
+
+
+ALTER TABLE `booking` ADD `bkg_upsell_status` TINYINT UNSIGNED  NULL DEFAULT '0' AFTER `bkg_remark_check`, ADD `bkg_escalation_status` TINYINT UNSIGNED  NULL DEFAULT '0' AFTER `bkg_upsell_status`

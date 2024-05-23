@@ -1,0 +1,23 @@
+// ==ClosureCompiler== http://closure-compiler.appspot.com/
+// @compilation_level SIMPLE_OPTIMIZATIONS
+// @output_file_name admin.js
+// @code_url http://www.gozocabs.com/assets/plugins/pace-master/pace.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/uniform/jquery.uniform.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/classie/classie.js
+// @code_url http://www.gozocabs.com/assets/plugins/waves/waves.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/3d-bold-navigation/js/main.js
+// @code_url http://www.gozocabs.com/assets/plugins/waypoints/jquery.waypoints.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/toastr/toastr.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/flot/jquery.flot.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/flot/jquery.flot.time.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/flot/jquery.flot.symbol.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/flot/jquery.flot.resize.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/flot/jquery.flot.tooltip.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/curvedlines/curvedLines.js
+// @code_url http://www.gozocabs.com/assets/plugins/metrojs/MetroJs.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js
+// @code_url http://www.gozocabs.com/assets/plugins/switchery/switchery.min.js
+
+// ==/ClosureCompiler==
+
+// ADD YOUR CODE HERE

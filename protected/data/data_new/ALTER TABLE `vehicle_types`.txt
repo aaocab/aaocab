@@ -1,0 +1,38 @@
+ALTER TABLE `vehicle_types` ADD `vht_parent_id` TINYINT NOT NULL DEFAULT '0' AFTER `vht_car_type`;
+
+UPDATE `vehicle_types` SET `vht_parent_id`=`vht_car_type`
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-innova.png', 'Toyota', 'Innova / Mahindra Xylo / Chevrolet Tavera', '6', '10', '12', '2', '0', '1', '2', '2016-01-04 03:51:49', '1', '[["7","2016-05-11 20:48:26",{"vht_model":"Innova","vht_average_mileage":null,"vht_fuel_type":null}]]');
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/indica.jpg', 'TATA', 'Indica', '4', NULL, NULL, '1', '0', NULL, '2', '2016-01-04 03:51:49', '1', NULL);
+
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-etios.jpg', 'Maruti', 'Dzire/Toyota Etios/Tata Indigo', '4', '15', '9', '3', '0', '1', '2', '2016-01-04 03:51:49', '1', '[["7","2016-05-11 20:49:27",{"vht_model":"Dzire\\/Toyota Etios","vht_average_mileage":null,"vht_fuel_type":null}]]');
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-tempo.jpg', 'Force', 'Tempo Traveller (15 seats)', '15', NULL, '16', '4', '0', NULL, '2', '2016-01-04 03:51:49', '1', NULL);
+
+UPDATE `vehicle_types` SET `vht_model` = '' WHERE `vehicle_types`.`vht_id` = 25;
+UPDATE `vehicle_types` SET `vht_make` = 'Compact' WHERE `vehicle_types`.`vht_id` = 25;
+
+UPDATE `vehicle_types` SET `vht_model` = '' WHERE `vehicle_types`.`vht_id` = 24;
+UPDATE `vehicle_types` SET `vht_make` = 'SUV' WHERE `vehicle_types`.`vht_id` = 24;
+
+
+UPDATE `vehicle_types` SET `vht_model` = '' WHERE `vehicle_types`.`vht_id` = 26;
+UPDATE `vehicle_types` SET `vht_make` = 'Sedan' WHERE `vehicle_types`.`vht_id` = 26;
+
+UPDATE `vehicle_types` SET `vht_model` = '' WHERE `vehicle_types`.`vht_id` = 27;
+UPDATE `vehicle_types` SET `vht_make` = 'Tempo Traveller' WHERE `vehicle_types`.`vht_id` = 27;
+
+UPDATE `vehicle_types` SET `vht_active` = '0' WHERE `vehicle_types`.`vht_id` IN (25,27);
+
+SELECT group_concate(v1.vht_id),v2.vht_id FROM `vehicle_types` v1 INNER JOIN `vehicle_types` v2 ON v2.vht_car_type = v1.vht_parent_id and v2.vht_parent_id=0 group by v2.vht_id
+
+UPDATE `rate` SET rte_vehicletype_id = 30 WHERE rte_vehicletype_id IN (10,12,13,17,5,6,22,7,23);
+UPDATE `rate` SET rte_vehicletype_id = 28 WHERE rte_vehicletype_id IN (1);
+UPDATE `rate` SET rte_vehicletype_id = 29 WHERE rte_vehicletype_id IN (14,15,16,2,18,3,19,4,20,21);
+UPDATE `rate` SET rte_vehicletype_id = 31 WHERE rte_vehicletype_id IN (8,9,11);
+
+ALTER TABLE `booking` CHANGE `bkg_spl_req_other` `bkg_spl_req_other` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `vehicle_types` ADD `vht_big_bag_capacity` TINYINT NOT NULL DEFAULT '0' AFTER `vht_bag_capacity`;

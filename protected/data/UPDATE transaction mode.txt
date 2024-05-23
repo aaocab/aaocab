@@ -1,0 +1,1 @@
+UPDATE `transactions` SET `trans_mode`='2' WHERE `trans_mode`='3'

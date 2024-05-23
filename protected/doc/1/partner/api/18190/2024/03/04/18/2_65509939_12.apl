@@ -1,0 +1,5 @@
+{"source":{"address":"Visakhapatnam Airport, Viman Nagar, Visakhapatnam, Andhra Pradesh, India","latitude":17.72847,"longitude":83.22356,"city":"Visakhapatnam"},"destination":{"address":"Visakhapatnam, Andhra Pradesh, India","latitude":17.68682,"longitude":83.21848,"city":"Visakhapatnam"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-02-24 19:00:00","end_time":"2024-02-24 19:20:00","search_id":"ssss65cf3831c487b377770017f6a212","one_way_distance":20,"partner_name":"GOMMT","search_tags":["FF","B2B","CO"],"mandatory_inclusions":["ST","TOLL","NC","PC","AE"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"AIRPORT","airport_type":"PICKUP"},"package_distance":20}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be at least 180 minutes from now.","link":null,"response":null}

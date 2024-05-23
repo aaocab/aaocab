@@ -1,0 +1,6 @@
+ALTER TABLE `booking_log` 
+ADD `blg_event_id` SMALLINT NULL AFTER `blg_desc`, 
+ADD `blg_vendor_assigned_id` INT NULL AFTER `blg_event_id`, 
+ADD `blg_driver_assigned_id` INT NULL AFTER `blg_vendor_assigned_id`, 
+ADD `blg_vehicle_assigned_id` INT NULL AFTER `blg_driver_assigned_id`, 
+ADD `blg_booking_status` SMALLINT NULL AFTER `blg_vehicle_assigned_id`;

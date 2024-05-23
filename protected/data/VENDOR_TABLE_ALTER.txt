@@ -1,0 +1,1 @@
+ALTER TABLE `vendors` ADD `vnd_application_aborted` TINYINT(4) NULL DEFAULT '0' AFTER `vnd_cod_freeze`;

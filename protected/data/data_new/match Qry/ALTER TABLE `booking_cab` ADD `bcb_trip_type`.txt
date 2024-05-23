@@ -1,0 +1,1 @@
+ALTER TABLE `booking_cab` ADD `bcb_trip_type` TINYINT NOT NULL DEFAULT '0' COMMENT '0=>Normal , 1 => Matched' AFTER `bcb_active`;

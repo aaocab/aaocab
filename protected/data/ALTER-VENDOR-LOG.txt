@@ -1,0 +1,3 @@
+ALTER TABLE `vendors_log` ADD `vlg_ref_id` INT(11) NULL DEFAULT NULL AFTER `vlg_id`;
+
+ALTER TABLE `vendors_log` ADD `vlg_user_ref_id` INT(11) NULL DEFAULT NULL AFTER `vlg_ref_id`;

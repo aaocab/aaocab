@@ -1,0 +1,16 @@
+INSERT INTO `booking_route`(`brt_bkg_id`, `brt_from_city_id`, `brt_to_city_id`, 
+`brt_pickup_datetime`, `brt_trip_distance`, `brt_trip_duration`, `brt_status`, 
+`brt_active`) SELECT 
+b.bkg_id,b.bkg_from_city_id,b.bkg_to_city_id,b.bkg_pickup_date,b.bkg_trip_distan
+ce,b.bkg_trip_duration,b.bkg_status,1 FROM booking b WHERE 1
+
+
+
+INSERT INTO 
+booking_cab(`bcb_brt_id`,`bcb_vendor_id`,`bcb_driver_id`,`bcb_driver_info`,`bcb_
+cab_id`,`bcb_active`) SELECT 
+r.brt_id,b.bkg_agent_id,b.bkg_driver_id,CONCAT(b.bkg_extdriver_name,",",b.bkg_ex
+tdriver_contact),b.bkg_vehicle_id,1 FROM booking_route r LEFT JOIN booking b ON 
+b.bkg_id=r.brt_bkg_id WHERE (b.bkg_agent_id IS NOT NULL AND b.bkg_agent_id<>'')  
+AND b.bkg_status IN(5,6,7,8,9) AND b.bkg_driver_id IS NOT NULL AND 
+b.bkg_vehicle_id IS NOT NULL

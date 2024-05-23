@@ -1,0 +1,4 @@
+ALTER TABLE `booking` ADD `bkg_verifycode_email` VARCHAR(10) NULL DEFAULT NULL AFTER `bkg_agent_ref_code`;
+ALTER TABLE `booking` ADD `bkg_phone_verified` TINYINT NULL DEFAULT '0' AFTER `bkg_verifycode_email`;
+ALTER TABLE `booking` ADD `bkg_email_verified` TINYINT NULL DEFAULT '0' AFTER `bkg_phone_verified`;
+ALTER TABLE `booking` ADD `bkg_cancel_charge` SMALLINT NULL DEFAULT NULL AFTER `bkg_email_verified`;

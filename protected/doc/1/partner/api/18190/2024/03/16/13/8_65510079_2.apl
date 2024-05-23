@@ -1,0 +1,5 @@
+{"source":{"address":"Belagavi, Karnataka, India","latitude":15.8496953,"longitude":74.4976741,"city":"Dharwad"},"destination":{"address":"Athani, Karnataka, India","latitude":16.7261322,"longitude":75.0610561,"city":"Athani"},"stopovers":[],"trip_type":"ROUND_TRIP","start_time":"2024-03-20 19:00:00","end_time":"2024-03-22 14:00:00","distance":500,"fare_details":{"base_fare":11922,"total_driver_charges":500,"total_days_charged":null,"state_tax":0,"toll_charges":0,"total_fare":8449},"search_id":"65eee2e82f5d940ddd01e871731","vehicle_type":"sedan","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"SDN313","type":"sedan","subcategory":"basic","combustion_type":"Diesel","model":"Unknown","make_year_type":"Unknown","cancellation_rule":"FLEXI"},"search_tags":["B2C"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"response":{"newPrice":12672},"code":"PARTNER_BLOCK_PRICE_INCR","error":"BLOCK Failed: Prices have increased"}

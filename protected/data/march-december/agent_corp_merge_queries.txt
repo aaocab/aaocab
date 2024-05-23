@@ -1,0 +1,221 @@
+ALTER TABLE `agents` DROP `agt_serial`;
+
+//altered
+ALTER TABLE `agents` ADD `agt_agent_id` VARCHAR(255) NOT NULL DEFAULT 'AGT0000' AFTER `agt_owner_document`;
+ALTER TABLE `agents` ADD `agt_company_type` SMALLINT NOT NULL DEFAULT '0' COMMENT '1:sole proprietorship,2:partnership,3:private limited,4:public limited,' AFTER `agt_agent_id`;
+ALTER TABLE `agents` ADD `agt_is_agreement` TINYINT NOT NULL DEFAULT '0' AFTER `agt_owner_document`, ADD `agt_agreement` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_is_agreement`, ADD `agt_is_ccin` TINYINT NOT NULL DEFAULT '0' AFTER `agt_agreement`, ADD `agt_ccin` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_is_ccin`;
+ALTER TABLE `agents` ADD `agt_admin_id` INT NULL DEFAULT NULL COMMENT 'Gozo account manager' AFTER `agt_ccin`;
+ALTER TABLE `agents` ADD `agt_credit_limit` INT NULL DEFAULT '0' AFTER `agt_owner_document`;
+ALTER TABLE `agents`  ADD `agt_copybooking_name` VARCHAR(255) NULL  AFTER `agt_is_ccin`,  ADD `agt_copybooking_ismail` TINYINT NULL  AFTER `agt_copybooking_name`,  ADD `agt_copybooking_issms` TINYINT NULL  AFTER `agt_copybooking_ismail`,  ADD `agt_copybooking_email` VARCHAR(255) NULL  AFTER `agt_copybooking_issms`,  ADD `agt_copybooking_phone` VARCHAR(100) NULL  AFTER `agt_copybooking_email`,    ADD `agt_copybooking_admin_ismail` TINYINT NULL  AFTER `agt_ccin`,  ADD `agt_copybooking_admin_issms` TINYINT NULL  AFTER `agt_copybooking_admin_ismail`,  ADD `agt_copybooking_admin_email` VARCHAR(255) NULL  AFTER `agt_copybooking_admin_issms`,  ADD `agt_copybooking_admin_phone` VARCHAR(100) NULL  AFTER `agt_copybooking_admin_email`,  ADD `agt_copybooking_admin_isapp` TINYINT NULL  AFTER `agt_copybooking_admin_phone`,  ADD `agt_trvl_sendupdate` TINYINT NULL  AFTER `agt_copybooking_admin_isapp`,  ADD `agt_trvl_isemail` TINYINT NULL  AFTER `agt_trvl_sendupdate`,  ADD `agt_trvl_issms` SMALLINT NULL  AFTER `agt_trvl_isemail`,  ADD `agt_trvl_isapp` SMALLINT NULL  AFTER `agt_trvl_issms`,  ADD `agt_trvl_email` VARCHAR(255) NULL  AFTER `agt_trvl_isapp`,  ADD `agt_trvl_phone` VARCHAR(100) NULL  AFTER `agt_trvl_email`,  ADD `agt_trvl_accpref` TINYINT NULL  AFTER `agt_trvl_phone`,  ADD `ag_opening_deposit` TINYINT NULL  AFTER `agt_trvl_accpref`;
+ALTER TABLE `agents` ADD `agt_is_voter_id` TINYINT NULL DEFAULT '0' AFTER `agt_voter_id`;
+ALTER TABLE `agents` ADD `agt_is_memorandum` TINYINT NULL DEFAULT '0' AFTER `agt_ccin`;
+ALTER TABLE `agents` CHANGE `ag_opening_deposit` `agt_opening_deposit` TINYINT(4) NULL DEFAULT NULL;
+ALTER TABLE `agents` ADD `agt_copybooking_admin_id` INT NULL DEFAULT NULL AFTER `agt_opening_deposit`;
+
+
+//crp altered
+ALTER TABLE `agents` ADD `agt_crp_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP AFTER `agt_credit_limit`;
+ALTER TABLE `agents` ADD `agt_state` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_crp_date`;
+ALTER TABLE `agents` ADD `agt_zip` INT NULL DEFAULT NULL AFTER `agt_state`;
+ALTER TABLE `agents` ADD `agt_address_alt` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_zip`;
+ALTER TABLE `agents` ADD `agt_alt_state` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_address_alt`, ADD `agt_alt_zip` INT NULL DEFAULT NULL AFTER `agt_alt_state`;
+ALTER TABLE `agents` ADD `agt_tot_trvl_employee` INT NULL DEFAULT NULL AFTER `agt_alt_zip`, ADD `agt_expected_trvl_month` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_tot_trvl_employee`, ADD `agt_anual_turnover` INT NULL DEFAULT NULL AFTER `agt_expected_trvl_month`;
+
+ALTER TABLE `agents` ADD `agt_expected_region1` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_anual_turnover`, ADD `agt_expected_region2` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_expected_region1`, ADD `agt_expected_region3` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_expected_region2`, ADD `agt_expected_region4` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_expected_region3`, ADD `agt_expected_region5` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_expected_region4`, ADD `agt_expected_region6` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_expected_region5`;
+ALTER TABLE `agents` ADD `agt_invoiceopt_booking` TINYINT NULL DEFAULT NULL AFTER `agt_expected_region6`, ADD `agt_invoiceopt_monthly` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_booking`, ADD `agt_invoiceopt_prepaid` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_monthly`, ADD `agt_invoiceopt_traveller` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_prepaid`, ADD `agt_invoiceopt_def_booking` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_traveller`, ADD `agt_invoiceopt_def_monthly` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_def_booking`, ADD `agt_invoiceopt_def_prepaid` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_def_monthly`, ADD `agt_invoiceopt_def_traveller` TINYINT NULL DEFAULT NULL AFTER `agt_invoiceopt_def_prepaid`;
+ALTER TABLE `agents` ADD `agt_invoiceopt_other` VARCHAR(500) NULL DEFAULT NULL AFTER `agt_invoiceopt_def_traveller`;
+ALTER TABLE `agents` ADD `agt_acc_contact_name` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_invoiceopt_other`, ADD `agt_acc_contact_phone` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_acc_contact_name`, ADD `agt_acc_contact_mobile` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_acc_contact_phone`, ADD `agt_acc_contact_email` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_acc_contact_mobile`;
+
+ALTER TABLE `agents` CHANGE `agt_opening_deposit` `agt_opening_deposit` TINYINT(4) NULL DEFAULT NULL COMMENT '{1:via cheque,2:cash,3:Electronic payment,4:others}';
+ALTER TABLE `agents` ADD `agt_bank_owner` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_acc_contact_email`, ADD `agt_bank_owner_country` VARCHAR(150) NULL DEFAULT NULL AFTER `agt_bank_owner`, ADD `agt_bank_branch_addrs` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_bank_owner_country`, ADD `agt_bank_micr` VARCHAR(50) NULL DEFAULT NULL AFTER `agt_bank_branch_addrs`, ADD `agt_rtgs` VARCHAR(50) NULL DEFAULT NULL AFTER `agt_bank_micr`;
+ALTER TABLE `agents` CHANGE `agt_type` `agt_type` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '1:agent,2:corporate';
+ALTER TABLE `agents` ADD `agt_bussiness_registration` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_rtgs`, ADD `agt_corp_reg_form` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_bussiness_registration`, ADD `agt_deposit_proof` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_corp_reg_form`;
+
+ALTER TABLE `agents` ADD `agt_is_depo_received` TINYINT NULL DEFAULT NULL AFTER `agt_deposit_proof`, ADD `agt_depo_amount` INT NULL DEFAULT NULL AFTER `agt_is_depo_received`, ADD `agt_depo_confirmed_by` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_depo_amount`, ADD `agt_depo_date` DATETIME NULL DEFAULT NULL AFTER `agt_depo_confirmed_by`, ADD `agt_iscorporate_created` TINYINT NULL DEFAULT NULL AFTER `agt_depo_date`, ADD `agt_comm_email` VARCHAR(200) NULL DEFAULT NULL AFTER `agt_iscorporate_created`;
+
+ALTER TABLE `agents` CHANGE `agt_zip` `agt_zip` VARCHAR(100) NULL DEFAULT NULL
+ALTER TABLE `agents` CHANGE `agt_type` `agt_type` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0:agent,1:corporate';
+
+
+date  altered
+3/4/2017
+===============================
+agent_requested_users alter table server from agent_users
+
+ALTER TABLE `agent_requested_users` ADD `agu_created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP AFTER `agu_phone`;
+ALTER TABLE `agent_requested_users` CHANGE `agu_id` `aru_id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `agu_agent_id` `aru_agent_id` INT(11) NOT NULL, CHANGE `agu_name` `aru_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `agu_email` `aru_email` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `agu_phone` `aru_phone` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `agu_created` `aru_created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP;
+
+date altered
+7/4/2017
+================================
+ALTER TABLE `agents` ADD `agt_aadhar` VARCHAR(150) NULL DEFAULT NULL AFTER `agt_company_type`;
+ALTER TABLE `agent_rel` ADD `arl_voter_id_path` VARCHAR(150) NULL DEFAULT NULL AFTER `arl_rel_gozoemp_reltype4`;
+ALTER TABLE `agent_rel` ADD `arl_driver_license_path` VARCHAR(150) NULL DEFAULT NULL AFTER `arl_voter_id_path`;
+
+
+date altered
+13/04/2017
+=================================
+ALTER TABLE `agents` CHANGE `agt_commission_value` `agt_commission_value` TINYINT(4) NULL DEFAULT '2' COMMENT '1 => Percentage, 2 => Fixed Value';
+ALTER TABLE `agents` DROP `agt_invoiceopt_def_booking`;
+ALTER TABLE `agents` DROP `agt_invoiceopt_def_monthly`;
+ALTER TABLE `agents` CHANGE `agt_opening_deposit` `agt_opening_deposit` VARCHAR(10) NULL DEFAULT NULL;
+ALTER TABLE `agents` DROP `agt_invoiceopt_def_prepaid`;
+
+
+date 
+28/04/2017    altered
+================================
+ALTER TABLE `agents` CHANGE `agt_commission` `agt_commission` MEDIUMINT(9) NULL DEFAULT '0';
+===insert agents to agent users cron
+Insert INTO
+  agent_users(
+    agu_user_id,
+    agu_agent_id)
+  SELECT
+    users.user_id,
+    agents.agt_id
+  FROM
+    agents
+    LEFT JOIN users ON agents.agt_username = users.usr_email
+    LEFT JOIN agent_users ON agents.agt_id = agent_users.agu_agent_id
+  WHERE
+    users.usr_active = 1 AND
+    users.usr_email IS NOT NULL AND
+    users.usr_email <> '' AND
+    agent_users.agu_id IS NULL
+===check if mismatch cron
+SELECT agu_id,agu_agent_id,agu_user_id FROM agent_users WHERE agu_id NOT IN(SELECT agent_users.agu_id FROM agents LEFT JOIN users ON agents.agt_username = users.usr_email LEFT JOIN agent_users ON agents.agt_id = agent_users.agu_agent_id WHERE users.usr_active = 1 AND users.usr_email IS NOT NULL AND users.usr_email <> '' AND agent_users.agu_id IS NOT NULL)
+
+===insert agents to users cron
+INSERT INTO
+  users(
+    usr_name,
+    usr_lname,
+    usr_email,
+    usr_password,
+    usr_country_code,
+    usr_mobile,
+    usr_active)
+  SELECT
+    agents.agt_fname,
+    agents.agt_lname,
+    agents.agt_username,
+    agents.agt_password,
+    IF(agents.agt_phone_country_code IS NULL,91,agents.agt_phone_country_code),
+    agents.agt_phone,
+    agents.agt_active
+  FROM
+    agents
+  WHERE
+    agt_username NOT IN (SELECT
+                           users.usr_email
+                         FROM
+                           users
+                         WHERE
+                           users.usr_active IN (1,
+                                                2))
+
+date
+03/06/1017    altered
+===============================
+===Insert corporate data to agents
+
+insert into
+  agents(
+    agt_fname,
+    agt_lname,
+    agt_company,
+    agt_owner_name,
+    agt_referral_code,
+    agt_phone_country_code,
+    agt_phone,
+    agt_email,
+    agt_username,
+    agt_address,
+    agt_commission_value,
+    agt_commission,
+    agt_credit_limit,
+    agt_bank,
+    agt_branch_name,
+    agt_ifsc_code,
+    agt_bank_account,
+    agt_is_agreement,
+    agt_agreement,
+    agt_voter_id,
+    agt_active,
+    agt_create_date,
+    agt_modified_date,agt_type)
+  SELECT
+    crp_fname,
+    crp_lname,
+    crp_company,
+    crp_owner,
+    crp_code,
+    crp_country_code,
+    crp_contact,
+    crp_email,
+    crp_email,
+    crp_address,
+    crp_discount_type,
+    crp_discount_amount,
+    crp_credit_limit,
+    crp_bank_name,
+    crp_bank_branch,
+    crp_bank_ifsc,
+    crp_bank_account_no,
+    IF(crp_agreement IS NULL OR crp_agreement=2,0,1),
+    crp_agreement_file,
+    crp_id_proof,
+    crp_active,
+
+
+date
+23/06/2017
+========================
+ALTER TABLE `agents` CHANGE `agt_type` `agt_type` TINYINT(4) NOT NULL DEFAULT '2' COMMENT '0:travel agent,1:corporate,2:authorized reseller';
+ALTER TABLE `booking_pref` ADD `bpr_crp_phone` VARCHAR(50) NULL DEFAULT NULL AFTER `bpr_crp_email`;
+
+
+
+date                 altered
+24/07/2017
+====================================
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+CREATE TABLE `agent_log` (
+  `agl_id` int(11) NOT NULL,
+  `agl_ref_id` int(11) DEFAULT NULL,
+  `agl_usr_ref_id` int(11) DEFAULT NULL,
+  `agl_usr_type` tinyint(4) DEFAULT NULL,
+  `agl_agent_id` int(11) DEFAULT NULL,
+  `agl_desc` varchar(4000) DEFAULT NULL,
+  `agl_event_id` smallint(6) DEFAULT NULL,
+  `agl_active` tinyint(4) NOT NULL DEFAULT '1',
+  `agl_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `agl_ip` varchar(50) DEFAULT NULL,
+  `agl_session` text,
+  `agl_device_info` varchar(250) DEFAULT NULL,
+  `agl_logout_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `agent_log`
+  ADD PRIMARY KEY (`agl_id`);
+
+ALTER TABLE `agent_log`
+  MODIFY `agl_id` int(11) NOT NULL AUTO_INCREMENT;
+
+====================================
+INSERT INTO agent_log(agl_usr_ref_id,agl_usr_type,agl_agent_id,agl_desc,agl_event_id,agl_ip,agl_session,agl_device_info,agl_logout_time) SELECT agt_log_user,1,agt_log_user,"logged in successfully",1,agt_log_ip,agt_log_session,agt_log_device_info,agt_log_out_time FROM agent_log_old
+
+date        altered
+27/07/2017
+================================
+ALTER TABLE `booking_pref` ADD `bpr_crp_country_code` VARCHAR(10) NULL DEFAULT '91' AFTER `bpr_crp_phone`;
+
+
+
+
+

@@ -1,0 +1,37 @@
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cab_stats`
+--
+
+CREATE TABLE `cab_stats` (
+  `cbs_id` int(11) NOT NULL,
+  `cbs_vhc_id` int(11) NOT NULL,
+  `cbs_vhc_overall_rating` decimal(10,2) NOT NULL,
+  `cbs_vhc_total_trip` int(11) NOT NULL,
+  `cbs_trust_score` decimal(10,2) NOT NULL,
+  `cbs_no_of_star` int(11) NOT NULL,
+  `cbs_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cbs_active` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cab_stats`
+--
+ALTER TABLE `cab_stats`
+  ADD PRIMARY KEY (`cbs_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cab_stats`
+--
+ALTER TABLE `cab_stats`
+  MODIFY `cbs_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

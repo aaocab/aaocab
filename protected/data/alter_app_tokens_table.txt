@@ -1,0 +1,1 @@
+ALTER TABLE `app_tokens` ADD `apt_device_token` VARCHAR(250) NULL DEFAULT NULL AFTER `apt_status`;

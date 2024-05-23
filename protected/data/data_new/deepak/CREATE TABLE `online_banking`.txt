@@ -1,0 +1,54 @@
+
+SET FOREIGN_KEY_CHECKS=0; 
+SET AUTOCOMMIT = 0;
+START TRANSACTION;  
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `online_banking`
+--
+
+CREATE TABLE `online_banking` (
+  `onb_id` int(11) NOT NULL,
+  `onb_code` varchar(40) NOT NULL,
+  `onb_payment_user_id` varchar(32) NOT NULL,
+  `onb_payee_type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1=>Customer, 2=>vendor',
+  `onb_payee_id` int(11) NOT NULL,
+  `onb_payee_account` varchar(34) NOT NULL,
+  `onb_payee_ifsc` varchar(32) NOT NULL,
+  `onb_amount` decimal(10,2) NOT NULL,
+  `onb_txn_type` varchar(11) NOT NULL,
+  `onb_payee_name` varchar(50) NOT NULL,
+  `onb_remarks` varchar(255) DEFAULT NULL,
+  `onb_status` tinyint(4) NOT NULL DEFAULT 0,
+  `onb_response` varchar(500) DEFAULT NULL,
+  `onb_response_message` varchar(255) DEFAULT NULL,
+  `onb_response_code` varchar(100) DEFAULT NULL,
+  `onb_active` tinyint(4) NOT NULL DEFAULT 1,
+  `onb_requested_ref_type` tinyint(4) DEFAULT NULL,
+  `onb_requested_by` int(11) DEFAULT NULL,
+  `onb_request_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `onb_process_started_on` timestamp NULL DEFAULT NULL,
+  `onb_processed_on` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `online_banking`
+--
+ALTER TABLE `online_banking`
+  ADD PRIMARY KEY (`onb_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `online_banking`
+--
+ALTER TABLE `online_banking`
+  MODIFY `onb_id` int(11) NOT NULL AUTO_INCREMENT;
+SET FOREIGN_KEY_CHECKS=1;

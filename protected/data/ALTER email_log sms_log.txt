@@ -1,0 +1,9 @@
+ALTER TABLE `booking_log` ADD `blg_user_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `blg_ref_id`;
+ALTER TABLE `booking_log` ADD `blg_user_id` INT(11) NULL DEFAULT NULL AFTER `blg_user_type`;
+
+
+ALTER TABLE `email_log` ADD `elg_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `id`;ALTER TABLE `email_log` ADD `elg_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `sms_log` ADD `slg_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `id`;
+
+

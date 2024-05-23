@@ -1,0 +1,6 @@
+ALTER TABLE `cities` ADD `cty_lat` FLOAT(16,2) NULL DEFAULT NULL AFTER `cty_ncr`, ADD `cty_long` FLOAT(16,2) NULL DEFAULT NULL AFTER `cty_lat`, ADD `cty_km` INT(11) NULL DEFAULT NULL AFTER `cty_long`;
+
+
+ALTER TABLE `cities` CHANGE `cty_lat` `cty_lat` FLOAT(9,6) NULL DEFAULT NULL, CHANGE `cty_long` `cty_long` FLOAT(9,6) NULL DEFAULT NULL;
+
+ALTER TABLE `cities` CHANGE `cty_km` `cty_radius` INT(11) NULL DEFAULT NULL;

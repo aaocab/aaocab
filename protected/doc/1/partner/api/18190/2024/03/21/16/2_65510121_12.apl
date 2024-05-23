@@ -1,0 +1,5 @@
+{"source":{"address":"KIAL Road, Devanahalli, Bengaluru, Bangalore Division, Karnataka","latitude":13.1989089,"longitude":77.70681309999999,"city":"Bangalore"},"destination":{"address":"Bengaluru, Bangalore Division, Karnataka","latitude":12.9715987,"longitude":77.5945627,"city":"Bangalore"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-22 12:00:00","end_time":"2024-03-22 12:54:16","search_id":"65fc12dc2d5774001e45dadb","one_way_distance":36,"one_way_duration":54,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["AE","NC","PC","ST","TOLL"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"AIRPORT","airport_type":"PICKUP"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":"PARTNER_SEARCH_INVENTORY_UNAVAILABLE","error":"Sold out","link":null,"response":null}

@@ -1,0 +1,4 @@
+INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
+('zoneAdd', 0, 'add zone', NULL, 'N;'),
+('zoneList', 0, 'list zone', NULL, 'N;');
+

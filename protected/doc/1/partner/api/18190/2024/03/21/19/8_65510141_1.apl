@@ -1,0 +1,5 @@
+{"source":{"address":"Delhi airport, Airport, New Delhi, Delhi, India","latitude":28.5624001,"longitude":77.1220537,"city":"Delhi"},"destination":{"address":"Agra, Uttar Pradesh, India","latitude":27.1766701,"longitude":78.00807449999999,"city":"Agra"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-22 11:45:00","end_time":"2024-03-22 16:57:29","distance":295,"fare_details":{"base_fare":2560,"total_driver_charges":0,"total_days_charged":null,"state_tax":200,"toll_charges":288,"total_fare":3048},"search_id":"65d601196b53a60017a61bfd","vehicle_type":"hatchback","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"CMP7261","type":"hatchback","subcategory":"basic","combustion_type":"Unknown","model":"Unknown","make_year_type":"Unknown","cancellation_rule":"FLEXI"},"search_tags":["B2C"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"response":{"success":true,"reference_number":"3898449","verification_code":"212618","tnc":"https:\/\/www.gozocabs.com\/terms"}}

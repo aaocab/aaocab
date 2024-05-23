@@ -1,0 +1,46 @@
+SELECT bcb.* FROM `booking_cab` bcb JOIN booking bkg 
+ON bkg.bkg_bcb_id = bcb.bcb_id 
+WHERE bcb.bcb_vendor_amount IS NULL 
+AND bcb.bcb_active = 1 
+AND bkg.bkg_status = 3 
+and bkg.bkg_vendor_amount <> '' 
+AND bkg.bkg_vendor_amount IS NOT NULL
+
+
+
+update booking_cab bcb 
+JOIN ( select bkg_vendor_amount, bkg_id, bkg_bcb_id, bkg_status from booking where
+bkg_status = 3 
+and bkg_vendor_amount <> '' 
+AND bkg_vendor_amount IS NOT NULL) bkg 
+ON bkg.bkg_bcb_id = bcb.bcb_id 
+where bcb.bcb_vendor_amount IS NULL and bcb.bcb_active = 1
+
+SELECT bcb.* FROM `booking_cab` bcb JOIN booking bkg 
+ON bkg.bkg_bcb_id = bcb.bcb_id 
+WHERE bcb.bcb_vendor_amount IS NULL 
+AND bcb.bcb_active = 1 
+AND bkg.bkg_status = 3 
+and bkg.bkg_vendor_amount <> '' 
+AND bkg.bkg_vendor_amount IS NOT NULL
+
+
+
+
+SELECT * FROM
+booking_cab bcb JOIN ( select bkg_vendor_amount, bkg_id, bkg_bcb_id, bkg_status from booking where
+bkg_status = 3 
+and bkg_vendor_amount <> '' 
+AND bkg_vendor_amount IS NOT NULL) bkg ON bkg.bkg_bcb_id = bcb.bcb_id 
+where bcb.bcb_vendor_amount IS NULL and bcb.bcb_active = 1
+
+
+
+update booking_cab bcb 
+JOIN ( select bkg_vendor_amount, bkg_id, bkg_bcb_id, bkg_status from booking where
+bkg_status = 3 
+and bkg_vendor_amount <> '' 
+AND bkg_vendor_amount IS NOT NULL) bkg 
+ON bkg.bkg_bcb_id = bcb.bcb_id 
+set bcb.bcb_vendor_amount = bkg.bkg_vendor_amount
+where bcb.bcb_vendor_amount IS NULL and bcb.bcb_active = 1

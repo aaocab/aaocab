@@ -1,0 +1,54 @@
+
+.no-border{
+    border: 0;
+}
+
+.header{
+    font-family: verdana;
+    font-size: 8pt;
+}
+
+.header table td {
+    padding: 5px;
+}
+
+.header .leftHeader {
+    min-width: 260px;
+    width: 40%;
+    padding-right: 20px;
+}
+.header .leftHeader table, .header .rightHeader table{
+    border-collapse: collapse;
+}
+.header .leftHeader table tr td, .header .rightHeader  table  tr td{
+    border: solid 1px #444;
+}
+.header .leftHeader table tr td.label, .header .rightHeader table tr td.label{
+    font-weight: bold;
+}
+
+.header .rightHeader {
+    min-width: 400px;
+    width: 60%;
+}
+
+table.borderless  tbody  tr  td{
+    border: 0;
+}
+
+.invoice_box{
+    width: 100%;
+    margin-top: 10px;
+    font-family: verdana;
+    font-size: 8pt;
+    border-collapse: collapse
+}
+
+.invoice_box tr td {
+    padding: 5px;
+    border: solid 1px #ddd;
+}
+
+.invoice_box tr:nth-child(odd) {
+    background-color: #e5e5e5;
+}

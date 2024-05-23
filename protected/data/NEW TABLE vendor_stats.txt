@@ -1,0 +1,37 @@
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendor_stats`
+--
+
+CREATE TABLE `vendor_stats` (
+  `vrs_Id` int(11) NOT NULL,
+  `vrs_vnd_id` int(11) NOT NULL,
+  `vrs_vnd_overall_rating` decimal(10,2) NOT NULL,
+  `vrs_vnd_total_trip` int(11) NOT NULL,
+  `vrs_trust_score` decimal(10,2) NOT NULL,
+  `vrs_no_of_star` int(11) NOT NULL,
+  `vrs_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `vrs_active` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_stats`
+--
+ALTER TABLE `vendor_stats`
+  ADD PRIMARY KEY (`vrs_Id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vendor_stats`
+--
+ALTER TABLE `vendor_stats`
+  MODIFY `vrs_Id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

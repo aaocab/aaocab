@@ -1,0 +1,22 @@
+ALTER TABLE `zones` ADD `zon_price_rule` SMALLINT NOT NULL DEFAULT '0' AFTER `zon_long`;
+
+UPDATE zones zn
+       JOIN
+       (SELECT z1.*, cities.cty_name, states.stt_id, states.stt_zone
+        FROM   (SELECT z.zon_id,
+                       z.zon_name,
+                       z.zon_price_rule,
+                       (SELECT   c1.cty_id
+                        FROM     cities c1
+                                 INNER JOIN zones
+                                   ON SQRT(POW(69.1 * (c1.cty_lat - zones.zon_lat), 2) + POW(69.1 * (zones.zon_long - c1.cty_long) * COS(c1.cty_lat / 57.3), 2)) <
+                                        20
+                        WHERE    zones.zon_id = z.zon_id
+                        ORDER BY SQRT(POW(69.1 * (c1.cty_lat - zones.zon_lat), 2) + POW(69.1 * (zones.zon_long - c1.cty_long) * COS(c1.cty_lat / 57.3), 2))
+                        LIMIT    0, 1)
+                         AS zcty_id
+                FROM   zones z) z1
+               INNER JOIN cities ON cities.cty_id = zcty_id
+               JOIN states ON states.stt_id = cities.cty_state_id) stt
+         ON stt.zon_id = zn.zon_id
+SET    zn.zon_price_rule = stt.stt_zone

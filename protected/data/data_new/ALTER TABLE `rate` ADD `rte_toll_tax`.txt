@@ -1,0 +1,1 @@
+ALTER TABLE `rate` ADD `rte_toll_tax` SMALLINT NOT NULL DEFAULT '0' AFTER `rte_amount`, ADD `rte_state_tax` SMALLINT NOT NULL DEFAULT '0' AFTER `rte_toll_tax`;

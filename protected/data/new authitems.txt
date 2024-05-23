@@ -1,0 +1,5 @@
+
+INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES
+('creditAddBooking', 0, 'add credits against booking to user', NULL, 'N;'),
+('creditAddCustomer', 0, 'add credits to particular customer', NULL, 'N;'),
+('creditHistory', 0, 'credits list of customers', NULL, 'N;');

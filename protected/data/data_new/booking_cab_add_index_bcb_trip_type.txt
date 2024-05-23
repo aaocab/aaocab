@@ -1,0 +1,1 @@
+ALTER TABLE `booking_cab` ADD INDEX( `bcb_trip_type`);

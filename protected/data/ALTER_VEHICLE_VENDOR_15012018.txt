@@ -1,0 +1,7 @@
+ALTER TABLE `vendor_vehicle` ADD `vvhc_digital_device_id` VARCHAR(50) NULL DEFAULT NULL AFTER `vvhc_digital_long`;
+
+ALTER TABLE `vendor_vehicle` ADD `vvhc_digital_ver` VARCHAR(50) NULL DEFAULT NULL AFTER `vvhc_vhc_owner_auth_valid_date`;
+
+ALTER TABLE `vendor_vehicle` ADD `vvhc_digital_is_agree` TINYINT(4) NOT NULL DEFAULT '0' AFTER `vvhc_digital_date`;
+
+

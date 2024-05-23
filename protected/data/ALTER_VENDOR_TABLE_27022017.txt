@@ -1,0 +1,3 @@
+ALTER TABLE `vendors` ADD `vnd_cod` TINYINT(3) NOT NULL DEFAULT '0' AFTER `vnd_car_mismatch_count`;
+ALTER TABLE `vendors` CHANGE `vnd_cod` `vnd_cod_freeze` TINYINT(3) NOT NULL DEFAULT '0';
+

@@ -1,0 +1,17 @@
+ALTER TABLE `email_log` ADD `elg_ref_id` INT(11) NULL DEFAULT NULL AFTER `id`, ADD `elg_ref_type` TINYINT(4) NOT NULL DEFAULT '1' AFTER `elg_ref_id`;
+
+ALTER TABLE `email_log` CHANGE `elg_ref_id` `elg_ref_id` VARCHAR(255) NULL DEFAULT NULL;
+
+UPDATE `email_log` SET `elg_ref_id`=email_log.booking_id WHERE email_log.booking_id <> ''
+
+
+
+
+ALTER TABLE `sms_log` ADD `slg_ref_id` VARCHAR(250) NULL DEFAULT NULL AFTER `id`, ADD `slg_ref_type` TINYINT(4) NULL DEFAULT '1' AFTER `slg_ref_id`;
+
+UPDATE `sms_log` SET `slg_ref_id`=`sms_log`.`booking_id` WHERE sms_log.booking_id <> ''
+
+
+
+
+

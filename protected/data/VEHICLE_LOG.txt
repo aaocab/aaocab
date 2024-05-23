@@ -1,0 +1,36 @@
+
+CREATE TABLE `vehicles_log` (
+  `clg_ld` int(11) NOT NULL,
+  `clg_user_ref_id` int(11) DEFAULT NULL,
+  `clg_user_type` tinyint(4) DEFAULT NULL,
+  `clg_vhc_id` int(11) DEFAULT NULL,
+  `clg_desc` varchar(4000) DEFAULT NULL,
+  `clg_event_id` smallint(6) DEFAULT NULL,
+  `clg_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `clg_active` tinyint(3) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vehicles_log`
+--
+ALTER TABLE `vehicles_log`
+  ADD PRIMARY KEY (`clg_ld`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vehicles_log`
+--
+ALTER TABLE `vehicles_log`
+  MODIFY `clg_ld` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `vehicles_log` ADD INDEX( `clg_vhc_id`);
+
+
+ALTER TABLE `vehicles_log` ADD FOREIGN KEY (`clg_vhc_id`) REFERENCES `vehicles`(`vhc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

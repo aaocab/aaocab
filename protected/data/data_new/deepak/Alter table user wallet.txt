@@ -1,0 +1,5 @@
+ALTER TABLE `user_wallet`  ADD `urw_net_balance` INT 
+AS (urw_wallet_amount-ifnull(urw_locked_amount,0)) VIRTUAL  AFTER `urw_locked_amount`;
+
+--ALTER TABLE `user_wallet` DROP `urw_net_balance`;
+

@@ -1,0 +1,5 @@
+ALTER TABLE `call_status` ADD INDEX( `cst_ref_id`);
+ALTER TABLE `call_status` ADD INDEX( `cst_lead_id`);
+
+ALTER TABLE `booking_temp` ADD `bkg_mycall_assigned` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_vht_id`;
+

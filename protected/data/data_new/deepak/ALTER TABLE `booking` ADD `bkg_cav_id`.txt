@@ -1,0 +1,6 @@
+ 
+ALTER TABLE `booking` ADD `bkg_cav_id` INT NULL AFTER `bkg_shuttle_id`;
+
+ALTER TABLE `cab_availabilities` ADD `cav_is_local_trip` TINYINT NOT NULL DEFAULT '0' AFTER `cav_is_shared`;
+
+ALTER TABLE `booking_pref`  ADD `bpr_is_flash` TINYINT NOT NULL DEFAULT '0'  AFTER `bkg_pref_req_other`;

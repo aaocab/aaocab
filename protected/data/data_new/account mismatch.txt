@@ -1,0 +1,8 @@
+SELECT bkg_id, ven_trans_amount, ven_tds_amount,
+       (bkg_gozo_amount - (IFNULL(bkg_advance_amount, 0) + bkg_credits_used - bkg_refund_amount + bkg_corporate_credit)) gzdue ,
+       (ven_trans_amount-(bkg_gozo_amount - (IFNULL(bkg_advance_amount, 0) + bkg_credits_used - bkg_refund_amount + bkg_corporate_credit))) diff
+FROM   booking JOIN vendor_transactions ON booking.bkg_id = vendor_transactions.ven_booking_id
+WHERE  booking.bkg_status IN (6, 7) AND vendor_transactions.ven_trans_active = 1
+group by  ven_booking_id
+HAVING (ven_tds_amount + gzdue) <> ven_trans_amount
+

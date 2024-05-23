@@ -1,0 +1,8 @@
+ALTER TABLE `price_surge` ADD `prc_override_profitability` TINYINT NOT NULL DEFAULT '0' AFTER `prc_override_ds`;
+
+ALTER TABLE `booking_price_factor` 
+	ADD `bkg_profitability_base_amount` MEDIUMINT NULL AFTER `bkg_zone_factor`, 
+	ADD `bkg_profitability_surge_factor` DOUBLE(6,2) NULL AFTER `bkg_profitability_base_amount`;
+
+ALTER TABLE `booking_price_factor` ADD `bkg_manual_surge_factor` DOUBLE(6,2) NULL AFTER `bkg_manual_base_amount`;
+ALTER TABLE `booking_price_factor` ADD `bkg_dtbp_factor` DOUBLE(6,1) NULL AFTER `bkg_dtbp_base_amount`;

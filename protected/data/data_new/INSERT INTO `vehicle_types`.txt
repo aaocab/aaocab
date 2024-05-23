@@ -1,0 +1,5 @@
+INSERT INTO `vehicle_types` ( `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_big_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES
+( 'images/cabs/indica.jpg', 'Compact', 'Compact', 4, NULL, NULL, 1, 0, NULL, 2, 0, '2016-01-03 22:21:49', 0, NULL),
+( 'images/cabs/car-etios.jpg', 'Sedan', 'Dzire, Toyota Etios, Tata Indigo', 4, 15, 9, 3, 0, 1, 1, 2, '2016-01-03 22:21:49', 1, '[["7","2016-05-11 20:49:27",{"vht_model":"Dzire\\/Toyota Etios","vht_average_mileage":null,"vht_fuel_type":null}]]'),
+( 'images/cabs/car-innova.png', 'SUV', 'Innova, Mahindra Xylo, Chevrolet Tavera', 6, 10, 12, 2, 0, 1, 2, 3, '2016-01-03 22:21:49', 1, '[["7","2016-05-11 20:48:26",{"vht_model":"Innova","vht_average_mileage":null,"vht_fuel_type":null}]]'),
+( 'images/cabs/car-tempo.jpg', 'Tempo Traveller', '', 15, NULL, 16, 4, 0, NULL, 2, 0, '2016-01-03 22:21:49', 0, NULL);

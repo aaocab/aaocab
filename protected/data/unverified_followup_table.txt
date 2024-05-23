@@ -1,0 +1,63 @@
+
+CREATE TABLE `unverified_followup` (
+  `unv_id` int(11) NOT NULL,
+  `unv_bkg_id` int(11) DEFAULT NULL,
+  `unv_from_city` varchar(255) DEFAULT NULL,
+  `unv_to_city` varchar(255) DEFAULT NULL,
+  `unv_amount` float(16,2) DEFAULT NULL,
+  `unv_comment` varchar(255) DEFAULT NULL,
+  `unv_create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `unverified_followup`
+--
+ALTER TABLE `unverified_followup`
+  ADD PRIMARY KEY (`unv_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `unverified_followup`
+--
+ALTER TABLE `unverified_followup`
+  MODIFY `unv_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+ALTER TABLE `unverified_followup` ADD INDEX(`unv_bkg_id`);
+
+
+ALTER TABLE `unverified_followup` ADD FOREIGN KEY (`unv_bkg_id`) REFERENCES `booking`(`bkg_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+ALTER TABLE `unverified_followup` CHANGE `unv_comment` `unv_comment` VARCHAR(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `unverified_followup` DROP `unv_from_city`, DROP `unv_to_city`, DROP `unv_amount`;
+ALTER TABLE `unverified_followup` ADD `unv_comment2` VARCHAR(4000) NOT NULL AFTER `unv_comment`;
+ALTER TABLE `unverified_followup` CHANGE `unv_comment2` `unv_comment2` VARCHAR(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `unverified_followup` ADD `uvv_bkg_tentative_booking` TINYINT(4) NOT NULL DEFAULT '0' AFTER `unv_bkg_id`;
+ALTER TABLE `unverified_followup` CHANGE `uvv_bkg_tentative_booking` `unv_bkg_tentative_booking` TINYINT(4) NOT NULL DEFAULT '0';
+ALTER TABLE `unverified_followup` ADD `unv_status` TINYINT(4) NOT NULL DEFAULT '0' AFTER `unv_comment2`;
+ALTER TABLE `unverified_followup` ADD `unv_date` DATE NULL DEFAULT NULL AFTER `unv_bkg_tentative_booking`, ADD `unv_amount` FLOAT(16,2) NULL DEFAULT NULL AFTER `unv_date`;
+
+
+ALTER TABLE `unverified_followup` ADD `unv_tellus` VARCHAR(4000) NULL DEFAULT NULL AFTER `unv_comment2`;
+ALTER TABLE `unverified_followup` CHANGE `unv_comment2` `unv_cmt` VARCHAR(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+
+ALTER TABLE `unverified_followup` ADD `unv_type` TINYINT(4) NULL DEFAULT NULL AFTER `unv_tellus`;
+

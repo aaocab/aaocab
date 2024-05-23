@@ -1,0 +1,1 @@
+SELECT bkg_id , bkg_due_amount , (bkg_total_amount - (IFNULL(bkg_advance_amount, 0) + bkg_credits_used - bkg_refund_amount + bkg_corporate_credit + bkg_vendor_collected)) calcDue , bkg_vendor_collected, bkg_refund_amount, bkg_advance_amount FROM booking WHERE bkg_status IN (6, 7) AND date(bkg_create_date) > '2016-06-01' AND bkg_due_amount > 0 HAVING calcDue = 0

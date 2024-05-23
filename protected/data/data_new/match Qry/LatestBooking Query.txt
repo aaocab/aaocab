@@ -1,0 +1,6 @@
+// checking weather booking bkg_bcb_id value update or not
+SELECT bkg_id,bkg_bcb_id, bcb_id,bcb_active, bkg_status FROM `booking` LEFT JOIN booking_cab ON booking_cab.bcb_bkg_id1=booking.bkg_id WHERE bkg_status in (3,5,6,7) AND bkg_bcb_id Is NULL ORDER BY `bkg_id` DESC
+
+
+// checking the count for bkg_bcb_id
+SELECT bkg_id, bkg_bcb_id, COUNT(bkg_bcb_id) cnt FROM booking WHERE bkg_bcb_id IS NOT NULL GROUP BY bkg_id having cnt >1

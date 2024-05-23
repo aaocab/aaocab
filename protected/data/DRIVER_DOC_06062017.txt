@@ -1,0 +1,56 @@
+CREATE TABLE `gozo_70523`.`driver_docs` ( `drd_id` INT(11) NOT NULL AUTO_INCREMENT , `drd_drv_id` INT(11) NULL DEFAULT NULL , `drd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=> Voter Card, 2=> Pan Card, 3=> Aadhaar Card, 4=> Driver License, 5=>Police Verification Certificate' , `drd_file` VARCHAR(250) NULL DEFAULT NULL , `drd_status` TINYINT(4) NOT NULL DEFAULT '0' , `drd_appoved_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `drd_approve_by` TINYINT(4) NULL DEFAULT NULL , PRIMARY KEY (`drd_id`)) ENGINE = InnoDB;
+
+
+
+CREATE TABLE `driver_docs` (
+  `drd_id` int(11) NOT NULL,
+  `drd_drv_id` int(11) DEFAULT NULL,
+  `drd_type` tinyint(4) DEFAULT NULL COMMENT '1=> Voter Card, 2=> Pan Card, 3=> Aadhaar Card, 4=> Driver License, 5=>Police Verification Certificate',
+  `drd_file` varchar(250) DEFAULT NULL,
+  `drd_status` tinyint(4) NOT NULL DEFAULT '0',
+  `drd_appoved_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `drd_approve_by` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `driver_docs`
+--
+ALTER TABLE `driver_docs`
+  ADD PRIMARY KEY (`drd_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `driver_docs`
+--
+ALTER TABLE `driver_docs`
+  MODIFY `drd_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+
+ALTER TABLE `driver_docs` ADD INDEX( `drd_drv_id`);
+
+ALTER TABLE `driver_docs` ADD FOREIGN KEY (`drd_drv_id`) REFERENCES `drivers`(`drv_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+ALTER TABLE `driver_docs` ADD `drd_remarks` VARCHAR(250) NULL DEFAULT NULL AFTER `drd_file`;
+
+
+
+
+ALTER TABLE `driver_docs` ADD `drd_created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `drd_status`;
+ALTER TABLE `driver_docs` CHANGE `drd_appoved_at` `drd_appoved_at` DATETIME NULL DEFAULT NULL;
+
+
+
+
+
+
+
+

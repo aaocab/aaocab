@@ -1,0 +1,1 @@
+ALTER TABLE `agents` ADD `agt_use_invoice_logo` TINYINT NOT NULL DEFAULT '0' AFTER `agt_pan_card`, ADD `agt_invoice_logo_path` VARCHAR(200) NOT NULL AFTER `agt_use_invoice_logo`;

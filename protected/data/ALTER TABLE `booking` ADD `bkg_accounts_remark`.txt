@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_accounts_remark` VARCHAR(1000) NULL AFTER `bkg_remark`;

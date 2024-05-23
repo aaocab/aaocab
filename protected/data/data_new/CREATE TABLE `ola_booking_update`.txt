@@ -1,0 +1,39 @@
+
+CREATE TABLE `ola_booking_update` (
+  `obu_id` int(11) NOT NULL,
+  `obu_bkg_booking_id` varchar(11) DEFAULT NULL,
+  `obu_bkg_trip_distance` int(4) DEFAULT NULL,
+  `obu_bkg_base_amount` int(5) DEFAULT NULL,
+  `obu_bkg_driver_allowance_amount` int(3) DEFAULT NULL,
+  `obu_bkg_toll_tax` int(1) DEFAULT NULL,
+  `obu_bkg_state_tax` int(1) DEFAULT NULL,
+  `obu_bkg_service_tax_rate` int(1) DEFAULT NULL,
+  `obu_bkg_vendor_amount` int(5) DEFAULT NULL,
+  `obu_bkg_vendor_collected` int(5) DEFAULT NULL,
+  `obu_status` varchar(255) DEFAULT NULL,
+  `obu_active` tinyint(4) NOT NULL DEFAULT 0,
+  `obu_uplaoded_on` datetime NOT NULL DEFAULT current_timestamp(),
+  `obu_uploaded_by` int(11) DEFAULT NULL,
+  `obu_updated_on` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `obu_old_data` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ola_booking_update`
+--
+ALTER TABLE `ola_booking_update`
+  ADD PRIMARY KEY (`obu_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `ola_booking_update`
+--
+ALTER TABLE `ola_booking_update`
+  MODIFY `obu_id` int(11) NOT NULL AUTO_INCREMENT;

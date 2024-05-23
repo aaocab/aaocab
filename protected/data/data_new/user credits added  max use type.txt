@@ -1,0 +1,1 @@
+ALTER TABLE `user_credits` ADD `ucr_maxuse_type` TINYINT NULL DEFAULT '3' COMMENT '1:10% of booking amt,2:10% of full credits,3:Full credits' AFTER `ucr_type`;

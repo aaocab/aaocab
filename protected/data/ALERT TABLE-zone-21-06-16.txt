@@ -1,0 +1,1 @@
+ALTER TABLE `zones` ADD `zon_home_sedan_own_rate` INT NULL DEFAULT NULL AFTER `zon_home_median_suv`, ADD `zon_home_compact_own_rate` INT NULL DEFAULT NULL AFTER `zon_home_sedan_own_rate`, ADD `zon_home_suv_own_rate` INT NULL DEFAULT NULL AFTER `zon_home_compact_own_rate`;

@@ -1,0 +1,51 @@
+
+
+CREATE TABLE `vendor_transactions` (
+  `ven_trans_id` int(11) NOT NULL,
+  `ven_ptp_id` tinyint(3) UNSIGNED DEFAULT NULL,
+  `trans_vendor_id` int(11) DEFAULT NULL,
+  `ven_booking_id` int(11) DEFAULT NULL,
+  `ven_trans_code` varchar(50) DEFAULT NULL,
+  `ven_trans_type` tinyint(3) UNSIGNED DEFAULT NULL,
+  `ven_trans_mode` tinyint(3) UNSIGNED DEFAULT NULL,
+  `ven_trans_remarks` varchar(200) DEFAULT NULL,
+  `ven_trans_amount` float(16,2) NOT NULL,
+  `ven_trans_active` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
+  `ven_trans_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ven_admin_id` int(11) DEFAULT NULL,
+  `ven_trans_response_details` varchar(1000) DEFAULT NULL,
+  `ven_trans_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_transactions`
+--
+ALTER TABLE `vendor_transactions`
+  ADD PRIMARY KEY (`ven_trans_id`),
+  ADD KEY `trans_ven_id` (`trans_vendor_id`),
+  ADD KEY `ven_booking_id` (`ven_booking_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vendor_transactions`
+--
+ALTER TABLE `vendor_transactions`
+  MODIFY `ven_trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `vendor_transactions`
+--
+ALTER TABLE `vendor_transactions`
+  ADD CONSTRAINT `vendor_transactions_ibfk_1` FOREIGN KEY (`trans_vendor_id`) REFERENCES `agents` (`agt_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `vendor_transactions_ibfk_2` FOREIGN KEY (`ven_booking_id`) REFERENCES `booking` (`bkg_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

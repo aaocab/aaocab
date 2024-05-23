@@ -1,0 +1,41 @@
+
+CREATE TABLE `invoices` (
+  `inv_id` int(11) NOT NULL,
+  `inv_no` int(11) NOT NULL,
+  `vnd_id` int(11) NOT NULL,
+  `inv_from_date` date DEFAULT NULL,
+  `inv_to_date` date DEFAULT NULL,
+  `inv_booking_amount` float(16,2) NOT NULL,
+  `inv_base_amount` float(16,2) NOT NULL,
+  `inv_vendor_amount` float(16,2) NOT NULL,
+  `inv_gozo_amount` float(16,2) NOT NULL,
+  `inv_service_tax_amount` float(16,2) NOT NULL,
+  `inv_tds_amount` float(16,2) NOT NULL,
+  `inv_total_amount` float(16,2) NOT NULL,
+  `inv_create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`inv_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `inv_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `invoices` ADD FOREIGN KEY (`inv_id`) REFERENCES `vendors`(`vnd_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `invoices` CHANGE `inv_no` `inv_no` VARCHAR(200) NOT NULL;

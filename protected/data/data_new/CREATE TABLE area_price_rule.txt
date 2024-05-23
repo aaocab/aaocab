@@ -1,0 +1,46 @@
+ 
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `area_price_rule`
+--
+
+CREATE TABLE `area_price_rule` (
+  `apr_id` int(11) NOT NULL,
+  `apr_area_type` tinyint(4) NOT NULL,
+  `apr_area_id` int(11) NOT NULL,
+  `apr_cab_type` tinyint(4) NOT NULL,
+  `apr_oneway_id` int(11) DEFAULT 0,
+  `apr_return_id` int(11) DEFAULT 0,
+  `apr_multitrip_id` int(11) DEFAULT 0,
+  `apr_airport_id` int(11) DEFAULT 0,
+  `apr_created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `apr_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `apr_active` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `area_price_rule`
+--
+ALTER TABLE `area_price_rule`
+  ADD PRIMARY KEY (`apr_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `area_price_rule`
+--
+ALTER TABLE `area_price_rule`
+  MODIFY `apr_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

@@ -1,0 +1,1 @@
+ALTER TABLE `booking_cab` ADD `bcb_is_bid_started` TINYINT NOT NULL DEFAULT '0' AFTER `bcb_max_allowable_vendor_amount`, ADD `bcb_bid_start_time` DATETIME NULL DEFAULT NULL AFTER `bcb_is_bid_started`;

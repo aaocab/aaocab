@@ -1,0 +1,1 @@
+ALTER TABLE `agents` ADD `agt_pic_path` VARCHAR(250) NULL DEFAULT NULL AFTER `agt_code_password`;

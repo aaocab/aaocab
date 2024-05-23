@@ -1,0 +1,30 @@
+
+
+UPDATE booking bkg JOIN  
+(
+select bcb_id,bcb_bkg_id1,bcb_active from booking_cab where bcb_active=1
+) bcb ON bkg.bkg_id = bcb.bcb_bkg_id1 AND bkg.bkg_status = 2  AND bkg.bkg_bcb_id IS NULL
+set bkg_bcb_id = bcb.bcb_id
+
+
+UPDATE booking_route brt JOIN  
+(
+select bkg_id,bkg_bcb_id,bkg_status from booking where bkg_status=2
+) bkg ON bkg.bkg_id = brt.brt_bkg_id AND brt.brt_active = 1  AND brt.brt_bcb_id IS NULL
+set brt.brt_bcb_id = bkg.bkg_bcb_id
+
+
+  
+update booking_cab set bcb_pending_status = 0
+    
+
+
+select * from booking_cab where bcb_pending_status = 2;
+
+
+select * from booking_route brt join booking bkg ON bkg.bkg_id = brt.brt_bkg_id where bkg.bkg_status = 2 AND brt.brt_active = 1 
+AND brt.brt_bcb_id IS NULL
+
+
+
+update booking set bkg_bcb_id = NULL where bkg_status = 2 

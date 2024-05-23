@@ -1,0 +1,58 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Sep 22, 2016 at 05:46 PM
+-- Server version: 5.7.6-m16-log
+-- PHP Version: 5.6.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `gozo_60915`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `price_surge`
+--
+
+CREATE TABLE `price_surge` (
+  `prc_id` int(11) NOT NULL,
+  `prc_from_date` datetime DEFAULT NULL,
+  `prc_to_date` datetime DEFAULT NULL,
+  `prc_value_type` tinyint(4) DEFAULT NULL COMMENT '1:amount,2:percentage',
+  `prc_value` int(11) DEFAULT '0',
+  `prc_source_city` mediumint(9) DEFAULT NULL,
+  `prc_destination_city` mediumint(9) DEFAULT NULL,
+  `prc_source_zone` int(11) DEFAULT NULL,
+  `prc_destination_zone` int(11) DEFAULT NULL,
+  `prc_vehicle_type` int(11) DEFAULT NULL,
+  `prc_desc` varchar(500) DEFAULT NULL,
+  `prc_active` tinyint(4) NOT NULL DEFAULT '1',
+  `prc_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `prc_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `price_surge`
+--
+ALTER TABLE `price_surge`
+  ADD PRIMARY KEY (`prc_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `price_surge`
+--
+ALTER TABLE `price_surge`
+  MODIFY `prc_id` int(11) NOT NULL AUTO_INCREMENT;

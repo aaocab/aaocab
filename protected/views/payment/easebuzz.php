@@ -1,0 +1,1 @@
+header('Location:' . <?= $param_list['action'] ?>);

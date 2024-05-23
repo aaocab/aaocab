@@ -1,0 +1,41 @@
+Table structure for table `agent_images`
+--
+
+CREATE TABLE `agent_images` (
+  `agi_id` int(11) NOT NULL,
+  `agi_agent_id` int(11) NOT NULL,
+  `agi_category` tinyint(4) DEFAULT NULL COMMENT '1 => photo, 2 => id_proof, 3 => license',
+  `agi_path` varchar(500) DEFAULT NULL,
+  `agi_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `agi_active` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `agent_images`
+--
+ALTER TABLE `agent_images`
+  ADD PRIMARY KEY (`agi_id`),
+  ADD KEY `agi_agent_id` (`agi_agent_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `agent_images`
+--
+ALTER TABLE `agent_images`
+  MODIFY `agi_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `agent_images`
+--
+ALTER TABLE `agent_images`
+  ADD CONSTRAINT `agent_images_ibfk_1` FOREIGN KEY (`agi_agent_id`) REFERENCES `agents` (`agt_id`);

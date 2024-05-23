@@ -1,0 +1,19 @@
+CREATE TABLE `vehicles1` LIKE vehicles; 
+
+CREATE TABLE `vehicles_bak` LIKE vehicles; 
+insert into `vehicles_bak` select * from vehicles; 
+
+
+ALTER TABLE `vehicles` CHANGE `vhc_vendor_id` `vhc_vendor_id` INT(11) NULL;
+
+ALTER TABLE `vehicles1` CHANGE `vhc_vendor_id` `vhc_vendor_id` INT(11) NULL;
+
+ALTER TABLE `drivers` CHANGE `drv_vendor_id` `drv_vendor_id` INT(11) NULL;
+
+insert into vehicles1 (vhc_id,vhc_number,vhc_type_id, vhc_year, vhc_color, vhc_insurance_exp_date, vhc_tax_exp_date, vhc_dop, vhc_owned_or_rented, vhc_created_at, vhc_modified_at, vhc_active, vhc_description, vhc_is_attached, vhc_overall_rating, vhc_total_kms, vhc_gozo_kms, vhc_vin, vhc_total_trips, vhc_last_thirtyday_trips, vhc_home_city, vhc_default_driver, vhc_log, vhc_mark_car_count, vhc_approved, vhc_permits_certificate, vhc_pollution_certificate, vhc_reg_certificate, vhc_rear_plate, vhc_front_plate, vhc_pollution_exp_date, vhc_reg_exp_date, vhc_commercial_exp_date, vhc_fitness_certificate, vhc_fitness_cert_end_date, vhc_approved_by, vhc_ver_number, vhc_ver_model_year_color, vhc_ver_rc, vhc_ver_front_license, vhc_ver_rear_license, vhc_ver_license_commercial, vhc_ver_insurance, vhc_ver_permit, vhc_ver_fitness, vhc_is_commercial, vhc_is_freeze, vhc_insurance_proof) 
+
+SELECT distinct vvh.vhc_id, vvh.vhc_number,vvh.vhc_type_id, vvh.vhc_year, vvh.vhc_color, vvh.vhc_insurance_exp_date, vvh.vhc_tax_exp_date, vvh.vhc_dop, vvh.vhc_owned_or_rented, vvh.vhc_created_at, vvh.vhc_modified_at, vvh.vhc_active, vvh.vhc_description, vvh.vhc_is_attached, vvh.vhc_overall_rating, vvh.vhc_total_kms, vvh.vhc_gozo_kms, vvh.vhc_vin, vvh.vhc_total_trips, vvh.vhc_last_thirtyday_trips, vvh.vhc_home_city, vvh.vhc_default_driver, vvh.vhc_log, vvh.vhc_mark_car_count, vvh.vhc_approved, vvh.vhc_permits_certificate, vvh.vhc_pollution_certificate, vvh.vhc_reg_certificate, vvh.vhc_rear_plate, vvh.vhc_front_plate, vvh.vhc_pollution_exp_date, vvh.vhc_reg_exp_date, vvh.vhc_commercial_exp_date, vvh.vhc_fitness_certificate, vvh.vhc_fitness_cert_end_date, vvh.vhc_approved_by, vvh.vhc_ver_number, vvh.vhc_ver_model_year_color, vvh.vhc_ver_rc, vvh.vhc_ver_front_license, vvh.vhc_ver_rear_license, vvh.vhc_ver_license_commercial, vvh.vhc_ver_insurance, vvh.vhc_ver_permit, vvh.vhc_ver_fitness, vvh.vhc_is_commercial, vvh.vhc_is_freeze, vvh.vhc_insurance_proof from vehicle_map
+
+q join vehicles vvh ON q.vhc_id = vvh.vhc_id;
+
+

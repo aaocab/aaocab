@@ -1,0 +1,20 @@
+INSERT transactions(trans_ptp_id, trans_booking_id,  trans_amount, trans_mode, trans_remarks, trans_response_message,trans_start_datetime,
+                    trans_complete_datetime, trans_user_type,trans_code,trans_status)
+  SELECT 13, bkg_id,  bkg_corporate_credit, 2, "Agent credit added","Agent credit added", 
+  bkg_create_date,bkg_create_date, 10,'',1
+  FROM   booking
+  WHERE  bkg_corporate_credit > 0 AND (bkg_agent_id > 0 || bkg_corporate_id > 0 )AND bkg_status > 1 AND bkg_status <= 9 and bkg_status<>8;
+ 
+/////
+UPDATE booking bkg set bkg.bkg_advance_amount=bkg.bkg_advance_amount+bkg.bkg_corporate_credit 
+ WHERE  bkg_corporate_credit > 0 AND (bkg_agent_id > 0 || bkg_corporate_id > 0 )AND bkg_status > 1 AND bkg_status <= 9 and bkg_status<>8;
+
+//////
+ 
+INSERT agent_transactions (agt_ptp_id, agt_agent_id, agt_booking_id, agt_trip_id, agt_trans_code, agt_trans_mode, agt_trans_remarks, agt_trans_amount,
+         agt_trans_created, agt_trans_date)
+SELECT 13,ifNULL(bkg_agent_id,0)+ifnull(bkg_corporate_id,0), bkg_id,bkg_bcb_id,'',  2, "Agent credit added",bkg_corporate_credit, 
+  bkg_create_date,bkg_create_date
+  FROM   booking
+  WHERE  bkg_corporate_credit > 0 AND (bkg_agent_id > 0 || bkg_corporate_id > 0 )AND bkg_status > 1 AND bkg_status <= 9 and bkg_status<>8;
+  

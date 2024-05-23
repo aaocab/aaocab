@@ -1,0 +1,56 @@
+CREATE TABLE `vehicle_docs` (
+  `vhd_id` int(11) NOT NULL,
+  `vhc_id` int(11) DEFAULT NULL,
+  `vhd_doc_type` tinyint(4) DEFAULT NULL,
+  `vhd_doc_file` varchar(250) DEFAULT NULL,
+  `vhd_doc_status` tinyint(4) DEFAULT '0',
+  `vhd_doc_approve_by` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vehicle_docs`
+--
+ALTER TABLE `vehicle_docs`
+  ADD PRIMARY KEY (`vhd_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vehicle_docs`
+--
+ALTER TABLE `vehicle_docs`
+  MODIFY `vhd_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+
+
+ALTER TABLE `vehicle_docs` ADD INDEX( `vhc_id`);
+ALTER TABLE `vehicle_docs` CHANGE `vhc_id` `vhd_vhc_id` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `vehicle_docs` ADD FOREIGN KEY (`vhd_vhc_id`) REFERENCES `vehicles`(`vhc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `vehicle_docs` CHANGE `vhd_doc_type` `vhd_doc_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=>Insurance , 2=>Front License, 3=>Rear License, 4=>Pollution Under Control, 5=>Registration Certificate, 6=>Commercial Permits, 7=>Fitness Certificate';
+
+ALTER TABLE `vehicle_docs` ADD `vhd_doc_ref_id` TINYINT(4) NULL DEFAULT NULL AFTER `vhd_doc_status`;
+
+
+ALTER TABLE `vehicle_docs` CHANGE `vhd_doc_ref_id` `vhd_appoved_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `vehicle_docs` CHANGE `vhd_doc_type` `vhd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=>Insurance , 2=>Front License, 3=>Rear License, 4=>Pollution Under Control, 5=>Registration Certificate, 6=>Commercial Permits, 7=>Fitness Certificate', CHANGE `vhd_doc_file` `vhd_file` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `vhd_doc_status` `vhd_status` TINYINT(4) NULL DEFAULT '0', CHANGE `vhd_doc_approve_by` `vhd_approve_by` TINYINT(4) NULL DEFAULT NULL;
+
+ALTER TABLE `vehicle_docs` ADD `vhd_remarks` VARCHAR(255) NULL DEFAULT NULL AFTER `vhd_file`;
+
+
+ALTER TABLE `vehicle_docs` CHANGE `vhd_appoved_at` `vhd_appoved_at` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `vehicle_docs` ADD `vhd_created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `vhd_status`;
+
+
+
+ALTER TABLE `vehicle_docs` CHANGE `vhd_appoved_at` `vhd_appoved_at` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `vehicle_docs` ADD `vhd_created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `vhd_status`;
+
+

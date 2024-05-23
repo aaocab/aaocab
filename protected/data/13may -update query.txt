@@ -1,0 +1,17 @@
+ALTER TABLE `booking_log` ADD `blg_user_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `blg_ref_id`;
+ALTER TABLE `booking_log` ADD `blg_user_id` INT(11) NULL DEFAULT NULL AFTER `blg_user_type`;
+
+
+ALTER TABLE `email_log` ADD `elg_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `id`;ALTER TABLE `email_log` ADD `elg_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `sms_log` ADD `slg_type` TINYINT UNSIGNED NULL DEFAULT NULL AFTER `id`;
+
+
+ALTER TABLE `booking` ADD `bkg_service_tax` FLOAT(16,2) NULL DEFAULT NULL AFTER `bkg_escalation_status`, ADD `bkg_service_tax_rate` FLOAT(8,2) NULL DEFAULT NULL AFTER `bkg_service_tax`;
+
+
+ALTER TABLE `agents` ADD `agt_api_key` VARCHAR(255) NULL DEFAULT NULL AFTER `agt_code_password`;
+
+UPDATE `booking_log` SET `blg_user_type`='4',`blg_user_id`=blg_admin_id WHERE `blg_admin_id` IS NOT NULL
+
+UPDATE `booking_log` SET `blg_user_type`='2',`blg_user_id`=blg_agent_id WHERE `blg_agent_id` IS NOT NULL

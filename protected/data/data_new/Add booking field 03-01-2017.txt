@@ -1,0 +1,16 @@
+ALTER TABLE `booking` ADD `bkg_bcb_id` INT NULL DEFAULT NULL AFTER `bkg_booking_id`;
+
+ALTER TABLE `booking` ADD INDEX(`bkg_bcb_id`);
+
+SET FOREIGN_KEY_CHECKS=0;
+
+ALTER TABLE `booking` ADD  FOREIGN KEY (`bkg_bcb_id`) REFERENCES `booking_cab`(`bcb_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+SET FOREIGN_KEY_CHECKS=1;
+
+ALTER TABLE `booking_cab` CHANGE `bcb_bkg_id` `bcb_bkg_id1` INT(11) NULL DEFAULT NULL;
+
+SELECT `bcb_id`,`bcb_bkg_id1`, COUNT(bcb_bkg_id1) cnt FROM `booking_cab` WHERE `bcb_active` = 1 GROUP BY bcb_bkg_id1 having cnt > 1
+
+
+UPDATE booking bkg LEFT JOIN booking_cab bcb ON bcb.bcb_bkg_id1=bkg.bkg_id AND bcb.bcb_active = 1 SET bkg.bkg_bcb_id=bcb.bcb_id

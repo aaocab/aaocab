@@ -1,0 +1,19 @@
+SELECT rte.rte_id,
+       rte.rte_route_id, fcty.cty_name fromCity,  tcty.cty_name toCity,
+       vehicle_types.vht_make cabType,
+          
+       rte.rte_amount,
+       rte.rte_toll_tax,
+       rte.rte_state_tax,
+       rte.rte_vendor_amount,
+       rte.rte_excl_amount,
+       rte.rte_status
+FROM rate    rte
+     JOIN vehicle_types
+        ON     vehicle_types.vht_id = rte.rte_vehicletype_id
+           AND vehicle_types.vht_active = 1
+     JOIN route ON route.rut_id = rte.rte_route_id AND route.rut_active = 1
+     JOIN cities fcty ON fcty.cty_id = route.rut_from_city_id
+     JOIN cities tcty ON tcty.cty_id = route.rut_to_city_id
+WHERE rte_status = 1
+ORDER BY rte.rte_route_id

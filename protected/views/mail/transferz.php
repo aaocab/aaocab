@@ -1,0 +1,3 @@
+<?
+$msg = $journeyCode;
+ echo $msg;

@@ -1,0 +1,4 @@
+ALTER TABLE `booking` ADD `bkg_account_flag` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `bkg_vendor_confirm`;
+
+
+

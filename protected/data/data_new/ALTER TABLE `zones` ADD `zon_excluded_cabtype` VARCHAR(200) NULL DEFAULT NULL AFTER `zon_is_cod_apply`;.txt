@@ -1,0 +1,6 @@
+ALTER TABLE `zones` ADD `zon_excluded_cabtypes` VARCHAR(1024) NULL DEFAULT NULL AFTER `zon_is_cod_apply`;
+ALTER TABLE `route` ADD `rut_excluded_cabtypes` VARCHAR(1024) NULL DEFAULT NULL AFTER `rut_is_cod_apply`;
+ALTER TABLE `cities` ADD `cty_excluded_cabtypes` VARCHAR(1024) NULL DEFAULT NULL AFTER `cty_code`;
+
+ALTER TABLE `states` CHANGE `stt_zone` `stt_zone` TINYINT(4) NULL DEFAULT NULL COMMENT '1 => North, 2 => West, 3 => Central, 4 => South, 5 => East, 6 => North East, 7=> south';
+

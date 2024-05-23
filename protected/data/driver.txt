@@ -1,0 +1,5 @@
+ALTER TABLE `drivers` ADD `drv_credit` FLOAT(16,2) NULL DEFAULT NULL AFTER `drv_issue_date`;
+ALTER TABLE `drivers` CHANGE `drv_credit` `drv_credit` FLOAT(16,2) NULL DEFAULT '0';
+
+ALTER TABLE `drivers` ADD `drv_credit` FLOAT(16,2) NOT NULL DEFAULT '0' AFTER `drv_issue_date`;
+

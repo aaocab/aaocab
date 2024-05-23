@@ -1,0 +1,26 @@
+ALTER TABLE `booking_invoice`
+  ADD `bkg_cp_comm_type` TINYINT NULL DEFAULT NULL AFTER `bkg_agent_commission`,
+  ADD `bkg_cp_comm_value` MEDIUMINT NULL DEFAULT NULL AFTER `bkg_cp_comm_type`;
+
+
+SELECT count(bkg_id), sum(if(booking.bkg_agent_id > 0, 1, 0)) cntAgent
+FROM   booking_invoice
+       JOIN booking ON booking.bkg_id = booking_invoice.biv_bkg_id
+       JOIN agents ON agents.agt_id = booking.bkg_agent_id
+WHERE  bkg_pickup_date > now() AND bkg_status IN (1, 2, 3, 5, 6, 15) AND bkg_cp_comm_type IS NULL AND bkg_cp_comm_value IS NULL;
+
+
+ 
+
+UPDATE booking_invoice
+       JOIN booking ON booking.bkg_id = booking_invoice.biv_bkg_id
+       JOIN agents ON agents.agt_id = booking.bkg_agent_id
+SET    bkg_cp_comm_type = agents.agt_commission_value, bkg_cp_comm_value = agents.agt_commission
+WHERE    bkg_status IN (1, 2, 3, 5, 6, 15,7,9,10) AND bkg_cp_comm_type IS NULL AND bkg_cp_comm_value IS NULL AND agents.agt_type = 2;
+
+
+UPDATE booking_invoice
+       JOIN booking ON booking.bkg_id = booking_invoice.biv_bkg_id
+       JOIN agents ON agents.agt_id = booking.bkg_agent_id
+SET    bkg_cp_comm_type = 0, bkg_cp_comm_value = 0
+WHERE      agents.agt_type = 0;

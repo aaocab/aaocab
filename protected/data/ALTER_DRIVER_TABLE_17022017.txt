@@ -1,0 +1,6 @@
+ALTER TABLE `drivers_log` ADD `dlg_ref_id` INT(11) NULL DEFAULT NULL AFTER `dlg_id`;
+
+
+ALTER TABLE `drivers` ADD `drv_ontime_count` INT(11) NOT NULL DEFAULT '0' AFTER `drv_credit`, ADD `drv_softspokon_count` INT(11) NOT NULL DEFAULT '0' AFTER `drv_ontime_count`, ADD `drv_respectfully_count` INT(11) NOT NULL DEFAULT '0' AFTER `drv_softspokon_count`, ADD `drv_helpful_count` INT(11) NOT NULL DEFAULT '0' AFTER `drv_respectfully_count`, ADD `drv_safely_count` INT(11) NOT NULL DEFAULT '0' AFTER `drv_helpful_count`;
+
+

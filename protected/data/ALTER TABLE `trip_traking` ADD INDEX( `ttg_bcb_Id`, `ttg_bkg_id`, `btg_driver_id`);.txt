@@ -1,0 +1,5 @@
+ALTER TABLE `trip_traking` ADD INDEX( `ttg_bcb_Id`, `ttg_bkg_id`, `btg_driver_id`);
+
+ALTER TABLE `trip_traking` ADD FOREIGN KEY (`ttg_bcb_Id`) REFERENCES `booking_cab`(`bcb_id`) ON DELETE RESTRICT ON UPDATE RESTRICT; ALTER TABLE `trip_traking` ADD FOREIGN KEY (`ttg_bkg_id`) REFERENCES `booking`(`bkg_id`) ON DELETE RESTRICT ON UPDATE RESTRICT; ALTER TABLE `trip_traking` ADD FOREIGN KEY (`btg_driver_id`) REFERENCES `drivers`(`drv_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+

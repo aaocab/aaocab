@@ -1,0 +1,13 @@
+ALTER TABLE `agents_joining` ADD `company` VARCHAR(100) NOT NULL AFTER `city`, ADD `email` VARCHAR(50) NOT NULL AFTER `company`;
+
+ALTER TABLE `agents_joining` CHANGE `company` `company` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `agents_joining` CHANGE `email` `email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `agents_joining` ADD `tnc` TINYINT NOT NULL DEFAULT '0' AFTER `email`, ADD `tnc_id` INT(11) NULL DEFAULT NULL AFTER `tnc`, ADD `tnc_datetime` DATETIME NULL DEFAULT NULL AFTER `tnc_id`, ADD `ip_address` VARCHAR(100) NULL DEFAULT NULL AFTER `tnc_datetime`, ADD `user_guest` VARCHAR(255) NOT NULL AFTER `ip_address`, ADD `active` TINYINT NOT NULL DEFAULT '1' AFTER `user_guest`;
+
+ALTER TABLE `agents_joining` CHANGE `user_guest` `user_guest` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `agents_joining` CHANGE `user_guest` `user_agent` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `agents` ADD `agt_ip_address` VARCHAR(100) NULL DEFAULT NULL AFTER `agt_mac_address`;

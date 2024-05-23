@@ -1,0 +1,1 @@
+ALTER TABLE `booking_cab` ADD `bcb_max_allowable_vendor_amount` MEDIUMINT NULL DEFAULT NULL AFTER `bcb_sent_vendor_count`;

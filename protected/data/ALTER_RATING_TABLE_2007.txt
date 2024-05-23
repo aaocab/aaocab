@@ -1,0 +1,1 @@
+ALTER TABLE `ratings` CHANGE `rtg_active` `rtg_active` TINYINT(4) NOT NULL DEFAULT '0';

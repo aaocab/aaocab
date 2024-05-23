@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_vendor_actual_collected` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_vendor_amount`;

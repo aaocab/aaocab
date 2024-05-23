@@ -1,0 +1,1 @@
+ALTER TABLE `vehicles` ADD `vhc_clean_count` INT(11) NOT NULL DEFAULT '0' AFTER `vhc_insurance_proof`, ADD `vhc_good_cond_count` INT(11) NOT NULL DEFAULT '0' AFTER `vhc_clean_count`, ADD `vhc_commercial_count` INT(11) NOT NULL DEFAULT '0' AFTER `vhc_good_cond_count`;

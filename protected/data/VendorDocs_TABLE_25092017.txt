@@ -1,0 +1,131 @@
+
+CREATE TABLE `vendor_docs` (
+  `vd_id` int(11) NOT NULL,
+  `vd_vnd_id` int(11) DEFAULT NULL,
+  `vd_type` tinyint(4) DEFAULT NULL COMMENT '1 => agrement file 2 => voter id 3 => Aadhar card 4 => pan card 5 => licence 6 => firm type',
+  `vd_file` varchar(255) DEFAULT NULL,
+  `vd_remarks` varchar(255) DEFAULT NULL,
+  `vd_status` tinyint(4) NOT NULL DEFAULT '0',
+  `vd_created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `vd_approved_at` datetime DEFAULT NULL,
+  `vd_approved_by` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_docs`
+--
+ALTER TABLE `vendor_docs`
+  ADD PRIMARY KEY (`vd_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vendor_docs`
+--
+ALTER TABLE `vendor_docs`
+  MODIFY `vd_id` int(11) NOT NULL AUTO_INCREMENT;
+
+£££££££££££££££££££££££££££££££££££££££££££££££££££££
+
+
+ALTER TABLE `vendor_docs` CHANGE `vd_type` `vd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1 => agrement file 2 => voter id 3 => Aadhar card 4 => pan card 5 => licence 6 => firm type';
+
+
+£££££££££££££££££££££££££££££££££££££££££££££££££££££
+
+
+
+ALTER TABLE `vendor_docs` ADD INDEX( `vd_vnd_id`);
+ALTER TABLE `vendor_docs` ADD FOREIGN KEY (`vd_vnd_id`) REFERENCES `vendors`(`vnd_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+###################
+
+
+ALTER TABLE `vendor_docs` ADD `vd_sub_type` TINYINT(4) NULL DEFAULT NULL AFTER `vd_type`;
+
+
+############ - agreement 
+
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'1',NULL,vendors.vnd_agreement_file_link,'','0',vendors.vnd_create_date FROM `vendors` WHERE vendors.vnd_active=1 
+AND vendors.vnd_agreement_file_link IS NOT NULL AND vendors.vnd_agreement_file_link <> ''
+
+########### - voter_id
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'2','1',vendors.vnd_voter_id_path,'','0',vendors.vnd_create_date FROM `vendors` WHERE vendors.vnd_active=1 
+AND vendors.vnd_voter_id_path IS NOT NULL AND vendors.vnd_voter_id_path <>''
+
+########### - aadhaar
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'3','1',vendors.vnd_aadhaar_path,'','0',vendors.vnd_create_date FROM `vendors` 
+WHERE vendors.vnd_active=1 AND vendors.vnd_aadhaar_path IS NOT NULL AND vendors.vnd_aadhaar_path <> ''
+
+
+
+########## - pan
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'4','1',vendors.vnd_pan_path,'','0',vendors.vnd_create_date FROM `vendors` 
+WHERE vendors.vnd_active=1 AND vendors.vnd_pan_path IS NOT NULL AND vendors.vnd_pan_path <> ''
+
+######### - licence
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'5','1',vendors.vnd_licence_path ,'','0',vendors.vnd_create_date FROM `vendors` WHERE vendors.vnd_active=1 
+AND vendors.vnd_licence_path IS NOT NULL AND vendors.vnd_licence_path <> ''
+
+
+
+#######  - firm type
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'6',NULL,vendors.vnd_firm_attach,'','0',vendors.vnd_create_date FROM `vendors` WHERE vendors.vnd_active=1 
+AND vendors.vnd_firm_attach <> ''
+
+
+
+#######
+
+
+
+DELETE FROM `vendor_docs` WHERE vendor_docs.vd_type=1 AND DATE(vendor_docs.vd_created_at)!=CURDATE()
+
+INSERT INTO `vendor_docs`(`vd_vnd_id`, `vd_type`, `vd_sub_type`, `vd_file`, `vd_remarks`, `vd_status`, `vd_created_at`) 
+SELECT vendors.vnd_id,'1',NULL,vendors.vnd_agreement_file_link,'','0',
+IF(vendors.vnd_agreement_date IS NOT NULL,vendors.vnd_agreement_date,vendors.vnd_create_date )
+FROM `vendors` WHERE vendors.vnd_active=1 
+AND vendors.vnd_agreement_file_link IS NOT NULL AND vendors.vnd_agreement_file_link <> '' 
+AND DATE(vendors.vnd_agreement_date)!=CURDATE()
+
+
+
+
+############
+
+
+ALTER TABLE `vendor_docs` ADD `vd_agmt_is_accept` TINYINT(4) NOT NULL DEFAULT '0' AFTER `vd_status`, ADD `vd_agmt_accept_date` DATETIME NULL DEFAULT NULL AFTER `vd_agmt_is_accept`, ADD `vd_agmt_is_ver` SMALLINT(11) NULL DEFAULT NULL AFTER `vd_agmt_accept_date`;
+
+
+
+SELECT vehicles.vhc_id, vehicles.vhc_number, vehicles.vhc_insurance_exp_date ,vehicles.vhc_approved, vehicles.vhc_active, file, file_create_date
+FROM `vehicles` 
+INNER JOIN (
+    SELECT vehicle_docs.vhd_vhc_id,vehicle_docs.vhd_file as file,vehicle_docs.vhd_created_at as file_create_date FROM `vehicle_docs` WHERE vehicle_docs.vhd_type=1 AND vehicle_docs.vhd_created_at IN 
+    (
+        SELECT MAX(vehicle_docs.vhd_created_at) FROM `vehicle_docs` WHERE vehicle_docs.vhd_type=1 GROUP BY vehicle_docs.vhd_vhc_id
+    )
+) as docs ON docs.vhd_vhc_id=vehicles.vhc_id
+WHERE DATE(vehicles.vhc_insurance_exp_date) = '1970-01-01' AND vehicles.vhc_active>0
+
+ALTER TABLE `vendor_agmt_docs` ADD `vd_agmt_device_id` SMALLINT(11) NULL DEFAULT NULL AFTER `vd_agmt_req_id`;
+

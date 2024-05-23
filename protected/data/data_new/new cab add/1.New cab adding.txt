@@ -1,0 +1,12 @@
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_big_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-tempo.jpg', 'Tempo Traveller', 'Tempo Traveller (9 seater)', '9', NULL, '16', '7', '0', NULL, '7', '5', CURRENT_TIME(), '1', NULL);
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_big_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-tempo.jpg', 'Tempo Traveller', 'Tempo Traveller (12 seater)', '12', NULL, '16', '8', '0', NULL, '7', '5', CURRENT_TIME(), '1', NULL);
+
+INSERT INTO `vehicle_types` (`vht_id`, `vht_image`, `vht_make`, `vht_model`, `vht_capacity`, `vht_average_mileage`, `vht_estimated_cost`, `vht_car_type`, `vht_parent_id`, `vht_fuel_type`, `vht_bag_capacity`, `vht_big_bag_capacity`, `vht_created_date`, `vht_active`, `vht_log`) VALUES (NULL, 'images/cabs/car-tempo.jpg', 'Tempo Traveller', 'Tempo Traveller (15 seater)', '15', NULL, '16', '9', '0', NULL, '7', '5', CURRENT_TIME(), '1', NULL);
+
+
+UPDATE `vehicle_types` SET `vht_parent_id` = '7', `vht_car_type` = '7' WHERE `vehicle_types`.`vht_id` = 69;
+
+UPDATE `vehicle_types` SET `vht_parent_id` = '8' , `vht_car_type` = '8' WHERE `vehicle_types`.`vht_id` = 9;
+
+UPDATE `vehicle_types` SET `vht_parent_id` = '9' , `vht_car_type` = '9' WHERE `vehicle_types`.`vht_id` = 8;

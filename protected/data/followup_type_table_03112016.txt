@@ -1,0 +1,42 @@
+
+CREATE TABLE `followup_type` (
+  `follow_type_id` int(11) NOT NULL,
+  `follow_type` varchar(100) DEFAULT NULL,
+  `follow_type_duration` int(11) DEFAULT NULL,
+  `follow_type_duration_txt` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `followup_type`
+--
+ALTER TABLE `followup_type`
+  ADD PRIMARY KEY (`follow_type_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `followup_type`
+--
+ALTER TABLE `followup_type`
+  MODIFY `follow_type_id` int(11) NOT NULL AUTO_INCREMENT;
+
+-----------------------------------------------
+
+
+INSERT INTO `followup_type` (`follow_type_id`, `follow_type`, `follow_type_duration`, `follow_type_duration_txt`) VALUES (NULL, 'Active - Customer interested - Call back later (+2hr)', '2', '2hr'), (NULL, 'Active - Customer interested - Call back later (+4hr)', '4', '4hr'), (NULL, 'Active - Customer interested - Call back later (+8hr)', '8', '8hr'), (NULL, 'Active - Customer interested - Call back later (+1D)', '24', '1D'), (NULL, 'Active - Customer interested - Call back later (+2D)', '48', '2D'), (NULL, 'Active - Customer interested - Call back later (+7D)', '168', '7D'), (NULL, 'Active - No answer - call back later (+2hours)', '2', '2hr'), (NULL, 'Active - No answer - call back later (+8hours)', '8', '8hr'), (NULL, 'Active - No answer - call back later (+1day)', '24', '1day'), (NULL, 'Active - AUTO-FOLLOWUP (CUSTOM)', NULL, NULL);
+
+
+ALTER TABLE `followup_type` ADD `follow_type_active` TINYINT(4) NOT NULL DEFAULT '1' AFTER `follow_type_duration_txt`;
+
+
+ALTER TABLE `booking` DROP `bkg_followup_type`;
+ALTER TABLE `booking` ADD `bkg_follow_type_id` INT(11) NULL DEFAULT '0' AFTER `bkg_tentative_booking`;
+ALTER TABLE `booking` ADD `bkg_follow_type_id` INT(11) NULL DEFAULT NULL AFTER `bkg_tentative_booking`;
+
+

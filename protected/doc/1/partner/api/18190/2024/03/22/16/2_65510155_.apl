@@ -1,0 +1,5 @@
+{"source":{"address":"Grover Mithaivala, Old Rajinder Nagar, Rajinder Nagar, New Delhi, Delhi, India","latitude":28.64194599999999,"longitude":77.18586379999999,"city":"Delhi"},"destination":{"address":"Vrindavan Yojna, Lucknow, Uttar Pradesh, India","latitude":26.7650911,"longitude":80.95714,"city":"Lucknow"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-03-22 16:00:00","end_time":"2024-03-22 20:11:17","search_id":"65fd5360d6fb7b0017771ddxddb2f","one_way_distance":537,"one_way_duration":446,"partner_name":"GOMMT","search_tags":["B2C"],"mandatory_inclusions":["ST","TOLL","NC","PC"],"mandatory_exclusions":[],"trip_type_details":{"basic_trip_type":"OUTSTATION","airport_type":"NONE"}}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Unable to process request","link":null,"response":null}

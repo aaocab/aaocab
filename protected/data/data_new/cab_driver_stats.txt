@@ -1,0 +1,155 @@
+ 
+CREATE TABLE IF NOT EXISTS  driver_rating_backup 
+select drv_id,drv_overall_rating  
+FROM drivers 
+WHERE drv_overall_rating > 0 ;
+
+
+CREATE TABLE IF NOT EXISTS  vehicle_rating_backup 
+select vhc_id,vhc_overall_rating  
+FROM vehicles
+WHERE vhc_overall_rating > 0 ;
+
+
+CREATE TABLE IF NOT EXISTS  vendor_rating_backup 
+select vnd_id,vnd_overall_rating  
+FROM vendors
+WHERE vnd_overall_rating  > 0 ;
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+ 
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `driver_stats`
+--
+
+CREATE TABLE `driver_stats` (
+  `drs_id` int(11) NOT NULL,
+  `drs_drv_id` int(11) NOT NULL,
+  `drs_drv_overall_rating` decimal(10,2) NOT NULL,
+  `drs_total_trip` int(11) NOT NULL,
+  `drs_trust_score` decimal(10,2) NOT NULL,
+  `drs_no_of_star` int(11) NOT NULL,
+  `drs_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `drs_active` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `driver_stats`
+--
+ALTER TABLE `driver_stats`
+  ADD PRIMARY KEY (`drs_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `driver_stats`
+--
+ALTER TABLE `driver_stats`
+  MODIFY `drs_id` int(11) NOT NULL AUTO_INCREMENT;
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+ 
+ 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cab_stats`
+--
+
+CREATE TABLE `cab_stats` (
+  `cbs_id` int(11) NOT NULL,
+  `cbs_vhc_id` int(11) NOT NULL,
+  `cbs_vhc_overall_rating` decimal(10,2) NOT NULL,
+  `cbs_vhc_total_trip` int(11) NOT NULL,
+  `cbs_trust_score` decimal(10,2) NOT NULL,
+  `cbs_no_of_star` int(11) NOT NULL,
+  `cbs_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cbs_active` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cab_stats`
+--
+ALTER TABLE `cab_stats`
+  ADD PRIMARY KEY (`cbs_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cab_stats`
+--
+ALTER TABLE `cab_stats`
+  MODIFY `cbs_id` int(11) NOT NULL AUTO_INCREMENT;
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
+
+ 
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION; 
+--
+-- Table structure for table `vendor_stats`
+--
+
+CREATE TABLE `vendor_stats` (
+  `vrs_Id` int(11) NOT NULL,
+  `vrs_vnd_id` int(11) NOT NULL,
+  `vrs_vnd_overall_rating` decimal(10,2) NOT NULL,
+  `vrs_vnd_total_trip` int(11) NOT NULL,
+  `vrs_trust_score` decimal(10,2) NOT NULL,
+  `vrs_no_of_star` int(11) NOT NULL,
+  `vrs_modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `vrs_active` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_stats`
+--
+ALTER TABLE `vendor_stats`
+  ADD PRIMARY KEY (`vrs_Id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vendor_stats`
+--
+ALTER TABLE `vendor_stats`
+  MODIFY `vrs_Id` int(11) NOT NULL AUTO_INCREMENT;
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;

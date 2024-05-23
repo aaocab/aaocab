@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_operator_surge` MEDIUMINT NOT NULL DEFAULT '0' AFTER `bkg_base_amount`;

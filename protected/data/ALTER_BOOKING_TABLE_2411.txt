@@ -1,0 +1,13 @@
+ALTER TABLE `booking` ADD `bkg_extra_total_km` MEDIUMINT(9) NOT NULL DEFAULT '0' AFTER `bkg_extra_charge`;
+
+ALTER TABLE `booking` ADD `bkg_manual_assignment` TINYINT(4) NOT NULL DEFAULT '0' AFTER `bkg_tentative_booking`;
+
+ALTER TABLE `booking_temp` ADD `bkg_extra_total_km` MEDIUMINT(9) NOT NULL DEFAULT '0' AFTER `bkg_extra_charge`;
+
+
+
+ALTER TABLE `booking` ADD `bkg_extra_charge` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_sgst`, ADD `bkg_extra_total_km` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_extra_charge`, ADD `bkg_parking_charge` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_extra_total_km`, ADD `bkg_extra_toll_tax` FLOAT(8,2) NULL DEFAULT NULL AFTER `bkg_parking_charge`, ADD `bkg_extra_state_tax` FLOAT(8,2) NULL DEFAULT NULL AFTER `bkg_extra_toll_tax`;
+
+ALTER TABLE `booking_temp` ADD `bkg_extra_charge` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_sgst`, ADD `bkg_extra_total_km` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_extra_charge`, ADD `bkg_parking_charge` MEDIUMINT(9) NULL DEFAULT NULL AFTER `bkg_extra_total_km`, ADD `bkg_extra_toll_tax` FLOAT(8,2) NULL DEFAULT NULL AFTER `bkg_parking_charge`, ADD `bkg_extra_state_tax` FLOAT(8,2) NULL DEFAULT NULL AFTER `bkg_extra_toll_tax`
+
+

@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `usr_acct_verify` TINYINT(4) NULL DEFAULT '0' AFTER `usr_corporate_id`;

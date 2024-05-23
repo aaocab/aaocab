@@ -1,0 +1,26 @@
+CREATE TABLE `drivers_log` (
+  `dlg_id` int(11) NOT NULL,
+  `dlg_user_ref_id` int(11) DEFAULT NULL,
+  `dlg_user_type` tinyint(4) DEFAULT NULL,
+  `dlg_drv_id` int(11) DEFAULT NULL,
+  `dlg_desc` varchar(4000) DEFAULT NULL,
+  `dlg_event_id` smallint(6) NOT NULL DEFAULT '1',
+  `dlg_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dlg_active` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `drivers_log`
+--
+ALTER TABLE `drivers_log`
+  ADD KEY `dlg_drv_id` (`dlg_drv_id`);
+
+ALTER TABLE `drivers_log` ADD FOREIGN KEY (`dlg_drv_id`) REFERENCES `drivers`(`drv_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `drivers_log` ADD PRIMARY KEY(`dlg_id`);
+ALTER TABLE `drivers_log` CHANGE `dlg_id` `dlg_id` INT(11) NOT NULL AUTO_INCREMENT;
+

@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_price_surge_id` INT NULL DEFAULT NULL AFTER `bkg_sms_alert_before_pickup`;

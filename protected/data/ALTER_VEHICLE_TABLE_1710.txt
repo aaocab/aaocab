@@ -1,0 +1,94 @@
+ALTER TABLE `vehicle_docs` ADD `vhd_active` TINYINT(4) NOT NULL DEFAULT '1' AFTER `vhd_status`;
+
+
+ALTER TABLE `vendor_docs` ADD `vd_active` TINYINT(4) NOT NULL DEFAULT '1' AFTER `vd_status`;
+
+
+ALTER TABLE `driver_docs` ADD `drd_active` TINYINT(4) NOT NULL DEFAULT '1' AFTER `drd_status`;
+
+
+ALTER TABLE `driver_docs` CHANGE `drd_type` `drd_type` TINYINT(4) NULL DEFAULT NULL COMMENT '1=> Voter Card, 2=> Pan Card, 3=> Aadhaar Card, 4=> Driver License, 5=>Police Verification Certificate, 6=> Back Driver License'; 
+
+----------------------------------------------------------------------------------------
+
+ALTER TABLE `vendor_agmt_docs` CHANGE `vd_agmt_id` `vd_agmt_id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vendor_agmt_docs` ADD `vd_agmt_status` TINYINT(4) NOT NULL DEFAULT '0' AFTER `vd_agmt`; 
+
+ALTER TABLE `vendor_agmt_docs` CHANGE `vd_agmt_status` `vd_agmt_status` SMALLINT(11) NOT NULL DEFAULT '0'; 
+ALTER TABLE `vendor_agmt_docs` ADD `vd_agmt_img_no` TINYINT(4) NOT NULL DEFAULT '0' AFTER `vd_vnd_id`; 
+
+-----------------------------------------------------------------------------------------
+
+UPDATE `driver_docs`, (
+	SELECT MAX(driver_docs.drd_created_at) as max_create_dt, 
+	driver_docs.drd_drv_id, 
+	driver_docs.drd_type, COUNT(1) as cnt 
+    FROM `driver_docs` WHERE driver_docs.drd_active=1 
+    GROUP BY driver_docs.drd_drv_id,driver_docs.drd_type 
+    HAVING (cnt>1) 
+) a SET driver_docs.drd_active=0 
+WHERE driver_docs.drd_drv_id=a.drd_drv_id AND driver_docs.drd_type=a.drd_type AND driver_docs.drd_created_at <> max_create_dt 
+
+
+UPDATE vehicle_docs, (
+	SELECT MAX(vehicle_docs.vhd_created_at) as max_create_dt, 
+    	vehicle_docs.vhd_vhc_id, vehicle_docs.vhd_type , COUNT(1) as cnt
+    	FROM `vehicle_docs` 
+	WHERE vehicle_docs.vhd_active=1
+	GROUP BY vehicle_docs.vhd_vhc_id, vehicle_docs.vhd_type 
+	HAVING (cnt>1) 
+) a 	SET vehicle_docs.vhd_active=0 WHERE  vehicle_docs.vhd_vhc_id=a.vhd_vhc_id AND vehicle_docs.vhd_type=a.vhd_type 
+AND vehicle_docs.vhd_created_at<>max_create_dt
+
+
+
+UPDATE `vendor_docs` ,
+(
+	SELECT MAX(vendor_docs.vd_created_at) as max_create_dt, vendor_docs.vd_vnd_id, vendor_docs.vd_type , COUNT(1) as cnt 
+	FROM `vendor_docs` WHERE vendor_docs.vd_active=1 
+	GROUP BY vendor_docs.vd_vnd_id,vendor_docs.vd_type 
+	HAVING (cnt>1) 
+)sub SET vendor_docs.vd_active=0 
+WHERE vendor_docs.vd_vnd_id=sub.vd_vnd_id 
+AND vendor_docs.vd_type=sub.vd_type 
+AND vendor_docs.vd_created_at <> max_create_dt
+----------------------------------------------------------------------------------------
+
+
+UPDATE `vendor_docs` ,
+(
+	SELECT MAX(vendor_docs.vd_created_at) as max_create_dt, vendor_docs.vd_vnd_id, 
+    vendor_docs.vd_type , vendor_docs.vd_sub_type, COUNT(1) as cnt 
+	FROM `vendor_docs` WHERE vendor_docs.vd_active=1
+	GROUP BY vendor_docs.vd_vnd_id,vendor_docs.vd_type,vendor_docs.vd_sub_type 
+	HAVING (cnt>1)
+)sub SET vendor_docs.vd_active=0 
+WHERE vendor_docs.vd_vnd_id=sub.vd_vnd_id 
+AND vendor_docs.vd_type=sub.vd_type 
+AND vendor_docs.vd_sub_type=sub.vd_sub_type
+AND vendor_docs.vd_created_at <> max_create_dt
+
+
+UPDATE `vendor_docs` ,
+(
+	SELECT MAX(vendor_docs.vd_created_at) as max_create_dt, vendor_docs.vd_vnd_id, vendor_docs.vd_type , vendor_docs.vd_sub_type, COUNT(1) as cnt 
+	FROM `vendor_docs` 
+    	WHERE vendor_docs.vd_active=1 
+    	AND vendor_docs.vd_type IN (1,6)
+	GROUP BY vendor_docs.vd_vnd_id,vendor_docs.vd_type
+	HAVING (cnt>1)
+)sub SET vendor_docs.vd_active=0 
+WHERE vendor_docs.vd_vnd_id=sub.vd_vnd_id 
+AND vendor_docs.vd_type=sub.vd_type 
+AND vendor_docs.vd_created_at <> max_create_dt
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

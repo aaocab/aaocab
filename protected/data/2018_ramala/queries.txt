@@ -1,0 +1,7 @@
+ALTER TABLE `booking_temp` ADD `bkg_flexxi_time_slot` VARCHAR(100) NULL DEFAULT NULL AFTER `bkg_admin_id`;
+
+ALTER TABLE `booking` ADD `bkg_flexxi_time_slot` VARCHAR(100) NULL DEFAULT NULL AFTER `bkg_admin_id`
+
+ALTER TABLE `booking_pref` ADD `bpr_is_msg_matched_flexxi` TINYINT NULL DEFAULT '0' AFTER `bpr_fs_address_change`;
+
+INSERT INTO `cancel_reasons` (`cnr_id`, `cnr_reason`, `cnr_show_admin`, `cnr_admin_text`, `cnr_show_user`, `cnr_user_text`, `cnr_user_desc_text`, `cnr_internal_reason`, `cnr_mark_initiator`, `cnr_penalize_customer`, `cnr_penalize_vendor`, `cnr_customer_sms`, `cnr_vendor_sms`, `cnr_driver_sms`, `cnr_created`, `cnr_active`) VALUES (28, 'Autocancelled. No flexxi match found ', '1', 'Autocancelled. No flexxi match found ', '0', '', '', 'Autocancelled. No flexxi match found ', '1', '1', '1', 'Dear __CUSTOMER__, Based on your request, your booking __ID__ has been cancelled. [Per Gozo cancellation policy, you will be charged __AMOUNT__.]', '', '', '2016-06-28 16:17:00', '1');

@@ -1,0 +1,1 @@
+ALTER TABLE `price_surge` ADD `prc_is_available` TINYINT NOT NULL DEFAULT '1' AFTER `prc_priority_score`;

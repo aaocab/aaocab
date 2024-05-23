@@ -1,0 +1,8 @@
+UPDATE vendor_transactions ven1
+       JOIN (SELECT ven_trans_id, trans_vendor_id, ven_booking_id, ven_trip_id, bkg_bcb_id
+             FROM   vendor_transactions JOIN booking ON booking.bkg_id = vendor_transactions.ven_booking_id
+             WHERE  ven_booking_id IS NOT NULL) ven2
+         ON ven1.ven_trans_id = ven2.ven_trans_id
+SET    ven1.ven_trip_id = ven2.bkg_bcb_id
+
+

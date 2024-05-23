@@ -1,0 +1,118 @@
+
+
+ CREATE TABLE `vehicle_map` (
+  `vhc_number1` varchar(50) DEFAULT NULL,
+  `vhc_id1` int(11) DEFAULT NULL,
+  `vhc_id` int(11) DEFAULT NULL,
+  `vhc_number` varchar(50) DEFAULT NULL 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ insert into `vehicle_map`  
+ 
+SELECT vehicles.vhc_number vhc_number1, vehicles.vhc_id vhc_id1, a.vhc_vehicle_id vhc_id, a.vhc_number
+FROM   vehicles
+       INNER JOIN (SELECT vehicles_info.vhc_vehicle_id, vehicles_info.vhc_number
+                   FROM   vehicles_info
+                          INNER JOIN
+                          (SELECT   vehicles_info.vhc_number,
+                                    MAX(IFNULL(vehicles_info.vhc_modified_at, vehicles_info.vhc_created_at)) AS lastUpdate
+                           FROM     vehicles
+                                    INNER JOIN vehicles_info
+                                      ON vehicles.vhc_id = vehicles_info.vhc_vehicle_id AND vehicles.vhc_approved = 1
+                           WHERE    vehicles.vhc_active IN (1, 2, 4)
+                           GROUP BY vehicles_info.vhc_number) b
+                            ON vehicles_info.vhc_number = b.vhc_number AND vehicles_info.vhc_modified_at = b.lastUpdate) a
+         ON vehicles.vhc_number = a.vhc_number
+WHERE  1
+UNION
+SELECT vehicles.vhc_number vhc_number1, vehicles.vhc_id vhc_id1, a.vhc_id, a.vhc_number
+FROM   vehicles
+       INNER JOIN (SELECT vehicles.vhc_id, vehicles.vhc_number
+                   FROM   vehicles
+                          INNER JOIN (SELECT   vehicles.vhc_number,
+                                               MAX(IFNULL(vehicles.vhc_modified_at, vehicles.vhc_created_at)) AS lastUpdate
+                                      FROM     vehicles
+                                      WHERE    vehicles.vhc_approved = 1 AND vehicles.vhc_active IN (1, 2, 4)
+                                      GROUP BY vehicles.vhc_number) b
+                            ON vehicles.vhc_number = b.vhc_number AND vehicles.vhc_modified_at = b.lastUpdate) a
+         ON vehicles.vhc_number = a.vhc_number
+WHERE  vehicles.vhc_active IN (1, 2, 4) AND vehicles.vhc_number NOT IN (SELECT vehicles.vhc_number
+                                                                        FROM   vehicles
+       INNER JOIN (                                                            SELECT vehicles_info.vhc_vehicle_id,
+       vehicles_info.vhc_number
+                                                                               FROM   vehicles_info
+       INNER JOIN
+       (SELECT   vehicles_info.vhc_number
+       , MAX(IFNULL(vehicles_info.vhc_modified_at, vehicles_info.vhc_created_at)) AS lastUpdate
+        FROM     vehicles INNER JOIN vehicles_info ON vehicles.vhc_id = vehicles_info.vhc_vehicle_id AND vehicles.vhc_approved = 1
+        GROUP BY vehicles_info.vhc_number) b
+         ON vehicles_info.vhc_number = b.vhc_number AND vehicles_info.vhc_modified_at = b.lastUpdate) a
+         ON vehicles.vhc_number = a.vhc_number
+                                                                        WHERE  1)
+UNION
+SELECT vehicles.vhc_number vhc_number1, vehicles.vhc_id vhc_id1, a.vhc_vehicle_id, a.vhc_number
+FROM   vehicles
+       INNER JOIN (SELECT vehicles_info.vhc_vehicle_id, vehicles_info.vhc_number
+                   FROM   vehicles_info
+                          INNER JOIN
+                          (SELECT   vehicles_info.vhc_number,
+                                    MAX(IFNULL(vehicles_info.vhc_modified_at, vehicles_info.vhc_created_at)) AS lastUpdate
+                           FROM     vehicles
+                                    INNER JOIN vehicles_info
+                                      ON vehicles.vhc_id = vehicles_info.vhc_vehicle_id AND vehicles.vhc_approved = 0
+                           WHERE    vehicles.vhc_active IN (1, 2, 4)
+                           GROUP BY vehicles_info.vhc_number) b
+                            ON vehicles_info.vhc_number = b.vhc_number AND vehicles_info.vhc_modified_at = b.lastUpdate) a
+         ON vehicles.vhc_number = a.vhc_number
+WHERE  vehicles.vhc_number NOT IN (SELECT vehicles.vhc_number vhc_number1
+                                   FROM   vehicles
+                                   WHERE  vhc_approved = 1 AND vehicles.vhc_active IN (1, 2, 4))
+UNION
+SELECT   vehicles.vhc_number vhc_number1, vehicles.vhc_id vhc_id1, a.vhc_id, a.vhc_number
+FROM     vehicles
+         INNER JOIN (SELECT vehicles.vhc_id, vehicles.vhc_number
+                     FROM   vehicles
+                            INNER JOIN (SELECT   vehicles.vhc_number, MAX(vhc_id) AS lastUpdate
+                                        FROM     vehicles
+                                        WHERE    vehicles.vhc_approved <> 1 AND vehicles.vhc_active IN (1, 2, 3, 4)
+                                        GROUP BY vehicles.vhc_number) b
+                              ON vehicles.vhc_number = b.vhc_number AND vehicles.vhc_id = b.lastUpdate) a
+           ON vehicles.vhc_number = a.vhc_number
+WHERE    vehicles.vhc_number NOT IN (SELECT vehicles.vhc_number vhc_number1
+                                     FROM   vehicles
+                                     WHERE  vhc_approved = 1) AND vehicles.vhc_number NOT IN
+           (                                                      SELECT vehicles.vhc_number
+                                                                  FROM   vehicles
+         INNER JOIN (                                                    SELECT vehicles_info.vhc_vehicle_id,
+         vehicles_info.vhc_number
+                                                                         FROM   vehicles_info
+         INNER JOIN
+         (SELECT   vehicles_info.vhc_number
+         , MAX(IFNULL(vehicles_info.vhc_modified_at, vehicles_info.vhc_created_at)) AS lastUpdate
+          FROM     vehicles
+         INNER JOIN vehicles_info
+           ON vehicles.vhc_id = vehicles_info.vhc_vehicle_id AND vehicles.vhc_approved = 0 AND vehicles.vhc_active IN (1, 2, 4)
+          GROUP BY vehicles_info.vhc_number) b
+           ON vehicles_info.vhc_number = b.vhc_number AND vehicles_info.vhc_modified_at = b.lastUpdate) a
+           ON vehicles.vhc_number = a.vhc_number
+                                                                  WHERE  vehicles.vhc_number NOT IN
+           (                                                             SELECT vehicles.vhc_number vhc_number1
+                                                                         FROM   vehicles
+                                                                         WHERE  vhc_approved = 1 AND vehicles.vhc_active IN (1, 2, 4
+         )))
+ORDER BY vhc_id;
+
+INSERT INTO vehicle_map
+SELECT   vehicles.vhc_number vhc_number1, vehicles.vhc_id vhc_id1, a.vhc_id, a.vhc_number
+FROM     vehicles
+         INNER JOIN (SELECT vehicles.vhc_id, vehicles.vhc_number
+                     FROM   vehicles
+                            INNER JOIN (SELECT   vehicles.vhc_number, MAX(vhc_id) AS lastUpdate
+                                        FROM     vehicles
+                                        WHERE    vehicles.vhc_active NOT IN (1, 2, 3, 4)
+                                        GROUP BY vehicles.vhc_number) b
+                              ON vehicles.vhc_number = b.vhc_number AND vehicles.vhc_id = b.lastUpdate) a
+           ON vehicles.vhc_number = a.vhc_number
+WHERE    vehicles.vhc_number NOT IN (SELECT vehicle_map.vhc_number FROM vehicle_map);
+

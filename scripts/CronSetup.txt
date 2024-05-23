@@ -1,0 +1,35 @@
+MAILTO="php.leads@gozo.cab"
+SHELL="/bin/bash"
+*/2 * * * * sh /home/gcuser/public_html/cron/cron2mins.sh
+*/5 * * * * sh /home/gcuser/public_html/cron/cron5mins.sh
+*/10 * * * * sh /home/gcuser/public_html/cron/cron10mins.sh
+#*/20 * * * * sh /home/gcuser/public_html/cron/cron20mins.sh
+*/30 * * * * sh /home/gcuser/public_html/cron/cron30mins.sh
+1 */1 * * * sh /home/gcuser/public_html/cron/cron1hour.sh
+4 */2 * * * sh /home/gcuser/public_html/cron/cron2hour.sh
+6 */3 * * * sh /home/gcuser/public_html/cron/cron3hour.sh
+7 */6 * * * sh /home/gcuser/public_html/cron/cron6hour.sh
+9 */8 * * * sh /home/gcuser/public_html/cron/cron8hour.sh
+11 */12 * * * sh /home/gcuser/public_html/cron/cron12hour.sh
+5 12 * * * sh /home/gcuser/public_html/cron/cronMidDay.sh
+5 0 * * * sh /home/gcuser/public_html/cron/cronMidNight.sh
+2 3 * * * sh /home/gcuser/public_html/cron/cronDaily.sh
+5 2 */5 * * sh /home/gcuser/public_html/cron/cron5days.sh
+5 1 * * 4 sh /home/gcuser/public_html/cron/cronWeekly.sh
+
+*/5 * * * * php /home/gcuser/public_html/cron.php sync uploadBkgDocs
+*/12 * * * * php /home/gcuser/public_html/cron.php sync uploadVendorLouDocs
+*/8 * * * * php /home/gcuser/public_html/cron.php sync uploadAgentAgreement
+*/7 * * * * php /home/gcuser/public_html/cron.php sync uploadVendorAgmtDocs
+*/5 * * * * php /home/gcuser/public_html/cron.php sync uploadVhcDocs
+*/5 * * * * php /home/gcuser/public_html/cron.php sync uploadDocs
+*/5 * * * * php /home/gcuser/public_html/cron.php sync uploadMails
+*/5 * * * * php /home/gcuser/public_html/cron.php sync uploadPATAll
+*/12 * * * * php /home/gcuser/public_html/cron.php sync uploadVendorAgreement
+*/13 * * * * php /home/gcuser/public_html/cron.php sync uploadAudioCalls
+*/30 * * * * php /home/gcuser/public_html/cron.php sync uploadUserQRCode
+*/1 * * * * php -d memory_limit=256M /home/gcuser/public_html/cron.php sync uploadAATAll --threads=10
+
+11 1,3,6,8,10,12,16,20,22 * * * timeout 120m find /runtime/cache/ -mmin +10 -type f -delete
+11 0 * * * find /runtime/sess/ -atime +1 -print0 | xargs -0 -r rm
+08 0 * * * find /home/gcuser/protected/doc/ -empty -type d -delete

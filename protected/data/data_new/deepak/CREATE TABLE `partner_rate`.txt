@@ -1,0 +1,41 @@
+
+CREATE TABLE `partner_rate` (
+  `prt_id` int(11) NOT NULL,
+  `prt_partner_id` int(11) NOT NULL,
+  `prt_vehicletype_id` int(11) DEFAULT NULL,
+  `prt_route_id` int(11) NOT NULL,
+  `prt_trip_type` tinyint(4) DEFAULT NULL COMMENT '1=>one way, 2=>return',
+  `prt_is_toll_included` tinyint(4) NOT NULL DEFAULT 0,
+  `prt_toll_tax` smallint(5) UNSIGNED DEFAULT 0,
+  `prt_is_state_included` tinyint(4) NOT NULL DEFAULT 0,
+  `prt_state_tax` smallint(5) UNSIGNED DEFAULT 0,
+  `prt_vendor_amount` mediumint(9) DEFAULT 0,
+  `prt_total_amount` mediumint(8) UNSIGNED NOT NULL,
+  `prt_apply_surge` tinyint(4) NOT NULL DEFAULT 1,
+  `prt_night_charge` mediumint(9) DEFAULT NULL,
+  `prt_create_date` timestamp NULL DEFAULT current_timestamp(),
+  `prt_status` tinyint(4) NOT NULL DEFAULT 1,
+  `prt_log` varchar(4000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `partner_rate`
+--
+ALTER TABLE `partner_rate`
+  ADD PRIMARY KEY (`prt_id`),
+  ADD KEY `prt_route_id` (`prt_route_id`),
+  ADD KEY `prt_vehicletype_id` (`prt_vehicletype_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `partner_rate`
+--
+ALTER TABLE `partner_rate`
+  MODIFY `prt_id` int(11) NOT NULL AUTO_INCREMENT;

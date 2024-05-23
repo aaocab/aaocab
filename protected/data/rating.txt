@@ -1,0 +1,58 @@
+ALTER TABLE `agents` CHANGE `agt_overall_rating` `agt_overall_rating` FLOAT(4) NULL DEFAULT NULL;
+
+
+SELECT bkg_agent_id,
+ROUND(((ROUND(AVG(IF(overall_rating IN (5,4), overall_rating, rtg_customer_driver)),1) +
+        ROUND(AVG(IF(overall_rating IN (5,4),overall_rating,rtg_customer_car)),1) +
+        ROUND(AVG(IF(rtg_csr_vendor IS NULL,5,rtg_csr_vendor)),1))/3),1) AS vendor_overall_rating
+FROM
+(SELECT bkg_agent_id, IF(rtg_customer_overall IS NULL, 5, rtg_customer_overall) as overall_rating,
+        rtg_customer_driver, rtg_customer_car, rtg_csr_vendor FROM ratings
+RIGHT JOIN booking ON bkg_id = rtg_booking_id
+WHERE rtg_active=1 AND bkg_active=1 AND bkg_status IN (3,5,6,7) AND DATE(bkg_pickup_date)>='2015-10-25') agtRating  GROUP BY bkg_agent_id;
+
+
+
+UPDATE agents, (SELECT bkg_agent_id,
+ROUND(((ROUND(AVG(IF(overall_rating IN (5,4), overall_rating, rtg_customer_driver)),1) +
+        ROUND(AVG(IF(overall_rating IN (5,4),overall_rating,rtg_customer_car)),1) +
+        ROUND(AVG(IF(rtg_csr_vendor IS NULL,5,rtg_csr_vendor)),1))/3),1) AS vendor_overall_rating
+FROM
+(SELECT bkg_agent_id, IF(rtg_customer_overall IS NULL, 5, rtg_customer_overall) as overall_rating,
+        rtg_customer_driver, rtg_customer_car, rtg_csr_vendor FROM ratings
+RIGHT JOIN booking ON bkg_id = rtg_booking_id
+WHERE rtg_active=1 AND bkg_active=1 AND bkg_status IN (3,5,6,7) AND DATE(bkg_pickup_date)>='2015-10-25') agtRating  GROUP BY bkg_agent_id) bkg 
+SET agt_overall_rating = bkg.vendor_overall_rating 
+WHERE agt_id=bkg_agent_id and agt_active=1;
+
+
+ALTER TABLE `agents` ADD `agt_overall_score` TINYINT NULL DEFAULT NULL AFTER `agt_overall_rating`;
+
+
+UPDATE agents SET agt_overall_score = 10 WHERE agt_overall_rating = 5;
+UPDATE agents SET agt_overall_score = 8 WHERE agt_overall_rating = 4;
+UPDATE agents SET agt_overall_score = 5 WHERE agt_overall_rating = 3;
+UPDATE agents SET agt_overall_score = 3 WHERE agt_overall_rating = 2;
+UPDATE agents SET agt_overall_score = 0 WHERE agt_overall_rating = 1;
+UPDATE agents SET agt_overall_score = ROUND((agt_overall_rating-1)*3) WHERE agt_overall_rating>1 AND agt_overall_rating<2;
+UPDATE agents SET agt_overall_score = ROUND(((agt_overall_rating-2)*2)+3) WHERE agt_overall_rating>2 AND agt_overall_rating<3;
+UPDATE agents SET agt_overall_score = ROUND(((agt_overall_rating-3)*3)+5) WHERE agt_overall_rating>3 AND agt_overall_rating<4;
+UPDATE agents SET agt_overall_score = ROUND(((agt_overall_rating-4)*2)+8) WHERE agt_overall_rating>4 AND agt_overall_rating<5;
+
+
+
+UPDATE agents a, (SELECT agt_overall_rating, 
+CASE 
+   when agt_overall_rating=5  then 10
+   when agt_overall_rating=4  then 8
+   when agt_overall_rating=3  then 5
+   when agt_overall_rating=2  then 3
+   when agt_overall_rating=1  then 0
+   when agt_overall_rating>1 AND agt_overall_rating<2 then ROUND((agt_overall_rating-1)*3)
+   when agt_overall_rating>2 AND agt_overall_rating<3 then ROUND(((agt_overall_rating-2)*2)+3)
+   when agt_overall_rating>3 AND agt_overall_rating<4 then ROUND(((agt_overall_rating-3)*3)+5)
+   when agt_overall_rating>4 AND agt_overall_rating<5 then ROUND(((agt_overall_rating-4)*2)+8)
+END as ratezz
+FROM agents) bkg
+SET a.agt_overall_score = bkg.ratezz
+WHERE a.agt_overall_rating = bkg.agt_overall_rating;

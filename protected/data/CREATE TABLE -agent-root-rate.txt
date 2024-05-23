@@ -1,0 +1,21 @@
+CREATE TABLE `agent_routes_rate` (
+  `agtr_id` int(10) UNSIGNED NOT NULL,
+  `agtr_agent_id` int(11) DEFAULT NULL,
+  `agtr_route_id` int(11) NOT NULL,
+  `agtr_name` varchar(255) DEFAULT NULL,
+  `agtr_rate` int(11) DEFAULT NULL,
+  `agtr_status` tinyint(4) DEFAULT '1',
+  `agtr_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `agtr_modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `agent_routes_rate`
+  ADD PRIMARY KEY (`agtr_id`),
+  ADD KEY `agt_rut_id` (`agtr_id`,`agtr_agent_id`),
+  ADD KEY `agt_rut_agent_id` (`agtr_agent_id`);
+
+ALTER TABLE `agent_routes_rate`
+  MODIFY `agtr_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=735;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

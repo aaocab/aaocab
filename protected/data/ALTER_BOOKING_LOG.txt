@@ -1,0 +1,20 @@
+ALTER TABLE `booking_log` ADD `blg_remark_type` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT 'general=1,car=2,driver=3,vendor=4,customer=5' AFTER `blg_booking_status`, ADD `blg_mark_car` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' AFTER `blg_remark_type`, ADD `blg_mark_driver` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' AFTER `blg_mark_car`, ADD `blg_mark_customer` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' AFTER `blg_mark_driver`;
+
+ALTER TABLE `booking` ADD `bkg_remark_check` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `bkg_amount_due`;
+
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE `booking_log` CHANGE `blg_mark_car` `blg_mark_car` TINYINT(3) UNSIGNED NULL DEFAULT NULL, CHANGE `blg_mark_driver` `blg_mark_driver` TINYINT(3) UNSIGNED NULL DEFAULT NULL, CHANGE `blg_mark_customer` `blg_mark_customer` TINYINT(3) UNSIGNED NULL DEFAULT NULL;
+
+
+
+ALTER TABLE `booking` CHANGE `bkg_remark_check` `bkg_remark_check` TINYINT(3) UNSIGNED NULL DEFAULT NULL, CHANGE `bkg_upsell_status` `bkg_upsell_status` TINYINT(3) UNSIGNED NULL DEFAULT '0', CHANGE `bkg_escalation_status` `bkg_escalation_status` TINYINT(3) UNSIGNED NULL DEFAULT '0';
+

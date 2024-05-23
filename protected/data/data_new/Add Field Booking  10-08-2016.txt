@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_driver_allowance_amount` MEDIUMINT NULL DEFAULT NULL AFTER `bkg_refund_amount`;

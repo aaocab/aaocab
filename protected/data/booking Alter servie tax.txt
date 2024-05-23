@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_service_tax` FLOAT(16,2) NULL DEFAULT NULL AFTER `bkg_escalation_status`, ADD `bkg_service_tax_rate` FLOAT(8,2) NULL DEFAULT NULL AFTER `bkg_service_tax`;

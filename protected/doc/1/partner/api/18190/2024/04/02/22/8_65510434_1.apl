@@ -1,0 +1,5 @@
+{"source":{"address":"Delhi","latitude":28.6862738,"longitude":77.2217831,"city":"Delhi"},"destination":{"address":"Haridwar, Uttarakhand, India","latitude":29.9456906,"longitude":78.16424780000001,"city":"Haridwar"},"stopovers":[],"trip_type":"ONE_WAY","start_time":"2024-04-03 02:15:00","end_time":"2024-04-03 06:37:30","distance":228,"fare_details":{"base_fare":4413,"total_driver_charges":0,"total_days_charged":null,"state_tax":550,"toll_charges":380,"total_fare":5343},"search_id":"660ae65b72e126ggg001ekhhfffk009689","vehicle_type":"sedan","vehicle_subcategory":"basic","customer_preferences":{"driver_language":[]},"vehicle_details":{"sku_id":"SDN1623","type":"sedan","subcategory":"basic","combustion_type":"Unknown","model":"Unknown","make_year_type":"Unknown","cancellation_rule":"NON_REFUNDABLE"},"search_tags":["B2B","CO"]}
+
+===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
+
+{"code":null,"error":"Departure time should be after 2024-04-03 09:00:00","link":null,"response":null}

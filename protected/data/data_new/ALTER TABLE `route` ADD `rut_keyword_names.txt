@@ -1,0 +1,19 @@
+ALTER TABLE `route` ADD `rut_keyword_names` VARCHAR(1024) NULL DEFAULT NULL AFTER `rut_special_remarks`;
+ALTER TABLE `route` ADD `rut_title` VARCHAR(255) NULL DEFAULT NULL AFTER `rut_keyword_names`;
+ALTER TABLE `cities` ADD `cty_keyword_names` VARCHAR(1024) NULL DEFAULT NULL AFTER `cty_alias_name`;
+
+ALTER TABLE `route` ADD `is_promo_code_apply` TINYINT NOT NULL DEFAULT '1' AFTER `rut_title`, ADD `is_promo_gozo_coins_apply` TINYINT NOT NULL DEFAULT '1' AFTER `is_promo_code_apply`, ADD `is_cod_apply` TINYINT NOT NULL DEFAULT '1' AFTER `is_promo_gozo_coins_apply`;
+
+
+ALTER TABLE `route` CHANGE `is_promo_code_applied` `is_promo_code_apply` TINYINT(4) NOT NULL DEFAULT '1';
+ALTER TABLE `route` CHANGE `is_promo_gozo_coins_applied` `is_promo_gozo_coins_apply` TINYINT(4) NOT NULL DEFAULT '1';
+ALTER TABLE `route` CHANGE `is_cod_applied` `is_cod_apply` TINYINT(4) NOT NULL DEFAULT '1';
+
+
+ALTER TABLE `zones` ADD `zon_is_promo_code_apply` TINYINT NOT NULL DEFAULT '1' AFTER `zon_home_suv_own_rate`, ADD `zon_is_promo_gozo_coins_apply` TINYINT NOT NULL DEFAULT '1' AFTER `zon_is_promo_code_apply`, ADD `zon_is_cod_apply` TINYINT NOT NULL DEFAULT '1' AFTER `zon_is_promo_gozo_coins_apply`;
+
+
+
+ALTER TABLE `route` CHANGE `is_promo_code_applied` `rut_is_promo_code_apply` TINYINT(4) NOT NULL DEFAULT '1';
+ALTER TABLE `route` CHANGE `is_promo_gozo_coins_applied` `rut_is_promo_gozo_coins_apply` TINYINT(4) NOT NULL DEFAULT '1';
+ALTER TABLE `route` CHANGE `is_cod_applied` `rut_is_cod_apply` TINYINT(4) NOT NULL DEFAULT '1';

@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `bkg_corporate_credit` INT NULL DEFAULT '0' AFTER `bkg_discount_amount`;

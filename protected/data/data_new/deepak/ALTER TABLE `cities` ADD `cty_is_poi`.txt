@@ -1,0 +1,1 @@
+ALTER TABLE `cities` ADD `cty_is_poi` TINYINT NOT NULL DEFAULT '0' AFTER `cty_is_airport`;

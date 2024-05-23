@@ -1,0 +1,12 @@
+ALTER TABLE `vehicle_info` ADD `vif_approved` TINYINT NULL DEFAULT NULL AFTER `vif_agent_id`;
+
+ALTER TABLE `vehicles` ADD `vhc_approved` TINYINT NULL DEFAULT '0' AFTER `vhc_mark_car_count`;
+ALTER TABLE `vehicle_info` CHANGE `vif_approved` `vif_approved` TINYINT(4) NULL DEFAULT '0';
+
+
+	ALTER TABLE `vehicles` ADD `vhc_front_plate` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_approved`;
+	ALTER TABLE `vehicles` ADD `vhc_rear_plate` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_approved`;
+	ALTER TABLE `vehicles` ADD `vhc_reg_certificate` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_approved`;
+	ALTER TABLE `vehicles` ADD `vhc_pollution_certificate` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_approved`;
+	ALTER TABLE `vehicles` ADD `vhc_permits_certificate` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_approved`;
+	ALTER TABLE `vehicles` ADD `vhc_insurance_proof` VARCHAR(250) NULL DEFAULT NULL AFTER `vhc_approved`;

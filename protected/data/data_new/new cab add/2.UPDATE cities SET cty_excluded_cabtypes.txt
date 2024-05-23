@@ -1,0 +1,9 @@
+UPDATE cities
+SET    cty_excluded_cabtypes = concat(cty_excluded_cabtypes, ',' ,'7,8,9')
+WHERE  cty_excluded_cabtypes != '';
+
+UPDATE cities
+SET    cty_excluded_cabtypes = '7,8,9'
+WHERE  cty_excluded_cabtypes IS NULL OR cty_excluded_cabtypes ='';
+
+

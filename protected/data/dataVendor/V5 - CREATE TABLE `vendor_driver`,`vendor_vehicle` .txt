@@ -1,0 +1,81 @@
+
+--
+-- Table structure for table `vendor_driver`
+--
+
+CREATE TABLE IF NOT EXISTS `vendor_driver` (
+  `vdrv_id` int(11) NOT NULL,
+  `vdrv_vnd_id` int(11) NOT NULL,
+  `vdrv_drv_id` int(11) NOT NULL,
+  `vdrv_active` tinyint(4) NOT NULL DEFAULT '1',
+  `vdrv_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendor_vehicle`
+--
+
+CREATE TABLE IF NOT EXISTS `vendor_vehicle` (
+  `vvhc_id` int(11) NOT NULL,
+  `vvhc_vnd_id` int(11) NOT NULL,
+  `vvhc_vhc_id` int(11) NOT NULL,
+  `vvhc_active` tinyint(4) NOT NULL DEFAULT '1',
+  `vvhc_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `vendor_driver`
+--
+ALTER TABLE `vendor_driver`
+  ADD PRIMARY KEY (`vdrv_id`),
+  ADD UNIQUE KEY `vdrv_vnd_id` (`vdrv_vnd_id`,`vdrv_drv_id`),
+  ADD KEY `vdrv_vnd_id_2` (`vdrv_vnd_id`,`vdrv_drv_id`),
+  ADD KEY `vdrv_drv_id` (`vdrv_drv_id`);
+
+--
+-- Indexes for table `vendor_vehicle`
+--
+ALTER TABLE `vendor_vehicle`
+  ADD PRIMARY KEY (`vvhc_id`),
+  ADD UNIQUE KEY `vvhc_vnd_id` (`vvhc_vnd_id`,`vvhc_vhc_id`),
+  ADD KEY `vvhc_vhc_id` (`vvhc_vhc_id`),
+  ADD KEY `vvhc_vnd_id_2` (`vvhc_vnd_id`,`vvhc_vhc_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `vendor_driver`
+--
+ALTER TABLE `vendor_driver`
+  MODIFY `vdrv_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `vendor_vehicle`
+--
+ALTER TABLE `vendor_vehicle`
+  MODIFY `vvhc_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `vendor_driver`
+--
+ALTER TABLE `vendor_driver`
+  ADD CONSTRAINT `vendor_driver_ibfk_1` FOREIGN KEY (`vdrv_vnd_id`) REFERENCES `vendors` (`vnd_id`),
+  ADD CONSTRAINT `vendor_driver_ibfk_2` FOREIGN KEY (`vdrv_drv_id`) REFERENCES `drivers` (`drv_id`);
+
+--
+-- Constraints for table `vendor_vehicle`
+--
+ALTER TABLE `vendor_vehicle`
+  ADD CONSTRAINT `vendor_vehicle_ibfk_1` FOREIGN KEY (`vvhc_vnd_id`) REFERENCES `vendors` (`vnd_id`),
+  ADD CONSTRAINT `vendor_vehicle_ibfk_2` FOREIGN KEY (`vvhc_vhc_id`) REFERENCES `vehicles` (`vhc_id`);
+SET FOREIGN_KEY_CHECKS=1;

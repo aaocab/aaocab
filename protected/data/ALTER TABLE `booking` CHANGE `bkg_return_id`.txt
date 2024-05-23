@@ -1,0 +1,1 @@
+ALTER TABLE `booking` CHANGE `bkg_return_id` `bkg_return_id` INT NULL DEFAULT NULL;

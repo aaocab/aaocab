@@ -1,0 +1,14 @@
+===================================================================
+MMT COVID
+
+
+ALTER TABLE `booking_track`  ADD `btk_is_selfie` TINYINT NOT NULL DEFAULT '0' COMMENT '1:have;0:not have'  AFTER `btk_drv_details_viewed_datetime`,  ADD `btk_is_sanitization_kit` TINYINT NOT NULL DEFAULT '0' COMMENT '1:have;0:not have'  AFTER `btk_is_selfie`,  ADD `btk_aarogya_setu` TINYINT NOT NULL DEFAULT '0' COMMENT '1:have;0:not have'  AFTER `btk_is_sanitization_kit`;
+ALTER TABLE `booking_track` ADD `btk_safetyterm_agree` TINYINT NOT NULL DEFAULT '0' COMMENT '1:agreed;2:notagreed' AFTER `btk_aarogya_setu`;
+ALTER TABLE `booking_track` CHANGE `btk_safetyterm_agree` `btk_safetyterm_agree` VARCHAR(1000) NULL DEFAULT NULL;
+====================================================================
+
+MMT SYNC ERROR
+
+ALTER TABLE `booking_trail` ADD `btr_api_sync_error` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '1=>syncerror;0=>noIssue' AFTER `btr_datadiscrepancy_remarks`;
+
+==========================================================================

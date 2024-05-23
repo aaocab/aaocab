@@ -1,0 +1,3 @@
+ALTER TABLE `booking` ADD `bkg_vendor_request_cnt` TINYINT NOT NULL DEFAULT '0' AFTER `bkg_trip_status`;
+
+ALTER TABLE `booking` ADD `bkg_is_related` TINYINT(3) NULL DEFAULT '0' AFTER `bkg_vendor_request_cnt`;

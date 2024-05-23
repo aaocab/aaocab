@@ -1,0 +1,30 @@
+ALTER TABLE `users` ADD `usr_mark_driver_count` INT(11) NULL DEFAULT NULL AFTER `usr_acct_type`;
+
+ALTER TABLE `vehicles` ADD `vhc_mark_car_count` INT(11) NULL DEFAULT NULL AFTER `vhc_log`;
+
+ALTER TABLE `users` CHANGE `usr_mark_driver_count` `usr_mark_customer_count` INT(11) NULL DEFAULT NULL;
+
+ALTER TABLE `users` CHANGE `usr_mark_customer_count` `usr_mark_customer_count` INT(11) NULL DEFAULT '0';
+
+ALTER TABLE `drivers` CHANGE `drv_mark_driver_count` `drv_mark_driver_count` INT(11) NULL DEFAULT '0';
+
+ALTER TABLE `vehicles` CHANGE `vhc_mark_car_count` `vhc_mark_car_count` INT(11) NULL DEFAULT '0';
+
+
+__---------------------------------------------------------------------------------------------------
+
+
+
+ALTER TABLE `users` ADD `usr_mark_customer_count` INT(11) NULL DEFAULT '0' AFTER `usr_acct_type`;
+
+ALTER TABLE `vehicles` ADD `vhc_mark_car_count` INT(11) NOT NULL DEFAULT '0' AFTER `vhc_log`;
+
+ALTER TABLE `drivers` ADD `drv_mark_driver_count` INT(11) NOT NULL DEFAULT '0' AFTER `drv_log`;
+
+
+
+
+
+
+
+

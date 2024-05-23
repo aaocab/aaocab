@@ -1,0 +1,4 @@
+ALTER TABLE `vendor_transactions` ADD `ven_tds_amount` MEDIUMINT NOT NULL DEFAULT '0' AFTER `ven_trans_amount`;
+
+ALTER TABLE `vendor_transactions` CHANGE `ven_tds_amount` `ven_tds_amount` FLOAT(16,2) NOT NULL DEFAULT '0.00';
+

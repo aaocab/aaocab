@@ -1,0 +1,13 @@
+
+
+
+ALTER TABLE `admin_profiles` ADD INDEX( `adp_adm_id`);
+ALTER TABLE `admin_profiles` ADD INDEX( `adp_cdt_id`);
+
+ALTER TABLE `cat_depart_team_map` ADD INDEX( `cdt_cat_id`);
+ALTER TABLE `cat_depart_team_map` ADD INDEX( `cdt_dpt_id`);
+ALTER TABLE `cat_depart_team_map` ADD INDEX( `cdt_tea_id`);
+
+
+ALTER TABLE `assign_log` CHANGE `alg_created` `alg_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `assign_log` ADD `alg_closed_at` TIMESTAMP NULL AFTER `alg_status`;

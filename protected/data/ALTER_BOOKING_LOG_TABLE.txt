@@ -1,0 +1,1 @@
+ALTER TABLE `booking_log` ADD `blg_event_id2` SMALLINT(6) NULL DEFAULT NULL AFTER `blg_event_id`;
