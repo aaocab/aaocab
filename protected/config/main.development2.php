@@ -42,49 +42,49 @@ return array(
 		/* Local Connection String
 		 * */
 		'db'			 => array(
-			'connectionString'	 => 'mysql:host=192.168.1.4;dbname=gozo_00529;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00529;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => 'sdrs22590',
+			'password'			 => '',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db1'			 => array(
-			'connectionString'	 => 'mysql:host=192.168.1.4;dbname=gozo_00529;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00529;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => 'sdrs22590',
+			'password'			 => '',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db2'			 => array(
-			'connectionString'	 => 'mysql:host=192.168.1.4;dbname=gozo_00529;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00529;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => 'sdrs22590',
+			'password'			 => '',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db3'			 => array(
-			'connectionString'	 => 'mysql:host=192.168.1.4;dbname=gozo_00529;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00529;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => 'sdrs22590',
+			'password'			 => '',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
 		//        'schemaCachingDuration'=>3600,
 		),
 		'adb'			 => array(
-			'connectionString'	 => 'mysql:host=192.168.1.4;dbname=gozo_archive;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_archive;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => 'sdrs22590',
+			'password'			 => '',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
