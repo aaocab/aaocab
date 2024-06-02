@@ -13,7 +13,7 @@ list($usec, $sec) = explode(" ", microtime());
 $time1					 = ((float) $usec + (float) $sec);
 $time					 = $time1 - TIME;
 $GLOBALS['time2']		 = $time;
-// change the following paths if necessary
+// change the following paths if necessary//
 
 $configCommon		 = include_once(APPLICATION_PATH . '/config/common.php');
 $configServer		 = include_once(APPLICATION_PATH . '/config/main.' . APPLICATION_ENV . '.php');
