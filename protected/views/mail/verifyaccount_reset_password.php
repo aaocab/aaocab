@@ -14,6 +14,6 @@ $msg = '<h4 style="text-align:left;margin:0px;">'
                  password:'.
 				'<br/><br/>Please click on this: ' . Filter::shortUrl($arr['link']) . ' to reset your password for email '." ".$arr['email'] .  
 				'<br/>Regards,' .
-				'<br/>GozoCabs<br/><br/>';
+				'<br/>aaocab<br/><br/>';
 echo $msg;
 

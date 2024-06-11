@@ -1,5 +1,5 @@
-<h2>Welcome to Gozocabs</h2>
-<h3>REDIRECTING YOU TO GOZOCABS</h3>
+<h2>Welcome to aaocab</h2>
+<h3>REDIRECTING YOU TO aaocab</h3>
 
 <script type="text/javascript">
  $(document).ready(function () {

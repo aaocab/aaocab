@@ -251,15 +251,15 @@ class AgentAgreement extends CActiveRecord
 			
 
 			$isAgreement = 1;
-			$subject1	 = 'Your copy of updated GozoCabs Channel Partner Agreement dated: ' . date("d/m/Y", strtotime(DATE('Y-m-d'))) . '';
+			$subject1	 = 'Your copy of updated aaocab Channel Partner Agreement dated: ' . date("d/m/Y", strtotime(DATE('Y-m-d'))) . '';
 			$emailBody1	 = 'Dear ' . $model->agt_fname." ".$model->agt_lname. ',<br/><br/>
                                 You have just accepted the attached version of our channel partner agreement. 
                                 <br/><br/>This agreement was digitally signed and accepted by
                                 <br/>Name : ' . $model->agt_fname." ".$model->agt_lname.'
                                 <br/><br/>Agreement Link : ' . $digitalAgmtLink . '
-                                <br/><br/>For any clarifications, please call us at 033-66283910 or email partners@gozocabs.in <mailto:partners@gozocabs.in>
+                                <br/><br/>For any clarifications, please call us at 033-66283910 or email partners@aaocab.in <mailto:partners@aaocab.in>
                                 <br/><br/>Thanks,
-                                <br/><br/>Gozocabs';
+                                <br/><br/>aaocab';
 
 			$emailCom = new emailWrapper();
 			$emailCom->agentAgreementEmail($subject1, $emailBody1, $email, $ledgerPdf, $invoicePdf, $vendorId, $attachments, EmailLog::EMAIL_AGENT_AGREEMENT, $isAgreement);

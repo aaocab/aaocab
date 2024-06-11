@@ -119,8 +119,8 @@ if($callback != '')
 			<div class="tab-item" id="tab-8">
 				<? $imgVer	 = Yii::app()->params['imageVersion']; ?>
 				<!--page-login header-clear-large page-login-full-->
-				<h3 class="ultrabold top-0 bottom-0 text-center">Sign Up to Gozocabs</h3>
-				<p class="text-center mb0">Already on Gozocabs? <a href="#" class="alreadylogin">Log In</a></p>
+				<h3 class="ultrabold top-0 bottom-0 text-center">Sign Up to aaocab</h3>
+				<p class="text-center mb0">Already on aaocab? <a href="#" class="alreadylogin">Log In</a></p>
 				<div class="line-height20 text-center uppercase mt20">
 					<a href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook')); ?>" class="button-round button-icon shadow-small regularbold bg-facebook button-s mr5"><i class="fab fa-facebook"></i> Facebook</a>
 

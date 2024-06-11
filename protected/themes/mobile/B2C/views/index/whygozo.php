@@ -1,5 +1,5 @@
 <div class="content-boxed-widget">
-	<h1 class="font-18">Why GozoCabs</h1>
+	<h1 class="font-18">Why aaocab</h1>
 	<p> Our mission is to simplify outstation road travel anywhere in India. 'Gozo' means 'delight and joy'! We started Gozo Cabs because we felt that there was a need to make outstation road travel in India 'delightful'. </p>
 
 	<h2 class="font-16">We know what you want when you book an outstation taxi - </h2>

@@ -628,14 +628,14 @@ class ContactPhone extends BaseActiveRecord
 				{
 					if($newModel->phn_is_primary != $oldModel->phn_is_primary && $oldModel->phn_active == 1)
 					{
-						$returnSet = ContactPhone::model()->add($cttId, $newModel->phn_phone_no, 0, $newModel->phn_phone_country_code, SocialAuth::Eml_Gozocabs, $newModel->phn_is_primary);
+						$returnSet = ContactPhone::model()->add($cttId, $newModel->phn_phone_no, 0, $newModel->phn_phone_country_code, SocialAuth::Eml_aaocab, $newModel->phn_is_primary);
 					}
 					continue;
 				}
 				//  checking the newmodel phone existence in oldmodel data and if not add the record
 				if(!(in_array(trim($newModel->phn_phone_no), $phoneArray)))
 				{
-					$returnSet = ContactPhone::model()->add($cttId, $newModel->phn_phone_no, 0, $newModel->phn_phone_country_code, SocialAuth::Eml_Gozocabs, $newModel->phn_is_primary, 0, $newModel->phn_is_verified);
+					$returnSet = ContactPhone::model()->add($cttId, $newModel->phn_phone_no, 0, $newModel->phn_phone_country_code, SocialAuth::Eml_aaocab, $newModel->phn_is_primary, 0, $newModel->phn_is_verified);
 					break;
 				}
 			}
@@ -901,7 +901,7 @@ class ContactPhone extends BaseActiveRecord
 				$model->phn_phone_country_code	 = empty($ext) ? '91' : $ext;
 				$model->phn_phone_no			 = ltrim(str_replace(' ', '', $value), 0);
 				$model->phn_is_primary			 = $primaryPhone;
-				$model->phn_type				 = empty($type) ? SocialAuth::Eml_Gozocabs : $type;
+				$model->phn_type				 = empty($type) ? SocialAuth::Eml_aaocab : $type;
 				$model->phn_create_date			 = new CDbExpression('now()');
 				$model->phn_contact_id			 = $contactId;
 				$model->phn_otp					 = rand(1000, 9999);
@@ -1551,7 +1551,7 @@ class ContactPhone extends BaseActiveRecord
 			{
 				$isDelay	 = 0;
 				//$msg         = "Your OTP for phone number verification is ".$verifyCode;  
-				$msg		 = "Your OTP for starting verification is " . $verifyCode . " - Gozocabs";
+				$msg		 = "Your OTP for starting verification is " . $verifyCode . " - aaocab";
 				$sms		 = new Messages();
 				$res		 = $sms->sendMessage($oldModel->phn_phone_country_code, $oldModel->phn_phone_no, $msg, $isDelay);
 				Logger::trace("Response of SMS =====>" . $res);

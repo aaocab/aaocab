@@ -322,7 +322,7 @@ class BookingController extends BaseController
 				$success			 = false;
 				$errors				 = 'Something went wrong while uploading';
 				$process_sync_data	 = Yii::app()->request->getParam('data');
-				// $process_sync_data   = '{ "ttg_bkg_id": "867204",   "ttg_driver_id": "77394",   "ttg_bcb_id": "921858",   "bkg_start_odometer_path": "\/storage\/emulated\/0\/gozo_Admin\/gozocabs_image\/20190402_185141_0.5670519741692476.jpg",   "bkg_start_odometer": "1230",   "ttg_trip_start_time": "2019-04-02 18:48:50",   "bkg_ride_start": "1",   "bpr_trip_otp": "556954",   "bpr_is_trip_verified": "1",   "ttg_start_odometer": "1230",   "ttg_time_stamp": "2019-04-02 18:48:50",   "ttg_latitude": "18.5577436",   "ttg_longitude": "73.9509249",   "ttg_event_type": "215",   "tlg_id": 14 }';
+				// $process_sync_data   = '{ "ttg_bkg_id": "867204",   "ttg_driver_id": "77394",   "ttg_bcb_id": "921858",   "bkg_start_odometer_path": "\/storage\/emulated\/0\/gozo_Admin\/aaocab_image\/20190402_185141_0.5670519741692476.jpg",   "bkg_start_odometer": "1230",   "ttg_trip_start_time": "2019-04-02 18:48:50",   "bkg_ride_start": "1",   "bpr_trip_otp": "556954",   "bpr_is_trip_verified": "1",   "ttg_start_odometer": "1230",   "ttg_time_stamp": "2019-04-02 18:48:50",   "ttg_latitude": "18.5577436",   "ttg_longitude": "73.9509249",   "ttg_event_type": "215",   "tlg_id": 14 }';
 				// print_r($process_sync_data);exit;                
 				Logger::create("Request =>" . $process_sync_data, CLogger::LEVEL_TRACE);
 
@@ -977,7 +977,7 @@ class BookingController extends BaseController
 								if ($success)
 								{
 									$message	 = [];
-									$resmsg		 = 'Thank you for using Gozocabs';
+									$resmsg		 = 'Thank you for using aaocab';
 									$returnData	 = ['response_message' => $resmsg];
 									Logger::create("Final Data.\n\t\t" . json_encode($returnData), CLogger::LEVEL_INFO);
 								}

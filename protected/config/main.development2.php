@@ -189,7 +189,7 @@ return array(
 			'apikey'	 => 'secret_d6278430-6606-4432-ab6d-8924b165c8ed',
 			'iv'		 => 'E85D5C404FC82759',
 			'aes_key'	 => 'CC1939673D2F1F782E1B08F578E2F715',
-			'm_code'	 => 'GOZOCABS',
+			'm_code'	 => 'aaocab',
 		),
 		'payu'					 => array(
 			'class'					 => 'application.components.Payumoney',

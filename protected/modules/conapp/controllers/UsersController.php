@@ -319,7 +319,7 @@ class UsersController extends BaseController
 
 				/** @var $obj \Stub\common\SignUpResponse  */
 				$response = new \Stub\consumer\SignUpResponse();
-				$response->setModelInfo($userModel, $isNewUser, null, $contactDetails, $pageRequest->getEncrptedData(), \SocialAuth::Provider_Gozocabs, $authModel->username, $isEmailOrPhone);
+				$response->setModelInfo($userModel, $isNewUser, null, $contactDetails, $pageRequest->getEncrptedData(), \SocialAuth::Provider_aaocab, $authModel->username, $isEmailOrPhone);
 				goto skipExiting;
 			}
 
@@ -349,7 +349,7 @@ class UsersController extends BaseController
 
 			/** @var $obj \Stub\common\SignUpResponse  */
 			$response = new \Stub\consumer\SignUpResponse();
-			$response->setModelInfo($userModel, $isNewUser, null, null, null, \SocialAuth::Provider_Gozocabs, $authModel->username);
+			$response->setModelInfo($userModel, $isNewUser, null, null, null, \SocialAuth::Provider_aaocab, $authModel->username);
 			skipExiting:
 			$returnSet->setStatus(true);
 			$returnSet->setData($response);
@@ -380,7 +380,7 @@ class UsersController extends BaseController
 			Logger::info("Request : " . json_encode($obj));
 			//$oAuthModel = $socialModel->linkContact($obj->accessToken, $contactId);
 			$authModel = $obj->getSocialModel();
-			if ($obj->provider == \SocialAuth::Provider_Gozocabs)
+			if ($obj->provider == \SocialAuth::Provider_aaocab)
 			{
 				$model = Users::login($authModel, true);
 			}
@@ -1068,7 +1068,7 @@ class UsersController extends BaseController
 			$referralCode	= ($qrModel) ? $qrModel->qrc_code : '';
 			$referralCode	= 'https://gozo.cab/c/' . $referralCode;
 			$amount			= Yii::app()->params['invitedAmount'];
-			$referalMessage = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service. Gozocabs is India’s leader in long distance taxi travel. Please visit  ' . $referralCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs';
+			$referalMessage = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service. aaocab is India’s leader in long distance taxi travel. Please visit  ' . $referralCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs';
 			$returnSet->setStatus(true);
 			//$referalMessage = Config::get('user.referral.message');
 			$returnSet->setData(['code' => $referralCode, 'showMessage' => $referalMessage]);
@@ -1246,7 +1246,7 @@ class UsersController extends BaseController
 		$returnSet = new ReturnSet();
 		try
 		{
-			$data = Yii::app()->request->rawBody; //$data	 = '{"profile":{"email": "romanayek1810@gozocabs1.in"}}';
+			$data = Yii::app()->request->rawBody; //$data	 = '{"profile":{"email": "romanayek1810@aaocab1.in"}}';
 			if (!$data)
 			{
 				throw new Exception('Invalid Request : ', ReturnSet::ERROR_INVALID_DATA);

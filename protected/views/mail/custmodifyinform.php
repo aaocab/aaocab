@@ -39,7 +39,7 @@ else {
     }
 }
 $msg = 'Hi ' . $arr['userName'] .
-        ',<br/><br/>Thank you for choosing Gozocabs! '
+        ',<br/><br/>Thank you for choosing aaocab! '
         . 'We have received your reservation request and your booking is confirmed. You can contact us anytime to inquire your booking status. The details of your reservation request are as follows:<br/>' .
         '<br/><b>Booking ID: </b>' . $arr['bookingId'] .
         '<br/><b>Type: </b> ' . $bookingType .
@@ -55,8 +55,8 @@ $msg = 'Hi ' . $arr['userName'] .
         '<br/><br/>You will receive the cab details 3 hours before your scheduled pickup time.<br/>' .
         '<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
         '<br/>Regards,' .
-        '<br/>Gozocabs<br/><br/>' .
-        '<br/>For updates and promotions, like us on <a href="http://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
+        '<br/>aaocab<br/><br/>' .
+        '<br/>For updates and promotions, like us on <a href="http://www.facebook.com/aaocab">facebook</a> , follow us on <a href="http://www.twitter.com/aaocab">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
 
 $msg.=$info;
 

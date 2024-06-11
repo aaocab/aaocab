@@ -435,7 +435,7 @@ if ($platform != 3)
 					</div>
 					<!--                    <div class="row">
 											<div class="col-xs-12">
-												<div class="col-xs-12 h4 text-center green-color"><b>Thank you for choosing Gozocabs!</b></div>
+												<div class="col-xs-12 h4 text-center green-color"><b>Thank you for choosing aaocab!</b></div>
 											</div>
 										</div>-->
 				</div>

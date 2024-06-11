@@ -246,7 +246,7 @@ if ($type == 'city')
 								You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
 								and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
 								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
-								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that Gozocabs provides to its customers.
+								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
 							</p>
 							<section>
 									<h4 class="mb0 mt20">FAQs About <?= $cmodel->cty_name ?> Cabs</h4>
@@ -309,7 +309,7 @@ if ($type == 'city')
 				<section>
 					<h2 class="bottom-5 font-16 top-20">Rent a Car in <?= $cmodel->cty_name; ?> for outstation travel, day-based rentals and airport transfers
 						<!--fb like button-->
-						<div class="fb-like" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+						<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 						<!--fb like button-->
 					</h2>
 					Rent a Gozo cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
@@ -554,7 +554,7 @@ if ($type == 'city')
 								You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
 								and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
 								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
-								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that Gozocabs provides to its customers.
+								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
 							</p>
 							<section>
 									<h4 class="mb0 mt30">FAQs About <?= $cmodel->cty_name ?> Cabs</h4>
@@ -617,7 +617,7 @@ if ($type == 'city')
 				<section>
 					<h2 class="bottom-5 font-16 top-20">Rent a Car in <?= $cmodel->cty_name; ?> for outstation travel, day-based rentals and airport transfers
 						<!--fb like button-->
-						<div class="fb-like" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+						<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 						<!--fb like button-->
 					</h2>
 					Rent a Gozo cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
@@ -834,7 +834,7 @@ if ($type == 'city')
 								You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
 								and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
 								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
-								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that Gozocabs provides to its customers.
+								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
 							</p>
                             <section>
                                     <h4 class="mb0 mt30">FAQs About <?= $cmodel->cty_name ?> Cabs</h4>
@@ -897,7 +897,7 @@ if ($type == 'city')
 				<section>
 					<h2 class="bottom-5 font-16 top-20">Rent a Car in <?= $cmodel->cty_name; ?> for outstation travel, day-based rentals and airport transfers
 						<!--fb like button-->
-						<div class="fb-like" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+						<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 						<!--fb like button-->
 					</h2>
 					Rent a Gozo cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day

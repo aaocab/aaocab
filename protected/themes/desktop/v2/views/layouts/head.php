@@ -103,7 +103,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 				{
 					dataLayer.push(arguments);
 				}
-				gtag('set', 'linker', {'domains': ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"]});
+				gtag('set', 'linker', {'domains': ["www.aaocab.com", "m.aaocab.com", "www-aaocab-com.cdn.ampproject.org"]});
 				gtag('js', new Date());
 				gtag('config', 'G-4TQDEZYH5H');
 			</script>

@@ -19,10 +19,10 @@ class SocialAuth extends UserOAuth
 
 	const Provider_Facebook	 = 'Facebook';
 	const Provider_Google		 = 'Google';
-	const Provider_Gozocabs	 = 'Gozocabs';
+	const Provider_aaocab	 = 'aaocab';
 	const Eml_Facebook		 = 3;
 	const Eml_Google			 = 2;
-	const Eml_Gozocabs		 = 1;
+	const Eml_aaocab		 = 1;
 
 	public function rules()
 	{
@@ -39,7 +39,7 @@ class SocialAuth extends UserOAuth
 
 	public function checkProvider($attribute, $params)
 	{
-		if (!in_array($this->provider, [self::Provider_Facebook, self::Provider_Google, self::Provider_Gozocabs]))
+		if (!in_array($this->provider, [self::Provider_Facebook, self::Provider_Google, self::Provider_aaocab]))
 		{
 			$this->addError($attribute, "Provider not supported");
 		}
@@ -192,13 +192,13 @@ class SocialAuth extends UserOAuth
 	 * @param string $provider
 	 * @return integer
 	 */
-	public static function getTypeByProvider($provider = Provider_Gozocabs)
+	public static function getTypeByProvider($provider = Provider_aaocab)
 	{
 		$providerVal = 0;
 		switch ($provider)
 		{
-			case 'Gozocabs';
-				$providerVal = self::Eml_Gozocabs;
+			case 'aaocab';
+				$providerVal = self::Eml_aaocab;
 				break;
 			case 'Facebook';
 				$providerVal = self::Eml_Facebook;

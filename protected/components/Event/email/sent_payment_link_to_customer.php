@@ -70,7 +70,7 @@ try
 		}
 
 		$msgBody = 'Hello ' . $firstName .
-				',<br/><br/>Thank you for choosing GozoCabs! For your Booking ID: ' . $bookingId . ',' . $amountStr .
+				',<br/><br/>Thank you for choosing aaocab! For your Booking ID: ' . $bookingId . ',' . $amountStr .
 				', please click on the following link to make an online payment.' .
 				'<br/><a href="' . $url . '">' . $url . '</a>
 		<br/><br/>Regards,<br/>Team Gozo';

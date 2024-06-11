@@ -12,7 +12,7 @@ $app->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins/form-
     <!-- BEGIN LOGO -->
     <div class="logo">
         <a href="#">
-            <img src="/images/logo2_new.png" style="height: 60px;" alt="Gozocabs" /> 
+            <img src="/images/logo2_new.png" style="height: 60px;" alt="aaocab" /> 
         </a>
     </div>
     <!-- END LOGO -->

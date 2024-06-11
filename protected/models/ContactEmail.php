@@ -497,7 +497,7 @@ class ContactEmail extends CActiveRecord
 					/** @var ContactEmail $newModel */
 					if ($newModel->eml_is_primary != $oldModel->eml_is_primary && $oldModel->eml_active == 1)
 					{
-						$provider	 = ($newModel->mediumType > 1) ? $newModel->mediumType : SocialAuth::Eml_Gozocabs;
+						$provider	 = ($newModel->mediumType > 1) ? $newModel->mediumType : SocialAuth::Eml_aaocab;
 						$returnSet	 = ContactEmail::model()->addNew($cttId, $newModel->eml_email_address, $provider, $newModel->eml_is_primary, 1);
 					}
 					continue;
@@ -505,7 +505,7 @@ class ContactEmail extends CActiveRecord
 				//  checking the newmodel email number existence in oldmodel data and if not add the record
 				if (!(in_array($newModel->eml_email_address, $emailArray)))
 				{
-					$provider	 = ($newModel->mediumType > 1) ? $newModel->mediumType : SocialAuth::Eml_Gozocabs;
+					$provider	 = ($newModel->mediumType > 1) ? $newModel->mediumType : SocialAuth::Eml_aaocab;
 					$returnSet	 = ContactEmail::model()->addNew($cttId, $newModel->eml_email_address, $provider, $newModel->eml_is_primary, 1);
 					break;
 				}
@@ -558,7 +558,7 @@ class ContactEmail extends CActiveRecord
 	{
 		switch ($sourceType)
 		{
-			case SocialAuth::Eml_Gozocabs:
+			case SocialAuth::Eml_aaocab:
 				$response = $this->checkEmailId($contactId, $contactValue, $sourceType);
 				break;
 
@@ -927,7 +927,7 @@ class ContactEmail extends CActiveRecord
 		{
 			if (!empty($emailValue[$index]->eml_email_address))
 			{
-				$returnSet = $this->addNew($contactId, $emailValue[$index]->eml_email_address, SocialAuth::Eml_Gozocabs);
+				$returnSet = $this->addNew($contactId, $emailValue[$index]->eml_email_address, SocialAuth::Eml_aaocab);
 			}
 
 			if ($returnSet->getStatus())
@@ -1050,7 +1050,7 @@ class ContactEmail extends CActiveRecord
 	 * @return \ReturnSet
 	 * @throws Exception
 	 */
-	public function addNew($contactId, $value, $type = SocialAuth::Eml_Gozocabs, $emlPrimary = 0, $updateProfile = 1, $isVerified = 0)
+	public function addNew($contactId, $value, $type = SocialAuth::Eml_aaocab, $emlPrimary = 0, $updateProfile = 1, $isVerified = 0)
 	{
 		Logger::profile("ContactEmail:addNew Started");
 		$returnset = new ReturnSet();
@@ -1163,7 +1163,7 @@ class ContactEmail extends CActiveRecord
 			}
 
 			//GOZO Add
-			$emailAddResponse = ContactEmail::addNew($contactId, $emailId, SocialAuth::Eml_Gozocabs, 0);
+			$emailAddResponse = ContactEmail::addNew($contactId, $emailId, SocialAuth::Eml_aaocab, 0);
 
 			if ($emailAddResponse)
 			{
@@ -1926,7 +1926,7 @@ class ContactEmail extends CActiveRecord
 			}
 
 			$isPrimary	 = ContactEmail::model()->validatePrimary($cttId);
-			$returnSet	 = ContactEmail::model()->addNew($cttId, $value, SocialAuth::Eml_Gozocabs, $isPrimary);
+			$returnSet	 = ContactEmail::model()->addNew($cttId, $value, SocialAuth::Eml_aaocab, $isPrimary);
 		}
 		catch (Exception $ex)
 		{

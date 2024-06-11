@@ -246,9 +246,9 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to go​�
 			<h2 class="font-16 mt15 mb5" itemprop="name">Looking for a reliable and affordable way to book outstation cab or taxi from <?= $cmodel->cty_name ?>? - starting at ₹<?= $minRate ?>/km</h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-			Gozocabs is India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs.
+			aaocab is India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs.
             We provide outstation cab or taxi booking services with driver in <?= $cmodel->cty_name; ?> for day-based rentals, one way, round trips, multicity travel and many more that are billed by custom itinerary or by day.
-			Gozocabs is the best cab booking app for cheap and reliable taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.
+			aaocab is the best cab booking app for cheap and reliable taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.
 			<div class="main_time border-blueline text-center main_time2">
 					<amp-img src="/images/cabs/tempo_9_seater.jpg" alt="Tempo Traveller" width="130" height="67" class="preload-image bottom-5" style="display: inline-block;"></amp-img>
 					<a href="/tempo-traveller-rental/<?php echo strtolower(str_replace(' ', '-', $cmodel->cty_alias_path)) ?>">Book Tempo Traveller online in <?= $cmodel->cty_name; ?></a>

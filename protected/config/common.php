@@ -15,7 +15,7 @@ Yii::setPathOfAlias('components', realpath(dirname(__FILE__) . DIRECTORY_SEPARAT
 
 Yii::setPathOfAlias('UserAuth', dirname(__FILE__) . DIRECTORY_SEPARATOR . '../extensions/hoauth/models/UserOAuth.php');
 return array(
-	'id'		 => 'Gozocabs',
+	'id'		 => 'aaocab',
 	// preloading 'log' component
 	'preload'	 => array('log'),
 	'timeZone'	 => 'Asia/Kolkata',
@@ -363,10 +363,10 @@ return array(
 				'From'			 => 'updates@notify.gozo.cab',
 				'Username'		 => 'www-notify',
 				'Password'		 => '3rIv0Jn7eWNO4Ar',
-				'FromName'		 => 'Gozocabs Account Services',
+				'FromName'		 => 'aaocab Account Services',
 			],
 			'Vendor'			 => [
-				'FromName' => 'Gozocabs Operator Services',
+				'FromName' => 'aaocab Operator Services',
 			],
 			'noReplyMail'		 => [
 				//	'SMTPDebug'	 => 2,
@@ -425,30 +425,30 @@ return array(
 				'Password'		 => '3rIv0Jn7eWNO4Ar',
 			],
 			'AccountServices'	 => [
-				'FromName' => 'Gozocabs Account Services',
+				'FromName' => 'aaocab Account Services',
 			],
 			'AgentServices'		 => [
-				'FromName' => 'Gozocabs Partner Support',
+				'FromName' => 'aaocab Partner Support',
 			],
 			'ConsumerServices'	 => [
-				'FromName' => 'Gozocabs Services',
+				'FromName' => 'aaocab Services',
 			],
 			'Meterdown'			 => [
 				'FromName' => 'Account Services',
 			],
 			'Booking'			 => [
-				'FromName' => 'Gozocabs Services',
+				'FromName' => 'aaocab Services',
 			],
 			'dailyMail'			 => [
 				'FromName' => 'Gozo Updates',
 			],
 			'agreementMail'		 => [
-				'FromName' => 'Gozocabs Agreement Services',
+				'FromName' => 'aaocab Agreement Services',
 			],
 		],
 		'demoDomains'					 => [
 			'aaocab.com'	 => 'aaocab.com',
-			'gozocabs.in'	 => 'gozocabs.in',
+			'aaocab.in'	 => 'aaocab.in',
 			'gozo.cab'		 => 'gozo.cab',
 		],
 // this is used in contact page
@@ -459,15 +459,15 @@ return array(
 		'demoMail'						 => '',
 		'demoNumber'					 => '',
 		'demoFromMail'					 => '',
-		'adminEmail'					 => 'leadership@gozocabs.in',
-		'leadAboveEmail'				 => 'leads-and-above@gozocabs.in',
-		'leadsonthefence'				 => 'leads-on-the-fence@gozocabs.in',
-		'bookingEmail'					 => 'email-bookings@gozocabs.in',
-		'cancellationEmail'				 => 'cancellation-alert@gozocabs.in',
-		'adminUserEmail'				 => 'nupur@gozocabs.in',
-		'dailyReportUserEmail'			 => 'sudiptaroy@gozocabs.in',
-		'gozocaresEmail'				 => 'Gozocares-team@gozocabs.in',
-		'gozoSOSEmail'					 => 'sos@gozocabs.in',
+		'adminEmail'					 => 'leadership@aaocab.in',
+		'leadAboveEmail'				 => 'leads-and-above@aaocab.in',
+		'leadsonthefence'				 => 'leads-on-the-fence@aaocab.in',
+		'bookingEmail'					 => 'email-bookings@aaocab.in',
+		'cancellationEmail'				 => 'cancellation-alert@aaocab.in',
+		'adminUserEmail'				 => 'nupur@aaocab.in',
+		'dailyReportUserEmail'			 => 'sudiptaroy@aaocab.in',
+		'gozocaresEmail'				 => 'Gozocares-team@aaocab.in',
+		'gozoSOSEmail'					 => 'sos@aaocab.in',
 		'listPerPage'					 => 20,
 		'driverCredit'					 => 50,
 		'creditMaxUseType'				 => 3,

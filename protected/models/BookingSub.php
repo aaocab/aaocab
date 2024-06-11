@@ -7768,7 +7768,7 @@ ORDER BY MatchScore DESC";
 			$pickupTime	 = strtotime($model->bkg_pickup_date);
 			$timeLeft	 = round(($pickupTime - time()) / 3600);
 			$txtChanges	 = $model->bkg_booking_id . ' starts in ' . $timeLeft . ' hours. Reconfirm at ' . $url . ' or by phone.';
-			$smsChanges	 = 'Trip ' . $txtChanges . ' Trip will auto-cancel and you will be liable for cancellation charge if not reconfirmed 24hours before pickup. - Gozocabs';
+			$smsChanges	 = 'Trip ' . $txtChanges . ' Trip will auto-cancel and you will be liable for cancellation charge if not reconfirmed 24hours before pickup. - aaocab';
 			$msgCom->beforePickUpSmsCustomer('91', $model->bkgUserInfo->bkg_contact_no, $model->bkg_booking_id, $smsChanges, $model->bkg_id);
 			return TRUE;
 		}

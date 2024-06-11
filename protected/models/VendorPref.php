@@ -617,8 +617,8 @@ class VendorPref extends CActiveRecord
 						'full_name'			 => $contactData['ownername'],
 						'email'				 => ContactEmail ::getPrimaryEmail($contactId),
 						'video_link'		 => 'https://youtu.be/AfbwgIJN0H0',
-						'app_link'			 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en',
-						'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.gozocabs.driver&hl=en_US'
+						'app_link'			 => 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en',
+						'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.aaocab.driver&hl=en_US'
 					];
 					emailWrapper::mailToApproveVendor($params);
 					$desc	 = "Vendor [ " . $contactData['ownername'] . " ] Modified : " . VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_ORIENTATION_ON);

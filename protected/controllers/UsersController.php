@@ -2161,7 +2161,7 @@ class UsersController extends BaseController
 			);
 
 			$mail->setLayout('mail');
-			$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
+			$mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $insSerch['usr_name']);
 			$mail->setSubject('Link to Reset your Password');
 // $mail->Send();
@@ -3224,7 +3224,7 @@ class UsersController extends BaseController
 			));
 
 			$mail->setLayout('mail');
-			$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info Gozocabs');
+			$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info aaocab');
 			$mail->setTo($email, $username);
 			$mail->setSubject('Reset your Password');
 			if ($mail->sendMail(0))
@@ -3583,7 +3583,7 @@ class UsersController extends BaseController
 		$image		 = 'http://www.aaocab.com/images/logosquare.png';
 		$link		 = 'http://www.aaocab.com/invite/' . $refCode;
 		$urlReturn	 = 'http://www.facebook.com';
-		$title		 = 'I traveled with Gozocabs and loved it';
+		$title		 = 'I traveled with aaocab and loved it';
 		$description = "Try Gozo with the URL below and both you and I will get Rs. 200 "
 				. "Gozo Coins for our next trip. '" . $link
 				. "'. Here is my review from my trip " . $bModel->bkg_booking_id . ' : "'
@@ -3605,7 +3605,7 @@ class UsersController extends BaseController
 		$image		 = 'http://www.aaocab.com/images/logosquare.png';
 		$link		 = 'http://www.aaocab.com/invite/' . $refCode;
 		$urlReturn	 = 'http://www.facebook.com';
-		$title		 = "I've traveled with Gozocabs and loved it.";
+		$title		 = "I've traveled with aaocab and loved it.";
 		$description = "Travel with Gozo through my URL " . $link . ", you and I will both get Rs. " . $amount . "/- Gozo Coins to use with Gozo.​ ​Visit them at www.aaocab.com. Its a cool service. Clear pricing. Awesome service and great customer reviews";
 		$this->redirect('http://www.facebook.com/dialog/feed?app_id=1132716233459596&link=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.aaocab.com&description=' . $description . '&redirect_uri=' . $urlReturn . '&display=popup');
 	}
@@ -4752,7 +4752,7 @@ class UsersController extends BaseController
 
 						if ($newType == 1)
 						{
-							ContactEmail::model()->addNew($contactId, $newContactComponent->value, SocialAuth::Eml_Gozocabs, 0, 1, 1);
+							ContactEmail::model()->addNew($contactId, $newContactComponent->value, SocialAuth::Eml_aaocab, 0, 1, 1);
 						}
 					}
 				}
@@ -5280,7 +5280,7 @@ class UsersController extends BaseController
 			$returnSet->setData(
 					[
 						'userName'		=> $users['username'],
-						'consumerName'	=> ($userModel->usr_name != " ") ? (ucfirst($userModel->usr_name)) : ("to Gozocabs"),
+						'consumerName'	=> ($userModel->usr_name != " ") ? (ucfirst($userModel->usr_name)) : ("to aaocab"),
 						'isNewUser'		=> 0,
 						'userNameCode'	=> $isEmailOrPhone['phCode'],
 						'userNamePhone' => $isEmailOrPhone['phNumber'],

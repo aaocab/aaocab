@@ -1,6 +1,6 @@
 <?
 
-$msg = "Dear Customer ,<br/><br/>Welcome to Gozocabs. We are India's leader for inter-city taxi travel. Our mission is to simplify outstation travel in India and we welcome your suggestions for improvement always.
+$msg = "Dear Customer ,<br/><br/>Welcome to aaocab. We are India's leader for inter-city taxi travel. Our mission is to simplify outstation travel in India and we welcome your suggestions for improvement always.
 <br/>We promise you safe, reliable and cost-effective inter-city taxi all over India.
 <br/>" .
         "<br/>We have created your account on aaocab.com. You can now login and update your profile for faster bookings. <br/><br/>UserId : " . $arr['userName'] . "  <br/>Passoword : " . $arr['password'] . " <br/>" .

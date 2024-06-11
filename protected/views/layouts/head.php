@@ -50,7 +50,7 @@ Yii::app()->clientScript->registerPackage("webEnd");
 			?>
 			<!-- og tag start here-->
 			<meta property="og:title" content="Gozo Cabs - Best one-way, outstation cabs in India">
-			<meta property="og:site_name" content="GozoCabs">
+			<meta property="og:site_name" content="aaocab">
 			<meta property="og:url" content="http://www.aaocab.com/">
 			<meta property="og:description" content="Best and Cheapest one-way cabs, outstation cabs and many more taxies and cabs booking services online in India. ">
 			<meta property="og:type" content="business.business">
@@ -106,7 +106,7 @@ Yii::app()->clientScript->registerPackage("webEnd");
 	            {
 	                dataLayer.push(arguments);
 	            }
-	            gtag('set', 'linker', {"domains": ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"]});
+	            gtag('set', 'linker', {"domains": ["www.aaocab.com", "m.aaocab.com", "www-aaocab-com.cdn.ampproject.org"]});
 	            gtag('js', new Date());
 	            gtag('config', 'UA-34493806-1');
 			</script>

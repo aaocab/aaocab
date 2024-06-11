@@ -49,7 +49,7 @@ class AppreciationMessageCommand extends BaseCommand
                     As a thanks giving gesture, we shall be issuing a Rs.500 Discount Coupon and crediting your Gozo Account with 500 Gozo Coins (subject to use of 250 Gozo Coins at a time), which may be redeemed in any of your future Bookings with us, upon advise of review posts from your end.</p>
                     <p>Thanking you for all your support.</p><br><br>
                     Regards<br>
-                    for Gozocabs
+                    for aaocab
                     ';
 
 		foreach ($data as $value)

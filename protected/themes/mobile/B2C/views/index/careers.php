@@ -1,10 +1,10 @@
 
 <?
-$emailto = "careers@gozocabs.in";
+$emailto = "careers@aaocab.in";
 ?>
 	<div class="content-boxed-widget">
 		<h1>Careers <img src="/images/success1.svg" alt="" width="30" class="pull-right"></h1>
-			<h2 class="m0 font-14 line-height16">We are always looking for talent – if you think you have a good fit in gozocabs, please contact us at <a href="mailto:<?= $emailto ?>"><?= $emailto ?></a>.</h2>
+			<h2 class="m0 font-14 line-height16">We are always looking for talent – if you think you have a good fit in aaocab, please contact us at <a href="mailto:<?= $emailto ?>"><?= $emailto ?></a>.</h2>
 	</div>
     <div class="content-boxed-widget top-15" id="gzse">
             <h3 class="mb5 font-16">Senior PHP Developer (Job ID: GZSPD)</h3>  

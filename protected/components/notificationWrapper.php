@@ -234,7 +234,7 @@ class notificationWrapper
 		$userId		 = $model->bkgUserInfo->bkg_user_id;
 		$userType	 = UserInfo::TYPE_CONSUMER;
 		$payLoadData = json_decode(json_encode($notify->payload), true);
-		$message	 = "Thanks for traveling with Gozocabs ( Booking ID : " . $model->bkg_booking_id . "). We would love to hear your feedback on how we did.";
+		$message	 = "Thanks for traveling with aaocab ( Booking ID : " . $model->bkg_booking_id . "). We would love to hear your feedback on how we did.";
 		$title		 = "Rating requested";
 		$success	 = AppTokens::model()->notifyUser($userId, $userType, $payLoadData, $message, $title);
 		return $success;
@@ -646,7 +646,7 @@ class notificationWrapper
 		}
 		else
 		{
-			$msg = $bkgModel->bkg_booking_id . ' | Received Rs.' . round($bkgModel->bkgInvoice->bkg_advance_amount) . ' | See cab driver updates at ' . $paymentLink . ' - Gozocabs';
+			$msg = $bkgModel->bkg_booking_id . ' | Received Rs.' . round($bkgModel->bkgInvoice->bkg_advance_amount) . ' | See cab driver updates at ' . $paymentLink . ' - aaocab';
 		}
 
 		$contentParams		 = array(

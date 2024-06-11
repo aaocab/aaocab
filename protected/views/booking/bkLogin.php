@@ -30,7 +30,7 @@ $clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/bookNow.js?v='
 					</div>
 
 					<div class="col-xs-12 col-md-10 col-md-offset-1 google-btn">
-						<a class="btn btn-lg btn-social btn-googleplus pl15 pr15" onclick="socailSigin('google')" ><img src="../images/google_icon.png" alt="Gozocabs"> Login with Google</a>
+						<a class="btn btn-lg btn-social btn-googleplus pl15 pr15" onclick="socailSigin('google')" ><img src="../images/google_icon.png" alt="aaocab"> Login with Google</a>
 					</div>
 				</div>
 			</div>

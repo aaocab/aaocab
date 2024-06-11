@@ -1667,12 +1667,12 @@ class ReportController extends Controller
 			$mail		 = new EIMailer();
 			$mail->clearView();
 			$mail->clearLayout();
-			$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
+			$mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$sentEmail	 = Yii::app()->params['adminEmail'];
 			//$sentEmail = "sudipta.roy81@gmail.com";
-			$mail->setTo($sentEmail, 'Gozocabs Admin');
+			$mail->setTo($sentEmail, 'aaocab Admin');
 			$mail->setBody($reportText);
-			$subject	 = 'Gozocabs - Monthly Report as on ' . date('d/m/Y', strtotime(date('Y-m-d')));
+			$subject	 = 'aaocab - Monthly Report as on ' . date('d/m/Y', strtotime(date('Y-m-d')));
 			$mail->setSubject($subject);
 			if ($mail->sendServicesEmail())
 			{

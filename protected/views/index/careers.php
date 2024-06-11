@@ -3,13 +3,13 @@
     li{ line-height: 24px;}
 </style>
 <?
-$emailto = "careers@gozocabs.in";
+$emailto = "careers@aaocab.in";
 ?>
 <article class="row register_path p20">
     <section class="col-xs-12 p0">
         <h1>Careers</h1>
         <div class="panel-body pt5">
-            <h4 class="mb0">We are always looking for talent – if you think you have a good fit in gozocabs, please contact us at <a href="mailto:<?= $emailto ?>"><?= $emailto ?></a>.</h4>
+            <h4 class="mb0">We are always looking for talent – if you think you have a good fit in aaocab, please contact us at <a href="mailto:<?= $emailto ?>"><?= $emailto ?></a>.</h4>
             <article class="mt20">
                 <section class="mt20" id="gzse">
                     <h4 class="mb5">Senior PHP Developer (Job ID: GZSPD)</h4>  

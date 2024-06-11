@@ -418,16 +418,16 @@ class VendorCommand extends BaseCommand
 					{
 						$body .= 'Your payment for Rs. ' . $vendorAmount . '  is due immediately.';
 					}
-					$body	 .= '<br/><br/>Please note our bank details included below. Send all payments to the below address and intimate us with the details of your payment at accounts@gozocabs.in';
+					$body	 .= '<br/><br/>Please note our bank details included below. Send all payments to the below address and intimate us with the details of your payment at accounts@aaocab.in';
 					$body	 .= '<br/><br/>Beneficiary Name: <b>Gozo Technologies Private Limited</b>';
 					$body	 .= '<br/>Bank: <b>HDFC BANK LTD</b>';
 					$body	 .= '<br/>Branch: <b>Badshahpur, Gurgaon</b>';
 					$body	 .= '<br/>A/C number: <b>50200020818192</b>';
 					$body	 .= '<br/>IFSC Code: <b>HDFC0001098</b>';
-					$body	 .= '<br/><br/>For all queries please write to accounts@gozocabs.in <mailto:accounts@gozocabs.in>';
+					$body	 .= '<br/><br/>For all queries please write to accounts@aaocab.in <mailto:accounts@aaocab.in>';
 
 					$body					 .= '<br/><br/>Thank you,';
-					$body					 .= '<br/>Team Gozocabs';
+					$body					 .= '<br/>Team aaocab';
 					$subject				 = 'Gozo Invoice for ' . $vendor['vnd_name'] . ' from ' . $date1Inv . ' to ' . $date2Inv . '';
 					$emailCom				 = new emailWrapper();
 					$emailCom->vendorInvoiceEmail($subject, $body, $vendor['eml_email_address'], $ledgerPdf, $invoicePdf, $vendorId, $attachments);
@@ -1377,7 +1377,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 			if ($smsCount == 0)
 			{
-				smsWrapper::vendorAssignment($ext, $number, $row['bkg_booking_id'], "Driver & Cab assignment pending for TRIP ID: " . $row['bcb_id'] . " If not allocated within " . $timeLeft . " - we will unassign this trip - Gozocabs", $row['bcb_vendor_id']);
+				smsWrapper::vendorAssignment($ext, $number, $row['bkg_booking_id'], "Driver & Cab assignment pending for TRIP ID: " . $row['bcb_id'] . " If not allocated within " . $timeLeft . " - we will unassign this trip - aaocab", $row['bcb_vendor_id']);
 			}
 		}
 	}

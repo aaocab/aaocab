@@ -26,7 +26,7 @@
 			<li><i class="fas fa-check-circle mr10 color-green"></i>Generate revenue by upselling prepaid bookings or Simply offer the convenience - its your choice!</li>
 			<li><i class="fas fa-check-circle mr10 color-green"></i>Book ahead or just-in-time. We're here to support 24 x 7 x 365</li>
 		</ul>
-                <p>Want to learn more? Simply inquire with our <a href="mailto:channel@gozocabs.in?subject=Gozo powered travel desk" class="btn-3">B2B sales team</a> </p>
+                <p>Want to learn more? Simply inquire with our <a href="mailto:channel@aaocab.in?subject=Gozo powered travel desk" class="btn-3">B2B sales team</a> </p>
     </div>
 </div>
 </div>

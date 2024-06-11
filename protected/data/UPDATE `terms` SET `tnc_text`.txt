@@ -4,7 +4,7 @@ UPDATE `terms` SET `tnc_text` = ' <div class="panel-body pl30 pr30">
                 </p>
                 <div class="mt20 mb20">
                     <p>
-                        Thanks for using our products and services (�Services�). The Services are provided by Gozo Technologies Pvt. Ltd (hereinafter referred to as �Gozo� or �Gozocabs�), located at 19th Floor, Building 5, Tower C, DLF Epitome, Cyber City, DLF Phase � 2, Gurgaon � 122002, Haryana
+                        Thanks for using our products and services (�Services�). The Services are provided by Gozo Technologies Pvt. Ltd (hereinafter referred to as �Gozo� or �aaocab�), located at 19th Floor, Building 5, Tower C, DLF Epitome, Cyber City, DLF Phase � 2, Gurgaon � 122002, Haryana
                     </p>
                     <p>
                         Please read these terms carefully. By using our services, you are agreeing to all terms & conditions set forth.
@@ -16,7 +16,7 @@ UPDATE `terms` SET `tnc_text` = ' <div class="panel-body pl30 pr30">
                 <h4 class="mb5" id="IPR">Definitions</h4>
                 <div class="mt20 mb20">
                     <p>
-                        Gozocabs or Gozo is a technology company that makes available a platform for matchmaking �consumers� seeking travel services from and to various destinations across India with �providers� who can provide such travel services.
+                        aaocab or Gozo is a technology company that makes available a platform for matchmaking �consumers� seeking travel services from and to various destinations across India with �providers� who can provide such travel services.
                     </p>
                     <p>
                         Services � Gozo provides technology oriented matchmaking services through its platform. Consumers and Providers can interact with Gozo platform through the use of applications, websites, content, products like SMS or phones. Collectively these are referred to as Services.
@@ -67,7 +67,7 @@ UPDATE `terms` SET `tnc_text` = ' <div class="panel-body pl30 pr30">
                         Gozo�s�Privacy Policies�explain how we treat your personal data and protect your privacy when you use our Services. By using our Services, you agree that Gozo can use such data in accordance with our Privacy Policies.
                     </p>
                     <p>
-                        Content displayed on our website is copyrighted by Gozocabs. We respect all copyrights and trademarks owned by third-parties. Any third-party content or logos displayed on this website are owned by the respective third-party. We expect you to respect all copyrights. You may not copy or reproduce any content offered by Gozocabs Services without express consent of Gozocabs.
+                        Content displayed on our website is copyrighted by aaocab. We respect all copyrights and trademarks owned by third-parties. Any third-party content or logos displayed on this website are owned by the respective third-party. We expect you to respect all copyrights. You may not copy or reproduce any content offered by aaocab Services without express consent of aaocab.
                     </p>
                 </div>
                 <h4 class="mb5" id="Transmittedmaterial">Requirements and conduct</h4>
@@ -82,7 +82,7 @@ UPDATE `terms` SET `tnc_text` = ' <div class="panel-body pl30 pr30">
                         By use of our services you undertake the responsibility to ensure that the service meets your needs and expectations. We provide the service �as-is� and do not make any commitment to the content, nature, reliability or safety of the service.
                     </p>
                     <p>
-                        You will not in your use of the Services cause nuisance, annoyance, inconvenience, personal or property damage, whether to the Third Party Provider or any other party. In certain instances, Gozocabs and / or Agent Providers may require you to provide proof of identity to access or use the Services, and you agree that you may be denied access or use of the Services if you refuse to provide proof of identity.
+                        You will not in your use of the Services cause nuisance, annoyance, inconvenience, personal or property damage, whether to the Third Party Provider or any other party. In certain instances, aaocab and / or Agent Providers may require you to provide proof of identity to access or use the Services, and you agree that you may be denied access or use of the Services if you refuse to provide proof of identity.
                     </p>
                 </div>
                 <h4 class="mb5" id="Termination">Modifying and Terminating our Services</h4>

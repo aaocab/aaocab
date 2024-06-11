@@ -51,7 +51,7 @@ if ($model->bkg_promo_code != '') {
 
 
 
-    <figure><img src="<?= Yii::app()->baseUrl . '/' . $vmodel->vct_image ?>" alt="Car Image, Gozocabs" class="border-black" style="width: 200px;"></figure>
+    <figure><img src="<?= Yii::app()->baseUrl . '/' . $vmodel->vct_image ?>" alt="Car Image, aaocab" class="border-black" style="width: 200px;"></figure>
     <div class="caption pl0 pr0">
         <div class="row m0 mb10">
             <div class="col-xs-6 p0"><b>Car:</b></div>

@@ -133,10 +133,10 @@
                     </div>
                 </div>
                 <div class="col-sm-6 gradient-green-blue2 text-center color-white widget-style2">
-                    <span><img src="/images/gozo_orange-white.svg?v0.1" width="180" alt="Gozocabs" class="mt40"></span><br><br>
+                    <span><img src="/images/gozo_orange-white.svg?v0.1" width="180" alt="aaocab" class="mt40"></span><br><br>
                     <div class="font-24 mt50 mb5">Download The App</div>
                     <div class="mb50">
-                        <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+                        <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
                     </div>
                     <div class="font-30 mt50 pt40 orange-color"><b>Leader in outstation Taxi</b></div>
                     <span class="font-18"><b>Available in 3000+ cities across India</b></span>

@@ -7,7 +7,7 @@
 	</div>
 	<div class="header-line-2 header-scroll-effect">
 		<a href="#" class="header-pretitle color-highlight"><!--Date will Appear Here --></a>
-		<a href="<?= Yii::app()->getBaseUrl(true) ?>" class="header-title"><img src="<?= ASSETS_URL ?>images/mobile/logo_outstation.png" alt="GozoCabs"></a>
+		<a href="<?= Yii::app()->getBaseUrl(true) ?>" class="header-title"><img src="<?= ASSETS_URL ?>images/mobile/logo_outstation.png" alt="aaocab"></a>
 		<a href="#" data-menu="sidebar-right-over" class="header-icon header-icon-1"><i class="fa fa-bars"></i></a>
 	</div>  
 </div>

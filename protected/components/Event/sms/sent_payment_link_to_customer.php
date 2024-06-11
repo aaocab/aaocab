@@ -43,7 +43,7 @@ try
 			}
 			else
 			{
-				$amountStr = ' Amount payable Rs.' . $model->bkgInvoice->bkg_total_amount . ' - Gozocabs';
+				$amountStr = ' Amount payable Rs.' . $model->bkgInvoice->bkg_total_amount . ' - aaocab';
 			}
 		}
 		if ($model->bkgInvoice->bkg_corporate_credit > 0)

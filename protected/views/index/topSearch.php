@@ -148,7 +148,7 @@ width: 100%;
 ">
 <div class="alert alert-warning alert-dismissible pt5 pb5" role="alert" style="background: #fcc521; border-radius: 0;">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 36px;">&times;</span></button>
-  GozoCabs' Response to COVID-19 <a class="btn btn-primary" href="http://www.aaocab.com/blog/sanitized-cars-ensuring-safe-ride/" target="_blank" role="button">Know More</a>
+  aaocab' Response to COVID-19 <a class="btn btn-primary" href="http://www.aaocab.com/blog/sanitized-cars-ensuring-safe-ride/" target="_blank" role="button">Know More</a>
 </div>
 </div>
 
@@ -161,7 +161,7 @@ width: 100%;
 				<div class="row ml0"><figure>
 						<span class="logo-section-box">
 							<div class="logo-fst">
-								<a class="" href="/"><img src="/images/logo2_outstation.png?v1.2" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
+								<a class="" href="/"><img src="/images/logo2_outstation.png?v1.2" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
 							</div>
 
 						</span></figure>
@@ -1490,8 +1490,8 @@ width: 100%;
 <div class="row m0">
     <div class="col-xs-12 hidden-lg hidden-md hidden-sm text-center mt20 pb20 mob-app-img">
         <b class="m0 mt10">Book with Gozo cabs mobile app</b>
-        <div class="mt10"><figure><a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img class="lozad" data-src="/images/GooglePlay.png?v=1.1" alt="Gozocabs App - PlayStore"></a> 
-				<a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img class="lozad" data-src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a></figure></div>
+        <div class="mt10"><figure><a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img class="lozad" data-src="/images/GooglePlay.png?v=1.1" alt="aaocab App - PlayStore"></a> 
+				<a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img class="lozad" data-src="/images/app_store.png?v1.2" alt="aaocab APP"></a></figure></div>
     </div>
 </div>
 <script>

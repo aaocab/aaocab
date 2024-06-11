@@ -803,7 +803,7 @@ if ($results != [])
 	    function openFbDialog()
 	    {
 	        var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-	        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+	        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 	    }
 	    function updateLogin()
 	    {

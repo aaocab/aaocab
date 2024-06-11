@@ -376,7 +376,7 @@ class SystemCommand extends BaseCommand
 	public function actionRefcron()
 	{
 
-		$model	 = Users::model()->findAll(['condition' => "usr_email NOT LIKE '%gozocabs.in%' AND usr_refer_code IS NULL"]);
+		$model	 = Users::model()->findAll(['condition' => "usr_email NOT LIKE '%aaocab.in%' AND usr_refer_code IS NULL"]);
 		$sum	 = 0;
 		foreach ($model as $modelUser)
 		{

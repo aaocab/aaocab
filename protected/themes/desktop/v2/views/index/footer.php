@@ -93,8 +93,8 @@ if (Yii::app()->request->url == '/')
 					<div class="app-img pt20 text-right"><img src="/images/app-img.png" alt=""></div>
 					<div class="app-icon">
 						<span class="font-18"><b>Download The App</b></span><br>
-						<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a>
-						<a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+						<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a>
+						<a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
 					</div>
 				</div>
 			</div>
@@ -247,7 +247,7 @@ if ($userId > 0)
 					</div>
 					<div class="col-2 social-2">
 						<div class="font-18 mb10 text-uppercase"><b>Keep in touch</b></div>
-						<a href="http://www.facebook.com/gozocabs" target="_blank" class="mt5"><img src="/images/img_trans.gif" alt="Facebook" title="Facebook" width="1" height="1" class="sprit-6"></a><a href="https://twitter.com/gozocabs" target="_blank"><img src="/images/img_trans.gif" alt="Twitter" title="Twitter" width="1" height="1" class="sprit-7"></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><img src="/images/img_trans.gif" alt="instagram" title="instagram" width="1" height="1" class="sprit-8"></a>
+						<a href="http://www.facebook.com/aaocab" target="_blank" class="mt5"><img src="/images/img_trans.gif" alt="Facebook" title="Facebook" width="1" height="1" class="sprit-6"></a><a href="https://twitter.com/aaocab" target="_blank"><img src="/images/img_trans.gif" alt="Twitter" title="Twitter" width="1" height="1" class="sprit-7"></a><a href="http://www.instagram.com/aaocab/" target="_blank"><img src="/images/img_trans.gif" alt="instagram" title="instagram" width="1" height="1" class="sprit-8"></a>
 					</div>
 					<div class="col-3">
 						<div class="font-18 mb10 text-uppercase"><b>Official Travel Partner</b></div>
@@ -263,7 +263,7 @@ if ($userId > 0)
 				<div class="row pt20 pb20">
 					<div class="col-12 text-link-black text-center font-12">
 						<a href="/ask-us-to-be-official-partner">Ask Us To Be Official Partner</a> :: <a href="/business-travel">Business Travel</a> :: <a href="/for-startups">For Startups</a> :: <a href="/your-travel-desk">Your Travel Desk</a> :: <a href="/join-our-agent-network">Join Our Agent Network</a> :: <a href="/brand-partner">Brand Partners</a> :: <a href="/price-guarantee">Price Guarantee</a> :: <a href="/terms/doubleback">DOUBLE BACK</a><br>
-						<a href="/">Home</a> :: <a href="/blog">Blog</a> :: <a href="/aboutus">About Us</a> :: <a href="/faq">FAQS</a> :: <a href="/contactus">Contact Us</a> :: <a href="/careers">Careers</a> :: <a href="/terms">Terms and Conditions</a> :: <a href="/disclaimer">Disclaimer</a> :: <a href="/privacy">Privacy Policy</a> :: <a href="/sitemap">Sitemap</a> :: <a href="/one-way-cab">One Way Cabs</a> :: <a href="/packages">Packages</a> :: <a href="/day-rental">day-rental</a><br> <a href="/airport-transfers">airport-transfers</a> :: <a href="/whygozo">Why GozoCabs</a> :: <a href="/newsroom">News Room</a><br>
+						<a href="/">Home</a> :: <a href="/blog">Blog</a> :: <a href="/aboutus">About Us</a> :: <a href="/faq">FAQS</a> :: <a href="/contactus">Contact Us</a> :: <a href="/careers">Careers</a> :: <a href="/terms">Terms and Conditions</a> :: <a href="/disclaimer">Disclaimer</a> :: <a href="/privacy">Privacy Policy</a> :: <a href="/sitemap">Sitemap</a> :: <a href="/one-way-cab">One Way Cabs</a> :: <a href="/packages">Packages</a> :: <a href="/day-rental">day-rental</a><br> <a href="/airport-transfers">airport-transfers</a> :: <a href="/whygozo">Why aaocab</a> :: <a href="/newsroom">News Room</a><br>
 						© <?= date("Y") ?> Gozo Technologies Pvt. Ltd. All Rights Reserved.
 					</div>
 				</div>
@@ -362,7 +362,7 @@ if ($userId > 0)
 		</div>
 	</div>
 </div>
-<div style="position: fixed; right: 25px; bottom: 30px; z-index: 9999;"><span class="ml20"><a href="https://wa.me/918017279124?text=Hello,%20I%20need%20to%20book%20a%20cab" class="contact-bg-1 order-4" target=" _blank"><img src="/images/whatsapp.svg" width="60" height="60" alt="Gozocabs"></a></span></div>
+<div style="position: fixed; right: 25px; bottom: 30px; z-index: 9999;"><span class="ml20"><a href="https://wa.me/918017279124?text=Hello,%20I%20need%20to%20book%20a%20cab" class="contact-bg-1 order-4" target=" _blank"><img src="/images/whatsapp.svg" width="60" height="60" alt="aaocab"></a></span></div>
 
 <script type="text/javascript">
 	callbackLogin = '';

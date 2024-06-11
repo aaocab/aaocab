@@ -20,17 +20,17 @@ RewriteEngine on
 RewriteBase /
 Options +FollowSymlinks
 
-RewriteCond %{HTTP_HOST} ^gozocabs\.com$ [OR]
-RewriteCond %{HTTP_HOST} ^ww\.gozocabs\.com$ [OR]
-RewriteCond %{HTTP_HOST} ^wwww\.gozocabs\.com$
+RewriteCond %{HTTP_HOST} ^aaocab\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^ww\.aaocab\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^wwww\.aaocab\.com$
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
-RewriteRule ^(.*)$ "https\:\/\/www\.gozocabs\.com\/$1" [R=301,L]
+RewriteRule ^(.*)$ "https\:\/\/www\.aaocab\.com\/$1" [R=301,L]
 RewriteCond %{HTTP_HOST} ^gozocab\.com$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.gozocab\.com$
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
-RewriteRule ^(.*)$ "https\:\/\/www\.gozocabs\.com\/$1" [R=301,L]
+RewriteRule ^(.*)$ "https\:\/\/www\.aaocab\.com\/$1" [R=301,L]
 
 
 # if a directory or a file exists, use it directly

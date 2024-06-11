@@ -20,7 +20,7 @@ $this->newHome = true;
     <div class="col-lg-7 col-sm-11 col-md-9 text-center flash_banner float-none marginauto">
         <span class="h3 mt0 mb5 flash_red">Save upto 50% on every booking*</span><br>
         <span class="h5 text-uppercase mt0 mb5 mt10">Outstation Taxi rentals and Airport transfers all over India </span><br>
-        GozoCabs is India's leader in chauffeur-driven taxi travel for one-way drops, outstation trips, airport transfers and day-based rentals with complete billing transparency. Gozo’s coverage reaches over <b>1,000</b> towns & cities in India, with over <b>20,000</b> vehicles, over <b>100,000</b> satisfied customers and over <b>10</b> Million kms driven each year. Book your Gozo by web, phone or app 24x7! 
+        aaocab is India's leader in chauffeur-driven taxi travel for one-way drops, outstation trips, airport transfers and day-based rentals with complete billing transparency. Gozo’s coverage reaches over <b>1,000</b> towns & cities in India, with over <b>20,000</b> vehicles, over <b>100,000</b> satisfied customers and over <b>10</b> Million kms driven each year. Book your Gozo by web, phone or app 24x7! 
     </div>
 </div>
 <div class="row flash_banner hide" style="background: #ffc864;">
@@ -31,7 +31,7 @@ $this->newHome = true;
         <figure><img src="/images/flash_sm1.jpg?v=1.1" alt="Flash Sale"></figure>		
     </div>
     <div class="col-xs-12 p0 hidden-lg hidden-md hidden-sm text-center">
-        <? /* /?><a target="_blank" href="https://twitter.com/gozocabs"><?/ */ ?>
+        <? /* /?><a target="_blank" href="https://twitter.com/aaocab"><?/ */ ?>
         <figure><img src="/images/flash_sm1.jpg?v=1.1" alt="Flash Sale"></figure>
         <? /* /?></a><?/ */ ?>
     </div>
@@ -125,7 +125,7 @@ if ($type == 'city') {
                     </div>
                     <div class="mb20">
                         <div class="logo-style text-center mb20">
-                            <figure><img src="/images/rount1.jpg?v=1" alt="Gozocabs"></figure>
+                            <figure><img src="/images/rount1.jpg?v=1" alt="aaocab"></figure>
                         </div>
                     </div>
                     <div id="myCarouselTestimonial" class="carousel slide mt20 " data-ride="carousel" data-interval="false">

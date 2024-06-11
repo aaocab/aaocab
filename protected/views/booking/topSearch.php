@@ -652,7 +652,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins
                 <figure><a href="/"><img src="/images/banne13r1.jpg" alt="Live Life, Live Gozo"></a></figure>              
             </div>
             <div class="item">
-                <figure><a href="/"><img src="/images/all_india.jpg?v=1.1" alt="Travel All Over India, Gozocabs"></a></figure>               
+                <figure><a href="/"><img src="/images/all_india.jpg?v=1.1" alt="Travel All Over India, aaocab"></a></figure>               
             </div>
             <div class="item">
                 <figure><a href="/"><img src="/images/banner1.png?v=1.1" alt="Refer Friend & Earn Money"></a></figure>
@@ -667,25 +667,25 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins
                 </div>
             </div>
             <div class="item">
-                <figure><a href="/changeindia"><img data-src="/images/banner21.jpg?v=1.2" alt="Follow Gozocabs on Social Network"></a></figure>
+                <figure><a href="/changeindia"><img data-src="/images/banner21.jpg?v=1.2" alt="Follow aaocab on Social Network"></a></figure>
                 <div class="carousel-caption">
                     <h3 class="text-right"><a href="/">Read more..</a></h3>
                 </div>
             </div>
             <div class="item">
-                <figure><a href="/pricematch"><img data-src="/images/banner19.jpg?v=1.2" alt="Sweetest Deal 7 Days Ahead, Gozocabs"></a></figure>
+                <figure><a href="/pricematch"><img data-src="/images/banner19.jpg?v=1.2" alt="Sweetest Deal 7 Days Ahead, aaocab"></a></figure>
                 <div class="carousel-caption">
                     <h3 class="text-right"><a href="/">Read more..</a></h3>
                 </div>
             </div>
             <div class="item">
-                <figure><a href="/tchallenge"><img data-src="/images/banner17.jpg?v=1.2" alt="Go Gozo, Gozocabs"></a></figure>
+                <figure><a href="/tchallenge"><img data-src="/images/banner17.jpg?v=1.2" alt="Go Gozo, aaocab"></a></figure>
                 <div class="carousel-caption">
                     <h3 class="text-right"><a href="/tchallenge">Read more..</a></h3>
                 </div>
             </div>
             <div class="item">
-                <figure><a href="/travelhappy"><img data-src="/images/banner20.jpg?v=1.2" alt="Best Price Guarantee, Gozocabs"></a></figure>
+                <figure><a href="/travelhappy"><img data-src="/images/banner20.jpg?v=1.2" alt="Best Price Guarantee, aaocab"></a></figure>
                 <div class="carousel-caption">
                     <h3 class="text-right"><a href="/">Read more..</a></h3>
                 </div>
@@ -706,7 +706,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins
 <div class="row">
     <div class="col-xs-12 hidden-lg hidden-md hidden-sm text-center">
         <p class="m0 mt10"><b>Book with Gozo cabs mobile app</b></p>
-        <div class="mt10"><figure><a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png" alt="Gozocabs App - Play Store" style="height: 70px"></a></figure></div>
+        <div class="mt10"><figure><a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png" alt="aaocab App - Play Store" style="height: 70px"></a></figure></div>
     </div>
 </div>
 

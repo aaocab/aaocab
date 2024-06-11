@@ -71,7 +71,7 @@ $msg = "";
 
 $flexxiInfo = '
 <ol type="1" style="font-size:10px; line-height:15px;padding-left:0px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions.  (http://www.aaocab.com/terms)</li>
+    <li>Your reservation is subject to aaocab terms and conditions.  (http://www.aaocab.com/terms)</li>
     <li>FLEXXI trips are always ONE-WAY trips.  
         <ol type="i">
             <li>
@@ -293,8 +293,8 @@ $msg = 'Hi ' . $arr['userName'] .
 		'<br/>' . $strCOD . '<br/>';
 '<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
 		'<br/>Regards,' .
-		'<br/>Gozocabs<br/><br/>' .
-		'<br/>For updates and promotions, like us on <a href="http://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
+		'<br/>aaocab<br/><br/>' .
+		'<br/>For updates and promotions, like us on <a href="http://www.facebook.com/aaocab">facebook</a> , follow us on <a href="http://www.twitter.com/aaocab">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
 
 $response = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
 if ($response->getStatus())
@@ -309,11 +309,11 @@ if ($response->getStatus())
         <td align="center"><p><strong style="font-size:16px;">FLEXXI SHARE RESERVATION CONFIRMED</strong><br />
 <? if ($model->bkg_flexxi_type == 2)
 { ?>
-	                Thank you for choosing GozoCabs. We have confirmed your FLEXXI SHARE reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.You will be provided a pickup point address atleast 8 hours before your scheduled pickup time. 
+	                Thank you for choosing aaocab. We have confirmed your FLEXXI SHARE reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.You will be provided a pickup point address atleast 8 hours before your scheduled pickup time. 
 <? }
 else
 { ?>
-					Thank you for choosing GozoCabs. We have confirmed your FLEXXI SHARE reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.
+					Thank you for choosing aaocab. We have confirmed your FLEXXI SHARE reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.
 				<? } ?>
 			</p>
         </td>

@@ -27,7 +27,7 @@ class GPX
 		// Creating sample link object for metadata
 		$link		 = new Link();
 		$link->href	 = Yii::app()->params['fullBaseURL'];
-		$link->text	 = 'Gozocabs';
+		$link->text	 = 'aaocab';
 
 		// GpxFile contains data and handles serialization of objects
 		$gpx_file = new GpxFile();
@@ -39,7 +39,7 @@ class GPX
 		$gpx_file->metadata->time = new \DateTime();
 
 		// Description of GPX file
-		$gpx_file->metadata->description = "Gozocabs: {$bookingId}";
+		$gpx_file->metadata->description = "aaocab: {$bookingId}";
 
 		// Adding link created before to links array of metadata
 		// Metadata of GPX file can contain more than one link

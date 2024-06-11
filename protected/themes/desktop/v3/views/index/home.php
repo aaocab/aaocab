@@ -84,7 +84,7 @@ Yii::app()->clientScript->registerLinkTag("preload", "image/gif", "/images/img_t
 			<?php $this->renderPartial("homeNav", [], false, false) ?>
 		</div>
 		<div class="col-12 text-center pt-1 style-widget-1 style-top">
-			<img src="/images/gozo-white.webp?v=0.2" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." aria-label="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="150" height="49">
+			<img src="/images/gozo-white.webp?v=0.2" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." aria-label="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="150" height="49">
 			<h2 class="merriw mt5 mb5 banner-heading">Quality cabs<br>
 				at amazing prices</h2>
 
@@ -92,10 +92,10 @@ Yii::app()->clientScript->registerLinkTag("preload", "image/gif", "/images/img_t
 
 		<!--		<div class="col-12 p0"><div class="car"></div></div>-->
 <!--		<div class="col-12 text-center mb10 d-lg-none">
-			<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" class="mr5"><img src="/images/app-google.png" alt="" width="80" height="26" class=""></a><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="ml5"><img data-src="/images/app-store.png" alt="" width="80" height="26" class="lozad"></a>
+			<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" class="mr5"><img src="/images/app-google.png" alt="" width="80" height="26" class=""></a><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="ml5"><img data-src="/images/app-store.png" alt="" width="80" height="26" class="lozad"></a>
 		</div>
 		<div class="col-12 text-center mb10 d-none d-lg-block">
-			<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" class="mr5"><img src="/images/app-google.png" alt="" width="140" height="46" class=""></a><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="ml5"><img data-src="/images/app-store.png" alt="" width="140" height="46" class="lozad"></a>
+			<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" class="mr5"><img src="/images/app-google.png" alt="" width="140" height="46" class=""></a><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="ml5"><img data-src="/images/app-store.png" alt="" width="140" height="46" class="lozad"></a>
 		</div>-->
 	</div>
 </div>
@@ -358,11 +358,11 @@ $form->error($model, "bkg_booking_type");
 	<div class="row">
 		<div class="col-12 col-lg-4 text-center d-none d-lg-block">
 			<p class="merriw font-24">Download app here</p>
-			<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" class="inline-block"><img src="/images/app-google.png" alt="Download android app" title="Download android app" aria-label="Download android app" width="140" height="46" class="mb10"></a><br><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="inline-block"><img data-src="/images/app-store.png" alt="" aria-label="Download app" width="140" height="46" class="lozad"></a>
+			<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" class="inline-block"><img src="/images/app-google.png" alt="Download android app" title="Download android app" aria-label="Download android app" width="140" height="46" class="mb10"></a><br><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="inline-block"><img data-src="/images/app-store.png" alt="" aria-label="Download app" width="140" height="46" class="lozad"></a>
 		</div>
 		<div class="col-12 text-center mb20 d-lg-none">
 			<p class="merriw font-24">Download app here</p>
-			<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" class="mr5 inline-block"><img src="/images/app-google.png" alt="Download app" title="Download app" aria-label="Download app" width="130" height="42" class=""></a><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="ml5 inline-block"><img data-src="/images/app-store.png" alt="" aria-label="Download app" width="130" height="42" class="lozad"></a>
+			<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" class="mr5 inline-block"><img src="/images/app-google.png" alt="Download app" title="Download app" aria-label="Download app" width="130" height="42" class=""></a><a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank" class="ml5 inline-block"><img data-src="/images/app-store.png" alt="" aria-label="Download app" width="130" height="42" class="lozad"></a>
 		</div>
 		<div class="col-12 col-lg-4 mb20 text-center"><a href="/refer-friend" class="inline-block"><img src="/images/refer-a-friend2.webp?v=0.2" alt="Refer a friend" width="330" height="167" class="img-fluid"></a></div>
 		<div class="col-12 col-lg-4 justify-center text-center">
@@ -559,10 +559,10 @@ $form->error($model, "bkg_booking_type");
 	<article class="font-15">
 		<div class="row">
 			<div class="col-12">
-				<p>Welcome to GozoCabs, the best choice for intercity cab services in India. Whether you need a taxi for airport transfer, local sightseeing, or outstation travel, we have the perfect cab for you. Book online or call us and enjoy our reliable, safe, and affordable cabs.</p>
-				<p>GozoCabs is the ultimate solution for taxi service near you. We cover over 2000 destinations in India and offer a wide range of vehicles to suit your needs. You can choose from hatchbacks, sedans, SUVs, luxury sedans, Innova, tempo travellers, minibus etc. Our experienced drivers are well-trained, courteous, and professional. They will ensure that you reach your destination on time and with comfort.</p>
-				<p>GozoCabs is also the fastest way to get a taxi near you. We offer a wide range of chauffeur driven taxi services, including hourly car rentals, airport transfers, and one-way or round-trip taxi for a long distance outstation trip. You can book a cab in minutes using our website or mobile app. You can also call our customer care number and get instant confirmation. We offer transparent pricing, flexible payment options, and hassle-free cancellation policy. You can also track your cab in real-time and get regular updates on your trip. We offer affordable rates, excellent customer service, and a wide range of services to meet your needs. We are committed to providing our customers with the best possible travel experience. GozoCabs is more than just a taxi service. We are your travel partner who cares about your satisfaction and convenience. </p>
-				<p>So what are you waiting for? Book your GozoCab today and explore India with comfort and safety. Whether you need a local taxi, an outstation cab, or a car rental, we have it all. GozoCabs is the best way to travel by road in India.</p>
+				<p>Welcome to aaocab, the best choice for intercity cab services in India. Whether you need a taxi for airport transfer, local sightseeing, or outstation travel, we have the perfect cab for you. Book online or call us and enjoy our reliable, safe, and affordable cabs.</p>
+				<p>aaocab is the ultimate solution for taxi service near you. We cover over 2000 destinations in India and offer a wide range of vehicles to suit your needs. You can choose from hatchbacks, sedans, SUVs, luxury sedans, Innova, tempo travellers, minibus etc. Our experienced drivers are well-trained, courteous, and professional. They will ensure that you reach your destination on time and with comfort.</p>
+				<p>aaocab is also the fastest way to get a taxi near you. We offer a wide range of chauffeur driven taxi services, including hourly car rentals, airport transfers, and one-way or round-trip taxi for a long distance outstation trip. You can book a cab in minutes using our website or mobile app. You can also call our customer care number and get instant confirmation. We offer transparent pricing, flexible payment options, and hassle-free cancellation policy. You can also track your cab in real-time and get regular updates on your trip. We offer affordable rates, excellent customer service, and a wide range of services to meet your needs. We are committed to providing our customers with the best possible travel experience. aaocab is more than just a taxi service. We are your travel partner who cares about your satisfaction and convenience. </p>
+				<p>So what are you waiting for? Book your GozoCab today and explore India with comfort and safety. Whether you need a local taxi, an outstation cab, or a car rental, we have it all. aaocab is the best way to travel by road in India.</p>
 			</div>
 		</div>
 	</article>
@@ -978,7 +978,7 @@ $form->error($model, "bkg_booking_type");
 //		<div class="row justify-center">
 //			<div class="col-12 col-xl-4 mb-1"><img data-src="/images/img-2022/app-img-a.png" alt="Gozo App" width="350" height="375" class="img-fluid lozad"></div>
 //			<div class="col-12 col-xl-4 d-flex align-items-center justify-center">
-//				<p class="merriw heading-text text-center">Download the app<br><a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img data-src="/images/img-2022/Google_Play-Logo.svg" width="200" height="63" alt="" class="img-fluid lozad"></a></p>
+//				<p class="merriw heading-text text-center">Download the app<br><a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img data-src="/images/img-2022/Google_Play-Logo.svg" width="200" height="63" alt="" class="img-fluid lozad"></a></p>
 //			</div>
 //		</div>
 //	</div>

@@ -525,8 +525,8 @@ class Vendors extends CActiveRecord
 //							'full_name'			 => $contactModel['ctt_first_name'] . '' . $contactModel['ctt_last_name'],
 //							'email'				 => $email,
 //							'video_link'		 => 'https://youtu.be/AfbwgIJN0H0',
-//							'app_link'			 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en',
-//							'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.gozocabs.driver&hl=en_US'
+//							'app_link'			 => 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en',
+//							'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.aaocab.driver&hl=en_US'
 //						];
 //						$emailwrapper	 = new emailWrapper();
 //						$smsModel		 = new smsWrapper();
@@ -662,8 +662,8 @@ class Vendors extends CActiveRecord
 				'full_name'			 => $model->vndContact->getName(),
 				'email'				 => ContactEmail::getPrimaryEmail($model->vndContact->ctt_id),
 				'video_link'		 => 'https://youtu.be/AfbwgIJN0H0',
-				'app_link'			 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en',
-				'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.gozocabs.driver&hl=en_US'
+				'app_link'			 => 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en',
+				'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.aaocab.driver&hl=en_US'
 			];
 			emailWrapper::mailToApproveVendor($params);
 			$desc	 = "Vendor Modified : " . VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_APPROVE);
@@ -4044,7 +4044,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			$isAgreement = 1;
 // EMAIL 1 :: digitally signed agreement
-			$subject1	 = 'Your copy of updated GozoCabs Operator Agreement dated: ' . date("d/m/Y", strtotime(DATE('Y-m-d'))) . '';
+			$subject1	 = 'Your copy of updated aaocab Operator Agreement dated: ' . date("d/m/Y", strtotime(DATE('Y-m-d'))) . '';
 			$emailBody1	 = 'Dear ' . $model->vnd_name . ',<br/><br/>
                                 You have just accepted the attached version of our operator agreement. Attached copy is for your records.
                                 <br/><br/>This agreement was digitally signed and accepted by
@@ -4053,27 +4053,27 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                                 <br/>on device : ' . $agmtModel->vag_digital_device_id . '
                                 <br/>at Location :
                                 <br/><br/>Draft Agreement Link : ' . $draftAgmtLink . '
-                                <br/><br/>For any clarifications, please call us at 033-66283910 or email partners@gozocabs.in <mailto:partners@gozocabs.in>
+                                <br/><br/>For any clarifications, please call us at 033-66283910 or email partners@aaocab.in <mailto:partners@aaocab.in>
                                 <br/><br/>Thanks,
-                                <br/><br/>Gozocabs';
+                                <br/><br/>aaocab';
 
 			$emailCom = new emailWrapper();
 			$emailCom->vendorInvoiceEmail($subject1, $emailBody1, $email, $ledgerPdf, $invoicePdf, $vendorId, $attachments, EmailLog::EMAIl_VENDOR_AGREEMENT, $isAgreement);
 
 // EMAIL 2 :: printed agreement
-			$subject2	 = 'Please sign, date and upload attached GozoCabs Operator Agreement';
+			$subject2	 = 'Please sign, date and upload attached aaocab Operator Agreement';
 			$emailBody2	 = 'Dear ' . $model->vnd_name . ',<br/><br/>
-                                Please print, sign and date this attached GozoCabs operator agreement.
-                                <br/><br/>Upload scanned copy of the signed agreement using your Gozo Partner Mobile App and post a physical copy to GozoCabs at.
+                                Please print, sign and date this attached aaocab operator agreement.
+                                <br/><br/>Upload scanned copy of the signed agreement using your Gozo Partner Mobile App and post a physical copy to aaocab at.
                                 <br/><br/>Digital Agreement Link : ' . $digitalAgmtLink . '
                                 <br/><br/>Gozo Technologies Private Limited
                                 <br/>DN-2, Signet Tower
                                 <br/>Salt Lake, Sector-V
                                 <br/>Kolkata - 700091
                                 <br/>West Bengal
-                                <br/><br/>For any clarifications, please call us at 033-66283910 or email partners@gozocabs.in <mailto:partners@gozocabs.in>
+                                <br/><br/>For any clarifications, please call us at 033-66283910 or email partners@aaocab.in <mailto:partners@aaocab.in>
                                 <br/><br/>Thanks,
-                                <br/><br/>Gozocabs';
+                                <br/><br/>aaocab';
 			$emailCom	 = new emailWrapper();
 			$emailCom->vendorInvoiceEmail($subject2, $emailBody2, $email, $ledgerPdf, $invoicePdf, $vendorId, $attachments2, EmailLog::EMAIl_VENDOR_AGREEMENT, $isAgreement);
 
@@ -7467,7 +7467,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				}
 
 				$emailResponse	 = ContactEmail::add($requestData->emailId, $contactId, 1);
-				$phResponse		 = ContactPhone::add($contactId, $requestData->phoneNumber, UserInfo::TYPE_VENDOR, $requestData->countryCode, SocialAuth::Eml_Gozocabs, 1, 0);
+				$phResponse		 = ContactPhone::add($contactId, $requestData->phoneNumber, UserInfo::TYPE_VENDOR, $requestData->countryCode, SocialAuth::Eml_aaocab, 1, 0);
 			}
 			else
 			{
@@ -10385,13 +10385,13 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$contentParams = array(
 			'eventId'		 => 8,
 			'userName'		 => trim($contactModel['ctt_business_name']) != null ? $contactModel['ctt_business_name'] : $contactModel['ctt_first_name'] . ' ' . $contactModel['ctt_last_name'],
-			'link'			 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&amp;hl=en&amp;gl=US',
+			'link'			 => 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&amp;hl=en&amp;gl=US',
 			'videoLink'		 => 'https://youtu.be/AfbwgIJN0H0',
-			'appLink'		 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en',
-			'driverAppLink'	 => 'https://play.google.com/store/apps/details?id=com.gozocabs.driver&hl=en_US'
+			'appLink'		 => 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en',
+			'driverAppLink'	 => 'https://play.google.com/store/apps/details?id=com.aaocab.driver&hl=en_US'
 		);
 
-		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $row['code'], $row['number'], $email, 0, Booking::CODE_VENDOR_BROADCAST, SmsLog::SMS_APPROVE_VENDOR, $buttonUrl			 = null, $emailLayout		 = "mail2", $emailReplyTo		 = "vendors@gozocabs.in", $emailReplyName		 = 'Gozo Operator Team', $emailType			 = EmailLog::EMAIL_VENDOR_APPROVE, $emailUserType		 = EmailLog::Vendor, $emailRefType		 = EmailLog::REF_VENDOR_ID, $emailRefId			 = null, $emailLogInstance	 = EmailLog::SEND_ACCOUNT_EMAIL);
+		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $row['code'], $row['number'], $email, 0, Booking::CODE_VENDOR_BROADCAST, SmsLog::SMS_APPROVE_VENDOR, $buttonUrl			 = null, $emailLayout		 = "mail2", $emailReplyTo		 = "vendors@aaocab.in", $emailReplyName		 = 'Gozo Operator Team', $emailType			 = EmailLog::EMAIL_VENDOR_APPROVE, $emailUserType		 = EmailLog::Vendor, $emailRefType		 = EmailLog::REF_VENDOR_ID, $emailRefId			 = null, $emailLogInstance	 = EmailLog::SEND_ACCOUNT_EMAIL);
 		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_APPROVED, "Vendor Approval", $isSchedule, CJSON::encode(array('vndId' => $vndId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(8, $contentParams, $receiverParams, $eventScheduleParams);
 		foreach ($responseArr as $response)

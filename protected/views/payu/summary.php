@@ -184,7 +184,7 @@ if ($response->getStatus())
 		    ?>
                     <div class="row blue2 white-color">
                         <div class="col-xs-12 summary-div">
-                            <div class="col-xs-12 col-sm-12"><b>Thank you for choosing Gozocabs!</b></div>
+                            <div class="col-xs-12 col-sm-12"><b>Thank you for choosing aaocab!</b></div>
                         </div>
                     </div>
 

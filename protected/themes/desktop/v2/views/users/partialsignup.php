@@ -22,8 +22,8 @@ else
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<h5 class="modal-title font-24 mt0 mb0" id="bkCommonModelHeader"><b>Sign Up to Gozocabs</b></h5>
-			<p class="mb0">Already on Gozocabs? <a href="javascript:void(0)" class="showSignIn">Sign In</a></p>
+			<h5 class="modal-title font-24 mt0 mb0" id="bkCommonModelHeader"><b>Sign Up to aaocab</b></h5>
+			<p class="mb0">Already on aaocab? <a href="javascript:void(0)" class="showSignIn">Sign In</a></p>
 		</div>
 		<div class="card-body">
 			<?php

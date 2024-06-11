@@ -29,6 +29,6 @@
             WE WILL MATCH THE PRICE.</h4>
     </section>
     <div class="col-xs-12 col-sm-4">
-        <div class="inner_right"><figure><img src="images/inner2.png" alt="Gozocabs" title="" ></figure></div>
+        <div class="inner_right"><figure><img src="images/inner2.png" alt="aaocab" title="" ></figure></div>
     </div>
 </article>

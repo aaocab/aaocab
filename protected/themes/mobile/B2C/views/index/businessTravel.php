@@ -17,6 +17,6 @@
 	</ul>
 	<p>Open your business travel account for this and a lot more advantages.<br>
 		Simply email us your Company name, contact persons name and phone at 
-		<a href="mailto:corporateaccounts@gozocabs.in"><b>corporateaccounts@gozocabs.in</b></a> to get more details.</p>
+		<a href="mailto:corporateaccounts@aaocab.in"><b>corporateaccounts@aaocab.in</b></a> to get more details.</p>
 </div>
 

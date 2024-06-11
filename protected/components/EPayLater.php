@@ -231,7 +231,7 @@ class EPayLater extends CComponent
 		}
 
 		$responseArr = json_decode($response, true);
-//		  mCode => (string) GOZOCABS
+//		  mCode => (string) aaocab
 //  marketplaceOrderId => (string) 180908000048973
 //  eplOrderId => (string) 631697
 //  amount => (string) 26900.00

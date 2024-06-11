@@ -54,7 +54,7 @@ for ($i = $dy; $i >= $dy - 20; $i--)
 										{
 											$("#VendorInnerDiv").hide();
 											$("#VendorOuterDiv").show();
-											$("#VendorOuterDivText").html("<b>Your application is almost approved.</b><br/> <br/> <a href=\"https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en_IN\" target=\"_blank\">Download Gozo partner app – from google play store</a> <br/><br/> Watch this video to sign your vendor agreement and upload your papers  <br/> <br/> <a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0 <br/></a><br/> You will start receiving business within 48hours of uploading all your papers"); 
+											$("#VendorOuterDivText").html("<b>Your application is almost approved.</b><br/> <br/> <a href=\"https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en_IN\" target=\"_blank\">Download Gozo partner app – from google play store</a> <br/><br/> Watch this video to sign your vendor agreement and upload your papers  <br/> <br/> <a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0 <br/></a><br/> You will start receiving business within 48hours of uploading all your papers"); 
 										}
 										else
 										{   
@@ -397,8 +397,8 @@ for ($i = $dy; $i >= $dy - 20; $i--)
         <h2 class="mt20"><span style="color:#096dc4">Any questions? Contact our Vendor Relations team</span></h2>
 		<div class="pl20 pr20 main_time pb0 border-greenline" style="margin: 0%; font-size: 16px; color: #000;">
 			<p><figure><img src="<?= Yii::app()->baseUrl ?>/images/india-flag.png" alt="INDIA" class="mr10 mb5"><a href="tel:03366283905"  style="color:#000">03366283905</a> or <a href="tel:03371122005"  style="color:#000">03371122005</a> <span style="font-size: 12px;">(24x7 Dedicated Vendor line)</span></figure></p>
-			<p><i class="fa fa-envelope mr10 mb10" style="font-size:18px; color: #fb6523;"></i> <a href="mailto:vendors@gozocabs.in" style="color:#000;">vendors@gozocabs.in</a></p>
-			<p><i class="fa fa-paper-plane mr10 mb10" style="font-size:18px; color: #36abe8;"></i> <a href="https://t.me/gozocabs" style="color:#000;"> Join the GozoCabs channel on telegram</a></p>
+			<p><i class="fa fa-envelope mr10 mb10" style="font-size:18px; color: #fb6523;"></i> <a href="mailto:vendors@aaocab.in" style="color:#000;">vendors@aaocab.in</a></p>
+			<p><i class="fa fa-paper-plane mr10 mb10" style="font-size:18px; color: #36abe8;"></i> <a href="https://t.me/aaocab" style="color:#000;"> Join the aaocab channel on telegram</a></p>
 		</div>
 		<br>
 		<h2 class="mt0"><span style="color:#096dc4">Travel Agents, Hotel owners, Shopkeepers...<a href="http://www.aaocab.com/agent/join">Join our travel partner network here</a></span></h2>
@@ -869,13 +869,13 @@ for ($i = $dy; $i >= $dy - 20; $i--)
     function signinWithFB()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
     }
 
     function signinWithGoogle()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-        var googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
     }
 

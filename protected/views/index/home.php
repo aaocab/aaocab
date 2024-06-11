@@ -42,13 +42,13 @@ Logger::create("Entering Top Search View: " . Filter::getExecutionTime());
     <div class="col-lg-7 col-sm-11 col-md-9 text-center flash_banner float-none marginauto">
         <span class="h3 mt0 mb5 flash_red mt10 n">Save upto 50% on every booking*</span><br>
         <span class="h5 text-uppercase mt0 mb5 mt10">Taxi and Car rentals all over India – Gozo’s online cab booking service</span><br>
-        Gozocabs is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
+        aaocab is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
     </div>
 </div>
 <!--<div class="row flash_banner hide">
     <div class="col-lg-12 p0 text-center">
         <h1 class="text-uppercase mt0 mb10 flash_orange"><b>Flash Sale!</b></h1>
-        <h4>We post some last minute very attractive deals for flexible travellers. Follow <a href="https://twitter.com/gozocabs" target="_blank">Twitter</a> or check <a href="http://www.facebook.com/gozocabs" target="_blank">Facebook</a> for instant deal alerts.</h4>
+        <h4>We post some last minute very attractive deals for flexible travellers. Follow <a href="https://twitter.com/aaocab" target="_blank">Twitter</a> or check <a href="http://www.facebook.com/aaocab" target="_blank">Facebook</a> for instant deal alerts.</h4>
     </div>
 </div>
 <div class="row flash_banner hide" style="background: #ffc864;">
@@ -59,7 +59,7 @@ Logger::create("Entering Top Search View: " . Filter::getExecutionTime());
         <figure><img src="/images/flash_sm1.jpg?v=<?= $imgVer ?>" alt="Flash Sale"></figure>		
     </div>
     <div class="col-xs-12 p0 hidden-lg hidden-md hidden-sm text-center">
-        <? /* /?><a target="_blank" href="https://twitter.com/gozocabs"><?/ */ ?>
+        <? /* /?><a target="_blank" href="https://twitter.com/aaocab"><?/ */ ?>
         <figure><img src="/images/flash_sm1.jpg?v=<?= $imgVer ?>" alt=" Flash Sale"></figure>
         <? /* /?></a><?/ */ ?>
     </div>

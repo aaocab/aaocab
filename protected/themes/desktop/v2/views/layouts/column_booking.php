@@ -22,7 +22,7 @@ $this->beginContent('//layouts/head');
 		<div class="container">
 		<nav class="row navbar navbar-expand-lg navbar-light pl0 pr0">
 			<div class="col-sm-6">
-				<a class="" href="/"><img src="/images/gozo_svg_logo.svg?v0.1" width="150" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
+				<a class="" href="/"><img src="/images/gozo_svg_logo.svg?v0.1" width="150" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
 			</div>
 			<div class="col-sm-6 collapse navbar-collapse text-uppercase head-menu">
 				<ul class="navbar-nav ml-auto">

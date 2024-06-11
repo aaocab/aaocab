@@ -14,7 +14,7 @@
 					<table width="100%" align="center">
 						<tr>
 							<td align="left" valign="middle">
-								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="aaocab"/>
 
 							</td>
 							<td align="right" valign="middle">
@@ -29,7 +29,7 @@
 					
 <table style="width:98%;border: #d4d4d4 0px solid;border-collapse: collapse; font-family: 'Arial'; font-size: 12px; padding: 5px; color: #000;"  bgcolor="#fff" align="center" cellpadding="5" cellspacing="0">
     <tr>
-        <td align="center"><p><strong style="font-size:16px;">RESERVATION CREATED</strong><br />Thank  you for choosing GozoCabs. We have received your reservation request.                </p></td>
+        <td align="center"><p><strong style="font-size:16px;">RESERVATION CREATED</strong><br />Thank  you for choosing aaocab. We have received your reservation request.                </p></td>
     </tr>
           <tr>
         <td class="text-center bg-danger p10 mb10">Please use OTP: <b>985035</b> at the time of pickup. Please don't share OTP before boarding the cab.
@@ -242,7 +242,7 @@
         <td>
             <div style="margin-top: 10px; line-height: 20px;">
 <ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions.</li>
+    <li>Your reservation is subject to aaocab terms and conditions.</li>
     <li>YOU HAVE BOOKED A TIME & DISTANCE BASED RENTAL 
         <ol type="1">
             <li>
@@ -289,7 +289,7 @@
        We take security seriously.
        <ol  type="1">
            <li>
-                You MUST CHECK identification of the driver and confirm the license plate of your car AT THE START OF THE TRIP. If the Driver name and ID do not match the name provided to you by Gozo, please DO NOT RIDE unless it has been OK’ed with a new SMS directly from Gozocabs first. Please ensure that the license plate of the car matches the information provided to you by Gozo. Gozo only provides you taxis that carry a commercial license permit (License plate is yellow with black letters). 
+                You MUST CHECK identification of the driver and confirm the license plate of your car AT THE START OF THE TRIP. If the Driver name and ID do not match the name provided to you by Gozo, please DO NOT RIDE unless it has been OK’ed with a new SMS directly from aaocab first. Please ensure that the license plate of the car matches the information provided to you by Gozo. Gozo only provides you taxis that carry a commercial license permit (License plate is yellow with black letters). 
            </li>
            <li>
                 DO NOT RIDE IF THE VEHICLE & DRIVER INFORMATION DO NOT MATCH THE INFORMATION PROVIDED BY GOZO. WE SHALL NOT BE RESPONSIBLE OR LIABLE IN ANY MANNER IF YOU CHOOSE TO RIDE IN A VEHICLE THAT IS NOT COMMERCIALLY LICENSED OR RIDE WITH A DRIVER OTHER THAN THE ONE THAT WE HAVE ASSIGNED TO YOU.
@@ -328,10 +328,10 @@
 			<tr>
 				<td>
 					<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
-						This email is sent to  you because you have used this email address to register with Gozocabs.
+						This email is sent to  you because you have used this email address to register with aaocab.
 						<!--                        If you haven't done so, please ignore this email.-->
 						If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email/" target="_BLANK">unsubscribe here.</a>
-						<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+						<a href="http://aaocab.com/" style="color: #3d4f99;">aaocab</a> and the aaocab logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 					</p>
 				</td>
 			</tr>

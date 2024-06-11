@@ -39,7 +39,7 @@ $this->newHome = true;
     <div class="col-lg-10 col-sm-10 col-md-8 text-center flash_banner float-none marginauto ml50 border bg-white">
         <span class="h3 mt0 mb5 flash_red text-warning">Save upto 50% on every booking*</span><br>
         <span class="h5 text-uppercase mt0 mb5 mt10">Taxi and Car rentals all over India – Gozo’s online cab booking service</span><br>
-        Gozocabs is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
+        aaocab is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
     </div>
 </div>-->
 <div class="container mt30" itemscope="" itemtype="https://schema.org/FAQPage">
@@ -60,7 +60,7 @@ $this->newHome = true;
             <div class="col-12">
                 <h1 class="font-24 mb0">Book Outstation cabs for travel to or from <?= $cmodel->cty_name; ?>
                     <!--fb like button-->
-                    <div class="fb-like pull-right mb30" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                    <div class="fb-like pull-right mb30" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
                     <!--fb like button-->
                 </h1>
                 <p class="font-16">Outstation cab rental with driver for <?= $cmodel->cty_name; ?> - starting at ₹<?= $minRate ?>/km</p>

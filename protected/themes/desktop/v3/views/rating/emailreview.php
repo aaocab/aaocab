@@ -9,7 +9,7 @@
 /* @var $model Ratings */
 $bkg_booking_id	 = Filter::formatBookingId($bkmodel->bkg_booking_id);
 $link			 = 'http://www.aaocab.com/invite/' . $refCode;
-$mailBody		 = "Dear Friend,%0D%0DI traveled with Gozocabs and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link %0DHere is my review from my trip "
+$mailBody		 = "Dear Friend,%0D%0DI traveled with aaocab and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link %0DHere is my review from my trip "
 		. $bkg_booking_id . ':%0D "'
 		. $bkmodel->ratings[0]['rtg_customer_review'] . '"%0D%0DRegards%0D' . $bkmodel->bkgUserInfo->getUsername();
 ?>
@@ -766,7 +766,7 @@ else
 															?>
 															<div class="row m0">
 																<div class="col-3 p5"><img src="/images/google-5-Stars.jpg" alt="Google review" width="55"></div>
-																<div class="col-6 p5"><img src="/images/gozo-white-cabs.svg" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="130"></div>
+																<div class="col-6 p5"><img src="/images/gozo-white-cabs.svg" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="130"></div>
 																<div class="col-3 p5 text-right"><img src="/images/tripadvisor-certificato.jpg" alt="Tripadvisor Certificato" width="55"></div>
 
 																<div class="col-12 text-center p0 pt10 font-11 bg-orange color-white pb0">

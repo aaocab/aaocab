@@ -197,7 +197,7 @@ class BookingController extends BaseController
 			$success				 = true;
 			$errors					 = [];
 			$process_sync_data		 = Yii::app()->request->getParam('data');
-			//$process_sync_data       = '{"amount":"139","bkg_bill_address":"aa","bkg_bill_city":"a","bkg_bill_contact":"9474108124","bkg_bill_country":"IND","bkg_bill_email":"chiranjit@gozocabs.in","bkg_bill_fullname":"Chiranjit Hazra","bkg_bill_postalcode":"123456","bkg_bill_state":"a","bkg_id":"686505","payment_type":"4","partialPayment":"139"}';
+			//$process_sync_data       = '{"amount":"139","bkg_bill_address":"aa","bkg_bill_city":"a","bkg_bill_contact":"9474108124","bkg_bill_country":"IND","bkg_bill_email":"chiranjit@aaocab.in","bkg_bill_fullname":"Chiranjit Hazra","bkg_bill_postalcode":"123456","bkg_bill_state":"a","bkg_id":"686505","payment_type":"4","partialPayment":"139"}';
 			//$process_sync_data ='{"amount":100,"payment_type":3,"payment_by":2,"vendor_id":43}';
 			Logger::trace('process_sync_data : ' . $process_sync_data);
 			$data					 = CJSON::decode($process_sync_data, true);
@@ -1987,7 +1987,7 @@ class BookingController extends BaseController
 			$GLOBALS["GA4_USER_ID"] = $model->bkgUserInfo->bkg_user_id;
 		}
 
-		$this->pageTitle = "Thank you for choosing Gozocabs!";
+		$this->pageTitle = "Thank you for choosing aaocab!";
 
 		$model->hash = $hash;
 		$model->bkgAddInfo->setScenario("additionalInfo");
@@ -3516,7 +3516,7 @@ class BookingController extends BaseController
 			$jsonStructureFAQSchema	 = json_encode($faqSchema, JSON_UNESCAPED_SLASHES);
 
 			$this->pageTitle		 = $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " cabs from ₹" . $baseAmt . " | Book taxi online";
-			$this->metaDescription	 = "Book " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " cabs online starting from ₹" . $baseAmt . " Book " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi service online with the cheapest fare for oneway and roundtrip with Gozocabs";
+			$this->metaDescription	 = "Book " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " cabs online starting from ₹" . $baseAmt . " Book " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi service online with the cheapest fare for oneway and roundtrip with aaocab";
 			$this->metaKeywords		 = $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " oneway," . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi fare, online cab booking " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . ", cabs for " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . ", " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " car rental, outstation taxi " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . ", outstation cabs in " . $rModel->rutFromCity->cty_name . ", " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi, " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " distance, " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " round trip taxi fare, outstation cab booking " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . "";
 			Logger::profile("Structured Data Loaded");
 			$GLOBALS["prefetch"] = "route";
@@ -5773,7 +5773,7 @@ class BookingController extends BaseController
 	{
 		$this->checkV2Theme();
 		$model			 = new BookingTemp('new');
-		$this->pageTitle = "Atirudram2017: Gozocabs. Outstation cab's across India. Great service. Guaranteed prices.";
+		$this->pageTitle = "Atirudram2017: aaocab. Outstation cab's across India. Great service. Guaranteed prices.";
 		$this->render('atirudram2017', array('model' => $model));
 	}
 
@@ -7415,7 +7415,7 @@ class BookingController extends BaseController
 //				throw new CHttpException(410, "Payment link expired");
 			}
 
-			$this->pageTitle		 = "Thank you for choosing Gozocabs!";
+			$this->pageTitle		 = "Thank you for choosing aaocab!";
 			$model->hash			 = $hash;
 			$skipPromoEval			 = true;
 			$this->evaluateCharges($model, $_POST, true, $skipPromoEval);

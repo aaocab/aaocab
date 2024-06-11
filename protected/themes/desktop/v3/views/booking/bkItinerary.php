@@ -179,7 +179,7 @@ if ($model->bkg_booking_type == 3)
 		step = <?= $step ?>;
 		tabURL = "<?= Filter::addGLParam($this->getURL($this->pageRequest->getItineraryURLParams())) ?>";
 		tabHead = "<?= $this->pageRequest->getBkgTypeDesc() ?>";
-		pageTitle = "Gozocabs: " + tabHead;
+		pageTitle = "aaocab: " + tabHead;
 		
 		
 		

@@ -310,7 +310,7 @@ $tncArr1 = json_decode($tncArr, true);
 <!--<div class="content-boxed-widget gradient-green-blue">
         <h1 class="font-20">Save upto 50% on every booking*</h1>
         <span class="h5 text-uppercase mt0 mb5 mt10">Taxi and Car rentals all over India – Gozo’s online cab booking service</span><br>
-        Gozocabs is your one-stop shop for hiring chauffeur driven taxis in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
+        aaocab is your one-stop shop for hiring chauffeur driven taxis in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
 </div>-->
 <div class="content">
 	<?php
@@ -337,7 +337,7 @@ $tncArr1 = json_decode($tncArr, true);
 	?>
 	<section id="section2" itemscope="" itemtype="https://schema.org/FAQPage">
 		<!--fb like button-->
-		<div class="fb-like top-10 left" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+		<div class="fb-like top-10 left" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 		<!--fb like button-->
 
 

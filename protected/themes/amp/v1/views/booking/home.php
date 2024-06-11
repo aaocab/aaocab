@@ -248,7 +248,7 @@ if ($type == 'route')
 
 
 			<div class="page-content text-center">
-				<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client"><amp-img src="/images/app-google.png" alt="" width="137" height="49"></amp-img></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8"><amp-img src="/images/app-store.png" alt="" width="137" height="49"></amp-img></a>
+				<a href="https://play.google.com/store/apps/details?id=com.aaocab.client"><amp-img src="/images/app-google.png" alt="" width="137" height="49"></amp-img></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8"><amp-img src="/images/app-store.png" alt="" width="137" height="49"></amp-img></a>
 			</div>
 
 
@@ -386,7 +386,7 @@ if ($type == 'route')
 		<div id="desc1" class="page-content">
 			<h3 class="mt20 mb0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Why use Gozo Cabs from  <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
 			Our mission is to simplify inter-city travel
-			Gozo means DELIGHT and JOY! Travelling with Gozocabs, you will be overjoyed. For
+			Gozo means DELIGHT and JOY! Travelling with aaocab, you will be overjoyed. For
 			we know what runs in your mind while booking an inter-city taxi: <br/>
 
 			<ul class="list">

@@ -125,7 +125,7 @@ class VisitorTrack extends CActiveRecord
 //            if ($refHost)
 //            {
 //
-//                $hostArray = array("gozocabs", "gozo.cab");
+//                $hostArray = array("aaocab", "gozo.cab");
 //
 //                if (!in_array($refHost, $hostArray))
 //                {

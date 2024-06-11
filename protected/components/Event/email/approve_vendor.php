@@ -10,8 +10,8 @@ try
 		'full_name'			 => $contactModel['ctt_first_name'] . '' . $contactModel['ctt_last_name'],
 		'email'				 => $email,
 		'video_link'		 => 'https://youtu.be/AfbwgIJN0H0',
-		'app_link'			 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en',
-		'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.gozocabs.driver&hl=en_US'
+		'app_link'			 => 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en',
+		'driver_app_link'	 => 'https://play.google.com/store/apps/details?id=com.aaocab.driver&hl=en_US'
 	];
 	echo json_encode(array('type' => TemplateMaster::SEQ_EMAIL_CODE, 'templateName' => "approve_vendor", 'data' => $arrData, 'status' => true));
 }

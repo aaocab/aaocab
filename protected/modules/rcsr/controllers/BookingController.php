@@ -1598,7 +1598,7 @@ class BookingController extends Controller
 
 	public function actionUploads()
 	{
-		$this->pageTitle = 'Gozocabs - Booking Uploads';
+		$this->pageTitle = 'aaocab - Booking Uploads';
 		$bkg_id			 = Yii::app()->request->getParam('bkg_id');
 		$outputJs		 = Yii::app()->request->isAjaxRequest;
 		$method			 = "render" . ($outputJs ? "Partial" : "");

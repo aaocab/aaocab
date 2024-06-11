@@ -3,7 +3,7 @@
 	function openFbDialog()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 		var timer = setInterval(function() 
 		{ 
 			if(fbWindow.closed) {
@@ -15,7 +15,7 @@
 	function openGoogleDialog()
 	{
 		var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-        var win = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var win = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 		var timer = setInterval(function() 
 		{ 
 			if(win.closed) {

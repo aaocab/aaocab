@@ -68,7 +68,7 @@ $form			 = $this->beginWidget('CActiveForm', array(
 	{
 		step = <?= $this->pageRequest->step ?>;
 		tabURL = "<?= $this->getURL("booking/bookNow1") ?>";
-		pageTitle = "Gozocabs: Book Now";
+		pageTitle = "aaocab: Book Now";
 		tabHead = "";
 		toggleStep(step, 1, tabURL, pageTitle, tabHead, false, <?= $this->pageRequest->step ?>);
 		$("form#checkAccount input:radio.checkUser").on("change", function()

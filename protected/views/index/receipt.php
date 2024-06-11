@@ -45,7 +45,7 @@ if (!$isPDF) {
                         </td>
                         <td class="text-right" style="width: 33%">
                             <div>
-                                <figure><img src="http://www.aaocab.com/images/logo2.png" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></figure>
+                                <figure><img src="http://www.aaocab.com/images/logo2.png" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></figure>
                             </div></td></tr>
                 </table>
 
@@ -197,7 +197,7 @@ if (!$isPDF) {
             <div class="row">
                 <div class="col-xs-12"  style="font-size: 11px;">
                     <p>We declare that this Invoice shows the actual value of all transactions and that all particulars are true and correct.</p>
-                    <p>This bill is issued by the cab driver and not by Gozocabs. Gozocabs acts only as an intermediary for arranging the cab services.</p>
+                    <p>This bill is issued by the cab driver and not by aaocab. aaocab acts only as an intermediary for arranging the cab services.</p>
                     <p>GST is collected and remitted by Gozo Technologies Pvt. Ltd. [GSTIN: <?= Filter::getGstin($invoiceList['bkg_pickup_date']);?>]; in the capacity of Aggregator as per the Finance Budget, 2015 read with GST Notification No. 5/2015</p>
                     <p>In case of any queries/complaints, write to us on info@aaocab.com</p>
                     <p>This is an electronically generated invoice and does not require signature. All terms and conditions are as given on www.aaocab.com.</p>

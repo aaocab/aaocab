@@ -912,12 +912,12 @@ class Users extends CActiveRecord
 	{
 		throw new Exception("Please enter your email id");
 
-//		$email	 = "gozo" . $code . $phone . "." . $bkgId . "@gozocabs.in";
+//		$email	 = "gozo" . $code . $phone . "." . $bkgId . "@aaocab.in";
 //		$exist	 = $this->getByEmail($email);
 //		while ($exist)
 //		{
 //			$rnd	 = rand(000, 999);
-//			$email	 = "gozo" . $code . $phone . "." . $bkgId . "." . $rnd . "@gozocabs.in";
+//			$email	 = "gozo" . $code . $phone . "." . $bkgId . "." . $rnd . "@aaocab.in";
 //			$exist	 = $this->getByEmail($email);
 //		}
 //		return $email;
@@ -1361,7 +1361,7 @@ class Users extends CActiveRecord
 				}
 			}
 		}
-		$refArr = ['refCode' => $refCode, 'refMessage' => "Install GozoCabs APP and use '$refCode' as referral code at Registration"];
+		$refArr = ['refCode' => $refCode, 'refMessage' => "Install aaocab APP and use '$refCode' as referral code at Registration"];
 		return $refArr;
 	}
 
@@ -3783,7 +3783,7 @@ class Users extends CActiveRecord
 		$dltId = '';
 		if ($bkgModel->bkgTrack != '')
 		{
-			$msgOTP	 = "Your OTP for starting " . $bkgModel->bkg_booking_id . " is " . $bkgModel->bkgTrack->bkg_trip_otp . " - Gozocabs";
+			$msgOTP	 = "Your OTP for starting " . $bkgModel->bkg_booking_id . " is " . $bkgModel->bkgTrack->bkg_trip_otp . " - aaocab";
 			$dltId	 = smsWrapper::DLT_TRIP_START_OTP_TEMPID;
 		}
 		if (strlen($phoneNumber) >= 10)
@@ -4243,7 +4243,7 @@ class Users extends CActiveRecord
 				));
 
 				$mail->setLayout('mail');
-				$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info Gozocabs');
+				$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info aaocab');
 				$mail->setTo($email, $username);
 				$mail->setSubject('Reset your Password');
 				if ($mail->sendMail(0))
@@ -5163,7 +5163,7 @@ class Users extends CActiveRecord
 				$numRows = DBUtil::command("SELECT COUNT(1) cnt FROM contact_email WHERE eml_email_address=:emailId AND eml_contact_id=:contactId AND eml_active=1")->queryScalar(['emailId' => $emailId, 'contactId' => $cttId]);
 				if ($numRows == 0)
 				{
-					ContactEmail::addNew($cttId, $emailId, SocialAuth::Eml_Gozocabs, 1, '', $userModel->usr_email_verify);
+					ContactEmail::addNew($cttId, $emailId, SocialAuth::Eml_aaocab, 1, '', $userModel->usr_email_verify);
 				}
 				if ($phoneNo)
 				{

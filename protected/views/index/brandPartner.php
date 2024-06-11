@@ -9,7 +9,7 @@
 <!--        <div class="col-xs-12 col-sm-6 text-center brand-partners">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <figure><a href="#" data-toggle="modal" data-target="#travelspice"><img src="/images/partners-logo1.png" alt="TravelSpice:Brand Partner, Gozocabs" class="mb20"></a></figure>
+                    <figure><a href="#" data-toggle="modal" data-target="#travelspice"><img src="/images/partners-logo1.png" alt="TravelSpice:Brand Partner, aaocab" class="mb20"></a></figure>
                     <h4 class="m0 text-left">Travelspice</h4>
                     <p class="text-left">Travelspice is India's first, only and rapidly growing opaque hotel deal platform where a customer decides price he/she wants to pay for...</p>
                     <a class="btn btn-primary pl20 pr20 pull-center" id="button1" href="#" role="button" data-toggle="modal" data-target="#travelspice">Details</a>
@@ -51,7 +51,7 @@
                 <h4 class="modal-title" id="myModalLabel">Travelspice</h4>
             </div>
             <div class="modal-body">
-                <div class="text-center"><img src="/images/partners-logo1.png" alt="TravelSpice:Brand Partner, Gozocabs" width="150" height="97"></div>
+                <div class="text-center"><img src="/images/partners-logo1.png" alt="TravelSpice:Brand Partner, aaocab" width="150" height="97"></div>
                 Travelspice is India's first, only and rapidly growing opaque hotel deal platform where a customer decides price he/she wants to pay for a hotel room. Customers can get up to 70% discount on 3,4 and 5-star hotel bookings. With it's presence across 210+ cities and 6000+ hotel Travelspice is revolutionizing India's Hospitality Industry by enabling hotels to increase occupancy by up to 10% by providing fully-paid, non-cancellable, non-refundable customers who are exclusively available on TRAVELSPICE® platform to hotels and thereby help them increase their revenue.
             </div>
             <div class="modal-footer">
@@ -70,7 +70,7 @@
             <div class="modal-body">
                 <div class="text-center"><img src="/images/partners-logo2.png" alt="" width="150" height="97"></div>
                 MobiKwik is super-safe Online Recharge site. Each and every penny stored in your wallet is well accounted for. Online mobile recharge gives you the liberty to recharge your mobile phone number anytime and from anywhere - be it from home, office, restaurant or holiday and all you need is internet access. When you think of easy recharge options, MobiKwik is the best. All services of MobiKwik are also available via a desktop site and a mobile site.
-                <div class="text-center mt20 mb20"><a class="btn btn-success"  rel="nofollow" href="http://www.mobikwik.com/offer/gozocabs" target="_blank" role="button">Mobikwik Offer</a></div>
+                <div class="text-center mt20 mb20"><a class="btn btn-success"  rel="nofollow" href="http://www.mobikwik.com/offer/aaocab" target="_blank" role="button">Mobikwik Offer</a></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -86,28 +86,28 @@
         <div class="col-xs-12 col-sm-4 coupon_box">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <a href="http://www.couponrani.com/gozocabs-coupons" target="_blank" rel="nofollow"><img src="/images/coupon_couponrani.png" alt="Couponrani"></a>
+                    <a href="http://www.couponrani.com/aaocab-coupons" target="_blank" rel="nofollow"><img src="/images/coupon_couponrani.png" alt="Couponrani"></a>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 coupon_box">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <a href="http://www.couponzguru.com/gozocabs-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_guru.png" alt="Couponguru"></a>
+                    <a href="http://www.couponzguru.com/aaocab-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_guru.png" alt="Couponguru"></a>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 coupon_box">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <a href="http://www.grabon.in/gozocabs-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_granon.png" alt="GranOn"></a>
+                    <a href="http://www.grabon.in/aaocab-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_granon.png" alt="GranOn"></a>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 coupon_box">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <a href="https://freekaamaal.com/gozocabs" target="_blank" rel="nofollow"><img src="/images/coupon_freekaamaal.png" alt="Free kaa maal"></a>
+                    <a href="https://freekaamaal.com/aaocab" target="_blank" rel="nofollow"><img src="/images/coupon_freekaamaal.png" alt="Free kaa maal"></a>
                 </div>
             </div>
         </div>
@@ -121,14 +121,14 @@
         <div class="col-xs-12 col-sm-4 coupon_box">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <a href="http://www.zopoyo.in/gozocabs-coupons" target="_blank" rel="dofollow"><img src="/images/coupon_zopoyo.png" alt="Free kaa maal"></a>
+                    <a href="http://www.zopoyo.in/aaocab-coupons" target="_blank" rel="dofollow"><img src="/images/coupon_zopoyo.png" alt="Free kaa maal"></a>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 coupon_box">
             <div class="panel panel-default">
                 <div class="p20 panel-body">
-                    <a href="http://www.coupondunia.in/gozocabs-coupons" target="_blank" rel="dofollow"><img src="/images/coupon_dunia.png" alt="Coupon Dunia"></a>
+                    <a href="http://www.coupondunia.in/aaocab-coupons" target="_blank" rel="dofollow"><img src="/images/coupon_dunia.png" alt="Coupon Dunia"></a>
                 </div>
             </div>
         </div>

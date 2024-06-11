@@ -81,7 +81,7 @@ class BookingCommand extends BaseCommand
 			}
 //			$email = "ak@epitech.in";
 			$bookingId	 = $model->bkg_booking_id;
-			$message	 = "Thanks for your journey with Gozocabs in the past. For your convenience, an account has been created. "
+			$message	 = "Thanks for your journey with aaocab in the past. For your convenience, an account has been created. "
 					. "Please tap the URL below to set your password:\n";
 			$hash		 = Yii::app()->shortHash->hash($model->bkg_user_id);
 			$url		 = Yii::app()->createUrl('users/confirmsignup', ['id' => $model->bkg_user_id, 'hash' => $hash]);
@@ -110,7 +110,7 @@ class BookingCommand extends BaseCommand
 				ob_get_clean();
 				$mail->setBody($body);
 				$mail->setTo($email, $userName);
-				$subject				 = 'Welcome to Gozocabs.';
+				$subject				 = 'Welcome to aaocab.';
 				$mail->setSubject($subject);
 				if ($mail->sendAccountsEmail())
 				{
@@ -994,7 +994,7 @@ class BookingCommand extends BaseCommand
 				$hash	 = Yii::app()->shortHash->hash($bkgId);
 				$url	 = 'aaocab.com/bkpn/' . $bkgId . '/' . $hash;
 
-				$smsContent	 = "Dear Customer, Your Booking " . $bookingId . " from " . $fromCity . " to " . $toCity . " has been created. Get Instant 5% DISCOUNT or, claim a 50% Cashback* in Gozo Coins by paying at least 15% Advance for this Booking. Pay by clicking on the link " . $url . " .- Gozocabs";
+				$smsContent	 = "Dear Customer, Your Booking " . $bookingId . " from " . $fromCity . " to " . $toCity . " has been created. Get Instant 5% DISCOUNT or, claim a 50% Cashback* in Gozo Coins by paying at least 15% Advance for this Booking. Pay by clicking on the link " . $url . " .- aaocab";
 				$smsCom		 = new smsWrapper();
 
 				$smsid = $smsCom->advanceReminderSMS($row['bkg_country_code'], $row['bkg_contact_no'], $bookingId, $bkgId, $smsContent);

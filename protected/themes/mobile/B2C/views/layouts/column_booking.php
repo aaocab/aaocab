@@ -60,7 +60,7 @@ else
 				<span class="hidden-sm hidden-md hidden-lg" style="font-size:20px;cursor:pointer; position:absolute; padding: 5px; top: 16px; right: 11px; z-index: 99; color: #fff;" onclick="openNav()"><i class="fa fa-bars"></i></span>
                 <div class="row pt20 pb20">
                     <div class="col-sm-6 col-md-6">
-                        <a class="" href="/"><img src="/images/logo2_new_white.png?v1.3" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
+                        <a class="" href="/"><img src="/images/logo2_new_white.png?v1.3" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
                     </div>
                     <div class="col-sm-6 col-md-6">
                         <div id="mySidenav" class="sidenav">
@@ -80,7 +80,7 @@ else
 								<a href="<?= Yii::app()->createUrl('users/changePassword') ?>"><nobr><i class="fa fa-pencil pr10"></i> Change Password</nobr></a> 
 							<? } ?>
 
-							<a href="/whygozo"><i class="fa fa-check mr5"></i> Why GozoCabs</a>
+							<a href="/whygozo"><i class="fa fa-check mr5"></i> Why aaocab</a>
 							<a href="/faq"><i class="fa fa-star mr5"></i> FAQ</a>
 							<a href="/vendor/join"><i class="fa fa-user mr5"></i>Attach Your Taxi</a>
 							<a href="/index/testimonial"><i class="fa fa-quote-left mr5"></i>Testimonials</a>

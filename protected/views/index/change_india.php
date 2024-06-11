@@ -16,7 +16,7 @@
     <div class="col-xs-12 col-sm-6 fadeInRightBig animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInRightBig;" data-wow-delay="0.7s">
         <h4>Join us on our mission. Help us #CHANGEINDIA
             If you have traveled with Gozo tell your friends</h4>
-        <p class="mt20"><figure><a href="http://www.facebook.com/gozocabs"><img src="images/fb_img.png" alt="Facebook, Gozocabs"></a></figure></p>
+        <p class="mt20"><figure><a href="http://www.facebook.com/aaocab"><img src="images/fb_img.png" alt="Facebook, aaocab"></a></figure></p>
         <h4 style="font-weight: normal; line-height: 24px;">If you are in the travel industry. We want to partner with you.
             Join us as an agent bookings partner.<br>
             Write to <a href="mailto:partner@aaocab.com">partner@aaocab.com</a></h4>

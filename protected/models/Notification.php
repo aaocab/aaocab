@@ -144,7 +144,7 @@ class Notification extends CActiveRecord
         $entityId   = $scqModel->scq_to_be_followed_up_with_entity_id;
         $queueId    = $scqModel->scq_follow_up_queue_type;
 //        $queueName  = ServiceCallQueue::getQueueByQueueId($queueId);
-        $title      = "Response from Gozocabs";
+        $title      = "Response from aaocab";
         $scqId      = $scqModel->scq_id;
         switch ($entityType)
         {

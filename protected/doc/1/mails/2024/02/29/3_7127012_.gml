@@ -17,16 +17,16 @@
 
         <div>
             <div style="width:600px; margin:0 auto; padding: 10px;">
-                <p>Dear saurabh Singh</p><p>Thank you for signing up with Gozocabs. We are thrilled to have you as a new member of our platform. To ensure the security and validity of your email address, we kindly request you to verify your email ID.</p><p>To complete the email verification process, please click on the following link:</p><p><a href=http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D>http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D</a></p><p>By clicking on the link above, you will be directed to a secure verification page on our website. If the link is not clickable, please copy and paste it into your web browsers address bar.</p><p>We encourage you to verify your email ID at your earliest convenience to avoid any interruptions in accessing your account and enjoying our services.</p><p>Verifying your email ID is an essential step to activate your account fully. It helps us ensure that we have accurate contact information and enables us to deliver important updates, notifications, and relevant information directly to your inbox.</p><p>If you encounter any issues or have any questions regarding the email verification process, please dont hesitate to reach out to our dedicated support team at info@aaocab.com. We are available to assist you and provide the necessary guidance to complete the verification smoothly.</p><p>Thank you for your cooperation in verifying your email ID. We are excited to have you as a member of our community and look forward to providing you with a rewarding experience.</p><p>Best regards,<br/>Gozocabs Team</p>            </div>
+                <p>Dear saurabh Singh</p><p>Thank you for signing up with aaocab. We are thrilled to have you as a new member of our platform. To ensure the security and validity of your email address, we kindly request you to verify your email ID.</p><p>To complete the email verification process, please click on the following link:</p><p><a href=http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D>http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D</a></p><p>By clicking on the link above, you will be directed to a secure verification page on our website. If the link is not clickable, please copy and paste it into your web browsers address bar.</p><p>We encourage you to verify your email ID at your earliest convenience to avoid any interruptions in accessing your account and enjoying our services.</p><p>Verifying your email ID is an essential step to activate your account fully. It helps us ensure that we have accurate contact information and enables us to deliver important updates, notifications, and relevant information directly to your inbox.</p><p>If you encounter any issues or have any questions regarding the email verification process, please dont hesitate to reach out to our dedicated support team at info@aaocab.com. We are available to assist you and provide the necessary guidance to complete the verification smoothly.</p><p>Thank you for your cooperation in verifying your email ID. We are excited to have you as a member of our community and look forward to providing you with a rewarding experience.</p><p>Best regards,<br/>aaocab Team</p>            </div>
         </div>
 
         <div style="border-top:1px solid #C4C4C4;">
             <div style="width:600px; margin:0 auto; padding:20px 0;">
                 <p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
-                    This email is sent to saurabh@gmail.com because you have used this email address to register with Gozocabs.
+                    This email is sent to saurabh@gmail.com because you have used this email address to register with aaocab.
                     If you haven't done so, please ignore this email.
 If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email/saurabh@gmail.com" target="_BLANK">unsubscribe here.</a>
-                    <a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>.
+                    <a href="http://aaocab.com/" style="color: #3d4f99;">aaocab</a> and the aaocab logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>.
                 </p>
 
             </div>
@@ -37,7 +37,7 @@ If you received this email in error or do not wish to receive any further commun
 			<table width="100%" align="center">
 				<tr>
 					<td align="left" valign="middle">
-						<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+						<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="aaocab"/>
 
 					</td>
 					<td align="right" valign="middle">
@@ -49,15 +49,15 @@ If you received this email in error or do not wish to receive any further commun
 	</tr>
 	<tr>
 		<td bgcolor="#fff" style="background: rgb(255, 255, 255);">
-			<p>Dear saurabh Singh</p><p>Thank you for signing up with Gozocabs. We are thrilled to have you as a new member of our platform. To ensure the security and validity of your email address, we kindly request you to verify your email ID.</p><p>To complete the email verification process, please click on the following link:</p><p><a href=http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D>http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D</a></p><p>By clicking on the link above, you will be directed to a secure verification page on our website. If the link is not clickable, please copy and paste it into your web browsers address bar.</p><p>We encourage you to verify your email ID at your earliest convenience to avoid any interruptions in accessing your account and enjoying our services.</p><p>Verifying your email ID is an essential step to activate your account fully. It helps us ensure that we have accurate contact information and enables us to deliver important updates, notifications, and relevant information directly to your inbox.</p><p>If you encounter any issues or have any questions regarding the email verification process, please dont hesitate to reach out to our dedicated support team at info@aaocab.com. We are available to assist you and provide the necessary guidance to complete the verification smoothly.</p><p>Thank you for your cooperation in verifying your email ID. We are excited to have you as a member of our community and look forward to providing you with a rewarding experience.</p><p>Best regards,<br/>Gozocabs Team</p>		</td>
+			<p>Dear saurabh Singh</p><p>Thank you for signing up with aaocab. We are thrilled to have you as a new member of our platform. To ensure the security and validity of your email address, we kindly request you to verify your email ID.</p><p>To complete the email verification process, please click on the following link:</p><p><a href=http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D>http://localhost:84/verify?id=4glKB_EdRc6_c2F1cmFiaEBnbWFpbC5jb20%3D</a></p><p>By clicking on the link above, you will be directed to a secure verification page on our website. If the link is not clickable, please copy and paste it into your web browsers address bar.</p><p>We encourage you to verify your email ID at your earliest convenience to avoid any interruptions in accessing your account and enjoying our services.</p><p>Verifying your email ID is an essential step to activate your account fully. It helps us ensure that we have accurate contact information and enables us to deliver important updates, notifications, and relevant information directly to your inbox.</p><p>If you encounter any issues or have any questions regarding the email verification process, please dont hesitate to reach out to our dedicated support team at info@aaocab.com. We are available to assist you and provide the necessary guidance to complete the verification smoothly.</p><p>Thank you for your cooperation in verifying your email ID. We are excited to have you as a member of our community and look forward to providing you with a rewarding experience.</p><p>Best regards,<br/>aaocab Team</p>		</td>
 	</tr>
 	<tr>
 		<td>
 			<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
-				This email is sent to saurabh@gmail.com you because you have used this email address to register with Gozocabs.
+				This email is sent to saurabh@gmail.com you because you have used this email address to register with aaocab.
 				<!--                        If you haven't done so, please ignore this email.-->
 				If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email/saurabh@gmail.com/type/3" target="_BLANK">unsubscribe here.</a>
-				<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+				<a href="http://aaocab.com/" style="color: #3d4f99;">aaocab</a> and the aaocab logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 			</p>
 		</td>
 	</tr>

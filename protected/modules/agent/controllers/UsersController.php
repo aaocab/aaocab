@@ -520,7 +520,7 @@ class UsersController extends BaseController
 		{
 			$username	 = $users->agt_fname;
 			$code		 = rand(999, 9999);
-			$body		 = "<p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>##CODE##</span> to reset password of your Gozocabs Agent Account.</p><br><br>";
+			$body		 = "<p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>##CODE##</span> to reset password of your aaocab Agent Account.</p><br><br>";
 			$mail		 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 			$body		 = str_replace("##CODE##", $code, $body);
 			$mail->setLayout('mail');

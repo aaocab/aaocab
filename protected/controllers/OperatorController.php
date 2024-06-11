@@ -132,7 +132,7 @@ class OperatorController extends BaseController
 					$emlModels					 = [$emlModel];
 					$cttModel->contactEmails	 = $emlModels;
 
-					$returnSet = ContactEmail::model()->addNew($cttModel->ctt_id, $emlModel['eml_email_address'], SocialAuth::Eml_Gozocabs, $emlModel->eml_is_primary, 1);
+					$returnSet = ContactEmail::model()->addNew($cttModel->ctt_id, $emlModel['eml_email_address'], SocialAuth::Eml_aaocab, $emlModel->eml_is_primary, 1);
 					if ($returnSet->isSuccess())
 					{
 						ContactEmail::setPrimaryEmail($cttModel->ctt_id);
@@ -326,7 +326,7 @@ class OperatorController extends BaseController
 				$emlModels					 = [$emlModel];
 				$cttModel->contactEmails	 = $emlModels;
 
-				$returnSet = ContactEmail::model()->addNew($cttModel->ctt_id, $emlModel['eml_email_address'], SocialAuth::Eml_Gozocabs, $emlModel->eml_is_primary, 1);
+				$returnSet = ContactEmail::model()->addNew($cttModel->ctt_id, $emlModel['eml_email_address'], SocialAuth::Eml_aaocab, $emlModel->eml_is_primary, 1);
 				if ($returnSet->isSuccess())
 				{
 					ContactEmail::setPrimaryEmail($cttModel->ctt_id);

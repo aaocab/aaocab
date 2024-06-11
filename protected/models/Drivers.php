@@ -3407,7 +3407,7 @@ class Drivers extends CActiveRecord
 					self::notifyToDriverCompleteRegistrationReminder($this->drv_id);
 				}
 				/*
-				  $msgBody									 = (count($userData) > 1) ? "You are already registered with us. Please login with your exiting credentials." : "You are registered with us. Please complete driver registration through app - Gozocabs";
+				  $msgBody									 = (count($userData) > 1) ? "You are already registered with us. Please login with your exiting credentials." : "You are registered with us. Please complete driver registration through app - aaocab";
 				  $alreadyRegistered							 = WhatsappLog::alreadyRegistered($this->drv_id, $drvArray['drv_name'], $phoneNumber);
 				  $completeRegistraiton						 = WhatsappLog::driverCompleteRegistrationReminder($this->drv_id, $drvArray['drv_name'], $phoneNumber);
 				  $response									 = (count($userData) > 1) ? $alreadyRegistered : $completeRegistraiton;
@@ -4986,7 +4986,7 @@ class Drivers extends CActiveRecord
 		{
 			$verifyCode	 = rand(10000, 99999);
 			$isDelay	 = 0;
-			$msg		 = "Your OTP for starting verification is " . $verifyCode . " - Gozocabs";
+			$msg		 = "Your OTP for starting verification is " . $verifyCode . " - aaocab";
 			$sms		 = new Messages();
 			$res		 = $sms->sendMessage($phn_country_code, $phn_phone_no, $msg, $isDelay);
 			$usertype	 = SmsLog::Driver;

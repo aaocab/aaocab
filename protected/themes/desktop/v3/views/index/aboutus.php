@@ -12,8 +12,8 @@
 <div class="container mb20">
 	<div class="row justify-center">
 	<div class="col-12 col-xl-12">
-		<p>Gozocabs is the leading in outstation taxi provider offering our valued customers cost effective, easy, reliable and safe travel experience for all their one-way, roundtrip, day-rental and airport transfer needs.</p>
-		<p>Gozocabs is founded by IIT and USC alumni and started our outstanding services in Nov 2015 and has since grown to serve over 7000 towns and cities all over India. All drivers and cabs in our network are licensed, insured, well-maintained and background checked offering quality experience with high level of scrutiny to ensure reliable services to our customers.</p>
+		<p>aaocab is the leading in outstation taxi provider offering our valued customers cost effective, easy, reliable and safe travel experience for all their one-way, roundtrip, day-rental and airport transfer needs.</p>
+		<p>aaocab is founded by IIT and USC alumni and started our outstanding services in Nov 2015 and has since grown to serve over 7000 towns and cities all over India. All drivers and cabs in our network are licensed, insured, well-maintained and background checked offering quality experience with high level of scrutiny to ensure reliable services to our customers.</p>
 		<p>Whether you're a local resident, a business traveller, or a tourist exploring our incredible India, we are here to cater to all your transportation needs. We also offer airport transfer (pick-up and drop-offs) and chauffeur driven day rentals. Our user-friendly mobile app, call center and website allow you to book your rides effortlessly, and our dedicated customer support team is available 24/7 to assist you with any queries or concerns.</p>
 	</div>
 </div>
@@ -76,7 +76,7 @@
 	</div>
 </div>
 </div>
-<div class="col-12 col-lg-12 col-xl-10 mb-2"><img src="/images/gozo-white.webp?v=0.2" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="100"></div>
+<div class="col-12 col-lg-12 col-xl-10 mb-2"><img src="/images/gozo-white.webp?v=0.2" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="100"></div>
 </div>
 </div>
 

@@ -8,7 +8,7 @@
 				You can directly copy the text below and paste into the review:
 			</p>
 			<div class="p15" style="border:1px solid #ddd; border-radius:10px; padding: 15px;">
-				I just traveled with Gozo Cabs and I loved it. I just wrote my review on GozoCabs. <a href="<?= $arr['reviewLink']; ?>" target="_blank"><?= $arr['reviewLink']; ?></a> <br>
+				I just traveled with Gozo Cabs and I loved it. I just wrote my review on aaocab. <a href="<?= $arr['reviewLink']; ?>" target="_blank"><?= $arr['reviewLink']; ?></a> <br>
 				<?= $arr['comment']; ?> <br><br>
 				Join Gozo and you will get 10% off on your next trip. This link will also give you a discount for a future trip.<br>
 				Join by clicking <a href="<?php echo $arr['inviteLink']; ?>" target="_blank"><?php echo $arr['inviteLink']; ?></a><br>

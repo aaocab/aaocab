@@ -1578,7 +1578,7 @@ class BookingCab extends CActiveRecord
 		$ext							  = '91';
 		$contactId						  = ContactProfile::getByEntityId($this->bcb_vendor_id, UserInfo::TYPE_VENDOR);
 		$number							  = ContactPhone::getContactPhoneById($contactId);
-		$message						  = "You have won Trip ID " . $this->bcb_id . " Assign Approved Car & Driver before " . $endTime . " - Gozocabs";
+		$message						  = "You have won Trip ID " . $this->bcb_id . " Assign Approved Car & Driver before " . $endTime . " - aaocab";
 		$params							  = [];
 		$params['blg_vendor_assigned_id'] = $this->bcb_vendor_id;
 		$params['blg_driver_id']		  = $this->bcb_driver_id;

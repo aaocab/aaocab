@@ -59,7 +59,7 @@ class Mobikwik extends CComponent
 		}
 		$mob_post['mid']			 = $mid;
 		$mob_post['version']		 = 2;
-		$mob_post['merchantname']	 = 'GozoCabs';
+		$mob_post['merchantname']	 = 'aaocab';
 		$mob_post['checksum']		 = $checksum;
 		return $mob_post;
 	}

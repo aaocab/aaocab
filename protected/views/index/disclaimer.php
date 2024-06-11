@@ -22,7 +22,7 @@
                 The Company will not be liable to you or to any other person for any direct, indirect, incidental, punitive or consequential loss, damage, cost or expense of any kind whatsoever and howsoever caused from out of your usage of this Site.
             </li>
             <li style="list-style:circle;">
-                Through this website you are able to link to other websites which are not under the control of GOZOCABS. We have no control over the nature, content and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.
+                Through this website you are able to link to other websites which are not under the control of aaocab. We have no control over the nature, content and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.
             </li>
         </ul>
     </section>

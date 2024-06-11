@@ -52,7 +52,7 @@ else
 				<li id="menu-index">
 					<a href="/whygozo">
 						<i class='fa fa-car color-green-dark'></i>
-						<span>Why GozoCabs</span>
+						<span>Why aaocab</span>
 						<em>Why should you ride with Gozo?</em>
 						<i class="fa fa-angle-right"></i>
 					</a>
@@ -126,7 +126,7 @@ else
 						<a href="/signin">
 							<i class='fas fa-sign-in-alt color-orange-dark'></i>
 							<span id="signId">Sign In</span>
-							<em>Log In to Gozocabs</em>
+							<em>Log In to aaocab</em>
 							<i class="fa fa-angle-right"></i>
 						</a>
 					<?
@@ -137,7 +137,7 @@ else
 						<a href="<?= Yii::app()->createUrl('users/logout') ?>">
 						<i class='fas fa-sign-in-alt color-orange-dark'></i>
 						<span id="signId">Log Out</span>
-						<em>Log Out from Gozocabs</em>
+						<em>Log Out from aaocab</em>
 						<i class="fa fa-angle-right"></i>
 						</a> 
 					<? } ?>

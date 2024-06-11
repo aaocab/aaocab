@@ -50,7 +50,7 @@ if (APPLICATION_ENV == 'production')
 	$count		 = count($arrHost);
 	$hostName	 = $arrHost[($count - 2)] . '.' . $arrHost[($count - 1)];
 
-	$arrAllowedDomains = ['aaocab.com', 'gozo.cab', 'gozocabs.in'];
+	$arrAllowedDomains = ['aaocab.com', 'gozo.cab', 'aaocab.in'];
 	if (!in_array($hostName, $arrAllowedDomains))
 	{
 		$protocol	 = "HTTP/1.0";

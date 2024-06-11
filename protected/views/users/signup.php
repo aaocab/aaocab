@@ -11,14 +11,14 @@
     <div class="col-xs-12 col-sm-7 col-md-7 book-panel2 padding_zero">
         <div class="panel panel-primary">
             <div class="panel-body">
-                <div class="h3 mt0 orange-color text-center" style="font-weight: normal">Sign Up to Gozocabs</div>
-                <div class="h5 text-center" style="font-weight: normal">Already on Gozocabs? <a href="/signin">Log In</a></div>
+                <div class="h3 mt0 orange-color text-center" style="font-weight: normal">Sign Up to aaocab</div>
+                <div class="h5 text-center" style="font-weight: normal">Already on aaocab? <a href="/signin">Log In</a></div>
                 <div class="row" style="text-align: center;">
 					<div class="col-xs-12 col-md-6 col-md-offset-3 fbook-btn mb20">
 						<a class="btn btn-lg btn-social btn-facebook pl15 pr15" target="_blank" href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook')); ?>"><i class="fa fa-facebook pr5" style="font-size: 22px;"></i> Connect with Facebook</a>
 					</div>
 					<div class="col-xs-12 col-md-6 col-md-offset-3 google-btn">
-						<a class="btn btn-lg btn-social btn-googleplus pl15 pr15" target="_blank"  href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google')); ?>"><img src="../images/google_icon.png" alt="Gozocabs"> Connect with Google</a>
+						<a class="btn btn-lg btn-social btn-googleplus pl15 pr15" target="_blank"  href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google')); ?>"><img src="../images/google_icon.png" alt="aaocab"> Connect with Google</a>
 					</div>
 					<a class="btn btn-lg btn-social btn-linkedin pl15 pr15 hide" target="_blank" href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'LinkedIn')); ?>"><i class="fa fa-linkedin"></i></a>
 					<div class="col-xs-12 m0 mt30 mb20 h4 style_or"><span class="style_or3">OR</span></div>
@@ -162,10 +162,10 @@
     <div class="col-xs-12 col-sm-5 col-md-5 padding_zero">
         <div class="register-add">
 			<div class="pt30 pb30">
-				<div class="mt20 mb50"><img src="../images/logo_outstation.png?v1.1" alt="Gozocabs"></div>
+				<div class="mt20 mb50"><img src="../images/logo_outstation.png?v1.1" alt="aaocab"></div>
 				<div class="mt50 pt50 mb5"><b>Book with Gozo cabs mobile app</b></div>
 				<div class="mb50 pb50">
-					<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+					<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
 				</div>
 				<div class="h1 mt50 orange-color">
 					India's Leader<br>

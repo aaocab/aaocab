@@ -138,7 +138,7 @@ $clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/bookNow.js?v='
 
     function signinWithGoogle() {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-        var googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
     }
 </script>

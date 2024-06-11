@@ -42,15 +42,15 @@ class smsWrapper
 //			{
 //				$verifylink	 = Yii::app()->createAbsoluteUrl('booking/paynow', ['id' => $bookModel->bkg_id, 'hash' => $hash]);
 //			}
-			//   $msg = 'Gozocabs Your Verification Code is:' . $vCode.' and Verification Link is '.$verifylink. '. Please enter it in the space provided in the website.';
-			//  $msg = 'Your Verification Code is ' . $vCode.'. Please enter it in the space provided in the website or in the following link: '.$verifylink.'. Gozocabs.';
-			//$msg		 = 'Your OTP is ' . $vCode . '. Please enter it on the website or at ' . $verifylink . '. -Gozocabs.';
+			//   $msg = 'aaocab Your Verification Code is:' . $vCode.' and Verification Link is '.$verifylink. '. Please enter it in the space provided in the website.';
+			//  $msg = 'Your Verification Code is ' . $vCode.'. Please enter it in the space provided in the website or in the following link: '.$verifylink.'. aaocab.';
+			//$msg		 = 'Your OTP is ' . $vCode . '. Please enter it on the website or at ' . $verifylink . '. -aaocab.';
 			$verifylink	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bookModel->bkg_id);
-			$msg		 = 'Bkg ' . $bookModel->bkg_booking_id . ' created. Pay at ' . $verifylink . ' within 90mins to reconfirm booking - Gozocabs';
+			$msg		 = 'Bkg ' . $bookModel->bkg_booking_id . ' created. Pay at ' . $verifylink . ' within 90mins to reconfirm booking - aaocab';
 
 			if ($bookModel->bkgTrail->bkg_platform == 3)
 			{
-				$msg = "Gozocabs Your Verification Code is: $vCode . Please enter it in the space provided in the website.";
+				$msg = "aaocab Your Verification Code is: $vCode . Please enter it in the space provided in the website.";
 			}
 
 			$res		 = $sms->sendMessage($ext, $number, $msg, 0);
@@ -61,7 +61,7 @@ class smsWrapper
 			$slgId		 = smsWrapper::createLog($ext, $number, $bkgid, $msg, $res, $usertype, "", $smstype, $refType, $refId, 0);
 			if ($slgId != '')
 			{
-				$desc = "Sms sent on Verification Code - Gozocabs.";
+				$desc = "Sms sent on Verification Code - aaocab.";
 				if ($logType != '')
 				{
 					$userType = $logType;
@@ -113,8 +113,8 @@ class smsWrapper
 		$bkgUserModel	 = BookingUser::model()->find('bui_bkg_id=:bkg_id', ['bkg_id' => $bookModel->bkg_id]);
 		$customerName	 = $bkgUserModel->bkg_user_fname . " " . $bkgUserModel->bkg_user_lname;
 		$sms			 = new Messages();
-		//$msg = 'Dear Customer, Thank you for choosing Gozocabs. We have now created a Gozo Account on your behalf. Please click on the link to confirm your credentials. ' . $changes . ' - Gozocabs';
-		$msg			 = 'Dear ' . $customerName . ', Thanks for creating your booking. To confirm that you created this booking click ' . $changes . ' else booking will be auto-cancelled. - Gozocabs';
+		//$msg = 'Dear Customer, Thank you for choosing aaocab. We have now created a Gozo Account on your behalf. Please click on the link to confirm your credentials. ' . $changes . ' - aaocab';
+		$msg			 = 'Dear ' . $customerName . ', Thanks for creating your booking. To confirm that you created this booking click ' . $changes . ' else booking will be auto-cancelled. - aaocab';
 		$res			 = $sms->sendMessage($ext, $number, $msg);
 		$refType		 = SmsLog::REF_BOOKING_ID;
 		$refId			 = $bookModel->bkg_id;
@@ -174,7 +174,7 @@ class smsWrapper
 	{
 
 		$sms		 = new Messages();
-		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your Gozocabs Agent Account.';
+		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your aaocab Agent Account.';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Agent;
 		smsWrapper::createLog($ext, $number, "", $msg, $res, $usertype);
@@ -185,7 +185,7 @@ class smsWrapper
 	{
 
 		$sms		 = new Messages();
-		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your Gozocabs Vendor Account.';
+		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your aaocab Vendor Account.';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Vendor;
 		smsWrapper::createLog($ext, $number, "", $msg, $res, $usertype);
@@ -216,7 +216,7 @@ class smsWrapper
 	{
 
 		$sms		 = new Messages();
-		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your Gozocabs Driver Account.';
+		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your aaocab Driver Account.';
 		$res		 = $sms->sendMessage($ext, $number, $msg, 0);
 		$usertype	 = SmsLog::Driver;
 		smsWrapper::createLog($ext, $number, "", $msg, $res, $usertype);
@@ -227,7 +227,7 @@ class smsWrapper
 	{
 
 		$sms		 = new Messages();
-		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your GozoCabs account.';
+		$msg		 = 'Your code is ' . $vCode . '. Use this code to reset password of your aaocab account.';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Agent;
 		smsWrapper::createLog($ext, $number, "", $msg, $res, $usertype);
@@ -274,7 +274,7 @@ class smsWrapper
 		{
 			$msg .= ". Additional " . $model->bkgAddInfo->bkg_spl_req_lunch_break_time . " Minutes Journey Break Included";
 		}
-		$msg .= '.*Subject to T&Cs - Gozocabs';
+		$msg .= '.*Subject to T&Cs - aaocab';
 
 		//user
 		$response = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
@@ -374,7 +374,7 @@ class smsWrapper
 		{
 			$msg .= ". Additional " . $model->bkgAddInfo->bkg_spl_req_lunch_break_time . " Minutes Journey Break Included";
 		}
-		$msg .= '.*Subject to T&Cs - Gozocabs';
+		$msg .= '.*Subject to T&Cs - aaocab';
 
 		//user
 		$response = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
@@ -485,7 +485,7 @@ class smsWrapper
 		{
 			$msg .= ". Additional " . $model->bkgAddInfo->bkg_spl_req_lunch_break_time . " Minutes Journey Break Included";
 		}
-		$msg .= '.*Subject to T&Cs - Gozocabs';
+		$msg .= '.*Subject to T&Cs - aaocab';
 
 		//user
 		$response = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
@@ -582,7 +582,7 @@ class smsWrapper
 		$vendorLink	 = 'aaocab.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
 
 		//$msg = 'Booking ID: ' . $bookingID . '  ## See Details & Terms at ' . $vendorLink . ' ';
-		$msg = 'Booking ID: ' . $bookingID . '. See Details & Terms at ' . $vendorLink . ' - Gozocabs';
+		$msg = 'Booking ID: ' . $bookingID . '. See Details & Terms at ' . $vendorLink . ' - aaocab';
 		if ($bookModel->bkgAddInfo->bkg_spl_req_lunch_break_time != 0 || $bookModel->bkgAddInfo->bkg_spl_req_lunch_break_time != '0')
 		{
 			$msg .= ". Additional " . $bookModel->bkgAddInfo->bkg_spl_req_lunch_break_time . " Minutes Journey Break Included";
@@ -694,11 +694,11 @@ class smsWrapper
 					$driver_phone = Yii::app()->params['customerToDriverforMMT'];
 				}
 			}
-			$msg = 'BKGID: ' . $bookingId . ' is ALL SET. Your cab and driver are now allocated. View details at ' . $paymentLink . ' - Gozocabs';
+			$msg = 'BKGID: ' . $bookingId . ' is ALL SET. Your cab and driver are now allocated. View details at ' . $paymentLink . ' - aaocab';
 		}
 		else
 		{
-			$msg	 = 'BKGID: ' . $bookingId . ' is ALL SET. For details click ' . $paymentLink . $msgOTP . ' - Gozocabs';
+			$msg	 = 'BKGID: ' . $bookingId . ' is ALL SET. For details click ' . $paymentLink . $msgOTP . ' - aaocab';
 			$dltId	 = self::DLT_BOOK_DETAILS_TEMPID;
 		}
 
@@ -760,20 +760,20 @@ class smsWrapper
 			return false;
 		}
 		$sms		 = new Messages();
-		//$msg		 = 'Customer Cancelled BKGID: ' . $bookingId . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . '. Gozocabs';
+		//$msg		 = 'Customer Cancelled BKGID: ' . $bookingId . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . '. aaocab';
 		//$msg		 = 'Booking ' . $bookingId . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . ' was unassigned.';
 		$fromCity	 = Cities::getShortNameByCity($cityA);
 		$toCity		 = Cities::getShortNameByCity($cityB);
 		if ($cancelStatus == 1)
 		{
 			$response	 = WhatsappLog::tripCancelToVendorDriver($bookingModel->bkg_id, UserInfo::TYPE_VENDOR);
-			$msg		 = 'Customer cancelled booking ' . $bookingId . ' from ' . $fromCity . ' to ' . $toCity . ' at ' . $time . ' on ' . $date . ' - Gozocabs';
+			$msg		 = 'Customer cancelled booking ' . $bookingId . ' from ' . $fromCity . ' to ' . $toCity . ' at ' . $time . ' on ' . $date . ' - aaocab';
 		}
 		else
 		{
 			Vendors::unassignedTripFromVendor($bookingModel->bkg_id);
 //			$response	 = WhatsappLog::unassignedTripFromVendor($bkgId, $number);
-//			$msg		 = 'Booking ' . $bookingId . ' from ' . $fromCity . ' to ' . $toCity . ' at ' . $time . ' on ' . $date . ' was unassigned - Gozocabs';
+//			$msg		 = 'Booking ' . $bookingId . ' from ' . $fromCity . ' to ' . $toCity . ' at ' . $time . ' on ' . $date . ' was unassigned - aaocab';
 		}
 
 		if ($response['status'] == 3)
@@ -833,7 +833,7 @@ class smsWrapper
 			return;
 		}
 		$sms		 = new Messages();
-		$msg		 = 'Customer Cancelled Booking: ID ' . $bookingId . ', ' . $cabType . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . '. Gozocabs';
+		$msg		 = 'Customer Cancelled Booking: ID ' . $bookingId . ', ' . $cabType . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . '. aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Driver;
 		$refType	 = SmsLog::REF_BOOKING_ID;
@@ -846,7 +846,7 @@ class smsWrapper
 		$model	 = Drivers::model()->findByPk($driverId);
 		$number	 = ContactPhone::model()->getContactPhoneById($model->drv_contact_id);
 		$sms	 = new Messages();
-		$msg	 = 'We regret to inform that ' . $bookingId . ' has been cancelled by the customer - Gozocabs';
+		$msg	 = 'We regret to inform that ' . $bookingId . ' has been cancelled by the customer - aaocab';
 		if ($number != '')
 		{
 			$res		 = $sms->sendMessage($ext, $number, $msg);
@@ -940,9 +940,9 @@ class smsWrapper
 		}
 		$cabModel	 = $model->getBookingCabModel();
 		$sms		 = new Messages();
-		$msg		 = 'Dear ' . $name . ', ' . 'Important update from Gozocabs- ' . $messageText . ', Regards.';
-		//$msg		 = 'Dear ' . Vendors::model()->getName() . ', ' . 'Important update from Gozocabs- ' . $messageText . ', Regards.';
-		//$msg = 'Dear Vendor, Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $messageText . ' - Gozocabs';
+		$msg		 = 'Dear ' . $name . ', ' . 'Important update from aaocab- ' . $messageText . ', Regards.';
+		//$msg		 = 'Dear ' . Vendors::model()->getName() . ', ' . 'Important update from aaocab- ' . $messageText . ', Regards.';
+		//$msg = 'Dear Vendor, Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $messageText . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Vendor;
 		$refType	 = SmsLog::REF_VENDOR_ID;
@@ -963,7 +963,7 @@ class smsWrapper
 		}
 		$cabModel	 = $model->getBookingCabModel();
 		$sms		 = new Messages();
-		$msg		 = 'Dear ' . $name . ', ' . 'Important update from Gozocabs- ' . $messageText . ', Regards.';
+		$msg		 = 'Dear ' . $name . ', ' . 'Important update from aaocab- ' . $messageText . ', Regards.';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Driver;
 		$refType	 = SmsLog::REF_DRIVER_ID;
@@ -1053,7 +1053,7 @@ class smsWrapper
 		$model		 = Booking::model()->getBkgIdByBookingId($bookingID);
 		$cabmodel	 = $model->getBookingCabModel();
 		$sms		 = new Messages();
-		$msg		 = 'Dear ' . $name . ', ' . $messageText . '-Gozocabs';
+		$msg		 = 'Dear ' . $name . ', ' . $messageText . '-aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Driver;
 		$refType	 = SmsLog::REF_DRIVER_ID;
@@ -1069,7 +1069,7 @@ class smsWrapper
 			return;
 		}
 		$sms		 = new Messages();
-		$msg		 = 'Dear ' . $customerName . ', ' . $message . '-Gozocabs';
+		$msg		 = 'Dear ' . $customerName . ', ' . $message . '-aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Customer;
 		$refType	 = SmsLog::REF_USER_ID;
@@ -1134,7 +1134,7 @@ class smsWrapper
 //		}
 //		else
 //		{
-//			$msg .= '.Please verify OTP before you start the trip using driver app or go to ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181   - Gozocabs';
+//			$msg .= '.Please verify OTP before you start the trip using driver app or go to ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181   - aaocab';
 //		}
 
 		if ($sendContact)
@@ -1171,10 +1171,10 @@ class smsWrapper
 //			else
 //			{
 //				$msg .= '.
-//					Must use Driver app. If no app, Enter OTP at ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181 - Gozocabs';
+//					Must use Driver app. If no app, Enter OTP at ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181 - aaocab';
 //			}
-// Must use Driver app. Get OTP from customer to start the trip. If no app, Enter OTP at https://aaocab.com/vtrip/312912/Foeau or SMS 'START 312912 <OTP>' TO 8340000181 - Gozocabs
-// Please verify OTP before you start the trip using driver app or go to ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181 - Gozocabs';
+// Must use Driver app. Get OTP from customer to start the trip. If no app, Enter OTP at https://aaocab.com/vtrip/312912/Foeau or SMS 'START 312912 <OTP>' TO 8340000181 - aaocab
+// Please verify OTP before you start the trip using driver app or go to ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181 - aaocab';
 			if ($usertype == '2'):
 				$smstype = SmsLog::SMS_VENDOR_CAB_DETAILS_UPDATED;
 			endif;
@@ -1240,7 +1240,7 @@ class smsWrapper
 			}
 		}
 //	}
-		//$msg = 'Dear ' . $driver_name . ", Immediate pickup reminder - Name: " . $cust_name . ', Phone: ' . $cust_phone . ', Pickup Time: ' . $date_time . ', Address: ' . $pickup_address . ', Amount: Rs.' . $amount . ' - Gozocabs';
+		//$msg = 'Dear ' . $driver_name . ", Immediate pickup reminder - Name: " . $cust_name . ', Phone: ' . $cust_phone . ', Pickup Time: ' . $date_time . ', Address: ' . $pickup_address . ', Amount: Rs.' . $amount . ' - aaocab';
 		$msg	 = 'IMMEDIATE PICKUP -- BKGID: ' . $bookingID . ' |Customer - ' . $cust_name . ' |Ph: ' . $cust_phone . ' |Time:' . $date_time . ' |Address: ' . $pickup_address . ' |Collect: Rs.' . $amount . '';
 		$res	 = $sms->sendMessage($ext, $number, $msg, $delay);
 		$refType = SmsLog::REF_BOOKING_ID;
@@ -1259,8 +1259,8 @@ class smsWrapper
 		$refId		 = $bookingModel->bkg_id;
 		$refType	 = 1;
 		$sms		 = new Messages();
-		//$msg = 'Driver Information overdue: Booking: ID ' . $bookingID . ', ' . $cabType . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . ", Amount: $amount, Instructions: $instructions" . ' - Gozocabs';
-		$msg		 = 'Driver Information overdue: BKGID: ' . $bookingID . ', ' . $cabType . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . ", Amount to collect: $dueAmount, Instructions: $instructions" . ' - Gozocabs';
+		//$msg = 'Driver Information overdue: Booking: ID ' . $bookingID . ', ' . $cabType . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . ", Amount: $amount, Instructions: $instructions" . ' - aaocab';
+		$msg		 = 'Driver Information overdue: BKGID: ' . $bookingID . ', ' . $cabType . ' from ' . $cityA . ' to ' . $cityB . ' at ' . $time . ' on ' . $date . ", Amount to collect: $dueAmount, Instructions: $instructions" . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg, 0);
 		$usertype	 = SmsLog::Vendor;
 		smsWrapper::createLog($ext, $number, $bookingID, $msg, $res, $usertype, $counter, '', $refType, $refId, 0);
@@ -1274,7 +1274,7 @@ class smsWrapper
 		$msg = "Attention: " . $count . " PICKUP(S) TO BE DONE IN NEXT 36 hours. Please assign driver immediately if not done yet.\n\r\n\r\n\r";
 		//		. $msg;
 		//	echo $msg;
-		//$msg = "Dear Vendor, Pickup summary as on $time : $msg - Gozocabs";
+		//$msg = "Dear Vendor, Pickup summary as on $time : $msg - aaocab";
 		//$res		 = $sms->sendMessage($ext, $number, $msg, $delay);
 		//$usertype	 = SmsLog::Vendor;
 		//smsWrapper::createLog($ext, $number, $bookingID, $msg, $res, $usertype, $counter, '', '', '', $delay);
@@ -1304,7 +1304,7 @@ class smsWrapper
 		echo $phone		 = $phone ? $phone : $bkg_row['bkg_contact_no'];
 		echo "\t";
 		$userName	 = $userName ? $userName : $bkg_row['bkg_user_name'];
-		echo $message	 = "Dear {$userName}, I'm Kiran, your on-trip host at Gozocabs. Your safety & convenience is our highest priority. Call me at +91-33-66283901 if you need any help during this trip.";
+		echo $message	 = "Dear {$userName}, I'm Kiran, your on-trip host at aaocab. Your safety & convenience is our highest priority. Call me at +91-33-66283901 if you need any help during this trip.";
 		echo "\n";
 		$sms		 = new Messages();
 		$res		 = $sms->sendMessage($ext, $phone, $message);
@@ -1335,7 +1335,7 @@ class smsWrapper
 		echo $phone		 = $phone ? $phone : $bkg_row['bkg_contact_no'];
 		echo "\t";
 		$userName	 = $userName ? $userName : $bkg_row['bkg_user_name'];
-		echo $message	 = "Dear {$userName}, This is in reference to your booking ID {$bkg_row['bkg_booking_id']}. Gozocabs local crew in $city_name can arrange tours and "
+		echo $message	 = "Dear {$userName}, This is in reference to your booking ID {$bkg_row['bkg_booking_id']}. aaocab local crew in $city_name can arrange tours and "
 		. "other travel services for you if needed. Please call us at at +91-90518-77000 for any help needed in $city_name";
 		echo "\n";
 		$sms		 = new Messages();
@@ -1479,7 +1479,7 @@ class smsWrapper
 			return false;
 		}
 		$sms		 = new Messages();
-		$msg		 = 'Dear Customer, Your BKGID: ' . $bookingID . ' has been modified. New Pickup Date: ' . $date . ', Time: ' . $time . ' - Gozocabs';
+		$msg		 = 'Dear Customer, Your BKGID: ' . $bookingID . ' has been modified. New Pickup Date: ' . $date . ', Time: ' . $time . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Consumers;
 		$refType	 = SmsLog::REF_BOOKING_ID;
@@ -1504,7 +1504,7 @@ class smsWrapper
 		//$paymentLink = 'aaocab.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
 		$paymentLink = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bookingModel->bkg_id);
 		$sms		 = new Messages();
-		//$msg = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $changes . ' - Gozocabs';
+		//$msg = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $changes . ' - aaocab';
 		$msg		 = 'UPDATE TO BKGID: ' . $bookingID . '  ## See NEW Details & Terms at ' . $paymentLink . '';
 
 		$usertype	 = SmsLog::Consumers;
@@ -1570,7 +1570,7 @@ class smsWrapper
 		$vendorLink	 = 'aaocab.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
 		//$paymentLink = 'aaocab.com/bkvendor/' . $bookModel->bkg_id . '/' . $hash; / Duplicate link created
 		$sms		 = new Messages();
-		//$msg = 'Dear Vendor, Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $changes . ' - Gozocabs';
+		//$msg = 'Dear Vendor, Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $changes . ' - aaocab';
 		$msg		 = 'UPDATE TO Booking ID: ' . $bookingID . '  ## See NEW Details & Terms at ' . $vendorLink . '';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$logType	 = SmsLog::Vendor;
@@ -1667,7 +1667,7 @@ class smsWrapper
 		}
 		$cabmodel	 = $bookModel->getBookingCabModel();
 		$sms		 = new Messages();
-		$msg		 = 'Dear Vendor, ' . $changes . ' - Gozocabs';
+		$msg		 = 'Dear Vendor, ' . $changes . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Vendor;
 		$refType	 = SmsLog::REF_BOOKING_ID;
@@ -1719,7 +1719,7 @@ class smsWrapper
 			return false;
 		}
 		$sms		 = new Messages();
-		$msg		 = $changes . ' - Gozocabs';
+		$msg		 = $changes . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Consumers;
 		$refType	 = SmsLog::REF_BOOKING_ID;
@@ -1755,7 +1755,7 @@ class smsWrapper
 			return false;
 		}
 		$sms		 = new Messages();
-		$msg		 = 'Dear Driver, ' . $changes . ' - Gozocabs';
+		$msg		 = 'Dear Driver, ' . $changes . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Driver;
 		$refType	 = SmsLog::REF_BOOKING_ID;
@@ -1787,7 +1787,7 @@ class smsWrapper
 			return;
 		}
 		$sms		 = new Messages();
-		$msg		 = 'Dear Customer, ' . $changes . ' - Gozocabs';
+		$msg		 = 'Dear Customer, ' . $changes . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Consumers;
 		$refType	 = SmsLog::REF_USER_ID;
@@ -1828,12 +1828,12 @@ class smsWrapper
 
 //    public static function informCustBookingModTime1($ext, $number, $bookingID, $date, $time) {
 //        $sms = new send_sms();
-//        $msg = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Return Date: ' . $date . ', Time: ' . $time . ' - Gozocabs';
+//        $msg = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Return Date: ' . $date . ', Time: ' . $time . ' - aaocab';
 //        $sms->sendMessage(array('number' => $number, 'msg' => $msg));
 //        $class = "smsWrapper";
 //        $class::updateSmsInSystem($bookingID, $msg, "CBUT", $number);
 //    }
-//    //Dear Customer, Your Booking ID: * has been modified. New Pickup Date: *, Time: * Gozocabs
+//    //Dear Customer, Your Booking ID: * has been modified. New Pickup Date: *, Time: * aaocab
 //
 	public static function informCustBookingModAddress($ext, $number, $bookingID, $pickupAddress)
 	{
@@ -1843,7 +1843,7 @@ class smsWrapper
 			return;
 		}
 		$sms		 = new Messages();
-		$msg		 = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Pickup Address: ' . $pickupAddress . ' - Gozocabs';
+		$msg		 = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Pickup Address: ' . $pickupAddress . ' - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
 		$usertype	 = SmsLog::Consumers;
 		$refType	 = SmsLog::REF_BOOKING_ID;
@@ -1851,11 +1851,11 @@ class smsWrapper
 		smsWrapper::createLog($ext, $number, $bookingID, $msg, $res, $usertype, '', '', $refType, $refId);
 	}
 
-//    //Dear Customer, Your Booking ID: * has been modified. New Pickup Address: * Gozocabs
+//    //Dear Customer, Your Booking ID: * has been modified. New Pickup Address: * aaocab
 //
 //    public static function sendDiscountCouponCustomer($ext, $number, $discount, $place, $couponCode, $bookingID) {
 //        $sms = new send_sms();
-//        $msg = 'Dear Customer, Avail ' . $discount . ' off on food items at ' . $place . '. Show SMS at the counter before billing. Coupon code: ' . $couponCode . ' - Gozocabs';
+//        $msg = 'Dear Customer, Avail ' . $discount . ' off on food items at ' . $place . '. Show SMS at the counter before billing. Coupon code: ' . $couponCode . ' - aaocab';
 //        $sms->sendMessage(array('number' => $number, 'msg' => $msg));
 //        $class = "smsWrapper";
 //        $class::updateSmsInSystem($bookingID, $msg, "CBGD", $number);
@@ -1905,7 +1905,7 @@ class smsWrapper
 			}
 			else
 			{
-				$amountStr = ' Amount payable Rs.' . $model->bkgInvoice->bkg_total_amount . ' - Gozocabs';
+				$amountStr = ' Amount payable Rs.' . $model->bkgInvoice->bkg_total_amount . ' - aaocab';
 			}
 		}
 		if ($model->bkgInvoice->bkg_corporate_credit > 0)
@@ -2031,7 +2031,7 @@ class smsWrapper
 		if ($number != '')
 		{
 			$sms		 = new Messages();
-			$msg		 = 'Dear Vendor, ' . $changes . ' - Gozocabs';
+			$msg		 = 'Dear Vendor, ' . $changes . ' - aaocab';
 			$res		 = $sms->sendMessage($ext, $number, $msg);
 			$usertype	 = SmsLog::Vendor;
 			$smstype	 = SmsLog::SMS_MISSING_DRIVER_CAR;
@@ -2135,7 +2135,7 @@ class smsWrapper
 		if ($number != '')
 		{
 			$sms		 = new Messages();
-			$msg		 = $changes . ' - Gozocabs';
+			$msg		 = $changes . ' - aaocab';
 			$res		 = $sms->sendMessage($ext, $number, $msg, 1, $lang		 = Messages::MTYPE_HINDI);
 			$usertype	 = SmsLog::Driver;
 			$smstype	 = SmsLog::COMPENSATE_DRIVER_ON_RATING;
@@ -2268,7 +2268,7 @@ class smsWrapper
 		if ($number != '' && $ext == '91')
 		{
 			$sms		 = new Messages();
-			$msg		 = $changes . ' - Gozocabs';
+			$msg		 = $changes . ' - aaocab';
 			$res		 = $sms->sendMessage($ext, $number, $msg, 0, 1, self::DLT_BOOK_NOT_PAID_TEMPID);
 			$userType	 = SmsLog::Consumers;
 			$smsType	 = SmsLog::SMS_UNVERIFIED_FOLLOWUP;
@@ -2302,8 +2302,8 @@ class smsWrapper
 		$oldModel	 = clone $model;
 		$bookingId	 = $model->bkg_booking_id;
 		$chargesOff	 = 250;
-		//#$changes	 = 'You left your booking incomplete. Tell us how we can help? ' . LeadFollowup::getLeadURL($bkgId, 'p') . ' - Gozocabs';
-		$changes	 = "You didn't complete your booking. Tell us why " . Filter::shortUrl(LeadFollowup::getLeadURL($bkgId, 'p')) . ". Use SAVE20 Promo and get discount upto 20% - Gozocabs";
+		//#$changes	 = 'You left your booking incomplete. Tell us how we can help? ' . LeadFollowup::getLeadURL($bkgId, 'p') . ' - aaocab';
+		$changes	 = "You didn't complete your booking. Tell us why " . Filter::shortUrl(LeadFollowup::getLeadURL($bkgId, 'p')) . ". Use SAVE20 Promo and get discount upto 20% - aaocab";
 		$number		 = $model->bkg_contact_no;
 		if ($number != '')
 		{
@@ -2412,7 +2412,7 @@ class smsWrapper
 	public function linkCorporateOTP($country_code, $phone, $otp, $username)
 	{
 		$sms		 = new Messages();
-		//  $msg = 'Your Corporate account verification code is '.$otp.' -Gozocabs.';
+		//  $msg = 'Your Corporate account verification code is '.$otp.' -aaocab.';
 		$msg		 = $username . ' wants to register in your Gozo Corporate account. Approval OTP is ' . $otp;
 		//  $username.' wants to register in your Gozo Corporate account. Approval OTP is '.$otp.'OR click this link aaocab.com/abc/fhhf to approve';
 		$res		 = $sms->sendMessage($country_code, $phone, $msg);
@@ -2424,7 +2424,7 @@ class smsWrapper
 	public function linkBookingOTP($country_code, $phone, $otp, $username, $bkgId)
 	{
 		$sms		 = new Messages();
-		$msg		 = "Gozocabs Your Verification Code is: $otp . Please enter it in the space provided in the website.";
+		$msg		 = "aaocab Your Verification Code is: $otp . Please enter it in the space provided in the website.";
 		$res		 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype	 = SmsLog::Vendor;
 		$refId		 = smsWrapper::createLog($country_code, $phone, $bkgId, $msg, $res, $usertype, "", '', "1", "", 0);
@@ -2434,7 +2434,7 @@ class smsWrapper
 	public function linkDriverOTP($country_code, $phone, $otp, $username)
 	{
 		$sms		 = new Messages();
-		$msg		 = "Gozocabs driver Verification Code is: $otp . Please enter it in the space provided in the website.";
+		$msg		 = "aaocab driver Verification Code is: $otp . Please enter it in the space provided in the website.";
 		$res		 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype	 = SmsLog::Driver;
 		$refId		 = smsWrapper::createLog($country_code, $phone, "", $msg, $res, $usertype, "", '', "1", "", 0);
@@ -2446,7 +2446,7 @@ class smsWrapper
 		if ($number != '')
 		{
 			$sms		 = new Messages();
-			//$msg = 'PAYMENT OVERDUE. PAY ' . $amt . ' to GOZOCABS ACCT TO CONTINUE RECEIVING BOOKINGS';
+			//$msg = 'PAYMENT OVERDUE. PAY ' . $amt . ' to aaocab ACCT TO CONTINUE RECEIVING BOOKINGS';
 			//$msg = 'Payment overdue. Pay ' . $amt . ' to Gozo. Send your payments every week.';
 			$amtTxt		 = 'Rs ' . $amt;
 			$msg		 = "Payment overdue. Pay $amtTxt to Gozo. Send your payments every week.";
@@ -2472,7 +2472,7 @@ class smsWrapper
 	public static function informVendorOnBlocknFreezed($ext, $vndnumber, $messageText, $vndname, $vndid, $smstype = SmsLog::VENDOR_BLOCKED)
 	{
 		$sms		 = new Messages();
-		$msg		 = 'Dear ' . $vndname . ', ' . $messageText . '-Gozocabs';
+		$msg		 = 'Dear ' . $vndname . ', ' . $messageText . '-aaocab';
 		$res		 = $sms->sendMessage($ext, $vndnumber, $msg);
 		$usertype	 = SmsLog::Vendor;
 
@@ -2490,7 +2490,7 @@ class smsWrapper
 		$link		 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$paymentLink = Filter::shortUrl($link);
 		$sms		 = new Messages();
-		//$msg	 = 'Your payment of Rs.' . round($amt) . '/- on Gozocabs against Booking ID: ' . $model->bkg_booking_id . ' was successful. Please contact us at info@aaocab.com if you have any queries. Gozocabs.';
+		//$msg	 = 'Your payment of Rs.' . round($amt) . '/- on aaocab against Booking ID: ' . $model->bkg_booking_id . ' was successful. Please contact us at info@aaocab.com if you have any queries. aaocab.';
 		$response	 = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
 		if ($response->getStatus())
 		{
@@ -2504,7 +2504,7 @@ class smsWrapper
 		}
 		else
 		{
-			$msg = $model->bkg_booking_id . ' | Received Rs.' . round($model->bkgInvoice->bkg_advance_amount) . ' | See cab driver updates at ' . $paymentLink . ' - Gozocabs';
+			$msg = $model->bkg_booking_id . ' | Received Rs.' . round($model->bkgInvoice->bkg_advance_amount) . ' | See cab driver updates at ' . $paymentLink . ' - aaocab';
 		}
 
 		if ($model->bkg_agent_id > 0)
@@ -2559,7 +2559,7 @@ class smsWrapper
 		{
 			$msg .= "To stop the trip SMS 'STOP " . $bkid . ' ' . $otp . " <ODOMETER>' TO 8340000181 ";
 		}
-		$msg		 .= '- Gozocabs';
+		$msg		 .= '- aaocab';
 		$res		 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype	 = SmsLog::Corporate;
 		$refId		 = smsWrapper::createLog($country_code, $phone, $bkgid, $msg, $res, $usertype, "", '', '', '', 0);
@@ -2571,7 +2571,7 @@ class smsWrapper
 
 		$country_code	 = 91;
 		$sms			 = new Messages();
-		$msg			 = "Dear Driver, please send SMS in correct format. ie. 'START <LAST 7 DIGIT BOOKING ID> <OTP>'. - Gozocabs";
+		$msg			 = "Dear Driver, please send SMS in correct format. ie. 'START <LAST 7 DIGIT BOOKING ID> <OTP>'. - aaocab";
 		$res			 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype		 = SmsLog::Corporate;
 		$refId			 = smsWrapper::createLog($country_code, $phone, '', $msg, $res, $usertype, "", '', '', '', 0);
@@ -2583,7 +2583,7 @@ class smsWrapper
 
 		$country_code	 = 91;
 		$sms			 = new Messages();
-		$msg			 = "Dear Driver, booking id sent is incorrect. Please send last 6 digit of your booking id in valid format. ie. 'START <LAST 6 DIGIT BOOKING ID> <OTP>' . - Gozocabs";
+		$msg			 = "Dear Driver, booking id sent is incorrect. Please send last 6 digit of your booking id in valid format. ie. 'START <LAST 6 DIGIT BOOKING ID> <OTP>' . - aaocab";
 		$res			 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype		 = SmsLog::Corporate;
 		$refId			 = smsWrapper::createLog($country_code, $phone, '', $msg, $res, $usertype, "", '', '', '', 0);
@@ -2594,7 +2594,7 @@ class smsWrapper
 	{
 		$country_code	 = 91;
 		$sms			 = new Messages();
-		$msg			 = "Dear $drvName, OTP is not verified for your booking $bkgid. Send correct OTP in valid format to start the trip - Gozocabs";
+		$msg			 = "Dear $drvName, OTP is not verified for your booking $bkgid. Send correct OTP in valid format to start the trip - aaocab";
 		$res			 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype		 = SmsLog::Corporate;
 		$refId			 = smsWrapper::createLog($country_code, $phone, $bkgid, $msg, $res, $usertype, "", '', '', '', 0);
@@ -2605,7 +2605,7 @@ class smsWrapper
 	{
 		$country_code	 = 91;
 		$sms			 = new Messages();
-		$msg			 = "Dear $drvName, OTP is not verified for your booking $bkgid. Send correct OTP in valid format to stop the trip - Gozocabs";
+		$msg			 = "Dear $drvName, OTP is not verified for your booking $bkgid. Send correct OTP in valid format to stop the trip - aaocab";
 		$res			 = $sms->sendMessage($country_code, $phone, $msg, 0);
 		$usertype		 = SmsLog::Corporate;
 		$refId			 = smsWrapper::createLog($country_code, $phone, $bkgid, $msg, $res, $usertype, "", '', '', '', 0);
@@ -2854,7 +2854,7 @@ class smsWrapper
 		$vndHash	 = Yii::app()->shortHash->hash($vndId);
 		$vendorLink	 = 'http://www.aaocab.com/vndsl/' . $vndId . '/' . $vndHash;
 		$ext		 = ($ext != '') ? $ext : 91;
-		$msg		 = 'Our Gozo Partner App update requires linking of your Gozo Account with your Social Account (Google or Facebook). Please visit ' . $vendorLink . ' to update and enable your social login to the App. GozoCabs.';
+		$msg		 = 'Our Gozo Partner App update requires linking of your Gozo Account with your Social Account (Google or Facebook). Please visit ' . $vendorLink . ' to update and enable your social login to the App. aaocab.';
 		$res		 = $sms->sendMessage($ext, $number, $msg, 0);
 		$usertype	 = SmsLog::Vendor;
 		$smstype	 = SmsLog::SMS_VENDOR_ASSIGNED;
@@ -2867,7 +2867,7 @@ class smsWrapper
 	{
 		$sms = new Messages();
 		$ext = ($ext != '') ? $ext : 91;
-		$msg = 'Please enter this OTP: ' . $otp . ' in your Partner App to attach your social account - Gozocabs';
+		$msg = 'Please enter this OTP: ' . $otp . ' in your Partner App to attach your social account - aaocab';
 		$res = $sms->sendMessage($ext, $number, $msg, 0, 1, self::DLT_PARTNER_ATTACH_SOCIAL_OTP_TEMPID);
 
 		$userInfo	 = UserInfo::getInstance();
@@ -3041,19 +3041,19 @@ class smsWrapper
 					$url			 = 'http://www.aaocab.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'tpk' => $tempPkHash, 'v' => $vndHash]);
 					$msg			 = 'Dear' . ' ' . $userName . '' .
 							' Your Phone number ' . $ext . '' . $number . ' is being added by ' . $vndName . ' as a' . $userType . ' to Gozo Cabs' .
-							' To allow click here >>  : ' . $url . '- Gozocabs';
+							' To allow click here >>  : ' . $url . '- aaocab';
 
 					break;
 				case Contact::NEW_CON_TEMPLATE:
 					$msg	 = 'Dear' . ' ' . $userName . '' .
-							' Please click on this : ' . $url . ' to confirm your phone number. Once complete, you can use the phone to activate your account. - Gozocabs';
+							' Please click on this : ' . $url . ' to confirm your phone number. Once complete, you can use the phone to activate your account. - aaocab';
 					$dltId	 = self::DLT_VERIFY_PHONE_LINK_TEMPID;
 					break;
 				case Contact::MODIFY_CON_TEMPLATE:
 					$numHash = base64_encode($number);
 					$url	 = 'http://www.aaocab.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'num' => $numHash]);
 					$msg	 = 'Dear' . ' ' . $userName . '' .
-							' Please click on this :' . $url . ' to modify your phone number. - Gozocabs';
+							' Please click on this :' . $url . ' to modify your phone number. - aaocab';
 					break;
 				default:
 					break;
@@ -3152,7 +3152,7 @@ class smsWrapper
 		if (!empty($phn_phone_no) && !empty($phn_country_code))
 		{
 			$isDelay	 = 0;
-			$msg		 = "How was your ride " . $bookingId . ">> " . $slink . " Rate now. You get 100 Gozo coins & we will reward team members who do good - Gozocabs";
+			$msg		 = "How was your ride " . $bookingId . ">> " . $slink . " Rate now. You get 100 Gozo coins & we will reward team members who do good - aaocab";
 			$sms		 = new Messages();
 			$res		 = $sms->sendMessage($phn_country_code, $phn_phone_no, $msg, $isDelay);
 			$usertype	 = SmsLog::Consumers;
@@ -3220,7 +3220,7 @@ class smsWrapper
 		if ($type == SmsLog::SMS_FORGET_PASSWORD)
 		{
 			//$dltId = self::DLT_OTP_FORGOTPASSWORD;
-			$msg = $otp . ' is your Gozo OTP for Forgot Password. Do not share it with anyone - Gozocabs';
+			$msg = $otp . ' is your Gozo OTP for Forgot Password. Do not share it with anyone - aaocab';
 		}
 		if ($isCerfAllowed && $isCerf)
 		{
@@ -3260,7 +3260,7 @@ class smsWrapper
 	{
 		$sms		 = new Messages();
 		$ext		 = ($ext != '') ? $ext : 91;
-		$msg		 = 'Our Gozo Partner App update requires linking of your Gozo Account with your Social Account (Google or Facebook). Please visit ' . $link . ' to update and enable your social login to the App. GozoCabs.';
+		$msg		 = 'Our Gozo Partner App update requires linking of your Gozo Account with your Social Account (Google or Facebook). Please visit ' . $link . ' to update and enable your social login to the App. aaocab.';
 		$res		 = $sms->sendMessage($ext, $number, $msg, 0);
 		$usertype	 = SmsLog::Vendor;
 		$smstype	 = SmsLog::SMS_TUTORIAL_LINK;
@@ -3272,7 +3272,7 @@ class smsWrapper
 	{
 		$sms		 = new Messages();
 		$ext		 = ($ext != '') ? $ext : 91;
-		$msg		 = 'Congratulations! Your vendor account is approved - Gozocabs';
+		$msg		 = 'Congratulations! Your vendor account is approved - aaocab';
 		$res		 = $sms->sendMessage($ext, $number, $msg, 0);
 		$usertype	 = SmsLog::Vendor;
 		$smstype	 = SmsLog::SMS_APPROVE_VENDOR;
@@ -3292,7 +3292,7 @@ class smsWrapper
 				$currentDate = date("Y-m-d H:i:s");
 				$host		 = explode("=", explode(";", $connectionString)[0])[1];
 				$isRunning	 = $isSlaverRunning ? "Yes" : "No";
-				$msg		 = 'Database server issue. Date: ' . $currentDate . ', IP:' . $host . ', Down: ' . $isRunning . ', Delay: ' . $delayedByTime . ' Second - Gozocabs';
+				$msg		 = 'Database server issue. Date: ' . $currentDate . ', IP:' . $host . ', Down: ' . $isRunning . ', Delay: ' . $delayedByTime . ' Second - aaocab';
 				$res		 = $sms->sendMessage($ext, $value, $msg, 0);
 				$usertype	 = null;
 				smsWrapper::createLog($ext, $value, "", $msg, $res, $usertype);
@@ -3338,13 +3338,13 @@ class smsWrapper
 		$isCerfAllowed = Config::get("cerf.int.sms.isAllowed.value");
 		if ($isCerfAllowed)
 		{
-			$msg = $otp . 'is the OTP for cancel your booking. Do not share it with anyone - Gozocabs';
+			$msg = $otp . 'is the OTP for cancel your booking. Do not share it with anyone - aaocab';
 			$res = SMSCerf::sendMessage($ext, $number, $msg, 0);
 		}
 		else
 		{
 			$sms = new Messages();
-			$msg = $otp . ' is the OTP for cancel your booking. Do not share it with anyone - Gozocabs';
+			$msg = $otp . ' is the OTP for cancel your booking. Do not share it with anyone - aaocab';
 			$res = $sms->sendMessage($ext, $number, $msg, 0, 1, self::DLT_APP_OTP_TEMPID, 4);
 		}
 		$usertype = SmsLog::Consumers;

@@ -6,7 +6,7 @@
 		<a href="#" data-menu="sidebar-right-over" class="header-icon header-icon-4"><i class="fa fa-bars"></i></a>
 	</div>
 	<div class="header-line-2 header-scroll-effect">
-        <a href="/" class="header-title default-link display-inline" style="width: 130px; margin-top: 7px !important" aria-label="GozoCabs"><img src="/images/gozo_svg_logo.svg" fetchpriority='high' class="preload-image" width="110" height="62" alt="GozoCabs" title="GozoCabs"aria-label="Go to home page"></a>
+        <a href="/" class="header-title default-link display-inline" style="width: 130px; margin-top: 7px !important" aria-label="aaocab"><img src="/images/gozo_svg_logo.svg" fetchpriority='high' class="preload-image" width="110" height="62" alt="aaocab" title="aaocab"aria-label="Go to home page"></a>
 		<a href="/flashsale" class="display-inline header-icon header-icon-3 pt0 pl5 absolute-1" aria-label="Flash Sale"><img data-original="/images/flash_sale.svg?v=0.12" alt="Flash Sale" class="preload-image" width="17" height="20"></a>
 		<a href="#" data-menu="sidebar-right-over" class="header-icon header-icon-1" aria-label="Sidebar"><img data-original="/images/side-bar.svg"  class="preload-image ml5" alt="Side bar" width="12" class="ml5"></a>
 		<a href="#" class="header-icon header-icon-2 helpline" aria-label="Phone"><img data-original="/images/phone-1.svg" alt="Call" width="12" class="ml5 preload-image"></a>

@@ -97,10 +97,10 @@ class Auth
 		 */
 		if (empty($this->provider))
 		{
-			$this->provider = \SocialAuth::Provider_Gozocabs;
+			$this->provider = \SocialAuth::Provider_aaocab;
 		}
 
-		if ($this->provider == \SocialAuth::Provider_Gozocabs)
+		if ($this->provider == \SocialAuth::Provider_aaocab)
 		{
 			return $this->getUserModel();
 		}

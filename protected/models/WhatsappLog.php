@@ -2057,7 +2057,7 @@ class WhatsappLog extends CActiveRecord
 		$cttModel	 = Contact::model()->findByPk($contactId);
 		$userName	 = (!empty(trim($cttModel->ctt_business_name)) ? trim($cttModel->ctt_business_name) : ($cttModel->ctt_first_name . ' ' . $cttModel->ctt_last_name));
 
-		$partnerAppUrl	 = 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en&gl=US';
+		$partnerAppUrl	 = 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en&gl=US';
 		$lang			 = 'en_US';
 		$templateName	 = 'account_approve_to_vendor';
 		$arrDBData		 = ['entity_type' => UserInfo::TYPE_VENDOR, 'entity_id' => $vndId];
@@ -2266,7 +2266,7 @@ class WhatsappLog extends CActiveRecord
 			{
 				$userName = $cttModel->ctt_business_name;
 			}
-			$link = 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&amp;hl=en&amp;gl=US';
+			$link = 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&amp;hl=en&amp;gl=US';
 
 			$arrWhatsAppData = [$userName, $link];
 
@@ -2348,7 +2348,7 @@ class WhatsappLog extends CActiveRecord
 			{
 				$userName = $cttModel->ctt_business_name;
 			}
-			$link = 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&amp;hl=en&amp;gl=US';
+			$link = 'https://play.google.com/store/apps/details?id=com.aaocab.vendor&amp;hl=en&amp;gl=US';
 
 			$arrWhatsAppData = [$userName, $link];
 

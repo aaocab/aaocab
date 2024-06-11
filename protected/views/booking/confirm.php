@@ -78,7 +78,7 @@ if ($response->getStatus())
                 <label class="col-xs-6"><i class=" fa fa-inr"></i> <?= $model->bkg_amount ?></label>
             </div>
             <div class="row ">
-                <label class="col-xs-10">Thank you for choosing Gozocabs!</label>
+                <label class="col-xs-10">Thank you for choosing aaocab!</label>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4">

@@ -72,7 +72,7 @@ class Lazypay extends CComponent
 		$param_list['phone']		 = $payRequest->mobile;
 		$param_list['returnUrl']	 = YII::app()->createAbsoluteUrl('lazypay/response');
 		$param_list['notifyUrl']	 = YII::app()->createAbsoluteUrl('lazypay/response');
-		$param_list['source']		 = 'Gozocabs';
+		$param_list['source']		 = 'aaocab';
 		return $param_list;
 	}
 

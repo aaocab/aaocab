@@ -25,10 +25,10 @@ if (Yii::app()->request->isAjaxRequest) {
                         <div class="row flex m0">
                             <div class="col-sm-6 p0 signin-left">
                                 <div class="pt30 pb30">
-                                    <div class="mt20 mb30"><img src="<?=IMAGE_URL?>/logo_outstation.png" alt="Gozocabs"></div>
+                                    <div class="mt20 mb30"><img src="<?=IMAGE_URL?>/logo_outstation.png" alt="aaocab"></div>
                                     <div class="mt50 mb5"><b>Book with Gozo cabs mobile app</b></div>
                                     <div class="mb50">
-                                        <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+                                        <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
                                     </div>
                                     <div class="h1 mt50 pt40 orange-color">
                                         India's Leader<br>
@@ -44,8 +44,8 @@ if (Yii::app()->request->isAjaxRequest) {
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 p0">
-                                <div class="h3 mt40 orange-color text-center" style="font-weight: normal">Log In to Gozocabs</div>
-                                <div class="h5 text-center" style="font-weight: normal">New to Gozocabs? <a href="/signup">Sign up</a></div>
+                                <div class="h3 mt40 orange-color text-center" style="font-weight: normal">Log In to aaocab</div>
+                                <div class="h5 text-center" style="font-weight: normal">New to aaocab? <a href="/signup">Sign up</a></div>
                                 <?php
                                 $form = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                     'id' => 'plogin-form', 'enableClientValidation' => true,
@@ -98,7 +98,7 @@ if (Yii::app()->request->isAjaxRequest) {
                                         <a class="btn btn-lg btn-social btn-facebook pl15 pr15" target="_blank" href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook')); ?>"><i class="fa fa-facebook pr5" style="font-size: 22px;"></i> Login with Facebook</a>
                                     </div>
                                     <div class="col-xs-12 col-md-8 col-md-offset-2 google-btn">
-                                        <a class="btn btn-lg btn-social btn-googleplus pl15 pr15" target="_blank"  href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google')); ?>"><img src="../images/google_icon.png" alt="Gozocabs"> Login with Google</a>
+                                        <a class="btn btn-lg btn-social btn-googleplus pl15 pr15" target="_blank"  href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google')); ?>"><img src="../images/google_icon.png" alt="aaocab"> Login with Google</a>
                                     </div>
                                     <a class="btn btn-lg btn-social btn-linkedin pl15 pr15 hide" target="_blank" href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'LinkedIn')); ?>"><i class="fa fa-linkedin"></i></a>
                                     <div class="col-xs-12 mt30 h4 style_or"><span class="style_or2">OR</span></div>
@@ -125,7 +125,7 @@ if (Yii::app()->request->isAjaxRequest) {
                                     </div>
                                 </div>
                                 <?php $this->endWidget(); ?>
-                                <div class="h5 text-right mr40 mb20" style="font-weight: normal">New to Gozocabs? <a href="/signup">Sign up</a></div>
+                                <div class="h5 text-right mr40 mb20" style="font-weight: normal">New to aaocab? <a href="/signup">Sign up</a></div>
 
                             </div>
                         </div>

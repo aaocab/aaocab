@@ -8,7 +8,7 @@ Yii::setPathOfAlias('booster', dirname(__FILE__) . DIRECTORY_SEPARATOR . '../ext
 Yii::setPathOfAlias('publicpath', PUBLIC_PATH);
 return array(
 	'basePath'			 => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-	'name'				 => 'Gozocabs',
+	'name'				 => 'aaocab',
 	'defaultController'	 => 'index/index',
 	'language'			 => 'en_in',
 	'localeDataPath'	 => realpath(__DIR__ . '/../locale/data'),
@@ -380,7 +380,7 @@ return array(
 		'zipRegex'								 => '(^\d{6}$)',
 		'RestfullYii'							 => require( __DIR__ . '/rest.php'),
 		// this is used in contact page
-		'adminEmail'							 => 'leadership@gozocabs.in',
+		'adminEmail'							 => 'leadership@aaocab.in',
 		'perDayMinDistance'						 => 250,
 		'listPerPage'							 => 20,
 		'serviceTaxRate'						 => 6,

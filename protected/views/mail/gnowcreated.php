@@ -284,7 +284,7 @@ $contactName = ($userName != '')? $userName : $travellerName;
 
 						<table style="width: 100%; position: relative; float: left; position: relative; border: #DFE4EE 1px solid; margin-bottom: 20px; font-family: 'Arial'; line-height: 18px;">
 							<tr>
-								<td><a href="http://www.aaocab.com/book-cab" target="_black"><img src="<?= $baseURL ?>/images/hotlink-ok/local_rental.png" alt="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" title="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
+								<td><a href="http://www.aaocab.com/book-cab" target="_black"><img src="<?= $baseURL ?>/images/hotlink-ok/local_rental.png" alt="aaocab | Loved your trip | Give us a video testimonial | 20% get cash back" title="aaocab | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
 							</tr>		
 						</table>
 						

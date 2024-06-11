@@ -99,9 +99,9 @@ class SitemapController extends BaseController
 		$main[]	 = $this->createList($app->createAbsoluteUrl('/signin'), 'Signin', 'monthly', '0.7');
 		$main[]	 = $this->createList($app->createAbsoluteUrl('/signup'), 'Register', 'monthly', '0.7');
 		$main[]	 = $this->createList($app->createAbsoluteUrl('/index/testimonial'), 'Testimonial', 'daily', '0.7');
-		$main[]	 = $this->createList('http://www.facebook.com/gozocabs', 'Facebook', 'daily', '0.7');
-		$main[]	 = $this->createList('http://www.twitter.com/gozocabs', 'Twitter', 'daily', '0.7');
-		#$main[]	 = $this->createList('http://www.plus.google.com/+Gozocabs', 'Google+', 'daily', '0.7');
+		$main[]	 = $this->createList('http://www.facebook.com/aaocab', 'Facebook', 'daily', '0.7');
+		$main[]	 = $this->createList('http://www.twitter.com/aaocab', 'Twitter', 'daily', '0.7');
+		#$main[]	 = $this->createList('http://www.plus.google.com/+aaocab', 'Google+', 'daily', '0.7');
 		return $main;
 	}
 

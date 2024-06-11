@@ -240,7 +240,7 @@ if (!Yii::app()->user->isGuest)
 			<li>
 				<a href="<?php echo Yii::app()->createUrl('/whygozo'); ?>">
 <!--				<i class='fa fa-car color-green-dark'></i>-->
-					<span class="pl0">Why GozoCabs</span>
+					<span class="pl0">Why aaocab</span>
 					<i class="pt10"><img src="/images/bx-arrowright.svg" alt="arrow" width="24" height="24" class="float-right"></i>
 				</a>
 			</li>  

@@ -549,9 +549,9 @@ $hash								 = Yii::app()->shortHash->hash($model->bkg_id);
 						Maximum SuperCash that can be availed shall be Rs.200. </li>
 					<li class="pb5">
 						Customer can avail this offer once during the offer period. </li>
-					<li class="pb5">This offer is governed by terms and conditions laid out by Mobikwik. Gozocabs shall not be responsible for applicability of such Cashback. Any dispute or claims, pertaining to such Cashback shall have to be taken up with Mobikwik only.
+					<li class="pb5">This offer is governed by terms and conditions laid out by Mobikwik. aaocab shall not be responsible for applicability of such Cashback. Any dispute or claims, pertaining to such Cashback shall have to be taken up with Mobikwik only.
 					</li>
-					<li class="pb5">This offer is over and above any offer issued by Gozocabs. Any Offer, Discount or Benefit offered by Gozocabs are independent of any offers made by Mobikwik.
+					<li class="pb5">This offer is over and above any offer issued by aaocab. Any Offer, Discount or Benefit offered by aaocab are independent of any offers made by Mobikwik.
 					</li>
 					<li>
 						Offer period: 5th June, 2018 to 30th June, 2018
@@ -1542,7 +1542,7 @@ if (Yii::app()->params['enablePayuBolt'] == 1)
 			"key": data3.key, // Enter the Key ID generated from the Dashboard
 			"amount": data3.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
 			"currency": data3.currency,
-			"name": "Gozocabs",
+			"name": "aaocab",
 			"description": "Make Payment",
 			"image": "http://www.aaocab.com/images/gozo_svg_logo.svg?v0.1",
 			"order_id": data3.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1

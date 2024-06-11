@@ -11,7 +11,7 @@
 
 <div id="modal-sign-Up" data-selected="menu-components" data-width="320" data-height="600" class="menu-box menu-modal">
 	<div class="menu-title"><a href="#" class="menu-hide mt15 n" id="menubox"><i class="fa fa-times"></i></a>
-        <h1>Sign Up to Gozocabs</h1>
+        <h1>Sign Up to aaocab</h1>
     </div>
     <div class="menu-page signUpBody"></div>   
 </div>
@@ -205,7 +205,7 @@ if ((int) $botConfig["show"] > 0)
 			<li id="menu-contact">
 				<a href="/whygozo">
 					<i class="fas fa-comments color-pinterest"></i>
-					<span>Why GozoCabs</span>
+					<span>Why aaocab</span>
 					<i class="fa fa-angle-right"></i>
 				</a>
 			</li>

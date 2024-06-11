@@ -204,7 +204,7 @@ I Agree to the <a href="/terms/channelpartner">Terms and Conditions Channel Part
 	<div class="content p0 bottom-0">
 		<h4 class="ultrabold font-16">Any questions? Contact our Travel Partner team</h4>
 		<p class="mb10 hide"><img src="<?= Yii::app()->baseUrl ?>/images/india-flag.png" alt="INDIA" class="display-ini mr10"><a href="tel:9051877000">(+91) 90518 77000 (24x7)</a></p>
-		<p><i class="fa fa-envelope mr0" style="font-size:14px; color: #fb6523;"></i> <a href="mailto:channel@gozocabs.in" style="color:#000;">channel@gozocabs.in</a></p>
+		<p><i class="fa fa-envelope mr0" style="font-size:14px; color: #fb6523;"></i> <a href="mailto:channel@aaocab.in" style="color:#000;">channel@aaocab.in</a></p>
 		<h4 class="ultrabold font-16 mt30">DCO's and Cab Operators...</h4>
 		<a href="<?php echo Yii::app()->createUrl('/vendor/join'); ?>" class="uppercase btn-green pl10 pr10 mr5 default-link">Attach your cab here</a>
 	</div>

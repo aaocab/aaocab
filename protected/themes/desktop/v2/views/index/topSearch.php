@@ -61,7 +61,7 @@ $timeonload =  DateTimeFormat::DateTimeToTimePicker($defaultNewDate);
 <header class="container header-height p0">
     <nav class="navbar navbar-expand-lg navbar-light pl0 pr0">
         <div class="col-3 pl0 pr0">
-            <a class="" href="/"><img src="/images/gozo_svg_logo.svg?v0.1" width="155" height="50" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a></div>
+            <a class="" href="/"><img src="/images/gozo_svg_logo.svg?v0.1" width="155" height="50" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a></div>
 		<!--        <div class="col-3 pl0">
 					<span class="color-gray">24x7 Customer Service</span><br>
 					<span class="font-14">(+91) 90518-77-000  |  (+1) 650-741-GOZO</span>
@@ -99,7 +99,7 @@ $timeonload =  DateTimeFormat::DateTimeToTimePicker($defaultNewDate);
     <header>
         <div class="logos">
             <span class="logoss">
-                <a class="" href="/"><img src="/images/gozo_svg_logo.svg?v0.1" width="120" height="39" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a></span></div>
+                <a class="" href="/"><img src="/images/gozo_svg_logo.svg?v0.1" width="120" height="39" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a></span></div>
         <div class="container">
             <div class="row search-panel">
                 <div class="col-12 text-center">
@@ -1079,7 +1079,7 @@ if (trim($brtModel->brt_to_city_id) == "")
 											if ($i == 2)
 											{
 												?>
-												<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="blank"><img data-src="/images/reviews/<?php print('0' . $i) ?>.png?v=2.08" alt="img" class="lozad" width="368" height="210"></a>
+												<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="blank"><img data-src="/images/reviews/<?php print('0' . $i) ?>.png?v=2.08" alt="img" class="lozad" width="368" height="210"></a>
 												<?php
 											}
 											else if ($i == 6)

@@ -75,7 +75,7 @@ $this->beginContent('//layouts/head');
 								?>
 								<div class="aside-backdrop"></div>
 								<a class="navbar-brand" href="/">
-									<img src="/images/gozo-white.webp?v=0.2" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." aria-label="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="100" height="34">
+									<img src="/images/gozo-white.webp?v=0.2" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." aria-label="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="100" height="34">
 								</a>
 							</li>
 						</ul>

@@ -60,7 +60,7 @@ if (!$isLoggedin) {
 <span class="hidden-sm hidden-md hidden-lg" style="font-size:20px;cursor:pointer; position:absolute; padding: 5px; top: 16px; right: 11px; z-index: 99;"><i class="fa fa-bars"></i></span>
 
 <div class="logo-panel">
-	<a class="" href="/"><amp-img width="100" height="36" src="/images/gozo-white.svg?v1.5" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></amp-img></a>
+	<a class="" href="/"><amp-img width="100" height="36" src="/images/gozo-white.svg?v1.5" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></amp-img></a>
 	
 		
 		

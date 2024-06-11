@@ -40,7 +40,7 @@ class emailWrapper
 			$mail->setData(array('arr' => $bookarr));
 			$mail->setLayout('mail');
 			$mail->setTo($email, $fName);
-			$subject				 = 'Welcome to GozoCabs.';
+			$subject				 = 'Welcome to aaocab.';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
 			{
@@ -94,7 +94,7 @@ class emailWrapper
 			$mail->setData(array('arr' => $arrInfo));
 			$mail->setLayout('mail');
 			$mail->setTo($email, $fName);
-			$subject				 = 'Welcome to GozoCabs.';
+			$subject				 = 'Welcome to aaocab.';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(1))
 			{
@@ -137,7 +137,7 @@ class emailWrapper
 		);
 
 		$mail->setLayout('mail');
-		//$mail->setFrom('jsrankesh.singh@gmail.com', 'Info GozoCabs');
+		//$mail->setFrom('jsrankesh.singh@gmail.com', 'Info aaocab');
 		$mail->setTo($email, $agentEmail);
 		$mail->setSubject('Welcome to the Gozo B2B travel network');
 
@@ -155,7 +155,7 @@ class emailWrapper
                 <br/>2. Use your username and password to login
                 <br/>3. Goto Partner profile and update your information.
                 <br/>4. You can start to create bookings.
-                <br/>If you have any questions or have any special requests please email us directly at channel@gozocabs.in
+                <br/>If you have any questions or have any special requests please email us directly at channel@aaocab.in
                 <br/><br/>Regards,
                 <br/>Gozo B2B sales
                 ';
@@ -974,14 +974,14 @@ class emailWrapper
 			$mail->clearView();
 			$mail->clearLayout();
 			$body					 = 'Dear ' . $model->bkgUserInfo->getUsername() . ',<br/><br/>
-            Thanks for traveling with GozoCabs ( Booking ID :' . $model->bkg_booking_id . '). We would love to hear your feedback on how we did.
+            Thanks for traveling with aaocab ( Booking ID :' . $model->bkg_booking_id . '). We would love to hear your feedback on how we did.
             <br/><br/>Please tell us what you think about the car, driver, our customer service and any suggestion you have for us to do better.
             <br/><br/><a href="' . $link . '">' . $link . '</a>
-            <br/><br/>Regards,<br/>GozoCabs Support<br/>+91-90518-77-000';
+            <br/><br/>Regards,<br/>aaocab Support<br/>+91-90518-77-000';
 
 			$mail->setBody($body);
 
-			//$mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//$mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $model->bkgUserInfo->getUsername());
 			$subject = 'Your trip with Gozo. How did we do?';
 			$mail->setSubject($subject);
@@ -1007,7 +1007,7 @@ class emailWrapper
 
 		if ($user_email <> '')
 		{
-			$fbLink	 = "<a href='http://www.facebook.com/gozocabs'>Like</a>";
+			$fbLink	 = "<a href='http://www.facebook.com/aaocab'>Like</a>";
 			$subject = "Book your Gozo again...";
 			$body	 = 'Dear ' . $user_name . ',<br/><br/>
             Thanks for being a Gozo customer. its been over 3 months since your last trip.
@@ -1093,7 +1093,7 @@ class emailWrapper
 			));
 
 			$mail->setLayout('mail');
-			// $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			// $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $model->bkgUserInfo->getUsername());
 			$subject = 'Review Request – Booking ID : ' . $model->bkg_booking_id;
 			$mail->setSubject($subject);
@@ -1140,7 +1140,7 @@ class emailWrapper
 			));
 			$mail->setLayout('mail');
 			$mail->setTo($email, $model->bkgUserInfo->getUsername());
-			$subject				 = 'GozoCabs -  Reconfirm and make payment for ' . $model->bkg_booking_id;
+			$subject				 = 'aaocab -  Reconfirm and make payment for ' . $model->bkg_booking_id;
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -1157,7 +1157,7 @@ class emailWrapper
 			$elgId		 = emailWrapper::createLog($email, $subject, $body, $model->bkg_booking_id, $usertype, $delivered, EmailLog::EMAIL_BOOKING_VERIFICATION_CODE, $refType, $refId, EmailLog::SEND_CONSUMER_BATCH_EMAIL);
 			if ($model->bkg_id != '')
 			{
-				$desc = "Email sent on Verification Code - GozoCabs.";
+				$desc = "Email sent on Verification Code - aaocab.";
 
 				$eventId						 = BookingLog::EMAIL_SENT;
 				$oldModel						 = clone $model;
@@ -1231,7 +1231,7 @@ class emailWrapper
 			$elgId		 = emailWrapper::createLog($email, $subject, $body, $model->bkg_booking_id, $usertype, $delivered, EmailLog::EMAIL_BOOKING_VERIFICATION_CODE, $refType, $refId, EmailLog::SEND_CONSUMER_BATCH_EMAIL, $status);
 			if ($model->bkg_id != '')
 			{
-				$desc = "Email sent on Verification Code - GozoCabs.";
+				$desc = "Email sent on Verification Code - aaocab.";
 
 				$eventId						 = BookingLog::EMAIL_SENT;
 				$oldModel						 = clone $model;
@@ -1264,9 +1264,9 @@ class emailWrapper
 						'arr' => $bookarr,
 			));
 			$mail->setLayout('mail');
-			//  $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//  $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $model->usr_name . ' ' . $model->usr_lname);
-			$subject				 = 'Welcome to GozoCabs';
+			$subject				 = 'Welcome to aaocab';
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -1301,12 +1301,12 @@ class emailWrapper
 			$mail->Html				 = true;
 
 			$mail->Body	 = "Dear Friend,<br><br>I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.<br>
-GozoCabs is India’s leader in long distance taxi travel. Please visit <a href=" . $inviteLink . ">" . $inviteLink . "</a> to register and get a credit of 50 points towards your future travel needs.</br></br></br>
+aaocab is India’s leader in long distance taxi travel. Please visit <a href=" . $inviteLink . ">" . $inviteLink . "</a> to register and get a credit of 50 points towards your future travel needs.</br></br></br>
 Regards,<br>
-GozoCabs Team";
-			//$mail->Body = $model->usr_name . ' ' . $model->usr_lname . ' has invited you to join GozoCabs. Please click on the link below to register and create your Gozo account<br><a href=' . Yii::app()->createAbsoluteUrl('/signup', ['refcode' => $refcode, 'mail' => $email, 'fname' => $fname, 'lname' => $lname]) . '>click here</a> and gain points worth Rs.' . $amount;
+aaocab Team";
+			//$mail->Body = $model->usr_name . ' ' . $model->usr_lname . ' has invited you to join aaocab. Please click on the link below to register and create your Gozo account<br><a href=' . Yii::app()->createAbsoluteUrl('/signup', ['refcode' => $refcode, 'mail' => $email, 'fname' => $fname, 'lname' => $lname]) . '>click here</a> and gain points worth Rs.' . $amount;
 			$mail->setTo($email, $fname . " " . $lname);
-			$subject	 = 'GozoCabs';
+			$subject	 = 'aaocab';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
 			{
@@ -1341,7 +1341,7 @@ GozoCabs Team";
 			$mail->Body				 = 'Congratulations !<br>We are happy to announce that ' . $referredName . ' took his/her first Gozo ride today. Your successful Gozo invite earns you Gozo Coins worth Rs.' . $amount . '. You may now redeem these Gozo Coins against your bookings with us.';
 			$mail->setTo($email, $model->usr_name . " " . $model->usr_lname);
 			$mail->setData(["email_receipient" => $email, 'userId' => $referer]);
-			$subject				 = 'GozoCabs';
+			$subject				 = 'aaocab';
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -1382,9 +1382,9 @@ GozoCabs Team";
 						'damount'		 => $damount
 			));
 			$mail->setLayout('mail');
-			// $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			// $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $name);
-			$subject				 = 'Special promotion code from GozoCabs';
+			$subject				 = 'Special promotion code from aaocab';
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -1446,8 +1446,8 @@ GozoCabs Team";
 			$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 			$mail->clearView();
 			$mail->clearLayout();
-			$mail->setFrom('info@aaocab.com', 'Info GozoCabs');
-			$mail->setTo('leadership@gozocabs.in', 'Leaders GozoCabs');
+			$mail->setFrom('info@aaocab.com', 'Info aaocab');
+			$mail->setTo('leadership@aaocab.in', 'Leaders aaocab');
 			$mail->setBody($msg);
 			$subject = 'Daily Business Report';
 			$mail->setSubject($subject);
@@ -1461,7 +1461,7 @@ GozoCabs Team";
 			}
 			$body		 = $msg;
 			$usertype	 = EmailLog::Admin;
-			$email		 = 'leadership@gozocabs.in';
+			$email		 = 'leadership@aaocab.in';
 
 			emailWrapper::createLog($email, $subject, $body, "", $usertype, $delivered, '', '', '', EmailLog::SEND_ACCOUNT_EMAIL);
 		}
@@ -1569,9 +1569,9 @@ GozoCabs Team";
 						'arr' => $bookarr,
 			));
 			$mail->setLayout('mail');
-			//  $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//  $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $model->bkgUserInfo->getUsername());
-			$subject = 'Welcome to GozoCabs';
+			$subject = 'Welcome to aaocab';
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -1614,7 +1614,7 @@ GozoCabs Team";
 			));
 			$subject				 = 'Your Meter Down account is ready';
 			//$mail->setLayout('mail');
-			// $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			// $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $model->vnd_name);
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
@@ -1644,7 +1644,7 @@ GozoCabs Team";
 			$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 			$mail->clearView();
 			$mail->clearLayout();
-			//   $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//   $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email);
 			$mail->setBody($body);
 			$subject = "Re: Feedback for Gozo Trip (Booking Id: $id)";
@@ -1701,7 +1701,7 @@ GozoCabs Team";
 						'arr' => $bookarr,
 			));
 			$mail->setLayout('mail1');
-			//  $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//  $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $toName);
 			$subject				 = 'Welcome to the Gozo B2B travel network';
 			$mail->setSubject($subject);
@@ -1830,7 +1830,7 @@ GozoCabs Team";
 			$mail->clearLayout();
 			$mail->setLayout('mail1');
 			$mail->setTo($email);
-			$mail->setBcc(Yii::app()->params['adminEmail'], 'Leadership - GozoCabs');  // Yii::app()->params['adminEmail'], 'Leadership - GozoCabs'
+			$mail->setBcc(Yii::app()->params['adminEmail'], 'Leadership - aaocab');  // Yii::app()->params['adminEmail'], 'Leadership - aaocab'
 			if ($emailParams['bkg_user_email'] != '')
 			{
 				$replyToEmail	 = $emailParams['bkg_user_email'];
@@ -2009,7 +2009,7 @@ GozoCabs Team";
 
 			$ratingLinkList	 = Ratings::reviewButtonLink($uniqueId, $usrReferCode, $comment);
 			$link			 = $ratingLinkList['inviteLink'];
-			$mailBody		 = "Dear Friend,%0D%0DI traveled with Gozocabs and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link%0DHere is my review from my trip "
+			$mailBody		 = "Dear Friend,%0D%0DI traveled with aaocab and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link%0DHere is my review from my trip "
 					. $ratingRow['booking_id'] . ':%0D "'
 					. $comment . '"%0D%0DRegards%0D' . $ratingRow['usr_name'];
 
@@ -2150,7 +2150,7 @@ GozoCabs Team";
 			}
 			//changes
 			$body	 = 'Hello ' . $firstName .
-					',<br/><br/>Thank you for choosing GozoCabs! For your Booking ID: ' . $booking_id . ',' . $amountStr .
+					',<br/><br/>Thank you for choosing aaocab! For your Booking ID: ' . $booking_id . ',' . $amountStr .
 					', please click on the following link to make an online payment.' .
 					'<br/><a href="' . $url . '">' . $url . '</a>
             <br/><br/>Regards,<br/>Team Gozo';
@@ -2248,8 +2248,8 @@ GozoCabs Team";
 			$mail = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
 			$mail->setBody($body);
 
-			//$mail->setFrom('info@aaocab.com', 'Info GozoCabs');
-			$mail->setTo($email, 'Info GozoCabs');
+			//$mail->setFrom('info@aaocab.com', 'Info aaocab');
+			$mail->setTo($email, 'Info aaocab');
 			$mail->setLayout('mail');
 			$subject = 'Payment Failed – Booking ID : ' . $model->bkg_booking_id;
 			$mail->setSubject($subject);
@@ -2280,8 +2280,8 @@ GozoCabs Team";
 		$mail		 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 		$mail->clearView();
 		$mail->clearLayout();
-		$mail->setFrom('info@aaocab.com', 'Info GozoCabs');
-		$mail->setTo('leadership@gozocabs.in', 'Leadership GozoCabs');
+		$mail->setFrom('info@aaocab.com', 'Info aaocab');
+		$mail->setTo('leadership@aaocab.in', 'Leadership aaocab');
 		$mail->setBody($msg);
 		$subject	 = 'Lead Report';
 		$mail->setSubject($subject);
@@ -2362,7 +2362,7 @@ GozoCabs Team";
 		$mail->clearView();
 		$mail->clearLayout();
 		$mail->setBody($body);
-		$mail->setTo(Yii::app()->params['adminEmail'], 'Leaders GozoCabs');
+		$mail->setTo(Yii::app()->params['adminEmail'], 'Leaders aaocab');
 		$mail->setSubject($subject);
 		if ($mail->sendMail(0))
 		{
@@ -2389,7 +2389,7 @@ GozoCabs Team";
 		$mail->clearView();
 		$mail->clearLayout();
 		$mail->setBody($body);
-		$mail->setTo(Yii::app()->params['leadAboveEmail'], 'Leaders GozoCabs');
+		$mail->setTo(Yii::app()->params['leadAboveEmail'], 'Leaders aaocab');
 		$mail->setSubject($subject);
 		if ($mail->sendMail(0))
 		{
@@ -2416,8 +2416,8 @@ GozoCabs Team";
 		$mail->clearView();
 		$mail->clearLayout();
 		$mail->setBody($body);
-		$mail->setTo(Yii::app()->params['adminEmail'], 'Leadership - GozoCabs');
-		$mail->setBcc(Yii::app()->params['adminUserEmail'], 'Roy - GozoCabs');
+		$mail->setTo(Yii::app()->params['adminEmail'], 'Leadership - aaocab');
+		$mail->setBcc(Yii::app()->params['adminUserEmail'], 'Roy - aaocab');
 		$mail->setSubject($subject);
 		if ($mail->sendMail(0))
 		{
@@ -2450,10 +2450,10 @@ GozoCabs Team";
 
 			$mail->setTo($email, $email);
 			$body	 = 'Dear ' . $model->vnd_name . ',<br/><br/>
-                <h3><b>Important Update from GozoCabs- ' . $messageText . '</b></h3>
-                <br/><br/>Regards,<br/>GozoCabs Support<br/>+91-90518-77-000';
+                <h3><b>Important Update from aaocab- ' . $messageText . '</b></h3>
+                <br/><br/>Regards,<br/>aaocab Support<br/>+91-90518-77-000';
 			$mail->setBody($body);
-			$subject = 'Important Update from GozoCabs.';
+			$subject = 'Important Update from aaocab.';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
 			{
@@ -2489,10 +2489,10 @@ GozoCabs Team";
 			$mail->clearLayout();
 			$mail->setTo($email, $email);
 			$body					 = 'Dear ' . $model->drv_name . ',<br/><br/>
-                        <h3><b>Important Update from GozoCabs- ' . $messageText . '</b></h3>
-                        <br/><br/>Regards,<br/>GozoCabs Support<br/>+91-90518-77-000';
+                        <h3><b>Important Update from aaocab- ' . $messageText . '</b></h3>
+                        <br/><br/>Regards,<br/>aaocab Support<br/>+91-90518-77-000';
 			$mail->setBody($body);
-			$subject				 = 'Important Update from GozoCabs.';
+			$subject				 = 'Important Update from aaocab.';
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -2532,7 +2532,7 @@ GozoCabs Team";
 			//  $mail = new YiiMailer();
 			$mail	 = new EIMailer();
 			$mail->setBody($body);
-			//$mail->setFrom("info@aaocab.com', 'Info GozoCabs');
+			//$mail->setFrom("info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, 'Admins');
 			$mail->clearView();
 			$mail->clearLayout();
@@ -2576,9 +2576,9 @@ GozoCabs Team";
 						'arr' => $bookarr,
 			));
 			$mail->setLayout('mail');
-			//  $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//  $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $model->usr_name . ' ' . $model->usr_lname);
-			$subject				 = 'Welcome to GozoCabs';
+			$subject				 = 'Welcome to aaocab';
 			$mail->setSubject($subject);
 			if ($mail->sendMail())
 			{
@@ -2905,8 +2905,8 @@ GozoCabs Team";
 	{
 		$success	 = false;
 		//$email = Yii::app()->params['adminEmail'];
-		$email		 = 'vendormanagement@gozocabs.in';
-		$email2		 = 'supply-team@gozocabs.in';
+		$email		 = 'vendormanagement@aaocab.in';
+		$email2		 = 'supply-team@aaocab.in';
 		$delivered	 = '';
 		if ($email != '')
 		{
@@ -3056,7 +3056,7 @@ GozoCabs Team";
 	public function nextScheduledPickupReport($hours)
 	{
 		//$email = Yii::app()->params['adminEmail'];
-		$email = 'vendormanagement@gozocabs.in';
+		$email = 'vendormanagement@aaocab.in';
 
 		$delivered = '';
 		if ($email != '')
@@ -3203,7 +3203,7 @@ GozoCabs Team";
 			//  $mail->setView('signup');
 			$vendorName				 = $model->vnd_name;
 			$mail->setLayout('mail');
-			//  $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			//  $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $vendorName);
 			$subject				 = 'Verification link from Gozo Cabs';
 			$body					 = "Please tap on the link below to verify your cab(s) and driver(s)<br><br><a href=" . Yii::app()->createAbsoluteUrl('vendor/vehicle/vehiclelist', ['id' => $vendor, 'code' => Yii::app()->shortHash->hash($vendor)]) . ">" . Yii::app()->createAbsoluteUrl('vendor/vehicle/vehiclelist', ['id' => $vendor, 'code' => Yii::app()->shortHash->hash($vendor)]) . "</a>";
@@ -3232,11 +3232,11 @@ GozoCabs Team";
 		$this->email_receipient	 = $email;
 		$mail					 = EIMailer::getInstance(EmailLog::SEND_VENDOR_BATCH_EMAIL);
 		$mail->setLayout('mail');
-		$mail->AddReplyTo("vendor@gozocabs.in", "Gozo vendor support");
+		$mail->AddReplyTo("vendor@aaocab.in", "Gozo vendor support");
 		$mail->setTo($email, $vendorName);
 		$subject				 = 'Your username & password';
 		$msg					 = 'Dear ' . $name . ',<br/>Thank you for joining the Gozo Cabs supply partner network.<br/>We have created a username and password for you.'
-				. '<br/>Your username: ' . $vendorName . '<br/>Password: ' . $password . '<br/><br/><a href="https://play.google.com/store/apps/details?id=com.gozocabs.vendor">Download the Gozo Partner app from the Android play store</a>'
+				. '<br/>Your username: ' . $vendorName . '<br/>Password: ' . $password . '<br/><br/><a href="https://play.google.com/store/apps/details?id=com.aaocab.vendor">Download the Gozo Partner app from the Android play store</a>'
 				. '<br/><br/>Login to the Gozo partner app with the above username and password.';
 
 		$mail->setTo($email, $vendorName);
@@ -3288,12 +3288,12 @@ GozoCabs Team";
 
 			$agreementLink	 = '<a href="http://www.aaocab.com/operator_agreement.pdf" target="_blank">Agreement</a>';
 			$mail->setLayout('mail');
-			$mail->AddReplyTo("vendor@gozocabs.in", "Gozo vendor support");
-			//  $mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			$mail->AddReplyTo("vendor@aaocab.in", "Gozo vendor support");
+			//  $mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $vendorName);
 			$subject		 = 'Welcome to Gozo cabs Vendor partner network';
 			$msg			 = 'Dear ' . $name . ',<br/>Thank you for joining the Gozo Cabs supply partner network.'
-					. '<br/><br/><a href="https://play.google.com/store/apps/details?id=com.gozocabs.vendor">Download the Gozo Partner app from the play store</a>'
+					. '<br/><br/><a href="https://play.google.com/store/apps/details?id=com.aaocab.vendor">Download the Gozo Partner app from the play store</a>'
 					. '<br/><br/>Login to the Gozo partner app using your google login, then<br/>1. Update your profile & upload vendor documents in the vendor profile section of the app<br/>2. Add information and upload papers for car(s) & driver(s)<br/>3. Wait for our team to activate your profile<br>4. We will start sending you business after your account is activated.<br/><br/>Please add information about ONLY the cars that you own and the  drivers that will drive under your partner account.<br/><p></p><p></p><br/><br/><br/><p><b>We will need the following information for car -</b></p>'
 					. '1. Clear & readable picture of RC<br/>2. Clear & readable picture of Insurance<br/>3. Clear & readable picture of fitness certificate<br/>'
 					. '4. Picture of Commercial permit<br/>5. Picture of FRONT and BACK of car with readable license plate<br/>6. Clear & reaable picture of PUC<br/><br/><p><b>For driver, we need - </b></p>1. Passport photo of Driver<br/>2. Clear & readable picture of Driver\'s license<br/>'
@@ -3303,7 +3303,7 @@ GozoCabs Team";
 					. '3. Information of Bank account where you want us to send account settlment payments<br/>'
 					. '4. A security deposit of ₹2000/- payable to Gozo Technologies Private limited<br/>'
 					. '5. Two address proof for vendor (Voter ID  or Aadhar card or Driver license or PAN card)<br/>'
-					. '<p>If you have any questions<a href="mailto:vendor@gozocabs.in">email us</a></p>';
+					. '<p>If you have any questions<a href="mailto:vendor@aaocab.in">email us</a></p>';
 			$mail->isHTML(true);
 			$mail->setSubject($subject);
 			$mail->setBody($msg);
@@ -3743,14 +3743,14 @@ GozoCabs Team";
 				$body .= 'Your payment of ₹' . $vendorAmount . ' is DUE NOW.';
 			}
 			//$body .= '<br/><br/>Please have our Bank Details embedded in the body of the mail accompanying Invoice / Account Statement being mailed to Vendors, from State Bank of India to :';
-			$body .= '<br/><br/>Please note our bank details below. Send all payments to the below address and inform us with the details of your payment at accounts@gozocabs.in';
+			$body .= '<br/><br/>Please note our bank details below. Send all payments to the below address and inform us with the details of your payment at accounts@aaocab.in';
 
 			$body	 .= '<br/><br/>Beneficiary Name: <b>Gozo Technologies Private Limited</b>';
 			$body	 .= '<br/>Bank: <b>HDFC BANK LTD</b>';
 			$body	 .= '<br/>Branch: <b>Badshahpur, Gurgaon</b>';
 			$body	 .= '<br/>A/c number: <b>50200020818192</b>';
 			$body	 .= '<br/>IFSC Code: <b>HDFC0001098</b>';
-			$body	 .= '<br/><br/>For all queries please write to accounts@gozocabs.in <mailto:accounts@gozocabs.in>';
+			$body	 .= '<br/><br/>For all queries please write to accounts@aaocab.in <mailto:accounts@aaocab.in>';
 
 			$body	 .= '<br/><br/>Thank you,';
 			$body	 .= '<br/>Team Gozo';
@@ -3802,7 +3802,7 @@ GozoCabs Team";
 				return false;
 			}
 
-			$mail->setTo($sentEmail, 'GozoCabs Admin');
+			$mail->setTo($sentEmail, 'aaocab Admin');
 			$bccMail = ($isAgreement == 1) ? Yii::app()->params['mail']['agreementMail']['Username'] : Yii::app()->params['mail']['info']['Username'];
 			$mail->setBcc($bccMail);
 			$mail->setBody($body);
@@ -3849,7 +3849,7 @@ GozoCabs Team";
 				return false;
 			}
 
-			$mail->setTo($sentEmail, 'GozoCabs Admin');
+			$mail->setTo($sentEmail, 'aaocab Admin');
 			$bccMail = ($isAgreement == 1) ? Yii::app()->params['mail']['agreementMail']['Username'] : Yii::app()->params['mail']['info']['Username'];
 			$mail->setBcc($bccMail);
 			$mail->setBody($body);
@@ -3949,7 +3949,7 @@ GozoCabs Team";
 			$body		 .= "<br/>We have processed the refund for ₹$refundAmt";
 			$body		 .= "<br/><br/>Please be patient as sometimes it may take upto 15 business days for your bank to release these funds to you.";
 			$body		 .= "<br/>Gozo's transaction confirmation number for this refund is: $transID";
-			$body		 .= "<br/>If you have any questions, write to us at accounts@gozocabs.in.";
+			$body		 .= "<br/>If you have any questions, write to us at accounts@aaocab.in.";
 			$body		 .= '<br/><br/>Regards, Team Gozo';
 			$subject	 = 'Refund issued. Booking ID:' . $data['bkg_booking_id'];
 			$mail		 = EIMailer::getInstance(EmailLog::SEND_CONSUMER_BATCH_EMAIL);
@@ -4023,7 +4023,7 @@ GozoCabs Team";
 			$body		 .= "<br/>We have processed the refund for ₹$refundAmt";
 			$body		 .= "<br/><br/>Please be patient as sometimes it may take upto 15 business days for your bank to release these funds to you.";
 			$body		 .= "<br/>Our transaction confirmation number for this refund is: $txnId";
-			$body		 .= "<br/>If you have any questions, write to us at accounts@gozocabs.in.";
+			$body		 .= "<br/>If you have any questions, write to us at accounts@aaocab.in.";
 			$body		 .= '<br/><br/>Regards, Team Gozo';
 			$subject	 = 'REFUND PROCESSED: Check your bank account';
 			$mail		 = EIMailer::getInstance(EmailLog::SEND_CONSUMER_BATCH_EMAIL);
@@ -4427,7 +4427,7 @@ GozoCabs Team";
 			$body		 = 'Dear ' . $data['bkg_user_fname'] . ' ' . $data['bkg_user_lname'] . ',<br/>';
 			$body		 .= '<br/>The cancellation for your booking ' . $data['bkg_booking_id'] . ' has been processed on our end.';
 			$body		 .= '<br/><br/>As per the terms and conditions, this booking is not eligible for a refund.';
-			$body		 .= '<br/><br/>Should you have any questions please write to us at accounts@GozoCabs.in or you may request a call back at aaocab.com.';
+			$body		 .= '<br/><br/>Should you have any questions please write to us at accounts@aaocab.in or you may request a call back at aaocab.com.';
 			$body		 .= '<br/><br/>Regards,
                             <br/>Team Gozo';
 			$subject	 = 'Cancellation for Booking ID:' . $data['bkg_booking_id'];
@@ -5012,7 +5012,7 @@ GozoCabs Team";
 			$bdata					 = Booking::model()->getTentativeBookings();
 			$this->email_receipient	 = $email;
 			$mail					 = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
-			$mail->setTo($email, 'Leaders GozoCabs');
+			$mail->setTo($email, 'Leaders aaocab');
 			$mail->clearView();
 			$style					 = ' style="padding: 5px;"';
 			$style1					 = ' style="padding: 5px; text-align:center"';
@@ -5514,8 +5514,8 @@ GozoCabs Team";
 		$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 		$mail->setLayout('mail');
 		$mail->AddReplyTo($arr['eml_email_address'], $arr['first_name']);
-		//	$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
-		$mail->setTo('vendors@gozocabs.in', 'Gozo Operator Team');
+		//	$mail->setFrom('info@aaocab.com', 'Info aaocab');
+		$mail->setTo('vendors@aaocab.in', 'Gozo Operator Team');
 		$mail->setBody($body);
 		if ($arr['vnp_cars_own'] == 1)
 		{
@@ -5534,7 +5534,7 @@ GozoCabs Team";
 			$delivered = "Email not sent";
 		}
 		$usertype	 = EmailLog::Admin;
-		$email2		 = 'vendors@gozocabs.in';
+		$email2		 = 'vendors@aaocab.in';
 		if ($arr['vnp_cars_own'] == 1)
 		{
 			$subject = "New DCO sign up in ($cityName)";
@@ -5557,7 +5557,7 @@ GozoCabs Team";
 				"<br/><b>Email : </b>" . trim($model->agt_email) .
 				"<br/><b>City : </b>" . $cityName;
 		$mail		 = EIMailer::getInstance(EmailLog::SEND_AGENT_EMAIL);
-		$email		 = 'agents@gozocabs.in';
+		$email		 = 'agents@aaocab.in';
 		$subject	 = "New Agent signed up in ($cityName)";
 		$mail->setLayout('mail1');
 		if ($model->agt_email != '')
@@ -5782,7 +5782,7 @@ GozoCabs Team";
 			$bdata					 = BookingSub::model()->getBookingsByPickupAddress();
 			$this->email_receipient	 = $email;
 			$mail					 = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
-			$mail->setTo(Yii::app()->params['adminEmail'], 'Leaders GozoCabs');
+			$mail->setTo(Yii::app()->params['adminEmail'], 'Leaders aaocab');
 			$mail->clearView();
 			$style					 = ' style="padding: 5px;"';
 			$style1					 = ' style="padding: 5px; text-align:center"';
@@ -5855,9 +5855,9 @@ GozoCabs Team";
 //		$mail		 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 //		$mail->setLayout('mail');
 //		$mail->AddReplyTo($model->vnd_email, $model->vnd_owner);
-//		$mail->setTo(array('vendors@gozocabs.in' => 'Gozo Operator Team'));
-////		$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
-////		$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@aaocab.com' => 'Info Gozocabs'));
+//		$mail->setTo(array('vendors@aaocab.in' => 'Gozo Operator Team'));
+////		$mail->setFrom('info@aaocab.com', 'Info aaocab');
+////		$mail->setTo(array('team@aaocab.in' => 'Team aaocab', 'info@aaocab.com' => 'Info aaocab'));
 //		$mail->setBody($body);
 //
 //		$mail->setSubject("New vendor signed up");
@@ -5870,7 +5870,7 @@ GozoCabs Team";
 //			$delivered = "Email not sent";
 //		}
 //		$usertype	 = EmailLog::Admin;
-//		$email2		 = 'vendors@gozocabs.in';
+//		$email2		 = 'vendors@aaocab.in';
 //		$subject	 = 'New vendor signed up';
 //		$refType	 = EmailLog::REF_AGENT_ID;
 //		$refId		 = $model->vnd_id;
@@ -5905,12 +5905,12 @@ GozoCabs Team";
 		$mail		 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 		$mail->setLayout('mail');
 		$mail->AddReplyTo($contactModel['eml_email_address'], $contactModel['ctt_business_name']);
-		$mail->setTo('vendors@gozocabs.in', 'Gozo Operator Team');
+		$mail->setTo('vendors@aaocab.in', 'Gozo Operator Team');
 		// dco needs to include here
 		$subject	 = "New vendor signed up in ($cityModel->cty_name)";
-//     //$mail->setTo(array('vendors@gozocabs.in' => 'Gozo Operator Team'));		
-//		$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
-//		$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@aaocab.com' => 'Info Gozocabs'));
+//     //$mail->setTo(array('vendors@aaocab.in' => 'Gozo Operator Team'));		
+//		$mail->setFrom('info@aaocab.com', 'Info aaocab');
+//		$mail->setTo(array('team@aaocab.in' => 'Team aaocab', 'info@aaocab.com' => 'Info aaocab'));
 		$mail->setBody($body);
 		$mail->setSubject($subject);
 		if ($mail->sendMail(0))
@@ -5922,7 +5922,7 @@ GozoCabs Team";
 			$delivered = "Email not sent";
 		}
 		$usertype	 = EmailLog::Admin;
-		$email2		 = 'vendors@gozocabs.in';
+		$email2		 = 'vendors@aaocab.in';
 		$subject	 = 'New vendor signed up';
 		$refType	 = EmailLog::REF_AGENT_ID;
 		$refId		 = $model->vnd_id;
@@ -5939,7 +5939,7 @@ GozoCabs Team";
 		{
 			$bdata	 = BookingSub::model()->getCompletedBookingsToday2();
 			//$mail	 = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
-			//$mail->setTo(Yii::app()->params['gozocaresEmail'], 'Gozocares GozoCabs');
+			//$mail->setTo(Yii::app()->params['gozocaresEmail'], 'Gozocares aaocab');
 			//$mail->clearView();
 			$style	 = ' style="padding: 5px;"';
 			$style1	 = ' style="padding: 5px; text-align:center"';
@@ -5996,7 +5996,7 @@ GozoCabs Team";
 			$mail->clearView();
 			$mail->clearLayout();
 			$mail->setBody($body);
-			$mail->setTo(Yii::app()->params['gozocaresEmail'], 'Gozocares GozoCabs');
+			$mail->setTo(Yii::app()->params['gozocaresEmail'], 'Gozocares aaocab');
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
 			{
@@ -6157,7 +6157,7 @@ GozoCabs Team";
 			$mail->setData(array('arr' => $params));
 			$mail->setLayout('mail2');
 			$mail->setTo($toEmail, $params['full_name']);
-			$mail->addReplyTo(array('vendors@gozocabs.in' => 'Gozo Operator Team'));
+			$mail->addReplyTo(array('vendors@aaocab.in' => 'Gozo Operator Team'));
 			$subject = 'Congratulations! Your vendor account is approved.';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
@@ -6193,7 +6193,7 @@ GozoCabs Team";
 			$mail->setData(array('arr' => $usrArr));
 			$mail->setLayout('mail2');
 			$mail->setTo($email, $userName);
-			$mail->addReplyTo(array('sos@gozocabs.in' => 'SOS Gozo Team'));
+			$mail->addReplyTo(array('sos@aaocab.in' => 'SOS Gozo Team'));
 			$subject = ' ' . $userName . '(BKGID ' . $bookingId . ') has pressed Panic button';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
@@ -6417,7 +6417,7 @@ GozoCabs Team";
 			$mail->setData(array('arr' => $usrArr, 'email_recepient' => $email, 'id' => $userId));
 			$mail->setLayout('mail2');
 			$mail->setTo($email, $userName);
-			//$mail->addReplyTo(array('sos@gozocabs.in' => 'SOS Gozo Team'));
+			//$mail->addReplyTo(array('sos@aaocab.in' => 'SOS Gozo Team'));
 			$subject = 'TRIP OTP FOR (Booking Id - ' . $bkgId . ')';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
@@ -6458,7 +6458,7 @@ GozoCabs Team";
 		);
 
 		$mail->setLayout('mail');
-		//$mail->setFrom('jsrankesh.singh@gmail.com', 'Info GozoCabs');
+		//$mail->setFrom('jsrankesh.singh@gmail.com', 'Info aaocab');
 		$mail->setTo($email);
 		$mail->setSubject('Welcome to the Gozo');
 		$style	 = ' style="padding: 5px;"';
@@ -6505,7 +6505,7 @@ GozoCabs Team";
                 <br/>3. Click on add Gift card.
                 <br/>4. Enter the Gift card code you have received and add its value to your Gozo wallet.
 				<br/>5. Now when you create a booking, on the payment page you can Redeem the available wallet balance shown in your account.
-                <br/>If you have any questions or have any special requests please email us directly at channel@gozocabs.in
+                <br/>If you have any questions or have any special requests please email us directly at channel@aaocab.in
                 <br/><br/>Regards,
                 <br/>Gozo Team
                 ';
@@ -6637,7 +6637,7 @@ GozoCabs Team";
 		$mail->setData(array('email_receipient' => $email, 'userId' => $model->bkgUserInfo->bkg_user_id, 'email' => $email));
 
 		$mail->setLayout('mail');
-		//$mail->setFrom('', 'Info GozoCabs');
+		//$mail->setFrom('', 'Info aaocab');
 		$mail->setTo($email);
 		$subject = 'Booking ID ' . $model->bkg_booking_id . ' Updated. Pickup time rescheduled';
 		$mail->setSubject($subject);
@@ -6686,7 +6686,7 @@ GozoCabs Team";
 		{
 			$mail	 = EIMailer::getInstance(EmailLog::SEND_AGENT_EMAIL);
 			$mail->setLayout('mail');
-			$mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			$mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $name);
 			$subject = 'INSUFFICIENT FUNDS, Upcoming bookings are subject to auto-cancel';
 
@@ -6725,7 +6725,7 @@ GozoCabs Team";
 			$name	 = 'Admin';
 			$mail	 = EIMailer::getInstance(EmailLog::SEND_ADMIN_EMAIL);
 			$mail->setLayout('mail');
-			$mail->setFrom('info@aaocab.com', 'Info GozoCabs');
+			$mail->setFrom('info@aaocab.com', 'Info aaocab');
 			$mail->setTo($email, $name);
 
 			if ($reqType == 1)
@@ -6916,7 +6916,7 @@ GozoCabs Team";
 			$mail->setData(array('arr' => $usrArr));
 			$mail->setLayout('mail2');
 			$mail->setTo($email, $userName);
-			//$mail->addReplyTo(array('sos@gozocabs.in' => 'SOS Gozo Team'));
+			//$mail->addReplyTo(array('sos@aaocab.in' => 'SOS Gozo Team'));
 			$subject = 'Login OTP ';
 			$mail->setSubject($subject);
 			$success = $mail->sendMail(0);
@@ -6981,7 +6981,7 @@ GozoCabs Team";
 			$mail->setData(array('arr' => $usrArr));
 			$mail->setLayout('mail2');
 			$mail->setTo($email);
-			//$mail->addReplyTo(array('sos@gozocabs.in' => 'SOS Gozo Team'));
+			//$mail->addReplyTo(array('sos@aaocab.in' => 'SOS Gozo Team'));
 			$subject = 'Verify OTP ';
 			$mail->setSubject($subject);
 			$success = $mail->sendMail(0);
@@ -7027,7 +7027,7 @@ GozoCabs Team";
 			$mail->setData(array('arr' => $arrInfo, 'email_receipient' => $email, 'userId' => $userId));
 			$mail->setLayout('mail');
 			$mail->setTo($email, $fName);
-			$subject						 = 'Welcome to GozoCabs.';
+			$subject						 = 'Welcome to aaocab.';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
 			{
@@ -7322,7 +7322,7 @@ GozoCabs Team";
 
 	public function transferz($journeyCode)
 	{
-		$emailData				 = ['ankesh@gozo.cab', 'kaushal.goenka@gozocabs.in'];
+		$emailData				 = ['ankesh@gozo.cab', 'kaushal.goenka@aaocab.in'];
 		$email					 = $emailData[0];
 		$this->email_receipient	 = $email;
 		$mail					 = EIMailer::getInstance(EmailLog::SEND_CUSTOM_EMAIL);
@@ -7353,7 +7353,7 @@ GozoCabs Team";
 		$mail->setTo($email);
 		$mail->setSubject($subject);
 		$mail->setAttachment($filePath);
-		$mail->setBody("<div>Hi Team,<br> Please find the attached sheet for booking details.<br>-Teams Gozocabs</div>");
+		$mail->setBody("<div>Hi Team,<br> Please find the attached sheet for booking details.<br>-Teams aaocab</div>");
 		if ($mail->sendMail(0))
 		{
 			$delivered = "Email sent successfully";
@@ -7382,7 +7382,7 @@ GozoCabs Team";
 		));
 
 		$mail->setLayout('mail');
-		$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info Gozocabs');
+		$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info aaocab');
 		$mail->setTo($email, $username);
 		$mail->setSubject('Reset your Password');
 		if ($mail->sendMail(0))

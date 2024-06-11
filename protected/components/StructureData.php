@@ -19,7 +19,7 @@ class StructureData
 		//provider details function
 		$contact['@context']			 = "http://schema.org/";
 		$contact['@type']				 = "Organization";
-		$contact['name']				 = 'GozoCabs';
+		$contact['name']				 = 'aaocab';
 		$contact['url']					 = Yii::app()->getBaseUrl(true);
 		$contact['logo']				 = Yii::app()->getBaseUrl(true) . "/images/logo2_outstation.png";
 		$contact['email']				 = 'mailto:info@aaocab.com';
@@ -33,10 +33,10 @@ class StructureData
 		$arrContactPoint['telephone']	 = "+1-650-741-4696";
 		$arrContactPoint['contactType']	 = "Customer service";
 		$arrSocial						 = array();
-		$arrSocial[]					 = 'http://www.facebook.com/gozocabs';
-		$arrSocial[]					 = 'https://twitter.com/gozocabs';
-		$arrSocial[]					 = 'http://www.instagram.com/gozocabs/';
-		$arrSocial[]					 = 'https://in.linkedin.com/company/gozocabs';
+		$arrSocial[]					 = 'http://www.facebook.com/aaocab';
+		$arrSocial[]					 = 'https://twitter.com/aaocab';
+		$arrSocial[]					 = 'http://www.instagram.com/aaocab/';
+		$arrSocial[]					 = 'https://in.linkedin.com/company/aaocab';
 		$arrSocial[]					 = 'http://www.youtube.com/channel/UCzAegwLeirBkmKDxtr5tTFA/featured';
 		$arrSocial[]					 = 'http://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html';
 		$arrContactPoint['sameAs']		 = $arrSocial;
@@ -48,7 +48,7 @@ class StructureData
 	{
 		$contact['@context']	 = "http://schema.org/";
 		$contact['@type']		 = "AutoRental";
-		$contact['name']		 = 'GozoCabs';
+		$contact['name']		 = 'aaocab';
 		$contact['pricerange']	 = "$$";
 		$contact['url']			 = Yii::app()->getBaseUrl(true) . "/tempo-traveller-rental/" . $city;
 		$contact['image']		 = Yii::app()->getBaseUrl(true) . "/images/logo2_outstation.png";
@@ -67,7 +67,7 @@ class StructureData
 		$dayRental['@type']		 = "FAQPage";
 
 		$arrayEntity[0]['@type']			 = "Question";
-		$arrayEntity[0]['name']				 = "Why book a day rental with GozoCabs?";
+		$arrayEntity[0]['name']				 = "Why book a day rental with aaocab?";
 		$arraySubEntity['@type']			 = "Answer";
 		$arraySubEntity['text']				 = "<p>Get the same high quality and great prices that you have come to expect from Gozo. Now for local city rentals too.</p>";
 		$arrayEntity[0]['acceptedAnswer']	 = $arraySubEntity;
@@ -75,7 +75,7 @@ class StructureData
 		$arrayEntity[1]['@type']			 = "Question";
 		$arrayEntity[1]['name']				 = "Can I get cabs at my Disposal?";
 		$arraySubEntity['@type']			 = "Answer";
-		$arraySubEntity['text']				 = "<p>With GozoCabs Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.</p>";
+		$arraySubEntity['text']				 = "<p>With aaocab Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.</p>";
 		$arrayEntity[1]['acceptedAnswer']	 = $arraySubEntity;
 
 		$arrayEntity[2]['@type']			 = "Question";
@@ -106,13 +106,13 @@ class StructureData
 
 		$Ques	 = [];
 		$Ans	 = [];
-		$Ques[0] = "Why book a day rental with GozoCabs?";
+		$Ques[0] = "Why book a day rental with aaocab?";
 		$Ques[1] = "Can I get cabs at my Disposal?";
 		$Ques[2] = "What are the Packages available?";
 		$Ques[3] = "What are the payment options?";
 		$Ques[4] = "Do I need to pay surge fee or waiting charges?";
 		$Ans[0]	 = "Get the same high quality and great prices that you have come to expect from Gozo. Now for local city rentals too.";
-		$Ans[1]	 = "With GozoCabs Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.";
+		$Ans[1]	 = "With aaocab Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.";
 		$Ans[2]	 = "Packages start for 4 hours and can extend up to 12 hours! Also, with some nominal additional charges cabs can be retained beyond package limits.";
 		$Ans[3]	 = "Now go cashless and travel easy. We have multiple payment option for your hassle-free transaction.";
 		$Ans[4]	 = "Unlike point to point services you get a cab and driver at your disposal for the length of time of your rental. If you know you are going to have a busy day traveling around town, just book a car and driver for the day and go where you want in town";
@@ -144,7 +144,7 @@ class StructureData
 		$Ans[]	 = "Yes, it is safe to travel from $fcname to $tcname by road.However, as a precautionary measure, we recommend you to take your trip during the day and avoid traveling at night.";
 
 		$Ques[]	 = " How much does $fcname to $tcname taxi cost?";
-		$Ans[]	 = "For one-way cab service with Gozocabs from $fcname to $tcname cab fare starts from Rs.  $basePriceOW    and for round trip cab service starting from Rs   {$allQuot[1]->routeRates->ratePerKM} /Km for $fcname to $tcname. For best price on your travel date for various car rental options, please enter trip details and check.";
+		$Ans[]	 = "For one-way cab service with aaocab from $fcname to $tcname cab fare starts from Rs.  $basePriceOW    and for round trip cab service starting from Rs   {$allQuot[1]->routeRates->ratePerKM} /Km for $fcname to $tcname. For best price on your travel date for various car rental options, please enter trip details and check.";
 
 		$Ques[]	 = "What is the travel distance from $fcname to $tcname?";
 		$Ans[]	 = "The travel distance from $fcname to $tcname is approximately   {$model->bkg_trip_distance} Kms. It takes around   {floor(($rmodel->rut_estm_time / 60))}  hours";
@@ -289,7 +289,7 @@ class StructureData
 	{
 		$baseUrl = Yii::app()->params['fullBaseURL'];
 		$obj	 = Schema::organization()
-				->name('GozoCabs')
+				->name('aaocab')
 				->url($baseUrl);
 		return $obj;
 	}
@@ -879,7 +879,7 @@ class StructureData
 	public static function getAggregateRating()
 	{
 		$aggregateRating = Schema::aggregateRating()
-				//->itemReviewed(Schema::Organization()->name('GozoCabs'))
+				//->itemReviewed(Schema::Organization()->name('aaocab'))
 				->bestRating(5)
 				->worstRating(1)
 				->ratingValue("4.5")
@@ -890,7 +890,7 @@ class StructureData
 	public static function getCityAggregateRating()
 	{
 		$aggregateRating = Schema::aggregateRating()
-				//->itemReviewed(Schema::Organization()->name('GozoCabs'))
+				//->itemReviewed(Schema::Organization()->name('aaocab'))
 				->bestRating(5)
 				->worstRating(1)
 				->ratingValue("4.5")
@@ -1228,7 +1228,7 @@ class StructureData
 		$baseUrl = Yii::app()->params['fullBaseURL']; //Yii::app()->getBaseUrl(true);
 //		$ratingArr	 = Ratings::getOrganisationSummary();
 		$obj	 = Schema::organization()
-				->name('GozoCabs')
+				->name('aaocab')
 				->url($baseUrl)
 //				->description("Gozo Cabs is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.")
 				->image($baseUrl . "/images/logo2_outstation.png")
@@ -1238,10 +1238,10 @@ class StructureData
 						->streetAddress(Config::getGozoAddress())
 				)
 				->sameAs([
-					"http://www.facebook.com/gozocabs/",
-					"https://twitter.com/gozocabs?lang=en",
-					"http://www.instagram.com/gozocabs/?hl=en",
-					"http://www.linkedin.com/company/gozocabs/"
+					"http://www.facebook.com/aaocab/",
+					"https://twitter.com/aaocab?lang=en",
+					"http://www.instagram.com/aaocab/?hl=en",
+					"http://www.linkedin.com/company/aaocab/"
 				])
 				->telephone("+91-90518-77-000")
 				->email('info@aaocab.com');
@@ -1269,7 +1269,7 @@ class StructureData
 		$Ans[]	 = "Yes, it is safe to travel from $fcname to $tcname by road.However, as a precautionary measure, we recommend you to take your trip during the day and avoid traveling at night.";
 
 		$Ques[]	 = " How much does $fcname to $tcname taxi cost?";
-		$Ans[]	 = "For one-way cab service with Gozocabs from $fcname to $tcname cab fare starts from Rs.  $minPrice  and for round trip cab service starting from Rs   $perKmCharge /Km for $fcname to $tcname. For best price on your travel date for various car rental options, please enter trip details and check.";
+		$Ans[]	 = "For one-way cab service with aaocab from $fcname to $tcname cab fare starts from Rs.  $minPrice  and for round trip cab service starting from Rs   $perKmCharge /Km for $fcname to $tcname. For best price on your travel date for various car rental options, please enter trip details and check.";
 
 		$Ques[]	 = "What is the travel distance from $fcname to $tcname?";
 		$Ans[]	 = "The travel distance from $fcname to $tcname is approximately  $distance Kms. It takes around " . floor(($rModel->rut_estm_time / 60)) . " hours";

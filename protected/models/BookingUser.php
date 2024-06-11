@@ -1008,7 +1008,7 @@ class BookingUser extends CActiveRecord
 			$emailModel = ContactEmail::model()->findByEmailAndContact($emailId, $cttId);
 			if (empty($emailModel))
 			{
-				ContactEmail::addNew($cttId, $emailId, SocialAuth::Eml_Gozocabs, 1, '');
+				ContactEmail::addNew($cttId, $emailId, SocialAuth::Eml_aaocab, 1, '');
 			}
 			if ($phoneNo)
 			{

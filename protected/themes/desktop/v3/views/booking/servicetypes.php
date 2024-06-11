@@ -297,7 +297,7 @@ echo $form->errorSummary($model, NULL, NULL, ['class' => 'mt10 errorSummary aler
 		step = <?= $step ?>;
 		tabURL = "<?= Filter::addGLParam($this->getURL(["booking/bkgType", "cabsegmentation" => $cabtype]))?>";
 		tabHead = "<?= $this->pageRequest->getTripTypeDesc() ?>";
-		pageTitle = "Gozocabs: " + tabHead;
+		pageTitle = "aaocab: " + tabHead;
 		toggleStep(step, 1, tabURL, pageTitle, tabHead, true, <?= $this->pageRequest->step ?>);
 		showBack();
 <?php

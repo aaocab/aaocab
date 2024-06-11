@@ -168,7 +168,7 @@ $cityRadius = Yii::app()->params['airportCityRadius'];
 						</div>
 
 						<div class="col-xs-12 col-md-8 col-md-offset-2 google-btn">
-							<a class="btn btn-lg btn-social btn-googleplus pl15 pr15"  onclick="socailSigin('google')" ><img src="../images/google_icon.png" alt="Gozocabs"> Login with Google</a>
+							<a class="btn btn-lg btn-social btn-googleplus pl15 pr15"  onclick="socailSigin('google')" ><img src="../images/google_icon.png" alt="aaocab"> Login with Google</a>
 						</div>
 					</div>
 				</div>
@@ -1106,12 +1106,12 @@ $cityRadius = Yii::app()->params['airportCityRadius'];
 
 	function signinWithFB() {
 		var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-		var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+		var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
 	}
 	function signinWithGoogle() {
 		var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-		var googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+		var googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
 	}
 	function updateLogin() {

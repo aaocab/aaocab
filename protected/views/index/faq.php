@@ -85,7 +85,7 @@
                         <li><a href="#faq37">Do you provide an English-speaking driver?</a></li>
                         <li><a href="#faq50">I left something in the Gozo Cab, how do I report the lost item so you can help me get it back.</a></li>
                         <li><a href="#faq51">Are pets allowed?</a></li>
-                        <li><a href="#faq52">I see there are some bad reviews for GozoCabs online. Why is that?</a></li>
+                        <li><a href="#faq52">I see there are some bad reviews for aaocab online. Why is that?</a></li>
                     </ul>
                     <div class="h4 block-color mt30">Making, modifying or cancelling a reservation</div>
                     <ul>
@@ -182,7 +182,7 @@ The only exception is for trips to hilly areas where the A/C needs to be turned 
                         <h4 class="mt30"><b>How do I get confirmation about our booking?</b></h4>
                         <p>As soon as you create a booking with us, you will receiving the booking confirmation via email and/or SMS. 
 </p>
-<p>Please make sure your correct email and mobile phone information is entered under <a href="http://www.aaocab.com/index" target="_blank">your profile on GozoCabs</a></p>
+<p>Please make sure your correct email and mobile phone information is entered under <a href="http://www.aaocab.com/index" target="_blank">your profile on aaocab</a></p>
                     </li>
                     <a name="faq11"></a>
                     <li>
@@ -233,14 +233,14 @@ As of July 2017, we are serving in over 300 cities and 5000 routes across India.
                     <a name="faq15"></a>
                     <li>
                         <h4 class="mt30"><b>My driver overcharged me during the trip... How can you help me?</b></h4>
-                        <p>Please send us full details of your experience by email at info [AT] Gozocabs [DOT] COM <br>
+                        <p>Please send us full details of your experience by email at info [AT] aaocab [DOT] COM <br>
                         Mention your booking ID and whatever details you have so we can gain full context of the matter. </p>
                         <p>Our Customer advocacy team will get involved and help address the situation expediently.</p>
                     </li>
                     <a name="faq16"></a>
                     <li>
                         <h4 class="mt30"><b>Our company employees travel regularly. Who do I contact for tie-up?</b></h4>
-                        <p>Please write to us at <a href="mailto:corporateaccounts@gozocabs.in">corporateaccounts@gozocabs.in</a></p>
+                        <p>Please write to us at <a href="mailto:corporateaccounts@aaocab.in">corporateaccounts@aaocab.in</a></p>
                         <p>Learn more about our business travel program <a href="http://www.aaocab.com/business-travel" target="_blank">here</a></p>
                     </li>
                     <a name="faq17"></a>
@@ -268,7 +268,7 @@ You will find that in 99% of the situations, you not only save more but also hav
                         <ul>
                             <li><b>Peace of mind</b> ... we get to work in arranging a vehicle. Get a completely transparent, hassle-free reservation with Gozo</li>
                             <li><b>No risk</b>...you can make a 'pay later' reservation and then pay online when plans firm up</li>
-                            <li>In many cases, our trip concierges can be of help in recommending you places to stay, things to do and offer you additional resources for your vacation. we have an expansive network of travel operators who you can use as a resource. You can simply write to us at traveldesk (AT) gozocabs (dot) com</li>
+                            <li>In many cases, our trip concierges can be of help in recommending you places to stay, things to do and offer you additional resources for your vacation. we have an expansive network of travel operators who you can use as a resource. You can simply write to us at traveldesk (AT) aaocab (dot) com</li>
                             <li>Our bookings are also backed by our <a href="http://www.aaocab.com/price-guarantee" target="_blank">'best price guarantee'.</a></li>
                         </ul>
                     </li>
@@ -307,7 +307,7 @@ You will find that in 99% of the situations, you not only save more but also hav
                         <p>It is extremely rare to have a situation where the vehicle does not show up at the scheduled time. Such an event is generally the result of unavoidable circumstances like inordinate amount of traffic, heavy rains, traffic blockades or vehicular breakdowns to name a few.</p>
                         <p>In such situations, we usually are notified by the driver and taxi operator at their first opportunity. We in turn do our part in keeping the customer aware of the situation as soon as we find out. </p>
                         <p>If you choose to cancel the trip - due to a delay on our part, we will waive off last minute cancellation fees. We earnestly work to avoid any such delays and work to ensure a 100% on-time performance. If you do have such an experience, we will work to make it up to you and earn your business for the future. </p>
-                        <p>As always, your feedback is welcome. Write to our customer-advocacy team at customeradvocacy [AT] gozocabs {DOT} in and we will act on your feedback so we continue to get better every time.</p>
+                        <p>As always, your feedback is welcome. Write to our customer-advocacy team at customeradvocacy [AT] aaocab {DOT} in and we will act on your feedback so we continue to get better every time.</p>
                     </li>
                     <a name="faq23"></a>
                     <li>
@@ -399,7 +399,7 @@ In anycase, your booking confirmation (booking contract) provides complete trans
                     <li>
                         <h4 class="mt30"><b>What is the best way to make a booking so I can get the best quality and good price?</b></h4>
                         <p>We always recommend that you book your trip directly using our app or website. Our best prices are available on our mobile app.</p>
-                        <p>Get our app at <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client&hl=en" target="_blank">https://play.google.com/store/apps/details?id=com.gozocabs.client&hl=en</a></p>
+                        <p>Get our app at <a href="https://play.google.com/store/apps/details?id=com.aaocab.client&hl=en" target="_blank">https://play.google.com/store/apps/details?id=com.aaocab.client&hl=en</a></p>
                         <p>You can pay in advance to reconfirm your booking. If you choose to 'pay later' you will be charged a 'collect on delivery' (COD) fee. Also please be sure to reconfirm your booking in a timely manner. Unconfirmed bookings are subject to automatic cancellations. </p>
                     </li>
                     <a name="faq34"></a>
@@ -489,14 +489,14 @@ In anycase, your booking confirmation (booking contract) provides complete trans
                     </li>
                     <a name="faq52"></a>
                     <li>
-                        <h4 class="mt30"><b>Why does GozoCabs only request reviews to be put on Google & TripAdvisor and not any other website?</b></h4>
-                        <p>As a company policy, We do not respond to reviews or complaints on any other forum outside of GozoCabs or Google or TripAdvisor as we have no way to confirm that those are from real users or real feedback. We shall respond to reviews only on these 2 external sites as we know these sites have strong policies against fake reviews. We do not respond to reviews that are posted on sites other than Google or TripAdvisor.</p>
+                        <h4 class="mt30"><b>Why does aaocab only request reviews to be put on Google & TripAdvisor and not any other website?</b></h4>
+                        <p>As a company policy, We do not respond to reviews or complaints on any other forum outside of aaocab or Google or TripAdvisor as we have no way to confirm that those are from real users or real feedback. We shall respond to reviews only on these 2 external sites as we know these sites have strong policies against fake reviews. We do not respond to reviews that are posted on sites other than Google or TripAdvisor.</p>
                         <p>Gozo is making a huge difference in the industry with its service and there are some people who do not like what we are doing in terms of offering good quality, transparency and at great prices.</p>
-                        <p>GozoCabs is very focused on delivering a solid user experience and we are very proactive about Customer service. Any customer who has a service complaint or appreciation about us is requested to directly contact or customer advocacy team first at GozoCares [at] GozoCabs [dot] in or if you are not satisfied with our response, you can post your reviews on Google or TripAdvisor. Our customer accuracy team will take care of your needs and ensure we address the issues reported.</p>
+                        <p>aaocab is very focused on delivering a solid user experience and we are very proactive about Customer service. Any customer who has a service complaint or appreciation about us is requested to directly contact or customer advocacy team first at GozoCares [at] aaocab [dot] in or if you are not satisfied with our response, you can post your reviews on Google or TripAdvisor. Our customer accuracy team will take care of your needs and ensure we address the issues reported.</p>
                     </li>
 					<a name="faq53"></a>
                     <li>
-                        <h4 class="mt30"><b>Why has GozoCabs boycotted the use of MouthShut.com?</b></h4>
+                        <h4 class="mt30"><b>Why has aaocab boycotted the use of MouthShut.com?</b></h4>
                         <p>In our interactions we have found various websites, particularly Mouthshut.com to be filled with biased reviews targeted at getting Gozo to work in a "pay to play for better reviews" model. We are do not endorse such practices and have boycotted such websites. We have had direct experience particularly with MouthShut.com where we have been invited to "pay" to get our reputation "fixed" on Mouthshut.com.</p>
                         <p>We work hard to treat our customers well and prefer to show you the real picture as seen on unbiased platforms on Google & TripAdvisor.</p>
                     </li>

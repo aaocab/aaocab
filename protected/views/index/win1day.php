@@ -43,7 +43,7 @@
 	function openFbDialog()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 		var timer = setInterval(function() 
 		{ 
 			if(fbWindow.closed) {
@@ -55,7 +55,7 @@
 	function openGoogleDialog()
 	{
 		var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-        var win = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var win = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 		var timer = setInterval(function() 
 		{ 
 			if(win.closed) {
@@ -94,7 +94,7 @@ else
 				<div class="main_time border-greenline p20 pb40">
 				<div class="h5 block-color text-center mb20">Welcome to Gozo Cabs. Yay! It looks like you spotted a Gozo Cab on the road. Please login below to register for your chance to rent a Gozo cab for free for 1 day</div>
 					<a href='#' class="btn btn-sm btn-social btn-facebook pl15 pr15 mb20"><span class='' onclick='openFbDialog();'><i class="fa fa-facebook pr5" style="font-size: 22px;"></i> Login with Facebook</span></a>
-					<a href='#' class="btn btn-sm btn-social google-btn pl15 pr15"><span class='' onclick='openGoogleDialog();'><img src="../images/google_icon.png" alt="Gozocabs"> Login with google</span></a>
+					<a href='#' class="btn btn-sm btn-social google-btn pl15 pr15"><span class='' onclick='openGoogleDialog();'><img src="../images/google_icon.png" alt="aaocab"> Login with google</span></a>
 				
 				</div>
 			</div>

@@ -458,7 +458,7 @@ class SmsLog extends CActiveRecord
 		{
 			$ext	  = '91';
 			$number	  = $row['phn_phone_no'];
-			$msg	  = 'Dear Gozo Vendor, you have not logged into the app and, many bookings are pending to be assigned, so please login to GozoCabs Vendor App and resume business.';
+			$msg	  = 'Dear Gozo Vendor, you have not logged into the app and, many bookings are pending to be assigned, so please login to aaocab Vendor App and resume business.';
 			$usertype = SmsLog::Vendor;
 
 			$sms = new Messages();

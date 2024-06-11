@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12 p0">
         <div class="inner_banner">
-            <figure><img src="/images/gogozo_1.jpg" alt="Go Gozo, Gozocabs"></figure>
+            <figure><img src="/images/gogozo_1.jpg" alt="Go Gozo, aaocab"></figure>
         </div>
     </div>
 </div>

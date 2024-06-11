@@ -205,7 +205,7 @@ $cabSegmentation = $this->pageRequest->tripCategory;
 		step = <?= $step ?>;
 		tabURL = "<?= $this->getURL("booking/tripType") ?>";
 		tabHead = "<?= $this->pageRequest->getTripTypeDesc() ?>";
-		pageTitle = "Gozocabs: " + tabHead;
+		pageTitle = "aaocab: " + tabHead;
 		toggleStep(step, 1, tabURL, pageTitle, tabHead, false, <?= $this->pageRequest->step ?>);
 		selectTripCategory('<?= ($cabSegmentation) ?>');
 		showBack();

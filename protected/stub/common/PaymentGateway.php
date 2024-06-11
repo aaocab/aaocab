@@ -52,7 +52,7 @@ class PaymentGateway
 			$dataEncsecret = $MCryptSecurity->encrypt($json);
 			$this->encData = base64_encode($dataEncsecret);
 		}
-		$this->name              = "Gozocabs";
+		$this->name              = "aaocab";
 		$this->image             = "http://www.aaocab.com/images/gozo-white-cabs.svg";
 		$this->currency          = $model->currency;
 		$this->paymentCapture    = 1;
@@ -66,7 +66,7 @@ class PaymentGateway
 		$this->key   = $model->key;
 		$this->orderId = $model->order_id; // order_id
 		$this->secret  = $model->secret;
-		$this->name = "Gozocabs";
+		$this->name = "aaocab";
 		$this->description		 = $model->productinfo;
 		$this->image             = "http://www.aaocab.com/images/gozo-white.svg";
 		$this->currency          = $model->currency;

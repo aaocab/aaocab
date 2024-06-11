@@ -3637,7 +3637,7 @@ class Contact extends BaseActiveRecord
 			switch ($validationType)
 			{
 				case 1:
-					$validationSource	 = empty($validationSource) ? SocialAuth::Eml_Gozocabs : $validationSource;
+					$validationSource	 = empty($validationSource) ? SocialAuth::Eml_aaocab : $validationSource;
 					$returnset			 = ContactEmail::model()->validateData($validationId, $validationValue, $validationSource);
 					break;
 
@@ -3698,7 +3698,7 @@ class Contact extends BaseActiveRecord
 
 			$contactId		 = $contactModel->ctt_id; //Last Inserted ID
 			$emailResponse	 = ContactEmail::add($requestData->emailId, $contactId, 1);
-			$phResponse		 = ContactPhone::add($contactId, $requestData->phoneNumber, UserInfo::TYPE_VENDOR, $requestData->countryCode, SocialAuth::Eml_Gozocabs, 1, 0);
+			$phResponse		 = ContactPhone::add($contactId, $requestData->phoneNumber, UserInfo::TYPE_VENDOR, $requestData->countryCode, SocialAuth::Eml_aaocab, 1, 0);
 
 			//$returnset->setData(0);
 			if ($emailResponse->getStatus() || $phResponse->getStatus())
@@ -3896,7 +3896,7 @@ class Contact extends BaseActiveRecord
 				switch ($contact->mediumType)
 				{
 					case Stub\common\ContactMedium::TYPE_EMAIL:
-						$response = ContactEmail::model()->addNew($contactId, $contact->eml_email_address, SocialAuth::Eml_Gozocabs, $contact->eml_is_primary);
+						$response = ContactEmail::model()->addNew($contactId, $contact->eml_email_address, SocialAuth::Eml_aaocab, $contact->eml_is_primary);
 						if ($response->getData() < 0)
 						{
 							throw new Exception("Failed to create contact email", ReturnSet::ERROR_FAILED);
@@ -3904,7 +3904,7 @@ class Contact extends BaseActiveRecord
 						break;
 
 					case Stub\common\ContactMedium::TYPE_PHONE:
-						$response = ContactPhone::model()->add($contactId, $contact->phn_phone_no, 0, $contact->phn_phone_country_code, SocialAuth::Eml_Gozocabs, $contact->phn_is_primary);
+						$response = ContactPhone::model()->add($contactId, $contact->phn_phone_no, 0, $contact->phn_phone_country_code, SocialAuth::Eml_aaocab, $contact->phn_is_primary);
 						if ($response->getData() < 0)
 						{
 							throw new Exception("Failed to create contact phone", ReturnSet::ERROR_FAILED);
@@ -3979,8 +3979,8 @@ class Contact extends BaseActiveRecord
 		{
 			case Contact::TYPE_EMAIL:
 
-				//$returnSet	 = ContactEmail::model()->updateContacts($itemId, $email, SocialAuth::Eml_Gozocabs, $isVerify);
-				$returnSet	 = ContactEmail::model()->editContacts($itemId, $email, SocialAuth::Eml_Gozocabs, $isVerify, 1);
+				//$returnSet	 = ContactEmail::model()->updateContacts($itemId, $email, SocialAuth::Eml_aaocab, $isVerify);
+				$returnSet	 = ContactEmail::model()->editContacts($itemId, $email, SocialAuth::Eml_aaocab, $isVerify, 1);
 				break;
 			case Contact::TYPE_PHONE:
 				//$returnSet = ContactPhone::model()->updatePhoneStatus($itemId, $isVerify);
@@ -6734,13 +6734,13 @@ class Contact extends BaseActiveRecord
 		switch ($otpType)
 		{
 			case '1':
-				$msg	 = "Your OTP for email verification is " . $verifyCode . " - Gozocabs";
+				$msg	 = "Your OTP for email verification is " . $verifyCode . " - aaocab";
 				$status	 = emailWrapper::emailVerificationOtp($value, $verifyCode);
 				$dataArr = ['otp' => $verifyCode, 'type' => $otpType, 'value' => $value];
 				break;
 			case '2':
 				$isDelay = 0;
-				$msg	 = "Your OTP for phone number verification is " . $verifyCode . " - Gozocabs";
+				$msg	 = "Your OTP for phone number verification is " . $verifyCode . " - aaocab";
 				Filter::parsePhoneNumber($value, $code, $number);
 				$sms	 = new Messages();
 				$res	 = $sms->sendMessage($code, $number, $msg, $isDelay, 1, smsWrapper::DLT_VERIFY_PHONE_OTP_TEMPID);
@@ -6775,7 +6775,7 @@ class Contact extends BaseActiveRecord
 		switch ($type)
 		{
 			case Contact::TYPE_EMAIL:
-				$returnSet	 = ContactEmail::model()->editContacts($cttId, $decriptArr->value, SocialAuth::Eml_Gozocabs, 1, 1);
+				$returnSet	 = ContactEmail::model()->editContacts($cttId, $decriptArr->value, SocialAuth::Eml_aaocab, 1, 1);
 				break;
 			case Contact::TYPE_PHONE:
 				$returnSet	 = ContactPhone::model()->updateContactStatus($cttId, $decriptArr->value);

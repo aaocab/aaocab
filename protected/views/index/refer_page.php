@@ -117,7 +117,7 @@
             <li>For the Gozo ambassador account to be credited with referral amount, the Ambassadors referral code must 
                 be provided at the time of booking creation.</li>
             <li>Gozo reserves the right to terminate this program at any time. Your account may be terminated if suspected 
-                to be in abuse. Gozocabs terms & conditions apply.</li>
+                to be in abuse. aaocab terms & conditions apply.</li>
         </ul>
     </div>
     <div class="col-xs-12 col-sm-4">

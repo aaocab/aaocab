@@ -7,6 +7,6 @@ $msg = 'Dear '. $arr['userName'] .
         '<br/>Also a pickup point address will be provided for you to meet the other riders for your shared ride.<br/>'.
         '<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
         '<br/>Regards,' .
-        '<br/>Gozocabs<br/><br/>';
+        '<br/>aaocab<br/><br/>';
 
  echo $msg;

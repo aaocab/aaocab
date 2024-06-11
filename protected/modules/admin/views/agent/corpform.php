@@ -145,7 +145,7 @@ Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/se
 							<?= $form->textAreaGroup($model, 'agt_bank_branch_addrs', array('label' => "", 'class' => "form-control", 'widgetOptions' => array('htmlOptions' => array('placeholder' => 'Enter Branch Address')))) ?>  
                         </div>
                         <div class="col-xs-12">
-                            *For any queries or additional information, contact <a href="#">accounts@gozocabs.in</a>
+                            *For any queries or additional information, contact <a href="#">accounts@aaocab.in</a>
                         </div>
 
                     </div>

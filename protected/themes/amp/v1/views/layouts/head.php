@@ -432,7 +432,7 @@ td:nth-of-type(6):before{content:"Fare"}
   "vars": {
     "gtag_id": "UA-34493806-1",
     "linker": {
-      "domains": ["www.aaocab.com", "m.aaocab.com","www-gozocabs-com.cdn.ampproject.org"]
+      "domains": ["www.aaocab.com", "m.aaocab.com","www-aaocab-com.cdn.ampproject.org"]
     }
     ,
     "config": {

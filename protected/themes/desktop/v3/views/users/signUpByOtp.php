@@ -63,7 +63,7 @@ $drcRdata =  BookFormRequest::decryptData($this->pageRequest->getEncrptedData())
 		<div class="col-12 mt-1" >
 
 			<h6 class="merriw">
-Welcome to Gozocabs! Please provide following details to create an account</h6>
+Welcome to aaocab! Please provide following details to create an account</h6>
 <!--We have sent a one-time password (OTP) to <span class='userName'> <?php //echo $this->pageRequest->getOTPMessage() ?> </span>. Enter it here to proceed .</h4>-->
 		</div>
 	

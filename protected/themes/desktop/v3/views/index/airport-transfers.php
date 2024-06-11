@@ -89,7 +89,7 @@ if (isset($breadcrumbStructureMarkupData) && trim($breadcrumbStructureMarkupData
 			<div class="row mt20">
 				<div class="col-12 col-md-9">
 					<h1 class="h5 merriw"><b><?= $cmodel->cty_name; ?>  Airport Transfers, with Gozo’s airport cab service</b></h1>
-					<p>Gozo Offers a hassle-free <b>airport transfer cabs</b> booking option at a cheaper price from <?= $cmodel->cty_name; ?> Airport to anywhere you want, be it in intercity, one-way or outstation or anything Gozo covers it all by just clicking Gozo app from your smartphone or from Gozocabs official website. Book online the cheapest and best Airport cab booking service from the airport to anywhere in India with Gozo.</p>              
+					<p>Gozo Offers a hassle-free <b>airport transfer cabs</b> booking option at a cheaper price from <?= $cmodel->cty_name; ?> Airport to anywhere you want, be it in intercity, one-way or outstation or anything Gozo covers it all by just clicking Gozo app from your smartphone or from aaocab official website. Book online the cheapest and best Airport cab booking service from the airport to anywhere in India with Gozo.</p>              
 					<p>When arriving in <?= $cmodel->cty_name; ?> Airport, why wait in long lines for taxi or try to figure out the local transport options when you can have your driver waiting at the airport to pick you up. We can have you driver be waiting for you at arrivals, help you with your luggage and answer any questions you may have about your journey. All our our airport pickup drivers are local and in many cases, can understand English. You will receive the phone contact details of your driver my email and SMS, so you can be worry-free. <a href="https://support.aaocab.com">Gozo’s 24x7 customer support</a> is available by phone or chat should you need any assistance.</p>
 
 
@@ -284,7 +284,7 @@ if (isset($breadcrumbStructureMarkupData) && trim($breadcrumbStructureMarkupData
 
 						<?php } ?>
 						<h3 class="merriw h5 mt-2"><b>Luxury chauffeur driven car rentals and limos in <?= $cmodel->cty_name; ?></b></h3>
-						<p>You can also book luxury vehicles of various classes and brands like Hondas, Toyotas, Audis, BMWs, Mercedes in Delhi for airport transfers or day-based rentals. <a href="mailto:quotations@gozocabs.in?subject=Luxury+Vehicle+rental+in+<?= $cmodel->cty_name; ?>">Simply contact us to check for availability and pricing for Luxury vehicles. </a></p>
+						<p>You can also book luxury vehicles of various classes and brands like Hondas, Toyotas, Audis, BMWs, Mercedes in Delhi for airport transfers or day-based rentals. <a href="mailto:quotations@aaocab.in?subject=Luxury+Vehicle+rental+in+<?= $cmodel->cty_name; ?>">Simply contact us to check for availability and pricing for Luxury vehicles. </a></p>
 				</div>
 				<div class="col-12 col-md-4 col-xl-4">
 					<div class="card">

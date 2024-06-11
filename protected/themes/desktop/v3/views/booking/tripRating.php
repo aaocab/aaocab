@@ -492,7 +492,7 @@ Outstation - One-way, Round Trips & more</div>
 			?>
 <div class="row m0">
 <div class="col-3 p5"><img src="/images/google-5-Stars.jpg" alt="Google review" width="55"></div>
-<div class="col-6 p5"><img src="/images/gozo-white-cabs.svg" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="140"></div>
+<div class="col-6 p5"><img src="/images/gozo-white-cabs.svg" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="140"></div>
 <div class="col-3 p5 text-right"><img src="/images/tripadvisor-certificato.jpg" alt="Tripadvisor Certificato" width="55"></div>
 
 <div class="col-12 text-center p0 pt10 font-11 weight500 bg-orange color-white pb0">

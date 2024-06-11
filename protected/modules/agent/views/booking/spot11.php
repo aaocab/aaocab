@@ -1,7 +1,7 @@
        
 <div class="container mt50">
 <!--    <div class="row">
-        <div class="col-xs-12 text-center"><img src="/images/logo2.png" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></div>
+        <div class="col-xs-12 text-center"><img src="/images/logo2.png" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></div>
     </div>-->
 
     <div class="row spot-panel text-center">

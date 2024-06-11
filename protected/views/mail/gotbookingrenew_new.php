@@ -79,7 +79,7 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 				<tr>
 					<td>
 						<!--		<div style="width: 100%; position: relative; float: left;">
-									<div style="float: left;"><a href="http://www.aaocab.com/" target="_blank"><img src="/images/logo2_old.png?v=0.3" alt="Gozocabs" title="Gozocabs" width="130"></a></div>
+									<div style="float: left;"><a href="http://www.aaocab.com/" target="_blank"><img src="/images/logo2_old.png?v=0.3" alt="aaocab" title="aaocab" width="130"></a></div>
 									<div style="float: right;">
 										<div style="width: 100%; font-size: 13px; margin-bottom: 5px;"><img src="/images/ind-flag.png" alt="img" width="20"> (+91) 90518 77000</div>
 										<div style="width: 100%; font-size: 13px;"><img src="/images/world.png" alt="img" width="20"> (+1) 650-741-GOZO</div>
@@ -134,7 +134,7 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 								<?php
 								if ($model->bkgInvoice->bkg_advance_amount > 0)
 								{
-									echo 'Thank you for choosing GozoCabs. We have confirmed your reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.';
+									echo 'Thank you for choosing aaocab. We have confirmed your reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.';
 								}
 								else
 								{
@@ -156,7 +156,7 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 									}
 									else
 									{
-										echo 'Thank  you for choosing GozoCabs. We have received your reservation request.';
+										echo 'Thank  you for choosing aaocab. We have received your reservation request.';
 									}
 								}
 								?>
@@ -381,7 +381,7 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 
 						<table style="width: 100%; position: relative; float: left; position: relative; border: #DFE4EE 1px solid; margin-bottom: 20px; font-family: 'Arial'; line-height: 18px;">
 							<tr>
-								<td><a href="http://www.aaocab.com/book-cab" target="_black"><img src="<?= $baseURL ?>/images/hotlink-ok/local_rental.png" alt="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" title="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
+								<td><a href="http://www.aaocab.com/book-cab" target="_black"><img src="<?= $baseURL ?>/images/hotlink-ok/local_rental.png" alt="aaocab | Loved your trip | Give us a video testimonial | 20% get cash back" title="aaocab | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
 							</tr>		
 						</table>
 						<table cellpadding="6" style="width: 100%; position: relative; border: #DFE4EE 1px solid; margin-bottom: 20px; font-size: 14px;">

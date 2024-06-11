@@ -37,7 +37,7 @@ return array(
 //		'googleBrowserApiKey'	 => 'AIzaSyAUwr2jsBsWxcq0YIoI8UO3yGVWgPZv1Dk',
 		'googleApiKey'			 => 'AIzaSyCqR35KdPZlwpZvKMzKItFMCgvUB4dPgkI',
 		'googleBrowserApiKey'	 => 'AIzaSyAX-QHcLBUU5uuiD5QJ1HVrH8J4r8-ejZg',
-		'PickupAlertEmail'		 => 'callcenter@gozocabs.in',
+		'PickupAlertEmail'		 => 'callcenter@aaocab.in',
 		'https'					 => true,
 		'uploadPath'			 => '/var/lib/mysql-files',
 		'domain'				 => '.aaocab.com',
@@ -82,7 +82,7 @@ return array(
 			'apikey'	 => 'secret_87c66516-f5e5-42e6-9563-0bc8d3c876c5-fc8b1d1c-86f8-45cb',
 			'iv'		 => 'E85D5C404FC82759',
 			'aes_key'	 => 'CC1939673D2F1F782E1B08F578E2F715',
-			'm_code'	 => 'GOZOCABS',
+			'm_code'	 => 'aaocab',
 		),
 		'zaakpay'				 => array(
 			'environment'	 => 'production', //'sandbox' or 'production'
@@ -116,13 +116,13 @@ return array(
 		'google'				 => array(
 			'apikey'		 => array(
 				'0'	 => 'AIzaSyBR2PY1_R8tavxIUwuYj7_kpMkqmcgTMYI', //hale-aurora-289817
-				'1'	 => 'AIzaSyCqR35KdPZlwpZvKMzKItFMCgvUB4dPgkI', //gozocabs-1159
+				'1'	 => 'AIzaSyCqR35KdPZlwpZvKMzKItFMCgvUB4dPgkI', //aaocab-1159
 				'2'	 => 'AIzaSyDIG9NzYdRMjlpT83yyvPiY_MszbkZjW4E', //crucial-bonsai-196011
 				//'3'	 => 'AIzaSyAAUZ_f3QMu8ZUQXZaDIfeaVP7Saj0FKTc', //delta-tuner-265308
 			),
 			'browserapikey'	 => array(
 				'0' => 'AIzaSyAUwr2jsBsWxcq0YIoI8UO3yGVWgPZv1Dk', //hale-aurora-289817
-				'1' => 'AIzaSyDSnSYwrDs3LysZFAnoC6gNtdZbUYnqOW0', //gozocabs-1159
+				'1' => 'AIzaSyDSnSYwrDs3LysZFAnoC6gNtdZbUYnqOW0', //aaocab-1159
 				//'2' => 'AIzaSyBh1GtbR2qmNDTyX9pI8lNRDt_EXfez98k', //crucial-bonsai-196011
 				//'3' => 'AIzaSyAX-QHcLBUU5uuiD5QJ1HVrH8J4r8-ejZg', //delta-tuner-265308
 			),

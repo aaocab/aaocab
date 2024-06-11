@@ -32,9 +32,9 @@ $ctr = rand(0, 99) . date('mdhis');
 </div>
 <div class="content-boxed-widget">
 	<!--fb like button-->
-	<div class="fb-like" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+	<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 	<!--fb like button-->
-	<p class="font-16 bottom-0"><b>Go GozoCabs for One Way Taxi Drops on 2000+ Routes in India</b></p>
+	<p class="font-16 bottom-0"><b>Go aaocab for One Way Taxi Drops on 2000+ Routes in India</b></p>
 	<p>Gozo was founded on the core idea of simplifying taxi travel for all Indians. Since starting in November 2015, We have consistently enabled one-way taxi travel on more and more routes across India. As of 2018, Gozo has served across states in India and we are now the outstation travel provider with the widest reach. Our principals remain the same - to bring you the Best prices, with Great quality, 24x7 and  Nationwide.  Taking a one-way cab can be sometimes upto 50% cheaper than traveling one-way. We encourage customers to book their one-way trips atleast 7 days ahead of the trip so it improves our ability to offer you the lowest prices and also find you the best car suited to your needs. 
 	</p>
 	<p>

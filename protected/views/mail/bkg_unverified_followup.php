@@ -49,7 +49,7 @@ $msg = '<div style="width: 100%; overflow: auto;  border: 1px #aaa solid;color: 
 	<p>Please note that this payment link is valid until '. $arr['expire_on'] .'. After that, the quoted rate and availability may change.</p>
 	<p>If you have any questions or need further assistance, please do not hesitate to contact our customer support at <a href="tel:'.$arr['contact_us'].'">'. $arr['contact_us'] .'.</a></p>
 	<p>We look forward to serving you and providing a comfortable cab service for your journey. Thank you for considering us!</p>
-	<p>Team Gozocabs</b></p>
+	<p>Team aaocab</b></p>
 	</td>
 	</tr>           
 <tr>

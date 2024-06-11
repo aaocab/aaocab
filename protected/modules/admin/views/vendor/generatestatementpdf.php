@@ -120,7 +120,7 @@
     <tbody>
         <tr>
             <td colspan="" style="text-align: center; font-size: 9pt; width: 100% !important; padding: 5x; border: solid 1px #000;">
-                For all account related queries write to accounts@gozocabs.in
+                For all account related queries write to accounts@aaocab.in
             </td></tr></tbody></table>
 <table class="invoice_box">
     <tr class="blue2 white-color">

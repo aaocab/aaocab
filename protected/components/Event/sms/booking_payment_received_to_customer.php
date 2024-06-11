@@ -20,7 +20,7 @@ try
 	}
 	else
 	{
-		$msg = $model->bkg_booking_id . ' | Received Rs.' . round($model->bkgInvoice->bkg_advance_amount) . ' | See cab driver updates at ' . $paymentLink . ' - Gozocabs';
+		$msg = $model->bkg_booking_id . ' | Received Rs.' . round($model->bkgInvoice->bkg_advance_amount) . ' | See cab driver updates at ' . $paymentLink . ' - aaocab';
 	}
 
 	$templateName			 = 'booking_payment_received_to_customer';

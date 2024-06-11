@@ -1329,7 +1329,7 @@ $defaultPaymentGateway	 = Config::model()->getAccess("paymentgateway.default");
 				"key": data3.key, // Enter the Key ID generated from the Dashboard
 				"amount": data3.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
 				"currency": data3.currency,
-				"name": "Gozocabs",
+				"name": "aaocab",
 				"description": "Make Payment",
 				"image": "http://www.aaocab.com/images/gozo_svg_logo.svg?v0.1",
 				"order_id": data3.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1

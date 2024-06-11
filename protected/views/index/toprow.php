@@ -26,7 +26,7 @@ else
 <? } ?>
 <span class="hidden-sm hidden-md hidden-lg" style="font-size:20px;cursor:pointer; position:absolute; padding: 5px; top: 16px; right: 11px; z-index: 99;" onclick="openNav()"><i class="fa fa-bars"></i></span>
 <div class="col-xs-6 col-sm-2 col-md-2 pt10 logo-panel">
-	<figure><a class="" href="/"><img src="/images/logo2_outstation.png?v1.4" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a></figure>
+	<figure><a class="" href="/"><img src="/images/logo2_outstation.png?v1.4" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a></figure>
 </div>
 
 <div class="col-xs-6 col-sm-10 col-md-10 pull-right">

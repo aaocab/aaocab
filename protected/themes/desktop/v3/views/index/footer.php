@@ -146,7 +146,7 @@ if ($userId > 0)
 							</div>
 							<div class="col-2 social-2">
 								<div class="font-16 mb10 text-uppercase merriw"><b>Keep in touch</b></div>
-								<a href="http://www.facebook.com/gozocabs" target="_blank"><i class="bx bxl-facebook"></i></a><a href="https://twitter.com/gozocabs" target="_blank"><i class="bx bxl-twitter"></i></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><i class="bx bxl-instagram"></i></a>
+								<a href="http://www.facebook.com/aaocab" target="_blank"><i class="bx bxl-facebook"></i></a><a href="https://twitter.com/aaocab" target="_blank"><i class="bx bxl-twitter"></i></a><a href="http://www.instagram.com/aaocab/" target="_blank"><i class="bx bxl-instagram"></i></a>
 							</div>
 							<div class="col-3">
 								<div class="font-16 mb10 text-uppercase merriw"><b>Official Travel Partner</b></div>
@@ -162,7 +162,7 @@ if ($userId > 0)
 				<div class="row pt20 pb20">
 					<div class="col-12 text-link-black text-center font-12 ">
 						<a href="/ask-us-to-be-official-partner">Ask us to be official partner</a><span>&bullet;</span><a href="/business-travel">Business travel</a><span>&bullet;</span><a href="/for-startups">For startups</a><span>&bullet;</span><a href="/your-travel-desk">Your travel desk</a><span>&bullet;</span><a href="/join-our-agent-network">Join our agent network</a><span>&bullet;</span><a href="/brand-partner">Brand Partners</a><span>&bullet;</span><a href="/price-guarantee">Price guarantee</a><span>&bullet;</span><a href="/terms/doubleback">Double back</a><br>
-						<a href="/">Home</a><span class="font-18">&bullet;</span><a href="/blog">Blog</a><span>&bullet;</span><a href="/aboutus">About us</a><span>&bullet;</span><a href="/faq">Faq's</a><span>&bullet;</span><a href="/contactus">Contact us</a><span>&bullet;</span><a href="/careers">Careers</a><span>&bullet;</span><a href="/terms">Terms and conditions</a><span>&bullet;</span><a href="/disclaimer">Disclaimer</a><span>&bullet;</span><a href="/privacy">Privacy policy</a><span>&bullet;</span><a href="/sitemap">Sitemap</a><span>&bullet;</span><a href="/one-way-cab">One way cabs</a><span>&bullet;</span><a href="/packages">Packages</a><span>&bullet;</span><a href="/book-cab/daily-rental">Day-rental</a><br><a href="/book-cab/airport-pickup">Airport-transfers</a><span>&bullet;</span><a href="/whygozo" >Why GozoCabs</a><span>&bullet;</span><a href="/newsroom">News room</a><br>
+						<a href="/">Home</a><span class="font-18">&bullet;</span><a href="/blog">Blog</a><span>&bullet;</span><a href="/aboutus">About us</a><span>&bullet;</span><a href="/faq">Faq's</a><span>&bullet;</span><a href="/contactus">Contact us</a><span>&bullet;</span><a href="/careers">Careers</a><span>&bullet;</span><a href="/terms">Terms and conditions</a><span>&bullet;</span><a href="/disclaimer">Disclaimer</a><span>&bullet;</span><a href="/privacy">Privacy policy</a><span>&bullet;</span><a href="/sitemap">Sitemap</a><span>&bullet;</span><a href="/one-way-cab">One way cabs</a><span>&bullet;</span><a href="/packages">Packages</a><span>&bullet;</span><a href="/book-cab/daily-rental">Day-rental</a><br><a href="/book-cab/airport-pickup">Airport-transfers</a><span>&bullet;</span><a href="/whygozo" >Why aaocab</a><span>&bullet;</span><a href="/newsroom">News room</a><br>
 						<p class="mt-1">© <?= date("Y") ?> Gozo Technologies Pvt. Ltd. All Rights Reserved.</p>
 					</div>
 				</div>

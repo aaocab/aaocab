@@ -2,7 +2,7 @@
 $msg = "";
 $url = Yii::app()->getBaseUrl(true);
 $msg = 'Dear ' . $data['userName'] .
-        ',<br/><br/>Thanks for traveling with Gozocabs ( Booking ID : ' . $data['bookingId'] . '). We would love to hear your feedback on how we did.
+        ',<br/><br/>Thanks for traveling with aaocab ( Booking ID : ' . $data['bookingId'] . '). We would love to hear your feedback on how we did.
         <br/><br/>Please tell us what you think about the car, driver, our customer service and any suggestion you have for us to do better. 
         <p style="text-align:center;"><b style="text-align: center;">How likely are you to recommend Gozo to your friends and family?</b></p>
 		<table border="0" align="center" cellpadding="0" cellspacing="15" style="font-family:Arial, Helvetica, sans-serif;">
@@ -27,6 +27,6 @@ $msg = 'Dear ' . $data['userName'] .
 
         '<br/><br/><a href="http://www.aaocab.com/refer-friend/"><img src="http://www.aaocab.com/images/refer_friend_email.jpg"/></a>'.
         '<br/><br/>Regards,' .
-        '<br/>Gozocabs Support' .
+        '<br/>aaocab Support' .
         '<br/>+91-90518-77-000';
 return $msg;

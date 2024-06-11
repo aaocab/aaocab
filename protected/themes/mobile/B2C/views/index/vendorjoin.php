@@ -70,7 +70,7 @@ for ($i = $dy; $i >= $dy - 20; $i--)
                                                                 {
                                                                         $("#VendorInnerDiv").hide();
                                                                         $("#VendorOuterDiv").show();
-                                                                        $("#VendorOuterDivText").html("<h1 class=\"font-18 color-green3-dark text-center bottom-0\">Your application is almost approved.</h1><p class=\"text-center bottom-10\"><a href=\"https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en_IN\" target=\"_blank\" class=\"color-highlight\">Download Gozo partner app – from google play store</a></p><p class=\"text-center bottom-10\">Watch this video to sign your vendor agreement and upload your papers</p><p class=\"text-center bottom-0\"><a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0</a></p><p class=\"text-center bottom-10\">You will start receiving business within 48 hours of uploading all your papers</p>"); 
+                                                                        $("#VendorOuterDivText").html("<h1 class=\"font-18 color-green3-dark text-center bottom-0\">Your application is almost approved.</h1><p class=\"text-center bottom-10\"><a href=\"https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en_IN\" target=\"_blank\" class=\"color-highlight\">Download Gozo partner app – from google play store</a></p><p class=\"text-center bottom-10\">Watch this video to sign your vendor agreement and upload your papers</p><p class=\"text-center bottom-0\"><a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0</a></p><p class=\"text-center bottom-10\">You will start receiving business within 48 hours of uploading all your papers</p>"); 
                                                                 }
                                                                 else
                                                                 {		countSubmit--;
@@ -238,8 +238,8 @@ for ($i = $dy; $i >= $dy - 20; $i--)
 	</div>
 	<h3 class="font-16">Any questions? Contact our Vendor Relations team</h3>
 	<p class="bottom-10"><img src="<?= Yii::app()->baseUrl ?>/images/india-flag.png" alt="INDIA" class="display-ini mr10"><a href="tel:03371122005"  style="color:#000">03371122005</a> <span style="font-size: 12px;">(24x7 Dedicated Vendor line)</span></p>
-	<p class="bottom-10"><a href="mailto:vendors@gozocabs.in"><i class="fa fa-envelope font-16 color-highlight"></i> vendors@gozocabs.in </a></p>
-	<p class="bottom-10"><a href="https://t.me/gozocabs"><i class="fa fa-paper-plane font-16 color-highlight"></i> Join the GozoCabs channel on telegram </a></p>
+	<p class="bottom-10"><a href="mailto:vendors@aaocab.in"><i class="fa fa-envelope font-16 color-highlight"></i> vendors@aaocab.in </a></p>
+	<p class="bottom-10"><a href="https://t.me/aaocab"><i class="fa fa-paper-plane font-16 color-highlight"></i> Join the aaocab channel on telegram </a></p>
 	<div class="decoration bottom-10"></div>
 	<h3 class="font-16">Travel Agents, Hotel owners, Shopkeepers...<a href="<?php echo Yii::app()->createUrl('/agent/join'); ?>" class="color-highlight default-link">Join our travel partner network here</a></h3>
         <h3 class="mb0 font-16">Click the link below for YouTube Videos (Hindi Version)</h3>
@@ -249,7 +249,7 @@ for ($i = $dy; $i >= $dy - 20; $i--)
             <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=4630FwpTMsE&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=33" target="_blank" style="display: inline-block">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
             <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=etKRxPYYjLw&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=35" target="_blank" style="display: inline-block">Partner App - Full Vendor App Functionality</a></li>
         </ul>
-        <h3 class="mb0 font-16">Watch, what our Partners are saying about GozoCabs...</h3>
+        <h3 class="mb0 font-16">Watch, what our Partners are saying about aaocab...</h3>
         <div class="text-center mb5">
             <div class="text-center mb5"><b>Vipul Agarwal</b></div>
             <div><iframe width="100%" height="150" src="http://www.youtube.com/embed/eACThcHWMtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
@@ -430,15 +430,15 @@ for ($i = $dy; $i >= $dy - 20; $i--)
     function signinWithFB() {
 		$("#social_Type").val('0');
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
     }
     function signinWithGoogle() {
 		$("#social_Type").val('2');
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-		//googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+		//googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 	   //parent.window.location = href;
-		googleWindow = window.open(href, 'Gozocabs', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=200,height=200');
+		googleWindow = window.open(href, 'aaocab', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=200,height=200');
 		return false;
 		
     }

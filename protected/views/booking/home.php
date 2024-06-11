@@ -52,7 +52,7 @@ $arr_url = explode("-", $rut_url);
     <div class="col-lg-7 col-sm-11 col-md-9 text-center flash_banner float-none marginauto hidden">
         <span class="h3 mt0 mb5 flash_red">Save upto 50% on every booking*</span><br>
         <span class="h5 text-uppercase mt0 mb5 mt10">Taxi and Car rentals all over India – Gozo’s online cab booking service</span><br>
-        Gozocabs is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
+        aaocab is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
     </div>
 </div>
 <div class="row flash_banner hide" style="background: #ffc864;">
@@ -63,7 +63,7 @@ $arr_url = explode("-", $rut_url);
         <figure><img  class="lozad"  data-src="/images/flash_sm1.jpg?v=1.1" alt="Flash Sale"></figure>		
     </div>
     <div class="col-xs-12 p0 hidden-lg hidden-md hidden-sm text-center">
-		<? /* /?><a target="_blank" href="https://twitter.com/gozocabs"><?/ */ ?>
+		<? /* /?><a target="_blank" href="https://twitter.com/aaocab"><?/ */ ?>
 			<figure><img  class="lozad"  data-src="/images/flash_sm1.jpg?v=1.1" alt="Flash Sale"></figure>
 			<? /* /?></a><?/ */ ?>
     </div>
@@ -225,7 +225,7 @@ if ($type == 'route')
 									</a>
 			<?php } ?>
 								<!--fb like button-->
-								<div class="fb-like pull-right mb30" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+								<div class="fb-like pull-right mb30" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 								<!--fb like button-->
 							</h1>
 
@@ -492,11 +492,11 @@ if ($type == 'route')
 						?>
 
 							<div id="desc1" class="col-xs-12 feature">
-								<h3 class="mt0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Why Gozocabs for <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
+								<h3 class="mt0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Why aaocab for <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
 								<div class="row">
 									<div class="col-xs-12">
 										Our mission is to simplify inter-city travel
-										Gozo means DELIGHT and JOY! Travelling with Gozocabs, you will be overjoyed. For
+										Gozo means DELIGHT and JOY! Travelling with aaocab, you will be overjoyed. For
 										we know what runs in your mind while booking an inter-city taxi: <br/><br/>
 
 										<ul class="list">

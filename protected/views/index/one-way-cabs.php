@@ -2,7 +2,7 @@
 <div class="row bs-example">
 
 	<div class="col-xs-12">
-		<h4>Go GozoCabs for One Way Taxi Drops on 2000+ Routes in India</h4>
+		<h4>Go aaocab for One Way Taxi Drops on 2000+ Routes in India</h4>
 
 		<p>Gozo was founded on the core idea of simplifying taxi travel for all Indians. Since starting in November 2015, We have consistently enabled one-way taxi travel on more and more routes across India. As of 2018, Gozo has served across states in India and we are now the outstation travel provider with the widest reach. Our principals remain the same - to bring you the Best prices, with Great quality, 24x7 and  Nationwide.  Taking a one-way cab can be sometimes upto 50% cheaper than traveling one-way. We encourage customers to book their one-way trips atleast 7 days ahead of the trip so it improves our ability to offer you the lowest prices and also find you the best car suited to your needs. 
 		</p>

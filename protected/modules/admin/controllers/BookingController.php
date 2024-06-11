@@ -6514,7 +6514,7 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 
 	public function actionUploads()
 	{
-		$this->pageTitle = 'Gozocabs - Booking Uploads';
+		$this->pageTitle = 'aaocab - Booking Uploads';
 		$bkg_id			 = Yii::app()->request->getParam('bkg_id');
 		$outputJs		 = Yii::app()->request->isAjaxRequest;
 		$method			 = "render" . ($outputJs ? "Partial" : "");

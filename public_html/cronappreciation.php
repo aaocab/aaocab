@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli('localhost', 'root', 'anupam', 'gozocabs');
+$conn = new mysqli('localhost', 'root', 'anupam', 'aaocab');
 // Check connection
 if ($conn->connect_error)
 {

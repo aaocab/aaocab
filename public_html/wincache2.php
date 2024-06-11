@@ -41,7 +41,7 @@
  */
 define('USE_AUTHENTICATION', 1);
 define('USERNAME', 'wincache');
-define('PASSWORD', 'gozocabs');
+define('PASSWORD', 'aaocab');
 
 /**
  * The Basic PHP authentication will work only when IIS is configured to support 

@@ -9,6 +9,6 @@ $msg = 'Dear '. $arr['userName'] .
 		'<br/><br/><a href="'.$arr['url'].'">Click here </a> to look at the bookings that match your alert.' .
 		'<br/><br/>Please create your booking immediately as the seats can sell out quickly.<br/>' .
         '<br/>Regards,' .
-        '<br/>Gozocabs<br/><br/>';
+        '<br/>aaocab<br/><br/>';
 
  echo $msg;

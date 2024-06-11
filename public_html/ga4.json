@@ -16,7 +16,7 @@
 	    },
 	    "enabled": true,
 	    "proxyOnly": false,
-	    "destinationDomains": ["*www.aaocab.com*", "*m.aaocab.com*", "*www-gozocabs-com.cdn.ampproject.org*"]
+	    "destinationDomains": ["*www.aaocab.com*", "*m.aaocab.com*", "*www-aaocab-com.cdn.ampproject.org*"]
 	}
     },
     "triggers": {

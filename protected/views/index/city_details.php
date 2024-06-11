@@ -51,7 +51,7 @@ $this->newHome = true;
     <div class="col-lg-6 col-sm-10 col-md-8 text-center flash_banner float-none marginauto">
         <span class="h3 mt0 mb5 flash_red">Save upto 50% on every booking*</span><br>
         <span class="h5 text-uppercase mt0 mb5 mt10">Taxi and Car rentals all over India – Gozo’s online cab booking service</span><br>
-        Gozocabs is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
+        aaocab is your one-stop shop for hiring chauffeur driven taxi in India for inter-city, airport transfers and even local daily tours, specializing in one-way taxi trips all over India at transparent fares. Gozo’s coverage extends across <b>2,000</b> locations in India, with over <b>20,000</b> vehicles, more than <b>75,000</b> satisfied customers and above <b>10</b> Million kms driven in a year alone. Book by web, phone or app 24x7! 
     </div>
 </div>
 <div class="row flash_banner hide" style="background: #ffc864;">
@@ -62,7 +62,7 @@ $this->newHome = true;
         <figure><img src="/images/flash_sm1.jpg?v=1.1" alt="Flash Sale"></figure>		
     </div>
     <div class="col-xs-12 p0 hidden-lg hidden-md hidden-sm text-center">
-<? /* /?><a target="_blank" href="https://twitter.com/gozocabs"><?/ */ ?>
+<? /* /?><a target="_blank" href="https://twitter.com/aaocab"><?/ */ ?>
         <figure><img src="/images/flash_sm1.jpg?v=1.1" alt="Flash Sale"></figure>
 <? /* /?></a><?/ */ ?>
     </div>
@@ -110,11 +110,11 @@ if ($type == 'city')
 			<div class="col-xs-12 col-sm-10 col-md-10 float-none marginauto">
 				<h1>Book Sanitized & Disinfected car rental in <?php echo $cmodel->cty_name; ?> with driver for local and outstation trips with Gozo</h1>
 	            Book sanitized & disinfected car rental in the city with a driver for safe travel locally IN-THE-CITY or on
-	            outstation trips India wide with Gozocabs. 
+	            outstation trips India wide with aaocab. 
 	            <br/>Gozo Cabs is taking precautionary measures during the pandemic to ensure you have the safest journey by disinfecting and sanitizing the cars before and after every ride.
 
 	            <br/>Book Local Hourly car rental for IN-THE-CITY ride and outstation cab service for intercity travel at an
-	            affordable price with Gozocabs. 
+	            affordable price with aaocab. 
 	            <br/>Check our hourly rental cab and outstation cab fares below. Our fares
 	            update dynamically in response to market demand and supply conditions so booking in advance is
 	            always best.
@@ -130,12 +130,12 @@ if ($type == 'city')
 	            <br/>Exchanging currency notes is not a good idea during the pandemic. So we require that you plan on
 	            paying for your cab fare in full online. You can make a part payment before your trip starts and the
 	            remainder of the payment will also need to be paid by you online
-				<h2>Hourly car rental fares for local trips with GozoCabs Day Rental!</h2>
-				Hey <?= $cmodel->cty_name ?>! Now You can now request for GozoCabs at unbelievably attractive prices for local rentals and outstation cab services.
+				<h2>Hourly car rental fares for local trips with aaocab Day Rental!</h2>
+				Hey <?= $cmodel->cty_name ?>! Now You can now request for aaocab at unbelievably attractive prices for local rentals and outstation cab services.
 				With cab fares starting from ₹<?= $dayRentalprice[9][1]; ?> (includes 4 hr & 40 kms) for local day rentals.
 
-				<br/>By booking Gozocabs for local rentals you have a cab & driver for a fixed number of hours and take as many stops as we drive you around the city as you like during the time of your booking 
-				Whether you want to go for  shopping, for back to back meetings, weddings or sightseeing, GozoCabs is at your disposal, waiting for you, just like your own car.
+				<br/>By booking aaocab for local rentals you have a cab & driver for a fixed number of hours and take as many stops as we drive you around the city as you like during the time of your booking 
+				Whether you want to go for  shopping, for back to back meetings, weddings or sightseeing, aaocab is at your disposal, waiting for you, just like your own car.
 				<br/>And the best part – you have the option to choose the package that you like. Our local rental prices are
 
 
@@ -167,9 +167,9 @@ if ($type == 'city')
 				Get the same high quality and great prices that you have come to expect from Gozo. Now for local city rentals too.<br/>
 
 				<ul>
-					<li><strong> Cabs at your Disposal:</strong> With GozoCabs Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.<br/></li>
+					<li><strong> Cabs at your Disposal:</strong> With aaocab Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.<br/></li>
 					<li><strong>Affordable Packages:</strong> Packages start for 4 hours and can extend up to 12 hours! Also, with some nominal additional charges cabs can be retained beyond package limits.<br/></li>
-					<li><strong>Flexible Bookings:</strong>  Easily plan a day out without having to worry about conveyance as with GozoCabs Day Rentals you can book a cab in advance and ride as per your convenience.<br/></li>
+					<li><strong>Flexible Bookings:</strong>  Easily plan a day out without having to worry about conveyance as with aaocab Day Rentals you can book a cab in advance and ride as per your convenience.<br/></li>
 					<li><strong>Pay Cash or go Cashless:</strong>  Now go cashless and travel easy. We have multiple payment option for your hassle-free transaction.<br/> </li>
 					<li><strong>No waiting or surge charges:</strong> Unlike point to point services you get a cab and driver at your disposal for the length of time of your rental. If you know you are going to have a busy day traveling around town, just book a car and driver for the day and go where you want in town</li>	
 				</ul>  
@@ -203,7 +203,7 @@ if ($type == 'city')
 							</small>
 						</a>
 	<?php } ?><!--fb like button-->
-					<div class="fb-like pull-right mb30" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+					<div class="fb-like pull-right mb30" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 					<!--fb like button--></h2>
 				<!-- Rating start here -->
 				<div class="table-responsive">

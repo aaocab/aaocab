@@ -40,7 +40,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks']) {
 <? } ?>
 <?
 $oneWayInfo = '<ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
+    <li>Your reservation is subject to aaocab terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A ONE-WAY POINT TO POINT JOURNEY: Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer one-way transfers at a very attractive price by scheduling our vehicles to serve the one-way transfer needs of multiple customers in a sequence. As an example, if you are going one-way from City  A to City B we have estimated your time of travel and have most likely scheduled our driver to pickup another customer in City B.
         <ol type="i">
             <li>
@@ -125,7 +125,7 @@ $oneWayInfo = '<ol type="1" style="font-size:10px; line-height:15px;padding-left
 </ol>';
 
 $airportInfo = '<ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
+    <li>Your reservation is subject to aaocab terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A LOCAL RENTAL FOR AIRPORT TRANSFER: Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer low priced airport transfers at a very attractive price by scheduling our vehicles to serve the airport pickup and drop needs of multiple customers in a sequence. As an example, if you are going from City center to Airport we have estimated your time of travel and have most likely scheduled our driver to pickup another customer at the Airport after completion of your trip.
         <ol type="a">
             <li>
@@ -174,7 +174,7 @@ $airportInfo = '<ol type="1" style="font-size:10px; line-height:15px;padding-lef
 </ol>';
 
 $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions.</li>
+    <li>Your reservation is subject to aaocab terms and conditions.</li>
     <li>YOU HAVE BOOKED A TIME & DISTANCE BASED RENTAL 
         <ol type="1">
             <li>
@@ -221,7 +221,7 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
        We take security seriously.
        <ol  type="1">
            <li>
-                You MUST CHECK identification of the driver and confirm the license plate of your car AT THE START OF THE TRIP. If the Driver name and ID do not match the name provided to you by Gozo, please DO NOT RIDE unless it has been OK’ed with a new SMS directly from Gozocabs first. Please ensure that the license plate of the car matches the information provided to you by Gozo. Gozo only provides you taxis that carry a commercial license permit (License plate is yellow with black letters). 
+                You MUST CHECK identification of the driver and confirm the license plate of your car AT THE START OF THE TRIP. If the Driver name and ID do not match the name provided to you by Gozo, please DO NOT RIDE unless it has been OK’ed with a new SMS directly from aaocab first. Please ensure that the license plate of the car matches the information provided to you by Gozo. Gozo only provides you taxis that carry a commercial license permit (License plate is yellow with black letters). 
            </li>
            <li>
                 DO NOT RIDE IF THE VEHICLE & DRIVER INFORMATION DO NOT MATCH THE INFORMATION PROVIDED BY GOZO. WE SHALL NOT BE RESPONSIBLE OR LIABLE IN ANY MANNER IF YOU CHOOSE TO RIDE IN A VEHICLE THAT IS NOT COMMERCIALLY LICENSED OR RIDE WITH A DRIVER OTHER THAN THE ONE THAT WE HAVE ASSIGNED TO YOU.
@@ -261,10 +261,10 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
                                                                     }?></strong><br /><?php
                 if($model->bkgInvoice->bkg_advance_amount>0)
                 {
-                    echo 'Thank you for choosing GozoCabs. We have confirmed your reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.';
+                    echo 'Thank you for choosing aaocab. We have confirmed your reservation request.You will receive the cab details at least 3 hours before your scheduled pickup time.';
                 }
                 else{
-                    echo 'Thank  you for choosing GozoCabs. We have received your reservation request.';
+                    echo 'Thank  you for choosing aaocab. We have received your reservation request.';
                 }?>
                 </p></td>
     </tr>

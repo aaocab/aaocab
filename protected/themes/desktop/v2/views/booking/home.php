@@ -100,7 +100,7 @@ if ($type == 'route')
 			<div class="row">
 				<div class="col-12">
 					<h1 class="font-24" title="Travel from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>"><b>
-							Book <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Cabs online with Gozocabs 
+							Book <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Cabs online with aaocab 
 							<?php
 							if ($ratingCountArr['ratings'] > 0)
 							{
@@ -129,11 +129,11 @@ if ($type == 'route')
 								</a>
 							<?php } ?>
 							<!--fb like button-->
-							<div class="fb-like pull-right mb30" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div></b>
+							<div class="fb-like pull-right mb30" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div></b>
 						<!--fb like button-->
 					</h1>
 				</div>
-				<!--   <div class="col-xs-12 col-sm-7 col-md-8 feature"><h1> Book <? //= $rmodel->rutFromCity->cty_name     ?> to <? //= $rmodel->rutToCity->cty_name     ?> Cabs online with Gozocabs</h1></br></br></div>-->
+				<!--   <div class="col-xs-12 col-sm-7 col-md-8 feature"><h1> Book <? //= $rmodel->rutFromCity->cty_name     ?> to <? //= $rmodel->rutToCity->cty_name     ?> Cabs online with aaocab</h1></br></br></div>-->
 				</div>
 				<div class="row">
 					<div id="desc" class="col-md-8 feature">
@@ -144,7 +144,7 @@ if ($type == 'route')
 					<section>						
 						<div itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 
-							<h2 class="font-16" itemprop="name">Why Choose Gozocabs?</h2>
+							<h2 class="font-16" itemprop="name">Why Choose aaocab?</h2>
 
 							<div class="mb20" itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 								<div itemprop="text" class="ui-page">
@@ -618,7 +618,7 @@ if ($type == 'route')
 								<div itemprop="text">
 									<p>There are many outstation taxi services that you can book either offline or online. Best is a relative term and it depends on what you prefer as a traveller. Most travelers prefer comfort, quality service at a reasonable price. 
 					Be careful when trying to haggle for the lowest priced or cheapest cab as you could open yourself to the risk of operators cutting corners in service and also over laying with hidden charges. 
-					Booking <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> taxi with Gozocabs offers hassle less and worry free online Taxi options.
+					Booking <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> taxi with aaocab offers hassle less and worry free online Taxi options.
 				</p>
 								</div>
 							</div>

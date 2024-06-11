@@ -3,8 +3,8 @@
 ?>
 <? $imgVer	 = Yii::app()->params['imageVersion']; ?>
 <div class="page-login header-clear-large page-login-full">
-	<h3 class="ultrabold top-30 bottom-0 text-center">Sign Up to Gozocabs</h3>
-	<p class="text-center mb0">Already on Gozocabs? <a href="signin">Log In</a></p>
+	<h3 class="ultrabold top-30 bottom-0 text-center">Sign Up to aaocab</h3>
+	<p class="text-center mb0">Already on aaocab? <a href="signin">Log In</a></p>
 	<div class="line-f3 line-height20 text-center uppercase mt20">
 		<a  class="button-round button-icon shadow-small regularbold bg-facebook button-s" target="_blank" href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook')); ?>"><i class="fab fa-facebook"></i> Connect with Facebook</a>
 		

@@ -289,7 +289,7 @@ class UsersController extends BaseController
 			$process_sync_data	 = Yii::app()->request->getParam('data');
 			Logger::create('Request DATA social_linking : ' . $process_sync_data, CLogger::LEVEL_TRACE);
 			//$process_sync_data   = '{"vnd_id":"23451","data":"{\"id\":\"1013949392994276306999988888333177\",\"email\":\"testgozo19011111@gmail.com\",\"familyName\":\"test\",\"givenName\":\"gozo\",\"displayName\":\"gozo test\",\"grantedScopes\":\"[https:\\\/\\\/www.googleapis.com\\\/auth\\\/userinfo.profile, https:\\\/\\\/www.googleapis.com\\\/auth\\\/userinfo.email, openid, profile, email]\"}","provider":"Google"}';					
-			//$process_sync_data = '{"vnd_id":"34158","data":"{\"id\":\"3456754344\",\"email\":\"sudhangshu@gozocabs.in\",\"familyName\":\"test\",\"givenName\":\"gozo\",\"displayName\":\"gozo test\",\"grantedScopes\":\"[https:\\\/\\\/www.googleapis.com\\\/auth\\\/userinfo.profile, https:\\\/\\\/www.googleapis.com\\\/auth\\\/userinfo.email, openid, profile, email]\"}","provider":"Facebook"}';
+			//$process_sync_data = '{"vnd_id":"34158","data":"{\"id\":\"3456754344\",\"email\":\"sudhangshu@aaocab.in\",\"familyName\":\"test\",\"givenName\":\"gozo\",\"displayName\":\"gozo test\",\"grantedScopes\":\"[https:\\\/\\\/www.googleapis.com\\\/auth\\\/userinfo.profile, https:\\\/\\\/www.googleapis.com\\\/auth\\\/userinfo.email, openid, profile, email]\"}","provider":"Facebook"}';
 
 			$data1			 = CJSON::decode($process_sync_data, true);
 			$vndId			 = $data1['vnd_id'];
@@ -2414,8 +2414,8 @@ class UsersController extends BaseController
 								"<br/><b>Vendor City : </b>" . $cityModel->cty_name;
 						$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 						$mail->setLayout('mail');
-						$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
-						$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@aaocab.com' => 'Info Gozocabs'));
+						$mail->setFrom('info@aaocab.com', 'Info aaocab');
+						$mail->setTo(array('team@aaocab.in' => 'Team aaocab', 'info@aaocab.com' => 'Info aaocab'));
 						$mail->setBody($body);
 						$mail->setSubject("New vendor signed up");
 						if ($mail->sendMail())
@@ -2427,7 +2427,7 @@ class UsersController extends BaseController
 							$delivered = "Email not sent";
 						}
 						$usertype	 = EmailLog::Admin;
-						$email1		 = 'team@gozocabs.in';
+						$email1		 = 'team@aaocab.in';
 						$email2		 = 'info@aaocab.com';
 						$subject	 = 'New vendor signed up';
 						$emailObj	 = new emailWrapper();
@@ -2531,8 +2531,8 @@ class UsersController extends BaseController
 								"<br/><b>Vendor City : </b>" . $data['city'];
 						$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 						$mail->setLayout('mail');
-						$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
-						$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@aaocab.com' => 'Info Gozocabs'));
+						$mail->setFrom('info@aaocab.com', 'Info aaocab');
+						$mail->setTo(array('team@aaocab.in' => 'Team aaocab', 'info@aaocab.com' => 'Info aaocab'));
 						$mail->setBody($body);
 						$mail->setSubject("New vendor signed up");
 						if ($mail->sendMail())
@@ -2544,7 +2544,7 @@ class UsersController extends BaseController
 							$delivered = "Email not sent";
 						}
 						$usertype	 = EmailLog::Admin;
-						$email1		 = 'team@gozocabs.in';
+						$email1		 = 'team@aaocab.in';
 						$email2		 = 'info@aaocab.com';
 						$subject	 = 'New vendor signed up';
 						$emailObj	 = new emailWrapper();
@@ -3077,7 +3077,7 @@ class UsersController extends BaseController
 			$username	 = $users->usr_name;
 			$code		 = rand(999, 9999);
 
-			$body	 = "<p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>##CODE##</span> to reset password of your Gozocabs Vendor Account.</p><br><br>";
+			$body	 = "<p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>##CODE##</span> to reset password of your aaocab Vendor Account.</p><br><br>";
 			$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 			$body	 = str_replace("##CODE##", $code, $body);
 			$mail->setLayout('mail');

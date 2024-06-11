@@ -16,7 +16,7 @@
 
 <div class="container mt50" id="spotbookingdiv">
 	<!--    <div class="row">
-			<div class="col-xs-12 text-center"><img src="/images/logo2.png" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></div>
+			<div class="col-xs-12 text-center"><img src="/images/logo2.png" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></div>
 		</div>-->
     <div class="row spot-panel">
         <div class="col-xs-12 col-sm-6 text-center mt30 spot_link">

@@ -390,20 +390,20 @@ if ($type == 'city')
 	<?php $c++; } ?>
 					</amp-accordion>
 					<h1>Hourly local car rental fares for Day Rental cabs in <?php echo $cmodel->cty_name; ?></h1>
-					Hey <?= $cmodel->cty_name ?>! Now You can now request for GozoCabs at unbelievably attractive prices for local rentals and outstation cab services.
+					Hey <?= $cmodel->cty_name ?>! Now You can now request for aaocab at unbelievably attractive prices for local rentals and outstation cab services.
 					With cab fares starting from ₹<?= $dayRentalprice[9][1]; ?> (includes 4 hr & 40 kms) for local day rentals.
 
-					<br/>By booking Gozocabs for local rentals you have a cab & driver for a fixed number of hours and take as many stops as we drive you around the city as you like during the time of your booking 
-					Whether you want to go for  shopping, for back to back meetings, weddings or sightseeing, GozoCabs is at your disposal, waiting for you, just like your own car.
+					<br/>By booking aaocab for local rentals you have a cab & driver for a fixed number of hours and take as many stops as we drive you around the city as you like during the time of your booking 
+					Whether you want to go for  shopping, for back to back meetings, weddings or sightseeing, aaocab is at your disposal, waiting for you, just like your own car.
 					<br/>And the best part – you have the option to choose the package that you like. Our local rental prices are
 
 					<h2>Why book a day rental cab in <?php echo $cmodel->cty_name; ?> with Gozo Cabs?</h2>
 					Get the same high quality and great prices that you have come to expect from Gozo. Now for local city rentals too.<br/>
 
 					<ul>
-						<li><strong> Cabs at your Disposal:</strong> With GozoCabs Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.<br/></li>
+						<li><strong> Cabs at your Disposal:</strong> With aaocab Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.<br/></li>
 						<li><strong>Affordable Packages:</strong> Packages start for 4 hours and can extend up to 12 hours! Also, with some nominal additional charges cabs can be retained beyond package limits.<br/></li>
-						<li><strong>Flexible Bookings:</strong>  Easily plan a day out without having to worry about conveyance as with GozoCabs Day Rentals you can book a cab in advance and ride as per your convenience.<br/></li>
+						<li><strong>Flexible Bookings:</strong>  Easily plan a day out without having to worry about conveyance as with aaocab Day Rentals you can book a cab in advance and ride as per your convenience.<br/></li>
 						<li><strong>Pay Cash or go Cashless:</strong>  Now go cashless and travel easy. We have multiple payment option for your hassle-free transaction.<br/> </li>
 						<li><strong>No waiting or surge charges:</strong> Unlike point to point services you get a cab and driver at your disposal for the length of time of your rental. If you know you are going to have a busy day traveling around town, just book a car and driver for the day and go where you want in town</li>	
 					</ul>

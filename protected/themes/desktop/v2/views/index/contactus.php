@@ -42,7 +42,7 @@ if (isset($organisationSchema) && trim($organisationSchema) != '')
                                 <a  href="javascript:void(0)" class="helpline text-warning"> Request a call back</a>
                                 <h2 class="font-18 mb0 mt30"><b>KEEP IN TOUCH</b></h2>
                                 <div class="social-2">
-                                    <a href="http://www.facebook.com/gozocabs" target="_blank" class="mt5"><i class="fab fa-facebook-f"></i></a><a href="https://twitter.com/gozocabs" target="_blank"><i class="fab fa-twitter"></i></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a href="http://www.facebook.com/aaocab" target="_blank" class="mt5"><i class="fab fa-facebook-f"></i></a><a href="https://twitter.com/aaocab" target="_blank"><i class="fab fa-twitter"></i></a><a href="http://www.instagram.com/aaocab/" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>

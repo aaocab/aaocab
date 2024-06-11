@@ -138,12 +138,12 @@ if ($isMobile)
 			We make all charges clear to you upfront. No extra charges or hidden fees
 		</div>
 		<div class="col-xs-12 col-sm-6 col-md-3  text-center wow fadeInUp animated" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;" data-wow-delay="0.8s">
-			<div class="advance-panel"><figure><img class="lozad" data-src="/images/img4.png?v=<?= $imgVer ?>" alt="Gozocabs, Customer Support"></figure></div>
+			<div class="advance-panel"><figure><img class="lozad" data-src="/images/img4.png?v=<?= $imgVer ?>" alt="aaocab, Customer Support"></figure></div>
 			<h3>24x7</h3>
 			Book yourself for the best rates. We're here to help 24x7
 		</div>
 		<div class="col-xs-12 col-sm-6 col-md-3  text-center wow fadeInUp animated" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;" data-wow-delay="0.8s">
-			<div class="advance-panel"><figure><img class="lozad" data-src="/images/img5.png?v=<?= $imgVer ?>" alt="Gozocabs, Customer Support"></figure></div>
+			<div class="advance-panel"><figure><img class="lozad" data-src="/images/img5.png?v=<?= $imgVer ?>" alt="aaocab, Customer Support"></figure></div>
 			<h3>Zero Cancellation*</h3>
 			Enjoy zero cancellation benefit subject to Gozo <a href="http://www.aaocab.com/terms#Cancellation" target="_blank">terms</a>;
 		</div>
@@ -154,8 +154,8 @@ if ($isMobile)
 		<div class="container marginauto">
 			<div class="row application-box">
 				<div class="col-xs-12 mb20">
-					<b class="m0 white-color">Book with Gozo cabs mobile app <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img class="lozad" data-src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a>
-						<a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img class="lozad" data-src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+					<b class="m0 white-color">Book with Gozo cabs mobile app <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img class="lozad" data-src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a>
+						<a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img class="lozad" data-src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
 					</b>
 				</div>
 			</div>
@@ -274,10 +274,10 @@ skipFooter:
 					</div>
 					<div class="col-xs-12 col-sm-2 text-left">
 						<h4 class="yello-color">Keep in touch</h4>
-						<a href="http://www.facebook.com/gozocabs" target="_blank"><i class="fa fa-facebook-f fa-2x mr10"></i></a>
-						<a href="https://twitter.com/gozocabs" target="_blank"><i class="fa fa-twitter fa-2x mr10"></i></a>
-						<!--<a href="https://plus.google.com/+Gozocabs" target="_blank"><i class="fa fa-google-plus fa-2x mr10"></i></a>-->
-						<a href="http://www.instagram.com/gozocabs/" target="_blank"><i class="fa fa-instagram fa-2x mr10"></i></a>
+						<a href="http://www.facebook.com/aaocab" target="_blank"><i class="fa fa-facebook-f fa-2x mr10"></i></a>
+						<a href="https://twitter.com/aaocab" target="_blank"><i class="fa fa-twitter fa-2x mr10"></i></a>
+						<!--<a href="https://plus.google.com/+aaocab" target="_blank"><i class="fa fa-google-plus fa-2x mr10"></i></a>-->
+						<a href="http://www.instagram.com/aaocab/" target="_blank"><i class="fa fa-instagram fa-2x mr10"></i></a>
 					</div>
 					<div class="col-xs-12 col-sm-3 text-left">
 						<h4 class="yello-color">Official Travel Partner</h4>
@@ -290,7 +290,7 @@ skipFooter:
 				<div class="row">
 					<div class="col-xs-12">
 						<a href="/ask-us-to-be-official-partner">Ask Us To Be Official Partner</a>|<a href="/business-travel">Business Travel</a>|<a href="/for-startups">For Startups</a>|<a href="/your-travel-desk">Your Travel Desk</a>|<a href="/join-our-agent-network">Join Our Agent Network</a>|<a href="/brand-partner">Brand Partners</a>|<a href="/price-guarantee">Price Guarantee</a>|<a href="/terms/doubleback">DOUBLE BACK</a><br>
-						<a href="/">Home</a>|<a href="/blog">Blog</a>|<a href="/aboutus">About Us</a>|<a href="/faq">FAQS</a>|<a href="/contactus">Contact Us</a>|<a href="/careers">Careers</a>|<a href="/terms">Terms and Conditions</a>|<a href="/disclaimer">Disclaimer</a>|<a href="/privacy">Privacy Policy</a>|<a href="/sitemap">Sitemap</a>|<a href="/one-way-cab">One Way Cabs</a>|<a href="/packages">Packages</a>|<a href="/day-rental">day-rental</a>|<a href="/airport-transfers">airport-transfers</a>|<a href="/shuttle">shuttle</a>|<a href="/whygozo">Why GozoCabs</a>|<a href="/newsroom">News Room</a><br>
+						<a href="/">Home</a>|<a href="/blog">Blog</a>|<a href="/aboutus">About Us</a>|<a href="/faq">FAQS</a>|<a href="/contactus">Contact Us</a>|<a href="/careers">Careers</a>|<a href="/terms">Terms and Conditions</a>|<a href="/disclaimer">Disclaimer</a>|<a href="/privacy">Privacy Policy</a>|<a href="/sitemap">Sitemap</a>|<a href="/one-way-cab">One Way Cabs</a>|<a href="/packages">Packages</a>|<a href="/day-rental">day-rental</a>|<a href="/airport-transfers">airport-transfers</a>|<a href="/shuttle">shuttle</a>|<a href="/whygozo">Why aaocab</a>|<a href="/newsroom">News Room</a><br>
 						© <?= date("Y") ?> Gozo Technologies Pvt. Ltd. All Rights Reserved.
 					</div>
 				</div>
@@ -330,8 +330,8 @@ skipFooter:
 				</div>
 				<div>
 					<figure>
-						<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" rel="nofollow">
-							<img src="/images/android_app.jpg?v1.2" alt="Gozocabs App" style="max-width: 95%"/>
+						<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" rel="nofollow">
+							<img src="/images/android_app.jpg?v1.2" alt="aaocab App" style="max-width: 95%"/>
 						</a>
 					</figure>
 				</div>

@@ -833,7 +833,7 @@ $ct				 = implode(' &#10147; ', $routeCityList);
 						<div>	
 							<div class="mt20 mb5"><h3 class="text-warning">Get Instant updates about this trip. Download our app now!</h3></div>
 							<div class="mb20">
-								<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+								<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
 							</div>
 						</div>
 							<?php

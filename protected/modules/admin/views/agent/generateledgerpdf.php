@@ -150,7 +150,7 @@
 					<tr><td style="text-align: left;"><h3>IMPORTANT NOTICE</h3></td></tr>
 					<tr>
 						<td style="text-align:left;">
-							For all account related inquiries please write ONLY to accounts@gozocabs.in<br>
+							For all account related inquiries please write ONLY to accounts@aaocab.in<br>
 							When contacting Gozo...
 							<ul>
 								<li>for booking related issues call our operator support line at +91 033-66283910 only.</li>
@@ -227,7 +227,7 @@
 <div class="row ">
 	<div class="col-xs-12"  style="font-size: 8px;line-height: 1.4em;text-align: justify">
 		<p>We declare that this Invoice shows the actual value of all transactions and that all particulars are true and correct. 
-			This bill is issued by the cab driver and not by Gozocabs. Gozocabs acts only as an intermediary for arranging the cab services. 
+			This bill is issued by the cab driver and not by aaocab. aaocab acts only as an intermediary for arranging the cab services. 
 			GST is collected and remitted by Gozo Technologies Pvt. Ltd. [GSTIN: 06AAFCG0222J1Z0]; in the capacity of Aggregator as per the Finance Budget, 2015 read with GST Notification No. 5/2015
 			In case of any queries/complaints, write to us on info@aaocab.com <br>
 			This is an electronically generated invoice and does not require signature. All applicable terms and conditions are available at http://www.aaocab.com/terms 

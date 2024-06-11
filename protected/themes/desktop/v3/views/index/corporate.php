@@ -14,12 +14,12 @@
                 Gozo's Travel desk can provide you with customized solutions for your events, team meetings, VVIP visitors and day-to-day travel needs regardless of the number of travelers. We can arrange taxi, tempo travelers and even buses for your corporate event requirements.  And as a corporate parnter you can avail these at the lowest rates in the market.<br>
                
                 Try it out for yourself. <a href="/corporate/join">Register for our Corporate travelers program now.</a><br>
-               <br>Simply <a href="mailto:channel@gozocabs.in?subject=Corporate travel parntership">write to our Corporate relations team</a> and we'll be glad to help<br>
+               <br>Simply <a href="mailto:channel@aaocab.in?subject=Corporate travel parntership">write to our Corporate relations team</a> and we'll be glad to help<br>
                
             
             </p>
             <br>
-            <p class="font-18 merriw"><b>Create your Corporate Account with Gozocabs</b></p>
+            <p class="font-18 merriw"><b>Create your Corporate Account with aaocab</b></p>
             <div class="lst-1">
                 <ul>
                     <li>Use-Now, Pay-Later Convenience</li>

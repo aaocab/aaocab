@@ -52,7 +52,7 @@
 										{
 											$("#VendorInnerDiv").hide();
 											$("#VendorOuterDiv").show();
-											$("#VendorOuterDivText").html("<b>Your application is almost approved.</b><br/> <br/> <a href=\"https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en_IN\" target=\"_blank\">Download Gozo partner app – from google play store</a> <br/><br/> Watch this video to sign your vendor agreement and upload your papers  <br/> <br/> <a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0 <br/></a><br/> You will start receiving business within 48hours of uploading all your papers"); 
+											$("#VendorOuterDivText").html("<b>Your application is almost approved.</b><br/> <br/> <a href=\"https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en_IN\" target=\"_blank\">Download Gozo partner app – from google play store</a> <br/><br/> Watch this video to sign your vendor agreement and upload your papers  <br/> <br/> <a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0 <br/></a><br/> You will start receiving business within 48hours of uploading all your papers"); 
 										}
 										else
 										{   
@@ -238,8 +238,8 @@
 									<div class="col-12 col-lg-4 text-center"><img src="/images/img-2.png" alt="" class="img-fluid ml15 mt15" ></div>
 									<div class="col-12 col-lg-8">
 										<p class="mt-3 mb10 font-30 merriw">Any questions? <br>Contact our Vendor Relations team</p>
-										<p class="font-16"><img src="/images/bx-envelope.svg" alt="img" width="18" height="18" class="mr10"> <a href="mailto:vendors@gozocabs.in" class="color-blue">vendors@gozocabs.in</a></p>
-										<p><img src="/images/bx-paper-plane.svg" alt="img" width="18" height="18" class="mr10"><a href="https://t.me/gozocabs" class="color-blue"> Join the GozoCabs channel on telegram</a></p>
+										<p class="font-16"><img src="/images/bx-envelope.svg" alt="img" width="18" height="18" class="mr10"> <a href="mailto:vendors@aaocab.in" class="color-blue">vendors@aaocab.in</a></p>
+										<p><img src="/images/bx-paper-plane.svg" alt="img" width="18" height="18" class="mr10"><a href="https://t.me/aaocab" class="color-blue"> Join the aaocab channel on telegram</a></p>
 									</div>
 								</div>
 							</div>
@@ -288,7 +288,7 @@ network<br>
 <!--							<div class="col-12 mt10">
 								<div class="card">
 									<div class="card-body">
-										<p class="font-20 merriw">Watch, what our Partners are saying about GozoCabs...</p>
+										<p class="font-20 merriw">Watch, what our Partners are saying about aaocab...</p>
 
 										<div class="row">
 											<div class="col-12 col-lg-2">
@@ -671,13 +671,13 @@ network<br>
     function signinWithFB()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
     }
 
     function signinWithGoogle()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-        var googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
     }
 

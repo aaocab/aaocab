@@ -194,7 +194,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/assets/js/j
 		    <div class="row font-18">
 			<div class="col-12">
 			    <p class="hide"><img src="<?= Yii::app()->baseUrl ?>/images/india-flag.png" alt="INDIA" class="mr10 mb5">(+91) 90518 77000 (24x7)</p>
-			    <p><i class="fa fa-envelope mr10 mb10 color-green"></i> <a href="mailto:channel@gozocabs.in">channel@gozocabs.in</a></p>
+			    <p><i class="fa fa-envelope mr10 mb10 color-green"></i> <a href="mailto:channel@aaocab.in">channel@aaocab.in</a></p>
 			</div>
 		    </div>
 <!--		    <div class="row">

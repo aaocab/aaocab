@@ -3,7 +3,7 @@
     <div class="col-xs-12" style="margin-left: 50px;">
 		<div class="row col-xs-6" style="margin-left: 50px; padding-bottom: 10px; ">
 			<p>This section is for Gozo employees and will periodically contain internal team related messages and updates for you. As always, maintain complete confidentiality of company matters and do not share or discuss with anyone.</p><br>
-			<p><b>Whistleblower</b><br>If you see any company employee, manager or leader behave in a way which does not comply with our company values please report it to management by sending an email to <br><a href="mailto:whistleblower@gozocabs.in?subject=&body=">whistleblower@gozocabs.in</a></p>
+			<p><b>Whistleblower</b><br>If you see any company employee, manager or leader behave in a way which does not comply with our company values please report it to management by sending an email to <br><a href="mailto:whistleblower@aaocab.in?subject=&body=">whistleblower@aaocab.in</a></p>
 		</div>
 
 		<div class="row col-xs-6" style="margin-left: 50px; padding-bottom: 10px;"> 

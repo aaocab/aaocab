@@ -49,7 +49,7 @@
 										{
 											$("#VendorInnerDiv").hide();
 											$("#VendorOuterDiv").show();
-											$("#VendorOuterDivText").html("<b>Your application is almost approved.</b><br/> <br/> <a href=\"https://play.google.com/store/apps/details?id=com.gozocabs.vendor&hl=en_IN\" target=\"_blank\">Download Gozo partner app – from google play store</a> <br/><br/> Watch this video to sign your vendor agreement and upload your papers  <br/> <br/> <a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0 <br/></a><br/> You will start receiving business within 48hours of uploading all your papers"); 
+											$("#VendorOuterDivText").html("<b>Your application is almost approved.</b><br/> <br/> <a href=\"https://play.google.com/store/apps/details?id=com.aaocab.vendor&hl=en_IN\" target=\"_blank\">Download Gozo partner app – from google play store</a> <br/><br/> Watch this video to sign your vendor agreement and upload your papers  <br/> <br/> <a href=\"https://youtu.be/AfbwgIJN0H0\" target=\"_blank\"> https://youtu.be/AfbwgIJN0H0 <br/></a><br/> You will start receiving business within 48hours of uploading all your papers"); 
 										}
 										else
 										{   
@@ -225,7 +225,7 @@
                     </ul>
                     <h2 class="mt20 mb10 font-24"><b>Any questions? Contact our Vendor Relations team</b></h2>
                     <p class="mb5 font-18"><img src="<?= Yii::app()->baseUrl ?>/images/india-flag.png" alt="INDIA" class="mr10 mb5"><a href="tel:03371122005">03371122005</a> <span class="font-14">(24x7 Dedicated Vendor line)</span></p>
-                    <p class="font-18 mb0"><i class="fa fa-envelope mr10 mb10 color-green"></i> <a href="mailto:vendors@gozocabs.in">vendors@gozocabs.in</a> <i class="fa fa-paper-plane ml15 mb10" style="font-size:18px; color: #36abe8;"></i> <a href="https://t.me/gozocabs"> Join the GozoCabs channel on telegram</a></p>
+                    <p class="font-18 mb0"><i class="fa fa-envelope mr10 mb10 color-green"></i> <a href="mailto:vendors@aaocab.in">vendors@aaocab.in</a> <i class="fa fa-paper-plane ml15 mb10" style="font-size:18px; color: #36abe8;"></i> <a href="https://t.me/aaocab"> Join the aaocab channel on telegram</a></p>
                     <p></p>
                     <div class="row">
                         <div class="col-12 ul-style-c">
@@ -247,7 +247,7 @@
             </div>
             <div class="row">
                 <div class="col-12 mt50">
-                    <h3>Watch, what our Partners are saying about GozoCabs...</h3>
+                    <h3>Watch, what our Partners are saying about aaocab...</h3>
                     <div class="flex-widget-1">
                         
                         <div class="flex-widget-2">
@@ -591,13 +591,13 @@
     function signinWithFB()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook', 'isFlexxi' => true)); ?>';
-        var fbWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var fbWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
     }
 
     function signinWithGoogle()
     {
         var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-        var googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+        var googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 
     }
 

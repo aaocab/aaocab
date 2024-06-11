@@ -33,7 +33,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 
 		$this->widget("application.widgets.SeoHead", [
 			'defaultKeywords'	 => "car rental, taxi service, cab booking, airport transfer, city tour, long-distance trip, One way cab services, outstation taxi, local taxi, oneway, inter city taxi service, Car Hire, Taxi Service, Cab Service, Car Rental India, Online Cab Booking, Online Taxi Booking, Local Taxi Service, Cheap Car Rental, Car Rentals India, Taxi Booking India, Online Car Rentals, Book A Taxi, Book A Cab, Car Rentals Agency India, Car Rent In India, Corporate Car Rental India, Car Rental Company In India",
-			'defaultDescription' => "Gozocabs is India's leading online cab booking platform, offering a wide range of taxi services, including hourly car rentals, airport transfers, and one way or round trip taxi for a long road trip. Book your car rental or taxi today and enjoy a hassle-free journey!"
+			'defaultDescription' => "aaocab is India's leading online cab booking platform, offering a wide range of taxi services, including hourly car rentals, airport transfers, and one way or round trip taxi for a long road trip. Book your car rental or taxi today and enjoy a hassle-free journey!"
 		]);
 		Yii::app()->clientScript->registerCssFile("/res/app-assets/css/style.css?v=" . Yii::app()->params['sitecssVersion']);
 
@@ -43,7 +43,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			$amount		 = Yii::app()->params['invitedAmount'];
 			$userId		 = QrCode::model()->find('qrc_code=:code AND qrc_ent_type=1 AND qrc_active=1 AND qrc_status=3', ['code' => $code])->qrc_ent_id;
 			$qrLink		 = Yii::app()->createAbsoluteUrl('rating/downloadQrCode', ['userId' => $userId]);
-			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.Gozocabs is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
+			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.aaocab is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
 			?>
 			<meta property="og:url" content="<?php echo 'https://gozo.cab/c/' . $code; ?>">
 			<meta property="og:type" content="website">
@@ -141,7 +141,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 
 <?= (UserInfo::getGA4UserId() > 0) ? "initUserId('" . UserInfo::getGA4UserId() . "');" : "" ?>
 
-			//	gtag('set', 'linker', {'domains': ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"]});
+			//	gtag('set', 'linker', {'domains': ["www.aaocab.com", "m.aaocab.com", "www-aaocab-com.cdn.ampproject.org"]});
 			//gtag('js', new Date());
 			//	initGTag();
 

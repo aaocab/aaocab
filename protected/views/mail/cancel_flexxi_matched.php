@@ -7,7 +7,7 @@ $msg = 'Dear ' . $arr['userName'] .
 		'<br/>Please wait 48-96hours for the refund to post back to your account.<br/>' .
 		'<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
 		'<br/>Regards,' .
-		'<br/>Gozocabs<br/><br/>';
+		'<br/>aaocab<br/><br/>';
 
 echo $msg;
 

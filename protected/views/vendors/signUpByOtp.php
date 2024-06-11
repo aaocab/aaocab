@@ -2,7 +2,7 @@
 <div class="form-group mt5 n"><a href="#" class="p10 pl0 color-black"><i class='bx bx-arrow-back backToRoot1'></i></a></div>
 <div class="row" >
 	<div class="col-12  h4" >
-		Welcome to Gozocabs! Please provide following details to create an account 
+		Welcome to aaocab! Please provide following details to create an account 
 	</div>
 </div>
 <div >

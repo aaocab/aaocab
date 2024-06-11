@@ -171,7 +171,7 @@ $amountDue			 = ($openingBalance + $totalAmount + $paymentAdjustment);
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="no-border" style="margin-top: 10px">
     <tbody>
         <tr>
-            <td colspan="" style="text-align: center; font-size: 9pt; width: 100% !important; padding: 5x; border: solid 1px #000;"> For all account related queries write to accounts@gozocabs.in<br>
+            <td colspan="" style="text-align: center; font-size: 9pt; width: 100% !important; padding: 5x; border: solid 1px #000;"> For all account related queries write to accounts@aaocab.in<br>
                 This is a system generated invoice and requires no signature. </td>
         </tr>
     </tbody>

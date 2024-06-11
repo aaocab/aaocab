@@ -20,7 +20,7 @@
 	</ul>
 	<b><font style="font-size:15px;"><a href="http://www.aaocab.com/agent/join">Open your travel partner account now!</a></font></b>
 	<div class="content p0">
-		<img src="/images/gozoagent.png" width="350" alt="Gozo Agent, Gozocabs" class="preload-image responsive-image">
+		<img src="/images/gozoagent.png" width="350" alt="Gozo Agent, aaocab" class="preload-image responsive-image">
 	</div>
 </div>
 

@@ -352,7 +352,7 @@ $email		 = $response->getData()->email['email'];
 				</div>
 				<div class="col-xs-12 mt10 text-center">
 					<div class="col-xs-12">
-						<div class="col-xs-12 col-sm-12"><b>Thank you for choosing Gozocabs!</b></div>
+						<div class="col-xs-12 col-sm-12"><b>Thank you for choosing aaocab!</b></div>
 					</div>
 				</div>
 			</div>

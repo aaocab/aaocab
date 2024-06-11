@@ -362,7 +362,7 @@ function openNav() {
             <!-- BEGIN INNER FOOTER -->
             <div class="page-footer">
                 <div class="container-fluid text-center">
-                    Copyright &copy; <?php echo date('Y'); ?> by Gozocabs.
+                    Copyright &copy; <?php echo date('Y'); ?> by aaocab.
                     All Rights Reserved.
                 </div>
             </div>

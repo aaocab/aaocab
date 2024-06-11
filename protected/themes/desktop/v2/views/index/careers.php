@@ -1,9 +1,9 @@
 <?
-$emailto = "careers@gozocabs.in";
+$emailto = "careers@aaocab.in";
 ?>
 <div class="row">
     <div class="col-12 bg-black p0 text-center">
-        <img src="/images/career.jpg?v=0.2" alt="We are always looking for talent – if you think you have a good fit in gozocabs" title="We are always looking for talent – if you think you have a good fit in gozocabs" class="img-fluid">
+        <img src="/images/career.jpg?v=0.2" alt="We are always looking for talent – if you think you have a good fit in aaocab" title="We are always looking for talent – if you think you have a good fit in aaocab" class="img-fluid">
     </div>
 </div>
 
@@ -14,7 +14,7 @@ $emailto = "careers@gozocabs.in";
                 <div class="row">
                     <div class="col-12 mb20 mt30">
                         <h1 class="font-22"><b>Career</b></h1>
-                        <h2 class="font-16 mb0">We are always looking for talent – if you think you have a good fit in gozocabs, please contact us at <a href="mailto:<?= $emailto ?>"><?= $emailto ?></a>.</h2>
+                        <h2 class="font-16 mb0">We are always looking for talent – if you think you have a good fit in aaocab, please contact us at <a href="mailto:<?= $emailto ?>"><?= $emailto ?></a>.</h2>
                     </div>
                     <div class="col-12 mb20">
                         <div class="bg-white-box ul-style-c">

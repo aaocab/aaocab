@@ -36,7 +36,7 @@ return array(
 	'SMTPSecure' => 'tls',
 	'SMTPAuth' => true,
 	'From' => 'info@aaocab.com',
-	'FromName' => 'Gozocabs Support',
+	'FromName' => 'aaocab Support',
 	'Username' => 'info@aaocab.com',
 	'Password' => 'brazil101#',
 );

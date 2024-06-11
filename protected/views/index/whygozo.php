@@ -38,7 +38,7 @@
                 </p>
                 <!--<div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-7  mt20 border-white">
-                        <div class="col-xs-12 m5 bg-primary"><figure><img src="/images/road.png" alt="Gozocabs"></figure>
+                        <div class="col-xs-12 m5 bg-primary"><figure><img src="/images/road.png" alt="aaocab"></figure>
                         </div>
                     </div>
                 </div> -->

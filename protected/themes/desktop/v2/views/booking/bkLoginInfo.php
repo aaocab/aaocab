@@ -8,8 +8,8 @@ $this->layout = 'column_booking';
 						if ($model->bkg_vehicle_type_id != VehicleCategory::SHARED_SEDAN_ECONOMIC)
 						{
 							?>
-						<span class="font-24 text-uppercase"><b>Log In to Gozocabs</b></span><br>
-						<span class="text-center">New to Gozocabs? <a href="#" onclick="$jsLogin.callSignupbox('<?=Yii::app()->createUrl('users/partialsignup', ['callback' => 'refreshNavbar(data1)']) ?>')" role="button">Sign up</a></span>
+						<span class="font-24 text-uppercase"><b>Log In to aaocab</b></span><br>
+						<span class="text-center">New to aaocab? <a href="#" onclick="$jsLogin.callSignupbox('<?=Yii::app()->createUrl('users/partialsignup', ['callback' => 'refreshNavbar(data1)']) ?>')" role="button">Sign up</a></span>
 						<div class="col-12 ctext-center mt10 mb20">
 								<!--<a class="social-btn bg-facebook" onclick="socailSigin('facebook')" role="button"><b><i class="fab fa-facebook-square mr10"></i>   Login with Facebook</b></a>-->
 								<a target="_blank" href="/users/oauth?provider=Google"><img src="/images/btn_google_signin_light_normal_web.png?v=0.1" alt="Login with Google"></a>

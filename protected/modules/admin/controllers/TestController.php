@@ -1882,7 +1882,7 @@ class TestController extends Controller
 	public function actionTestSms()
 	{
 		$sms = new Messages();
-		$res = $sms->sendMessage('91', '9831100164', 'Your code is 8142. Use this code to reset password of your Gozocabs Agent Account.', 0);
+		$res = $sms->sendMessage('91', '9831100164', 'Your code is 8142. Use this code to reset password of your aaocab Agent Account.', 0);
 		echo $res;
 	}
 
@@ -3580,7 +3580,7 @@ class TestController extends Controller
 
 	public function actionTestSMS1()
 	{
-		$url = "http://182.18.182.41/api/mt/SendSMS?user=SmartGzC&password=SMT@Gzc1&senderid=GOZOIN&channel=Trans&DCS=0&flashsms=1&number=919831100164&text=A%20new%20offer%20found%20for%20your%20booking.%20Check%20this%20link%20https%3A%2F%2Fc.gozo.cab%2F1YZic%20-%20Gozocabs&route=62&DLTTemplateId=1707169744347188263&PEID=1401449700000010560";
+		$url = "http://182.18.182.41/api/mt/SendSMS?user=SmartGzC&password=SMT@Gzc1&senderid=GOZOIN&channel=Trans&DCS=0&flashsms=1&number=919831100164&text=A%20new%20offer%20found%20for%20your%20booking.%20Check%20this%20link%20https%3A%2F%2Fc.gozo.cab%2F1YZic%20-%20aaocab&route=62&DLTTemplateId=1707169744347188263&PEID=1401449700000010560";
 
 //		$data = array(
 //			'name' => 'John Doe',
@@ -4658,7 +4658,7 @@ class TestController extends Controller
 	public function actionGenerateGZQR()
 	{
 		$embededLink = "http://www.aaocab.com/?s=sticker";
-		$filename	 = "gozocabs_QR";
+		$filename	 = "aaocab_QR";
 		$folderId	 = "1";
 
 		echo "XX == " . $dirFileName = QrCode::generateCode($embededLink, $filename, $folderId);

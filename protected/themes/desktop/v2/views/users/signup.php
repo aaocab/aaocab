@@ -11,8 +11,8 @@
         <div class="bg-white-box p0">
             <div class="row m0">
                 <div class="col-12 p30 pb0 border-bottom">
-                    <h1 class="font-22 mt0 text-center mb0"><b>Sign Up to Gozocabs</b></h1>
-                    <div class="font-14 text-center mb20">Already on Gozocabs? <a href="/signin" class="color-orange">Log In</a></div>
+                    <h1 class="font-22 mt0 text-center mb0"><b>Sign Up to aaocab</b></h1>
+                    <div class="font-14 text-center mb20">Already on aaocab? <a href="/signin" class="color-orange">Log In</a></div>
                     <div class="row text-center">
                         <div class="col-12 col-md-6">
                             <a class="social-btn bg-facebook" target="_blank" href="<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Facebook')); ?>"><i class="fab fa-facebook-f mr10 font-18"></i> Connect with Facebook</a>
@@ -198,7 +198,7 @@
                 <div class="col-12 text-center pt20">
                     <div class="font-20">Book with Gozo cabs mobile app</div>
                     <div class="pb20">
-                        <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>
+                        <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="aaocab APP"></a>
                     </div>
                 </div>
             </div>

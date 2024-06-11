@@ -7,6 +7,6 @@ $msg = '<h4 style="text-align:left;margin:0px;">Dear '. $arr['userName'].'</h4>'
         '<br/><a href="http://www.aaocab.com/vndsl/'.$arr['vndId'].'/'.$arr['hash'].'">http://www.aaocab.com/vndsl/'.$arr['vndId'].'/'.$arr['hash'].'</a>'.
         '<br/>Once complete, you can use the Gozo Partner app using your social login.<br/>' .
         '<br/>Regards,' .
-        '<br/>GozoCabs<br/><br/>';
+        '<br/>aaocab<br/><br/>';
 
  echo $msg;

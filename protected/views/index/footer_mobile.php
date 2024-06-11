@@ -19,7 +19,7 @@
 			<li><a href="#">Join Our Agent Network</a></li>
 			<li><a href="#">Brand Partners</a></li>
 			<li><a href="#">Price Guarantee</a></li>
-			<li><a href="#">Why GozoCabs</a></li>
+			<li><a href="#">Why aaocab</a></li>
 			<li><a href="#">News Room</a></li>
 		</ul>
 	</div>

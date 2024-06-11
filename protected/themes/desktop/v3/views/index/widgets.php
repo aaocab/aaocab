@@ -394,7 +394,7 @@
 <div class="container-fluid bg-outline pb-5">
 	<div class="row">
 		<div class="col-12 text-center pt-5 style-widget-1">
-			<img src="images/gozo-white.svg" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="150">
+			<img src="images/gozo-white.svg" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="150">
 			<h2 class="gothic weight600 mt-2">We are India's leader for<br>
 				inter-city taxi travel</h2>
 			<? //= $this->renderPartial('topSearch', array('model' => $model, 'tripType' => $tripType), true, FALSE); ?>

@@ -439,7 +439,7 @@ if ($type == 'route')
 </div>
 </section>
 	<div class="content-boxed-widget text-center pb5">
-		<span class="display-ini"><a href="https://play.google.com/store/apps/details?id=com.gozocabs.client"><img data-original="/images/app-google.png" class="preload-image" alt="Google play store" title="Google play store" width="150" height="49"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8"><img data-original="/images/app-store.png"  class="preload-image" alt="App store" title="App store" width="150" height="49"></a></span>
+		<span class="display-ini"><a href="https://play.google.com/store/apps/details?id=com.aaocab.client"><img data-original="/images/app-google.png" class="preload-image" alt="Google play store" title="Google play store" width="150" height="49"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8"><img data-original="/images/app-store.png"  class="preload-image" alt="App store" title="App store" width="150" height="49"></a></span>
 	</div>
 	<div class="content-boxed-widget" itemscope="" itemtype="https://schema.org/FAQPage">
 
@@ -454,12 +454,12 @@ if ($type == 'route')
 		<h3 class="font-14 inline-block">Looking for a reliable and affordable way to book a cab or taxi from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>?</h3><p> Look no
 			further than Gozo Cabs! We are India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs. We offer a wide variety of cabs to choose from, including sedans,
 			SUVs, Innova and tempo travellers. We also have a team of experienced drivers who will get
-			you to your destination safely and on time. Gozocabs is the best cab booking app for cheap taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.</p>
+			you to your destination safely and on time. aaocab is the best cab booking app for cheap taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.</p>
 
 		<section>						
 			<div itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
 
-				<h2 class="font-16" itemprop="name">Why choose Gozocabs?</h2>
+				<h2 class="font-16" itemprop="name">Why choose aaocab?</h2>
 
 				<div class="mb20" itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 					<div itemprop="text">					
@@ -656,7 +656,7 @@ if ($type == 'route')
 						<div itemprop="text">				
 							There are many outstation taxi services that you can book either offline or online. Best is a relative term and it depends on what you prefer as a traveller. Most travelers prefer comfort, quality service at a reasonable price. 
 							Be careful when trying to haggle for the lowest priced or cheapest cab as you could open yourself to the risk of operators cutting corners in service and also over laying with hidden charges. 
-							Booking <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> taxi with Gozocabs offers hassle less and worry free online Taxi options.
+							Booking <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> taxi with aaocab offers hassle less and worry free online Taxi options.
 
 						</div>
 					</div>

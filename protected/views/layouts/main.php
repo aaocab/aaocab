@@ -9,9 +9,9 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
 ?>
 <body>
     <div class="fixed-menu">
-        <a href="http://www.facebook.com/gozocabs" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a>
-        <a href="https://twitter.com/gozocabs" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a>
-        <a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>
+        <a href="http://www.facebook.com/aaocab" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a>
+        <a href="https://twitter.com/aaocab" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a>
+        <a href="https://plus.google.com/b/113163564383201478409/+aaocab" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>
     </div>
     <nav class="navbar navbar-default <?= $fixedTop ?> top-menu">
         <div class="container p0">
@@ -24,7 +24,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="/"><img src="/images/logo2.png?v1.1" alt="Gozocabs"></a>
+                        <a class="navbar-brand" href="/"><img src="/images/logo2.png?v1.1" alt="aaocab"></a>
                     </div></div></div>
             <div class="text-right phone-line">
                 <div class="nav-phone mb10"><a href="tel:+919051877000" style="text-decoration: none; color: #000"> <img src="/images/india-flag.png" alt="INDIA"> (+91) 90518-77-000<span class="nav-phone-24x7">  (24x7)</span></a></div>
@@ -153,11 +153,11 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
                     </ul> 
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-5 column">   
-                    <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" rel="nofollow">
+                    <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" rel="nofollow">
                         <img src="/images/GooglePlay.png?v1.1" style="max-width: 200px" /></a>
                     <h4 class="orange pt5 pb5 weight400">Social Media</h4>
                     <div class="social-panel2 p0">
-                        <a href="http://www.facebook.com/gozocabs" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/gozocabs" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a><a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>                    </div>
+                        <a href="http://www.facebook.com/aaocab" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/aaocab" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a><a href="https://plus.google.com/b/113163564383201478409/+aaocab" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>                    </div>
 
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 column">          
@@ -187,7 +187,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
                 <div class="modal-body p5 text-center">
                     <a href="#" class="btn btn-primary mb30 pull-right" data-dismiss="modal"><i class="fa fa-close mr5"></i>close</a>
                     <div>
-                        <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" rel="nofollow">
+                        <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" rel="nofollow">
                             <img src="/images/mobile_app.jpg?v1.1"  width="80%"/>
                         </a></div>
                 </div>

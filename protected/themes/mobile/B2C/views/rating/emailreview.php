@@ -201,7 +201,7 @@
 /* @var $model Ratings */
 $bkg_booking_id		 = Filter::formatBookingId($bkmodel->bkg_booking_id);
 $link = 'http://www.aaocab.com/invite/' . $refCode;
-$mailBody = "Dear Friend,%0D%0DI traveled with Gozocabs and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link %0DHere is my review from my trip "
+$mailBody = "Dear Friend,%0D%0DI traveled with aaocab and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link %0DHere is my review from my trip "
         . $bkg_booking_id . ':%0D "'
         . $bkmodel->ratings[0]['rtg_customer_review'] . '"%0D%0DRegards%0D' . $bkmodel->bkgUserInfo->getUsername();
 ?>
@@ -310,7 +310,7 @@ else
                                                     <img src="<?= Yii::app()->createAbsoluteUrl('images/email/local_rental/local_rental.png?v1.2') ?>" class="p0">
                                                 </div><br>
                                                 <div class="p15 rounded">
-                                                    I just traveled with Gozo Cabs and I loved it. I just wrote my review on GozoCabs. See my review on this link. <a href="<?= $reviewLinkList['reviewLink']; ?>" target="_blank"><?= $reviewLinkList['reviewLink']; ?></a> <br>
+                                                    I just traveled with Gozo Cabs and I loved it. I just wrote my review on aaocab. See my review on this link. <a href="<?= $reviewLinkList['reviewLink']; ?>" target="_blank"><?= $reviewLinkList['reviewLink']; ?></a> <br>
                                                     "<?= $model->rtg_customer_review; ?>" <br><br>
                                                     Join Gozo with my referral link. You will get 250 off your first trip. I'll get 20% cashback. Once you travel, you can refer others and get 20% of your money back too. No limit on how many friends you can refer.<br>
                                                     Join by clicking <a href="<?php echo $reviewLinkList['inviteLink']; ?>" target="_blank"><?php echo $reviewLinkList['inviteLink']; ?></a><br>
@@ -811,7 +811,7 @@ else
 					?>
 					<div class="row m0" style="float: left;">
 						<div class="p5" style="width: 25%; float: left;"><img src="/images/google-5-Stars.jpg" alt="Google review" width="55"></div>
-						<div class="p5" style="width: 49%; float: left; text-align: center;"><img src="/images/gozo-white-cabs.svg" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="120"></div>
+						<div class="p5" style="width: 49%; float: left; text-align: center;"><img src="/images/gozo-white-cabs.svg" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="120"></div>
 						<div class="p5 text-right" style="width: 25%; float: left;"><img src="/images/tripadvisor-certificato.jpg" alt="Tripadvisor Certificato" width="55"></div>
 
 						<div class="text-center p0 pt10 font-10 pb0" style="float: left; background: #f36e32; color: #fff; width: 100%; line-height: normal;">

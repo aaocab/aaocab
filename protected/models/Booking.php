@@ -729,7 +729,7 @@ class Booking extends CActiveRecord
 		$ip	 = Yii::app()->cache->get("ddns");
 		if (!$ip)
 		{
-			$ip = gethostbyname("gozocabs.ddns.net");
+			$ip = gethostbyname("aaocab.ddns.net");
 			Yii::app()->cache->set("ddns", $ip, 60 * 60 * 5);
 		}
 	}
@@ -7784,8 +7784,8 @@ FROM   booking
 		  $mail	 = new EIMailer();
 		  $mail->clearView();
 		  $mail->clearLayout();
-		  $mail->setFrom('info@aaocab.com', 'Info Gozocabs');
-		  $mail->setTo($email, 'Callcenter Gozocabs');
+		  $mail->setFrom('info@aaocab.com', 'Info aaocab');
+		  $mail->setTo($email, 'Callcenter aaocab');
 		  $mail->setBody($body);
 		  $mail->setSubject($subject);
 		  if ($mail->sendServicesEmail(0))
@@ -7892,9 +7892,9 @@ FROM   booking
 		$mail = new EIMailer();
 		$mail->clearView();
 		$mail->clearLayout();
-		$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
+		$mail->setFrom('info@aaocab.com', 'Info aaocab');
 		$mail->setBody($body);
-		$mail->setTo($email, 'Callcenter Gozocabs');
+		$mail->setTo($email, 'Callcenter aaocab');
 		$mail->setSubject($subject);
 		if ($mail->sendServicesEmail(0))
 		{
@@ -14626,7 +14626,7 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 // Provider
 		$arrStructData['provider']			 = array();
 		$arrStructData['provider']['@type']	 = "Organization";
-		$arrStructData['provider']['name']	 = 'GozoCabs';
+		$arrStructData['provider']['name']	 = 'aaocab';
 		$arrStructData['provider']['url']	 = Yii::app()->getBaseUrl(true);
 		$arrStructData['provider']['logo']	 = Yii::app()->getBaseUrl(true) . "/images/logo2_outstation.png";
 
@@ -14666,7 +14666,7 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 
 		$arrStructData['reservationFor']['rentalCompany']			 = array();
 		$arrStructData['reservationFor']['rentalCompany']['@type']	 = "Organization";
-		$arrStructData['reservationFor']['rentalCompany']['name']	 = "GozoCabs";
+		$arrStructData['reservationFor']['rentalCompany']['name']	 = "aaocab";
 
 // Pickup Info
 		$fromCtyGarageAddress	 = $objBooking->bkgFromCity->cty_garage_address;
@@ -18189,7 +18189,7 @@ FROM   booking
 					if (strlen($phoneNumber) >= 10)
 					{
 						$msgCom	 = new smsWrapper();
-						$msg	 = "$this->bkg_booking_id updated. New Pickup date: $pickupDate and time: $pickupTime - Gozocabs";
+						$msg	 = "$this->bkg_booking_id updated. New Pickup date: $pickupDate and time: $pickupTime - aaocab";
 						$slgId	 = $msgCom->sendRescheduleTime($this->bkg_booking_id, $ext, $phoneNumber, $msg);
 						Logger::create("SMS Error: " . json_encode($slgId), CLogger::LEVEL_INFO);
 					}

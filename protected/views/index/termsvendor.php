@@ -20,7 +20,7 @@
                 <div class="mt20 mb20">
                     <div>
                     <p>
-                        These terms (the Terms) form a binding legal agreement between you and M/s. Gozo Technologies Private Limited (hereinafter referred to as “Company”, “Gozo” or “Gozocabs”), located at <?= Config::getGozoAddress()?>, (we, us, our), and relate to how you may use services provided by us at www.aaocab.com (Site) and/or the downloadable Gozo Partner Services software application (App) (together with the Site, referred to as “Gozo Partner Services”) to generate real time communication and advertising with users via services including the facility to allow users to book taxi with our company, real-time updates on the taxi to the user, displaying our fees and general company listing information (Gozo Services).
+                        These terms (the Terms) form a binding legal agreement between you and M/s. Gozo Technologies Private Limited (hereinafter referred to as “Company”, “Gozo” or “aaocab”), located at <?= Config::getGozoAddress()?>, (we, us, our), and relate to how you may use services provided by us at www.aaocab.com (Site) and/or the downloadable Gozo Partner Services software application (App) (together with the Site, referred to as “Gozo Partner Services”) to generate real time communication and advertising with users via services including the facility to allow users to book taxi with our company, real-time updates on the taxi to the user, displaying our fees and general company listing information (Gozo Services).
                     </p><br>
                     </div>
                     <div>
@@ -437,7 +437,7 @@
                     </div>
                     <div>
                     <p>
-                        Content displayed on Gozocabs website is copyrighted by the Company. It respects all copyrights and trademarks owned by third-parties. Any third-party content or logos displayed on this website are owned by the respective third-party. The Vendor too, is expected to respect all such copyrights. It may not copy or reproduce any content offered by Gozocabs Services without express consent of the Company.
+                        Content displayed on aaocab website is copyrighted by the Company. It respects all copyrights and trademarks owned by third-parties. Any third-party content or logos displayed on this website are owned by the respective third-party. The Vendor too, is expected to respect all such copyrights. It may not copy or reproduce any content offered by aaocab Services without express consent of the Company.
                     </p><br>
                     </div>
                 </div>

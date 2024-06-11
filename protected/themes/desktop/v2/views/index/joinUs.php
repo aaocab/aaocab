@@ -76,7 +76,7 @@
         </div>
         <div id="info">
             <div align="center">
-                <br><br/><p><i class="fa fa-paper-plane mr10 mb10"  style="font-size:15px; color: #36abe8;"></i> <a href="https://t.me/gozocabs" target="_blank" style="color:#000;"> Join the GozoCabs channel on telegram. All drivers are welcome to the GozoCabs telegram. We provide bookings to registered drivers on telegram too.</a></p>
+                <br><br/><p><i class="fa fa-paper-plane mr10 mb10"  style="font-size:15px; color: #36abe8;"></i> <a href="https://t.me/aaocab" target="_blank" style="color:#000;"> Join the aaocab channel on telegram. All drivers are welcome to the aaocab telegram. We provide bookings to registered drivers on telegram too.</a></p>
             </div>
         </div>
         <div class="clear"></div>

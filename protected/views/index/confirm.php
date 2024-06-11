@@ -73,7 +73,7 @@ if ($response->getStatus())
 
 
             <div class="row ">
-                <label class="col-xs-10">Thank you for choosing Gozocabs!</label>
+                <label class="col-xs-10">Thank you for choosing aaocab!</label>
             </div>
         </div>
 

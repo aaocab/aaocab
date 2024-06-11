@@ -1,6 +1,6 @@
 <div class="content-boxed-widget pt30 pb10">
 	<h1 class="font-22"><b>PRIVACY POLICY</b></h1>
-                        <p>This Privacy Policy (“Policy”) describes the policies and procedures on the collection, use, disclosure and protection of your information when you use our website located at aaocab.com, or the GozoCabs mobile application (collectively, “Gozo Platform”) made available by Gozo Technologies Private Limited (“Gozo”, “Company”, “we”, “us” and “our”),  a private company established under the laws of India having its registered office at <?= Config::getGozoAddress()?>.</p>
+                        <p>This Privacy Policy (“Policy”) describes the policies and procedures on the collection, use, disclosure and protection of your information when you use our website located at aaocab.com, or the aaocab mobile application (collectively, “Gozo Platform”) made available by Gozo Technologies Private Limited (“Gozo”, “Company”, “we”, “us” and “our”),  a private company established under the laws of India having its registered office at <?= Config::getGozoAddress()?>.</p>
                         <p>As you use our services, we want you to be clear how we are using information and the ways in which you can protect your privacy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
 
                         </p>

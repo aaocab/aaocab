@@ -846,7 +846,7 @@ class DriverDocs extends CActiveRecord
 
 				//$venModel	 = Vendors::model()->findByPk($vndId);
 				$vendorName	 = ($val['vnd_owner'] != '') ? $val['vnd_owner'] . ',' : $val['vnd_name'] . ',';
-				$smsMessage	 = "Dear " . $vendorName . $message . ' - Gozocabs';
+				$smsMessage	 = "Dear " . $vendorName . $message . ' - aaocab';
 								$sms		 = new smsWrapper();
 				$sms->sendAlertMessageVendor(91, $val['vnd_id'], $smsMessage, SmsLog::SMS_VENDOR_DRIVER_PAPER_REJECTED);
 				Logger::create("Sms->" . $smsMessage, CLogger::LEVEL_INFO);

@@ -117,7 +117,7 @@ class IndexController extends BaseController
 		$model->loadDefaults();
 		$this->newHome					 = true;
 		$ptime							 = date('h:i A', strtotime('+4 hour'));
-		$this->pageTitle				 = 'Gozocabs: Book outstation cabs and local car rentals online in India';
+		$this->pageTitle				 = 'aaocab: Book outstation cabs and local car rentals online in India';
 		$this->metaKeywords				 = 'car rental, taxi service, cab booking, airport transfer, city tour, long-distance trip, One way cab services, outstation taxi, local taxi, oneway, inter city taxi service, Car Hire, Taxi Service, Cab Service, Car Rental India, Online Cab Booking, Online Taxi Booking, Local Taxi Service, Cheap Car Rental, Car Rentals India, Taxi Booking India, Online Car Rentals, Book A Taxi, Book A Cab, Car Rentals Agency India, Car Rent In India, Corporate Car Rental India, Car Rental Company In India, reliable cab service, affordable car rental';
 		Logger::beginProfile("StructureData::providerDetails");
 		$providerStructureMarkupData	 = StructureData::providerDetails();
@@ -367,7 +367,7 @@ class IndexController extends BaseController
 		}
 		Logger::trace("TopTenRoutes" . json_encode($topTenRoutes));
 		$this->pageTitle					 = "Book " . $cmodel->cty_name . " Airport Transfer Cabs Online";
-		$this->metaDescription				 = "Hire " . $cmodel->cty_name . " airport transfer cabs from or to " . $cmodel->cty_name . " airport with Gozo cabs. Book the cheapest and best " . $cmodel->cty_name . " airport taxi service with Gozocabs.";
+		$this->metaDescription				 = "Hire " . $cmodel->cty_name . " airport transfer cabs from or to " . $cmodel->cty_name . " airport with Gozo cabs. Book the cheapest and best " . $cmodel->cty_name . " airport taxi service with aaocab.";
 		$airportSchemaStructureMarkupData	 = StructureData::getAirportSchema($airport_id);
 		$breadcrumbStructureMarkupData		 = StructureData::breadCrumbSchema($airport_id, '', 'airport_transfer');
 		$organisationSchemaRaw				 = StructureData::getOrganisation();
@@ -1337,7 +1337,7 @@ class IndexController extends BaseController
 	public function actionBusinessTravel()
 	{
 		$this->pageTitle		 = "Join our business travel program";
-		$this->metaDescription	 = "GozoCabs offers business travel program which provides cab service to your business, partners, clients, and employees. Join now for extra discounts and benefits.";
+		$this->metaDescription	 = "aaocab offers business travel program which provides cab service to your business, partners, clients, and employees. Join now for extra discounts and benefits.";
 		$this->render('businessTravel', array());
 	}
 
@@ -1801,13 +1801,13 @@ class IndexController extends BaseController
 
 	public function actionBd()
 	{
-		$this->pageTitle = "Gozocabs - Booking Details Login";
+		$this->pageTitle = "aaocab - Booking Details Login";
 		$this->render('bd', array());
 	}
 
 	public function actionBookingdetails()
 	{
-		$this->pageTitle = "Gozocabs - Booking Details";
+		$this->pageTitle = "aaocab - Booking Details";
 		$model			 = Booking::model()->getBookingDetails(Yii::app()->request->getParam('bid'), Yii::app()->request->getParam('l_name'));
 		$this->render('booking_details', array('model' => $model));
 	}
@@ -2183,7 +2183,7 @@ class IndexController extends BaseController
 					"<br/><b>Application Reference Number (ARN) : </b>" . $arn;
 			$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 			$mail->setLayout('mail');
-			$mail->setTo('info@aaocab.com', 'Info Gozocabs');
+			$mail->setTo('info@aaocab.com', 'Info aaocab');
 			$mail->setBody($body);
 			$mail->isHTML(true);
 			$mail->setSubject('GST Information Form');
@@ -2266,7 +2266,7 @@ class IndexController extends BaseController
 
 	public function actionOperatorjoining()
 	{
-		$this->pageTitle = "Gozocabs - Operator Signup";
+		$this->pageTitle = "aaocab - Operator Signup";
 		$countryCode	 = Yii::app()->request->getParam('countryCode');
 		$ptr			 = print_r($_REQUEST);
 		if (isset($_REQUEST['Operators']))
@@ -2493,7 +2493,7 @@ class IndexController extends BaseController
 	public function actionVendorjoinsuccess()
 	{
 		$this->checkV2Theme();
-		$this->pageTitle = "Gozocabs - Online Cab Booking | One Way | Delhi (NCR) | Chandigarh | Jaipur";
+		$this->pageTitle = "aaocab - Online Cab Booking | One Way | Delhi (NCR) | Chandigarh | Jaipur";
 		$this->render('vendorjoinsuccess', array());
 	}
 
@@ -2536,7 +2536,7 @@ class IndexController extends BaseController
 
 	public function actionVendorjoining()
 	{
-		$this->pageTitle = "Gozocabs - Vendor Signup";
+		$this->pageTitle = "aaocab - Vendor Signup";
 		$countryCode	 = Yii::app()->request->getParam('countryCode');
 		if (isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['ContactEmail']) || isset($_REQUEST['ContactPhone']))
 		{
@@ -4214,7 +4214,7 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 
 	public function actionDownloadDriverApp()
 	{
-		$url = "https://play.google.com/store/apps/details?id=com.gozocabs.driver";
+		$url = "https://play.google.com/store/apps/details?id=com.aaocab.driver";
 		header("Location: " . $url);
 		exit();
 
@@ -4243,11 +4243,11 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 //		}
 //		else
 //		{
-//			$downloadUrl = "https://play.google.com/store/apps/details?id=com.gozocabs.vendor";
+//			$downloadUrl = "https://play.google.com/store/apps/details?id=com.aaocab.vendor";
 //		}
 
 		$downloadUrl = "https://gozo-files.sgp1.digitaloceanspaces.com/apps/GozoVendor4.3.110618.apk";
-		#$downloadUrl = "https://play.google.com/store/apps/details?id=com.gozocabs.vendor";
+		#$downloadUrl = "https://play.google.com/store/apps/details?id=com.aaocab.vendor";
 		header("Location: " . $downloadUrl);
 		exit();
 	}
@@ -4406,7 +4406,7 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 
 	public function actionGa4()
 	{
-		header("access-control-allow-origin: http://www-gozocabs-com.cdn.ampproject.org");
+		header("access-control-allow-origin: http://www-aaocab-com.cdn.ampproject.org");
 		header("access-control-allow-credentials: true");
 		header("content-type: application/json");
 
@@ -4980,8 +4980,8 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 
 		$iosApp		 = strpos($_SERVER['HTTP_USER_AGENT'], "iPhone");
 		$android	 = stripos($_SERVER['HTTP_USER_AGENT'], "Android");
-		$iosUrl		 = "https://apps.apple.com/us/app/gozocabs/id1398759012";
-		$androidUrl	 = "https://play.google.com/store/apps/details?id=com.gozocabs.client&hl=en_IN&gl=US";
+		$iosUrl		 = "https://apps.apple.com/us/app/aaocab/id1398759012";
+		$androidUrl	 = "https://play.google.com/store/apps/details?id=com.aaocab.client&hl=en_IN&gl=US";
 
 		if ($iosApp == true)
 		{
@@ -5036,7 +5036,7 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 			//  if ($refHost)
 			//   {
 
-			$hostArray = array("gozocabs", "gozo.cab", "192.168.1.179");
+			$hostArray = array("aaocab", "gozo.cab", "192.168.1.179");
 
 			if (!in_array($refHost, $hostArray))
 			{

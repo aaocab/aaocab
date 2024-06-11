@@ -24,7 +24,7 @@ if ($data['userId'] != '')
 					<table width="100%" align="center">
 						<tr>
 							<td align="left" valign="middle">
-								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="aaocab"/>
 
 							</td>
 							<td align="right" valign="middle">
@@ -42,10 +42,10 @@ if ($data['userId'] != '')
 			<tr>
 				<td>
 					<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
-						This email is sent to <?= $email_receipient ?> you because you have used this email address to register with Gozocabs.
+						This email is sent to <?= $email_receipient ?> you because you have used this email address to register with aaocab.
 						<!--                        If you haven't done so, please ignore this email.-->
 						If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/<?= Yii::app()->shortHash->hash($userId) ?>/email/<?= $email_receipient ?>" target="_BLANK">unsubscribe here.</a>
-						<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+						<a href="http://aaocab.com/" style="color: #3d4f99;">aaocab</a> and the aaocab logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 					</p>
 				</td>
 			</tr>

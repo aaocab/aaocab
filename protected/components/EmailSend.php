@@ -17,7 +17,7 @@ class EmailSend
 			$message->setSubject($arr['subject']);
 
 			// Set the From address with an associative array
-			$message->setFrom(array('info@aaocab.com' => 'Info Gozocabs'));
+			$message->setFrom(array('info@aaocab.com' => 'Info aaocab'));
 
 			// Set the To addresses with an associative array
 			$message->setTo($arr['to_address']);

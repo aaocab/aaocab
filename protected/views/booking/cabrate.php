@@ -258,7 +258,7 @@ $dcityname = Cities::getName($model->bkg_to_city_id);
                             <div class="col-xs-12">
                                 <div class="checkbox ml20">
                                     <input class="checkbox c" type="checkbox" id="ask_customer" name="ask_customer" value="1">
-                                    <label class="control-label p0 h4 mt0" for="ask_customer"> Did you find a better rate than Gozocabs?</label>
+                                    <label class="control-label p0 h4 mt0" for="ask_customer"> Did you find a better rate than aaocab?</label>
                                 </div>
                             </div>
                         </div>

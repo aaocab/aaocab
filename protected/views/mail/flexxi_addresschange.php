@@ -13,6 +13,6 @@ $msg = 'Hi '. $arr['userName'] .
         '<br/>You will be responsible for missing the trip and the booking will be cancelled with no refund if you miss the trip.<br/>'.
         '<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
         '<br/>Regards,' .
-        '<br/>Gozocabs<br/><br/>';
+        '<br/>aaocab<br/><br/>';
 
  echo $msg;

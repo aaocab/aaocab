@@ -424,7 +424,7 @@ class Ratings extends CActiveRecord
 					$notificationId	 = substr(round(microtime(true) * 1000), -5);
 					$payLoadData	 = ['EventCode' => Booking::CODE_DRIVER_RATING_RECIEVED];
 					$message		 = "Rating recieved for Booking ID: " . $model->rtgBooking->bkg_booking_id . ".";
-					$success		 = AppTokens::model()->notifyDriver($ratingData['drv_id'], $payLoadData, $notificationId, $message, NULL, "GozoCabs");
+					$success		 = AppTokens::model()->notifyDriver($ratingData['drv_id'], $payLoadData, $notificationId, $message, NULL, "aaocab");
 				}
 				$emailCom->reviewNotificationVendor($model->rtg_id, $uniqueId);
 				$comment		 = Ratings::model()->getCommentByOverallRating($model->rtg_customer_overall);
@@ -1653,7 +1653,7 @@ ORDER BY cnt ASC";
 		$inviteLink			 = Filter::shortUrl($inviteLink);
 		$tripAdviserLink	 = "https://goo.gl/OW4gUc";
 		$googleShareLink	 = "https://goo.gl/2NfzbR";
-		$text				 = 'I just traveled with Gozo Cabs and I loved it. I just wrote my review on GozoCabs. See my review on this link. ';
+		$text				 = 'I just traveled with Gozo Cabs and I loved it. I just wrote my review on aaocab. See my review on this link. ';
 		$text				 .= 'My review is "' . $comment . '" Read my full review at ' . $reviewLink . '';
 		$whatappShareLink	 = "whatsapp://send?text=" . urlencode($text) . "";
 		return array('reviewLink'		 => $reviewLink,

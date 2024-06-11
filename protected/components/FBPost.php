@@ -81,11 +81,11 @@ class FBPost extends CComponent
 			$message1		 = "Last minute Flash SALE!! 
 Car available for $fromCity -> $toCity on $formattedDate
 Book at $flashurl for ₹$amount (inc GST)
-#GozoCabs #FlashSale #LastMinuteDeals";
+#aaocab #FlashSale #LastMinuteDeals";
 			$message2		 = "Last minute Flash SALE!! 
 Car available for Local trip in $fromCity on $formattedDate.
 Book your Airport pickup or Day based rental now at $gozourl 
-#GozoCabs #FlashSale #LastMinuteDeals";
+#aaocab #FlashSale #LastMinuteDeals";
 			if ($cavData['cav_is_local_trip'] == 1)
 			{
 				$message = $message2;

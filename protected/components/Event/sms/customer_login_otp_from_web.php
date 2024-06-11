@@ -24,7 +24,7 @@ try
 		$dltId = smsWrapper::DLT_OTP_TEMPID;
 		if ($smsLogType == SmsLog::SMS_FORGET_PASSWORD)
 		{
-			$msg = $otp . ' is your Gozo OTP for Forgot Password. Do not share it with anyone - Gozocabs';
+			$msg = $otp . ' is your Gozo OTP for Forgot Password. Do not share it with anyone - aaocab';
 		}
 		else
 		{

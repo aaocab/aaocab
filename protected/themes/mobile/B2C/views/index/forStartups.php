@@ -12,5 +12,5 @@
 		<li>Offer these advantages to your business partners and clients. They can use your corporate code to get discounted rates.</li>
 		<li>Your discounts get better as you travel more...</li>
 	</ul>
-	Try it our for yourself. It costs you nothing to get started. Simply <a href="mailto:channel@gozocabs.in?subject=Travel needs for my startup">write to us and tell us what you need</a>
+	Try it our for yourself. It costs you nothing to get started. Simply <a href="mailto:channel@aaocab.in?subject=Travel needs for my startup">write to us and tell us what you need</a>
 </div>

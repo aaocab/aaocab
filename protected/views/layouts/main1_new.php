@@ -17,9 +17,9 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div class="fixed-menu hidden-xs">
-        <a href="http://www.facebook.com/gozocabs" target="_blank" class="social-1 wow fadeInUp animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.5s" title="Facebook"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="left" title="Tooltip on left"></i></a>
-        <a href="https://twitter.com/gozocabs" target="_blank" class="social-2 wow bounceIn animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.7s" title="Twitter"><i class="fa fa-twitter"></i></a>
-        <a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="social-3 wow bounceIn animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.9s" title="Google+"><i class="fa fa-google-plus"></i></a>
+        <a href="http://www.facebook.com/aaocab" target="_blank" class="social-1 wow fadeInUp animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.5s" title="Facebook"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="left" title="Tooltip on left"></i></a>
+        <a href="https://twitter.com/aaocab" target="_blank" class="social-2 wow bounceIn animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.7s" title="Twitter"><i class="fa fa-twitter"></i></a>
+        <a href="https://plus.google.com/b/113163564383201478409/+aaocab" target="_blank" class="social-3 wow bounceIn animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.9s" title="Google+"><i class="fa fa-google-plus"></i></a>
     </div>
     <div class="container smain-bg">
         <header class="header">
@@ -27,7 +27,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 pt10">
 						<figure><a class="" href="/">
-								<img src="/images/logo2_new.png?v1.1" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
+								<img src="/images/logo2_new.png?v1.1" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></a>
 						</figure>
 					</div>
                     <div class="col-xs-12 col-sm-8" style="padding-top: 1px">
@@ -73,7 +73,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li><a href="/whygozo">Why GozoCabs</a></li>
+                                <li><a href="/whygozo">Why aaocab</a></li>
                                 <li><a href="/faq">FAQ</a></li>
                                 <li><a href="/vendor/join">Attach Your Taxi</a></li>
                                 <li><a href="/blog">Our Blog</a></li>
@@ -116,7 +116,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
                     We make all charges clear to you upfront. No extra charges or hidden fees
                 </div>
                 <div class="col-xs-12 col-sm-4  text-center wow fadeInUp animated" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;" data-wow-delay="0.8s">
-                    <div class="advance-panel"><figure><img src="/images/img4.png?v=1.1" alt="Gozocabs, Customer Support"></figure></div>
+                    <div class="advance-panel"><figure><img src="/images/img4.png?v=1.1" alt="aaocab, Customer Support"></figure></div>
                     <h3>24x7</h3>
                     Book yourself for the best rates. We're here to help 24x7
                 </div>
@@ -125,7 +125,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
         <div class="row application-panel">
             <div class="application-bg">
                 <div class="container marginauto">
-                    <h2 class="download-headding">Gozocabs – Inter-City Taxi App</h2>
+                    <h2 class="download-headding">aaocab – Inter-City Taxi App</h2>
                     <div class="row application-box">
                         <div class="col-xs-12 col-sm-6">
                             <div class="row">
@@ -144,7 +144,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 text-right">
-                            <b class="m0">Book with Gozo cabs mobile app<a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a></b>
+                            <b class="m0">Book with Gozo cabs mobile app<a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP"></a></b>
                         </div>
 
                     </div>
@@ -229,9 +229,9 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
             </div>
             <div class="row mt30 mb30 hidden-xs">
                 <div class="col-xs-12 col-sm-6 text-center wow fadeInLeftBig animated" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeftBig;" data-wow-delay="0.4s">
-                    <div class="footer_img"><figure><img src="/images/app_design.png?v1.1" alt="Gozocabs App"></figure></div>
+                    <div class="footer_img"><figure><img src="/images/app_design.png?v1.1" alt="aaocab App"></figure></div>
                     <b class="m0 mt10">Book with Gozo cabs mobile app</b>
-                    <div class="mt10"><figure><a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP" style="height: 70px"></a></figure></div>
+                    <div class="mt10"><figure><a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="aaocab APP" style="height: 70px"></a></figure></div>
                 </div>
                 <div class="col-xs-12 col-sm-6 wow fadeInRightBig animated" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInRightBig;" data-wow-delay="0.4s">
                     <div class="call-panel2"><i class="fa fa-map-marker fa-5x"></i></div>
@@ -272,8 +272,8 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true)
                         </div>
                         <div>
                             <figure>
-                                <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank" rel="nofollow">
-                                    <img src="/images/android_app.jpg?v1.2" alt="Gozocabs App" style="max-width: 95%"/>
+                                <a href="https://play.google.com/store/apps/details?id=com.aaocab.client" target="_blank" rel="nofollow">
+                                    <img src="/images/android_app.jpg?v1.2" alt="aaocab App" style="max-width: 95%"/>
                                 </a>
                             </figure>
                         </div>

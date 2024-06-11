@@ -19,10 +19,10 @@
                         <div class="col-xs-12">
                             <h3 class="m0 mb10 pb5 border-bottom weight400 text-uppercase">About Us</h3>
                             <h4 class="m0 mb20 text-justify" style="line-height: 1.4em;font-weight: normal">
-                                Founded by the alumni of IIT Delhi, IIM Banglore and USC USA, Gozocabs aims to change the scenario of 
-                                intercity travel prevailing in India. Gozocabs aims to provide quality One-Way taxi service at lowest possible 
-                                rates. Using technology, we, at Gozocabs believe that the intercity travel space could be vastly re-organized to ensure better travel at lower rates. 
-                                The founders and the team at Gozocabs are constantly 
+                                Founded by the alumni of IIT Delhi, IIM Banglore and USC USA, aaocab aims to change the scenario of 
+                                intercity travel prevailing in India. aaocab aims to provide quality One-Way taxi service at lowest possible 
+                                rates. Using technology, we, at aaocab believe that the intercity travel space could be vastly re-organized to ensure better travel at lower rates. 
+                                The founders and the team at aaocab are constantly 
                                 striving to re-invent the cab booking space in India that directly empowers the customers, who will now gain 
                                 from a much better travelling experience and customer service. We believe in constant upgrade and would 
                                 be very happy to receive any suggestions or feedback. Kindly feel free to email us at
@@ -34,7 +34,7 @@
                         <div class="col-xs-12">
                             <h3 class="m0 mb10 pb5 border-bottom weight400 text-uppercase">About Us</h3>
                             <h4 class="m0 mb20 weight400">Our mission is to simplify inter-city travel</h4>
-                            <p>Welcome to Gozocabs! Gozo means delight and joy! And travelling with gozocabs you will definitely be overjoyed.
+                            <p>Welcome to aaocab! Gozo means delight and joy! And travelling with aaocab you will definitely be overjoyed.
                                 We know what runs in your mind while booking an intercity cab.: </p>
                             <ul>
                                 <li>Need to talk to atleast 3-4 operators and get the one with the best price.</li>

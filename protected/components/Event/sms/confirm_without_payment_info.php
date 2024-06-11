@@ -33,7 +33,7 @@ try
 	{
 		$msg .= ". Additional " . $model->bkgAddInfo->bkg_spl_req_lunch_break_time . " Minutes Journey Break Included";
 	}
-	$msg .= '.*Subject to T&Cs - Gozocabs';
+	$msg .= '.*Subject to T&Cs - aaocab';
 
 	//user
 	$response = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);

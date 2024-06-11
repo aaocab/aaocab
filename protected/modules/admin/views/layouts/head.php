@@ -18,7 +18,7 @@ $adminModel = Admins::model()->findByPk(Yii::app()->user->getId());
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="WRP">
-        <meta name="author" content="GozoCabs">
+        <meta name="author" content="aaocab">
 		<meta name="robots" content="noindex,nofollow"/>
 		<link href="/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <link rel="icon" type="image/png"  href="/images/favicon/favicon1.ico"/>

@@ -872,7 +872,7 @@ class VehicleDocs extends CActiveRecord
 								//if ($isLastLogin == 1)
 								//{
 								$vendorName	 = ($val['vnd_owner'] != '') ? $val['vnd_owner'] . ',' : $val['vnd_name'] . ',';
-								$smsMessage	 = "Dear " . $vendorName . $message . ' - Gozocabs';
+								$smsMessage	 = "Dear " . $vendorName . $message . ' - aaocab';
 								$payLoadData = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 								$success	 = AppTokens::model()->notifyVendor($val['vnd_id'], $payLoadData, $smsMessage, "LICENSE PAPER REJECTED");
 								Logger::create("Notification->" . $smsMessage, CLogger::LEVEL_INFO);

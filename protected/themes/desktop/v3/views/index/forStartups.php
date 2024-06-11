@@ -24,7 +24,7 @@
                     <li><img src="/images/bx-right-arrow-circle.svg" alt="img" width="18" height="18" class="mr10">Offer these advantages to your business partners and clients. They can use your corporate code to get discounted rates.</li>
                     <li><img src="/images/bx-right-arrow-circle.svg" alt="img" width="18" height="18" class="mr10">Your discounts get better as you travel more...</li>
                 </ul>
-                <p class="font-16 mb40">Try it our for yourself. It costs you nothing to get started. Simply <a href="mailto:channel@gozocabs.in?subject=Travel needs for my startup" class="color-blue">write to us and tell us what you need</a>
+                <p class="font-16 mb40">Try it our for yourself. It costs you nothing to get started. Simply <a href="mailto:channel@aaocab.in?subject=Travel needs for my startup" class="color-blue">write to us and tell us what you need</a>
             </div>
         </div>
     </div>

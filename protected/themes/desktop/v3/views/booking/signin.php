@@ -115,7 +115,7 @@ if ($type == Stub\common\ContactVerification::TYPE_PHONE)
 		step = <?= $this->pageRequest->step ?>;
 		tabURL = "<?= $this->getURL("booking/signin") ?>";
 		tabHead = "";
-		pageTitle = "Gozocabs: " + tabHead;
+		pageTitle = "aaocab: " + tabHead;
 
 
 		$('#<?= $clickEvent ?>').click();
@@ -288,6 +288,6 @@ if ($type == Stub\common\ContactVerification::TYPE_PHONE)
 	function signinWithGoogle()
 	{
 		var href = '<?= Yii::app()->createUrl('users/oauth', array('provider' => 'Google', 'isFlexxi' => true)); ?>';
-		var googleWindow = window.open(href, 'Gozocabs', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+		var googleWindow = window.open(href, 'aaocab', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
 	}
 </script>

@@ -337,16 +337,16 @@ $minRate = (min(array_column($topTenRoutes, 'min_rate')) > 0) ? min(array_column
 
 <div class="content" itemscope="" itemtype="https://schema.org/FAQPage">			
 			<!--fb like button-->
-				<div class="fb-like" data-href="https://facebook.com/gozocabs" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+				<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 			<!--fb like button-->
 	<section>
 		<div itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question" class="mb20">
 			<h2 class="font-16 mt15 mb0" itemprop="name">Looking for a reliable and affordable way to book outstation cab or taxi from <?= $cmodel->cty_name ?>? - starting at ₹<?= $minRate ?>/km</h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-			Gozocabs is India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs.
+			aaocab is India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs.
             We provide outstation cab or taxi booking services with driver in <?= $cmodel->cty_name; ?> for day-based rentals, one way, round trips, multicity travel and many more that are billed by custom itinerary or by day.
-			Gozocabs is the best cab booking app for cheap and reliable taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.
+			aaocab is the best cab booking app for cheap and reliable taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.
 			<div class="content text-center top-10 text-center">
 					<img src="/images/cabs/tempo_9_seater.jpg" alt="Tempo Traveller" width="200" height="113" class="preload-image bottom-5" style="display: inline-block;">
 					<a href="/tempo-traveller-rental/<?php echo strtolower(str_replace(' ', '-', $cmodel->cty_alias_path)) ?>">Book Tempo Traveller online in <?= $cmodel->cty_name; ?></a>

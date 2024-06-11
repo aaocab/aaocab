@@ -100,7 +100,7 @@ if (in_array($data['bkg_status'], [5, 6, 7]))
 			<?php
 		}
 		?>
-		<br/><br/>We thank you for for choosing GozoCabs as your travel partner. You may please click on the following link to access the Invoice for your last trip with us <?= $data['invoiceLink'] ?> . We hope to see you travel with us again. 
+		<br/><br/>We thank you for for choosing aaocab as your travel partner. You may please click on the following link to access the Invoice for your last trip with us <?= $data['invoiceLink'] ?> . We hope to see you travel with us again. 
 		<br/><br/>If the booking is eligible for a refund, you shall receive further communication about refund eligibility and transaction details (if eligible for refund) within 7 business days. Should you have any questions about your booking, you may email us at info@aaocab.communication
 		<?php
 	}

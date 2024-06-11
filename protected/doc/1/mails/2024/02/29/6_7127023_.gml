@@ -17,16 +17,16 @@
 
         <div>
             <div style="width:600px; margin:0 auto; padding: 10px;">
-                <p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>8722</span> to reset password of your Gozocabs Agent Account.</p><br><br>            </div>
+                <p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>8722</span> to reset password of your aaocab Agent Account.</p><br><br>            </div>
         </div>
 
         <div style="border-top:1px solid #C4C4C4;">
             <div style="width:600px; margin:0 auto; padding:20px 0;">
                 <p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
-                    This email is sent to  because you have used this email address to register with Gozocabs.
+                    This email is sent to  because you have used this email address to register with aaocab.
                     If you haven't done so, please ignore this email.
 If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email/" target="_BLANK">unsubscribe here.</a>
-                    <a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>.
+                    <a href="http://aaocab.com/" style="color: #3d4f99;">aaocab</a> and the aaocab logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>.
                 </p>
 
             </div>
@@ -37,7 +37,7 @@ If you received this email in error or do not wish to receive any further commun
 			<table width="100%" align="center">
 				<tr>
 					<td align="left" valign="middle">
-						<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+						<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="aaocab"/>
 
 					</td>
 					<td align="right" valign="middle">
@@ -49,15 +49,15 @@ If you received this email in error or do not wish to receive any further commun
 	</tr>
 	<tr>
 		<td bgcolor="#fff" style="background: rgb(255, 255, 255);">
-			<p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>8722</span> to reset password of your Gozocabs Agent Account.</p><br><br>		</td>
+			<p>Please copy paste this code  <span style='color: #000000;font-weight:bold'>8722</span> to reset password of your aaocab Agent Account.</p><br><br>		</td>
 	</tr>
 	<tr>
 		<td>
 			<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
-				This email is sent to  you because you have used this email address to register with Gozocabs.
+				This email is sent to  you because you have used this email address to register with aaocab.
 				<!--                        If you haven't done so, please ignore this email.-->
 				If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email//" target="_BLANK">unsubscribe here.</a>
-				<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+				<a href="http://aaocab.com/" style="color: #3d4f99;">aaocab</a> and the aaocab logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 			</p>
 		</td>
 	</tr>

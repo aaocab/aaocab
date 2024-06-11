@@ -1198,7 +1198,7 @@
     "gtag_id": "G-4TQDEZYH5H",
     "config" : {
       "G-4TQDEZYH5H": { "groups": "default" },
-	  "linker": { "domains": ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"] }
+	  "linker": { "domains": ["www.aaocab.com", "m.aaocab.com", "www-aaocab-com.cdn.ampproject.org"] }
     }
   }
 }
@@ -1217,7 +1217,7 @@
 					"SEND_DOUBLECLICK_BEACON": false,
 					"linkers": {
 						"enabled": true,
-						"destinationDomains": ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"],
+						"destinationDomains": ["www.aaocab.com", "m.aaocab.com", "www-aaocab-com.cdn.ampproject.org"],
 						"_gl": {
 							"ids": {
 								"_ga_4TQDEZYH5H": "${ga4SessionCookie}"

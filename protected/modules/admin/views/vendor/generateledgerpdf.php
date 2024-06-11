@@ -215,7 +215,7 @@
 					<tr><td style="text-align: left;"><h3>IMPORTANT NOTICE</h3></td></tr>
 					<tr>
 						<td style="text-align:left;">
-							For all account related inquiries please write ONLY to accounts@gozocabs.in<br>
+							For all account related inquiries please write ONLY to accounts@aaocab.in<br>
 							When contacting Gozo...
 							<ul>
 								<li>for booking related issues call our operator support line at +91 033-66283910 only.</li>

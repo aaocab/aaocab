@@ -19,7 +19,7 @@ $(document).ready(function ()
         <li id="menu-index">
             <a href="/whygozo">
                 <i class='fa fa-car color-green-dark'></i>
-                <span>Why GozoCabs</span>
+                <span>Why aaocab</span>
                 <em>Why should you ride with Gozo?</em>
                 <i class="fa fa-angle-right"></i>
             </a>
@@ -60,7 +60,7 @@ $(document).ready(function ()
             <a href="/signup">
                 <i class='fas fa-sign-in-alt color-orange-dark'></i>
                 <span id="signId">Sign In</span>
-				<em>Log In to Gozocabs</em>
+				<em>Log In to aaocab</em>
                 <i class="fa fa-angle-right"></i>
             </a>
         </li>

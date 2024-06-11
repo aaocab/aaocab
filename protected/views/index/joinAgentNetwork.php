@@ -31,7 +31,7 @@
                     </p>
                 </section>
                 <figure class="col-xs-4">
-                    <img src="/images/gozoagent.png" width="350" alt="Gozo Agent, Gozocabs">
+                    <img src="/images/gozoagent.png" width="350" alt="Gozo Agent, aaocab">
                 </figure>
             </article>
         </div>

@@ -2449,7 +2449,7 @@ rut_from_city_id IN (SELECT cty_id FROM city_list) AND rut_estm_distance BETWEEN
 		// Provider
 		/* $arrStructData['provider']					 = array();
 		  $arrStructData['provider']['@type'] = "Organization";
-		  $arrStructData['provider']['name'] = 'GozoCabs';
+		  $arrStructData['provider']['name'] = 'aaocab';
 		  $arrStructData['provider']['url'] = Yii::app()->getBaseUrl(true);
 		  $arrStructData['provider']['logo'] = Yii::app()->getBaseUrl(true) . "/images/logo2_outstation.png";
 

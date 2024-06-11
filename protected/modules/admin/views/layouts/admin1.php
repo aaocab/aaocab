@@ -28,7 +28,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="GozoCabs">
+        <meta name="author" content="aaocab">
 		<meta name="robots" content="noindex,nofollow"/>
         <link rel="icon" type="image/png"  href="/images/favicon/favicon1.ico"/>
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.ico"/>
@@ -1885,7 +1885,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
                 <div class="page-footer" style="bottom: 0; position: relative">
                     <div class="container" >
                         <p>
-                            Copyright &copy; <?php echo date('Y'); ?> by Gozocabs.
+                            Copyright &copy; <?php echo date('Y'); ?> by aaocab.
                             All Rights Reserved.
                         </p>
                     </div>

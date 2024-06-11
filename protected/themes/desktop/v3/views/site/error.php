@@ -5,7 +5,7 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="row">
-				<div class="col-12 mb-2"><img src="/images/gozo-white.svg" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="150"></div>
+				<div class="col-12 mb-2"><img src="/images/gozo-white.svg" alt="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." title="aaocab:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews." width="150"></div>
 					<div class="col-12 col-xl-12">
 					<p class="merriw color-blue h2">Oops... we looked but could not find that page on this server</p>
 

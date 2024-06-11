@@ -377,7 +377,7 @@ if($bModel->bkgBcb->bcbCab->vhc_type_id === Config::get('vehicle.genric.model.id
 							else
 							{
 								?>
-								<li style="color:red">GozoCabs REQUIRES YOU TO ASSIGN DRIVER & CAR 12 hours before pickup. Ensure that Drivers License, Car RC and Insurance are on file with Gozo. Ensure only a commercial permit vehicle is assigned.</li>
+								<li style="color:red">aaocab REQUIRES YOU TO ASSIGN DRIVER & CAR 12 hours before pickup. Ensure that Drivers License, Car RC and Insurance are on file with Gozo. Ensure only a commercial permit vehicle is assigned.</li>
 								<?php } ?>
 							<li>Driver must not entertain a change of address greater than 5km from actual destination by customer unless "change of address" is sent by system.</li>
 						</ol>
