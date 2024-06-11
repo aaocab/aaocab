@@ -3713,7 +3713,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						$body				 .= '<br/>We are unable to activate your account until you have paperwork of all commercial car and driver added in your account for activation.';
 						$body				 .= '<br/><br/>Please add the paperwork and details for the commercial car and driver today.';
 						$body				 .= '<br/><br/>Thank you,
-                            <br/>Gozocab Team';
+                            <br/>aaocab Team';
 						$smsChanges			 = 'Your account has ' . $incompleteVehicle . ' cars and ' . $incompleteDriver . ' drivers with incomplete paperwork. ';
 						$smsChanges			 .= ' Please add the paperwork and details today.';
 					}
@@ -3724,7 +3724,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						$body		 .= '<br/>We are unable to activate your account until you have atleast one commercial car and driver added in your account for activation.';
 						$body		 .= '<br/><br/>Please add the paperwork and details for the commercial car and driver today.';
 						$body		 .= '<br/><br/>Thank you,
-                            <br/>Gozocab Team';
+                            <br/>aaocab Team';
 						$smsChanges	 = 'Your account has 0 cars and drivers active. ';
 						$smsChanges	 .= ' Please add the paperwork and details today.';
 					}
@@ -3752,7 +3752,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						$body				 .= '<br/><br/>Please add the paperwork and details for the commercial car and driver today.';
 						$body				 .= '<br/><br/>Always deliver 5 star service and get customers to add review for your service. The higher your rating in our system, the more bookings you will receive from the system.';
 						$body				 .= '<br/><br/>Thank you,
-                            <br/>Gozocab Team';
+                            <br/>aaocab Team';
 
 						$smsChanges	 = 'Your account has ' . $incompleteVehicle . ' cars and ' . $incompleteDriver . ' drivers with incomplete paperwork.';
 						$smsChanges	 .= ' Please add the paperwork and details today.';
@@ -3764,7 +3764,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						$body	 .= '<br/><br/>Please add the paperwork and details for the commercial car and driver today.';
 						$body	 .= '<br/><br/>Always deliver 5 star service and get customers to add review for your service. The higher your rating in our system, the more bookings you will receive from the system.';
 						$body	 .= '<br/><br/>Thank you,
-                            <br/>Gozocab Team';
+                            <br/>aaocab Team';
 
 						$smsChanges	 = 'Your account has 0 cars and drivers active.';
 						$smsChanges	 .= ' Please add the paperwork and details today.';

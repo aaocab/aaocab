@@ -137,7 +137,7 @@ return array(
 		'demoNumber'			 => '9051799911',
 		'sendMail'				 => false,
 		'demoMail'				 => 'puja.developer@gmail.com',
-		'PickupAlertEmail'		 => 'sudiptaroy@gozocab.in',
+		'PickupAlertEmail'		 => 'sudiptaroy@aaocab.in',
 		'listPerPage'			 => 10,
 		//'googleApiKey' =>  'AIzaSyCqR35KdPZlwpZvKMzKItFMCgvUB4dPgkI',
 		'googleBrowserApiKey'	 => 'AIzaSyAAUZ_f3QMu8ZUQXZaDIfeaVP7Saj0FKTc',

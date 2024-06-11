@@ -923,7 +923,7 @@ if($model->bkg_agent_id == Config::get('Kayak.partner.id') || $model->bkg_agent_
 								{
 									?>
 									<div class="row">
-										<div class="col-12 font-13"><p class="mb2 lineheight14">By proceeding to book, I Agree to Gozocab's <a class="fmodal" href="<?= Yii::app()->createUrl('index/privacy') ?>" target="_blank">Privacy Policy</a>, User Agreement and <a class="fmodal" href="<?= Yii::app()->createUrl('index/terms') ?>" target="_blank">Terms of service</a></p></div>
+										<div class="col-12 font-13"><p class="mb2 lineheight14">By proceeding to book, I Agree to aaocab's <a class="fmodal" href="<?= Yii::app()->createUrl('index/privacy') ?>" target="_blank">Privacy Policy</a>, User Agreement and <a class="fmodal" href="<?= Yii::app()->createUrl('index/terms') ?>" target="_blank">Terms of service</a></p></div>
 									</div>
 	<?php } ?>
 								<div class="row justify-center">

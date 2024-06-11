@@ -38,7 +38,7 @@
                 <div id="main-wrapper">
 					<div class="row">
                         <div class="col-md-4 center">
-                            <div class="text-center mb10"><img src="<?= Yii::app()->request->baseUrl; ?>/images/gozo-logo.png" alt="GozoCab"/></div>
+                            <div class="text-center mb10"><img src="<?= Yii::app()->request->baseUrl; ?>/images/gozo-logo.png" alt="aaocab"/></div>
                             <div class="login-box panel panel-white">
                                 <div class="panel-heading pt0"><h2>Administrator Login</h2></div>
                                 <div class="panel-body">

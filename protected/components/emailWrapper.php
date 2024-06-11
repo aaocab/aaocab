@@ -3605,7 +3605,7 @@ aaocab Team";
 			$body		 = 'Dear ' . $userName . ',<br/>Your trip ' . $model->bkg_booking_id . ' will cancelled becuase we have not  received trip reconfirmation.'
 					. '<br/>If you feel this cancellation was done in ERROR, please click the link below to RECONFIRM THE TRIP WITHIN THE NEXT 2 HOURS.'
 					. '<br/>Reconfirmation link -->  ' . $url . '.';
-			$body		 .= '<br/><br/>Thank you,<br/>Gozocab Team';
+			$body		 .= '<br/><br/>Thank you,<br/>aaocab Team';
 			$subject	 = 'Your trip ' . $bookingId . ' will soon be cancelled. Reconfirm not received.';
 			$mail		 = EIMailer::getInstance(EmailLog::SEND_CONSUMER_BATCH_EMAIL);
 			$mail->clearView();
@@ -5254,7 +5254,7 @@ aaocab Team";
 			$body	 .= '<br/>Please reply to this email with your onward trip details to avail a promotional rate for your return or onward trip as a repeat customer.';
 			$body	 .= '<br/>You can also book on our app directly for our best rates and enter code AGAIN250 to avail this offer.';
 			$body	 .= '<br/><br/>Thank you,
-                                <br/>Gozocab Team';
+                                <br/>aaocab Team';
 
 			$mail		 = EIMailer::getInstance(EmailLog::SEND_CONSUMER_BATCH_EMAIL);
 			$userName	 = $row['bkg_user_fname'] . ' ' . $row['bkg_user_lname'];

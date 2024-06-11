@@ -253,13 +253,13 @@ class TrackController extends BaseController
 			$sqlUpdate = "UPDATE test.vendor_writeoff_06032024 SET is_download=1,downloaded_at=NOW() WHERE vnd_id = $vendorId";
 			if (DBUtil::execute($sqlUpdate) > 0)
 			{
-				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				$url = "https://play.google.com/store/apps/details?id=com.aaocab.dco";
 				header("Location: $url");
 				Yii::app()->end();
 			}
 			else
 			{
-				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				$url = "https://play.google.com/store/apps/details?id=com.aaocab.dco";
 				header("Location: $url");
 				Yii::app()->end();
 			}
@@ -283,13 +283,13 @@ class TrackController extends BaseController
 			$sqlUpdate = "UPDATE test.vendor_dco_download_20032024 SET is_download=1,downloaded_at=NOW() WHERE 1 AND is_processed=1 AND status=1 AND vnd_id = $vendorId";
 			if (DBUtil::execute($sqlUpdate) > 0)
 			{
-				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				$url = "https://play.google.com/store/apps/details?id=com.aaocab.dco";
 				header("Location: $url");
 				Yii::app()->end();
 			}
 			else
 			{
-				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				$url = "https://play.google.com/store/apps/details?id=com.aaocab.dco";
 				header("Location: $url");
 				Yii::app()->end();
 			}
@@ -313,13 +313,13 @@ class TrackController extends BaseController
 			$sqlUpdate = "UPDATE test.vendor_login_reminder_21032024 SET is_downloaded=1,downloaded_at=NOW() WHERE vnd_id = $vendorId";
 			if (DBUtil::execute($sqlUpdate) > 0)
 			{
-				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				$url = "https://play.google.com/store/apps/details?id=com.aaocab.dco";
 				header("Location: $url");
 				Yii::app()->end();
 			}
 			else
 			{
-				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				$url = "https://play.google.com/store/apps/details?id=com.aaocab.dco";
 				header("Location: $url");
 				Yii::app()->end();
 			}

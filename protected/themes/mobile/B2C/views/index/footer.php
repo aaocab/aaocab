@@ -51,7 +51,7 @@ if ((int) $botConfig["show"] > 0)
 	                frameEndpoint: '/bot/chat.html',
 	                introMessage: "Hi! I'm Sonia, I'm online and can help you",
 	                chatServer: '/bot/Bot',
-	                title: 'GozoCab',
+	                title: 'aaocab',
 	                mainColor: '#ec4e04',
 	                aboutText: '',
 	                bubbleBackground: '',

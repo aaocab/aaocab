@@ -18,7 +18,7 @@ class SMSCountry
 			return;
 		}
 
-		$user		 = "GozoCab";
+		$user		 = "aaocab";
 		$password	 = "66947994";
 		$senderid	 = "GOZOCB";
 		//$senderid="SMSCountry"; //Your senderid

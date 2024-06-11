@@ -21,7 +21,7 @@ if ((int) $botConfig["show"] > 0)
 					frameEndpoint: '/bot/chat.html',
 					introMessage: "Hi! I'm Sonia, I can give you price quotes, book at trip or answer questions you have. <br> Tell me how can I help you?",
 					chatServer: '/bot/Bot',
-					title: 'GozoCab',
+					title: 'aaocab',
 					mainColor: '#ec4e04',
 					aboutText: '',
 					desktopHeight: '1000',

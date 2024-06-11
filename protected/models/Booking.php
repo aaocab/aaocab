@@ -11284,7 +11284,7 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 				$body	 .= '<br/>Please reply to this email with your onward trip details to avail a promotional rate for your return or onward trip as a repeat customer.';
 				$body	 .= '<br/>You can also book on our app directly for our best rates and enter code AGAIN250 to avail this offer.';
 				$body	 .= '<br/><br/>Thank you,
-                            <br/>Gozocab Team';
+                            <br/>aaocab Team';
 
 				$mail		 = new EIMailer();
 				$userName	 = $row['bkg_user_name'] . ' ' . $row['bkg_user_lname'];

@@ -3450,7 +3450,7 @@ The complaints regarding Driver talking over phone while driving has significant
 					$body				 .= '<br/><br/>Please add the paperwork and details for the commercial car and driver today.';
 					$body				 .= '<br/><br/>Always deliver 5 star service and get customers to add review for your service. The higher your rating in our system, the more bookings you will receive from the system.';
 					$body				 .= '<br/><br/>Thank you,
-                                <br/>Gozocab Team';
+                                <br/>aaocab Team';
 					/* var @model emailWrapper */
 					$emailCom			 = new emailWrapper();
 					$emailCom->paperworkDriverCarEmail($subject, $body, $userName, $email, $vndId);
