@@ -9,7 +9,7 @@ $bgBanner	 = ($this->fixedTop) ? "bg-banner" : "";
 ?>
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T73295"
+    <noscript><iframe src="http://www.googletagmanager.com/ns.html?id=GTM-T73295"
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
@@ -19,7 +19,7 @@ $bgBanner	 = ($this->fixedTop) ? "bg-banner" : "";
             <div class="container">
                 <div class="row inner-top hidden-xs">
                     <div class="col-sm-6 col-md-6 socials-menu">
-                        <a href="https://www.facebook.com/gozocabs" target="_blank" class="wow fadeInUp animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.5s" title="Facebook"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="left" title="Facebook"></i></a>
+                        <a href="http://www.facebook.com/gozocabs" target="_blank" class="wow fadeInUp animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.5s" title="Facebook"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="left" title="Facebook"></i></a>
                         <a href="https://twitter.com/gozocabs" target="_blank" class="wow bounceIn animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.7s" title="Twitter"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="left" title="Twitter"></i></a>
                         <a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="wow bounceIn animated" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-wow-delay="0.9s" title="Google+"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="left" title="Google Plus"></i></a>
                     </div>

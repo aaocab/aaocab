@@ -78,7 +78,7 @@ class NewUserSelectServiceConversation extends Conversation
 	public function askForVendorJoin()
 	{
 		$appendhtml = "";
-		$appendhtml .= "Please <a href='https://www.gozocabs.com/vendor/join' target='blank' >click here</a> to proceed";
+		$appendhtml .= "Please <a href='http://www.aaocab.com/vendor/join' target='blank' >click here</a> to proceed";
 
 		$this->say($appendhtml);
 	}
@@ -86,7 +86,7 @@ class NewUserSelectServiceConversation extends Conversation
 	public function askForAgentJoin()
 	{
 		$appendhtml = "";
-		$appendhtml .= "Please <a href='https://www.gozocabs.com/agent/join' target='blank' >click here</a> to proceed";
+		$appendhtml .= "Please <a href='http://www.aaocab.com/agent/join' target='blank' >click here</a> to proceed";
 
 		$this->say($appendhtml);
 	}

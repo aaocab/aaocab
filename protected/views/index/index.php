@@ -26,7 +26,7 @@
                                 striving to re-invent the cab booking space in India that directly empowers the customers, who will now gain 
                                 from a much better travelling experience and customer service. We believe in constant upgrade and would 
                                 be very happy to receive any suggestions or feedback. Kindly feel free to email us at
-                                <a href="mailto:info@gozocabs.com" style="color: #fff;text-decoration: underline">info@gozocabs.com</a>
+                                <a href="mailto:info@aaocab.com" style="color: #fff;text-decoration: underline">info@aaocab.com</a>
                             </h4>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                             <h3 class="text-uppercase m0 mb20 weight400 border-bottom pb10">Contact Us</h3>
                             <div class="col-xs-12 float-none marginauto contact-panel">
                                 <h4 class="weight400">
-                                    <i class="fa fa-envelope icon1-panel mr10 mb20"></i><a href="mailto:info@gozocabs.com">info@gozocabs.com.</a>
+                                    <i class="fa fa-envelope icon1-panel mr10 mb20"></i><a href="mailto:info@aaocab.com">info@aaocab.com.</a>
                                     <i class="fa fa-phone icon1-panel mr10"></i>(+91) 90518-77-000
                                 </h4>
                                 <p class="mt10"><i class="fa fa-map-marker"></i> 610, Jaksons Crown Heights, Plot No 381, Twin District Centre,<br>Sector-10, Rohini, Delhi 110085.</p>

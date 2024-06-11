@@ -53,7 +53,7 @@ class PaymentGateway
 			$this->encData = base64_encode($dataEncsecret);
 		}
 		$this->name              = "Gozocabs";
-		$this->image             = "https://www.gozocabs.com/images/gozo-white-cabs.svg";
+		$this->image             = "http://www.aaocab.com/images/gozo-white-cabs.svg";
 		$this->currency          = $model->currency;
 		$this->paymentCapture    = 1;
 		$this->email             = (!$model->email)?"":$model->email;
@@ -68,7 +68,7 @@ class PaymentGateway
 		$this->secret  = $model->secret;
 		$this->name = "Gozocabs";
 		$this->description		 = $model->productinfo;
-		$this->image             = "https://www.gozocabs.com/images/gozo-white.svg";
+		$this->image             = "http://www.aaocab.com/images/gozo-white.svg";
 		$this->currency          = $model->currency;
 		$this->amount			 = $model->amount;
 		$this->paymentCapture    = 1;

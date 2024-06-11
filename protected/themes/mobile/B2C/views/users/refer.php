@@ -6,8 +6,8 @@ $this->layout	 = 'column1';
 <?
 //fb share
 $fbshareUrl		 = //mail to outlook
-		$mailBody		 = 'Dear Friend,%0D%0DI wanted to introduce you to Gozocabs.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.%0D
-Gozocabs is India’s leader in long distance taxi travel. Please visit  ' . 'http://www.gozocabs.com/invite/' . $refCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs.%0D
+		$mailBody		 = 'Dear Friend,%0D%0DI wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.%0D
+Gozocabs is India’s leader in long distance taxi travel. Please visit  ' . 'http://www.aaocab.com/invite/' . $refCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs.%0D
 %0D%0D%0D
 Regards,%0D
 Gozocabs Team';
@@ -34,7 +34,7 @@ Gozocabs Team';
 	</div>
 	<div class="line-height20 text-center">
 		<b class="uppercase">Invite link</b> <i class="fas fa-link"></i><br>
-		<a href="#" class="font-12 link-one"><?= 'http://www.gozocabs.com/invite/' . $refCode; ?></a>
+		<a href="#" class="font-12 link-one"><?= 'http://www.aaocab.com/invite/' . $refCode; ?></a>
 	</div>
 	<div class="font-18 text-center uppercase gray-color mt20 mb20">
 		OR

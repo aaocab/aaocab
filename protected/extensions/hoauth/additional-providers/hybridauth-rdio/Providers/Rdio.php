@@ -15,8 +15,8 @@ class Hybrid_Providers_Rdio extends Hybrid_Provider_Model_OAuth2
         parent::initialize();
 
         $this->api->api_base_url = 'https://services.rdio.com/api/1/';
-        $this->api->authorize_url = 'https://www.rdio.com/oauth2/authorize';
-        $this->api->token_url = 'https://www.rdio.com/oauth2/token';
+        $this->api->authorize_url = 'http://www.rdio.com/oauth2/authorize';
+        $this->api->token_url = 'http://www.rdio.com/oauth2/token';
 
         $this->api->curl_authenticate_method = "POST";
     }

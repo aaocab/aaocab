@@ -187,7 +187,7 @@ if (Yii::app()->params['enablePayuBolt'] == 1 && $showPayu)
 	Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/js/paymentGateway/payu.js?v=' . $version);
 	?>
 	<script id="bolt" src="<?= Yii::app()->payu->boltjsSrc ?>" bolt-color="1a4ea2" 
-			bolt-logo="http://gozocabs.com/images/1024_1024_new.png">
+			bolt-logo="http://aaocab.com/images/1024_1024_new.png">
 	</script>
 	<?php
 }

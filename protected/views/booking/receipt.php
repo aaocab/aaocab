@@ -52,7 +52,7 @@ if ($invoiceList) {
                                 </td>
                                 <td class="text-right" style="width: 33%">
                                     <div>
-                                        <figure><img src="http://www.gozocabs.com/images/logo2.png" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></figure>
+                                        <figure><img src="http://www.aaocab.com/images/logo2.png" alt="Gozocabs:India's leader in inter-city taxi | Great service. Price guarantee. Awesome reviews."></figure>
                                     </div>
                                 </td>
                             </tr>
@@ -364,15 +364,15 @@ if ($invoiceList) {
                             <p>We declare that this Invoice shows the actual value of all transactions and that all particulars are true and correct. 
                                 This bill is issued by the cab driver and not by Gozocabs. Gozocabs acts only as an intermediary for arranging the cab services. 
                                 GST is collected and remitted by Gozo Technologies Pvt. Ltd. [GSTIN: <?= Filter::getGstin($invoiceList[0]['bkg_pickup_date']);?>]; in the capacity of Aggregator as per the Finance Budget, 2015 read with GST Notification No. 5/2015
-                                In case of any queries/complaints, write to us on info@gozocabs.com <br>
-                                This is an electronically generated invoice and does not require signature. All applicable terms and conditions are available at https://www.gozocabs.com/terms</p>
+                                In case of any queries/complaints, write to us on info@aaocab.com <br>
+                                This is an electronically generated invoice and does not require signature. All applicable terms and conditions are available at http://www.aaocab.com/terms</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <hr>
                             <p style="font-size: 11px; text-align: center; margin-bottom: 2px;"><b>Corporate Office:</b> <?= $address ?>.</p>
-                            <p style="font-size: 11px; text-align: center;">Email: info@gozocabs.com &nbsp;|&nbsp; Phone: (+91) 90518-77-000 (24x7), International (+1) 650-741-GOZO (24x7) &nbsp;|&nbsp; www.gozocabs.com </p>
+                            <p style="font-size: 11px; text-align: center;">Email: info@aaocab.com &nbsp;|&nbsp; Phone: (+91) 90518-77-000 (24x7), International (+1) 650-741-GOZO (24x7) &nbsp;|&nbsp; www.aaocab.com </p>
                         </div>
                     </div>
                 </div>

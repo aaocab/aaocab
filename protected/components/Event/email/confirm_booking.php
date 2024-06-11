@@ -105,7 +105,7 @@ try
 		$bookarr['cod']				 = $model->bkgInvoice->bkg_convenience_charge;
 		$bookarr['amountWithoutCOD'] = $amountWithoutCOD;
 		$hash						 = Yii::app()->shortHash->hash($model->bkg_id);
-		//$url						 = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
+		//$url						 = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
 		//$payurl						 = Yii::app()->createAbsoluteUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
 //			$payurl						 = BookingUser::getPaymentLinkByEmail($model->bkg_id);
 		$payurl						 = BookingUser::getPaymentLinkByEmail($model->bkg_id);

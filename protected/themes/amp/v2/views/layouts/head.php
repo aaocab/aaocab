@@ -1198,13 +1198,13 @@
     "gtag_id": "G-4TQDEZYH5H",
     "config" : {
       "G-4TQDEZYH5H": { "groups": "default" },
-	  "linker": { "domains": ["www.gozocabs.com", "m.gozocabs.com", "www-gozocabs-com.cdn.ampproject.org"] }
+	  "linker": { "domains": ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"] }
     }
   }
 }
 </script>
 </amp-analytics>
-<!--	<amp-analytics type="googleanalytics" config="https://www.gozocabs.com/index/ga4" data-credentials="include">
+<!--	<amp-analytics type="googleanalytics" config="http://www.aaocab.com/index/ga4" data-credentials="include">
 		<script type="application/json">
 			{
 				"vars": {
@@ -1217,7 +1217,7 @@
 					"SEND_DOUBLECLICK_BEACON": false,
 					"linkers": {
 						"enabled": true,
-						"destinationDomains": ["www.gozocabs.com", "m.gozocabs.com", "www-gozocabs-com.cdn.ampproject.org"],
+						"destinationDomains": ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"],
 						"_gl": {
 							"ids": {
 								"_ga_4TQDEZYH5H": "${ga4SessionCookie}"

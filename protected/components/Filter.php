@@ -2653,7 +2653,7 @@ class Filter
 
 	public static function parseTrackingParams()
 	{
-		$hosts	  = ["gozocabs.in", "gozo.cab", "gozocabs.com", "gozo.taxi", "gozocab.com"];
+		$hosts	  = ["gozocabs.in", "gozo.cab", "aaocab.com", "gozo.taxi", "gozocab.com"];
 		$trkParam = [];
 		$url	  = self::getOriginURL();
 		$pUrl	  = parse_url($url);

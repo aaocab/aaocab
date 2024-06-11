@@ -24,11 +24,11 @@ if ($data['userId'] != '')
 					<table width="100%" align="center">
 						<tr>
 							<td align="left" valign="middle">
-								<img src="http://gozocabs.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
 
 							</td>
 							<td align="right" valign="middle">
-								<a href="https://www.gozocabs.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="https://www.gozocabs.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="https://www.gozocabs.com/" style="color: #0279E8;">www.gozocabs.com</a>
+								<a href="http://www.aaocab.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="http://www.aaocab.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="http://www.aaocab.com/" style="color: #0279E8;">www.aaocab.com</a>
 							</td>
 						</tr>
 					</table>
@@ -44,8 +44,8 @@ if ($data['userId'] != '')
 					<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
 						This email is sent to <?= $email_receipient ?> you because you have used this email address to register with Gozocabs.
 						<!--                        If you haven't done so, please ignore this email.-->
-						If you received this email in error or do not wish to receive any further communications, please <a href="https://www.gozocabs.com/index/unsubscribeemail/hash/<?= Yii::app()->shortHash->hash($userId) ?>/email/<?= $email_receipient ?>" target="_BLANK">unsubscribe here.</a>
-						<a href="http://gozocabs.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+						If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/<?= Yii::app()->shortHash->hash($userId) ?>/email/<?= $email_receipient ?>" target="_BLANK">unsubscribe here.</a>
+						<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 					</p>
 				</td>
 			</tr>

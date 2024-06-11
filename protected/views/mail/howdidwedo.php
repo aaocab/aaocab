@@ -25,7 +25,7 @@ $msg = 'Dear ' . $data['userName'] .
 			</tr>
 		</table>'.
 
-        '<br/><br/><a href="https://www.gozocabs.com/refer-friend/"><img src="https://www.gozocabs.com/images/refer_friend_email.jpg"/></a>'.
+        '<br/><br/><a href="http://www.aaocab.com/refer-friend/"><img src="http://www.aaocab.com/images/refer_friend_email.jpg"/></a>'.
         '<br/><br/>Regards,' .
         '<br/>Gozocabs Support' .
         '<br/>+91-90518-77-000';

@@ -18,7 +18,7 @@ try
 	$fromCityName	 = $bkgModel->bkgFromCity->cty_name;
 	$toCityName		 = $bkgModel->bkgToCity->cty_name;
 	$buttonUrl		 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-	$paymentUrl		 = 'https://www.gozocabs.com/' . $buttonUrl;
+	$paymentUrl		 = 'http://www.aaocab.com/' . $buttonUrl;
 	$arrWhatsAppData = [$userName, Filter::formatBookingId($bookingId), $cabType, $cabNumber, $driverName, $driverPhone, $pickupTime, $fromCityName, $paymentUrl];
 	$templateName	 = 'driver_details_to_customer';
 	if ($bkgModel->bkg_agent_id == Config::get('transferz.partner.id'))

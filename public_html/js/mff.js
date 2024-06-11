@@ -28,4 +28,4 @@ function handleResponse() {
         document.getElementById('mffGozoRates').innerHTML=response;
     }
 }
-sendReq('http://www.gozocabs.com/index/mffRates');
+sendReq('http://www.aaocab.com/index/mffRates');

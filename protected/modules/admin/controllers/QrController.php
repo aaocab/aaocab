@@ -508,7 +508,7 @@ class QrController extends Controller
 					We will send them weekly SMS showing how many bookings were created and their current total gozo credits earned! 
 					Our team will call them to get papers and other details when are ready to send them payments for bookings created using this gozospot. 
 					Payment will be sent monthly.";
-			$msg3	 = "If they have any question in the future, they can goto gozocabs.com/contact and ask for a call back from us.";
+			$msg3	 = "If they have any question in the future, they can goto aaocab.com/contact and ask for a call back from us.";
 
 			$message = array($msg, $msg1, $msg2, $msg3);
 			if ($saveActivation)
@@ -605,7 +605,7 @@ class QrController extends Controller
 					We will send them weekly SMS showing how many bookings were created and their current total gozo credits earned! 
 					Our team will call them to get papers and other details when are ready to send them payments for bookings created using this gozospot. 
 					Payment will be sent monthly.";
-			$msg3	 = "If they have any question in the future, they can goto gozocabs.com/contact and ask for a call back from us.";
+			$msg3	 = "If they have any question in the future, they can goto aaocab.com/contact and ask for a call back from us.";
 
 			$message = array($msg, $msg1, $msg2, $msg3);
 			if ($saveActivation)

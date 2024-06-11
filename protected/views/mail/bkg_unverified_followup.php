@@ -54,7 +54,7 @@ $msg = '<div style="width: 100%; overflow: auto;  border: 1px #aaa solid;color: 
 	</tr>           
 <tr>
 <td align="center" valign="middle">
-<a href="https://www.gozocabs.com/refer-friend/"><img src="https://www.gozocabs.com/images/refer-a-friend.jpg"/></a>
+<a href="http://www.aaocab.com/refer-friend/"><img src="http://www.aaocab.com/images/refer-a-friend.jpg"/></a>
 </td>
 </tr>         
 

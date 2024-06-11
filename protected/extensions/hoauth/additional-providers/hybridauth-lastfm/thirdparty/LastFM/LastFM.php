@@ -103,7 +103,7 @@ class LastFM {
      */
     protected $sk;
     public static $DOMAIN_MAP = array(
-        'www' => 'https://www.last.fm/',
+        'www' => 'http://www.last.fm/',
         'webservice' => 'https://ws.audioscrobbler.com/2.0/',
     );
 

@@ -23,7 +23,7 @@
 						<div class="bg-white-box">
                             <h2 class="font-18"><b>Go GozoCabs for One Way Taxi Drops on 2000+ Routes in India</b></h2>
 							<p>Gozo was founded on the core idea of simplifying taxi travel for all Indians. Since starting in November 2015, We have consistently enabled one-way taxi travel on more and more routes across India. As of 2018, Gozo has served across states in India and we are now the outstation travel provider with the widest reach. Our principals remain the same - to bring you the Best prices, with Great quality, 24x7 and Nationwide. Taking a one-way cab can be sometimes upto 50% cheaper than traveling one-way. We encourage customers to book their one-way trips atleast 7 days ahead of the trip so it improves our ability to offer you the lowest prices and also find you the best car suited to your needs.</p>
-							<p>With Gozo you have the option to <a href="https://www.gozocabs.com/">book one-way, round trip and multi-way transfers</a> across the nation.<br>
+							<p>With Gozo you have the option to <a href="http://www.aaocab.com/">book one-way, round trip and multi-way transfers</a> across the nation.<br>
 								If you are looking for airport or railway drop services, then Gozo can serve you all over India and is the best car rental platform to hire One way taxi, airport drops or railway station pickups at the most reasonable rates. The above list of routes is just a sample of popular routes in each major region of India. If there is anything we can do to serve you better, please call our customer support center or message us via the website chat. We are India’s leader in one-way travel where you will Pay one-way when you Travel one-way. Hassle free at the best prices.</p>
 							<h3 class="font-18"><b>Popular One Way Taxi Services in India</b></h3>
 							<p>Gozo is an outstation taxi services specialist across India. In addition to one-way AC cab and <a href="<?= Yii::app()->baseUrl; ?>/GozoSHARE">AC outstation shared taxi</a> services we also provide round trips, packaged tours and all sorts of customization to suit your travel needs across all cities and towns in India. 
@@ -261,7 +261,7 @@
 								<li><i class="fas fa-check-circle mr10 color-green"></i>You are looking to travel comfortably door to door from your home to your final destination. Traveling by bus or train can be very time consuming and can be more expensive than traveling by a one-way shared taxi. 
 								</li>
 							</ul>
-							<p>Gozo today is the most popular taxi service for outstation travel in India due to our convenience, best value for money, <a href="https://www.gozocabs.com/blog/billing-transparency/">billing transparency</a> and amazing 24x7x365 customer support.</p>
+							<p>Gozo today is the most popular taxi service for outstation travel in India due to our convenience, best value for money, <a href="http://www.aaocab.com/blog/billing-transparency/">billing transparency</a> and amazing 24x7x365 customer support.</p>
 						</div>
 					</div>
 				</div>

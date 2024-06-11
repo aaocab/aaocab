@@ -24,7 +24,7 @@ try
 		$maxTimeAdvPay = date('d/m/Y h:i A', strtotime($model->bkgTrail->bkg_payment_expiry_time));
 
 		$hash		 = Yii::app()->shortHash->hash($bkgid);
-		$url		 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		$url		 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$url		 = Filter::shortUrl($url);
 		$amountStr	 = '';
 		if ($advance > 0)

@@ -11,7 +11,7 @@
                 <div class="col-12 mb20 mt30 ul-style-c">
                     <div class="bg-white-box">
                         <h1 class="font-22"><b>PRIVACY POLICY</b></h1>
-                        <p>This Privacy Policy (“Policy”) describes the policies and procedures on the collection, use, disclosure and protection of your information when you use our website located at gozocabs.com, or the GozoCabs mobile application (collectively, “Gozo Platform”) made available by Gozo Technologies Private Limited (“Gozo”, “Company”, “we”, “us” and “our”),  a private company established under the laws of India having its registered office at <?= Config::getGozoAddress()?>.</p>
+                        <p>This Privacy Policy (“Policy”) describes the policies and procedures on the collection, use, disclosure and protection of your information when you use our website located at aaocab.com, or the GozoCabs mobile application (collectively, “Gozo Platform”) made available by Gozo Technologies Private Limited (“Gozo”, “Company”, “we”, “us” and “our”),  a private company established under the laws of India having its registered office at <?= Config::getGozoAddress()?>.</p>
                         <p>As you use our services, we want you to be clear how we are using information and the ways in which you can protect your privacy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
 
                         </p>
@@ -23,7 +23,7 @@
                             <li><i class="fas fa-check-circle mr10 color-green"></i>The choices we offer, including how to access and update information.</li>
                         </ul>
                         <p>We’ve tried to keep it as simple as possible, but if you’re not familiar with terms like cookies, IP addresses, pixel tags and browsers, then read about these key terms first. Your privacy matters to Gozo so whether you are new to Gozo or a long-time user, please do take the time to get to know our practices – and if you have any questions <a href="/contactus">contact us</a>.</p>
-                        <p>Please read this Policy before using the Gozo Platform or submitting any personal information to Gozo. This Policy is a part of and incorporated within, and is to be read along with, the Terms of Use. The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at www.gozocabs.com unless otherwise defined in this Privacy Policy.</p>
+                        <p>Please read this Policy before using the Gozo Platform or submitting any personal information to Gozo. This Policy is a part of and incorporated within, and is to be read along with, the Terms of Use. The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at www.aaocab.com unless otherwise defined in this Privacy Policy.</p>
                         
                         <h2 class="font-18 mt30"><b><u>YOUR CONSENT</u></b></h2>
                         <p>By using the Gozo Platform and the Services, you agree and consent to the collection, transfer, use, storage, disclosure and sharing of your information as described and collected by us in accordance with this Policy.  If you do not agree with the Policy, please do not use or access the Gozo Platform.</p>

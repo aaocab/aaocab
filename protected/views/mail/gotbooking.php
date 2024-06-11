@@ -3,7 +3,7 @@
 $msg		 = "";
 $oneWayInfo	 = '
 <ol type="1" style="font-size:10px; line-height:15px;padding-left:0px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A ONE-WAY POINT TO POINT JOURNEY: Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer one-way transfers at a very attractive price by scheduling our vehicles to serve the one-way transfer needs of multiple customers in a sequence. As an example, if you are going one-way from City  A to City B we have estimated your time of travel and have most likely scheduled our driver to pickup another customer in City B.
         <ol type="i">
             <li>
@@ -86,7 +86,7 @@ $oneWayInfo	 = '
 
 $airportInfo = '
     <ol type="1" style="font-size:10px; line-height:15px;padding-left:0px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A LOCAL RENTAL FOR AIRPORT TRANSFER:Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer low priced airport transfers at a very attractive price by scheduling our vehicles to serve the airport pickup and drop needs of multiple customers in a sequence. As an example, if you are going from City center to Airport we have estimated your time of travel and have most likely scheduled our driver to pickup another customer at the Airport.
         <ol type="a">
             <li>
@@ -203,7 +203,7 @@ $returnInfoPerKm = '
       <strong>YOU ARE HIRING AN AC CAR. </strong>For drives in hilly regions, the air conditioning may be switched off to prevent engine overload.    
     </li>
     <li>
-        CANCELLATION: You may cancel your  reservation by logging onto www.gozocabs.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
+        CANCELLATION: You may cancel your  reservation by logging onto www.aaocab.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
     </li>
     <li>
        INCLUSIONS AND EXCLUSIONS: Your reservation indicates the total number of people and the amount of luggage that the vehicle will accommodate. Please ensure you have clearly communicated the number of passengers and amount of luggage you will carry atleast 24hours before pickup . The driver will not allow any additional passengers or luggage beyond what is allowed in the category of vehicle stated in the reservation. Parking charges, Airport Entry fees or any other form of Entry fees are NOT INCLUDED in the quotation. The customer is responsible for all such additional charges incurred during the trip.
@@ -279,10 +279,10 @@ $msg = 'Hi ' . $arr['userName'] .
 	$amount .
 	'<br/><br/>You can pay from your paytm wallet by clicking on the link  <a href="' . $arr['payurl'] . '">' . $arr['payurl'] . '</a>' .
 	'<br/><br/>You will receive the cab details at least 3 hours before your scheduled pickup time.<br/>' .
-	'<br/>You can contact us at +91 90518-77-000 or email us at info@gozocabs.com for any queries.<br/>' .
+	'<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
 	'<br/>Regards,' .
 	'<br/>Gozocabs<br/><br/>' .
-	'<br/>For updates and promotions, like us on <a href="https://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
+	'<br/>For updates and promotions, like us on <a href="http://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
 
 $msg .= $info;
 

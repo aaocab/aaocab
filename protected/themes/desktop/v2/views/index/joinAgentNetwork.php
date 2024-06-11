@@ -28,7 +28,7 @@
 			<li><i class="fas fa-check-circle mr10 color-green"></i>Use your client connections to generate business. Create the bookings and generate a healthy income in 'thank you' referral credits.</li>
 		</ul>
 		<br>
-                <b><font style="font-size:15px;"><a href="https://www.gozocabs.com/agent/join" class="btn-3">Open your travel partner account now!</a></font></b>
+                <b><font style="font-size:15px;"><a href="http://www.aaocab.com/agent/join" class="btn-3">Open your travel partner account now!</a></font></b>
 		<img src="/images/gozoagent.png" width="350" alt="Gozo Agent, Gozocabs">
     </div>
 </div>

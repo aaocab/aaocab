@@ -14,7 +14,7 @@
  */
 class Hybrid_Providers_Google extends Hybrid_Provider_Model_OpenID
 {
-	var $openidIdentifier = "https://www.google.com/accounts/o8/id"; 
+	var $openidIdentifier = "http://www.google.com/accounts/o8/id"; 
 
 	/**
 	* finish login step 

@@ -73,12 +73,12 @@
 <?php
 Yii::app()->clientScript->registerCssFile("/res/v2d/css/font-awesome/css/font-awesome.css?v=" . Yii::app()->params['sitecssVersion']);
 $qrLink		 = Yii::app()->createAbsoluteUrl('rating/downloadQrCode', ['userId' => $model->user_id]);
-$mailBody	 = 'Dear Friend,%0D%0DI wanted to introduce you to Gozocabs.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.%0D
+$mailBody	 = 'Dear Friend,%0D%0DI wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.%0D
 Gozocabs is India’s leader in long distance taxi travel. Please visit https://gozo.cab/c/' . $refCode . ' to register and get a credit of ' . $amount . ' points towards your future travel needs.%0D
 %0D%0D
 Regards,%0D
 Gozocabs Team';
-$body		 = 'Dear Friend, I wanted to introduce you to Gozocabs.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service. Gozocabs is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $refCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs';
+$body		 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service. Gozocabs is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $refCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs';
 ?>
 <div class="row">
 	<div class="col-12 col-lg-5 col-xl-4">
@@ -88,7 +88,7 @@ $body		 = 'Dear Friend, I wanted to introduce you to Gozocabs.com. I used it rec
 					<a href="<?= $qrLink ?>"><img src="<?= $qrpath ?>" alt="" style="width: 230px; height: 230px; float: left;"></a>
 					<div style="position: absolute;top: 15px;right: -5px;height: 224px;width: 20px;letter-spacing: 1px;font-weight: bold;font-size: 11px;color: #141414;margin: 0 0 10px 0;line-height: 24px;writing-mode: vertical-rl!important;-webkit-writing-mode: vertical-rl!important;transform-origin: 0 0!important;text-align: center;"><?= $qrcode; ?></div>
 
-					<span style="font-size: 13px;">Scan QR code or visit gozocabs.com</span>
+					<span style="font-size: 13px;">Scan QR code or visit aaocab.com</span>
 				</div>
 			</div>
 			<div class="col-12 text-center mb10">

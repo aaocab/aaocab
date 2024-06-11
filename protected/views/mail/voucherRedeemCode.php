@@ -3,7 +3,7 @@
 $msg = "";
 
 $msg .= '<p><b>Gozo Cabs Digital order confirmation & delivery</b></p>';
-$msg .= 'Thank you for ordering '.$arr['voucherTitle'].' at GozoCabs.com.<br/> Your digital product is now delivered. If you ordered multiple items, each will be delivered in its own email'.
+$msg .= 'Thank you for ordering '.$arr['voucherTitle'].' at aaocab.com.<br/> Your digital product is now delivered. If you ordered multiple items, each will be delivered in its own email'.
 
 $msg .= '<br/><br/>Use the code below to apply this voucher to your Gozo account. Read the description clearly for additional terms & conditions of use that apply to your digital purchase';
 
@@ -22,6 +22,6 @@ $msg .= '<tr>
 $msg .= '</table>';
 
 $msg .= 'We hope to see you again soon!';
-$msg .= '<br/><b>GozoCabs.com</b>';
+$msg .= '<br/><b>aaocab.com</b>';
 echo $msg;
 			

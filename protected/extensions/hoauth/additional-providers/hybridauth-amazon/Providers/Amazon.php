@@ -45,7 +45,7 @@ class Hybrid_Providers_Amazon extends Hybrid_Provider_Model_OAuth2 {
 		$this->api = new AmazonOAuth2Client( $this->config['keys']['id'], $this->config['keys']['secret'], $this->endpoint, $this->compressed );
 
 		$this->api->api_base_url  = 'https://api.amazon.com';
-		$this->api->authorize_url = 'https://www.amazon.com/ap/oa';
+		$this->api->authorize_url = 'http://www.amazon.com/ap/oa';
 		$this->api->token_url     = 'https://api.amazon.com/auth/o2/token';
 
 		$this->api->curl_header   = array( 'Content-Type: application/x-www-form-urlencoded' );

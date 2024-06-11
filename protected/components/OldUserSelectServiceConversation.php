@@ -195,7 +195,7 @@ class OldUserSelectServiceConversation extends Conversation
 				switch ($userChoice)
 				{
 					case 1:
-						$say = "Please click this link : to attach your taxi <a href='https://www.gozocabs.com/vendor/join'>https://www.gozocabs.com/vendor/join</a>";
+						$say = "Please click this link : to attach your taxi <a href='http://www.aaocab.com/vendor/join'>http://www.aaocab.com/vendor/join</a>";
 						$this->say($say);
 						$this->askForVendorPref();
 						break;
@@ -238,7 +238,7 @@ class OldUserSelectServiceConversation extends Conversation
 				switch ($userChoice)
 				{
 					case 1:
-						$say = "Please click this link : to attach your taxi <a href='https://www.gozocabs.com/vendor/join'>https://www.gozocabs.com/vendor/join</a>";
+						$say = "Please click this link : to attach your taxi <a href='http://www.aaocab.com/vendor/join'>http://www.aaocab.com/vendor/join</a>";
 						$this->say($say);
 						$this->askForVendorPref();
 						break;

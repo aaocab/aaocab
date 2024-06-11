@@ -30,8 +30,8 @@ class Hybrid_Providers_LinkedIn extends Hybrid_Provider_Model_OAuth2 {
 
         // Provider api end-points.
         $this->api->api_base_url = "https://api.linkedin.com/v2/";
-        $this->api->authorize_url = "https://www.linkedin.com/oauth/v2/authorization";
-        $this->api->token_url = "https://www.linkedin.com/oauth/v2/accessToken";
+        $this->api->authorize_url = "http://www.linkedin.com/oauth/v2/authorization";
+        $this->api->token_url = "http://www.linkedin.com/oauth/v2/accessToken";
 
         if ($this->api->access_token) {
             $this->api->curl_header[] = 'Authorization: Bearer ' . $this->api->access_token;

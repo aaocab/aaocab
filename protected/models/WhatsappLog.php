@@ -682,7 +682,7 @@ class WhatsappLog extends CActiveRecord
 		$pickupTime		 = $datePickupDate->format('j/M/y h:i A');
 
 		$buttonUrl	 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-		$paymentUrl	 = 'https://www.gozocabs.com/' . $buttonUrl;
+		$paymentUrl	 = 'http://www.aaocab.com/' . $buttonUrl;
 
 		$phoneNo = WhatsappLog::getPhoneNoByBookingId($bkgModel->bkg_id);
 		$userId	 = $bkgModel->bkgUserInfo->bkg_user_id;
@@ -747,7 +747,7 @@ class WhatsappLog extends CActiveRecord
 
 			$hashBkgId	 = Yii::app()->shortHash->hash($bkgId);
 			$hashVndId	 = Yii::app()->shortHash->hash($vndId);
-			$bkvnLink	 = "https://www.gozocabs.com/bkvn/{$hashBkgId}/{$hashVndId}";
+			$bkvnLink	 = "http://www.aaocab.com/bkvn/{$hashBkgId}/{$hashVndId}";
 
 			$arrWhatsAppData[]	 = $bookingId;
 			$arrWhatsAppData[]	 = $tripType;
@@ -880,7 +880,7 @@ class WhatsappLog extends CActiveRecord
 		$toCityName		 = $bkgModel->bkgToCity->cty_name;
 
 		$buttonUrl	 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-		$paymentUrl	 = 'https://www.gozocabs.com/' . $buttonUrl;
+		$paymentUrl	 = 'http://www.aaocab.com/' . $buttonUrl;
 
 		$arrWhatsAppData = [$userName, $bookingId, $cabType, $cabNumber, $driverName, $driverPhone, $pickupTime, $fromCityName, $paymentUrl];
 
@@ -965,7 +965,7 @@ class WhatsappLog extends CActiveRecord
 
 		$hashBkgId	 = Yii::app()->shortHash->hash($bkgId);
 		$hashVndId	 = Yii::app()->shortHash->hash($vndId);
-		$bkvnLink	 = "https://www.gozocabs.com/bkvn/{$hashBkgId}/{$hashVndId}";
+		$bkvnLink	 = "http://www.aaocab.com/bkvn/{$hashBkgId}/{$hashVndId}";
 
 		$arrWhatsAppData = [Filter::formatBookingId($bookingId), $tripType, $cabType, $pickupTime, $fromCityName, $toCityName, $tripDistance, $amtToCollect, $bkvnLink];
 
@@ -2130,7 +2130,7 @@ class WhatsappLog extends CActiveRecord
 		$expiryDate		 = '*' . $bkgExpiryDate->format('j/M/y h:i A') . '*';
 
 		$buttonUrl	 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-		$paymentUrl	 = 'https://www.gozocabs.com/' . $buttonUrl;
+		$paymentUrl	 = 'http://www.aaocab.com/' . $buttonUrl;
 
 		$supportPhone = "+91-90518-77000";
 

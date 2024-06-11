@@ -19,9 +19,9 @@ class Hybrid_Providers_OpenStreetMap extends Hybrid_Provider_Model_OAuth1
 
     // provider api end-points
     $this->api->api_base_url      = "https://api.openstreetmap.org/api/0.6/";
-    $this->api->authorize_url     = "https://www.openstreetmap.org/oauth/authorize";
-    $this->api->request_token_url = "https://www.openstreetmap.org/oauth/request_token";
-    $this->api->access_token_url  = "https://www.openstreetmap.org/oauth/access_token";
+    $this->api->authorize_url     = "http://www.openstreetmap.org/oauth/authorize";
+    $this->api->request_token_url = "http://www.openstreetmap.org/oauth/request_token";
+    $this->api->access_token_url  = "http://www.openstreetmap.org/oauth/access_token";
 
     // turn off json parsing!
     $this->api->decode_json = false;

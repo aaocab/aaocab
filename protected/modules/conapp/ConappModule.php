@@ -42,7 +42,7 @@ class ConappModule extends CWebModule
 	 */
 	public function beforeControllerAction($controller, $action)
 	{
-		if($_SERVER['HTTP_HOST'] == 'api.gozocabs.com')
+		if($_SERVER['HTTP_HOST'] == 'api.aaocab.com')
 		{
 			throw new Exception('Unauthorized!!!', 403);
 		}

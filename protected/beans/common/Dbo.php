@@ -50,7 +50,7 @@ class Dbo
 					$message			 = "This trip is applicable for double back offer if confirmed before " . date('D, jS M, h:i A', strtotime($getDboConfirmEndTime));
 					$dboObj->message	 = $message;
 				}
-				$dboObj->tnc		 = "https://app.gozocabs.com/terms/doubleBackAppView";
+				$dboObj->tnc		 = "https://app.aaocab.com/terms/doubleBackAppView";
 				
 			}
 		}

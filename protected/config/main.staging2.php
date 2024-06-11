@@ -1,8 +1,8 @@
 <?php
 
-#define("JS_URL", "https://js.gozocabs.com");
-#define("CSS_URL", "https://css.gozocabs.com");
-#define("IMAGE_URL", "https://images.gozocabs.com");
+#define("JS_URL", "https://js.aaocab.com");
+#define("CSS_URL", "https://css.aaocab.com");
+#define("IMAGE_URL", "https://images.aaocab.com");
 define("JS_URL", "/js/");
 define("CSS_URL", "/css/");
 define("IMAGE_URL", "/images/");

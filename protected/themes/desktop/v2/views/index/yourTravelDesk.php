@@ -11,7 +11,7 @@
 		<p>If you are in the hospitality business, regularly hosting customers or if your employees are regularly traveling across India - then you know the pains associated with arranging transportation for your customers or team members. 
 			Power your travel needs with Gozo's travel spot technology and get access to AC taxi for your outstation taxi needs in over 1000 cities all over India. 
 			Our technology platform powers the travel desks for many hotels, hospitals, travel agencies and 100's of businesses across India. Small businesses can sign up as an authorized reseller and create taxi bookings for their customers.
-                        <br>Just <a href="http://www.gozocabs.com/agent/join" class="btn-3">register as a Gozo travel partner and give it a try!</a>. 
+                        <br>Just <a href="http://www.aaocab.com/agent/join" class="btn-3">register as a Gozo travel partner and give it a try!</a>. 
 			
 		</p>
 		<p>

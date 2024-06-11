@@ -206,7 +206,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/assets/js/j
                         </div>
 						</div>
                         <br>
-                        <h2 class="mt0"><span style="color:#096dc4">DCO's and Taxi Operators...<a href="http://www.gozocabs.com/vendor/join">Attach your taxi here</a></span></h2>
+                        <h2 class="mt0"><span style="color:#096dc4">DCO's and Taxi Operators...<a href="http://www.aaocab.com/vendor/join">Attach your taxi here</a></span></h2>
                           
                     </div>
                     <div id="loading"></div>

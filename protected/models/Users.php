@@ -887,7 +887,7 @@ class Users extends CActiveRecord
 			{
 				$msgCom	 = new smsWrapper();
 				$logType = UserInfo::TYPE_SYSTEM;
-				$link	 = 'gozocabs.com' . Yii::app()->createUrl('users/confirmsignup', ['id' => $this->user_id, 'hash' => Yii::app()->shortHash->hash($this->user_id)]);
+				$link	 = 'aaocab.com' . Yii::app()->createUrl('users/confirmsignup', ['id' => $this->user_id, 'hash' => Yii::app()->shortHash->hash($this->user_id)]);
 				$msgCom->confirmUserAccounts($country_code, $phone, $bookingId, $link, $logType);
 				return true;
 			}
@@ -900,7 +900,7 @@ class Users extends CActiveRecord
 			{
 				$msgCom	 = new smsWrapper();
 				$logType = UserInfo::TYPE_SYSTEM;
-				$link	 = 'gozocabs.com' . Yii::app()->createUrl('users/confirmsignup', ['id' => $this->user_id, 'hash' => Yii::app()->shortHash->hash($this->user_id)]);
+				$link	 = 'aaocab.com' . Yii::app()->createUrl('users/confirmsignup', ['id' => $this->user_id, 'hash' => Yii::app()->shortHash->hash($this->user_id)]);
 				$msgCom->confirmUserAccounts($country_code, $phone, '', $link, $logType);
 				return true;
 			}
@@ -4901,7 +4901,7 @@ class Users extends CActiveRecord
 
 	public function whatsappShareTemplate($refcode)
 	{
-		$text				 = "I just travelled with Gozo Cabs. Excellent service. Amazing prices. Join & book with the link below. Once you travel, I will get 20% cashback. You will get ₹250 off on your first booking. After you travel, you can refer others to get 20% cashback too. www.gozocabs.com/invite/" . $refcode;
+		$text				 = "I just travelled with Gozo Cabs. Excellent service. Amazing prices. Join & book with the link below. Once you travel, I will get 20% cashback. You will get ₹250 off on your first booking. After you travel, you can refer others to get 20% cashback too. www.aaocab.com/invite/" . $refcode;
 		$whatappShareLink	 = urlencode($text);
 		return $whatappShareLink;
 	}
@@ -5061,7 +5061,7 @@ class Users extends CActiveRecord
 
 //				else
 //				{
-//					$link		 = 'gozocabs.com' . Yii::app()->createUrl('users/changePassword', ['id' => $userModel->user_id, 'hash' => Yii::app()->shortHash->hash($this->user_id)]);
+//					$link		 = 'aaocab.com' . Yii::app()->createUrl('users/changePassword', ['id' => $userModel->user_id, 'hash' => Yii::app()->shortHash->hash($this->user_id)]);
 //					$smsModel	 = new smsWrapper(); 
 //					$smsModel->sendLinkVendor($userModel->user_id, $userModel->usr_mobile, $userModel->usr_country_code, $link);
 //				}

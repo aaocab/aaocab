@@ -5635,9 +5635,9 @@ class Drivers extends CActiveRecord
 		$datePickupDate	 = new DateTime($bkgModel->bkg_pickup_date);
 		$pickupTime		 = $datePickupDate->format('j/M/y h:i A');
 		$buttonUrl		 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-		$paymentUrl		 = 'https://www.gozocabs.com/' . $buttonUrl;
+		$paymentUrl		 = 'http://www.aaocab.com/' . $buttonUrl;
 		$createTimeDiff	 = Filter::getTimeDiff($bkgModel->bkg_pickup_date, date('Y-m-d H:i:s'));
-		$link			 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id);
+		$link			 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id);
 		$phoneNo		 = $bkgModel->bkgUserInfo->bkg_country_code . $bkgModel->bkgUserInfo->bkg_contact_no;
 		if ($phoneNo == '' || !$phoneNo)
 		{

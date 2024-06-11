@@ -19,7 +19,7 @@
                     we rather keep you informed!</li>
                 <li>We offer you the BEST SERVICE IN THE INDUSTRY. We strive to be world-class in everything we do! Gozo will never lie to you. And Gozo will not tolerate anyone lying to you. 
                     We hold every member of our team and our partner network to a high ethical standard. </li>
-                <li>You can call us anytime 24x7!! And for any issues simply open a ticket with our helpdesk by writing to <a href="#">info@gozocabs.com</a></li>
+                <li>You can call us anytime 24x7!! And for any issues simply open a ticket with our helpdesk by writing to <a href="#">info@aaocab.com</a></li>
             </ul>
         </div>
         <p>We do make mistakes sometimes, and we want you to let us know if we have an opportunity for improvement. We compete with ourselves to be better than us each and every 

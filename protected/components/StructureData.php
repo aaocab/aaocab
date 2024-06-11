@@ -22,7 +22,7 @@ class StructureData
 		$contact['name']				 = 'GozoCabs';
 		$contact['url']					 = Yii::app()->getBaseUrl(true);
 		$contact['logo']				 = Yii::app()->getBaseUrl(true) . "/images/logo2_outstation.png";
-		$contact['email']				 = 'mailto:info@gozocabs.com';
+		$contact['email']				 = 'mailto:info@aaocab.com';
 		$contact['description']			 = "Gozo Cabs is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price &amp; Top Quality guaranteed.";
 		$arrContactPoint				 = array();
 		$arrContactPoint['@type']		 = "ContactPoint";
@@ -33,12 +33,12 @@ class StructureData
 		$arrContactPoint['telephone']	 = "+1-650-741-4696";
 		$arrContactPoint['contactType']	 = "Customer service";
 		$arrSocial						 = array();
-		$arrSocial[]					 = 'https://www.facebook.com/gozocabs';
+		$arrSocial[]					 = 'http://www.facebook.com/gozocabs';
 		$arrSocial[]					 = 'https://twitter.com/gozocabs';
-		$arrSocial[]					 = 'https://www.instagram.com/gozocabs/';
+		$arrSocial[]					 = 'http://www.instagram.com/gozocabs/';
 		$arrSocial[]					 = 'https://in.linkedin.com/company/gozocabs';
-		$arrSocial[]					 = 'https://www.youtube.com/channel/UCzAegwLeirBkmKDxtr5tTFA/featured';
-		$arrSocial[]					 = 'https://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html';
+		$arrSocial[]					 = 'http://www.youtube.com/channel/UCzAegwLeirBkmKDxtr5tTFA/featured';
+		$arrSocial[]					 = 'http://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html';
 		$arrContactPoint['sameAs']		 = $arrSocial;
 		$contact['contactPoint'][]		 = $arrContactPoint;
 		return $contact;
@@ -52,7 +52,7 @@ class StructureData
 		$contact['pricerange']	 = "$$";
 		$contact['url']			 = Yii::app()->getBaseUrl(true) . "/tempo-traveller-rental/" . $city;
 		$contact['image']		 = Yii::app()->getBaseUrl(true) . "/images/logo2_outstation.png";
-		$contact['email']		 = 'mailto:info@gozocabs.com';
+		$contact['email']		 = 'mailto:info@aaocab.com';
 		$contact['telephone']	 = "+91-90518-77-000";
 		$contact['address']		 = Config::getGozoAddress();
 		return $contact;
@@ -314,12 +314,12 @@ class StructureData
 				[
 					Schema::contactPoint()
 					->telephone("+91-90518-77-000")
-					->email('info@gozocabs.com')
+					->email('info@aaocab.com')
 					->contactType('Customer service'),
 //					Schema::contactPoint()
 //					->contactType('Customer service')
 //					->telephone("+1-650-741-4696")
-//					->email('info@gozocabs.com')
+//					->email('info@aaocab.com')
 				]
 		);
 
@@ -1238,13 +1238,13 @@ class StructureData
 						->streetAddress(Config::getGozoAddress())
 				)
 				->sameAs([
-					"https://www.facebook.com/gozocabs/",
+					"http://www.facebook.com/gozocabs/",
 					"https://twitter.com/gozocabs?lang=en",
-					"https://www.instagram.com/gozocabs/?hl=en",
-					"https://www.linkedin.com/company/gozocabs/"
+					"http://www.instagram.com/gozocabs/?hl=en",
+					"http://www.linkedin.com/company/gozocabs/"
 				])
 				->telephone("+91-90518-77-000")
-				->email('info@gozocabs.com');
+				->email('info@aaocab.com');
 
 		return $obj;
 	}

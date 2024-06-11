@@ -48,7 +48,7 @@ Logger::create("Entering Top Search View: " . Filter::getExecutionTime());
 <!--<div class="row flash_banner hide">
     <div class="col-lg-12 p0 text-center">
         <h1 class="text-uppercase mt0 mb10 flash_orange"><b>Flash Sale!</b></h1>
-        <h4>We post some last minute very attractive deals for flexible travellers. Follow <a href="https://twitter.com/gozocabs" target="_blank">Twitter</a> or check <a href="https://www.facebook.com/gozocabs" target="_blank">Facebook</a> for instant deal alerts.</h4>
+        <h4>We post some last minute very attractive deals for flexible travellers. Follow <a href="https://twitter.com/gozocabs" target="_blank">Twitter</a> or check <a href="http://www.facebook.com/gozocabs" target="_blank">Facebook</a> for instant deal alerts.</h4>
     </div>
 </div>
 <div class="row flash_banner hide" style="background: #ffc864;">
@@ -151,7 +151,7 @@ Logger::create("Entering Top Search View: " . Filter::getExecutionTime());
                         ?>
                     </div>              
                 </div>
-				<span class="pull-right">More reviews on <a href="<?= Yii::app()->createUrl('index/testimonial'); ?>">Gozocabs.com</a>, <a href="https://bit.ly/ReviewGozoOnGoogle" target="_blank">Google</a>, <a href="https://bit.ly/ReviewGozoOnTripAdvisor" target="_blank">TripAdvisor</a> | <a href="<?= Yii::app()->createUrl('faq'); ?>#faq53" class="text-danger" target="_blank">Do not trust MouthShut.com</a></span>
+				<span class="pull-right">More reviews on <a href="<?= Yii::app()->createUrl('index/testimonial'); ?>">aaocab.com</a>, <a href="https://bit.ly/ReviewGozoOnGoogle" target="_blank">Google</a>, <a href="https://bit.ly/ReviewGozoOnTripAdvisor" target="_blank">TripAdvisor</a> | <a href="<?= Yii::app()->createUrl('faq'); ?>#faq53" class="text-danger" target="_blank">Do not trust MouthShut.com</a></span>
             </div>
         </div>
     </div>
@@ -200,7 +200,7 @@ Logger::create("Entering Top Search View: " . Filter::getExecutionTime());
                         ?>
                         <li>
                             <div class="feature_event">
-                                <div class="feature_eventimg box"><figure><img class="lozad" data-src="<?= "https://www.gozocabs.com/images/" . $imageList[$rtName] ?>?v=<?= $imgVer ?>" src="<?= "https://www.gozocabs.com/images/" . $imageList[$rtName] ?>?v=<?= $imgVer ?>" alt="<?= $rtData['fcity_name'] . ' to ' . $rtData['tcity_name'] ?>"></figure></div>
+                                <div class="feature_eventimg box"><figure><img class="lozad" data-src="<?= "http://www.aaocab.com/images/" . $imageList[$rtName] ?>?v=<?= $imgVer ?>" src="<?= "http://www.aaocab.com/images/" . $imageList[$rtName] ?>?v=<?= $imgVer ?>" alt="<?= $rtData['fcity_name'] . ' to ' . $rtData['tcity_name'] ?>"></figure></div>
                                 <div class="feature_eventtext">
                                     <div class="text-left m0 mb10 h4"><?= $rtData['fcity_name'] . ' to ' . $rtData['tcity_name'] ?><span class="pull-right small-style"><?= $rtData['rut_estm_distance'] ?> Km</span></div>
 

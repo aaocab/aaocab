@@ -169,7 +169,7 @@ class DriverCommand extends BaseCommand
 			    WHERE drv_active = 1 AND drivers.drv_id = drivers.drv_ref_code
 			    ORDER BY drs_last_logged_in DESC";
 		$rows	 = DBUtil::queryAll($sql, DBUtil::SDB());
-		$message = "Please Visit:\n\nhttps://www.gozocabs.com/message";
+		$message = "Please Visit:\n\nhttp://www.aaocab.com/message";
 		$title	 = "Important Notification";
 		if (count($rows) > 0)
 		{
@@ -267,7 +267,7 @@ class DriverCommand extends BaseCommand
 
 	public function actionBroadcastNotification()
 	{
-		$image	 = "https://www.gozocabs.com/images/2018/11/diwaliOffer.jpg";
+		$image	 = "http://www.aaocab.com/images/2018/11/diwaliOffer.jpg";
 		$sql	 = 'SELECT DISTINCT drivers.drv_id from drivers '
 				. 'INNER JOIN app_tokens ON drivers.drv_id=app_tokens.apt_entity_id AND app_tokens.apt_user_type=5'
 				. ' AND app_tokens.apt_logout IS NULL AND app_tokens.apt_last_login>DATE_SUB(NOW(), INTERVAL 10 day) '

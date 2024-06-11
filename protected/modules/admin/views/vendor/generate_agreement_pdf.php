@@ -219,7 +219,7 @@
 					<td width="70%">
 						<p>To the Company:</p>
 						<p style="margin: 20px 0;">Gozo Technologies Private Limited Legal Department <?= $address ?></p>
-						<p>Email ID: operator@gozocabs.in <br>With a copy to: legal@gozocabs.com</p>
+						<p>Email ID: operator@gozocabs.in <br>With a copy to: legal@aaocab.com</p>
 					</td>
 					<td>
 						<p>To the Vendor,</p>

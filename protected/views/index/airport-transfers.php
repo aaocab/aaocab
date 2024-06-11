@@ -159,7 +159,7 @@
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<h1><?= $cmodel->cty_name; ?>  Airport Transfers, with Gozo’s airport cab service</h1>
                 <p>Gozo Offers a hassle-free <b>airport transfer cabs</b> booking option at a cheaper price from <?= $cmodel->cty_name; ?> Airport to anywhere you want, be it in intercity, one-way or outstation or anything Gozo covers it all by just clicking Gozo app from your smartphone or from Gozocabs official website. Book online the cheapest and best Airport cab booking service from the airport to anywhere in India with Gozo.</p>              
-				<p>When arriving in <?= $cmodel->cty_name; ?> Airport, why wait in long lines for taxi or try to figure out the local transport options when you can have your driver waiting at the airport to pick you up. We can have you driver be waiting for you at arrivals, help you with your luggage and answer any questions you may have about your journey. All our our airport pickup drivers are local and in many cases, can understand English. You will receive the phone contact details of your driver my email and SMS, so you can be worry-free. <a href="https://support.gozocabs.com">Gozo’s 24x7 customer support</a> is available by phone or chat should you need any assistance.</p>
+				<p>When arriving in <?= $cmodel->cty_name; ?> Airport, why wait in long lines for taxi or try to figure out the local transport options when you can have your driver waiting at the airport to pick you up. We can have you driver be waiting for you at arrivals, help you with your luggage and answer any questions you may have about your journey. All our our airport pickup drivers are local and in many cases, can understand English. You will receive the phone contact details of your driver my email and SMS, so you can be worry-free. <a href="https://support.aaocab.com">Gozo’s 24x7 customer support</a> is available by phone or chat should you need any assistance.</p>
             
 				<div class="row mt10">
 					<h2 class="col-xs-12 h3 text-center">Popular airport transfers in <span class="orange-color"><?= $cmodel->cty_name; ?> </span></h2>
@@ -301,7 +301,7 @@
 						//echo $top_city;
 						echo '<a href="/book-taxi/' . strtolower($top_city) . '-' . $cmodel->cty_name . '">' . $top_city . '</a>, ';
 					}
-					?> Travel to and from <?= $cmodel->cty_name; ?>  can be done by booking your one-way trip, round-trip, customized multi-city itinerary in a AC sedan, SUVs or for larger groups to take tempo travellers (minibus) in <?= $cmodel->cty_name; ?> . Backpackers or the adventurous travellers may option for booking <a href="http://www.gozocabs.com/GozoSHARE">shared outstation cabs</a></p>
+					?> Travel to and from <?= $cmodel->cty_name; ?>  can be done by booking your one-way trip, round-trip, customized multi-city itinerary in a AC sedan, SUVs or for larger groups to take tempo travellers (minibus) in <?= $cmodel->cty_name; ?> . Backpackers or the adventurous travellers may option for booking <a href="http://www.aaocab.com/GozoSHARE">shared outstation cabs</a></p>
 					<p>Gozo can be on stand-by for you throughout your travels in India. Booking your chauffeur service with Gozo couldn’t be easier. Simply visit Gozo’s website or use the Gozo mobile app to book from your smartphone.
 					</p>
 					<?php

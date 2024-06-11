@@ -414,7 +414,7 @@ class LookupController extends BaseController
 		{
 			if ($opt == 1)
 			{
-				$url = "https://www.payumoney.com/payment/op/getPaymentResponse";
+				$url = "http://www.payumoney.com/payment/op/getPaymentResponse";
 			}
 			else
 			{
@@ -536,7 +536,7 @@ class LookupController extends BaseController
 						$driver_phone = Yii::app()->params['customerToDriver'];
 					}
 
-					$apiURL						 = 'https://www.gozocabs.com/mmtproxy.php';
+					$apiURL						 = 'http://www.aaocab.com/mmtproxy.php';
 					$requestParamList			 = [
 						"type"				 => "driverDetail",
 						"booking_id"		 => "{$bmodel['bkg_agent_ref_code']}",

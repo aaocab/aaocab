@@ -31,7 +31,7 @@ if ($data['id'] != '')
 
         <div style=" border-bottom:1px solid #C4C4C4;">
             <div style="width:600px; margin:0 auto; padding: 20px 0 15px 0;">
-                <img src="http://gozocabs.com/images/hotlink-ok/gozo-logo-new.png" style="float:left; padding: 0 0 10px 0;"/>
+                <img src="http://aaocab.com/images/hotlink-ok/gozo-logo-new.png" style="float:left; padding: 0 0 10px 0;"/>
                 <h5 style="color:#4e4200; font-weight:300; font-size:14px; padding: 47px 0 10px 0;  float:right; margin:0;"><!--?php echo date("m-d-Y")?--></h5>
                 <div style="clear:both;"></div>
             </div>
@@ -48,8 +48,8 @@ if ($data['id'] != '')
                 <p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
                     This email is sent to <?= $email_receipient ?> because you have used this email address to register with Gozocabs.
 					<!--                    If you haven't done so, please ignore this email.-->
-					If you received this email in error or do not wish to receive any further communications, please <a href="https://www.gozocabs.com/index/unsubscribeemail/hash/<?= Yii::app()->shortHash->hash($id) ?>/email/<?= $email_receipient ?>" target="_BLANK">unsubscribe here.</a>
-                    <a href="http://gozocabs.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>.
+					If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/<?= Yii::app()->shortHash->hash($id) ?>/email/<?= $email_receipient ?>" target="_BLANK">unsubscribe here.</a>
+                    <a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>.
                 </p>
 
             </div>

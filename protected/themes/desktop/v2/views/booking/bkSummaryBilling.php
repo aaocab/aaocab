@@ -162,7 +162,7 @@ $taxLabel	 = ($serviceTaxRate == 5) ? 'GST' : 'Service Tax ';
 						<div class="col-7 m0 sum-height"><b>Estimated Trip cost:</b></div>
 						<div class="h4 col-5 m0 text-right">
 							<b>&#x20B9<span class="etcAmount txtEstimatedAmount"><?= $model->bkgInvoice->bkg_total_amount ?></span></b><br>
-							<span style="font-size:0.5em"><a href="https://www.gozocabs.com/price-guarantee" target="_blank" style="color: white;">Best price guarantee</a></span>
+							<span style="font-size:0.5em"><a href="http://www.aaocab.com/price-guarantee" target="_blank" style="color: white;">Best price guarantee</a></span>
 						</div>
 					</div>
 

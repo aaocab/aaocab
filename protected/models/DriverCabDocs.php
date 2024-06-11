@@ -258,7 +258,7 @@ class DriverCabDocs extends CActiveRecord
 			$vhcId	 = $drv['vhc_id'];
 			$drvName = strtok($drv['drv_name'], " ");
 			$lHash	 = DriverCabDocs::model()->createHash($drvId, $vhcId);
-			$link	 = "gozocabs.com/u/" . $lHash;
+			$link	 = "aaocab.com/u/" . $lHash;
 			$msg	 = "Get Rs.150 from Gozo Cabs. Upload papers for Driver '" . $drvName . "' and Cab '" . $drv['vhc_number'] . "' in 24hr. 
 Open: $link . Get approved. Make Rs.150";
 

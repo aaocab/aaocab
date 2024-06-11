@@ -232,15 +232,15 @@
                             <p class="mb5 font-16"><b>Click the link below for YouTube Videos (Hindi Version)</b></p>
                             <div class="video-panel">
                             <ul>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=3T12L7XWnyo&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=5" target="_blank">Attach your cab & upload your documents</a></li>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=AfbwgIJN0H0&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=11" target="_blank">Vendor Registration and documents Upload</a></li>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=4630FwpTMsE&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=33" target="_blank">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=etKRxPYYjLw&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=35" target="_blank">Partner App - Full Vendor App Functionality</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=3T12L7XWnyo&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=5" target="_blank">Attach your cab & upload your documents</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=AfbwgIJN0H0&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=11" target="_blank">Vendor Registration and documents Upload</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=4630FwpTMsE&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=33" target="_blank">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=etKRxPYYjLw&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=35" target="_blank">Partner App - Full Vendor App Functionality</a></li>
                             </ul>
                             </div>
                         </div>
                     </div>
-                    <h2 class="font-24"><b>Travel Agents, Hotel owners, Shopkeepers... <a href="http://www.gozocabs.com/agent/join">Join our travel partner network here</a></b></h2>
+                    <h2 class="font-24"><b>Travel Agents, Hotel owners, Shopkeepers... <a href="http://www.aaocab.com/agent/join">Join our travel partner network here</a></b></h2>
                 </div>
             </div>
                 
@@ -253,37 +253,37 @@
                         <div class="flex-widget-2">
                             <div class="row">
                                 <div class="col-12 text-center mb5"><b>Vipul Agarwal</b></div>
-                                <div class="col-12"><iframe width="150" height="100" src="https://www.youtube.com/embed/eACThcHWMtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                <div class="col-12"><iframe width="150" height="100" src="http://www.youtube.com/embed/eACThcHWMtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                             </div>
                         </div>
                         <div class="flex-widget-2">
                             <div class="row">
                                 <div class="col-12 text-center mb5"><b>Raigonda Pujari</b></div>
-                                <div class="col-12"><iframe width="150" height="100" src="https://www.youtube.com/embed/AKOjm5K9MaM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                <div class="col-12"><iframe width="150" height="100" src="http://www.youtube.com/embed/AKOjm5K9MaM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                             </div>
                         </div>
                         <div class="flex-widget-2">
                             <div class="row">
                                 <div class="col-12 text-center mb5"><b>Sameer Sheikh</b></div>
-                                <div class="col-12"><iframe width="150" height="100" src="https://www.youtube.com/embed/IQQQCOhw4lE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                <div class="col-12"><iframe width="150" height="100" src="http://www.youtube.com/embed/IQQQCOhw4lE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                             </div>
                         </div>
                         <div class="flex-widget-2">
                             <div class="row">
                                 <div class="col-12 text-center mb5"><b>Mr. Krishna</b></div>
-                                <div class="col-12"><iframe width="150" height="100" src="https://www.youtube.com/embed/3JdKhRQA_Q4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                <div class="col-12"><iframe width="150" height="100" src="http://www.youtube.com/embed/3JdKhRQA_Q4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                             </div>
                         </div>
                         <div class="flex-widget-2">
                             <div class="row">
                                 <div class="col-12 text-center mb5"><b>Sunil Kumar</b></div>
-                                <div class="col-12"><iframe width="150" height="100" src="https://www.youtube.com/embed/Jw2Q-dgDapI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                <div class="col-12"><iframe width="150" height="100" src="http://www.youtube.com/embed/Jw2Q-dgDapI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                             </div>
                         </div>
                         <div class="flex-widget-2">
                             <div class="row">
                                 <div class="col-12 text-center mb5"><b>Mr. Kartik</b></div>
-                                <div class="col-12"><iframe width="150" height="100" src="https://www.youtube.com/embed/HlEziADtJHY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                <div class="col-12"><iframe width="150" height="100" src="http://www.youtube.com/embed/HlEziADtJHY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                             </div>
                         </div>
                         

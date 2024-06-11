@@ -21,7 +21,7 @@
 					<li>The free ride can be taken <b>within 30 days</b> from the date of the announcement of the winners. The free ride is for the consumption of the winner themselves.</li>
 					<li>The winners may take the free ride in any of the cities where Gozo Day Rentals for <b>4hours/40kms</b> services are available.</li>
 					<li>Each winner will get a free <b>4 hrs 40 kms</b> Day rental in Compact cab from GozoCabs.</li>
-					<li>The winners need to mail us <a href="mailto:info@gozocabs.com">info@gozocabs.com</a> with the details consisting of their selected city, ride date and time at least 3 days before to avail the ride (subject line and mail body will be sent through Instagram message, post winner announcement ). </li>
+					<li>The winners need to mail us <a href="mailto:info@aaocab.com">info@aaocab.com</a> with the details consisting of their selected city, ride date and time at least 3 days before to avail the ride (subject line and mail body will be sent through Instagram message, post winner announcement ). </li>
 					<li>Our Day Rental service available in <b>Hyderabad, Raipur, Delhi, Ahmedabad, Surat, Vadodara, Gurugram, Shimla, Jammu, Srinagar, Bengaluru, Mysuru, Thiruvananthapuram, Bhopal, Indore, Nashik, Mumbai, Nagpur, Pune, Chandigarh, Amritsar, Ajmer, Udaipur, Jaipur, Bikaner, Jodhpur, Chennai, Coimbatore, Madurai, Agra, Prayagraj, Varanasi, Meerut, Kanpur, Ghaziabad, Lucknow, Dehradun, Kolkata, Noida, Goa Velha, Navi Mumbai, Mangalore, Pimpri-Chinchwad.</b></li>
 					<li>The winners need to select their preferred location from any one of the above-mentioned cities. 
 </li>

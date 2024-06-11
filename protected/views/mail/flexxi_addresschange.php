@@ -11,7 +11,7 @@ $msg = 'Hi '. $arr['userName'] .
         '<br/><b>Name of Primary passenger: </b>'.$arr['userName'].
 		'<br/><br/>Please be on time. The car will leave the pickup point exactly 15 minutes after the time of pickup and continue on the journey.'.
         '<br/>You will be responsible for missing the trip and the booking will be cancelled with no refund if you miss the trip.<br/>'.
-        '<br/>You can contact us at +91 90518-77-000 or email us at info@gozocabs.com for any queries.<br/>' .
+        '<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
         '<br/>Regards,' .
         '<br/>Gozocabs<br/><br/>';
 

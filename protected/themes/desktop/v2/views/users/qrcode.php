@@ -21,7 +21,7 @@ elseif($qrLink != '' && $qrpath != '' && $qrcode != '')
                 <a href="<?= $qrLink ?>"><img src="<?= $qrpath ?>" alt="" style="width: 230px; height: 230px; float: left;"></a>
                 <div style="position: absolute;top: 15px;right: -5px;height: 224px;width: 20px;letter-spacing: 1px;font-weight: bold;font-size: 11px;color: #141414;margin: 0 0 10px 0;line-height: 24px;writing-mode: vertical-rl!important;-webkit-writing-mode: vertical-rl!important;transform-origin: 0 0!important;text-align: center;"><?= $qrcode; ?></div>
 
-                <span style="font-size: 13px;">Scan QR code or visit gozocabs.com</span>
+                <span style="font-size: 13px;">Scan QR code or visit aaocab.com</span>
             </div>
         </div>
 </div>

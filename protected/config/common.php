@@ -336,11 +336,11 @@ return array(
 		'defaultEndTime'				 => '23:59:59',
 		'defaultPackagePickupTime'		 => '09:00:00',
 		'indiaCreditCardPaymentType'	 => 1, //[ 1=>ebs, 2=>'Zaakpay']
-		'host'							 => 'www.gozocabs.com',
-		'fullBaseURL'					 => 'https://www.gozocabs.com',
-		'fullAPIBaseURL'				 => 'https://api.gozocabs.com',
-		'driverEnglishYouTubeURL'		 => 'https://www.youtube.com/playlist?list=PLtO3n8NwlGMSl5c0NTck6az_B0q8PP5Sx&app=desktop',
-		'driverHindiYouTubeURL'			 => 'https://www.youtube.com/playlist?list=PLtO3n8NwlGMQ3tUd4Dj_dpbdtgEz8yfUw&app=desktop',
+		'host'							 => 'www.aaocab.com',
+		'fullBaseURL'					 => 'http://www.aaocab.com',
+		'fullAPIBaseURL'				 => 'https://api.aaocab.com',
+		'driverEnglishYouTubeURL'		 => 'http://www.youtube.com/playlist?list=PLtO3n8NwlGMSl5c0NTck6az_B0q8PP5Sx&app=desktop',
+		'driverHindiYouTubeURL'			 => 'http://www.youtube.com/playlist?list=PLtO3n8NwlGMQ3tUd4Dj_dpbdtgEz8yfUw&app=desktop',
 		'ebs'							 => [
 			'account_id' => '20442',
 			'secret'	 => 'c9772076b532444f30fa2b8c44990d56',
@@ -447,7 +447,7 @@ return array(
 			],
 		],
 		'demoDomains'					 => [
-			'gozocabs.com'	 => 'gozocabs.com',
+			'aaocab.com'	 => 'aaocab.com',
 			'gozocabs.in'	 => 'gozocabs.in',
 			'gozo.cab'		 => 'gozo.cab',
 		],

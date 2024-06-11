@@ -12,7 +12,7 @@
                 <img src="<?= $fullpath ?>" alt="" style="width: 230px; height: 230px; float: left;">
                 <div style="position: absolute; top: 0; right: 0; height: 150px; width: 20px; letter-spacing: 1px; font-size: 13px; color: #ababab; margin: 0 0 10px 0; line-height: 24px; writing-mode: vertical-rl!important; -webkit-writing-mode: vertical-rl!important;  transform-origin: 0 0!important; transform: rotate(90deg)!important; text-align: center;"><?//= $qrcode; ?></div>
 
-                <span style="font-size: 13px; margin-left: 5px;">Scan QR code or visit gozocabs.com</span>
+                <span style="font-size: 13px; margin-left: 5px;">Scan QR code or visit aaocab.com</span>
             </div>
         </div>
         <div style="width: 15%; flex: 0 0 15%; float: left;"><img src="/images/google-5-Stars.jpg" alt="" width="100%" style="margin-top: 15px;"></div>

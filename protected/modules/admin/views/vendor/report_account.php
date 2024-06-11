@@ -1,7 +1,7 @@
 <style>
     span.stars, span.stars span {
         display: block;
-        background: url(https://www.gozocabs.com/images/stars.png) 0 -16px repeat-x;
+        background: url(http://www.aaocab.com/images/stars.png) 0 -16px repeat-x;
         width: 80px;
         height: 16px;
     }

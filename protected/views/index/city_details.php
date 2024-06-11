@@ -263,7 +263,7 @@ if ($type == 'city')
 	?>
 					</table>
 				</div>
-				<div>Gozo's booking and billing process is <a href="http://www.gozocabs.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.</div>
+				<div>Gozo's booking and billing process is <a href="http://www.aaocab.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.</div>
 				<p>On the Gozo platform you can also create a multi-day tour package by customizing your itinerary. These are created a round trip bookings between 2 or more cities</p>
 				<h3>TRAVEL PRECAUTIONS BEING TAKEN DURING THE CORONA VIRUS PANDEMIC</h3>
 				<ol>

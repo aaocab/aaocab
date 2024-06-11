@@ -75,7 +75,7 @@ class NewBookingServiceConversation extends Conversation
 
 //					case 2:
 //						$this->say("You have selected <strong>I have some questions</strong>");
-//						$this->say("Please <a href='https://www.gozocabs.com/faq#faq1' target='_blank'>Click here</a> to give wings to your thoughts n enjoy the services of gozo");
+//						$this->say("Please <a href='http://www.aaocab.com/faq#faq1' target='_blank'>Click here</a> to give wings to your thoughts n enjoy the services of gozo");
 //						$this->endConversation();
 //						break;
 

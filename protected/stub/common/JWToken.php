@@ -32,7 +32,7 @@ class JWToken
 	public function setByAppToken(\AppTokens $appTokenModel = null, $validDuration = 24 * 60 * 60)
 	{
 		$timeNow		 = strtotime(\Filter::getDBDateTime());
-		$this->iss		 = "https://www.gozocabs.com/";
+		$this->iss		 = "http://www.aaocab.com/";
 		$this->sub		 = $appTokenModel->apt_user_type;
 		$this->aud		 = $appTokenModel->apt_entity_id;
 		$this->iat		 = $timeNow;
@@ -46,7 +46,7 @@ class JWToken
 	public function setByUsers($model, $validDuration = 24 * 60 * 60)
 	{
 		$timeNow		 = strtotime(\Filter::getDBDateTime());
-		$this->iss		 = "https://www.gozocabs.com/";
+		$this->iss		 = "http://www.aaocab.com/";
 		$this->sub		 = 1;
 		$this->aud		 = $model->user_id | 0;
 		$this->iat		 = $timeNow;

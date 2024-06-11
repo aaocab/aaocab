@@ -41,7 +41,7 @@ return array(
         'sendSMS' => false,
 		'sendAppNotification' => false,
         'demoNumber' => '',
-		'demoMail' => 'deepesh@gozocabs.com',
+		'demoMail' => 'deepesh@aaocab.com',
         'PickupAlertEmail' => 'abhishek@epitech.in',
         'https' => false,
     ),

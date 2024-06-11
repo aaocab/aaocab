@@ -1262,14 +1262,14 @@ class UsersController extends BaseController
 		$this->onRest('req.post.social_link.render', function () {
 			/* Old
 			  http://localhost:82/api/driver/users/social_link?drvid=77293&provider=Google
-			 * &data={"displayName":"gozo test","email":"testgozo90@gmail.com","expirationTime":1550847039,"familyName":"test","givenName":"gozo","grantedScopes":"[https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/userinfo.profile, profile, email, openid]","id":"101394939299427630688","obfuscatedIdentifier":"0719644844EB4175453B379AD4CEA4BC"}
+			 * &data={"displayName":"gozo test","email":"testgozo90@gmail.com","expirationTime":1550847039,"familyName":"test","givenName":"gozo","grantedScopes":"[http://www.googleapis.com/auth/userinfo.email, http://www.googleapis.com/auth/userinfo.profile, profile, email, openid]","id":"101394939299427630688","obfuscatedIdentifier":"0719644844EB4175453B379AD4CEA4BC"}
 			 * &devicedata={"nameValuePairs":{"apk_version":"1.22.81120","os_version":23,"device_id":"7c650f2a67a0ccb","device_info":"Xiaomi Redmi 3S","apt_device_token":"NA"}}
 			 */
 
 			/* New
 			 * {"drvid":77293,
 			  "provider":"Google",
-			  "data":{"displayName":"gozo test","email":"testgozo90@gmail.com","expirationTime":1550847039,"familyName":"test","givenName":"gozo","grantedScopes":"[https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/userinfo.profile, profile, email, openid]","id":"101394939299427630688","obfuscatedIdentifier":"0719644844EB4175453B379AD4CEA4BC"},
+			  "data":{"displayName":"gozo test","email":"testgozo90@gmail.com","expirationTime":1550847039,"familyName":"test","givenName":"gozo","grantedScopes":"[http://www.googleapis.com/auth/userinfo.email, http://www.googleapis.com/auth/userinfo.profile, profile, email, openid]","id":"101394939299427630688","obfuscatedIdentifier":"0719644844EB4175453B379AD4CEA4BC"},
 			  "devicedata":{"nameValuePairs":{"apk_version":"1.22.81120","os_version":23,"device_id":"7c650f2a67a0ccb","device_info":"Xiaomi Redmi 3S","apt_device_token":"NA"}}}
 			 */
 

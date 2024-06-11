@@ -1,7 +1,7 @@
 <h3>Gozo FLEXXI SHARE Terms & Conditions</h3>
 <ul style="list-style-type: none; padding-left:5px;">
  <b>Updated: August 12, 2018</b><p>
-    These terms and conditions are entered into by you and Gozo Technologies Private limited (Gozo) regarding your use of Gozo’s Flexxi Share service as further described on our Gozo FLEXXI frequently asked questions (the FAQs) and are applicable in addition to Gozos Terms & Conditions as listed at www.gozocabs.com/terms. 
+    These terms and conditions are entered into by you and Gozo Technologies Private limited (Gozo) regarding your use of Gozo’s Flexxi Share service as further described on our Gozo FLEXXI frequently asked questions (the FAQs) and are applicable in addition to Gozos Terms & Conditions as listed at www.aaocab.com/terms. 
     Please read these terms carefully. By using our services, you are agreeing to all terms & conditions set forth.</ul><p>
 <ul style="list-style-type: none; padding-left:5px;">
     In this agreement, the words "including" and "include" mean "including, but not limited to."</ul><p>

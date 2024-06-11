@@ -627,7 +627,7 @@ class notificationWrapper
 		$totalAdvanceAmount	 = 'Rs. ' . $bkgModel->bkgInvoice->bkg_advance_amount;
 		$dueAmount			 = 'Rs. ' . $bkgModel->bkgInvoice->bkg_due_amount;
 		$buttonUrl			 = 'bkpn/' . $bkgId . '/' . Yii::app()->shortHash->hash($bkgId);
-		$paymentLink		 = Filter::shortUrl('https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id));
+		$paymentLink		 = Filter::shortUrl('http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id));
 		$response			 = Contact::referenceUserData($bkgModel->bkgUserInfo->bui_id, 2);
 		if ($response->getStatus())
 		{

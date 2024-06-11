@@ -153,7 +153,7 @@ else
 		</div>
 	</div>
 <!--	<div class="row mb30">
-<div class="col-12 text-center"><a href="https://www.gozocabs.com/terms/doubleback" target="_blank"><img src="/images/double-back-banner.webp?v=0.3" alt="Img" class="img-fluid"></a></div>
+<div class="col-12 text-center"><a href="http://www.aaocab.com/terms/doubleback" target="_blank"><img src="/images/double-back-banner.webp?v=0.3" alt="Img" class="img-fluid"></a></div>
 </div>-->
 	
 </div>

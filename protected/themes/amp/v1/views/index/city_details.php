@@ -203,7 +203,7 @@ if ($type == 'city')
 
 
 					<!--------------------------------------->
-					<div>Gozo's booking and billing process is <a href="http://www.gozocabs.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. <br>You get instant booking confirmations, electronic invoices and top quality for the best price.</div>	
+					<div>Gozo's booking and billing process is <a href="http://www.aaocab.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. <br>You get instant booking confirmations, electronic invoices and top quality for the best price.</div>	
 					<div>On the Gozo platform you can also create a multi-day tour package by customizing your itinerary. These are created a round trip bookings between 2 or more cities<br></div>
 					<div class="wrraper mt20">
 						<h2 class="mt0">Rent a Car in <?= $cmodel->cty_name; ?> for outstation travel, day-based rentals and airport transfers</h2>
@@ -280,7 +280,7 @@ if ($type == 'city')
 								?>
 								<p></p>
 								<h3 class="mb0"> Outstation shared taxi services are also available in <?= $cmodel->cty_name; ?></h3>
-								<p>	In September of 2018, Gozo has introduced the facility to hire a seat in a shared AC outstation taxi. We call this service Gozo FLEXXI.You can learn more about our <a href="https://www.gozocabs.com/goFLEXXI" >Gozo FLEXXI AC outstation shared taxi.</a> Gozo FLEXXI is available in all major cities and on all popular oustation taxi routes across India. Gozo FLEXXI is much cheaper than traveling by an AC bus. If you have firm plans and prefer to rent your own taxi, you can simply book a FLEXXI option and choose to sell your unused seats. Gozo cabs will help promote your unused seats to riders who are willing to travel in a shared taxi. 
+								<p>	In September of 2018, Gozo has introduced the facility to hire a seat in a shared AC outstation taxi. We call this service Gozo FLEXXI.You can learn more about our <a href="http://www.aaocab.com/goFLEXXI" >Gozo FLEXXI AC outstation shared taxi.</a> Gozo FLEXXI is available in all major cities and on all popular oustation taxi routes across India. Gozo FLEXXI is much cheaper than traveling by an AC bus. If you have firm plans and prefer to rent your own taxi, you can simply book a FLEXXI option and choose to sell your unused seats. Gozo cabs will help promote your unused seats to riders who are willing to travel in a shared taxi. 
 								</p>		
 								<?php
 							}

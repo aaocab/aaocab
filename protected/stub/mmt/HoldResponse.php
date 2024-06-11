@@ -40,7 +40,7 @@ class HoldResponse
 		$this->response->success				 = true;
 		$this->response->reference_number	 = $model->bkg_id;
 		$this->response->verification_code	 = $model->bkgTrack->bkg_trip_otp;
-		$this->response->tnc = "https://www.gozocabs.com/terms";
+		$this->response->tnc = "http://www.aaocab.com/terms";
         $this->error = NULL;
 		$this->code = NULL;
 		//destination notes by Rituparana

@@ -493,7 +493,7 @@ if ($type == 'city')
 				If you are looking for a reliable, convenient, and affordable cab service from <?= $cmodel->cty_name ?>, look no further 
 				than Gozo cabs. Gozo cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
 				You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
-				and <a href="http://www.gozocabs.com/blog/billing-transparency/">transparent pricing</a>. 
+				and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
 				Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
 				Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that Gozocabs provides to its customers.
 			</p>				

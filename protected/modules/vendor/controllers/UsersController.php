@@ -2414,8 +2414,8 @@ class UsersController extends BaseController
 								"<br/><b>Vendor City : </b>" . $cityModel->cty_name;
 						$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 						$mail->setLayout('mail');
-						$mail->setFrom('info@gozocabs.com', 'Info Gozocabs');
-						$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@gozocabs.com' => 'Info Gozocabs'));
+						$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
+						$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@aaocab.com' => 'Info Gozocabs'));
 						$mail->setBody($body);
 						$mail->setSubject("New vendor signed up");
 						if ($mail->sendMail())
@@ -2428,7 +2428,7 @@ class UsersController extends BaseController
 						}
 						$usertype	 = EmailLog::Admin;
 						$email1		 = 'team@gozocabs.in';
-						$email2		 = 'info@gozocabs.com';
+						$email2		 = 'info@aaocab.com';
 						$subject	 = 'New vendor signed up';
 						$emailObj	 = new emailWrapper();
 						$emailObj->createLog($email1, $subject, $body, "", $usertype, $delivered, '', '', '', EmailLog::SEND_ACCOUNT_EMAIL);
@@ -2531,8 +2531,8 @@ class UsersController extends BaseController
 								"<br/><b>Vendor City : </b>" . $data['city'];
 						$mail	 = EIMailer::getInstance(EmailLog::SEND_ACCOUNT_EMAIL);
 						$mail->setLayout('mail');
-						$mail->setFrom('info@gozocabs.com', 'Info Gozocabs');
-						$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@gozocabs.com' => 'Info Gozocabs'));
+						$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
+						$mail->setTo(array('team@gozocabs.in' => 'Team Gozocabs', 'info@aaocab.com' => 'Info Gozocabs'));
 						$mail->setBody($body);
 						$mail->setSubject("New vendor signed up");
 						if ($mail->sendMail())
@@ -2545,7 +2545,7 @@ class UsersController extends BaseController
 						}
 						$usertype	 = EmailLog::Admin;
 						$email1		 = 'team@gozocabs.in';
-						$email2		 = 'info@gozocabs.com';
+						$email2		 = 'info@aaocab.com';
 						$subject	 = 'New vendor signed up';
 						$emailObj	 = new emailWrapper();
 						$emailObj->createLog($email1, $subject, $body, "", $usertype, $delivered, '', '', '', EmailLog::SEND_ACCOUNT_EMAIL);

@@ -19,9 +19,9 @@ class Hybrid_Providers_Tumblr extends Hybrid_Provider_Model_OAuth1
 
 		// provider api end-points
 		$this->api->api_base_url      = "https://api.tumblr.com/v2/";
-		$this->api->authorize_url     = "https://www.tumblr.com/oauth/authorize";
-		$this->api->request_token_url = "https://www.tumblr.com/oauth/request_token";
-		$this->api->access_token_url  = "https://www.tumblr.com/oauth/access_token";
+		$this->api->authorize_url     = "http://www.tumblr.com/oauth/authorize";
+		$this->api->request_token_url = "http://www.tumblr.com/oauth/request_token";
+		$this->api->access_token_url  = "http://www.tumblr.com/oauth/access_token";
 
 		$this->api->curl_auth_header  = false;
 	}
@@ -76,7 +76,7 @@ class Hybrid_Providers_Tumblr extends Hybrid_Provider_Model_OAuth1
 	 * @throws \Exception
 	 *   If creating user post failed.
 	 *
-	 * @see https://www.tumblr.com/docs/en/api/v2#posting
+	 * @see http://www.tumblr.com/docs/en/api/v2#posting
 	 */
 	function setUserStatus( $data )
 	{

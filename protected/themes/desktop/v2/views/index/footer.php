@@ -213,7 +213,7 @@ if ($userId > 0)
 					<div class="col-3">
 						<div class="font-18 mb10 text-uppercase"><b>Address</b></div>
 						<span><?= $address ?></span>
-						<br><a href="https://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html"><img src="/images/img_trans.gif" alt="Trpadvisor" title="Trpadvisor" width="1" height="1" class="sprit-2"></a>
+						<br><a href="http://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html"><img src="/images/img_trans.gif" alt="Trpadvisor" title="Trpadvisor" width="1" height="1" class="sprit-2"></a>
 						<img src="/images/img_trans.gif" alt="Google Review" title="Google Review" width="1" height="1" class="lozad sprit-3">
 					</div>
 					<div class="col-4">
@@ -243,11 +243,11 @@ if ($userId > 0)
 
 
 						<p class="yello-color mt20 mb0 font-20"><i class="fa fa-envelope-o"></i> <b>Email:</b></p>
-						<b>info@gozocabs.com</b>
+						<b>info@aaocab.com</b>
 					</div>
 					<div class="col-2 social-2">
 						<div class="font-18 mb10 text-uppercase"><b>Keep in touch</b></div>
-						<a href="https://www.facebook.com/gozocabs" target="_blank" class="mt5"><img src="/images/img_trans.gif" alt="Facebook" title="Facebook" width="1" height="1" class="sprit-6"></a><a href="https://twitter.com/gozocabs" target="_blank"><img src="/images/img_trans.gif" alt="Twitter" title="Twitter" width="1" height="1" class="sprit-7"></a><a href="https://www.instagram.com/gozocabs/" target="_blank"><img src="/images/img_trans.gif" alt="instagram" title="instagram" width="1" height="1" class="sprit-8"></a>
+						<a href="http://www.facebook.com/gozocabs" target="_blank" class="mt5"><img src="/images/img_trans.gif" alt="Facebook" title="Facebook" width="1" height="1" class="sprit-6"></a><a href="https://twitter.com/gozocabs" target="_blank"><img src="/images/img_trans.gif" alt="Twitter" title="Twitter" width="1" height="1" class="sprit-7"></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><img src="/images/img_trans.gif" alt="instagram" title="instagram" width="1" height="1" class="sprit-8"></a>
 					</div>
 					<div class="col-3">
 						<div class="font-18 mb10 text-uppercase"><b>Official Travel Partner</b></div>
@@ -279,7 +279,7 @@ if ($userId > 0)
 	?>
 	<div id="cookieSet" class="row cookies_panel" style="display:<?= $display ?>">
 		<div class="col-xs-12 pt15">
-			GozoCabs.com uses cookies to store information on your computer that is essential to making the site work and to customizing the user experience. By using the site, you consent to the placement of these cookies. Read our <a href="" data-toggle="modal" id="triggercp" data-target="#cookiepolicy">cookie policy</a> to learn more and how to withdraw your consent.
+			aaocab.com uses cookies to store information on your computer that is essential to making the site work and to customizing the user experience. By using the site, you consent to the placement of these cookies. Read our <a href="" data-toggle="modal" id="triggercp" data-target="#cookiepolicy">cookie policy</a> to learn more and how to withdraw your consent.
 			<form action="" method="post">
 				<button type="button" class="btn btn-primary proceed-new-btn pt5 pb5" onclick="gdprCom()">&#10004; Continue</button>
 			</form>

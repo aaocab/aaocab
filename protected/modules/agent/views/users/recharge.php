@@ -35,7 +35,7 @@ if ($enablePayu)
 
 	        <div class="panel-body pb30">
 	            <p class="mt0 mb5" style="font-size: 16px; text-transform: uppercase;"><b>Pay using direct link</b></p>
-				<div class='pm-button mb5'><a href='https://www.payumoney.com/paybypayumoney/#/9ACE29032F473FA855B4C6DF15C19A0F'><img src='https://www.payumoney.com/media/images/payby_payumoney/new_buttons/13.png' /></a></div>
+				<div class='pm-button mb5'><a href='http://www.payumoney.com/paybypayumoney/#/9ACE29032F473FA855B4C6DF15C19A0F'><img src='http://www.payumoney.com/media/images/payby_payumoney/new_buttons/13.png' /></a></div>
 	            If payment will be done through UPI then <b>2%</b> processing fee will not be charged
 	        </div>
 

@@ -50,6 +50,6 @@ $msg .= '<div>
 $msg .= '<br/><br/>All digital purchases are delivered via individual emails for each item purchased.<br/>' .
 		'We shall be sending your delivery confirmations soon.' .
 		'<br/><br/>We hope to see you again soon.<br/>' .
-		'<b>GozoCabs.com</b>';
+		'<b>aaocab.com</b>';
 
 echo $msg;

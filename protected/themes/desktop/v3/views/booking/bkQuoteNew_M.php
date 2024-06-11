@@ -911,7 +911,7 @@ if ($quotes2)
 				"currency": data3.currency,
 				"name": "Gozocabs",
 				"description": "Make Payment",
-				"image": "https://www.gozocabs.com/images/gozo_svg_logo.svg?v0.1",
+				"image": "http://www.aaocab.com/images/gozo_svg_logo.svg?v0.1",
 				"order_id": data3.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 				"handler": function(response)
 				{

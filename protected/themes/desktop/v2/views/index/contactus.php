@@ -29,7 +29,7 @@ if (isset($organisationSchema) && trim($organisationSchema) != '')
                                 <h2 class="font-18 mb0"><b>Address</b></h2>
                                 <?= Config::getGozoAddress(Config::Corporate_address, true)?>
                                 <h2 class="font-18 mb0 mt30"><b>E-mail</b></h2>
-                                <a href="mailto:info@gozocabs.com" style="text-decoration: none; color: #282828;"><i class="fa fa-envelope"></i> info@gozocabs.com</a>
+                                <a href="mailto:info@aaocab.com" style="text-decoration: none; color: #282828;"><i class="fa fa-envelope"></i> info@aaocab.com</a>
 
                             </div>
                             <div class="col-md-6">
@@ -42,7 +42,7 @@ if (isset($organisationSchema) && trim($organisationSchema) != '')
                                 <a  href="javascript:void(0)" class="helpline text-warning"> Request a call back</a>
                                 <h2 class="font-18 mb0 mt30"><b>KEEP IN TOUCH</b></h2>
                                 <div class="social-2">
-                                    <a href="https://www.facebook.com/gozocabs" target="_blank" class="mt5"><i class="fab fa-facebook-f"></i></a><a href="https://twitter.com/gozocabs" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://www.instagram.com/gozocabs/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a href="http://www.facebook.com/gozocabs" target="_blank" class="mt5"><i class="fab fa-facebook-f"></i></a><a href="https://twitter.com/gozocabs" target="_blank"><i class="fab fa-twitter"></i></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>

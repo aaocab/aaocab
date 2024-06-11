@@ -314,7 +314,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
             $uc = new Hybrid_User_Contact();
             $uc->identifier = (array_key_exists("id", $item)) ? $item["id"] : "";
             $uc->displayName = (array_key_exists("name", $item)) ? $item["name"] : "";
-            $uc->profileURL = (array_key_exists("link", $item)) ? $item["link"] : "https://www.facebook.com/profile.php?id=" . $uc->identifier;
+            $uc->profileURL = (array_key_exists("link", $item)) ? $item["link"] : "http://www.facebook.com/profile.php?id=" . $uc->identifier;
             $uc->photoURL = $this->getUserPhoto($uc->identifier);
 
             $contacts[] = $uc;
@@ -374,7 +374,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model {
             if (!empty($ua->text)) {
                 $ua->user->identifier = (array_key_exists("id", $item["from"])) ? $item["from"]["id"] : "";
                 $ua->user->displayName = (array_key_exists("name", $item["from"])) ? $item["from"]["name"] : "";
-                $ua->user->profileURL = "https://www.facebook.com/profile.php?id=" . $ua->user->identifier;
+                $ua->user->profileURL = "http://www.facebook.com/profile.php?id=" . $ua->user->identifier;
                 $ua->user->photoURL = $this->getUserPhoto($ua->user->identifier);
 
                 $activities[] = $ua;

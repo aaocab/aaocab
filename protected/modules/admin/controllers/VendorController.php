@@ -1793,7 +1793,7 @@ class VendorController extends Controller
 					<span style="text-transform: uppercase; font-size: 16px; font-weight: bold; color: #a8a8a8;">Taxi Operator Agreement</span>
 				</td>
 				<td style="text-align: right">
-					<img src="http://www.gozocabs.com/images/logo6.png" style="height: 60px"/></td>
+					<img src="http://www.aaocab.com/images/logo6.png" style="height: 60px"/></td>
 			</tr>
 		</tbody>
 	</table>
@@ -1939,13 +1939,13 @@ class VendorController extends Controller
 		$html2pdf->setHTMLHeader('<table border="0" cellpadding="0" cellspacing="0" width="702" class="no-border header">
                     <tbody>
 						<tr>
-							<td style="text-align: left"><img src="http://www.gozocabs.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
+							<td style="text-align: left"><img src="http://www.aaocab.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
 							<td style="text-align: right"><table class="borderless"><tr><td style="text-align: left; font-size: 10pt">
 									<strong>Corporate Office:</strong><br>
 									' . $address . '
 										</td></tr></table></td>
 						</tr></tbody></table><hr>');
-		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 		$html2pdf->writeHTML($this->renderPartial('generateinvoicepdf', array(
 					'dataList'		 => $dataList,
 					'adjustAmount'	 => $adjustAmount,
@@ -2000,13 +2000,13 @@ class VendorController extends Controller
 		$html2pdf->setHTMLHeader('<table border="0" cellpadding="0" cellspacing="0" width="702" class="no-border header">
                   <tbody>
                   <tr>
-                  <td style="text-align: left"><img src="http://www.gozocabs.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
+                  <td style="text-align: left"><img src="http://www.aaocab.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
                   <td style="text-align: right"><table class="borderless"><tr><td style="text-align: left; font-size: 10pt">
                   <strong>Corporate Office:</strong><br>
 					' . $address . '
                   </td></tr></table></td>
                   </tr></tbody></table><hr>');
-		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 		$html2pdf->writeHTML($this->renderPartial('generateledgerpdf', array(
 					'vendorList'	 => $vendorList,
 					'vendorAmount'	 => $vendorAmount,
@@ -2057,13 +2057,13 @@ class VendorController extends Controller
 		$html2pdf->setHTMLHeader('<table border="0" cellpadding="0" cellspacing="0" width="702" class="no-border header">
                     <tbody>
 						<tr>
-							<td style="text-align: left"><img src="http://www.gozocabs.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
+							<td style="text-align: left"><img src="http://www.aaocab.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
 							<td style="text-align: right"><table class="borderless"><tr><td style="text-align: left; font-size: 10pt">
 									<strong>Corporate Office:</strong><br>
 									' . $address . '
 										</td></tr></table></td>
 						</tr></tbody></table><hr>');
-		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 		$html2pdf->writeHTML($this->renderPartial('generateinvoicepdf', array(
 					'dataList'		 => $dataList,
 					'adjustAmount'	 => $adjustAmount,
@@ -2115,13 +2115,13 @@ class VendorController extends Controller
 		$html2pdf->setHTMLHeader('<table border="0" cellpadding="0" cellspacing="0" width="702" class="no-border header">
                   <tbody>
                   <tr>
-                  <td style="text-align: left"><img src="http://www.gozocabs.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
+                  <td style="text-align: left"><img src="http://www.aaocab.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
                   <td style="text-align: right"><table class="borderless"><tr><td style="text-align: left; font-size: 10pt">
                   <strong>Corporate Office:</strong><br>
 					' . $address . '
                   </td></tr></table></td>
                   </tr></tbody></table><hr>');
-		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 		$html2pdf->writeHTML($this->renderPartial('generateledgerpdf', array(
 					'vendorList'	 => $vendorList,
 					'vendorAmount'	 => $vendorAmount,
@@ -2264,13 +2264,13 @@ class VendorController extends Controller
 			$html2pdf->setHTMLHeader('<table border="0" cellpadding="0" cellspacing="0" width="702" class="no-border header">
                     <tbody>
 						<tr>
-							<td style="text-align: left"><img src="http://www.gozocabs.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
+							<td style="text-align: left"><img src="http://www.aaocab.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
 							<td style="text-align: right"><table class="borderless"><tr><td style="text-align: left; font-size: 10pt">
 									<strong>Corporate Office:</strong><br>
 									' . $address . '
 										</td></tr></table></td>
 						</tr></tbody></table><hr>');
-			$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+			$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 			$html2pdf->writeHTML($this->renderPartial('generatepdf', array(
 						'vendorList'	 => $vendorList,
 						'vendorAmount'	 => $vendorAmount,

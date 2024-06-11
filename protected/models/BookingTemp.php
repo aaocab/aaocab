@@ -5037,8 +5037,8 @@ class BookingTemp extends CActiveRecord
 				$btnurl1		 = "trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHash/$linkIdHash0/";
 				$btnurl2		 = "trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHash/$linkIdHash1/";
 				$platformHashEmail	 = Yii::app()->shortHash->hash(TemplateMaster::SEQ_EMAIL_CODE);
-				$btnEmailurl1		 = "https://wwww.gozocabs.com/trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHashEmail/$linkIdHash0/";
-				$btnEmailurl2		 = "https://wwww.gozocabs.com/trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHashEmail/$linkIdHash1/";
+				$btnEmailurl1		 = "http://wwww.aaocab.com/trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHashEmail/$linkIdHash0/";
+				$btnEmailurl2		 = "http://wwww.aaocab.com/trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHashEmail/$linkIdHash1/";
 				$email				 = ContactEmail::getEmailByUserId($val['userId']);
 				$contentParams		 = ['eventId' => "50", "fromCity" => ($cities == "" ? "Delhi,Mumbai,Bangalore" : $cities), "coin" => "500", 'btnEmailurl1' => $btnEmailurl1, 'btnEmailurl2' => $btnEmailurl2];
 //				$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $val['userId'], WhatsappLog::REF_TYPE_USER, $val['userId'], $val['userId'], $row['code'], $row['number'], null, 1, null, null, array('data' => "$btnurl1,$btnurl2", "type" => "button", "subType" => "url,url", "text" => "text,text"));

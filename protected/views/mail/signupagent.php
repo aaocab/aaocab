@@ -18,7 +18,7 @@ $msg = '<br><div style="text-align: left">Hello ' . $arr['userName'] ."</div>".
         ",<br/><br/>Welcome to Gozocabs. We are India's leader for inter-city taxi travel. Our mission is to simplify outstation travel in India and we welcome your suggestions for improvement always.
         <br/>" . $strCorp.
         $loginInfo.
-        "<br/><br/>For any assistance, contact us at +91 90518-77-000 or email <a href='mailto:info@gozocabs.com'>info@gozocabs.com </a><br/>" .
+        "<br/><br/>For any assistance, contact us at +91 90518-77-000 or email <a href='mailto:info@aaocab.com'>info@aaocab.com </a><br/>" .
         '<br/>Gozo means delight and joy! We do everything we can to stay true to our name. Call us for any assistance we can offer.<br/>' .
         '<br/>Thank you and welcome to the Gozo family!<br/>' .
         '<br/>-Team Gozo';

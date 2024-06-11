@@ -8,7 +8,7 @@ $ct = implode(' -> ', $routeCityList);
 $splRequest = $model->getSpecialRequests();
 $advance = ($model->bkg_advance_amount > 0) ? $model->bkg_advance_amount : 0;
 $due = $model1->bkg_due_amount;
-$guaranteeLink = "<a href=\"https://www.gozocabs.com/price-guarantee\" target=\"_blank\" >here</a>";
+$guaranteeLink = "<a href=\"http://www.aaocab.com/price-guarantee\" target=\"_blank\" >here</a>";
 $condition1 = "<h3>Terms & Conditions : </h3>
 <ul style=\"list-style-type: none; padding-left:0px;\">
     <li type=\"1\">Review the full terms and conditions of Gozo's price guarantee $guaranteeLink.</li>
@@ -27,11 +27,11 @@ $condition2 = "<h3>Conditions: </h3>
                 <tr>
                     <td align="center" valign="top">
                         <table width="98%">
-                            <tr><td align="center" width="100%"><img src="http://www.gozocabs.com/images/logo2.png" alt="" width="156" height="56"></td></tr>
+                            <tr><td align="center" width="100%"><img src="http://www.aaocab.com/images/logo2.png" alt="" width="156" height="56"></td></tr>
                             <tr>
                                 <td>
                                     <p>Hi <?= $model->getUsername() ?>,</p>
-                                    <p style="line-height: 24px;">Your trip to <?=$model->bkgToCity->cty_name;?> is in <?= $arr['day']; ?> days. Your trip is backed by Gozo’s <a href="https://www.gozocabs.com/price-guarantee" target="_blank" style="color: #17599f;">Best Price Guarantee.</a> Prices can go up as the travel date gets closer. 
+                                    <p style="line-height: 24px;">Your trip to <?=$model->bkgToCity->cty_name;?> is in <?= $arr['day']; ?> days. Your trip is backed by Gozo’s <a href="http://www.aaocab.com/price-guarantee" target="_blank" style="color: #17599f;">Best Price Guarantee.</a> Prices can go up as the travel date gets closer. 
                                 </p>
                                 </td>
                                 </tr>
@@ -101,7 +101,7 @@ $condition2 = "<h3>Conditions: </h3>
                                                 <td width="49%"  align="center" valign="top">
                                                     <table width="100%" border="0" cellpadding="7">
                                                         <tr>
-                                                            <td align="center" valign="top"><img src="http://gozocabs.com/images/price-guarantee-img.jpg" alt="Price Guarantee"  /></td>
+                                                            <td align="center" valign="top"><img src="http://aaocab.com/images/price-guarantee-img.jpg" alt="Price Guarantee"  /></td>
                                                         </tr>
                                                         <?php
                                                         if ($due > 0) 

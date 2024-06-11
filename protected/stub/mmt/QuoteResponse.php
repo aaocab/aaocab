@@ -90,7 +90,7 @@ class QuoteResponse
 		{
 			$this->distance_booked = min($this->distanceBooked);
 		}
-		$this->tnc = "https://www.gozocabs.com/terms";
+		$this->tnc = "http://www.aaocab.com/terms";
 	}
 
 

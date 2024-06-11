@@ -16,9 +16,9 @@ class Hybrid_Providers_Strava extends Hybrid_Provider_Model_OAuth2
 		parent::initialize();
 		
 		// Provider api end-points
-		$this->api->api_base_url  = "https://www.strava.com/api/v3/";
-		$this->api->authorize_url = "https://www.strava.com/oauth/authorize";	   
-		$this->api->token_url     = "https://www.strava.com/oauth/token";
+		$this->api->api_base_url  = "http://www.strava.com/api/v3/";
+		$this->api->authorize_url = "http://www.strava.com/oauth/authorize";	   
+		$this->api->token_url     = "http://www.strava.com/oauth/token";
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Hybrid_Providers_Strava extends Hybrid_Provider_Model_OAuth2
 		$this->user->profile->username    = $data->username; 
 		$this->user->profile->displayName = $data->firstname.' '.$data->lastname;
 		$this->user->profile->photoURL    = $data->profile_medium;
-		$this->user->profile->profileURL  = 'https://www.strava.com/athletes/'.$data->id; 
+		$this->user->profile->profileURL  = 'http://www.strava.com/athletes/'.$data->id; 
 		$this->user->profile->email       = $data->email;
 		$this->user->profile->emailVerified = $data->email;
 		$this->user->profile->gender      = $data->sex;

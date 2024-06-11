@@ -18,7 +18,7 @@
 		<li>Use our portal to get competitive quotes for your itinerary. Reach 1000's of taxi operators with a single quote request</li>
 		<li>Use your client connections to generate business. Create the bookings and generate a healthy income in 'thank you' referral credits.</li>
 	</ul>
-	<b><font style="font-size:15px;"><a href="https://www.gozocabs.com/agent/join">Open your travel partner account now!</a></font></b>
+	<b><font style="font-size:15px;"><a href="http://www.aaocab.com/agent/join">Open your travel partner account now!</a></font></b>
 	<div class="content p0">
 		<img src="/images/gozoagent.png" width="350" alt="Gozo Agent, Gozocabs" class="preload-image responsive-image">
 	</div>

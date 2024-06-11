@@ -4657,7 +4657,7 @@ class TestController extends Controller
 
 	public function actionGenerateGZQR()
 	{
-		$embededLink = "https://www.gozocabs.com/?s=sticker";
+		$embededLink = "http://www.aaocab.com/?s=sticker";
 		$filename	 = "gozocabs_QR";
 		$folderId	 = "1";
 

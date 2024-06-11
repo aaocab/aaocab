@@ -12,9 +12,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
     <head>
 		<link rel="manifest" href="/manifest.json">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://www.googletagmanager.com/">
+		<link rel="preconnect" href="http://www.googletagmanager.com/">
 		<link rel="preconnect" href="https://connect.facebook.net/">
-		<link rel="preconnect" href="https://www.clarity.ms/">
+		<link rel="preconnect" href="http://www.clarity.ms/">
 		<link rel="preconnect" href="https://cdn.onesignal.com/">
 		<link rel="preconnect" href="https://browser.sentry-cdn.com/">		
         <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
@@ -93,7 +93,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 							j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
 					j.async = true;
 					j.src =
-							'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+							'http://www.googletagmanager.com/gtm.js?id=' + i + dl;
 					f.parentNode.insertBefore(j, f);
 				})(window, document, 'script', 'dataLayer', 'GTM-T869HBL');</script>
 			<!-- End Google Tag Manager -->
@@ -103,7 +103,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 				{
 					dataLayer.push(arguments);
 				}
-				gtag('set', 'linker', {'domains': ["www.gozocabs.com", "m.gozocabs.com", "www-gozocabs-com.cdn.ampproject.org"]});
+				gtag('set', 'linker', {'domains': ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"]});
 				gtag('js', new Date());
 				gtag('config', 'G-4TQDEZYH5H');
 			</script>
@@ -125,7 +125,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 					w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
 					var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
 					j.async = true;
-					j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+					j.src = 'http://www.googletagmanager.com/gtm.js?id=' + i + dl;
 					f.parentNode.insertBefore(j, f);
 				})(window, document, 'script', 'dataLayer', 'GTM-T73295');</script>-->
 			<!-- End Google Tag Manager -->
@@ -292,7 +292,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 				_paq.push(['enableLinkTracking']);
 				(function()
 				{
-					var u = "//piwik.gozocabs.com/";
+					var u = "//piwik.aaocab.com/";
 					_paq.push(['setTrackerUrl', u + 'piwik.php']);
 					_paq.push(['setSiteId', 1]);
 
@@ -311,15 +311,15 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 
 				}
 			</script>
-		<noscript><p><figure><img src="//piwik.gozocabs.com/piwik.php?idsite=1" style="border:0;" alt="" /></figure></p></noscript>
+		<noscript><p><figure><img src="//piwik.aaocab.com/piwik.php?idsite=1" style="border:0;" alt="" /></figure></p></noscript>
 	<!-- End Piwik Code -->
-	<?php /* 	<script type="text/javascript" src="<?= (Yii::app()->request->getIsSecureConnection() ? "https" : "http") ?>://piwik.gozocabs.com/plugins/ClickHeat/libs/js/clickheat.js"></script>
+	<?php /* 	<script type="text/javascript" src="<?= (Yii::app()->request->getIsSecureConnection() ? "https" : "http") ?>://piwik.aaocab.com/plugins/ClickHeat/libs/js/clickheat.js"></script>
 	  <noscript><p><a href="http://www.dugwood.com/clickheat/index.html">ClickHeat</a></p></noscript>
 	  <script type="text/javascript">
 	  <!--
 	  clickHeatSite = 1;
 	  clickHeatGroup = encodeURIComponent(window.location.pathname + window.location.search);
-	  clickHeatServer = "<?= (Yii::app()->request->getIsSecureConnection() ? "https" : "http") ?>://piwik.gozocabs.com/plugins/ClickHeat/libs/click.php";
+	  clickHeatServer = "<?= (Yii::app()->request->getIsSecureConnection() ? "https" : "http") ?>://piwik.aaocab.com/plugins/ClickHeat/libs/click.php";
 	  initClickHeat();
 	  //-->
 	  </script>

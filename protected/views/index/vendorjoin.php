@@ -401,7 +401,7 @@ for ($i = $dy; $i >= $dy - 20; $i--)
 			<p><i class="fa fa-paper-plane mr10 mb10" style="font-size:18px; color: #36abe8;"></i> <a href="https://t.me/gozocabs" style="color:#000;"> Join the GozoCabs channel on telegram</a></p>
 		</div>
 		<br>
-		<h2 class="mt0"><span style="color:#096dc4">Travel Agents, Hotel owners, Shopkeepers...<a href="http://www.gozocabs.com/agent/join">Join our travel partner network here</a></span></h2>
+		<h2 class="mt0"><span style="color:#096dc4">Travel Agents, Hotel owners, Shopkeepers...<a href="http://www.aaocab.com/agent/join">Join our travel partner network here</a></span></h2>
 	</div>
 </div>
 

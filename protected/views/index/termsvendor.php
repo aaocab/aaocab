@@ -20,7 +20,7 @@
                 <div class="mt20 mb20">
                     <div>
                     <p>
-                        These terms (the Terms) form a binding legal agreement between you and M/s. Gozo Technologies Private Limited (hereinafter referred to as “Company”, “Gozo” or “Gozocabs”), located at <?= Config::getGozoAddress()?>, (we, us, our), and relate to how you may use services provided by us at www.gozocabs.com (Site) and/or the downloadable Gozo Partner Services software application (App) (together with the Site, referred to as “Gozo Partner Services”) to generate real time communication and advertising with users via services including the facility to allow users to book taxi with our company, real-time updates on the taxi to the user, displaying our fees and general company listing information (Gozo Services).
+                        These terms (the Terms) form a binding legal agreement between you and M/s. Gozo Technologies Private Limited (hereinafter referred to as “Company”, “Gozo” or “Gozocabs”), located at <?= Config::getGozoAddress()?>, (we, us, our), and relate to how you may use services provided by us at www.aaocab.com (Site) and/or the downloadable Gozo Partner Services software application (App) (together with the Site, referred to as “Gozo Partner Services”) to generate real time communication and advertising with users via services including the facility to allow users to book taxi with our company, real-time updates on the taxi to the user, displaying our fees and general company listing information (Gozo Services).
                     </p><br>
                     </div>
                     <div>
@@ -97,7 +97,7 @@
                     </div>
                     <div>
                     <p>
-                        If you become aware of any unauthorised use of your password or account you agree to notify us immediately at info@gozocabs.com.
+                        If you become aware of any unauthorised use of your password or account you agree to notify us immediately at info@aaocab.com.
                     </p><br>
                     </div>
                     <div>

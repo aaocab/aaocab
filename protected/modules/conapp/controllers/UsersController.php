@@ -1068,7 +1068,7 @@ class UsersController extends BaseController
 			$referralCode	= ($qrModel) ? $qrModel->qrc_code : '';
 			$referralCode	= 'https://gozo.cab/c/' . $referralCode;
 			$amount			= Yii::app()->params['invitedAmount'];
-			$referalMessage = 'Dear Friend, I wanted to introduce you to Gozocabs.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service. Gozocabs is India’s leader in long distance taxi travel. Please visit  ' . $referralCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs';
+			$referalMessage = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service. Gozocabs is India’s leader in long distance taxi travel. Please visit  ' . $referralCode . '  to register and get a credit of ' . $amount . ' points towards your future travel needs';
 			$returnSet->setStatus(true);
 			//$referalMessage = Config::get('user.referral.message');
 			$returnSet->setData(['code' => $referralCode, 'showMessage' => $referalMessage]);

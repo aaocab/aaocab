@@ -1252,7 +1252,7 @@ $orderAmount	 = $model->bkgInvoice->calculateMinPayment();
 	{
 		?>
 		<script id="bolt" src="<?= Yii::app()->payu->boltjsSrc ?>" bolt-color="1a4ea2" 
-				bolt-logo="http://gozocabs.com/images/1024_1024_new.png">
+				bolt-logo="http://aaocab.com/images/1024_1024_new.png">
 		</script>
 	<? } ?>
 	<script type="text/javascript">

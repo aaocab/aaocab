@@ -1037,7 +1037,7 @@ class QrCode extends CActiveRecord
 	public static function urlShorten($qrCode, $timeOut = 2000)
 	{
 
-//		$url		 = "https://www.gozocabs.com?sid={$qrCode}&loc=1";
+//		$url		 = "http://www.aaocab.com?sid={$qrCode}&loc=1";
 //		$encodeUrl	 = urlencode($url);
 //		$parameter	 = "&keyword=" . $qrCode;
 //		$completeUrl = $encodeUrl . $parameter;
@@ -1052,7 +1052,7 @@ class QrCode extends CActiveRecord
 	 */
 	public static function qrUrlShorten($qrCode, $timeOut = 2000)
 	{
-		$url						 = "https://www.gozocabs.com?sid={$qrCode}&loc=1";
+		$url						 = "http://www.aaocab.com?sid={$qrCode}&loc=1";
 		$encodeUrl					 = urlencode($url);
 		$parameter					 = "&keyword=" . $qrCode;
 		$completeUrl				 = $encodeUrl . $parameter;

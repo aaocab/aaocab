@@ -1667,7 +1667,7 @@ class ReportController extends Controller
 			$mail		 = new EIMailer();
 			$mail->clearView();
 			$mail->clearLayout();
-			$mail->setFrom('info@gozocabs.com', 'Info Gozocabs');
+			$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
 			$sentEmail	 = Yii::app()->params['adminEmail'];
 			//$sentEmail = "sudipta.roy81@gmail.com";
 			$mail->setTo($sentEmail, 'Gozocabs Admin');

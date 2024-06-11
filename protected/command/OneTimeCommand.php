@@ -809,7 +809,7 @@ class OneTimeCommand extends BaseCommand
 
 	public function actionTestQR()
 	{
-		$qrLink			 = 'https://www.gozocabs.com?sid=CX220731818&loc=1';
+		$qrLink			 = 'http://www.aaocab.com?sid=CX220731818&loc=1';
 		$qrLink			 = 'Test';
 		$uniqueQrCode	 = 'CX220731818';
 		$contactId		 = 1304771;

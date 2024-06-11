@@ -238,7 +238,7 @@ class AgentCommand extends BaseCommand
 						$driver_phone = Yii::app()->params['customerToDriverforMMT'];
 					}
 
-					$apiURL				 = 'https://www.gozocabs.com/mmtproxy.php';
+					$apiURL				 = 'http://www.aaocab.com/mmtproxy.php';
 					$requestParamList	 = [
 						"type"				 => "driverDetail",
 						"booking_id"		 => "{$bmodel['bkg_agent_ref_code']}",

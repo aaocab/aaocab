@@ -1506,7 +1506,7 @@ if (Yii::app()->params['enablePayuBolt'] == 1)
 {
 	?>
 	<script id="bolt" src="<?= Yii::app()->payu->boltjsSrc ?>" bolt-color="1a4ea2" 
-			bolt-logo="http://gozocabs.com/images/1024_1024_new.png">
+			bolt-logo="http://aaocab.com/images/1024_1024_new.png">
 	</script>
 <? } ?>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -1544,7 +1544,7 @@ if (Yii::app()->params['enablePayuBolt'] == 1)
 			"currency": data3.currency,
 			"name": "Gozocabs",
 			"description": "Make Payment",
-			"image": "https://www.gozocabs.com/images/gozo_svg_logo.svg?v0.1",
+			"image": "http://www.aaocab.com/images/gozo_svg_logo.svg?v0.1",
 			"order_id": data3.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 			"handler": function (response){
 			//debugger;

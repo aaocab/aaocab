@@ -23,7 +23,7 @@ try
 		$pickupTime			 = $datePickupDate->format('j/M/y h:i A');
 		$hashBkgId			 = Yii::app()->shortHash->hash($bkgId);
 		$hashVndId			 = Yii::app()->shortHash->hash($vndId);
-		$bkvnLink			 = "https://www.gozocabs.com/bkvn/{$hashBkgId}/{$hashVndId}";
+		$bkvnLink			 = "http://www.aaocab.com/bkvn/{$hashBkgId}/{$hashVndId}";
 		$arrWhatsAppData[]	 = Filter::formatBookingId($bookingId);
 		$arrWhatsAppData[]	 = $tripType;
 		$arrWhatsAppData[]	 = $cabType;

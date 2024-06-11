@@ -429,7 +429,7 @@ $form->error($model, "bkg_booking_type");
 						<div class="swiper-button-next"></div>
                     </div>
 					<div class="row m0 mt10">
-						<div class="col-9 col-lg-8 pr0">More reviews on <a href="/index/testimonial" class="color-black" target="_blank">Gozocabs.com</a>, <a href="https://bit.ly/ReviewGozoOnGoogle" class="color-black" target="_blank">Google</a>, <a href="https://bit.ly/ReviewGozoOnTripAdvisor" class="color-black" target="_blank">TripAdvisor</a> | <a href="/faq#faq53" class="color-red mr10" target="_blank">Do not trust MouthShut.com</a></div>
+						<div class="col-9 col-lg-8 pr0">More reviews on <a href="/index/testimonial" class="color-black" target="_blank">aaocab.com</a>, <a href="https://bit.ly/ReviewGozoOnGoogle" class="color-black" target="_blank">Google</a>, <a href="https://bit.ly/ReviewGozoOnTripAdvisor" class="color-black" target="_blank">TripAdvisor</a> | <a href="/faq#faq53" class="color-red mr10" target="_blank">Do not trust MouthShut.com</a></div>
 						<div class="col-3 col-lg-4 text-right pl0 mt5"><a href="/index/testimonial" class="btn btn-primary font-11 pl10 pr10 hvr-push">All reviews</a></div>
 					</div>
 				</div>

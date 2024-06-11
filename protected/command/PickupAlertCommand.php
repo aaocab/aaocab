@@ -274,7 +274,7 @@ class PickupAlertCommand extends BaseCommand
 			foreach ($rows as $row)
 			{
 				$hash		 = Yii::app()->shortHash->hash($row['bkg_id']);
-				$url		 = 'gozocabs.com/bkconfirm/' . $row['bkg_id'] . '/' . $hash;
+				$url		 = 'aaocab.com/bkconfirm/' . $row['bkg_id'] . '/' . $hash;
 				/* var @model emailWrapper */
 				$emailCom	 = new emailWrapper();
 				$emailCom->preAutoCancelbeforePickUpMail($row['bkg_id']);

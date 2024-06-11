@@ -32,7 +32,7 @@
             <li>Fulfilment of redemption requests against services offered by Gozo are subject to confirmation and successful completion of the service at the time of the redemption.</li>
             <li>Gozo Credits redeemed against a confirmed Gozo Booking shall not be reverted to customer’s account, if a customer chooses to cancel the confirmed Gozo service or Booking out of his own volition or is unable/chooses not to avail the services on the scheduled date and time, for which reason the Booking needs to be cancelled. </li>
             <li>Cancellation Charges, if applicable, cannot be paid using Gozo Coins.</li>
-            <li>Nothing contained herein shall be construed as Gozo having waived any of its rights under the general Terms & Conditions as outlined on its website www.gozocabs.com or prejudicing any rights of Gozo there under.</li>
+            <li>Nothing contained herein shall be construed as Gozo having waived any of its rights under the general Terms & Conditions as outlined on its website www.aaocab.com or prejudicing any rights of Gozo there under.</li>
             <li>Gozo reserves the right to modify wholly or in part this program by any other program or terminate the program at any time without any prior notice to the Card members.</li>
             <li>Gozo also reserves the right to change and modify the terms and conditions at any point in time without prior notice to Gozo customers.</li>
             <li>Gozo reserves the right to offer/ withdraw any special services for a special set of customers selected at its discretion.</li> 

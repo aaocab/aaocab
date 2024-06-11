@@ -390,7 +390,7 @@ $tncArr1 = json_decode($tncArr, true);
 				<h2 class="font-16 mb0" itemprop="name">HIRE A TEMPO TRAVELLER ONLINE WITH GOZO CABS</h2>
 				<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 					<div itemprop="text">
-						<p class="mb15">Gozo's booking and billing process is <a href="https://www.gozocabs.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.
+						<p class="mb15">Gozo's booking and billing process is <a href="http://www.aaocab.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.
 							With Gozo you can book a taxi anywhere in India. Our services are top rated in almost all cities across India.
 						</p>
 					</div>

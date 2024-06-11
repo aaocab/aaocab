@@ -14,11 +14,11 @@
 					<table width="100%" align="center">
 						<tr>
 							<td align="left" valign="middle">
-								<img src="http://gozocabs.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
 
 							</td>
 							<td align="right" valign="middle">
-								<a href="https://www.gozocabs.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="https://www.gozocabs.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="https://www.gozocabs.com/" style="color: #0279E8;">www.gozocabs.com</a>
+								<a href="http://www.aaocab.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="http://www.aaocab.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="http://www.aaocab.com/" style="color: #0279E8;">www.aaocab.com</a>
 							</td>
 						</tr>
 					</table>
@@ -43,7 +43,7 @@
                         <table width="100%" border="1" style="border-collapse: collapse;" cellpadding="5" bordercolor="#CCCCCC">
                             <tr>
                                 <td width="40%"><strong style="color:#7a7a7a">Booking id</strong></td>
-                                <td><a href="https://www.gozocabs.com/bkpn/3898261/q5fDX/e/YuVWv" target="_blank">OW40-3898261 <p style="font-size:12px;">Check driver, car info and other details</p></a></td>
+                                <td><a href="http://www.aaocab.com/bkpn/3898261/q5fDX/e/YuVWv" target="_blank">OW40-3898261 <p style="font-size:12px;">Check driver, car info and other details</p></a></td>
                                 
                             </tr>
                             <tr>
@@ -224,9 +224,9 @@
         <td>
             <table width="100%" border="0" style="border: #d4d4d4 1px solid; border-collapse: collapse; padding: 5px; color: #000;">
                 <tr bgcolor="#fff">
-                    <td><img src="https://www.gozocabs.com/images/partners-logo1.png"  alt="Travelspice" width="150" height="97"/>
+                    <td><img src="http://www.aaocab.com/images/partners-logo1.png"  alt="Travelspice" width="150" height="97"/>
                         <p>Book your hotel  with TRAVELSPICE® at the lowest price guaranteed (Find the hotel at  a lower price anywhere else and claim double the difference). Use code <strong>GOZO500</strong>,  to get additional <strong>Rs.500/- FREE</strong> at the hotel restaurant. </p>
-                         <a href="" target="_blank"><img src="https://www.gozocabs.com/images/booknow_btn.png" alt="Book Now" /></a>
+                         <a href="" target="_blank"><img src="http://www.aaocab.com/images/booknow_btn.png" alt="Book Now" /></a>
                         </p></td>
                 </tr>
             </table>
@@ -242,7 +242,7 @@
         <td>
             <div style="margin-top: 10px; line-height: 20px;">
 <ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A ONE-WAY POINT TO POINT JOURNEY: Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer one-way transfers at a very attractive price by scheduling our vehicles to serve the one-way transfer needs of multiple customers in a sequence. As an example, if you are going one-way from City  A to City B we have estimated your time of travel and have most likely scheduled our driver to pickup another customer in City B.
         <ol type="i">
             <li>
@@ -337,8 +337,8 @@
 					<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
 						This email is sent to  you because you have used this email address to register with Gozocabs.
 						<!--                        If you haven't done so, please ignore this email.-->
-						If you received this email in error or do not wish to receive any further communications, please <a href="https://www.gozocabs.com/index/unsubscribeemail/hash/00000/email/" target="_BLANK">unsubscribe here.</a>
-						<a href="http://gozocabs.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+						If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email/" target="_BLANK">unsubscribe here.</a>
+						<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 					</p>
 				</td>
 			</tr>

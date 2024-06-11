@@ -203,10 +203,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/assets/js/j
                             <p class="mb5 font-16"><b>Click the link below for YouTube Videos (Hindi Version)</b></p>
                             <div class="video-panel">
                             <ul>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=3T12L7XWnyo&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=5" target="_blank">Attach your cab & upload your documents</a></li>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=AfbwgIJN0H0&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=11" target="_blank">Vendor Registration and documents Upload</a></li>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=4630FwpTMsE&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=33" target="_blank">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
-                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=etKRxPYYjLw&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=35" target="_blank">Partner App - Full Vendor App Functionality</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=3T12L7XWnyo&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=5" target="_blank">Attach your cab & upload your documents</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=AfbwgIJN0H0&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=11" target="_blank">Vendor Registration and documents Upload</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=4630FwpTMsE&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=33" target="_blank">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
+                                <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=etKRxPYYjLw&&list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&&index=35" target="_blank">Partner App - Full Vendor App Functionality</a></li>
                             </ul>
                             </div>
                             <div class="video-panel">
@@ -227,7 +227,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/assets/js/j
                             </div>
                         </div>
                     </div>-->
-<!--		    <p class="mt0 font-18 merriw"><b>DCO's and Taxi Operators... <a href="http://www.gozocabs.com/vendor/join" class="color-blue">Attach your taxi here</a></b></p>-->
+<!--		    <p class="mt0 font-18 merriw"><b>DCO's and Taxi Operators... <a href="http://www.aaocab.com/vendor/join" class="color-blue">Attach your taxi here</a></b></p>-->
 
 		</div>
 		<div id="loading"></div>

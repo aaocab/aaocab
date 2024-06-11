@@ -9,7 +9,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
 ?>
 <body>
     <div class="fixed-menu">
-        <a href="https://www.facebook.com/gozocabs" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a>
+        <a href="http://www.facebook.com/gozocabs" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a>
         <a href="https://twitter.com/gozocabs" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a>
         <a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>
     </div>
@@ -157,7 +157,7 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
                         <img src="/images/GooglePlay.png?v1.1" style="max-width: 200px" /></a>
                     <h4 class="orange pt5 pb5 weight400">Social Media</h4>
                     <div class="social-panel2 p0">
-                        <a href="https://www.facebook.com/gozocabs" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/gozocabs" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a><a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>                    </div>
+                        <a href="http://www.facebook.com/gozocabs" target="_blank" class="social-1 hvr-push" rel="nofollow"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/gozocabs" target="_blank" class="social-2 hvr-push" rel="nofollow"><i class="fa fa-twitter"></i></a><a href="https://plus.google.com/b/113163564383201478409/+Gozocabs" target="_blank" class="social-3 hvr-push" rel="nofollow"><i class="fa fa-google-plus"></i></a>                    </div>
 
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 column">          
@@ -170,13 +170,13 @@ $address	 = Config::getGozoAddress(Config::Corporate_address, true);
                     </div>
                     <div class="address-panel p0 ">
                         <h4 class="m0 mb10">E-mail</h4>
-                        <a href="mailto:info@gozocabs.com" style="text-decoration: none">info@gozocabs.com.</a>
+                        <a href="mailto:info@aaocab.com" style="text-decoration: none">info@aaocab.com.</a>
                     </div>
                 </div>
 
             </div><!--/row-->
         </div>
-        <div class="blue2 mt20 text-center white-color pt15 pb15">© 2016 www.gozocabs.com. All rights reserved.</div>
+        <div class="blue2 mt20 text-center white-color pt15 pb15">© 2016 www.aaocab.com. All rights reserved.</div>
     </footer>
     <!-- Modal -->
     <div id="androidModal" class="modal modal-transparent fade" data-backdrop="static" role="dialog">

@@ -1,7 +1,7 @@
 <?php
 $msg = "";
 $msg .= '<p><b>Gozo Cabs Digital order confirmation & delivery</b></p><br>';
-$msg .= 'Thank you for ordering '.$arr->vsbVch->vch_title.' at GozoCabs.com.<br>';
+$msg .= 'Thank you for ordering '.$arr->vsbVch->vch_title.' at aaocab.com.<br>';
 $msg .= 'Your digital product is now delivered. If you ordered multiple items, each will be delivered in its own email.';
 $msg .= '<br><br>';	
 
@@ -21,5 +21,5 @@ $msg .= '<tr>
 				<td align="center" valign="top">' . $arr->vsb_redeem_code . '</td>
 			</tr></table><br><br>';
 $msg	 .= 'We hope to see you again soon!';
-$msg	 .= '<br><b>GozoCabs.com</b>';
+$msg	 .= '<br><b>aaocab.com</b>';
 echo $msg;

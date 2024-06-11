@@ -19,7 +19,7 @@ try
 	$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
 	$phone		 = Yii::app()->shortHash->hash($model->bkgUserInfo->bkg_verification_code);
 
-	$paymentUrl	 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+	$paymentUrl	 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 	$paymentUrl	 = Filter::shortUrl($paymentUrl);
 
 	$msg = 'Cab request received. Details at ' . $paymentUrl;

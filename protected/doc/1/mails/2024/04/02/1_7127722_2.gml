@@ -14,11 +14,11 @@
 					<table width="100%" align="center">
 						<tr>
 							<td align="left" valign="middle">
-								<img src="http://gozocabs.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
 
 							</td>
 							<td align="right" valign="middle">
-								<a href="https://www.gozocabs.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="https://www.gozocabs.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="https://www.gozocabs.com/" style="color: #0279E8;">www.gozocabs.com</a>
+								<a href="http://www.aaocab.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="http://www.aaocab.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="http://www.aaocab.com/" style="color: #0279E8;">www.aaocab.com</a>
 							</td>
 						</tr>
 					</table>
@@ -49,7 +49,7 @@
 								<td>
 									<table width="100%" style="background-color: rgb(229, 238, 255); padding: 4px 10px; font-size: 14px; font-family: 'Arial'; line-height: 18px;">
 										<tr>
-											<td width="50%"><span style="color: #858585; padding-right: 5px;">Booking Id:</span><b><a href="https://www.gozocabs.com/bkpn/3898573/fL94d/e/KvNqd" target="_blank">OW40-3898573</a></b></td>
+											<td width="50%"><span style="color: #858585; padding-right: 5px;">Booking Id:</span><b><a href="http://www.aaocab.com/bkpn/3898573/fL94d/e/KvNqd" target="_blank">OW40-3898573</a></b></td>
 											<td align="right"><span style="color: #858585; padding-right: 5px;">Journey Type:</span><b>One Way</b></td>
 										</tr>
 									</table>
@@ -102,7 +102,7 @@
 								<td style="font-size: 14px;">
 									<p>We have received your request. Your booking is not confirmed yet. We are looking for the
 												  cab availability and will inform you as soon as we get the confirmation. Use this link to track your booking status									</p>
-									<a href="https://www.gozocabs.com/bkpn/3898573/fL94d/e/KvNqd" target="_blank"><img src="https://www.gozocabs.com/images/hotlink-ok/track_your_request_btn.png" alt="Track Your Request" /></a>
+									<a href="http://www.aaocab.com/bkpn/3898573/fL94d/e/KvNqd" target="_blank"><img src="http://www.aaocab.com/images/hotlink-ok/track_your_request_btn.png" alt="Track Your Request" /></a>
 									<p style="font-size: 14px; margin-top:5px; margin-bottom: 7px;">You will receive multiple offers from the operator's. Choose the offer you like to confirm your booking.</p>
 								</td>
 							</tr>
@@ -117,11 +117,11 @@
 													<tr>
 														<td style="width: 35%;">
 															<div style="font-size: 11px;">03/04/2024 &nbsp;06:00 am<br>
-																<img src="https://www.gozocabs.com/images/icon-km.png?v=0.1" alt="img" width="12"> <span style="margin-right: 10px;"><b>225 KM</b></span> &nbsp;&nbsp;<img src="https://www.gozocabs.com/images/icon-time.png" alt="img" width="12"> <b>3 hr   16 mins </b></div>
+																<img src="http://www.aaocab.com/images/icon-km.png?v=0.1" alt="img" width="12"> <span style="margin-right: 10px;"><b>225 KM</b></span> &nbsp;&nbsp;<img src="http://www.aaocab.com/images/icon-time.png" alt="img" width="12"> <b>3 hr   16 mins </b></div>
 														</td>
 
 														<td style="width: 64%; font-size: 14px;">
-															<div style="background: url(https://www.gozocabs.com/images/location-icon.png?v=0.4) top left no-repeat; background-size: 16px; padding-left: 25px; padding-bottom: 20px;">Delhi railway station, Siraspur Road, Sector 18, Rohini, Delhi, India</div>
+															<div style="background: url(http://www.aaocab.com/images/location-icon.png?v=0.4) top left no-repeat; background-size: 16px; padding-left: 25px; padding-bottom: 20px;">Delhi railway station, Siraspur Road, Sector 18, Rohini, Delhi, India</div>
 														</td>
 													</tr>
 												</table>
@@ -134,7 +134,7 @@
 															</td>
 
 															<td style="width: 64%; font-size: 14px;">
-																<div style="background: url(https://www.gozocabs.com/images/location_orange.png?v=0.3) top left no-repeat; background-size: 16px; padding-left: 25px; padding-bottom: 15px;">Agra Fort, Agra Fort, Rakabganj, Agra, Uttar Pradesh, India</div>
+																<div style="background: url(http://www.aaocab.com/images/location_orange.png?v=0.3) top left no-repeat; background-size: 16px; padding-left: 25px; padding-bottom: 15px;">Agra Fort, Agra Fort, Rakabganj, Agra, Uttar Pradesh, India</div>
 															</td>
 																											</tr>
 											</table>
@@ -146,10 +146,10 @@
 						</table>
 												<table style="width: 100%; margin-bottom: 20px; font-family: 'Arial'; line-height: 18px;">
 							<tr>
-								<td style="width: 50%;"><a href="https://www.gozocabs.com/users/refer" target="_black"><img src="https://www.gozocabs.com/images/refer.png?v=0.3" alt="Refer a friend, get cash back - it's a win-win!" title="Refer a friend, get cash back - it's a win-win!" style="width: 98%;"></a></td>
+								<td style="width: 50%;"><a href="http://www.aaocab.com/users/refer" target="_black"><img src="http://www.aaocab.com/images/refer.png?v=0.3" alt="Refer a friend, get cash back - it's a win-win!" title="Refer a friend, get cash back - it's a win-win!" style="width: 98%;"></a></td>
 								<td style="width: 46.5%; padding: 10px; text-align: center; border: #DFE4EE 1px solid; font-size: 11px;">
 									<b>This is your personalized Gozo sticker. Get ₹100 credit when your friends travel with Gozo using your QR code</b>
-									<div style="width: 100%; float: left;"><a href="https://www.gozocabs.com/users/getQRPathById?userId=784587" target="_black"><img src="https://www.gozocabs.com/users/getQRPathById?userId=784587" alt="QR" title="QR" style="width: 75%;"></a><br><a href="https://gozo.cab/c/CX220731815">https://gozo.cab/c/CX220731815</a></div>
+									<div style="width: 100%; float: left;"><a href="http://www.aaocab.com/users/getQRPathById?userId=784587" target="_black"><img src="http://www.aaocab.com/users/getQRPathById?userId=784587" alt="QR" title="QR" style="width: 75%;"></a><br><a href="https://gozo.cab/c/CX220731815">https://gozo.cab/c/CX220731815</a></div>
 								</td>
 							</tr>
 						</table>
@@ -157,7 +157,7 @@
 
 						<table style="width: 100%; position: relative; float: left; position: relative; border: #DFE4EE 1px solid; margin-bottom: 20px; font-family: 'Arial'; line-height: 18px;">
 							<tr>
-								<td><a href="https://www.gozocabs.com/book-cab" target="_black"><img src="https://www.gozocabs.com/images/hotlink-ok/local_rental.png" alt="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" title="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
+								<td><a href="http://www.aaocab.com/book-cab" target="_black"><img src="http://www.aaocab.com/images/hotlink-ok/local_rental.png" alt="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" title="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
 							</tr>		
 						</table>
 						
@@ -177,8 +177,8 @@
 					<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
 						This email is sent to jsrankesh.singh@gmail.com you because you have used this email address to register with Gozocabs.
 						<!--                        If you haven't done so, please ignore this email.-->
-						If you received this email in error or do not wish to receive any further communications, please <a href="https://www.gozocabs.com/index/unsubscribeemail/hash/RPtlt/email/jsrankesh.singh@gmail.com" target="_BLANK">unsubscribe here.</a>
-						<a href="http://gozocabs.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+						If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/RPtlt/email/jsrankesh.singh@gmail.com" target="_BLANK">unsubscribe here.</a>
+						<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 					</p>
 				</td>
 			</tr>

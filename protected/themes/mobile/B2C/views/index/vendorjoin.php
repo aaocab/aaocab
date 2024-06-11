@@ -244,15 +244,15 @@ for ($i = $dy; $i >= $dy - 20; $i--)
 	<h3 class="font-16">Travel Agents, Hotel owners, Shopkeepers...<a href="<?php echo Yii::app()->createUrl('/agent/join'); ?>" class="color-highlight default-link">Join our travel partner network here</a></h3>
         <h3 class="mb0 font-16">Click the link below for YouTube Videos (Hindi Version)</h3>
         <ul> 
-            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=3T12L7XWnyo&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=5" target="_blank"  style="display: inline-block">Attach your cab &amp; upload your documents</a></li>
-            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=AfbwgIJN0H0&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=11" target="_blank" style="display: inline-block">Vendor Registration and documents Upload</a></li>
-            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=4630FwpTMsE&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=33" target="_blank" style="display: inline-block">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
-            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="https://www.youtube.com/watch?v=etKRxPYYjLw&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=35" target="_blank" style="display: inline-block">Partner App - Full Vendor App Functionality</a></li>
+            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=3T12L7XWnyo&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=5" target="_blank"  style="display: inline-block">Attach your cab &amp; upload your documents</a></li>
+            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=AfbwgIJN0H0&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=11" target="_blank" style="display: inline-block">Vendor Registration and documents Upload</a></li>
+            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=4630FwpTMsE&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=33" target="_blank" style="display: inline-block">How to Add CAB, Upload DOCs, Sign the LOU</a></li>
+            <li><i class="fab fa-youtube mr5" style="color: #ff0202;"></i><a href="http://www.youtube.com/watch?v=etKRxPYYjLw&amp;&amp;list=PLtO3n8NwlGMQsJ_KDX9hyHOZqqlX0uo-5&amp;&amp;index=35" target="_blank" style="display: inline-block">Partner App - Full Vendor App Functionality</a></li>
         </ul>
         <h3 class="mb0 font-16">Watch, what our Partners are saying about GozoCabs...</h3>
         <div class="text-center mb5">
             <div class="text-center mb5"><b>Vipul Agarwal</b></div>
-            <div><iframe width="100%" height="150" src="https://www.youtube.com/embed/eACThcHWMtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+            <div><iframe width="100%" height="150" src="http://www.youtube.com/embed/eACThcHWMtw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
             <div class="content text-center p10 pb0 mb0">
 
                 <a href="/partners-testimonials" class="uppercase btn-2 mr5 font-14">Click here for more video</a>

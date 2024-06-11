@@ -160,7 +160,7 @@ abstract class ApnsPHP_Abstract
 	 *
 	 * @see http://tinyurl.com/GeneralProviderRequirements
 	 * @see http://www.entrust.net/
-	 * @see https://www.entrust.net/downloads/root_index.cfm
+	 * @see http://www.entrust.net/downloads/root_index.cfm
 	 *
 	 * @param  $sRootCertificationAuthorityFile @type string Root Certification
 	 *         Authority file.

@@ -39,7 +39,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks']) {
 <? } ?>
 <?
 $oneWayInfo = '<ol type="1" style="font-size:10px;line-height:15px;padding-left:0px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A ONE-WAY POINT TO POINT JOURNEY: Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer one-way transfers at a very attractive price by scheduling our vehicles to serve the one-way transfer needs of multiple customers in a sequence. As an example, if you are going one-way from City  A to City B we have estimated your time of travel and have most likely scheduled our driver to pickup another customer in City B.
         <ol type="i">
             <li>
@@ -121,7 +121,7 @@ $oneWayInfo = '<ol type="1" style="font-size:10px;line-height:15px;padding-left:
 </ol>';
 
 $airportInfo = '<ol type="1" style="font-size:10px; line-height:15px;padding-left:0px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+    <li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
     <li>YOU HAVE BOOKED A LOCAL RENTAL FOR AIRPORT TRANSFER:Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer low priced airport transfers at a very attractive price by scheduling our vehicles to serve the airport pickup and drop needs of multiple customers in a sequence. As an example, if you are going from City center to Airport we have estimated your time of travel and have most likely scheduled our driver to pickup another customer at the Airport.
         <ol type="a">
             <li>
@@ -237,7 +237,7 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
       <strong>YOU ARE HIRING AN AC CAR. </strong>For drives in hilly regions, the air conditioning may be switched off to prevent engine overload.    
     </li>
     <li>
-        CANCELLATION: You may cancel your  reservation by logging onto www.gozocabs.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
+        CANCELLATION: You may cancel your  reservation by logging onto www.aaocab.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
     </li>
     <li>
        INCLUSIONS AND EXCLUSIONS: Your reservation indicates the total number of people and the amount of luggage that the vehicle will accommodate. Please ensure you have clearly communicated the number of passengers and amount of luggage you will carry atleast 24hours before pickup . The driver will not allow any additional passengers or luggage beyond what is allowed in the category of vehicle stated in the reservation. Parking charges, Airport Entry fees or any other form of Entry fees are NOT INCLUDED in the quotation. The customer is responsible for all such additional charges incurred during the trip.
@@ -566,12 +566,12 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
         <td colspan="2" style="padding: 5px;">
             <div>
                 <div style="float: left; margin-right:10px">
-                    <img src="https://www.travelspice.com/Images/TRSLOGO.png" alt="Travel Spice" style="width:70px">
+                    <img src="http://www.travelspice.com/Images/TRSLOGO.png" alt="Travel Spice" style="width:70px">
                 </div>
                 <div style="margin-bottom:10px; font-size:11.5px; font-family: Arial">
 <?// "Book your hotel with TRAVELSPICE<sup>&reg;</sup> at the lowest price guaranteed (Find the hotel at a lower price anywhere else and claim double the difference). Use code GOZO500, to get additional Rs.500/- FREE at the hotel restaurant." ?>
                     <p></p>
-                    <a href="<? // Yii::app()->createAbsoluteUrl('redirect', ['reftype' => 1, 'affid' => 1, 'bkgid' => $model->bkg_id, 'url' => 'https://www.travelspice.com/default.aspx?utm_source=affiliate&utm_medium=email&utm_campaign=gozoocmail']); ?>" style="background-color: #0766bb; padding: 10px;color: #f3f3f3;font-size: 11px;" target="_blank">BOOK NOW</a>
+                    <a href="<? // Yii::app()->createAbsoluteUrl('redirect', ['reftype' => 1, 'affid' => 1, 'bkgid' => $model->bkg_id, 'url' => 'http://www.travelspice.com/default.aspx?utm_source=affiliate&utm_medium=email&utm_campaign=gozoocmail']); ?>" style="background-color: #0766bb; padding: 10px;color: #f3f3f3;font-size: 11px;" target="_blank">BOOK NOW</a>
                 </div>
             </div>
         </td>

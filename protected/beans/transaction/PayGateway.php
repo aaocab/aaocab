@@ -63,7 +63,7 @@ class PayGateway
 		$this->name			 = $payRequest->name;
 		$this->refCode		 = $payRequest->transaction_code;
 		$this->method		 = (int) $payRequest->payment_type;
-		$this->image		 = "https://www.gozocabs.com/images/gozo-white.svg";
+		$this->image		 = "http://www.aaocab.com/images/gozo-white.svg";
 	}
 
 }

@@ -2,4 +2,4 @@
 
 ===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
 
-{"response":{"success":true,"reference_number":"3898469","verification_code":"465614","tnc":"https:\/\/www.gozocabs.com\/terms"}}
+{"response":{"success":true,"reference_number":"3898469","verification_code":"465614","tnc":"https:\/\/www.aaocab.com\/terms"}}

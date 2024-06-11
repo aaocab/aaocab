@@ -371,7 +371,7 @@ class BookingController extends BaseController
 							$param_list['CUST_ID']		 = $booking_info;
 							$param_list['MOBILE_NO']	 = $bkModel->bkgUserInfo->bkg_contact_no;
 							$param_list['EMAIL']		 = $bkModel->bkgUserInfo->bkg_user_email;
-							$param_list['CALLBACK_URL']	 = 'https://www.gozocabs.com/payment/response/ptpid/16/app/1';
+							$param_list['CALLBACK_URL']	 = 'http://www.aaocab.com/payment/response/ptpid/16/app/1';
 						}
 					}
 					$datareturn = $model->apiMapping();
@@ -801,7 +801,7 @@ class BookingController extends BaseController
 			$html2pdf->writeHTML($css, 1);
 			$html2pdf->setAutoTopMargin	 = 'stretch';
 
-			$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+			$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 			$htmlView = $this->renderPartial('//invoice/view', array(
 				'invoiceList'		 => $invoiceList,
 				'totPartnerCredit'	 => $totPartnerCredit,
@@ -7104,7 +7104,7 @@ class BookingController extends BaseController
 		$fpModel = Booking::model()->findByPk($fpBkgId);
 		$fcity	 = Cities::getName($fpModel->bkg_from_city_id);
 		$tcity	 = Cities::getName($fpModel->bkg_to_city_id);
-		$link	 = "https://www.gozocabs.com/bknw/$fpModel->bkg_id/$hash";
+		$link	 = "http://www.aaocab.com/bknw/$fpModel->bkg_id/$hash";
 
 		$this->pageTitle = 'I am going from ' . $fcity . ' to ' . $tcity . ' on ' . date_format($fpModel->bkg_pickup_date, 'd/m/Y') . ' ' . date_format($fpModel->bkg_pickup_date, 'g:i A') . ' and have a few empty seats in my cab. Share the cab with me and book your seat directly on ' . $link;
 		$this->renderPartial('fbflexxishare', ['fcity' => $fcity, 'tcity' => $tcity, 'link' => $link, 'date' => $fpModel->bkg_pickup_date]);
@@ -12811,7 +12811,7 @@ class BookingController extends BaseController
 	{
 
 		$http_origin = $_SERVER['HTTP_ORIGIN'];
-		if ($http_origin == "https://ixigo.bookairportcab.com" || $http_origin == "https://bookairportcab.com" || $http_origin == "https://www.bookairportcab.com")
+		if ($http_origin == "https://ixigo.bookairportcab.com" || $http_origin == "https://bookairportcab.com" || $http_origin == "http://www.bookairportcab.com")
 		{
 			header("Access-Control-Allow-Origin: $http_origin");
 			header('Access-Control-Allow-Methods: GET, POST, OPTIONS');

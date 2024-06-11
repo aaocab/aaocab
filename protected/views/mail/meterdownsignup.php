@@ -10,14 +10,14 @@ $msg = "Dear ".$arr['Name'].",
     <li> We match you with a customer going return way to your preferred city</li>
     </ol>
     <br/>
-    Meter Down is brought to you by <a href='http://www.gozocabs.com'>Gozocabs</a>. 
+    Meter Down is brought to you by <a href='http://www.aaocab.com'>Gozocabs</a>. 
 We are India’s leader in outstation taxi travel. Our mission is to simplify inter-city travel in India. Our customers love us as much as we love them. 
-You can see customer reviews live at <a href='http://www.gozocabs.com'>www.gozocabs.com</a><br/><br/>
-For any assistance with Meter Down, you can call us at +91 90518-77-0000 or email <a href='mailto:info@gozocabs.com'>info@gozocabs.com</a><br/><br/>
+You can see customer reviews live at <a href='http://www.aaocab.com'>www.aaocab.com</a><br/><br/>
+For any assistance with Meter Down, you can call us at +91 90518-77-0000 or email <a href='mailto:info@aaocab.com'>info@aaocab.com</a><br/><br/>
 Thank you and welcome to the Gozo family!<br/><br/>-Team Gozo
 <br/><br/>
 <span style='font-size:0.8em'>
-    This email is sent to because you have used this email address to register with Gozocabs. If you haven't done so, please ignore this email. <a href='http://www.gozocabs.com'>Gozocabs</a> and the Gozocabs logo is a copyright of
+    This email is sent to because you have used this email address to register with Gozocabs. If you haven't done so, please ignore this email. <a href='http://www.aaocab.com'>Gozocabs</a> and the Gozocabs logo is a copyright of
 Gozo Technologies Pvt. Ltd..</span>
 ";      
 echo $msg;

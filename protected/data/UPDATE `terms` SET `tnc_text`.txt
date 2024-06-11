@@ -55,7 +55,7 @@ UPDATE `terms` SET `tnc_text` = ' <div class="panel-body pl30 pr30">
                         To protect your Gozo Account, keep your password confidential.
                     </p>
                     <p>
-                        You are responsible for the activity that happens on or through your Gozo Account. Try not to reuse your Gozo Account password on third-party applications. If you learn of any unauthorised use of your password or Gozo Account, please notify us immediately by email at info@gozocabs.com or phone number published to our website.
+                        You are responsible for the activity that happens on or through your Gozo Account. Try not to reuse your Gozo Account password on third-party applications. If you learn of any unauthorised use of your password or Gozo Account, please notify us immediately by email at info@aaocab.com or phone number published to our website.
                     </p>
                     <p>
                         Gozo may suspend your account at any time that your account is suspected to be misused, found to be used for any unauthorized purpose or suspected to be in violation of Gozo terms and conditions.

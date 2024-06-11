@@ -345,14 +345,14 @@ class TrackController extends BaseController
 					MarketingMessageTracker::updateStatus($refType, $refId, $eventId,$platform, $linkId);
 					if ($linkId == 0)
 					{
-						$url = "https://www.gozocabs.com/";
+						$url = "http://www.aaocab.com/";
 						header("Location: $url");
 						Yii::app()->end();
 					}
 					else if ($linkId == 1)
 					{
 						$hash	 = Yii::app()->shortHash->hash($refId);
-						$url	 = "https://www.gozocabs.com/refer-by-friend/$hash";
+						$url	 = "http://www.aaocab.com/refer-by-friend/$hash";
 						header("Location: $url");
 						Yii::app()->end();
 					}

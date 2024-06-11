@@ -24,7 +24,7 @@
 <li>Maintain 4 star or higher service ratings by serving customers professionally.</li>
 <li>Keep cars clean and ensure drivers behave politely.</li>
 </ol>
-<p>Even new Gozo partners can get the benefit of Gozo NOW. We are soon launching Local point to point within-the-city bookings and are <a href="https://www.gozocabs.com/vendor/join">inviting taxi owners to attach your car to Gozo platform today for ₹0 </a> in partner security deposit fees. 
+<p>Even new Gozo partners can get the benefit of Gozo NOW. We are soon launching Local point to point within-the-city bookings and are <a href="http://www.aaocab.com/vendor/join">inviting taxi owners to attach your car to Gozo platform today for ₹0 </a> in partner security deposit fees. 
 We're signing up partners for point to point local, local in-the-city airport transfer, outstation one-way and round trip bookings all over India.</p>
 
 <h3>Requirements to serve Gozo NOW bookings</h3>

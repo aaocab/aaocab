@@ -473,7 +473,7 @@ if ($model->bkg_status == 2 && $model->bookingRoutes[0]->brt_from_pincode == '' 
 						<ul>
 							<li>Any changes to itinerary needs to be documented into the booking. Addition of pickup/drop points or way points or sightseeing may cause change in fare.</li>
 							<li>You may cancel your Booking with us by logging in to our Mobile App or Website. All bookings cancelled less than 24 hours before the scheduled pickup time shall be subject to Cancellation & Refund Policy as laid down in our 
-								<a href="https://www.gozocabs.com/terms" target="_blank" class="link-two display-inline color-highlight">Terms & Conditions</a> page on our website.</li>
+								<a href="http://www.aaocab.com/terms" target="_blank" class="link-two display-inline color-highlight">Terms & Conditions</a> page on our website.</li>
 							<li>For additional luggage, request a cab with carrier (availability not guaranted )</li>
 							<li>All parking charges are to be brone by the customer</li>
 							<li>Toll, state taxes extra unless explicitly stated as included on itinerary.</li>

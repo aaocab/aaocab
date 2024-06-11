@@ -19,8 +19,8 @@ class Hybrid_Providers_MixCloud extends Hybrid_Provider_Model_OAuth2
         parent::initialize();
 
         $this->api->api_base_url = 'https://api.mixcloud.com';
-        $this->api->authorize_url = 'https://www.mixcloud.com/oauth/authorize';
-        $this->api->token_url = 'https://www.mixcloud.com/oauth/access_token';
+        $this->api->authorize_url = 'http://www.mixcloud.com/oauth/authorize';
+        $this->api->token_url = 'http://www.mixcloud.com/oauth/access_token';
 
         $this->api->curl_authenticate_method = "POST";
     }

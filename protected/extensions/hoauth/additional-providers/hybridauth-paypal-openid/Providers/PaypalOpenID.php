@@ -10,7 +10,7 @@
  */
 class Hybrid_Providers_PaypalOpenID extends Hybrid_Provider_Model_OpenID
 {
-    var $openidIdentifier = "https://www.sandbox.paypal.com/webapps/auth/server"; 
+    var $openidIdentifier = "http://www.sandbox.paypal.com/webapps/auth/server"; 
 
 	/**
 	* begin login step 

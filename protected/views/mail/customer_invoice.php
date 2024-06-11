@@ -7,7 +7,7 @@ if (in_array($data['bkg_status'], [5, 6, 7]))
 		<br/><br/>I hope this email finds you well. We wanted to express our gratitude for choosing our services and hope you had a pleasant experience. We greatly value your feedback and kindly request you to share your thoughts through a quick review. 
 		<br/><br/>To begin, we have included a link below for you to access the invoice related to your recent car rental reservation. Please click on the link to review the invoice and ensure that all the details, including rental duration, charges, and any additional services, accurately reflect your reservation: 
 		<br><br>Invoice Link : <?= $data['invoiceLink']; ?> 
-		<br/><br/>We strive for transparency and want to ensure that the invoice aligns with your expectations. If you have any questions or concerns regarding the invoice or any other aspect of your car rental experience, please feel free to reach out to our dedicated support team at info@gozocabs.com. We are here to assist you promptly and address any queries you may have. 
+		<br/><br/>We strive for transparency and want to ensure that the invoice aligns with your expectations. If you have any questions or concerns regarding the invoice or any other aspect of your car rental experience, please feel free to reach out to our dedicated support team at info@aaocab.com. We are here to assist you promptly and address any queries you may have. 
 		<br/><br/>Your feedback is incredibly valuable to us, as it helps us enhance our services and provide even better experiences to our customers. We kindly request you to take a few moments to share your feedback. 
 		<p style="text-align:center;"><b style="text-align: center;">How likely are you to recommend Gozo to your friends and family?</b></p>
 		<?//= $data['payURL']; ?>
@@ -62,7 +62,7 @@ if (in_array($data['bkg_status'], [5, 6, 7]))
 		<br/>Cancellation Charges: ₹<?= $data['cancellationCharge']; ?>
 				
 		<br/>Invoice Link : <?= $data['invoiceLink']; ?>
-		 <br/><br/>Please find attached the invoice link for the cancellation charges mentioned above. The invoice includes a breakdown of the charges and the total amount due. Kindly review the invoice to ensure its accuracy. If you have any questions or concerns regarding the cancellation charges or the invoice itself, please do not hesitate to contact our dedicated support team at info@gozocabs.com. We are here to assist you and address any queries you may have. 
+		 <br/><br/>Please find attached the invoice link for the cancellation charges mentioned above. The invoice includes a breakdown of the charges and the total amount due. Kindly review the invoice to ensure its accuracy. If you have any questions or concerns regarding the cancellation charges or the invoice itself, please do not hesitate to contact our dedicated support team at info@aaocab.com. We are here to assist you and address any queries you may have. 
 		
 		<br/><br/>Now, regarding the refunds for your cancelled reservation, we want to assure you that we understand the importance of timely reimbursements. We have initiated the refund process, and the amount eligible for a refund is ₹<?= $data['bkg_refund_amount']; ?>. The refund will be credited back to the original payment method used for the reservation. 
 		<br/><br/>Please note that the processing time for refunds may vary depending on your financial institution. Typically, it takes approximately 5-7 business days for the refund to reflect in your account. However, if you do not receive the refund within this time frame or have any concerns regarding the refund process, please let us know, and we will investigate the matter further. 
@@ -101,11 +101,11 @@ if (in_array($data['bkg_status'], [5, 6, 7]))
 		}
 		?>
 		<br/><br/>We thank you for for choosing GozoCabs as your travel partner. You may please click on the following link to access the Invoice for your last trip with us <?= $data['invoiceLink'] ?> . We hope to see you travel with us again. 
-		<br/><br/>If the booking is eligible for a refund, you shall receive further communication about refund eligibility and transaction details (if eligible for refund) within 7 business days. Should you have any questions about your booking, you may email us at info@gozocabs.communication
+		<br/><br/>If the booking is eligible for a refund, you shall receive further communication about refund eligibility and transaction details (if eligible for refund) within 7 business days. Should you have any questions about your booking, you may email us at info@aaocab.communication
 		<?php
 	}
 }
 ?>
 <br/><br/>Thanks,
 <br/>Team Gozo
-<br/><br/><a href="https://www.gozocabs.com/refer-friend/"><img src="https://www.gozocabs.com/images/refer_friend_email.jpg"/></a>
+<br/><br/><a href="http://www.aaocab.com/refer-friend/"><img src="http://www.aaocab.com/images/refer_friend_email.jpg"/></a>

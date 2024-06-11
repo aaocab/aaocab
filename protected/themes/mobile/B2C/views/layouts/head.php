@@ -6,12 +6,12 @@ $jsversion	 = Yii::app()->params['siteJSVersion'];
 <html lang="en">
 	<head>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://www.googletagmanager.com/">
+		<link rel="preconnect" href="http://www.googletagmanager.com/">
 		<link rel="preconnect" href="https://bat.bing.com/">
 <!--		<link rel="preconnect" href="https://connect.facebook.net/">
-		<link rel="preconnect" href="https://www.facebook.com/">-->
+		<link rel="preconnect" href="http://www.facebook.com/">-->
 		<link rel="preconnect" href="https://browser.sentry-cdn.com/">
-		<link rel="preconnect" href="https://images.gozocabs.com/">
+		<link rel="preconnect" href="https://images.aaocab.com/">
 
 		<link rel="manifest" href="/manifest.json">
         <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
@@ -24,8 +24,8 @@ $jsversion	 = Yii::app()->params['siteJSVersion'];
 		?>
 		<link as="image" rel="preload" href="/images/gozo_svg_logo.svg" type="image/svg+xml" fetchpriority='high' />
 		<link as="image" rel="preload" href="/images/bx-arrowright.svg" type="image/svg+xml" fetchpriority='high'/>
-		<link rel="preload" href="https://www.googletagmanager.com/gtm.js?id=GTM-T869HBL" as="script" fetchpriority='low' />
-		<link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-4TQDEZYH5H&l=dataLayer&cx=c" as="script" fetchpriority='low' />
+		<link rel="preload" href="http://www.googletagmanager.com/gtm.js?id=GTM-T869HBL" as="script" fetchpriority='low' />
+		<link rel="preload" href="http://www.googletagmanager.com/gtag/js?id=G-4TQDEZYH5H&l=dataLayer&cx=c" as="script" fetchpriority='low' />
 		<link rel="preload" href="https://bat.bing.com/bat.js" as="script" fetchpriority='low' />
 <!--		<link rel="preload" href="https://connect.facebook.net/en_US/fbevents.js" as="script" fetchpriority='low' />-->
 		<link rel="preload" href="https://bat.bing.com/p/action/187021924.js" as="script" fetchpriority='low' />
@@ -56,7 +56,7 @@ $jsversion	 = Yii::app()->params['siteJSVersion'];
 					w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
 					var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
 					j.async = true;
-					j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+					j.src = 'http://www.googletagmanager.com/gtm.js?id=' + i + dl;
 					f.parentNode.insertBefore(j, f);
 				})(window, document, 'script', 'dataLayer', 'GTM-T869HBL');
 				window.dataLayer = window.dataLayer || [];
@@ -64,7 +64,7 @@ $jsversion	 = Yii::app()->params['siteJSVersion'];
 				{
 					dataLayer.push(arguments);
 				}
-				gtag('set', 'linker', {"domains": ["www.gozocabs.com", "m.gozocabs.com", "www-gozocabs-com.cdn.ampproject.org"]});
+				gtag('set', 'linker', {"domains": ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"]});
 				gtag('js', new Date());
 				gtag('config', 'G-4TQDEZYH5H');
 				function trackPage(url)

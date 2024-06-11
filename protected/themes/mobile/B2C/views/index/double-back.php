@@ -9,7 +9,7 @@
 		</div>
 
 		<ol class="p15">
-			<li>This offer is valid for trips booked directly with Gozo Cabs either by booking by phone with us, on <a href="#" class="color-blue">Gozocabs.com</a> or through our mobile app.</li>
+			<li>This offer is valid for trips booked directly with Gozo Cabs either by booking by phone with us, on <a href="#" class="color-blue">aaocab.com</a> or through our mobile app.</li>
 			<li>The trip must be booked and paid for at least < 72hours in advance of travel date and time and must have paid in advance. The Double back program requires that there be a time difference of 72hours from the time payment is received for the booking and the trip start time.Double Back is applicable on value+ and select only.</li>
 			<li>DOUBLE BACK is available for trips booked all over India.</li>
 			<li>The offer period is valid from <?php echo date("F j, Y", strtotime(Yii::app()->params['dboStartDate']));?> to <?php echo date("F j, Y", strtotime(Yii::app()->params['dboLastDate']));?>.</li>
@@ -20,8 +20,8 @@
 			<li>No other compensation shall be applicable alongside this offer.</li>
 			<li>The listed fares are subject to change without any prior notification.</li>
 			<li>Gozo reserves the right to refuse or deny service to anyone. In such cases, your booking will not be accepted and DOUBLE BACK shall not apply. In all such cases, Gozo may cancel the booking at least 5 days before pickup time or within 24 hours of receiving your booking request whichever is later.</li>
-			<li>This program does not apply to bookings that are generated from a third-party marketing affiliate or reseller partner of Gozo cabs. Only applies to bookings directly made on GozoCabs.com website or mobile app or booked with us by directly by phone</li>
-			<li>In addition to the above terms, all standard Gozo terms and conditions as listed at www.gozocabs.com/terms shall be applicable.</li>
+			<li>This program does not apply to bookings that are generated from a third-party marketing affiliate or reseller partner of Gozo cabs. Only applies to bookings directly made on aaocab.com website or mobile app or booked with us by directly by phone</li>
+			<li>In addition to the above terms, all standard Gozo terms and conditions as listed at www.aaocab.com/terms shall be applicable.</li>
 			<li>For example, if you have paid ₹500 advance and Gozo cancels the trip, you’ll get ₹1000 cash refund. If you have paid ₹3000 in advance and Gozo is unable to arrange a car, you’ll get ₹6000 refund. If you have paid ₹6000 in advance and Gozo is unable to arrange a car, you’ll get ₹11000 refund, as it is capped by our ₹5000 match guarantee.</li>
 			<li>Double Back program guarantee is only applicable when Gozo Cabs is unable to allocate a cab for your service and rest of the advance booking & payment terms & conditions are met and not when the ride is canceled by the customer.</li>
 			<li>Gozo reserves the right in its sole discretion to modify or discontinue the Double back program or to restrict its availability to any person, at any time, for any or no reason, and without prior notice or liability to you. The terms that are in effect at the time of your booking will determine your eligibility under the Double back program.</li>

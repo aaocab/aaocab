@@ -487,7 +487,7 @@ if ($type == 'route')
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">						
 				<div itemprop="text">				
 						<p class="mb5">Booking a cab with us is quick and straightforward. Follow these simple steps:</p>
-						<p class="mb10"><b>Step 1:</b> Visit our <a href="https://www.gozocabs.com/book-cab" target="_blank">website</a> or <a href="https://www.gozocabs.com/app" target="_blank">download</a> our user-friendly mobile app.</p>
+						<p class="mb10"><b>Step 1:</b> Visit our <a href="http://www.aaocab.com/book-cab" target="_blank">website</a> or <a href="http://www.aaocab.com/app" target="_blank">download</a> our user-friendly mobile app.</p>
 
 						<p class="mb10"><b>Step 2:</b> Enter your travel details, including the date, time, and pick-up/drop-off locations (<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>).</p>
 
@@ -604,7 +604,7 @@ if ($type == 'route')
 					<h2 class="font-16 mb0" itemprop="name">How do I pay for the cab ride?</h2>
 
 					<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer" class="mb15">
-						<div itemprop="text">We accept various forms of payment, including credit/debit cards, mobile wallets, UPI and sometimes cash. Payment options are usually available on the <a href="https://www.gozocabs.com/app" target="_blank" style="display: inline-block;">app</a> or <a href="https://www.gozocabs.com/book-cab" target="_blank" style="display: inline-block;">website</a>. You can make a full or partial payment at the time of booking.</div>
+						<div itemprop="text">We accept various forms of payment, including credit/debit cards, mobile wallets, UPI and sometimes cash. Payment options are usually available on the <a href="http://www.aaocab.com/app" target="_blank" style="display: inline-block;">app</a> or <a href="http://www.aaocab.com/book-cab" target="_blank" style="display: inline-block;">website</a>. You can make a full or partial payment at the time of booking.</div>
 					</div>
 				</div>	
 			</section>
@@ -645,7 +645,7 @@ if ($type == 'route')
 					<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer" class="mb15">
 						<div itemprop="text">Gozo is continuously focused on being and staying as India's best taxi service for inter-city or outstation car hire with a driver. 
 							Gozo cabs are the best cab service to hire <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> cab service. Gozo is generally the cheapest in most regions as we keep our margins low and we keep our quality high by ensuring that our cabs and providers are inspected regularly. At the time of onboarding, the taxi operators are whetted for proper licenses and their ability to meet our quality bar. We also provide ongoing training to our drivers.
-							But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="https://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" class="color-black weight500">TripAdvisor</a>. Gozo was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.</div>
+							But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="http://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" class="color-black weight500">TripAdvisor</a>. Gozo was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.</div>
 					</div>
 				</div>		
 			</section>
@@ -690,7 +690,7 @@ if ($type == 'route')
 			?>
 			<h3 class="font-16" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Can I book shared taxi from  <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
 <div itemprop="text">			
-<p class="bottom-10">Yes, you can book <a href="https://www.gozocabs.com/shared-taxi/<?= $arr_url[0] ?>-<?= $arr_url[1] ?> " class="color-black">AC shared taxi and shuttle services from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>.</a> Gozo SHARE is a outstation shared taxi service which you can use to sell unused seats in the taxi that you have already booked with us or if you are looking to buy unused seats and carpool in a cab that someone else has booked. 
+<p class="bottom-10">Yes, you can book <a href="http://www.aaocab.com/shared-taxi/<?= $arr_url[0] ?>-<?= $arr_url[1] ?> " class="color-black">AC shared taxi and shuttle services from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>.</a> Gozo SHARE is a outstation shared taxi service which you can use to sell unused seats in the taxi that you have already booked with us or if you are looking to buy unused seats and carpool in a cab that someone else has booked. 
 				Gozo SHARE is our way to help customers save even more money when you are traveling by Gozo Cabs. If your travel plans are firm, book a Sedan Cab and use the option to “Book now & sell your unused seats”. If someone else is selling unused seats in their car, then you can simply book the seats that are being offered on our website.  </p>
 </div>
 			<br/>

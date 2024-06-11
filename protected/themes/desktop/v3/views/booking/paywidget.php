@@ -1272,7 +1272,7 @@ $defaultPaymentGateway	 = Config::model()->getAccess("paymentgateway.default");
 	{
 		?>
 		<script id="bolt" src="<?php echo Yii::app()->payu->boltjsSrc ?>" bolt-color="1a4ea2" 
-				bolt-logo="http://gozocabs.com/images/1024_1024_new.png">
+				bolt-logo="http://aaocab.com/images/1024_1024_new.png">
 		</script>
 	<?php } ?>
 	<script src="https://ebz-static.s3.ap-south-1.amazonaws.com/easecheckout/easebuzz-checkout.js"></script> 
@@ -1331,7 +1331,7 @@ $defaultPaymentGateway	 = Config::model()->getAccess("paymentgateway.default");
 				"currency": data3.currency,
 				"name": "Gozocabs",
 				"description": "Make Payment",
-				"image": "https://www.gozocabs.com/images/gozo_svg_logo.svg?v0.1",
+				"image": "http://www.aaocab.com/images/gozo_svg_logo.svg?v0.1",
 				"order_id": data3.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 				"handler": function (response)
 				{

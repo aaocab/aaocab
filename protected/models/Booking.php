@@ -7784,7 +7784,7 @@ FROM   booking
 		  $mail	 = new EIMailer();
 		  $mail->clearView();
 		  $mail->clearLayout();
-		  $mail->setFrom('info@gozocabs.com', 'Info Gozocabs');
+		  $mail->setFrom('info@aaocab.com', 'Info Gozocabs');
 		  $mail->setTo($email, 'Callcenter Gozocabs');
 		  $mail->setBody($body);
 		  $mail->setSubject($subject);
@@ -7892,7 +7892,7 @@ FROM   booking
 		$mail = new EIMailer();
 		$mail->clearView();
 		$mail->clearLayout();
-		$mail->setFrom('info@gozocabs.com', 'Info Gozocabs');
+		$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
 		$mail->setBody($body);
 		$mail->setTo($email, 'Callcenter Gozocabs');
 		$mail->setSubject($subject);
@@ -23957,7 +23957,7 @@ FROM   booking
 		$dueAmount		 = $bkgModel->bkgInvoice->bkg_due_amount;
 		$hashBkgId		 = Yii::app()->shortHash->hash($bkgId);
 		$hashVndId		 = Yii::app()->shortHash->hash($vndId);
-		$bkvnLink		 = "https://www.gozocabs.com/bkvn/{$hashBkgId}/{$hashVndId}";
+		$bkvnLink		 = "http://www.aaocab.com/bkvn/{$hashBkgId}/{$hashVndId}";
 		$contactId		 = ContactProfile::getByEntityId($drvId, UserInfo::TYPE_DRIVER);
 		$row			 = ContactPhone::getNumber($contactId);
 		if (!$row || empty($row))
@@ -24029,7 +24029,7 @@ FROM   booking
 		$dueAmount		 = $bkgModel->bkgInvoice->bkg_due_amount;
 		$hashBkgId		 = Yii::app()->shortHash->hash($bkgId);
 		$hashVndId		 = Yii::app()->shortHash->hash($vndId);
-		$bkvnLink		 = "https://www.gozocabs.com/bkvn/{$hashBkgId}/{$hashVndId}";
+		$bkvnLink		 = "http://www.aaocab.com/bkvn/{$hashBkgId}/{$hashVndId}";
 		$contactId		 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$row			 = ContactPhone::getNumber($contactId);
 		if (!$row || empty($row))
@@ -24136,7 +24136,7 @@ FROM   booking
 		$bkgExpiryDate	 = new DateTime($bkgModel->bkgTrail->bkg_quote_expire_date);
 		$expiryDate		 = '*' . $bkgExpiryDate->format('j/M/y h:i A') . '*';
 		$buttonUrl		 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-		$paymentUrl		 = 'https://www.gozocabs.com/' . $buttonUrl;
+		$paymentUrl		 = 'http://www.aaocab.com/' . $buttonUrl;
 		$supportPhone	 = "+91-90518-77000";
 		$phoneNo		 = $bkgModel->bkgUserInfo->bkg_country_code . $bkgModel->bkgUserInfo->bkg_contact_no;
 		$userId			 = $bkgModel->bkgUserInfo->bkg_user_id;
@@ -24650,7 +24650,7 @@ FROM   booking
 			$bookingId	 = $bkgModel->bkg_booking_id;
 
 			$buttonUrl	 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-			$paymentUrl	 = 'https://www.gozocabs.com/' . $buttonUrl;
+			$paymentUrl	 = 'http://www.aaocab.com/' . $buttonUrl;
 
 			$phoneNo = WhatsappLog::getPhoneNoByBookingId($bkgModel->bkg_id);
 			Filter::parsePhoneNumber($phoneNo, $code, $number);

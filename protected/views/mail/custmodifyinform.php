@@ -53,10 +53,10 @@ $msg = 'Hi ' . $arr['userName'] .
         '<br/><b>Primary Phone: </b>' . $arr['primaryPhone'] .
         $amount .
         '<br/><br/>You will receive the cab details 3 hours before your scheduled pickup time.<br/>' .
-        '<br/>You can contact us at +91 90518-77-000 or email us at info@gozocabs.com for any queries.<br/>' .
+        '<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
         '<br/>Regards,' .
         '<br/>Gozocabs<br/><br/>' .
-        '<br/>For updates and promotions, like us on <a href="https://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
+        '<br/>For updates and promotions, like us on <a href="http://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
 
 $msg.=$info;
 

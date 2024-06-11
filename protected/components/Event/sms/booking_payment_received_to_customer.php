@@ -5,7 +5,7 @@ try
 	$msg		 = "Check payment message for booking " . $bkgId;
 	$model		 = Booking::model()->findByPk($bkgId);
 	$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
-	$link		 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+	$link		 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 	$paymentLink = Filter::shortUrl($link);
 	$sms		 = new Messages();
 	$response	 = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);

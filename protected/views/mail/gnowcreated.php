@@ -273,10 +273,10 @@ $contactName = ($userName != '')? $userName : $travellerName;
 						?>
 						<table style="width: 100%; margin-bottom: 20px; font-family: 'Arial'; line-height: 18px;">
 							<tr>
-								<td style="width: 50%;"><a href="https://www.gozocabs.com/users/refer" target="_black"><img src="<?= $baseURL ?>/images/refer.png?v=0.3" alt="Refer a friend, get cash back - it's a win-win!" title="Refer a friend, get cash back - it's a win-win!" style="width: 98%;"></a></td>
+								<td style="width: 50%;"><a href="http://www.aaocab.com/users/refer" target="_black"><img src="<?= $baseURL ?>/images/refer.png?v=0.3" alt="Refer a friend, get cash back - it's a win-win!" title="Refer a friend, get cash back - it's a win-win!" style="width: 98%;"></a></td>
 								<td style="width: 46.5%; padding: 10px; text-align: center; border: #DFE4EE 1px solid; font-size: 11px;">
 									<b>This is your personalized Gozo sticker. Get ₹100 credit when your friends travel with Gozo using your QR code</b>
-									<div style="width: 100%; float: left;"><a href="https://www.gozocabs.com/users/getQRPathById?userId=<?= $userId ?>" target="_black"><img src="https://www.gozocabs.com/users/getQRPathById?userId=<?= $userId ?>" alt="QR" title="QR" style="width: 75%;"></a><br><a href="https://gozo.cab/c/<?php echo $qrCode; ?>">https://gozo.cab/c/<?php echo $qrCode; ?></a></div>
+									<div style="width: 100%; float: left;"><a href="http://www.aaocab.com/users/getQRPathById?userId=<?= $userId ?>" target="_black"><img src="http://www.aaocab.com/users/getQRPathById?userId=<?= $userId ?>" alt="QR" title="QR" style="width: 75%;"></a><br><a href="https://gozo.cab/c/<?php echo $qrCode; ?>">https://gozo.cab/c/<?php echo $qrCode; ?></a></div>
 								</td>
 							</tr>
 						</table>
@@ -284,7 +284,7 @@ $contactName = ($userName != '')? $userName : $travellerName;
 
 						<table style="width: 100%; position: relative; float: left; position: relative; border: #DFE4EE 1px solid; margin-bottom: 20px; font-family: 'Arial'; line-height: 18px;">
 							<tr>
-								<td><a href="https://www.gozocabs.com/book-cab" target="_black"><img src="<?= $baseURL ?>/images/hotlink-ok/local_rental.png" alt="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" title="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
+								<td><a href="http://www.aaocab.com/book-cab" target="_black"><img src="<?= $baseURL ?>/images/hotlink-ok/local_rental.png" alt="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" title="Gozocabs | Loved your trip | Give us a video testimonial | 20% get cash back" style="width: 100%;"></a></td>
 							</tr>		
 						</table>
 						

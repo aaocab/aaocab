@@ -8,7 +8,7 @@ php -q /home/gcuser/public_html/cron.php booking leadFollowup
 #php -q /home/gcuser/public_html/cron.php pickupAlert sendCabAssignedEmail
 php -q /home/gcuser/public_html/cron.php booking quotedToUnverified
 php -q /home/gcuser/public_html/cron.php booking pricelockForQT
-#wget -qO- http://www.gozocabs.com/payment/updateAdvance &> /dev/null
+#wget -qO- http://www.aaocab.com/payment/updateAdvance &> /dev/null
 php -q /home/gcuser/public_html/cron.php booking criticalTripAmount
 php -q /home/gcuser/public_html/cron.php booking autoCancelRule
 php -q /home/gcuser/public_html/cron.php system AutoCloseCSA

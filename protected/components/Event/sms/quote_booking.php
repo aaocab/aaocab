@@ -11,8 +11,8 @@ try
 		$sms		 = new Messages();
 		$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
 
-		//$paymentUrl = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
-		$paymentUrl	 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		//$paymentUrl = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
+		$paymentUrl	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		#$paymentUrl	 = Filter::shortUrl($paymentUrl);
 		$msg		 = 'Booking ' . $booking_id . ' quoted. Pay at ' . $paymentUrl . ' to reconfirm.';
 
@@ -84,7 +84,7 @@ try
 			goto skipAll;
 		}
 		$bookingId	 = $model->bkg_booking_id;
-		$paymentUrl	 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		$paymentUrl	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$msg		 = 'Booking ' . $bookingId . ' quoted. Pay at ' . $paymentUrl . ' to reconfirm.';
 		$bookingTrack	 = $model->bkgTrack;
 		// user

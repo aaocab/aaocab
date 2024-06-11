@@ -39,7 +39,7 @@ class JWT extends CApplicationComponent
 
 		$token		 = array
 			(
-			"websiteLink"	 => "https://www.gozocabs.com/",
+			"websiteLink"	 => "http://www.aaocab.com/",
 			"data"			 => array
 				(
 				"userId"			 => $userId,

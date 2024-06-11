@@ -26,7 +26,7 @@ class ConfirmResponse
 	public function setData($model)
 	{
 		$this->success	= true;
-		$this->tnc = "https://www.gozocabs.com/terms";
+		$this->tnc = "http://www.aaocab.com/terms";
 		//destination notes by Rituparana
 		//$noteArrList = \DestinationNote::model()->showNoteApi($model->bkg_id, $showNoteTo= 5);
 		//if ($noteArrList != false || $noteArrList != NULL)

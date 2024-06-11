@@ -445,7 +445,7 @@
                     wrapper.appendChild(this.telInput);
                     // selected flag (displayed to left of input)
                     // using Aria tags for "Select-Only Combobox Example"
-                    // https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/
+                    // http://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/
                     if (showFlagsContainer) {
                         this.selectedFlag = this._createEl("div", _objectSpread({
                             "class": "iti__selected-flag"

@@ -185,7 +185,7 @@ if ($response->getStatus())
                         <li>Amount inclusive of toll tax. </li>
                         <li>Extra pickup/drop points apart from the ones specified will be charged at Rs. 300 per point. </li>
                         <li><b>Cancellation:</b> You may cancel your Booking with us by logging in to our Mobile App or Website. All bookings cancelled less than 24 hours before the scheduled pickup time shall be subject to Cancellation & Refund Policy as laid down in our 
-			    <a href="https://www.gozocabs.com/terms" target="_blank">Terms & Conditions</a> page on our website.</li>
+			    <a href="http://www.aaocab.com/terms" target="_blank">Terms & Conditions</a> page on our website.</li>
                         <li>Incase of excessive luggage, contact us for a carrier on cab. No extra charges applicable. </li>
                         <li>If Parking is requested (eg. airport), the charges will be borne by the customer. </li>
                     </ul>

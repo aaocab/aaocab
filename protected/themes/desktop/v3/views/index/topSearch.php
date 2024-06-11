@@ -61,7 +61,7 @@ $timeonload =  DateTimeFormat::DateTimeToTimePicker($defaultNewDate);
 <!--<div id='covid' class="covid-panel" style="display:<?= $discovid ?>">
     <div class="alert alert-warning alert-dismissible pt5 pb5" role="alert" style="background: #fcc521; border-radius: 0;">
         <button type="button" class="close p0 pr10" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 36px;">&times;</span></button>
-        GozoCabs' Response to COVID-19 <a class="btn btn-primary p0" href="https://www.gozocabs.com/blog/sanitized-cars-ensuring-safe-ride/" target="_blank" role="button">Know More</a>
+        GozoCabs' Response to COVID-19 <a class="btn btn-primary p0" href="http://www.aaocab.com/blog/sanitized-cars-ensuring-safe-ride/" target="_blank" role="button">Know More</a>
     </div>
 </div>-->
 <div class="container mt20 d-none d-lg-block">

@@ -35,8 +35,8 @@ return array(
 	'Port' => 587,
 	'SMTPSecure' => 'tls',
 	'SMTPAuth' => true,
-	'From' => 'info@gozocabs.com',
+	'From' => 'info@aaocab.com',
 	'FromName' => 'Gozocabs Support',
-	'Username' => 'info@gozocabs.com',
+	'Username' => 'info@aaocab.com',
 	'Password' => 'brazil101#',
 );

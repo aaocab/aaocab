@@ -34,7 +34,7 @@ class smsWrapper
 			$sms		 = new Messages();
 			$hash		 = Yii::app()->shortHash->hash($bookModel->bkg_id);
 
-			// $verifylink = 'gozocabs.com/bkver/' . $bookModel->bkg_id . '/' . $hash
+			// $verifylink = 'aaocab.com/bkver/' . $bookModel->bkg_id . '/' . $hash
 			//if($bookModel->bkgUserInfo->bkg_verification_code != '' && $bookModel->bkgUserInfo->bkg_verification_code != NULL){
 			//$verifylink	 = Yii::app()->createAbsoluteUrl('booking/paynow', ['id' => $bookModel->bkg_id, 'hash' => $hash, 'p' => $pHashCode]);
 //			}
@@ -45,7 +45,7 @@ class smsWrapper
 			//   $msg = 'Gozocabs Your Verification Code is:' . $vCode.' and Verification Link is '.$verifylink. '. Please enter it in the space provided in the website.';
 			//  $msg = 'Your Verification Code is ' . $vCode.'. Please enter it in the space provided in the website or in the following link: '.$verifylink.'. Gozocabs.';
 			//$msg		 = 'Your OTP is ' . $vCode . '. Please enter it on the website or at ' . $verifylink . '. -Gozocabs.';
-			$verifylink	 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($bookModel->bkg_id);
+			$verifylink	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bookModel->bkg_id);
 			$msg		 = 'Bkg ' . $bookModel->bkg_booking_id . ' created. Pay at ' . $verifylink . ' within 90mins to reconfirm booking - Gozocabs';
 
 			if ($bookModel->bkgTrail->bkg_platform == 3)
@@ -260,7 +260,7 @@ class smsWrapper
 		$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
 		$phone		 = Yii::app()->shortHash->hash($model->bkgUserInfo->bkg_verification_code);
 
-		$paymentUrl	 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		$paymentUrl	 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$paymentUrl	 = Filter::shortUrl($paymentUrl);
 		//$msg		 = 'Cab request received: View ' . $paymentUrl . ' for booking details';
 		$msg		 = 'Cab request received.Details at ' . $paymentUrl;
@@ -349,13 +349,13 @@ class smsWrapper
 
 //		if($model->bkgUserInfo->bkg_verification_code != '' && $model->bkgUserInfo->bkg_verification_code != NULL)
 //		{
-		//$paymentUrl	 = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash, 'p' => $phone]);
+		//$paymentUrl	 = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash, 'p' => $phone]);
 //		}
 //		else
 //		{
-//			$paymentUrl	 = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
+//			$paymentUrl	 = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
 //		}
-		$paymentUrl	 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		$paymentUrl	 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$paymentUrl	 = Filter::shortUrl($paymentUrl);
 		//$msg		 = 'Cab request received: View ' . $paymentUrl . ' for booking details';
 		$msg		 = 'Cab request received. Details at ' . $paymentUrl;
@@ -465,8 +465,8 @@ class smsWrapper
 		$sms		 = new Messages();
 		$minamount	 = $model->bkgInvoice->calculateMinPayment();
 		$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
-		//$paymentUrl	 = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
-		$paymentUrl	 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		//$paymentUrl	 = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
+		$paymentUrl	 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$paymentUrl	 = Filter::shortUrl($paymentUrl);
 		//$msg		 = 'Cab request received: View ' . $paymentUrl . ' for booking details';
 		$msg		 = 'Cab request received .Details at ' . $paymentUrl;
@@ -579,7 +579,7 @@ class smsWrapper
 
 		$hashBkgId	 = Yii::app()->shortHash->hash($bookModel->bkg_id);
 		$hashVndId	 = Yii::app()->shortHash->hash($cabmodel->bcb_vendor_id);
-		$vendorLink	 = 'gozocabs.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
+		$vendorLink	 = 'aaocab.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
 
 		//$msg = 'Booking ID: ' . $bookingID . '  ## See Details & Terms at ' . $vendorLink . ' ';
 		$msg = 'Booking ID: ' . $bookingID . '. See Details & Terms at ' . $vendorLink . ' - Gozocabs';
@@ -661,8 +661,8 @@ class smsWrapper
 		}
 		/* var $bookingModel Booking */
 		$hash			 = Yii::app()->shortHash->hash($bookingModel->bkg_id);
-		//$paymentLink	 = 'gozocabs.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
-		$paymentLink	 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($bookingModel->bkg_id);
+		//$paymentLink	 = 'aaocab.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
+		$paymentLink	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bookingModel->bkg_id);
 		$cabModel		 = $bookingModel->getBookingCabModel();
 		$vehicleModel	 = $cabmodel->bcbCab->vhcType->vht_model;
 		if ($cabmodel->bcbCab->vhc_type_id === Config::get('vehicle.genric.model.id'))
@@ -1118,9 +1118,9 @@ class smsWrapper
 		}
 		$hashBkgId		 = Yii::app()->shortHash->hash($bookModel->bkg_id);
 		$hashVndId		 = Yii::app()->shortHash->hash($cabmodel->bcb_vendor_id);
-		$vendorLink		 = 'gozocabs.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
+		$vendorLink		 = 'aaocab.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
 		$hash			 = Yii::app()->shortHash->hash($bookModel->bkg_id);
-		$tripUrl		 = 'https://gozocabs.com/vtrip/' . $bookModel->bkg_id . '/' . $hash;
+		$tripUrl		 = 'https://aaocab.com/vtrip/' . $bookModel->bkg_id . '/' . $hash;
 		$additionalInfo	 = (trim($bookModel->getFullInstructions()) == '') ? '' : ',
 				 NOTE: ' . rtrim($bookModel->getFullInstructions(), '.');
 //		$bookingExt6	 = substr($bookingID, -6);
@@ -1173,7 +1173,7 @@ class smsWrapper
 //				$msg .= '.
 //					Must use Driver app. If no app, Enter OTP at ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181 - Gozocabs';
 //			}
-// Must use Driver app. Get OTP from customer to start the trip. If no app, Enter OTP at https://gozocabs.com/vtrip/312912/Foeau or SMS 'START 312912 <OTP>' TO 8340000181 - Gozocabs
+// Must use Driver app. Get OTP from customer to start the trip. If no app, Enter OTP at https://aaocab.com/vtrip/312912/Foeau or SMS 'START 312912 <OTP>' TO 8340000181 - Gozocabs
 // Please verify OTP before you start the trip using driver app or go to ' . $tripUrl . ' or SMS \'START ' . $bookModel->bkg_id . ' <OTP>\' TO 8340000181 - Gozocabs';
 			if ($usertype == '2'):
 				$smstype = SmsLog::SMS_VENDOR_CAB_DETAILS_UPDATED;
@@ -1367,8 +1367,8 @@ class smsWrapper
 		if ($advance < $amount)
 		{
 			$due	 = $amount - $model->getTotalPayment();
-			//$url	 = 'gozocabs.com/bkpn/' . $bkg_row['bkg_id'] . '/' . Yii::app()->shortHash->hash($bkg_row['bkg_id']);
-			$url	 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($bkg_row['bkg_id']);
+			//$url	 = 'aaocab.com/bkpn/' . $bkg_row['bkg_id'] . '/' . Yii::app()->shortHash->hash($bkg_row['bkg_id']);
+			$url	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bkg_row['bkg_id']);
 			$message = "Dear {$userName}, Your remaining balance is Rs. $due payable to the driver by end of this trip. Click on following URL if you prefer to pay the balance by credit card. Your comfort and trust are important to us. $url";
 		}
 		else
@@ -1501,8 +1501,8 @@ class smsWrapper
 		}
 		/* @var $bookingModel Booking */
 		$hash		 = Yii::app()->shortHash->hash($bookingModel->bkg_id);
-		//$paymentLink = 'gozocabs.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
-		$paymentLink = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($bookingModel->bkg_id);
+		//$paymentLink = 'aaocab.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
+		$paymentLink = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bookingModel->bkg_id);
 		$sms		 = new Messages();
 		//$msg = 'Dear Customer, Your Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $changes . ' - Gozocabs';
 		$msg		 = 'UPDATE TO BKGID: ' . $bookingID . '  ## See NEW Details & Terms at ' . $paymentLink . '';
@@ -1567,8 +1567,8 @@ class smsWrapper
 		//$hash		 = Yii::app()->shortHash->hash($bookModel->bkg_id);
 		$hashBkgId	 = Yii::app()->shortHash->hash($bookModel->bkg_id);
 		$hashVndId	 = Yii::app()->shortHash->hash($cabmodel->bcb_vendor_id);
-		$vendorLink	 = 'gozocabs.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
-		//$paymentLink = 'gozocabs.com/bkvendor/' . $bookModel->bkg_id . '/' . $hash; / Duplicate link created
+		$vendorLink	 = 'aaocab.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
+		//$paymentLink = 'aaocab.com/bkvendor/' . $bookModel->bkg_id . '/' . $hash; / Duplicate link created
 		$sms		 = new Messages();
 		//$msg = 'Dear Vendor, Booking ID: ' . $bookingID . ' has been modified. New Details: ' . $changes . ' - Gozocabs';
 		$msg		 = 'UPDATE TO Booking ID: ' . $bookingID . '  ## See NEW Details & Terms at ' . $vendorLink . '';
@@ -1606,11 +1606,11 @@ class smsWrapper
 		$cabmodel = $bookModel->getBookingCabModel();
 		/* @var $cabmodel BookingCab */
 //		$hash		 = Yii::app()->shortHash->hash($bookModel->bkg_id);
-//		$paymentLink = 'gozocabs.com/bkvendor/' . $bookModel->bkg_id . '/' . $hash;
+//		$paymentLink = 'aaocab.com/bkvendor/' . $bookModel->bkg_id . '/' . $hash;
 
 		$hashBkgId	 = Yii::app()->shortHash->hash($bookModel->bkg_id);
 		$hashVndId	 = Yii::app()->shortHash->hash($cabmodel->bcb_vendor_id);
-		$vendorLink	 = 'gozocabs.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
+		$vendorLink	 = 'aaocab.com/bkvn/' . $hashBkgId . '/' . $hashVndId;
 		$sms		 = new Messages();
 		$msg		 = 'UPDATE TO Booking ID: ' . $bookingID . '  ## See NEW Details & Terms at ' . $vendorLink . '';
 		$res		 = $sms->sendMessage($ext, $number, $msg);
@@ -1884,9 +1884,9 @@ class smsWrapper
 		$maxTimeAdvPay = date('d/m/Y h:i A', strtotime($model->bkgTrail->bkg_payment_expiry_time));
 
 		$hash		 = Yii::app()->shortHash->hash($bkgid);
-		//$url	 = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $bkgid, 'hash' => $hash]);
-		#$url		 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
-		$url		 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		//$url	 = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $bkgid, 'hash' => $hash]);
+		#$url		 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		$url		 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$url		 = Filter::shortUrl($url);
 		$amountStr	 = '';
 		if ($advance > 0)
@@ -2342,8 +2342,8 @@ class smsWrapper
 		$oldModel	 = clone $model;
 		$bookingId	 = $model->bkg_booking_id;
 		$hash		 = Yii::app()->shortHash->hash($bkgId);
-		//$url		 = 'gozocabs.com/bkpn/' . $bkgId . '/' . $hash;
-		$url		 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($bkgId);
+		//$url		 = 'aaocab.com/bkpn/' . $bkgId . '/' . $hash;
+		$url		 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($bkgId);
 		$minPay		 = $model->bkgInvoice->calculateMinPayment();
 		$response	 = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
 		if ($response->getStatus())
@@ -2414,7 +2414,7 @@ class smsWrapper
 		$sms		 = new Messages();
 		//  $msg = 'Your Corporate account verification code is '.$otp.' -Gozocabs.';
 		$msg		 = $username . ' wants to register in your Gozo Corporate account. Approval OTP is ' . $otp;
-		//  $username.' wants to register in your Gozo Corporate account. Approval OTP is '.$otp.'OR click this link gozocabs.com/abc/fhhf to approve';
+		//  $username.' wants to register in your Gozo Corporate account. Approval OTP is '.$otp.'OR click this link aaocab.com/abc/fhhf to approve';
 		$res		 = $sms->sendMessage($country_code, $phone, $msg);
 		$usertype	 = SmsLog::Corporate;
 		$refId		 = smsWrapper::createLog($country_code, $phone, "", $msg, $res, $usertype, "", '');
@@ -2485,12 +2485,12 @@ class smsWrapper
 		$msg		 = "Check payment message for booking " . $bkgId;
 		$model		 = Booking::model()->findByPk($bkgId);
 		$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
-		//$paymentLink	 = 'gozocabs.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
-		//$paymentLink = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
-		$link		 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		//$paymentLink	 = 'aaocab.com/bkpn/' . $bookingModel->bkg_id . '/' . $hash;
+		//$paymentLink = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		$link		 = 'http://www.aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		$paymentLink = Filter::shortUrl($link);
 		$sms		 = new Messages();
-		//$msg	 = 'Your payment of Rs.' . round($amt) . '/- on Gozocabs against Booking ID: ' . $model->bkg_booking_id . ' was successful. Please contact us at info@gozocabs.com if you have any queries. Gozocabs.';
+		//$msg	 = 'Your payment of Rs.' . round($amt) . '/- on Gozocabs against Booking ID: ' . $model->bkg_booking_id . ' was successful. Please contact us at info@aaocab.com if you have any queries. Gozocabs.';
 		$response	 = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
 		if ($response->getStatus())
 		{
@@ -2852,7 +2852,7 @@ class smsWrapper
 	{
 		$sms		 = new Messages();
 		$vndHash	 = Yii::app()->shortHash->hash($vndId);
-		$vendorLink	 = 'https://www.gozocabs.com/vndsl/' . $vndId . '/' . $vndHash;
+		$vendorLink	 = 'http://www.aaocab.com/vndsl/' . $vndId . '/' . $vndHash;
 		$ext		 = ($ext != '') ? $ext : 91;
 		$msg		 = 'Our Gozo Partner App update requires linking of your Gozo Account with your Social Account (Google or Facebook). Please visit ' . $vendorLink . ' to update and enable your social login to the App. GozoCabs.';
 		$res		 = $sms->sendMessage($ext, $number, $msg, 0);
@@ -2903,8 +2903,8 @@ class smsWrapper
 		$sms		 = new Messages();
 		$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
 
-		//$paymentUrl = 'gozocabs.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
-		$paymentUrl	 = 'gozocabs.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
+		//$paymentUrl = 'aaocab.com' . Yii::app()->createUrl('booking/paynow', ['id' => $model->bkg_id, 'hash' => $hash]);
+		$paymentUrl	 = 'aaocab.com' . BookingUser::getPaymentLinkByPhone($model->bkg_id);
 		#$paymentUrl	 = Filter::shortUrl($paymentUrl);
 		$msg		 = 'Booking ' . $booking_id . ' quoted. Pay at ' . $paymentUrl . ' to reconfirm.';
 
@@ -3012,11 +3012,11 @@ class smsWrapper
 			$ext				 = ($ext != '') ? $ext : 91;
 			/* if ($vndId)
 			  {
-			  $url = 'https://gozocabs.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'vnd' => $vndIdHash]);
+			  $url = 'https://aaocab.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'vnd' => $vndIdHash]);
 			  }
 			  else
 			  {
-			  $url = 'https://gozocabs.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash]);
+			  $url = 'https://aaocab.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash]);
 			  } */
 
 			$arrUrlParams = ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash];
@@ -3025,7 +3025,7 @@ class smsWrapper
 				$arrUrlParams['vnd'] = $vndIdHash;
 			}
 
-			$url = 'https://www.gozocabs.com' . Yii::app()->createUrl('verifyPhone', $arrUrlParams);
+			$url = 'http://www.aaocab.com' . Yii::app()->createUrl('verifyPhone', $arrUrlParams);
 
 			$dltId = '';
 			switch ($templateStyle)
@@ -3038,7 +3038,7 @@ class smsWrapper
 					$vndHash		 = base64_encode($vndName);
 					$templateStyle	 = Contact::NOTIFY_OLD_CON_TEMPLATE;
 					$userType		 = ($userType == '2') ? 'Vendor' : 'Driver';
-					$url			 = 'https://www.gozocabs.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'tpk' => $tempPkHash, 'v' => $vndHash]);
+					$url			 = 'http://www.aaocab.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'tpk' => $tempPkHash, 'v' => $vndHash]);
 					$msg			 = 'Dear' . ' ' . $userName . '' .
 							' Your Phone number ' . $ext . '' . $number . ' is being added by ' . $vndName . ' as a' . $userType . ' to Gozo Cabs' .
 							' To allow click here >>  : ' . $url . '- Gozocabs';
@@ -3051,7 +3051,7 @@ class smsWrapper
 					break;
 				case Contact::MODIFY_CON_TEMPLATE:
 					$numHash = base64_encode($number);
-					$url	 = 'https://www.gozocabs.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'num' => $numHash]);
+					$url	 = 'http://www.aaocab.com' . Yii::app()->createUrl('verifyPhone', ['id' => $cttHash, 'otp' => $hashOtp, 'ts' => $templateStyleHash, 'num' => $numHash]);
 					$msg	 = 'Dear' . ' ' . $userName . '' .
 							' Please click on this :' . $url . ' to modify your phone number. - Gozocabs';
 					break;
@@ -3143,7 +3143,7 @@ class smsWrapper
 	{
 		$status				 = false;
 		$uniqueid			 = Booking::model()->generateLinkUniqueid($bkgId);
-		$link				 = 'https://gozocabs.com/';
+		$link				 = 'https://aaocab.com/';
 		$link				 .= Yii::app()->createUrl('/r/' . $uniqueid);
 		$slink				 = Filter::shortUrl($link);
 		$dataUser			 = BookingUser::model()->getByBkgId($bkgId);
@@ -3313,10 +3313,10 @@ class smsWrapper
 	{
 		$msg = $otp . ' is your Gozo OTP for login. Do not share it with anyone. 
 
-@www.gozocabs.com #' . $otp;
+@www.aaocab.com #' . $otp;
 		if ($type == SmsLog::SMS_FORGET_PASSWORD)
 		{
-			$msg = $otp . ' is your Gozo OTP for Forgot Password. Do not share it with anyone. @www.gozocabs.com #' . $otp;
+			$msg = $otp . ' is your Gozo OTP for Forgot Password. Do not share it with anyone. @www.aaocab.com #' . $otp;
 		}
 		$isCerfAllowed = Config::get("cerf.int.sms.isAllowed.value");
 		if ($isCerfAllowed)

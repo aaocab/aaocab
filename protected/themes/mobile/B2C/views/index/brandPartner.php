@@ -11,7 +11,7 @@
 		<figure><img src="/images/partners-logo4.png?v=1" rel="nofollow" alt="UP Gov. + UP Tourism" class="preload-image rounded-image responsive-image"></figure>
 	</div>
 	<div class="content p0">
-		<figure><a href="https://www.sulafest.com/" target="_black"><img src="/images/partners-logo6.png?v=1" rel="nofollow" alt="Sula Fest" class="preload-image rounded-image responsive-image"></a></figure>
+		<figure><a href="http://www.sulafest.com/" target="_black"><img src="/images/partners-logo6.png?v=1" rel="nofollow" alt="Sula Fest" class="preload-image rounded-image responsive-image"></a></figure>
 	</div>
 </div>
 
@@ -25,7 +25,7 @@
             <div class="modal-body">
                 <div class="text-center"><img src="/images/partners-logo2.png" alt="" width="150" height="97"></div>
                 MobiKwik is super-safe Online Recharge site. Each and every penny stored in your wallet is well accounted for. Online mobile recharge gives you the liberty to recharge your mobile phone number anytime and from anywhere - be it from home, office, restaurant or holiday and all you need is internet access. When you think of easy recharge options, MobiKwik is the best. All services of MobiKwik are also available via a desktop site and a mobile site.
-                <div class="text-center mt20 mb20"><a class="btn btn-success"  rel="nofollow" href="https://www.mobikwik.com/offer/gozocabs" target="_blank" role="button">Mobikwik Offer</a></div>
+                <div class="text-center mt20 mb20"><a class="btn btn-success"  rel="nofollow" href="http://www.mobikwik.com/offer/gozocabs" target="_blank" role="button">Mobikwik Offer</a></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -41,16 +41,16 @@
         <a href="http://www.couponrani.com/gozocabs-coupons" target="_blank" rel="nofollow"><img src="/images/coupon_couponrani.png" alt="Couponrani" class="preload-image rounded-image responsive-image"></a>
     </div>
     <div class="content p0">
-        <a href="https://www.couponzguru.com/gozocabs-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_guru.png" alt="Couponguru" class="preload-image rounded-image responsive-image"></a>
+        <a href="http://www.couponzguru.com/gozocabs-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_guru.png" alt="Couponguru" class="preload-image rounded-image responsive-image"></a>
     </div>
     <div class="content p0">
-        <a href="https://www.grabon.in/gozocabs-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_granon.png" alt="GranOn" class="preload-image rounded-image responsive-image"></a>
+        <a href="http://www.grabon.in/gozocabs-coupons/" target="_blank" rel="nofollow"><img src="/images/coupon_granon.png" alt="GranOn" class="preload-image rounded-image responsive-image"></a>
     </div>
     <div class="content p0">
         <a href="https://freekaamaal.com/gozocabs" target="_blank" rel="nofollow"><img src="/images/coupon_freekaamaal.png" alt="Free kaa maal" class="preload-image rounded-image responsive-image"></a>
     </div>
     <div class="content p0">
-        <a href="https://www.taazacoupons.in/coupons/gozo-outstation-cabs" target="_blank" rel="nofollow"><img src="/images/coupon_taaza.png" alt="Free kaa maal" class="preload-image rounded-image responsive-image"></a>
+        <a href="http://www.taazacoupons.in/coupons/gozo-outstation-cabs" target="_blank" rel="nofollow"><img src="/images/coupon_taaza.png" alt="Free kaa maal" class="preload-image rounded-image responsive-image"></a>
     </div>
 </div>
 

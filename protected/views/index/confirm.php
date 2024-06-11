@@ -87,7 +87,7 @@ if ($response->getStatus())
                 </p>
                 <p>
                     - <b><u>Cancellation</u></b> can be done by logging in to our Mobile App or Website. All bookings cancelled less than 24 hours before the scheduled pickup time shall be subject to Cancellation & Refund Policy as laid down in our 
-		    <a href="https://www.gozocabs.com/terms" target="_blank">Terms & Conditions</a> page on our website.
+		    <a href="http://www.aaocab.com/terms" target="_blank">Terms & Conditions</a> page on our website.
                 </p>
                 <p>
                     - Incase of excessive luggage, contact us for a <b><u>carrier</u></b> on cab. No extra charges applicable.

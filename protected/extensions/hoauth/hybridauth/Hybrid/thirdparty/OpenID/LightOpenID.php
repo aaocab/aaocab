@@ -994,10 +994,10 @@ class LightOpenID
      *
      * In order to use the OpenID+OAuth hybrid protocol, you need to add at least one
      * scope to the $openid->oauth array before you get the call to getAuthUrl(), e.g.:
-     * $openid->oauth[] = 'https://www.googleapis.com/auth/plus.me';
+     * $openid->oauth[] = 'http://www.googleapis.com/auth/plus.me';
      *
      * Furthermore the registered consumer name must fit the OpenID realm.
-     * To register an OpenID consumer at Google use: https://www.google.com/accounts/ManageDomains
+     * To register an OpenID consumer at Google use: http://www.google.com/accounts/ManageDomains
      *
      * @return string|bool OAuth request token on success, FALSE if no token was provided.
      */

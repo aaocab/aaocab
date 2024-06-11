@@ -10,7 +10,7 @@
 
         <div style=" border-bottom:1px solid #C4C4C4;">
             <div style="width:600px; margin:0 auto; padding: 20px 0 15px 0;">
-                <img src="http://gozocabs.com/images/email_logo_meterdown.png" style="float:left; padding: 0 0 10px 0;"/>
+                <img src="http://aaocab.com/images/email_logo_meterdown.png" style="float:left; padding: 0 0 10px 0;"/>
                 <h5 style="color:#4e4200; font-weight:300; font-size:14px; padding: 47px 0 10px 0;  float:right; margin:0;"><!--?php echo date("m-d-Y")?--></h5>
                 <div style="clear:both;"></div>
             </div>

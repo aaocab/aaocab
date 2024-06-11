@@ -32,13 +32,13 @@ class ChannelPartner extends CComponent
                 $apiKey			 = "R0FI1Y4uA7y27WPvuVyU";
 				break;
             case 30242:
-				$apiServerUrl	 = "https://www.ahataxis.com/webservices/driverJourneyInfo";
+				$apiServerUrl	 = "http://www.ahataxis.com/webservices/driverJourneyInfo";
                 $functionUrl	 = "";
                 $key             = "";
                 $apiKey			 = "";
 				break;
             case 22310:
-				$apiServerUrl	 = "https://www.ahataxis.com/webservices/driverJourneyInfo";
+				$apiServerUrl	 = "http://www.ahataxis.com/webservices/driverJourneyInfo";
                 $functionUrl	 = "/api/outstation/";
                 $key             = "vendorDriverAllocation?apikey=";
                 $apiKey			 = "R0FI1Y4uA7y27WPvuVyU";
@@ -267,7 +267,7 @@ class ChannelPartner extends CComponent
 					"kayakclickid"		 => $kayakclickid,
 					"bookingtype"		 => $bookingtype
 				];
-				$url				 = "https://www.kayak.com/s/s2s/confirm?partnercode={$partnerCode}&bookingid={$bkgId}&bookedon={$bookedOn}&price={$totalAmount}&currency=INR&kayakcommission={$commission}&commissioncurrency=INR&kayakclickid={$kayakclickid}&bookingtype={$bookingtype}";
+				$url				 = "http://www.kayak.com/s/s2s/confirm?partnercode={$partnerCode}&bookingid={$bkgId}&bookedon={$bookedOn}&price={$totalAmount}&currency=INR&kayakcommission={$commission}&commissioncurrency=INR&kayakclickid={$kayakclickid}&bookingtype={$bookingtype}";
 			}
 			else if ($typeAction == 8)
 			{
@@ -276,7 +276,7 @@ class ChannelPartner extends CComponent
 					"bookingid"		 => $bkgId,
 					"bookedon"		 => $bookedOn,
 				];
-				$url				 = "https://www.kayak.com/s/s2s/cancel?partnercode=$partnerCode&bookingid=$bkgId&bookedon=$bookedOn";
+				$url				 = "http://www.kayak.com/s/s2s/cancel?partnercode=$partnerCode&bookingid=$bkgId&bookedon=$bookedOn";
 			}
 
 

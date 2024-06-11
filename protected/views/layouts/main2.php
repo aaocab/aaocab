@@ -131,13 +131,13 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins
                         Sector-10, Rohini, Delhi 110085.
                         <div class="address-panel mt40">
                             <h3 class="m0 mb10">E-mail</h3>
-                            <a href="#">info@gozocabs.com.</a>
+                            <a href="#">info@aaocab.com.</a>
                         </div>
                     </div>
                 </div>
             </div><!--/row-->
         </div>
-        <div class="blue2 mt20 text-center white-color pt15 pb15">© 2015 www.gozocabs.com. All rights reserved.</div>
+        <div class="blue2 mt20 text-center white-color pt15 pb15">© 2015 www.aaocab.com. All rights reserved.</div>
     </footer>
 
 

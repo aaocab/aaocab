@@ -67,9 +67,9 @@ if ($userId > 0)
 						</div>
 						<div class="col-md-3 text-center mb30">
 							<div class="round-3"><img src="/images/bx-envelope2.svg" alt="img" width="48" height="48"></div>
-							<a href="mailto:info@gozocabs.com" style="text-decoration: none;" class="color-blue">info@gozocabs.com</a>
+							<a href="mailto:info@aaocab.com" style="text-decoration: none;" class="color-blue">info@aaocab.com</a>
 							<div>
-								<a href="https://www.facebook.com/gozocabs" target="_blank" class="mt5"><img src="/images/bxl-facebook-circle.svg" alt="img" width="36" height="36" class="mr10"></a><a href="https://twitter.com/gozocabs" target="_blank"><img src="/images/bxl-twitter.svg" alt="img" width="36" height="36" class="mr10"></a><a href="https://www.instagram.com/gozocabs/" target="_blank"><img src="/images/bxl-instagram-alt.svg" alt="img" width="36" height="36"></a>
+								<a href="http://www.facebook.com/gozocabs" target="_blank" class="mt5"><img src="/images/bxl-facebook-circle.svg" alt="img" width="36" height="36" class="mr10"></a><a href="https://twitter.com/gozocabs" target="_blank"><img src="/images/bxl-twitter.svg" alt="img" width="36" height="36" class="mr10"></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><img src="/images/bxl-instagram-alt.svg" alt="img" width="36" height="36"></a>
 						</div>
 					</div>
 				</div>

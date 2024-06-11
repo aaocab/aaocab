@@ -31,7 +31,7 @@ class OnboardingConversation extends Conversation
 
 	public function verifyUser()
 	{
-		$this->say("Oops! You need to login so I can access your Gozo Profile. It takes 30seconds, just sign in using Google or Facebook here (https://gozocabs.com/signin). I look forward to helping you.");
+		$this->say("Oops! You need to login so I can access your Gozo Profile. It takes 30seconds, just sign in using Google or Facebook here (https://aaocab.com/signin). I look forward to helping you.");
 	}
 
 	/**
@@ -40,7 +40,7 @@ class OnboardingConversation extends Conversation
 	public function existingUser()
 	{
 		$userId = UserInfo::getUserId();
-		($userId) ? $this->askService(1, $userId) : $this->say("Oops! You need to login so I can access your Gozo Profile. It takes 30seconds, just sign in using Google or Facebook here (https://gozocabs.com/signin). I look forward to helping you.");
+		($userId) ? $this->askService(1, $userId) : $this->say("Oops! You need to login so I can access your Gozo Profile. It takes 30seconds, just sign in using Google or Facebook here (https://aaocab.com/signin). I look forward to helping you.");
 	}
 
 	/**

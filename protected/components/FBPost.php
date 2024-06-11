@@ -68,8 +68,8 @@ class FBPost extends CComponent
 	public function flashBookingPost($cav_id)
 	{
 		$cavData	 = CabAvailabilities::getDetails($cav_id);
-		$flashurl	 = "https://www.gozocabs.com/flashsale";
-		$gozourl	 = "https://www.gozocabs.com";
+		$flashurl	 = "http://www.aaocab.com/flashsale";
+		$gozourl	 = "http://www.aaocab.com";
 		if ($cavData && sizeof($cavData) > 0)
 		{
 			$fromCity		 = $cavData['cav_from_city_name'];

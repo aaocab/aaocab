@@ -71,7 +71,7 @@ $msg = "";
 
 $flexxiInfo = '
 <ol type="1" style="font-size:10px; line-height:15px;padding-left:0px;">
-    <li>Your reservation is subject to Gozocabs terms and conditions.  (http://www.gozocabs.com/terms)</li>
+    <li>Your reservation is subject to Gozocabs terms and conditions.  (http://www.aaocab.com/terms)</li>
     <li>FLEXXI trips are always ONE-WAY trips.  
         <ol type="i">
             <li>
@@ -291,10 +291,10 @@ $msg = 'Hi ' . $arr['userName'] .
 		$amount .
 		'<br/><br/>You will receive the cab details at least 3 hours before your scheduled pickup time.<br/>' .
 		'<br/>' . $strCOD . '<br/>';
-'<br/>You can contact us at +91 90518-77-000 or email us at info@gozocabs.com for any queries.<br/>' .
+'<br/>You can contact us at +91 90518-77-000 or email us at info@aaocab.com for any queries.<br/>' .
 		'<br/>Regards,' .
 		'<br/>Gozocabs<br/><br/>' .
-		'<br/>For updates and promotions, like us on <a href="https://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
+		'<br/>For updates and promotions, like us on <a href="http://www.facebook.com/gozocabs">facebook</a> , follow us on <a href="http://www.twitter.com/gozocabs">twitter</a> or <a href="https://plus.google.com/113163564383201478409">google+</a> . Who knows you might get a free ride sometime? ;)<br/><br/>';
 
 $response = Contact::referenceUserData($model->bkgUserInfo->bui_id, 2);
 if ($response->getStatus())
@@ -385,7 +385,7 @@ else
                                 <td><strong style="color:#7a7a7a">ADVANCE  RECEIVED:</strong> <?= number_format($advance) ?></td>
                             </tr>
                             <tr>
-                                <td><img src="http://gozocabs.com/images/price-guarantee-img.gif" alt="Price Guarantee"  /></td>
+                                <td><img src="http://aaocab.com/images/price-guarantee-img.gif" alt="Price Guarantee"  /></td>
                             </tr>
                         </table>
                     </td>
@@ -402,7 +402,7 @@ else
 					<table width="100%" border="0">
 
 						<tr>
-							<td align="left" valign="middle"><a href="<?= $payurl ?>" target="_blank"><img src="http://gozocabs.com/images/hotlink-ok/paynow_btn.png" alt="Pay Now" /></a></td>
+							<td align="left" valign="middle"><a href="<?= $payurl ?>" target="_blank"><img src="http://aaocab.com/images/hotlink-ok/paynow_btn.png" alt="Pay Now" /></a></td>
 							<td align="left"><span style="font-size:15px; font-weight:bold;">TO LOCK YOUR PRICE AND RECONFIRM YOUR BOOKING</span></td>
 						</tr>
 
@@ -674,10 +674,10 @@ else
 	<tr>
 		<Td>
 			<?php
-			$url = 'https://www.gozocabs.com'; //'http://gozotech1.ddns.net:6171';
+			$url = 'http://www.aaocab.com'; //'http://gozotech1.ddns.net:6171';
 
-			$correctimg	 = '<img src="http://gozocabs.com/images/hotlink-ok/correct.png" height="15" width="15">';
-			$crossimg	 = '<img src="http://gozocabs.com/images/hotlink-ok/cross.png" height="15" width="15">';
+			$correctimg	 = '<img src="http://aaocab.com/images/hotlink-ok/correct.png" height="15" width="15">';
+			$crossimg	 = '<img src="http://aaocab.com/images/hotlink-ok/cross.png" height="15" width="15">';
 			?>
 			<p><span><?= ($model->bkgInvoice->bkg_is_toll_tax_included == 1) ? $correctimg : $crossimg ?> TOLL TAXES</span>
 				<span id="tollDesc" class="font-10"><BR>

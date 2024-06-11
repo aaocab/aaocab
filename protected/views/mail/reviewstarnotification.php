@@ -16,12 +16,12 @@
 			<p>&nbsp;</p>
 			<table width="100%">
 				<tr>
-					<td><a href="<?= $arr['googleShareLink']; ?>" target="_blank"><img src="https://gozocabs.com/images/review_google.png" alt="Review on Google" style="width:84px;"></a></td>
-					<td><a href="<?= $arr['tripAdviserLink']; ?>" target="_blank"><img src="https://gozocabs.com/images/review_trip.png" alt="Review on Tripadvisor" style="width:148px;"></a></td>
-					<td><a href="<?= $arr['whatappShareLink']; ?>" target="_blank"><img src="https://gozocabs.com/images/review_whatsapp.png" alt="Review on Whatsapp" style="width:111px;"></a></td>
-					<td><a href='MAILTO:?subject=Gozo Referral&body=<?= $arr['mailBody']?>'><img src="https://gozocabs.com/images/email-icon.png" alt="Send Mail" width="96px;"></a></td>
+					<td><a href="<?= $arr['googleShareLink']; ?>" target="_blank"><img src="https://aaocab.com/images/review_google.png" alt="Review on Google" style="width:84px;"></a></td>
+					<td><a href="<?= $arr['tripAdviserLink']; ?>" target="_blank"><img src="https://aaocab.com/images/review_trip.png" alt="Review on Tripadvisor" style="width:148px;"></a></td>
+					<td><a href="<?= $arr['whatappShareLink']; ?>" target="_blank"><img src="https://aaocab.com/images/review_whatsapp.png" alt="Review on Whatsapp" style="width:111px;"></a></td>
+					<td><a href='MAILTO:?subject=Gozo Referral&body=<?= $arr['mailBody']?>'><img src="https://aaocab.com/images/email-icon.png" alt="Send Mail" width="96px;"></a></td>
 					<td><a href="<?= Yii::app()->createAbsoluteUrl('users/fbShareLink', ['refcode' => $arr['usr_refer_code'], 'hash' => $arr['hash'], 'id' => $arr['bkg_id']]); ?>" target="_blank" class="social-1" rel="nofollow">
-							<img src="https://gozocabs.com/images/facebook_share.png" width="116" alt="Share On Facebook" >
+							<img src="https://aaocab.com/images/facebook_share.png" width="116" alt="Share On Facebook" >
 						</a></td>
 				</tr>
 			</table>

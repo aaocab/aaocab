@@ -87,7 +87,7 @@ class BookingCommand extends BaseCommand
 			$url		 = Yii::app()->createUrl('users/confirmsignup', ['id' => $model->bkg_user_id, 'hash' => $hash]);
 
 			$url		 = substr($url, 1);
-			$smsUrl		 = "gozocabs.com" . $url;
+			$smsUrl		 = "aaocab.com" . $url;
 			$emailUrl	 = "http://www." . $smsUrl . "";
 			if ($email != '')
 			{
@@ -136,7 +136,7 @@ class BookingCommand extends BaseCommand
 				if ($phone != '')
 				{
 					$msgCom	 = new smsWrapper();
-					$link	 = 'gozocabs.com' . Yii::app()->createUrl('users/confirmsignup', ['id' => $userModel->user_id, 'hash' => Yii::app()->shortHash->hash($userModel->user_id)]);
+					$link	 = 'aaocab.com' . Yii::app()->createUrl('users/confirmsignup', ['id' => $userModel->user_id, 'hash' => Yii::app()->shortHash->hash($userModel->user_id)]);
 					$msgCom->confirmOldUserAccounts($country_code, $phone, $message . $smsUrl);
 				}
 			}
@@ -992,7 +992,7 @@ class BookingCommand extends BaseCommand
 				$toCity		 = $row['toCity'];
 
 				$hash	 = Yii::app()->shortHash->hash($bkgId);
-				$url	 = 'gozocabs.com/bkpn/' . $bkgId . '/' . $hash;
+				$url	 = 'aaocab.com/bkpn/' . $bkgId . '/' . $hash;
 
 				$smsContent	 = "Dear Customer, Your Booking " . $bookingId . " from " . $fromCity . " to " . $toCity . " has been created. Get Instant 5% DISCOUNT or, claim a 50% Cashback* in Gozo Coins by paying at least 15% Advance for this Booking. Pay by clicking on the link " . $url . " .- Gozocabs";
 				$smsCom		 = new smsWrapper();
@@ -2122,7 +2122,7 @@ class BookingCommand extends BaseCommand
 					$html2pdf->writeHTML($css, 1);
 					$html2pdf->setAutoTopMargin	 = 'stretch';
 
-					$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+					$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@aaocab.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
 
 					$htmlView = $this->renderFile(Yii::getPathOfAlias("application.modules.admin.views.agent.invoice.view") . ".php", array(
 						'invoiceList'		 => $invoiceList,

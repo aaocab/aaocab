@@ -453,7 +453,7 @@ INNER JOIN app_tokens ON vendors.vnd_id=app_tokens.apt_entity_id AND app_tokens.
 where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 		#$message = "https://youtu.be/qWf409Iy7UY";
-		$message = "Please Visit:\n\nhttps://www.gozocabs.com/message";
+		$message = "Please Visit:\n\nhttp://www.aaocab.com/message";
 
 		$ids = Yii::app()->db->createCommand($sql)->queryAll();
 		foreach ($ids as $id)
@@ -603,7 +603,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 	public function actionBroadcastNotification()
 	{
-		$image = "https://www.gozocabs.com/images/2018/11/diwaliOffer.jpg";
+		$image = "http://www.aaocab.com/images/2018/11/diwaliOffer.jpg";
 		/* $sql  = 'SELECT DISTINCT vnd_id from vendors
 		  INNER JOIN app_tokens ON vendors.vnd_id=app_tokens.apt_user_id AND app_tokens.apt_user_type=2
 		  AND app_tokens.apt_logout IS NULL AND app_tokens.apt_last_login>DATE_SUB(NOW(), INTERVAL 10 day)
@@ -1588,7 +1588,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			try
 			{
 				$vndId	 = $row['vnp_vnd_id'];
-				$message = "Turn on Gozo NOW - you can make more ₹₹ for all Local & Outstation bookings with Gozo NOW. Open Gozo partner app, go to your profile page and turn on the GozoNow toggle on top right of that page. Learn more at https://gozocabs.com/gozonow";
+				$message = "Turn on Gozo NOW - you can make more ₹₹ for all Local & Outstation bookings with Gozo NOW. Open Gozo partner app, go to your profile page and turn on the GozoNow toggle on top right of that page. Learn more at https://aaocab.com/gozonow";
 				$title	 = "Turn on Gozo NOW on your vendor app";
 				AppTokens::model()->notifyVendor($vndId, ['EventCode' => BookingLog::ACTIVATE_GOZO_NOW], $message, $title);
 			}

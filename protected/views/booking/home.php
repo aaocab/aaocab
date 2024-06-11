@@ -304,7 +304,7 @@ if ($type == 'route')
 														<tr>
 															<td class="col-md-2"><?=$cab['vct_label'] . "<br />(<small>" . $cab['scc_label'] . "</small>)"; ?></td>
 															<td class="col-md-4"><?php echo $cab['vct_desc']; ?></td>
-															<td class="col-md-2"><?php ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? print('Buy seats in a shared taxi. <a href="https://www.gozocabs.com/GozoSHARE">Gozo FLEXXI</a>') : print($cab['vct_capacity'] . 'passengers and driver') ?> </td>
+															<td class="col-md-2"><?php ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? print('Buy seats in a shared taxi. <a href="http://www.aaocab.com/GozoSHARE">Gozo FLEXXI</a>') : print($cab['vct_capacity'] . 'passengers and driver') ?> </td>
 															<td class="col-md-2">
 																<?php
 																if ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC)
@@ -356,7 +356,7 @@ if ($type == 'route')
 								<div class="row">
 									<div class="col-xs-12">
 										<p>Gozo is continuously focused on being and staying as India's best taxi service for inter-city or outstation car hire with a driver. 
-											Gozo cabs is the best cab service for car hire from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>. Gozo is generally the cheapest in most regions as we keep our margins low and we keep our quality high by ensure that our cabs and providers are inspected regularly. At the time of onboarding, the taxi operators are whetted for proper licenses and their ability to meet our quality bar. We also provide ongoing training to our drivers.  But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="https://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html">TripAdvisor</a>. 
+											Gozo cabs is the best cab service for car hire from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>. Gozo is generally the cheapest in most regions as we keep our margins low and we keep our quality high by ensure that our cabs and providers are inspected regularly. At the time of onboarding, the taxi operators are whetted for proper licenses and their ability to meet our quality bar. We also provide ongoing training to our drivers.  But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="http://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html">TripAdvisor</a>. 
 											Gozo was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.
 											<br/><br/><br/>
 										</p>						</div>
@@ -368,7 +368,7 @@ if ($type == 'route')
 									<h3 class="mt0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Can I book shared taxi from  <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
 									<div class="row">
 										<div class="col-xs-12">
-											Yes, you can book <a href="https://www.gozocabs.com/shared-taxi/<?=$arr_url[0] ?>-<?= $arr_url[1] ?> ">AC shared taxi and shuttle services from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?></a>. Gozo SHARE is a outstation shared taxi service which you can use to sell unused seats in the taxi that you have already booked with us or if you are looking to buy unused seats and carpool in a cab that someone else has booked. 
+											Yes, you can book <a href="http://www.aaocab.com/shared-taxi/<?=$arr_url[0] ?>-<?= $arr_url[1] ?> ">AC shared taxi and shuttle services from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?></a>. Gozo SHARE is a outstation shared taxi service which you can use to sell unused seats in the taxi that you have already booked with us or if you are looking to buy unused seats and carpool in a cab that someone else has booked. 
 											Gozo SHARE is our way to help customers save even more money when you are traveling by Gozo Cabs. If your travel plans are firm, book a Sedan Cab and use the option to “Book now & sell your unused seats”. If someone else is selling unused seats in their car, then you can simply book the seats that are being offered on our website.
 											<br/><br/><br/>
 										</div>
@@ -379,7 +379,7 @@ if ($type == 'route')
 								<h3 class="mt0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">What are the package available for <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> travel ?</h3>
 								<div class="row">
 									<div class="col-xs-12">
-										There are many packages available for different types of interval as you want. <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> travel can also done in one to two days as well as you can also take long duration for travelling <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>. Taking <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> travel by road will give you an immersive experience which you will surely going to love. Check our <a href="https://www.gozocabs.com/packages">package tour</a> page for more information. 
+										There are many packages available for different types of interval as you want. <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> travel can also done in one to two days as well as you can also take long duration for travelling <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>. Taking <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> travel by road will give you an immersive experience which you will surely going to love. Check our <a href="http://www.aaocab.com/packages">package tour</a> page for more information. 
 										<br/><br/><br/>
 									</div>
 								</div>
@@ -542,7 +542,7 @@ if ($type == 'route')
 											<li>Price is great but service is what matters. So try to focus on service at a reasonable price. When you go for the cheapest, you will ending up getting what you pay for.
 											</li>
 										</ol>
-										<div>​<a href="https://www.gozocabs.com/blog">Please read our blog on common taxi travel scams in India to learn more</a><br/><br/><br/></div>
+										<div>​<a href="http://www.aaocab.com/blog">Please read our blog on common taxi travel scams in India to learn more</a><br/><br/><br/></div>
 									</div>
 								</div>
 

@@ -2,7 +2,7 @@
 if($arr['type']=='lead')
 {
 	$emailStartingText  = 'Hey! You left your reservation incomplete.';
-	$emailPromoImg		= ($arr['confirm'] == 0)? '<a href="https://www.gozocabs.com" target="_black"><img src="http://gozocabs.com/images/email/save20.jpg" alt="Use SAVE20 Get 10% instant discount & 10% cashback as Gozo Coins" title="Use SAVE20 Get 10% instant discount & 10% cashback as Gozo Coins"></a>':'';
+	$emailPromoImg		= ($arr['confirm'] == 0)? '<a href="http://www.aaocab.com" target="_black"><img src="http://aaocab.com/images/email/save20.jpg" alt="Use SAVE20 Get 10% instant discount & 10% cashback as Gozo Coins" title="Use SAVE20 Get 10% instant discount & 10% cashback as Gozo Coins"></a>':'';
 }
 else if($arr['type']=='unverified')
 {

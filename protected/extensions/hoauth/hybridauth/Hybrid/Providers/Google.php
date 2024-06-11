@@ -19,7 +19,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model_OAuth2 {
 	 * default permissions
 	 * {@inheritdoc}
 	 */
-	public $scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds/";
+	public $scope = "http://www.googleapis.com/auth/userinfo.profile http://www.googleapis.com/auth/userinfo.email http://www.google.com/m8/feeds/";
 
 	/**
 	 * {@inheritdoc}
@@ -30,7 +30,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model_OAuth2 {
 		// Provider api end-points
 		$this->api->authorize_url = "https://accounts.google.com/o/oauth2/auth";
 		$this->api->token_url = "https://accounts.google.com/o/oauth2/token";
-		$this->api->token_info_url = "https://www.googleapis.com/oauth2/v2/tokeninfo";
+		$this->api->token_info_url = "http://www.googleapis.com/oauth2/v2/tokeninfo";
 
 		// Google POST methods require an access_token in the header
 		$this->api->curl_header = array("Authorization: OAuth " . $this->api->access_token);
@@ -72,7 +72,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model_OAuth2 {
 		// refresh tokens if needed
 		$this->refreshToken();
 
-		$response = $this->api->api("https://www.googleapis.com/oauth2/v3/userinfo");
+		$response = $this->api->api("http://www.googleapis.com/oauth2/v3/userinfo");
 		if (!isset($response->sub) || isset($response->error)) {
 			throw new Exception("User profile request failed! {$this->providerId} returned an invalid response:" . Hybrid_Logger::dumpData( $response ), 6);
 		}
@@ -106,7 +106,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model_OAuth2 {
 		// Google Gmail and Android contacts
 		if (strpos($this->scope, '/m8/feeds/') !== false) {
 			
-			$response = $this->api->api("https://www.google.com/m8/feeds/contacts/default/full?"
+			$response = $this->api->api("http://www.google.com/m8/feeds/contacts/default/full?"
 					. http_build_query(array_merge(array('alt' => 'json'), $this->config['contacts_param'])));
 			
 			if (!$response) {

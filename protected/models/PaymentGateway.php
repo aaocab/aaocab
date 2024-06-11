@@ -2325,7 +2325,7 @@ class PaymentGateway extends CActiveRecord
 			BookingLog::model()->createLog($referenceId, "Online payment initiated ({$paymentGateway->getPaymentType()} - {$paymentGateway->apg_code})", $userInfo, BookingLog::PAYMENT_INITIATED, '', $params);
 			if ($pmodel->apg_ptp_id == PaymentType::TYPE_PAYUMONEY && $pmodel->apg_amount > 0)
 			{
-				$suurl = "https://www.gozocabs.com/payment/response/app/1";
+				$suurl = "http://www.aaocab.com/payment/response/app/1";
 				if ($paymentGateway)
 				{
 					$orderId	 = $paymentGateway->apg_code;

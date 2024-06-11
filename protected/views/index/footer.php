@@ -145,7 +145,7 @@ if ($isMobile)
 		<div class="col-xs-12 col-sm-6 col-md-3  text-center wow fadeInUp animated" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;" data-wow-delay="0.8s">
 			<div class="advance-panel"><figure><img class="lozad" data-src="/images/img5.png?v=<?= $imgVer ?>" alt="Gozocabs, Customer Support"></figure></div>
 			<h3>Zero Cancellation*</h3>
-			Enjoy zero cancellation benefit subject to Gozo <a href="https://www.gozocabs.com/terms#Cancellation" target="_blank">terms</a>;
+			Enjoy zero cancellation benefit subject to Gozo <a href="http://www.aaocab.com/terms#Cancellation" target="_blank">terms</a>;
 		</div>
     </div>
 </div>
@@ -257,7 +257,7 @@ skipFooter:
 					<div class="col-xs-12 col-sm-4 text-left">
 						<h4 class="yello-color"><i class="fa fa-location-arrow"></i> Address</h4>
 						<?= Config::getGozoAddress(Config::Corporate_address, true)?>
-						<br><a href="https://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html"><img class="lozad" data-src="/images/trpadvisor.png"></a>
+						<br><a href="http://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html"><img class="lozad" data-src="/images/trpadvisor.png"></a>
 
 					</div>
 					<div class="col-xs-12 col-sm-3 text-left">
@@ -270,14 +270,14 @@ skipFooter:
 							Attach Your Taxi: +91 96743-11190
 						</b>
 						<h4 class="yello-color mt20 mb0"><i class="fa fa-envelope-o"></i> Email</h4>
-						<b>info@gozocabs.com</b>
+						<b>info@aaocab.com</b>
 					</div>
 					<div class="col-xs-12 col-sm-2 text-left">
 						<h4 class="yello-color">Keep in touch</h4>
-						<a href="https://www.facebook.com/gozocabs" target="_blank"><i class="fa fa-facebook-f fa-2x mr10"></i></a>
+						<a href="http://www.facebook.com/gozocabs" target="_blank"><i class="fa fa-facebook-f fa-2x mr10"></i></a>
 						<a href="https://twitter.com/gozocabs" target="_blank"><i class="fa fa-twitter fa-2x mr10"></i></a>
 						<!--<a href="https://plus.google.com/+Gozocabs" target="_blank"><i class="fa fa-google-plus fa-2x mr10"></i></a>-->
-						<a href="https://www.instagram.com/gozocabs/" target="_blank"><i class="fa fa-instagram fa-2x mr10"></i></a>
+						<a href="http://www.instagram.com/gozocabs/" target="_blank"><i class="fa fa-instagram fa-2x mr10"></i></a>
 					</div>
 					<div class="col-xs-12 col-sm-3 text-left">
 						<h4 class="yello-color">Official Travel Partner</h4>
@@ -307,7 +307,7 @@ skipFooter:
 	?>
 	<div id="cookieSet" class="row cookies_panel" style="display:<?= $display ?>">
 		<div class="col-xs-12 pt15">
-			GozoCabs.com uses cookies to store information on your computer that is essential to making the site work and to customizing the user experience. By using the site, you consent to the placement of these cookies. Read our <a href="" data-toggle="modal" data-target="#cookiepolicy">cookie policy</a> to learn more and how to withdraw your consent.
+			aaocab.com uses cookies to store information on your computer that is essential to making the site work and to customizing the user experience. By using the site, you consent to the placement of these cookies. Read our <a href="" data-toggle="modal" data-target="#cookiepolicy">cookie policy</a> to learn more and how to withdraw your consent.
 			<form action="" method="post">
 				<button type="button" class="btn btn-primary proceed-new-btn pt5 pb5" onclick="gdprCom()">&#10004; Continue</button>
 			</form>	

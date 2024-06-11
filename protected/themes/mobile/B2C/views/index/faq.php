@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 			<a href="javascript:void(0);" data-accordion="accordion-f1">1. Are there any cancellation charges?<i class="fa fa-arrow-down"></i></a>
 			<div class="accordion-content" id="accordion-f1">
 				<p>We understand that plans do change. <b>There are no charges for cancelling a trip upto 24hours in advance.</b></p>
-				<p>You may cancel your reservation by logging onto <a href="/" class="color-highlight">www.gozocabs.com</a> and and cancelling your reservation directly.<br>
+				<p>You may cancel your reservation by logging onto <a href="/" class="color-highlight">www.aaocab.com</a> and and cancelling your reservation directly.<br>
 					<b>All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.</b>
 				</p>
 			</div>
@@ -90,7 +90,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 		<div class="accordion accordion-style-1">
 			<a href="javascript:void(0);" data-accordion="accordion-f10">10. I want a taxi on a sharing basis. Will you provide it to me?<i class="fa fa-arrow-down"></i></a>
 			<div class="accordion-content" id="accordion-f10">
-				<p>Starting October 2018, we have introduced our Gozo Flexxi SHARE service. You can now rent a seat in a outstation cab provided by Gozo. Visit <a href="https://www.gozocabs.com/goFLEXXI" class="color-highlight">www.gozocabs.com/GozoSHARE</a> to learn more.</p>
+				<p>Starting October 2018, we have introduced our Gozo Flexxi SHARE service. You can now rent a seat in a outstation cab provided by Gozo. Visit <a href="http://www.aaocab.com/goFLEXXI" class="color-highlight">www.aaocab.com/GozoSHARE</a> to learn more.</p>
 				<p>Simply start to create a booking and select the Gozo Flexxi SHARE option when selecting the Car Type. Renting a Gozo Flexxi SHARE for outstation travel is sometimes even cheaper than booking a bus ticket and almost always the fastest way to get there.</p>
 			</div>
 		</div>
@@ -125,7 +125,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 				<p><b>Example 2:</b> If you are taking a one-way transfer from city A to city B, then you can only take the vehicle from your pickup address to your drop address. 
 					Any intermediate pickup points (pick a friend, drop a friend etc) will need to be specified in your booking confirmation (booking contract) and would be separately billable if not listed on the contract.</p>
 				<p>We care for our customers and work hard to meet all your requests. We want you to have a special trip or vacation. Simply give us a call and we will work with you provide you the best solution for your needs. <br>
-					For all queries, please contact us at <a href="mailto:info@gozocabs.com" class="color-highlight">info@gozocabs.com</a> or simply call our help line
+					For all queries, please contact us at <a href="mailto:info@aaocab.com" class="color-highlight">info@aaocab.com</a> or simply call our help line
 				</p>
 				<p><b>Example 3:</b> If you are hiring a vehicle for a round trip from City A to to City B and back to City A, you must let us know if you desire to use the vehicle for local sight-seeing in City A (city of departure).  We need a clear itinerary of your plan so it can be documented 
 					& communicated to the driver</p>
@@ -159,7 +159,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 			<a href="javascript:void(0);" data-accordion="accordion-f16">16. Our company employees travel regularly. Who do I contact for tie-up?<i class="fa fa-arrow-down"></i></a>
 			<div class="accordion-content" id="accordion-f16">
 				<p>Please write to us at <a href="mailto:corporateaccounts@gozocabs.in" class="color-highlight">corporateaccounts@gozocabs.in</a></p>
-				<p>Learn more about our business travel program <a href="https://www.gozocabs.com/business-travel" target="_blank" class="color-highlight">here</a></p>
+				<p>Learn more about our business travel program <a href="http://www.aaocab.com/business-travel" target="_blank" class="color-highlight">here</a></p>
 			</div>
 		</div>
 	</div>
@@ -220,7 +220,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 				<p>Normally the driver will not ask you for any payment beyond the amount that is listed in your booking confirmation. </p>
 				<p>If the driver asks you for additional payment claiming extra kms driven or tolls or parking charges, please always ask the driver to provide a 'duty slip' with the details of the payment being requested.</p>
 				<p>If you feel that the charges being requested are not justified, you may call our service center and ask them to resolve the situation. <br>
-					If you end up having to pay the driver but do not agree with the charges, please take a picture of the 'duty slip'  detailing the payment and send it to our team at info@gozocabs.com and include your booking confirmation. Our team will address the issue with the driver / taxi operator and help resolve the situation. 
+					If you end up having to pay the driver but do not agree with the charges, please take a picture of the 'duty slip'  detailing the payment and send it to our team at info@aaocab.com and include your booking confirmation. Our team will address the issue with the driver / taxi operator and help resolve the situation. 
 				</p>
 			</div>
 		</div>
@@ -298,7 +298,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 		<div class="accordion accordion-style-1">
 			<a href="javascript:void(0);" data-accordion="accordion-f28">28. I left something in the Gozo Cab, how do I report the lost item so you can help me get it back.<i class="fa fa-arrow-down"></i></a>
 			<div class="accordion-content" id="accordion-f28">
-				<p>We’re sorry that you left your belonging in the car. We will try our to search for the item and if found we will contact you on how to best get it back to you. Typically the item will be sent to you by post at your cost of the courier service. Please go to <a href="http://support.gozocabs.com/open.php" class="color-highlight">http://support.gozocabs.com/open.php</a> and open a new ticket, use help topic lost and found. This will get us what we need and we can start a lost & found inquiry for you.</p>
+				<p>We’re sorry that you left your belonging in the car. We will try our to search for the item and if found we will contact you on how to best get it back to you. Typically the item will be sent to you by post at your cost of the courier service. Please go to <a href="http://support.aaocab.com/open.php" class="color-highlight">http://support.aaocab.com/open.php</a> and open a new ticket, use help topic lost and found. This will get us what we need and we can start a lost & found inquiry for you.</p>
 			</div>
 		</div>
 	</div>
@@ -337,7 +337,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 			<a href="javascript:void(0);" data-accordion="accordion-f32">32. How can I get a bill/receipt for my trip?<i class="fa fa-arrow-down"></i></a>
 			<div class="accordion-content" id="accordion-f32">
 				<p>Invoices are automatically generated and sent to you by email for every trip that you complete with us. <br>
-					If you have lost your invoice email or cannot find it your invoice can  be retrieved by logging in at <a href="/" class="color-highlight">www.gozocabs.com.</a> <br>
+					If you have lost your invoice email or cannot find it your invoice can  be retrieved by logging in at <a href="/" class="color-highlight">www.aaocab.com.</a> <br>
 					Go into the My bookings section, select history and you can generate the invoice/receipt for any past trip.
 				</p>
 			</div>
@@ -510,7 +510,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/fontawe
 		<div class="accordion accordion-style-1">
 			<a href="javascript:void(0);" data-accordion="accordion-f51">51. What are the other terms and conditions for booking a Gozo Flexxi SHARE?<i class="fa fa-arrow-down"></i></a>
 			<div class="accordion-content" id="accordion-f51">
-				<p>Full terms and conditions for Gozo Flexxi SHARE are listed at <a href="https://www.gozocabs.com/terms-GozoFLEXXI" target="_block" class="color-highlight">www.gozocabs.com/terms-GozoFLEXXI</a></p>
+				<p>Full terms and conditions for Gozo Flexxi SHARE are listed at <a href="http://www.aaocab.com/terms-GozoFLEXXI" target="_block" class="color-highlight">www.aaocab.com/terms-GozoFLEXXI</a></p>
 			</div>
 		</div>
 	</div>

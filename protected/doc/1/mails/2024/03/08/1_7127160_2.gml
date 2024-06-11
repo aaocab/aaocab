@@ -14,11 +14,11 @@
 					<table width="100%" align="center">
 						<tr>
 							<td align="left" valign="middle">
-								<img src="http://gozocabs.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
+								<img src="http://aaocab.com/images/gozo-loog-mail.png" alt="Gozocabs"/>
 
 							</td>
 							<td align="right" valign="middle">
-								<a href="https://www.gozocabs.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="https://www.gozocabs.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="https://www.gozocabs.com/" style="color: #0279E8;">www.gozocabs.com</a>
+								<a href="http://www.aaocab.com/booking/list" style="color: #0279E8; line-height: 22px;">My Booking</a> | <a href="http://www.aaocab.com/users/view" style="color: #0279E8;">My Profile</a> | <a href="http://www.aaocab.com/" style="color: #0279E8;">www.aaocab.com</a>
 							</td>
 						</tr>
 					</table>
@@ -43,7 +43,7 @@
                         <table width="100%" border="1" style="border-collapse: collapse;" cellpadding="5" bordercolor="#CCCCCC">
                             <tr>
                                 <td width="40%"><strong style="color:#7a7a7a">Booking id</strong></td>
-                                <td><a href="https://www.gozocabs.com/bkpn/3898191/Zp4i9/e/dzE0B" target="_blank">AP40-3898191 <p style="font-size:12px;">Check driver, car info and other details</p></a></td>
+                                <td><a href="http://www.aaocab.com/bkpn/3898191/Zp4i9/e/dzE0B" target="_blank">AP40-3898191 <p style="font-size:12px;">Check driver, car info and other details</p></a></td>
                                 
                             </tr>
                             <tr>
@@ -224,9 +224,9 @@
         <td>
             <table width="100%" border="0" style="border: #d4d4d4 1px solid; border-collapse: collapse; padding: 5px; color: #000;">
                 <tr bgcolor="#fff">
-                    <td><img src="https://www.gozocabs.com/images/partners-logo1.png"  alt="Travelspice" width="150" height="97"/>
+                    <td><img src="http://www.aaocab.com/images/partners-logo1.png"  alt="Travelspice" width="150" height="97"/>
                         <p>Book your hotel  with TRAVELSPICE® at the lowest price guaranteed (Find the hotel at  a lower price anywhere else and claim double the difference). Use code <strong>GOZO500</strong>,  to get additional <strong>Rs.500/- FREE</strong> at the hotel restaurant. </p>
-                         <a href="" target="_blank"><img src="https://www.gozocabs.com/images/booknow_btn.png" alt="Book Now" /></a>
+                         <a href="" target="_blank"><img src="http://www.aaocab.com/images/booknow_btn.png" alt="Book Now" /></a>
                         </p></td>
                 </tr>
             </table>
@@ -309,7 +309,7 @@
       <strong>YOU ARE HIRING AN AC CAR. </strong>For drives in hilly regions, the air conditioning may be switched off to prevent engine overload.    
     </li>
     <li>
-        CANCELLATION: You may cancel your  reservation by logging onto www.gozocabs.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
+        CANCELLATION: You may cancel your  reservation by logging onto www.aaocab.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
     </li>
     <li>
        INCLUSIONS AND EXCLUSIONS: Your reservation indicates the total number of people and the amount of luggage that the vehicle will accommodate. Please ensure you have clearly communicated the number of passengers and amount of luggage you will carry atleast 24hours before pickup . The driver will not allow any additional passengers or luggage beyond what is allowed in the category of vehicle stated in the reservation. Parking charges, Airport Entry fees or any other form of Entry fees are NOT INCLUDED in the quotation. The customer is responsible for all such additional charges incurred during the trip.
@@ -330,8 +330,8 @@
 					<p style="color: #515151; font-size:12px; font-weight:300; text-align:center; padding:0; margin:0;">
 						This email is sent to  you because you have used this email address to register with Gozocabs.
 						<!--                        If you haven't done so, please ignore this email.-->
-						If you received this email in error or do not wish to receive any further communications, please <a href="https://www.gozocabs.com/index/unsubscribeemail/hash/00000/email/" target="_BLANK">unsubscribe here.</a>
-						<a href="http://gozocabs.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
+						If you received this email in error or do not wish to receive any further communications, please <a href="http://www.aaocab.com/index/unsubscribeemail/hash/00000/email/" target="_BLANK">unsubscribe here.</a>
+						<a href="http://aaocab.com/" style="color: #3d4f99;">Gozocabs</a> and the Gozocabs logo is a copyright of <br/><b>Gozo Technologies Pvt. Ltd.</b>
 					</p>
 				</td>
 			</tr>

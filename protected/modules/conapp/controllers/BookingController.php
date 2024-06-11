@@ -1403,7 +1403,7 @@ class BookingController extends BaseController
 				BookingLog::model()->createLog($model->bkg_id, "Online payment initiated ({$paymentGateway->getPaymentType()} - {$paymentGateway->apg_code})", UserInfo::getInstance(), BookingLog::PAYMENT_INITIATED, '', $params);
 				if ($paymentType == PaymentType::TYPE_PAYUMONEY && $amount > 0)
 				{
-					$suurl = "https://www.gozocabs.com/payment/response/app/1";
+					$suurl = "http://www.aaocab.com/payment/response/app/1";
 					if ($paymentGateway)
 					{
 						$param_list						 = array();
@@ -1421,8 +1421,8 @@ class BookingController extends BaseController
 						$param_list['phone']			 = $model->bkgUserInfo->bkg_bill_contact;
 						$param_list['surl']				 = YII::app()->createAbsoluteUrl('payment/response/ptpid/6/app/1');
 						$param_list['furl']				 = YII::app()->createAbsoluteUrl('payment/response/ptpid/6/app/1');
-//$param_list['surl']				 = "https://www.gozocabs.com/payment/response/ptpid/6/app/1";
-//$param_list['furl']				 = "https://www.gozocabs.com/payment/response/ptpid/6/app/1";
+//$param_list['surl']				 = "http://www.aaocab.com/payment/response/ptpid/6/app/1";
+//$param_list['furl']				 = "http://www.aaocab.com/payment/response/ptpid/6/app/1";
 						$param_list['service_provider']	 = 'payu_paisa';
 						$checkSum						 = Yii::app()->payu->getChecksumFromArray($param_list);
 						$param_list['CHECKSUMHASH']		 = $checkSum;

@@ -68,7 +68,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 	<?
 	$oneWayInfo = '
 	<ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-	<li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+	<li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
 	<li>YOU HAVE BOOKED A ONE-WAY POINT TO POINT JOURNEY: Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer one-way transfers at a very attractive price by scheduling our vehicles to serve the one-way transfer needs of multiple customers in a sequence. As an example, if you are going one-way from City  A to City B we have estimated your time of travel and have most likely scheduled our driver to pickup another customer in City B.
 	<ol type="i">
 	<li>
@@ -153,7 +153,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 	</ol>';
 
 	$airportInfo = '<ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-	<li>Your reservation is subject to Gozocabs terms and conditions. (http://www.gozocabs.com/terms)</li>
+	<li>Your reservation is subject to Gozocabs terms and conditions. (http://www.aaocab.com/terms)</li>
 	<li>YOU HAVE BOOKED A LOCAL RENTAL FOR AIRPORT TRANSFER:Gozo is committed to punctuality of pickups and high quality of service for all our customers. We are able to offer low priced airport transfers at a very attractive price by scheduling our vehicles to serve the airport pickup and drop needs of multiple customers in a sequence. As an example, if you are going from City center to Airport we have estimated your time of travel and have most likely scheduled our driver to pickup another customer at the Airport.
 	<ol type="a">
 	<li>
@@ -270,7 +270,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 	<strong>YOU ARE HIRING AN AC CAR. </strong>For drives in hilly regions, the air conditioning may be switched off to prevent engine overload.    
 	</li>
 	<li>
-	CANCELLATION: You may cancel your  reservation by logging onto www.gozocabs.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
+	CANCELLATION: You may cancel your  reservation by logging onto www.aaocab.com and and cancelling your reservation directly. All bookings cancelled less than 24hours before a pickup shall be subject to a cancellation charge.
 	</li>
 	<li>
 	INCLUSIONS AND EXCLUSIONS: Your reservation indicates the total number of people and the amount of luggage that the vehicle will accommodate. Please ensure you have clearly communicated the number of passengers and amount of luggage you will carry atleast 24hours before pickup . The driver will not allow any additional passengers or luggage beyond what is allowed in the category of vehicle stated in the reservation. Parking charges, Airport Entry fees or any other form of Entry fees are NOT INCLUDED in the quotation. The customer is responsible for all such additional charges incurred during the trip.
@@ -282,7 +282,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 
 	$flexxiInfo	 = '
 	<ol type="1" style="font-size:10px; line-height:15px;padding-left:5px;">
-	<li>Your reservation is subject to Gozocabs terms and conditions.  (http://www.gozocabs.com/terms)</li>
+	<li>Your reservation is subject to Gozocabs terms and conditions.  (http://www.aaocab.com/terms)</li>
 	<li>FLEXXI trips are always ONE-WAY trips.  
 	<ol type="i">
 	<li>
@@ -413,7 +413,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 							}
 							if ($isDboMaster == 1 && $timediff < 42)
 							{
-								$termsUrl = Filter::shortUrl('https://www.gozocabs.com/terms/doubleback');
+								$termsUrl = Filter::shortUrl('http://www.aaocab.com/terms/doubleback');
 								echo 'Here is your quotation as requested. <a href="' . $payurl . '">Confirm this booking by making a payment  before  <strong>' . date('jS M Y (D) h:i A', strtotime($new_time)) . '</strong> </a>. This price is subject to change unless payment is received via the link above. Booking will be confirmed as soon as payment is received . This booking does NOT qualify for our <a href=" '.$termsUrl.' ">DOUBLE-BACK</a> program.';
 							}
 							if ($isDboMaster == 1 && $timediff > 42)
@@ -523,19 +523,19 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 	                                <td><strong style="color:#7a7a7a">ADVANCE  RECEIVED :</strong> <?= number_format($advance) ?></td>
 	                            </tr>
 	                            <tr>
-	<!--                                <td><a href="https://www.gozocabs.com/just1" target="_blank"><img src="https://www.gozocabs.com/images/price-guarantee-img.jpg?v1.1" alt="Price Guarantee"  /></a></td>-->
+	<!--                                <td><a href="http://www.aaocab.com/just1" target="_blank"><img src="http://www.aaocab.com/images/price-guarantee-img.jpg?v1.1" alt="Price Guarantee"  /></a></td>-->
 									<?php
 									$dboApplicable = Filter::dboApplicable($model);
 									if ($dboApplicable)
 									{
 										?>
-										<td><a href="https://www.gozocabs.com/terms/doubleback" target="_blank"><img src="https://www.gozocabs.com/images/double_hard_cash_refund2.png?v1.2" alt="Double Back Guarantee"  /></a></td>
+										<td><a href="http://www.aaocab.com/terms/doubleback" target="_blank"><img src="http://www.aaocab.com/images/double_hard_cash_refund2.png?v1.2" alt="Double Back Guarantee"  /></a></td>
 										<?php
 									}
 									else
 									{
 										?>
-										<td><a href="<?= $refCodeUrl; ?>" target="_blank"><img src="https://www.gozocabs.com/images/hotlink-ok/refer_friend.png?v1.4" alt="Refer Friend"  /></a></td>
+										<td><a href="<?= $refCodeUrl; ?>" target="_blank"><img src="http://www.aaocab.com/images/hotlink-ok/refer_friend.png?v1.4" alt="Refer Friend"  /></a></td>
 										<?php
 									}
 									?>
@@ -557,7 +557,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 							if ($due > 0)
 							{
 								?>
-								<td align="left" valign="middle"><a href="<?= $payurl ?>" target="_blank"><img src="https://gozocabs.com/images/hotlink-ok/paynow_btn.png" alt="Pay Now" /></a></td>
+								<td align="left" valign="middle"><a href="<?= $payurl ?>" target="_blank"><img src="https://aaocab.com/images/hotlink-ok/paynow_btn.png" alt="Pay Now" /></a></td>
 							<?php }
 							?>
 							<?php
@@ -1031,7 +1031,7 @@ if ($advance > 0)
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td style="margin-top: 10px;"><a href="https://www.gozocabs.com/day-rental" target="_blank"><img src="https://www.gozocabs.com/images/hotlink-ok/local_rental.png?v1.3" alt="Email"  /></a></td>
+		<td style="margin-top: 10px;"><a href="http://www.aaocab.com/day-rental" target="_blank"><img src="http://www.aaocab.com/images/hotlink-ok/local_rental.png?v1.3" alt="Email"  /></a></td>
     </tr>
 	<?php
 	if ($model->bkg_status != 15)

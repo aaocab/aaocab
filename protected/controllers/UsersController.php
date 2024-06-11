@@ -2161,7 +2161,7 @@ class UsersController extends BaseController
 			);
 
 			$mail->setLayout('mail');
-			$mail->setFrom('info@gozocabs.com', 'Info Gozocabs');
+			$mail->setFrom('info@aaocab.com', 'Info Gozocabs');
 			$mail->setTo($email, $insSerch['usr_name']);
 			$mail->setSubject('Link to Reset your Password');
 // $mail->Send();
@@ -3580,9 +3580,9 @@ class UsersController extends BaseController
 		}
 		$bModel		 = Booking::model()->findByPk($bkgid);
 		//old app id 488018534722292
-		$image		 = 'https://www.gozocabs.com/images/logosquare.png';
-		$link		 = 'https://www.gozocabs.com/invite/' . $refCode;
-		$urlReturn	 = 'https://www.facebook.com';
+		$image		 = 'http://www.aaocab.com/images/logosquare.png';
+		$link		 = 'http://www.aaocab.com/invite/' . $refCode;
+		$urlReturn	 = 'http://www.facebook.com';
 		$title		 = 'I traveled with Gozocabs and loved it';
 		$description = "Try Gozo with the URL below and both you and I will get Rs. 200 "
 				. "Gozo Coins for our next trip. '" . $link
@@ -3591,10 +3591,10 @@ class UsersController extends BaseController
 		if ($text != '')
 		{
 			//	$link = "https://".Yii::app()->params['host']."/fbflexxishare/".$bModel->bkg_id."/".Yii::app()->shortHash->hash($bModel->bkg_id)."";
-			$link = "https://www.gozocabs.com/bknw/$bModel->bkg_id/" . Yii::app()->shortHash->hash($bModel->bkg_id) . "";
-			$this->redirect('https://www.facebook.com/dialog/share?app_id=1132716233459596&href=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.gozocabs.com/fbflexxishare/' . $bModel->bkg_id . '/' . Yii::app()->shortHash->hash($bModel->bkg_id) . '&description=' . $text . '&redirect_uri=' . $urlReturn . '&display=popup');
+			$link = "http://www.aaocab.com/bknw/$bModel->bkg_id/" . Yii::app()->shortHash->hash($bModel->bkg_id) . "";
+			$this->redirect('http://www.facebook.com/dialog/share?app_id=1132716233459596&href=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.aaocab.com/fbflexxishare/' . $bModel->bkg_id . '/' . Yii::app()->shortHash->hash($bModel->bkg_id) . '&description=' . $text . '&redirect_uri=' . $urlReturn . '&display=popup');
 		}
-		$this->redirect('https://www.facebook.com/dialog/feed?app_id=1132716233459596&link=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.gozocabs.com&description=' . $description . '&redirect_uri=' . $urlReturn . '&display=popup');
+		$this->redirect('http://www.facebook.com/dialog/feed?app_id=1132716233459596&link=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.aaocab.com&description=' . $description . '&redirect_uri=' . $urlReturn . '&display=popup');
 	}
 
 	public function actionFbShareTemplate()
@@ -3602,12 +3602,12 @@ class UsersController extends BaseController
 		$refCode	 = $_REQUEST['refcode'];
 		$amount		 = Yii::app()->params['invitedAmount'];
 		//old app id 488018534722292
-		$image		 = 'https://www.gozocabs.com/images/logosquare.png';
-		$link		 = 'https://www.gozocabs.com/invite/' . $refCode;
-		$urlReturn	 = 'https://www.facebook.com';
+		$image		 = 'http://www.aaocab.com/images/logosquare.png';
+		$link		 = 'http://www.aaocab.com/invite/' . $refCode;
+		$urlReturn	 = 'http://www.facebook.com';
 		$title		 = "I've traveled with Gozocabs and loved it.";
-		$description = "Travel with Gozo through my URL " . $link . ", you and I will both get Rs. " . $amount . "/- Gozo Coins to use with Gozo.​ ​Visit them at www.gozocabs.com. Its a cool service. Clear pricing. Awesome service and great customer reviews";
-		$this->redirect('https://www.facebook.com/dialog/feed?app_id=1132716233459596&link=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.gozocabs.com&description=' . $description . '&redirect_uri=' . $urlReturn . '&display=popup');
+		$description = "Travel with Gozo through my URL " . $link . ", you and I will both get Rs. " . $amount . "/- Gozo Coins to use with Gozo.​ ​Visit them at www.aaocab.com. Its a cool service. Clear pricing. Awesome service and great customer reviews";
+		$this->redirect('http://www.facebook.com/dialog/feed?app_id=1132716233459596&link=' . $link . '&picture=' . $image . '&name=' . $title . '&caption=www.aaocab.com&description=' . $description . '&redirect_uri=' . $urlReturn . '&display=popup');
 	}
 
 	public function actionCreditlist()
@@ -5001,7 +5001,7 @@ class UsersController extends BaseController
 				}
 
 				/* Check the range and make sure it's treated according to the specs.
-				 * https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+				 * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 				 */
 				// End bytes can not be larger than $end.
 				$contentEnd = ($contentEnd > $fileSize) ? $fileSize - 1 : $contentEnd;

@@ -1074,7 +1074,7 @@ if ($pgmodel)
 								</div>
 								<div class="col-xs-12 col-sm-6 col-md-4">
 									<div class="row p5">
-										<div class="col-xs-6 col-sm-12"><b>Dropoff Location</b> <a href="https://www.google.com/maps/dir/<?php echo $pickupLatLong; ?>/<?php echo $dropLatLong; ?>" target="_blank"><img src="/images/icon/google-maps.svg" alt="" width="16" ></a></div>
+										<div class="col-xs-6 col-sm-12"><b>Dropoff Location</b> <a href="http://www.google.com/maps/dir/<?php echo $pickupLatLong; ?>/<?php echo $dropLatLong; ?>" target="_blank"><img src="/images/icon/google-maps.svg" alt="" width="16" ></a></div>
 										<div class="col-xs-6 col-sm-12">
 											<a href="https://maps.google.com/?q=<?php echo $model->bookingRoutes[$btrCount]->brt_to_latitude . "," . $model->bookingRoutes[0]->brt_to_longitude; ?>" target="_blank"><?= $model->bkg_drop_address; ?></a>
 										</div>

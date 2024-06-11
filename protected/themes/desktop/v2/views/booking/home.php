@@ -185,7 +185,7 @@ if ($type == 'route')
 									<div itemprop="text" class="ui-page">
 <ul>					
 										<li class="mb0">Booking a cab with us is quick and straightforward. Follow these simple steps:</li>
-										<li class="mb10">Step 1: Visit our <a href="https://www.gozocabs.com" target="_blank">website</a> or <a href="https://www.gozocabs.com/app" target="_blank">download</a> our user-friendly mobile app.</li>
+										<li class="mb10">Step 1: Visit our <a href="http://www.aaocab.com" target="_blank">website</a> or <a href="http://www.aaocab.com/app" target="_blank">download</a> our user-friendly mobile app.</li>
 										<li class="mb10">Step 2: Enter your travel details, including the date, time, and pick-up/drop-off locations (<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>).</li>
 										<li class="mb10">Step 3: Select the <a href="/book-cab" target="_blank">cab type</a> that suits your requirements from our wide range of options.</li>
 										<li class="mb10">Step 4: Review the fare details and make a secure online payment.</li>
@@ -296,7 +296,7 @@ if ($type == 'route')
 							<div itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question" class="mb20">
 								<h2 itemprop="name" class="font-16 mb0">How do I pay for the cab ride?</h2>
 								<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
-									<div itemprop="text">We accept various forms of payment, including credit/debit cards, mobile wallets, UPI and sometimes cash. Payment options are usually available on the <a href="https://www.gozocabs.com/app" target="_blank">app</a> or <a href="https://www.gozocabs.com" target="_blank">website</a>. You can make a full or partial payment at the time of booking.</div>
+									<div itemprop="text">We accept various forms of payment, including credit/debit cards, mobile wallets, UPI and sometimes cash. Payment options are usually available on the <a href="http://www.aaocab.com/app" target="_blank">app</a> or <a href="http://www.aaocab.com" target="_blank">website</a>. You can make a full or partial payment at the time of booking.</div>
 								</div>
 							</div>				
 						</section>
@@ -389,7 +389,7 @@ if ($type == 'route')
 													<tr>
 														<td scope="row"><?= $cab['vct_label'] . "<br />(<small>" . $cab['scc_label'] . "</small>)"; ?></td>
 														<td><?php echo $value['text']; ?></td>
-														<td><?php ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? print('Buy seats in a shared taxi. <a href="https://www.gozocabs.com/GozoSHARE">Gozo FLEXXI</a>') : print($cab['vct_capacity'] . 'passengers and driver') ?> </td>
+														<td><?php ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? print('Buy seats in a shared taxi. <a href="http://www.aaocab.com/GozoSHARE">Gozo FLEXXI</a>') : print($cab['vct_capacity'] . 'passengers and driver') ?> </td>
 														<td align="center">
 															<?php
 															if ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC)
@@ -428,7 +428,7 @@ if ($type == 'route')
 											<tr>
 												<td><?= $cab['vct_label'] . "<br />(<small>" . $cab['scc_label'] . "</small>)"; ?></td>
 												<td><?php echo $cab['vct_desc']; ?></td>
-												<td><?php ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? print('Buy seats in a shared taxi. <a href="https://www.gozocabs.com/GozoSHARE">Gozo FLEXXI</a>') : print($cab['vct_capacity'] . 'passengers and driver') ?> </td>
+												<td><?php ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? print('Buy seats in a shared taxi. <a href="http://www.aaocab.com/GozoSHARE">Gozo FLEXXI</a>') : print($cab['vct_capacity'] . 'passengers and driver') ?> </td>
 												<td align="center">
 													<?php
 													if ($cab['scv_id'] == VehicleCategory::SHARED_SEDAN_ECONOMIC)
@@ -605,7 +605,7 @@ if ($type == 'route')
 								<div itemprop="text">
 									<p>Gozo is continuously focused on being and staying as India's best taxi service for inter-city or outstation car hire with a driver. 
 					Gozo cabs are the best cab service to hire <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> cab service. Gozo is generally the cheapest in most regions as we keep our margins low and we keep our quality high by ensuring that our cabs and providers are inspected regularly. At the time of onboarding, the taxi operators are whetted for proper licenses and their ability to meet our quality bar. We also provide ongoing training to our drivers.
-					But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="https://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" class="color-black weight500">TripAdvisor</a>. Gozo was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.</p>
+					But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="http://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" class="color-black weight500">TripAdvisor</a>. Gozo was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.</p>
 
 								</div>
 							</div>

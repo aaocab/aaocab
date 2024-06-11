@@ -115,7 +115,7 @@ if ($userId > 0)
 							<div class="col-3">
 								<div class="font-16 mb10 text-uppercase merriw"><b>Address</b></div>
 								<span>Unit-302, Bestech Chambers, B Block, Sushant Lok, Phase 1, Gurgaon, Haryana 122001</span>
-								<br><a href="https://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html"><img class="lozad" data-src="/images/trpadvisor.png"></a>
+								<br><a href="http://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html"><img class="lozad" data-src="/images/trpadvisor.png"></a>
 							</div>
 							<div class="col-4">
 								<div class="font-16 mb10 text-uppercase"><i class="bx bx-phone-call mr5"></i><b><span class="merriw">Request a call</span></b></div>
@@ -142,11 +142,11 @@ if ($userId > 0)
 														
 								
 								<p class="yello-color mt20 mb0 font-16"><i class="bx bx-envelope"></i> <span class="merriw"><b>Email:</b></span></p>
-								<b>info@gozocabs.com</b>
+								<b>info@aaocab.com</b>
 							</div>
 							<div class="col-2 social-2">
 								<div class="font-16 mb10 text-uppercase merriw"><b>Keep in touch</b></div>
-								<a href="https://www.facebook.com/gozocabs" target="_blank"><i class="bx bxl-facebook"></i></a><a href="https://twitter.com/gozocabs" target="_blank"><i class="bx bxl-twitter"></i></a><a href="https://www.instagram.com/gozocabs/" target="_blank"><i class="bx bxl-instagram"></i></a>
+								<a href="http://www.facebook.com/gozocabs" target="_blank"><i class="bx bxl-facebook"></i></a><a href="https://twitter.com/gozocabs" target="_blank"><i class="bx bxl-twitter"></i></a><a href="http://www.instagram.com/gozocabs/" target="_blank"><i class="bx bxl-instagram"></i></a>
 							</div>
 							<div class="col-3">
 								<div class="font-16 mb10 text-uppercase merriw"><b>Official Travel Partner</b></div>
@@ -180,7 +180,7 @@ if ($userId > 0)
 <div class="container-fluid">
 	<div id="cookieSet" class="row cookies_panel" style="display:<?= $display ?>">
 		<div class="col-12">
-			GozoCabs.com uses cookies to store information on your computer that is essential to making the site work and to customizing the user experience. By using the site, you consent to the placement of these cookies. Read our <a href="" data-toggle="modal" id="triggercp" data-target="#cookiepolicy">cookie policy</a> to learn more and how to withdraw your consent.
+			aaocab.com uses cookies to store information on your computer that is essential to making the site work and to customizing the user experience. By using the site, you consent to the placement of these cookies. Read our <a href="" data-toggle="modal" id="triggercp" data-target="#cookiepolicy">cookie policy</a> to learn more and how to withdraw your consent.
 			<form action="" method="post">
 				<button type="button" class="btn btn-primary btn-sm proceed-new-btn pt5 pb5" onclick="gdprCom()">&#10004; Continue</button>
 			</form>	

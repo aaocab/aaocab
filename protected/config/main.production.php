@@ -1,8 +1,8 @@
 <?php
 
 define("JS_URL", "/js/");
-define("CSS_URL", "https://css.gozocabs.com");
-define("IMAGE_URL", "https://images.gozocabs.com");
+define("CSS_URL", "https://css.aaocab.com");
+define("IMAGE_URL", "https://images.aaocab.com");
 define("ASSETS_URL", "/assets/");
 define("APP_ASSETS", "/res/app-assets/");
 // uncomment the following to define a path alias
@@ -40,7 +40,7 @@ return array(
 		'PickupAlertEmail'		 => 'callcenter@gozocabs.in',
 		'https'					 => true,
 		'uploadPath'			 => '/var/lib/mysql-files',
-		'domain'				 => '.gozocabs.com',
+		'domain'				 => '.aaocab.com',
 		'mobikwik'				 => array(
 			'environment'	 => 'production', //'sandbox' or 'production'
 			'api_live'		 => true,

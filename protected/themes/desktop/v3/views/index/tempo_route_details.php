@@ -138,7 +138,7 @@ if (count($topTenRoutes) > 0) {
                     We provide 9 seater, 12 seater or 15 seater Tempo travellers.</p>
                 <p>Due to the specific and less frequent nature of these requirements we request customers to make their reservations as early as at least 10 days in advance. This provides us sufficient advance notice to arrange a vehicle for your journey.</p>
                 <h3 class="font-24 mt30">HIRE A TEMPO TRAVELLER ONLINE WITH GOZO CABS </h3>
-                <p>Gozo's booking and billing process is <a href="https://www.gozocabs.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.
+                <p>Gozo's booking and billing process is <a href="http://www.aaocab.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.
                     With Gozo you can book a taxi anywhere in India. Our services are top rated in almost all cities across India.
                 </p>
                                         <!--<p class="link-panel">

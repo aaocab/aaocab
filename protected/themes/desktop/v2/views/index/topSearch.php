@@ -70,7 +70,7 @@ $timeonload =  DateTimeFormat::DateTimeToTimePicker($defaultNewDate);
         <div class="col-9 text-right p0">
             <div class="collapse navbar-collapse text-uppercase head-menu" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link pt0 pb0" href="https://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" target="_blank"><img src="/images/img_trans.gif" alt="Trpadvisor" title="Trpadvisor" width="1" height="1" class="sprit-1"></a></li>
+                    <li class="nav-item"><a class="nav-link pt0 pb0" href="http://www.tripadvisor.in/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" target="_blank"><img src="/images/img_trans.gif" alt="Trpadvisor" title="Trpadvisor" width="1" height="1" class="sprit-1"></a></li>
                     <li class="nav-item"><a class="nav-link" href="/flashsale"><img src="/images/flashsale.gif?v=0.1" alt="Flash Sale" class="img-responsive" width="126" height="22" style="vertical-align:top;"></a></li>
                     <li class="nav-item"><a class="nav-link" href="/agent/join">Become an agent</a></li>
                     <li class="nav-item"><a class="nav-link" href="/vendor/join">Attach Your Taxi</a></li>
@@ -1156,7 +1156,7 @@ if (trim($brtModel->brt_to_city_id) == "")
 						<div class="clear"></div>
 					</div>
 				</div>
-				<div class="link_2 mb5">More reviews on <a href="<?= Yii::app()->createUrl('index/testimonial'); ?>">Gozocabs.com</a>, <a href="https://bit.ly/ReviewGozoOnGoogle" target="_blank">Google</a>, <a href="https://bit.ly/ReviewGozoOnTripAdvisor" target="_blank">TripAdvisor</a> | <a href="<?= Yii::app()->createUrl('faq'); ?>#faq53" class="color-orange" target="_blank">Do not trust MouthShut.com</a></div>
+				<div class="link_2 mb5">More reviews on <a href="<?= Yii::app()->createUrl('index/testimonial'); ?>">aaocab.com</a>, <a href="https://bit.ly/ReviewGozoOnGoogle" target="_blank">Google</a>, <a href="https://bit.ly/ReviewGozoOnTripAdvisor" target="_blank">TripAdvisor</a> | <a href="<?= Yii::app()->createUrl('faq'); ?>#faq53" class="color-orange" target="_blank">Do not trust MouthShut.com</a></div>
 				<div class="clear"></div>
 			</div>
 

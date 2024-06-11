@@ -199,7 +199,7 @@
 
 <?php
 /* @var $model Ratings */
-$link				 = 'http://www.gozocabs.com/invite/' . $refCode;
+$link				 = 'http://www.aaocab.com/invite/' . $refCode;
 $bkg_booking_id		 = Filter::formatBookingId($bkmodel->bkg_booking_id);
 $mailBody			 = "Dear Friend,%0D%0DI traveled with Gozocabs and and loved it. Try Gozo with the URL below and both you and I will get Rs. 200 credit for our next trip.%0D$link %0DHere is my review from my trip "
 		. $bkg_booking_id . ':%0D "'

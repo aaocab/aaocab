@@ -432,7 +432,7 @@ td:nth-of-type(6):before{content:"Fare"}
   "vars": {
     "gtag_id": "UA-34493806-1",
     "linker": {
-      "domains": ["www.gozocabs.com", "m.gozocabs.com","www-gozocabs-com.cdn.ampproject.org"]
+      "domains": ["www.aaocab.com", "m.aaocab.com","www-gozocabs-com.cdn.ampproject.org"]
     }
     ,
     "config": {
@@ -444,7 +444,7 @@ td:nth-of-type(6):before{content:"Fare"}
 }
 </script>
 </amp-analytics>
-<!--<amp-analytics config="https://www.googletagmanager.com/amp.json?id=GTM-T73295" data-credentials="include"></amp-analytics>-->
+<!--<amp-analytics config="http://www.googletagmanager.com/amp.json?id=GTM-T73295" data-credentials="include"></amp-analytics>-->
 <amp-sidebar id="sidebar-right"
   class="sample-sidebar"
   layout="nodisplay"

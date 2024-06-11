@@ -43,7 +43,7 @@ if ($invoiceList['bkg_agent_id'] > 0) {
                     <tr style=" background-color: #fff;">
                         <td class="mt20" style="width: 33%;text-align: center;border: 0">
                             <div>
-                                <img src="https://www.gozocabs.com/images/logo2.png" alt="">
+                                <img src="http://www.aaocab.com/images/logo2.png" alt="">
                             </div>
                         </td>
                         <td class="text-uppercase mt20 text-center"  style="width: 34%;border: 0">
@@ -417,15 +417,15 @@ if ($invoiceList['bkg_agent_id'] > 0) {
                     We declare that this Invoice shows the actual value of all transactions and that all particulars are true and correct. 
                     This bill is issued by the cab driver and not by Gozocabs. Gozocabs acts only as an intermediary for arranging the cab services. 
                     GST is collected and remitted by Gozo Technologies Pvt. Ltd. [GSTIN: <?= Filter::getGstin($invoiceList['bkg_pickup_date']);?>]; in the capacity of Aggregator as per the Finance Budget, 2015 read with GST Notification No. 5/2015
-                    In case of any queries/complaints, write to us on info@gozocabs.com <br>
-                    This is an electronically generated invoice and does not require signature. All applicable terms and conditions are available at https://www.gozocabs.com/terms 
+                    In case of any queries/complaints, write to us on info@aaocab.com <br>
+                    This is an electronically generated invoice and does not require signature. All applicable terms and conditions are available at http://www.aaocab.com/terms 
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
                     <hr>
                     <p style="font-size: 11px; text-align: center; margin-bottom: 2px;line-height: 1.8em"><b>Corporate Office:</b> H-215, Block H, Upper Ground Floor, Sushant Shopping Arcade, Sushant Lok Phase -1, Gurgaon , Haryana, PIN - 122001.</p>
-                    <p style="font-size: 11px; text-align: center;">Email: info@gozocabs.com &nbsp;|&nbsp; Phone: (+91) 90518-77-000 (24x7), International (+1) 650-741-GOZO (24x7) &nbsp;|&nbsp; www.gozocabs.com </p>
+                    <p style="font-size: 11px; text-align: center;">Email: info@aaocab.com &nbsp;|&nbsp; Phone: (+91) 90518-77-000 (24x7), International (+1) 650-741-GOZO (24x7) &nbsp;|&nbsp; www.aaocab.com </p>
                 </div>
             </div>
         </div>

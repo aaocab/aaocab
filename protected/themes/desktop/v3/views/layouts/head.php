@@ -14,12 +14,12 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
     <head>
 		<link rel="manifest" href="/manifest.json">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://www.googletagmanager.com/">
+		<link rel="preconnect" href="http://www.googletagmanager.com/">
 		<link rel="preconnect" href="https://bat.bing.com/">
 		<!--		<link rel="preconnect" href="https://connect.facebook.net/">
-				<link rel="preconnect" href="https://www.facebook.com/">-->
+				<link rel="preconnect" href="http://www.facebook.com/">-->
 		<link rel="preconnect" href="https://browser.sentry-cdn.com/">
-		<link rel="preconnect" href="https://images.gozocabs.com/">
+		<link rel="preconnect" href="https://images.aaocab.com/">
         <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
         <meta charset="utf-8">
 		<?php
@@ -43,7 +43,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			$amount		 = Yii::app()->params['invitedAmount'];
 			$userId		 = QrCode::model()->find('qrc_code=:code AND qrc_ent_type=1 AND qrc_active=1 AND qrc_status=3', ['code' => $code])->qrc_ent_id;
 			$qrLink		 = Yii::app()->createAbsoluteUrl('rating/downloadQrCode', ['userId' => $userId]);
-			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to Gozocabs.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.Gozocabs is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
+			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.Gozocabs is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
 			?>
 			<meta property="og:url" content="<?php echo 'https://gozo.cab/c/' . $code; ?>">
 			<meta property="og:type" content="website">
@@ -53,7 +53,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 
 			<!-- Twitter Meta Tags -->
 			<meta name="twitter:card" content="summary_large_image">
-			<meta property="twitter:domain" content="https://www.gozocabs.com/">
+			<meta property="twitter:domain" content="http://www.aaocab.com/">
 			<meta property="twitter:url" content="<?php echo 'https://gozo.cab/c/' . $code; ?>">
 			<meta name="twitter:title" content="Best rated one way outstation cab service. Great Prices. 24x7x365. All India : Gozo Cabs">
 			<meta name="twitter:description" content="<?php echo $bodyTitle; ?>">
@@ -141,7 +141,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 
 <?= (UserInfo::getGA4UserId() > 0) ? "initUserId('" . UserInfo::getGA4UserId() . "');" : "" ?>
 
-			//	gtag('set', 'linker', {'domains': ["www.gozocabs.com", "m.gozocabs.com", "www-gozocabs-com.cdn.ampproject.org"]});
+			//	gtag('set', 'linker', {'domains': ["www.aaocab.com", "m.aaocab.com", "www-gozocabs-com.cdn.ampproject.org"]});
 			//gtag('js', new Date());
 			//	initGTag();
 
@@ -186,8 +186,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 		if (Yii::app()->params['enableTracking'] == true)
 		{
 			?>
-			<link rel="preload" href="https://www.googletagmanager.com/gtm.js?id=GTM-T869HBL" as="script" fetchpriority='low' />
-			<link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-4TQDEZYH5H&l=dataLayer&cx=c" as="script" fetchpriority='low' />
+			<link rel="preload" href="http://www.googletagmanager.com/gtm.js?id=GTM-T869HBL" as="script" fetchpriority='low' />
+			<link rel="preload" href="http://www.googletagmanager.com/gtag/js?id=G-4TQDEZYH5H&l=dataLayer&cx=c" as="script" fetchpriority='low' />
 			<link rel="preload" href="https://bat.bing.com/bat.js" as="script" fetchpriority='low' />
 			<!--				
 			<link rel="preload" href="https://connect.facebook.net/en_US/fbevents.js" as="script" fetchpriority='low' />
@@ -203,7 +203,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 							j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
 					j.async = true;
 					j.src =
-							'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+							'http://www.googletagmanager.com/gtm.js?id=' + i + dl;
 					f.parentNode.insertBefore(j, f);
 				})(window, document, 'script', 'dataLayer', 'GTM-T869HBL');</script>
 			<!-- End Google Tag Manager -->

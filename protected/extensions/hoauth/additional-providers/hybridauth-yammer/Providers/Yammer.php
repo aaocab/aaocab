@@ -60,10 +60,10 @@ class Hybrid_Providers_Yammer extends Hybrid_Provider_Model
 		}
 
 		// Provider api end-points
-		$this->api->api_base_url  = "https://www.yammer.com/api/v1/";
-		$this->api->authorize_url = "https://www.yammer.com/dialog/oauth";
-		$this->api->token_url     = "https://www.yammer.com/oauth2/access_token.json";
-		$this->api->token_info_url= "https://www.yammer.com/oauth2/access_token.json";
+		$this->api->api_base_url  = "http://www.yammer.com/api/v1/";
+		$this->api->authorize_url = "http://www.yammer.com/dialog/oauth";
+		$this->api->token_url     = "http://www.yammer.com/oauth2/access_token.json";
+		$this->api->token_info_url= "http://www.yammer.com/oauth2/access_token.json";
 	}
 
 	// --------------------------------------------------------------------
@@ -122,7 +122,7 @@ class Hybrid_Providers_Yammer extends Hybrid_Provider_Model
 	function getUserProfile()
 	{
 		// get data
-		$data = $this->api->api( "https://www.yammer.com/api/v1/users/current.json" );
+		$data = $this->api->api( "http://www.yammer.com/api/v1/users/current.json" );
 
 		// check for errors
 		if ( ! isset( $data->id ) ){
@@ -150,7 +150,7 @@ class Hybrid_Providers_Yammer extends Hybrid_Provider_Model
 	function getUserContacts()
 	{
 		// Get user contacts
-		$data = $this->api->api( "https://www.yammer.com/api/v1/subscriptions.json" );
+		$data = $this->api->api( "http://www.yammer.com/api/v1/subscriptions.json" );
 
 		// check for errors
 		if ( $this->api->http_code != 200 ){

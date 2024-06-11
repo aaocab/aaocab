@@ -83,7 +83,7 @@ class TbGoogleVisualizationChart extends CWidget
 
 		/** @var $cs CClientScript */
 		$cs = Yii::app()->getClientScript();
-		$cs->registerScriptFile('https://www.google.com/jsapi');
+		$cs->registerScriptFile('http://www.google.com/jsapi');
 		$cs->registerScript(
 			__CLASS__ . '#' . $id,
 			'google.load("visualization", "1", {packages:["corechart"]});',

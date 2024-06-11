@@ -17,7 +17,7 @@ switch ($arr['templateStyle'])
 			'<p>By clicking on the link above, you will be directed to a secure verification page on our website. If the link is not clickable, please copy and paste it into your web browsers address bar.</p>'.
 			'<p>We encourage you to verify your email ID at your earliest convenience to avoid any interruptions in accessing your account and enjoying our services.</p>'.
 			'<p>Verifying your email ID is an essential step to activate your account fully. It helps us ensure that we have accurate contact information and enables us to deliver important updates, notifications, and relevant information directly to your inbox.</p>'.
-			'<p>If you encounter any issues or have any questions regarding the email verification process, please dont hesitate to reach out to our dedicated support team at info@gozocabs.com. We are available to assist you and provide the necessary guidance to complete the verification smoothly.</p>'.
+			'<p>If you encounter any issues or have any questions regarding the email verification process, please dont hesitate to reach out to our dedicated support team at info@aaocab.com. We are available to assist you and provide the necessary guidance to complete the verification smoothly.</p>'.
 			'<p>Thank you for your cooperation in verifying your email ID. We are excited to have you as a member of our community and look forward to providing you with a rewarding experience.</p>'.
 			'<p>Best regards,<br/>Gozocabs Team</p>';
 

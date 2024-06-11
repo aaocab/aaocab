@@ -32,7 +32,7 @@ return
                 "Google" => array(
                     "enabled" => true,
                     "keys"		 => array("id" => "794396816054-eiut1guo55kfnjp4et57d5fq3akppnb3.apps.googleusercontent.com", "secret" => "b8NY_IWxQlYGgEFawGFspcKG"),
-					"scope"		 => "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+					"scope"		 => "http://www.googleapis.com/auth/userinfo.profile http://www.googleapis.com/auth/userinfo.email",
 				),
                 "Facebook" => array(
                     "enabled" => true,

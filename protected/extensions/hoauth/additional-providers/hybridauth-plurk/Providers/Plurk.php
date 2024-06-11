@@ -26,10 +26,10 @@ class Hybrid_Providers_Plurk extends Hybrid_Provider_Model_OAuth1
 		parent::initialize();
 
 		// Provider api end-points
-		$this->api->api_base_url      = 'https://www.plurk.com/APP/';
-		$this->api->authorize_url     = 'https://www.plurk.com/OAuth/authorize';
-		$this->api->request_token_url = 'https://www.plurk.com/OAuth/request_token';
-		$this->api->access_token_url  = 'https://www.plurk.com/OAuth/access_token';
+		$this->api->api_base_url      = 'http://www.plurk.com/APP/';
+		$this->api->authorize_url     = 'http://www.plurk.com/OAuth/authorize';
+		$this->api->request_token_url = 'http://www.plurk.com/OAuth/request_token';
+		$this->api->access_token_url  = 'http://www.plurk.com/OAuth/access_token';
 
 		// for Plurk we need to POST data instead of using GET
 		$this->api->request_token_method = 'POST';
@@ -56,7 +56,7 @@ class Hybrid_Providers_Plurk extends Hybrid_Provider_Model_OAuth1
 
 		$this->user->profile->identifier  = @ $profile->uid;
 		$this->user->profile->displayName = @ $profile->display_name;
-		$this->user->profile->profileURL  = @ 'https://www.plurk.com/' . $profile->nick_name;
+		$this->user->profile->profileURL  = @ 'http://www.plurk.com/' . $profile->nick_name;
 		$this->user->profile->region      = @ $profile->location;
 		$this->user->profile->photoURL    = $this->getPhotoURL( $profile->uid, $profile->has_profile_image, $profile->avatar );
 
@@ -110,7 +110,7 @@ class Hybrid_Providers_Plurk extends Hybrid_Provider_Model_OAuth1
 				$uc->displayName = @ $item->full_name;
 			}
 			
-			$uc->profileURL   = 'https://www.plurk.com/' . $item->nick_name;
+			$uc->profileURL   = 'http://www.plurk.com/' . $item->nick_name;
 			$uc->photoURL     = $this->getPhotoURL( $item->uid, $item->has_profile_image, $item->avatar );
 
 			$contacts[] = $uc;
@@ -188,7 +188,7 @@ class Hybrid_Providers_Plurk extends Hybrid_Provider_Model_OAuth1
 			if ( ! $ua->user->displayName ) {
 				$ua->user->displayName  = @ $users->{$item->owner_id}->full_name;
 			}
-			$ua->user->profileURL   = @ 'https://www.plurk.com/' . $users->{$item->owner_id}->nick_name;
+			$ua->user->profileURL   = @ 'http://www.plurk.com/' . $users->{$item->owner_id}->nick_name;
 			$ua->user->photoURL = $this->getPhotoURL( $item->owner_id, $users->{$item->owner_id}->has_profile_image, $users->{$item->owner_id}->avatar );
 			$activities[] = $ua;
 		}
@@ -198,7 +198,7 @@ class Hybrid_Providers_Plurk extends Hybrid_Provider_Model_OAuth1
 	
 	function getPhotoURL( $user_id, $has_profile_image, $avatar )
 	{
-		$photoURL = 'https://www.plurk.com/static/default_medium.gif';
+		$photoURL = 'http://www.plurk.com/static/default_medium.gif';
 		
 		if ( $has_profile_image == 1 ) {
 			if ( $avatar == null ) {

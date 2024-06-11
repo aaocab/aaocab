@@ -4,7 +4,7 @@
         <div class="panel-body">  
             <article class="">
                 <p>
-                    This Privacy Policy sets forth our policies regarding the collection, use and protection of the personal information of those using www.gozocabs.com which is owned by Gozo Software Ltd.
+                    This Privacy Policy sets forth our policies regarding the collection, use and protection of the personal information of those using www.aaocab.com which is owned by Gozo Software Ltd.
                     <br/> <br/>
                     Personal information means information that can be linked to a specific individual, such as name, address, telephone number, mobile number, e mail address and credit card number. We encourage you to review our Privacy Policy, and become familiar with it.
                     <br/><br/>

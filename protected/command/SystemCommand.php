@@ -543,7 +543,7 @@ class SystemCommand extends BaseCommand
 	{
 		Logger::create("command.system.packageXml start", CLogger::LEVEL_PROFILE);
 		$sitemap_folder	 = "sitemaps";
-		$site_url		 = "https://www.gozocabs.com/";
+		$site_url		 = "http://www.aaocab.com/";
 		$myfile			 = fopen("robots.txt", "a") or die("Unable to open file!");
 		$txt			 .= "SITEMAP: " . $site_url . $sitemap_folder . "/sitemap_package.xml" . PHP_EOL;
 		fwrite($myfile, $txt);
@@ -638,7 +638,7 @@ class SystemCommand extends BaseCommand
 
 	public function createSitemapEntry($route, $params = [], $frequency, $priority)
 	{
-		return ['loc'		 => "https://www.gozocabs.com/" . $route,
+		return ['loc'		 => "http://www.aaocab.com/" . $route,
 			// return ['loc'		 => "http://localhost:89/" . $route,
 			'frequency'	 => $frequency,
 			'priority'	 => $priority];
@@ -731,7 +731,7 @@ class SystemCommand extends BaseCommand
 	{
 		#echo "\n writeToRobotFile == " . $fileName . " , NewFile == " . $newFile;
 		$sitemap_folder	 = "sitemaps";
-		$site_url		 = "https://www.gozocabs.com/";
+		$site_url		 = "http://www.aaocab.com/";
 		$txt			 = '';
 
 		// Create Robot.txt
@@ -761,7 +761,7 @@ class SystemCommand extends BaseCommand
 	public function getSitemapXMLString(&$urlCount, $data = array(), $fileBegin = false, $fileEnd = false)
 	{
 		$strXML	 = '';
-		$siteUrl = 'https://www.gozocabs.com/';
+		$siteUrl = 'http://www.aaocab.com/';
 
 		if ($fileBegin)
 		{
@@ -841,7 +841,7 @@ class SystemCommand extends BaseCommand
 	{
 		#echo "\nactionPopulateOtherSitemapState";
 		$sitemap_folder	 = "sitemaps";
-		$site_url		 = "https://www.gozocabs.com/";
+		$site_url		 = "http://www.aaocab.com/";
 		Logger::create("command.system.PopulateOtherSitemapState start", CLogger::LEVEL_PROFILE);
 		$state_list		 = States::model()->getStateList();
 		$path			 = Yii::getPathOfAlias("application.views.sitemap.xml");
@@ -2144,7 +2144,7 @@ class SystemCommand extends BaseCommand
 
 	public function actionBroadcastMsgToUser()
 	{
-		$message = "RENT a car for AIRPORT TRANSFER or Book an OUTSTATION CAB in any city at GOZOCABS.COM. Amazing rates & 20 % additional CASH OFF. Call NOW 9051877000.";
+		$message = "RENT a car for AIRPORT TRANSFER or Book an OUTSTATION CAB in any city at aaocab.com. Amazing rates & 20 % additional CASH OFF. Call NOW 9051877000.";
 		$title	 = "Important Notification";
 
 		$limit		 = 3000;
@@ -2193,7 +2193,7 @@ class SystemCommand extends BaseCommand
 
 	public function actionBroadcastMsgToNonLoggedUser()
 	{
-		$message = "RENT a car for AIRPORT TRANSFER or Book an OUTSTATION CAB in any city at GOZOCABS.COM. Amazing rates & 20 % additional CASH OFF. Call NOW 9051877000.";
+		$message = "RENT a car for AIRPORT TRANSFER or Book an OUTSTATION CAB in any city at aaocab.com. Amazing rates & 20 % additional CASH OFF. Call NOW 9051877000.";
 		$title	 = "Important Notification";
 
 		$limit		 = 3000;

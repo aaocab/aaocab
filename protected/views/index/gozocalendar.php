@@ -43,7 +43,7 @@
 <script type="text/javascript">
     $("#skipBtn").click(function () {
 			
-			location.href = "https://www.gozocabs.com/images/2020/2/Long_Weekend_Calendar.pdf";
+			location.href = "http://www.aaocab.com/images/2020/2/Long_Weekend_Calendar.pdf";
 		
 		});
 	$("#calander-form").submit(function () {
@@ -59,7 +59,7 @@
 				var obj = $.parseJSON(data);
 				if (obj.success == true)
 				{
-				    location.href = "https://www.gozocabs.com/images/2020/2/Long_Weekend_Calendar.pdf";
+				    location.href = "http://www.aaocab.com/images/2020/2/Long_Weekend_Calendar.pdf";
 				}
 				else
 				{

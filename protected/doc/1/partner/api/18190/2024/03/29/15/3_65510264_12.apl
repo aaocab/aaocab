@@ -2,4 +2,4 @@
 
 ===== (MMT_CURL_HTTPCODE: ) (MMT_CURL_ERRNO: ) =======
 
-{"code":null,"error":null,"link":null,"response":{"success":true,"tnc":"https:\/\/www.gozocabs.com\/terms"}}
+{"code":null,"error":null,"link":null,"response":{"success":true,"tnc":"https:\/\/www.aaocab.com\/terms"}}

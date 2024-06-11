@@ -17,7 +17,7 @@ class EmailSend
 			$message->setSubject($arr['subject']);
 
 			// Set the From address with an associative array
-			$message->setFrom(array('info@gozocabs.com' => 'Info Gozocabs'));
+			$message->setFrom(array('info@aaocab.com' => 'Info Gozocabs'));
 
 			// Set the To addresses with an associative array
 			$message->setTo($arr['to_address']);
@@ -26,7 +26,7 @@ class EmailSend
 			$message->setBody($arr['body'], 'text/html');
 			$message->addPart($arr['body_plain'], 'text/plain');
 
-			$transport	 = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')->setUsername('info@gozocabs.com')->setPassword('brazil1#');
+			$transport	 = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')->setUsername('info@aaocab.com')->setPassword('brazil1#');
 			$mailer		 = Swift_Mailer::newInstance($transport);
 			$result		 = $mailer->send($message);
 		}

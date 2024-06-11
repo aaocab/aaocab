@@ -7764,7 +7764,7 @@ ORDER BY MatchScore DESC";
 			/* var @model smsWrappper */
 			$msgCom		 = new smsWrapper();
 			$hash		 = Yii::app()->shortHash->hash($model->bkg_id);
-			$url		 = 'gozocabs.com/bkconfirm/' . $model->bkg_id . '/' . $hash;
+			$url		 = 'aaocab.com/bkconfirm/' . $model->bkg_id . '/' . $hash;
 			$pickupTime	 = strtotime($model->bkg_pickup_date);
 			$timeLeft	 = round(($pickupTime - time()) / 3600);
 			$txtChanges	 = $model->bkg_booking_id . ' starts in ' . $timeLeft . ' hours. Reconfirm at ' . $url . ' or by phone.';

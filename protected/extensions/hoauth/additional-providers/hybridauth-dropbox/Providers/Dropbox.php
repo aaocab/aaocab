@@ -22,7 +22,7 @@ class Hybrid_Providers_Dropbox extends Hybrid_Provider_Model_OAuth2
 
 		// Provider apis end-points
 		$this->api->api_base_url  = "https://api.dropbox.com/1/";
-		$this->api->authorize_url = "https://www.dropbox.com/1/oauth2/authorize";
+		$this->api->authorize_url = "http://www.dropbox.com/1/oauth2/authorize";
 		$this->api->token_url     = "https://api.dropbox.com/1/oauth2/token"; 
 	}
 
