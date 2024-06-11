@@ -20,6 +20,7 @@ use components\Event\EventSchedule;
  * @property integer $tpm_status
  * @property string $tpm_provider_code
  * @property integer $tpm_provider_type
+ * @property integer $tpm_policy_reminder
  */
 class TemplateMaster extends CActiveRecord
 {
@@ -71,7 +72,7 @@ class TemplateMaster extends CActiveRecord
 			array('tpm_language', 'length', 'max' => 100),
 			// The following rule is used by search().
 // @todo Please remove those attributes that should not be searched.
-			array('tpm_id, tpm_mem_id, tpm_entity_type, tpm_content, tpm_name,tpm_title, tpm_language, tpm_created_at, tpm_modified_at, tpm_status,tpm_variables,tpm_platform,tpm_provider_code,tpm_provider_type', 'safe', 'on' => 'search'),
+			array('tpm_id, tpm_mem_id, tpm_entity_type, tpm_content, tpm_name,tpm_title, tpm_language, tpm_created_at, tpm_modified_at, tpm_status,tpm_variables,tpm_platform,tpm_provider_code,tpm_provider_type,tpm_policy_reminder', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -177,6 +178,7 @@ class TemplateMaster extends CActiveRecord
 			tpm_provider_code,
 			tpm_variables,
 			tpm_provider_type,
+			tpm_policy_reminder,
 			mem_name,
 			mem_sequence,
 			mem_schedule_sequence

@@ -136,17 +136,17 @@ class Contact extends BaseActiveRecord
 
 	public function nameValidation($attributes, $params)
 	{
-		if($this->hasErrors())
+		if ($this->hasErrors())
 		{
 			return false;
 		}
-		if($this->ctt_first_name != '')
+		if ($this->ctt_first_name != '')
 		{
 			$this->addError("ctt_first_name", "First Name cannot be changed");
 			//  return false;
 		}
 
-		if($this->ctt_last_name != '')
+		if ($this->ctt_last_name != '')
 		{
 			$this->addError("ctt_last_name", "Last Name cannot be changed");
 			// return false;
@@ -156,17 +156,17 @@ class Contact extends BaseActiveRecord
 
 	public function validateName($attributes, $params)
 	{
-		if($this->ctt_user_type != '' && $this->ctt_user_type == 1)
+		if ($this->ctt_user_type != '' && $this->ctt_user_type == 1)
 		{
-			if($this->ctt_first_name == '')
+			if ($this->ctt_first_name == '')
 			{
 				$this->addError("ctt_first_name", "First Name is mandatory");
 				return false;
 			}
 		}
-		if($this->ctt_user_type != '' && $this->ctt_user_type == 2)
+		if ($this->ctt_user_type != '' && $this->ctt_user_type == 2)
 		{
-			if($this->ctt_business_name == '')
+			if ($this->ctt_business_name == '')
 			{
 				$this->addError("ctt_business_name", "Buisness Name is mandatory");
 				return false;
@@ -177,28 +177,28 @@ class Contact extends BaseActiveRecord
 	public function validateRegister($attributes, $params)
 	{
 
-		if($this->ctt_first_name == '' && $this->ctt_user_type != '' && $this->ctt_user_type == 1)
+		if ($this->ctt_first_name == '' && $this->ctt_user_type != '' && $this->ctt_user_type == 1)
 		{
 			$this->addError("ctt_first_name", "First Name is mandatory");
 			return false;
 		}
-		if($this->ctt_last_name == '' && $this->ctt_user_type != '' && $this->ctt_user_type == 1)
+		if ($this->ctt_last_name == '' && $this->ctt_user_type != '' && $this->ctt_user_type == 1)
 		{
 			$this->addError("ctt_last_name", "Last Name is mandatory");
 			return false;
 		}
-		if($this->contactPhones[0]->phn_phone_no == '' && $this->contactPhones[0]['phn_phone_no'] == '')
+		if ($this->contactPhones[0]->phn_phone_no == '' && $this->contactPhones[0]['phn_phone_no'] == '')
 		{
 			$this->addError("ctt_last_name", "Phone number is mandatory");
 			return false;
 		}
 
-		if($this->ctt_state == '')
+		if ($this->ctt_state == '')
 		{
 			$this->addError("ctt_state", "State is mandatory");
 			return false;
 		}
-		if($this->ctt_city == '')
+		if ($this->ctt_city == '')
 		{
 			$this->addError("ctt_city", "City is mandatory");
 			return false;
@@ -214,7 +214,7 @@ class Contact extends BaseActiveRecord
 		$success = true;
 		$bool	 = self::checkExistingDetails($attribute, $this->$attribute, $this->ctt_id);
 
-		if($bool)
+		if ($bool)
 		{
 			$label	 = $this->getAttributeLabel($attribute);
 			$this->addError($attribute, "$label already exists");
@@ -226,46 +226,46 @@ class Contact extends BaseActiveRecord
 
 	public function validatePhoneEmail($attributes, $params)
 	{
-		if($this->addType == -1)
+		if ($this->addType == -1)
 		{
 			return true;
 		}
 
-		if(array_filter($this->contactEmails) == [] && in_array($this->addType, [0, 2, 3]))
+		if (array_filter($this->contactEmails) == [] && in_array($this->addType, [0, 2, 3]))
 		{
 			$this->addError("ctt_id", "Email Address is mandatory");
 			return false;
 		}
-		if(array_filter($this->contactPhones) == [] && in_array($this->addType, [0, 1, 3]))
+		if (array_filter($this->contactPhones) == [] && in_array($this->addType, [0, 1, 3]))
 		{
 			$this->addError("ctt_id", "Phone Number is mandatory");
 			return false;
 		}
 
-		if(array_filter($this->contactEmails) != [])
+		if (array_filter($this->contactEmails) != [])
 		{
 			$resEmails = CActiveForm::validate($this->contactEmails);
-			if($resEmails != '[]')
+			if ($resEmails != '[]')
 			{
 				$this->addError("contactEmails", $resEmails);
 				return false;
 			}
 		}
-		if(array_filter($this->contactPhones) != [])
+		if (array_filter($this->contactPhones) != [])
 		{
 			$resPhones = CActiveForm::validate($this->contactPhones);
-			if($resPhones != '[]')
+			if ($resPhones != '[]')
 			{
 				$this->addError("contactPhones", $resPhones);
 				return false;
 			}
 		}
-		if($this->ctt_city == "" && in_array($this->addType, [3]))
+		if ($this->ctt_city == "" && in_array($this->addType, [3]))
 		{
 			$this->addError("ctt_city", "City is mandatory ");
 			return false;
 		}
-		if($this->ctt_license_no == "" && in_array($this->addType, [1]))
+		if ($this->ctt_license_no == "" && in_array($this->addType, [1]))
 		{
 			$this->addError("ctt_city", "License no is mandatory ");
 			return false;
@@ -415,20 +415,20 @@ class Contact extends BaseActiveRecord
 
 	public function beforeValidate()
 	{
-		if($this->locale_license_exp_date != null)
+		if ($this->locale_license_exp_date != null)
 		{
 			$this->ctt_license_exp_date = DateTimeFormat::DatePickerToDate($this->locale_license_exp_date);
 		}
 
-		if($this->locale_license_issue_date != null)
+		if ($this->locale_license_issue_date != null)
 		{
 			$this->ctt_license_issue_date = DateTimeFormat::DatePickerToDate($this->locale_license_issue_date);
 		}
-		if($this->arr_known_language != null)
+		if ($this->arr_known_language != null)
 		{
 			$this->ctt_known_language = implode(",", $this->arr_known_language);
 		}
-		if($this->ctt_user_type == 2)
+		if ($this->ctt_user_type == 2)
 		{
 			$this->ctt_first_name	 = ($this->ctt_first_name != "") ? ($this->ctt_first_name) : NULL;
 			$this->ctt_last_name	 = ($this->ctt_last_name != "") ? ($this->ctt_last_name) : NULL;
@@ -438,7 +438,7 @@ class Contact extends BaseActiveRecord
 			$this->ctt_business_name = ($this->ctt_business_name != "") ? ($this->ctt_business_name) : NULL;
 			$this->ctt_business_type = 0;
 		}
-		if($this->ctt_license_no != null)
+		if ($this->ctt_license_no != null)
 		{
 			$this->ctt_license_no = str_replace(' ', '', $this->ctt_license_no);
 		}
@@ -448,15 +448,15 @@ class Contact extends BaseActiveRecord
 	public function afterFind()
 	{
 		parent::afterFind();
-		if($this->ctt_license_exp_date != null)
+		if ($this->ctt_license_exp_date != null)
 		{
 			$this->locale_license_exp_date = DateTimeFormat::DateToDatePicker($this->ctt_license_exp_date);
 		}
-		if($this->ctt_license_issue_date != null)
+		if ($this->ctt_license_issue_date != null)
 		{
 			$this->locale_license_issue_date = DateTimeFormat::DateToDatePicker($this->ctt_license_issue_date);
 		}
-		if($this->ctt_known_language != null)
+		if ($this->ctt_known_language != null)
 		{
 			$this->arr_known_language = explode(",", $this->ctt_known_language);
 		}
@@ -466,14 +466,14 @@ class Contact extends BaseActiveRecord
 	{
 		parent::afterSave();
 
-		if($this->isNewRecord && $this->ctt_id > 0)
+		if ($this->isNewRecord && $this->ctt_id > 0)
 		{
 			$contactPref				 = new ContactPref();
 			$contactPref->cpr_ctt_id	 = $this->ctt_id;
 			$contactPref->cpr_category	 = 1;
 			$contactPref->save();
 		}
-		if($this->isNewRecord && $this->ctt_ref_code == null)
+		if ($this->isNewRecord && $this->ctt_ref_code == null)
 		{
 			$this->setIsNewRecord(false);
 			$this->ctt_ref_code = $this->ctt_id;
@@ -492,9 +492,9 @@ class Contact extends BaseActiveRecord
 	{
 		//echo "<prE>";print_r($oldData);print_r($this);die;
 		$newData['ctt_id'] = $newData['ctt_id'] ? $newData['ctt_id'] : $this->ctt_id;
-		if($oldData['ctt_bank_name'] !== $newData['ctt_bank_name'] || $oldData['ctt_bank_branch'] !== $newData['ctt_bank_branch'] || $oldData['ctt_bank_account_no'] !== $newData['ctt_bank_account_no'] || $oldData['ctt_bank_ifsc'] != $newData['ctt_bank_ifsc'] || $oldData['ctt_account_type'] != $newData['ctt_account_type'])
+		if ($oldData['ctt_bank_name'] !== $newData['ctt_bank_name'] || $oldData['ctt_bank_branch'] !== $newData['ctt_bank_branch'] || $oldData['ctt_bank_account_no'] !== $newData['ctt_bank_account_no'] || $oldData['ctt_bank_ifsc'] != $newData['ctt_bank_ifsc'] || $oldData['ctt_account_type'] != $newData['ctt_account_type'])
 		{
-			if($newData['ctt_id'])
+			if ($newData['ctt_id'])
 			{
 				$params									 = ['ctt_id' => $newData['ctt_id']];
 				$newData['ctt_bank_details_modify_date'] = date("Y-m-d H:i:s");
@@ -514,7 +514,7 @@ class Contact extends BaseActiveRecord
 			$transaction = DBUtil::beginTransaction();
 			$isNew		 = $this->isNewRecord;
 			$res		 = $this->save();
-			if(!$res)
+			if (!$res)
 			{
 				throw new Exception(json_encode($this->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -522,7 +522,7 @@ class Contact extends BaseActiveRecord
 
 			$emailResponse = $this->saveEmails();
 
-			if($emailResponse->hasErrors())
+			if ($emailResponse->hasErrors())
 			{
 				throw $emailResponse->getException();
 			}
@@ -530,28 +530,28 @@ class Contact extends BaseActiveRecord
 			ContactEmail::setPrimaryEmail($this->ctt_id);
 
 			$phoneResponse = $this->savePhones();
-			if($phoneResponse->hasErrors())
+			if ($phoneResponse->hasErrors())
 			{
 				throw $phoneResponse->getException();
 			}
 			ContactPhone::setPrimaryPhone($this->ctt_id);
 
-			if(!$verify)
+			if (!$verify)
 			{
 				goto end;
 			}
 			$this->refresh();
-			foreach($this->contactEmails as $emlModel)
+			foreach ($this->contactEmails as $emlModel)
 			{
-				if(!$emlModel->eml_is_verified)
+				if (!$emlModel->eml_is_verified)
 				{
 					Contact::emailVerificationLink($emlModel->eml_email_address, $emlModel->eml_contact_id, $userType, Contact::NEW_CON_TEMPLATE);
 				}
 			}
 
-			foreach($this->contactPhones as $phnModel)
+			foreach ($this->contactPhones as $phnModel)
 			{
-				if(!$phnModel->phn_is_verified)
+				if (!$phnModel->phn_is_verified)
 				{
 					Contact::sendPhoneVerificationLink($phnModel->phn_full_number, $phnModel->phn_contact_id, $userType, Contact::NEW_CON_TEMPLATE, 0, $phnModel->phn_phone_country_code, $phnModel->phn_otp, 0);
 				}
@@ -562,7 +562,7 @@ class Contact extends BaseActiveRecord
 			$returnSet->setStatus(true);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($exc);
@@ -584,7 +584,7 @@ class Contact extends BaseActiveRecord
 			 * update ref code for contact
 			 */
 			Contact::updateRefCode($this->ctt_id, $this->ctt_id);
-			if(!$res)
+			if (!$res)
 			{
 				$returnSet->setErrors($this->getErrors(), 0);
 				throw new CHttpException("Failed to add contact", 1);
@@ -604,19 +604,19 @@ class Contact extends BaseActiveRecord
 			$emlPkId	 = $emailResponse->getData();
 			$emailData	 = ContactEmail::model()->findByPk($emlPkId);
 			$userType	 = ($this->addType == 3) ? UserInfo::TYPE_VENDOR : UserInfo::TYPE_DRIVER;
-			if(!$isNew)
+			if (!$isNew)
 			{
-				if($tempValue != 1)
+				if ($tempValue != 1)
 				{
-					if($emailResponse->getStatus())
+					if ($emailResponse->getStatus())
 					{
 						$isEmailSend = Contact::sendVerification($emailData->eml_email_address, Contact::TYPE_EMAIL, $this->ctt_id, Contact::MODIFY_CON_TEMPLATE, Contact::MODE_LINK, $userType);
 					}
-					if($phoneResponse->getStatus())
+					if ($phoneResponse->getStatus())
 					{
 						$phoneData	 = $phoneResponse->getData();
 						$isNew		 = $phoneData['isNew'];
-						if($isNew)
+						if ($isNew)
 						{
 							$isOtpSend = Contact::sendVerification($phoneData["number"], Contact::TYPE_PHONE, $this->ctt_id, Contact::MODIFY_CON_TEMPLATE, Contact::MODE_OTP, $userType, 0, $phoneData["otp"], $phoneData["ext"]);
 						}
@@ -625,21 +625,21 @@ class Contact extends BaseActiveRecord
 			}
 			else
 			{
-				if($tempValue != 1)
+				if ($tempValue != 1)
 				{
-					if($emailResponse->getStatus())
+					if ($emailResponse->getStatus())
 					{
 						$isEmailSend = Contact::sendVerification($emailData->eml_email_address, Contact::TYPE_EMAIL, $this->ctt_id, Contact::NEW_CON_TEMPLATE, Contact::MODE_LINK, $userType);
 					}
-					if($phoneResponse->getData())
+					if ($phoneResponse->getData())
 					{
 						$isOtpSend = Contact::sendVerification($phoneData["number"], Contact::TYPE_PHONE, $this->ctt_id, Contact::NEW_CON_TEMPLATE, Contact::MODE_OTP, $userType, 0, $phoneData["otp"], $phoneData["ext"]);
 					}
 				}
 			}
-			if($oldData != '' && $newData != '')
+			if ($oldData != '' && $newData != '')
 			{
-				if($oldData['ctt_bank_name'] != $newData['ctt_bank_name'] || $oldData['ctt_bank_branch'] != $newData['ctt_bank_branch'] || $oldData['ctt_bank_account_no'] != $newData['ctt_bank_account_no'] || $oldData['ctt_bank_ifsc'] != $newData['ctt_bank_ifsc'] || $oldData['ctt_account_type'] != $newData['ctt_account_type'])
+				if ($oldData['ctt_bank_name'] != $newData['ctt_bank_name'] || $oldData['ctt_bank_branch'] != $newData['ctt_bank_branch'] || $oldData['ctt_bank_account_no'] != $newData['ctt_bank_account_no'] || $oldData['ctt_bank_ifsc'] != $newData['ctt_bank_ifsc'] || $oldData['ctt_account_type'] != $newData['ctt_account_type'])
 				{
 					$desc .= ', Bank details modified';
 				}
@@ -647,17 +647,17 @@ class Contact extends BaseActiveRecord
 
 			ContactLog::model()->createLog($this->ctt_id, $desc, $event, null);
 
-			if($this->commit)
+			if ($this->commit)
 			{
 				DBUtil::commitTransaction($transaction);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData(["id" => $this->ctt_id]);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
-			if($returnSet->getErrorCode() == 0)
+			if ($returnSet->getErrorCode() == 0)
 			{
 				$returnSet->setErrorCode($e->getCode());
 				$returnSet->addError($e->getMessage());
@@ -710,10 +710,10 @@ class Contact extends BaseActiveRecord
 	public function convertToEmailObjects($emailArrays)
 	{
 		$ceModels = [];
-		foreach($emailArrays as $email)
+		foreach ($emailArrays as $email)
 		{
 			$cemodel = ContactEmail::getObject($email['eml_email_address'], $this->ctt_id, $email['eml_is_primary'], true, $email['eml_type']);
-			if($cemodel)
+			if ($cemodel)
 			{
 				$ceModels[] = $cemodel;
 			}
@@ -724,15 +724,15 @@ class Contact extends BaseActiveRecord
 	public function convertToPhoneObjects($phoneArrays)
 	{
 		$cpModels = [];
-		foreach($phoneArrays as $phone)
+		foreach ($phoneArrays as $phone)
 		{
 			$phoneNumber = Filter::processPhoneNumber($phone['phn_phone_no'], $phone['phn_phone_country_code']);
-			if(!$phoneNumber)
+			if (!$phoneNumber)
 			{
 				continue;
 			}
 			$cpmodel = ContactPhone::getObject($phoneNumber, $this->ctt_id, $phone['phn_is_primary'], true, $phone['phn_type'], $phone['phn_is_new']);
-			if($cpmodel)
+			if ($cpmodel)
 			{
 				$cpModels[] = $cpmodel;
 			}
@@ -835,7 +835,7 @@ class Contact extends BaseActiveRecord
 				"text"	 => "Kannada"
 			]
 		];
-		if(is_numeric($lang))
+		if (is_numeric($lang))
 		{
 			return $arr[$lang];
 		}
@@ -846,7 +846,7 @@ class Contact extends BaseActiveRecord
 	public function getJSON($arr = [])
 	{
 		$arrJSON = array();
-		foreach($arr as $key => $val)
+		foreach ($arr as $key => $val)
 		{
 			$arrJSON[] = array("id" => $key, "text" => $val);
 		}
@@ -858,56 +858,56 @@ class Contact extends BaseActiveRecord
 	{
 		$model = $this->findByPk($cttId);
 
-		if($docType == 2)
+		if ($docType == 2)
 		{
 			$model->ctt_voter_doc_id = $docId;
 			$model->ctt_voter_no	 = $identityNo;
 		}
-		else if($docType == 3)
+		else if ($docType == 3)
 		{
 			//$identityNo ="test";
 			$model->ctt_aadhar_doc_id	 = $docId;
 			$model->ctt_aadhaar_no		 = $identityNo;
 		}
-		else if($docType == 4)
+		else if ($docType == 4)
 		{
 			$model->ctt_pan_doc_id			 = $docId;
 			$model->ctt_pan_no				 = $identityNo;
 			$model->ctt_is_name_pan_matched	 = 0;
 		}
-		else if($docType == 5)
+		else if ($docType == 5)
 		{
-			if($flag == 1)
+			if ($flag == 1)
 			{
 				$model->ctt_license_exp_date = $license_exp_date != NULL ? DateTimeFormat::DatePickerToDate($license_exp_date) : NULL;
 			}
 			$desc						 = "Old value: " . $model->ctt_first_name . " " . $model->ctt_last_name . "|| New Value:" . $first_name . " " . $last_name;
 			$model->ctt_license_doc_id	 = $docId;
-			if($identityNo != null)
+			if ($identityNo != null)
 			{
 				$model->ctt_license_no = $identityNo;
 			}
-			if($first_name != null)
+			if ($first_name != null)
 			{
 				$model->ctt_first_name = $first_name;
 			}
-			if($last_name != null)
+			if ($last_name != null)
 			{
 				$model->ctt_last_name = $last_name;
 			}
 			$model->ctt_is_name_dl_matched = 0;
 		}
-		else if($docType == 6)
+		else if ($docType == 6)
 		{
 			$model->ctt_memo_doc_id = $docId;
 		}
-		else if($docType == 7)
+		else if ($docType == 7)
 		{
 			$model->ctt_police_doc_id = $docId;
 		}
 		$model->isApp = true;
 		$model->update();
-		if($desc != '')
+		if ($desc != '')
 		{
 			ContactLog::model()->createLog($model->ctt_id, $desc, ContactLog::CONTACT_MODIFIED, null);
 		}
@@ -929,11 +929,11 @@ class Contact extends BaseActiveRecord
 		$model->ctt_bank_ifsc			 = $data['vnd_bank_ifsc'];
 		$model->ctt_bank_account_no		 = $data['vnd_bank_account_no'];
 		$model->ctt_beneficiary_name	 = $data['vnd_beneficiary_name'];
-		if($data['vnd_beneficiary_id'] != '')
+		if ($data['vnd_beneficiary_id'] != '')
 		{
 			$model->ctt_beneficiary_id = $data['vnd_beneficiary_id'];
 		}
-		if($data['vnd_account_type'] != '')
+		if ($data['vnd_account_type'] != '')
 		{
 			$model->ctt_account_type = $data['vnd_account_type'];
 		}
@@ -975,22 +975,22 @@ class Contact extends BaseActiveRecord
 					left join contact_email as cnte on	cnt.ctt_id = cnte.eml_contact_id and cnte.eml_active = 1
 					where	cnt.ctt_active = 1 ";
 
-		if($ctype != "")
+		if ($ctype != "")
 		{
-			if($ctype == 2)
+			if ($ctype == 2)
 			{
 				$ctype = "1,2";
 			}
 			$sql		 .= " AND cnt.ctt_user_type IN ($ctype)";
 			$sqlCount	 .= " AND cnt.ctt_user_type IN ($ctype)";
 		}
-		if(isset($this->strTags) && $this->strTags != "")
+		if (isset($this->strTags) && $this->strTags != "")
 		{
 			$searchTags = $this->strTags;
-			if(count($searchTags) > 0)
+			if (count($searchTags) > 0)
 			{
 				$arr = [];
-				foreach($searchTags as $tags)
+				foreach ($searchTags as $tags)
 				{
 					$arr[] = "FIND_IN_SET($tags,REPLACE(ctt_tags,' ',''))";
 				}
@@ -1000,7 +1000,7 @@ class Contact extends BaseActiveRecord
 				$sqlCount	 .= " AND " . implode(" AND ", $search2);
 			}
 		}
-		if(isset($this->search) && $this->search != "")
+		if (isset($this->search) && $this->search != "")
 		{
 			DBUtil::getLikeStatement($this->search, $bindString, $params);
 			$sql1	 = "select 	group_concat(ctt_id SEPARATOR ',')
@@ -1010,7 +1010,7 @@ class Contact extends BaseActiveRecord
 						where	ctt_active = 1 AND (ctt_business_name LIKE $bindString) OR (ctt_first_name LIKE $bindString)
 						OR (ctt_last_name LIKE $bindString) OR (eml_email_address LIKE $bindString) OR (phn_phone_no LIKE $bindString) OR (ctt_license_no LIKE $bindString)";
 			$cttIds	 = DBUtil::queryScalar($sql1, DBUtil::SDB(), $params);
-			if($cttIds != 0)
+			if ($cttIds != 0)
 			{
 				DBUtil::getINStatement($cttIds, $bindString1, $params1);
 				$sql		 .= " AND cnt.ctt_id IN ($bindString1)";
@@ -1066,7 +1066,7 @@ class Contact extends BaseActiveRecord
 				LEFT JOIN document as doclicence ON cnt.ctt_license_doc_id = doclicence.doc_id AND  doclicence.doc_type = 5 AND doclicence.doc_active = 1
 				where cnt.ctt_active = 1 ";
 
-		if(isset($this->search) && $this->search != "")
+		if (isset($this->search) && $this->search != "")
 		{
 			$countprovider	 = count($dataprovider);
 			$isPhoneArray	 = [];
@@ -1077,17 +1077,17 @@ class Contact extends BaseActiveRecord
 			$isPanArray		 = [];
 			$strparams		 = [];
 			$searchType		 = "";
-			if($countprovider > 0)
+			if ($countprovider > 0)
 			{
-				foreach($dataprovider as $key => $value)
+				foreach ($dataprovider as $key => $value)
 				{
 					###########PHONE SEARCH##################################################
 					$phoneArray = explode(',', $dataprovider[$key]['phn_phone_no']);
-					for($i = 0; $i < count($phoneArray); $i++)
+					for ($i = 0; $i < count($phoneArray); $i++)
 					{
 						$bindString	 = $bindString . $i;
 						$params		 = $params . $i;
-						if(!in_array($phoneArray[$i], $isPhoneArray) && ($phoneArray[$i] != ''))
+						if (!in_array($phoneArray[$i], $isPhoneArray) && ($phoneArray[$i] != ''))
 						{
 							DBUtil::getLikeStatement($phoneArray[$i], $bindString, $params);
 							$searchType .= "(cntp.phn_phone_no LIKE $bindString) OR ";
@@ -1098,9 +1098,9 @@ class Contact extends BaseActiveRecord
 					##########PHONE SEARCH END##################################################
 					##########EMAIL SEARCH######################################################
 					$emailArray = explode(',', $dataprovider[$key]['eml_email_address']);
-					for($i = 0; $i < count($emailArray); $i++)
+					for ($i = 0; $i < count($emailArray); $i++)
 					{
-						if(!in_array($emailArray[$i], $isEmailArray) && ($emailArray[$i] != ''))
+						if (!in_array($emailArray[$i], $isEmailArray) && ($emailArray[$i] != ''))
 						{
 							$searchType .= "(cnte.eml_email_address = '$emailArray[$i]') OR ";
 							array_push($isEmailArray, $emailArray[$i]);
@@ -1109,7 +1109,7 @@ class Contact extends BaseActiveRecord
 					##########EMAIL SEARCH END##################################################
 					##########LICENSE SEARCH####################################################
 					$license = $dataprovider[$key]['ctt_license_no'];
-					if(!in_array($license, $isLicenseArray) && $license != '')
+					if (!in_array($license, $isLicenseArray) && $license != '')
 					{
 						$searchType .= "(ctt_license_no = '$license') OR ";
 						array_push($isLicenseArray, $license);
@@ -1117,7 +1117,7 @@ class Contact extends BaseActiveRecord
 					##########LICENSE SEARCH END################################################
 					##########VOTER SEARCH####################################################
 					$voter = $dataprovider[$key]['ctt_voter_no'];
-					if(!in_array($voter, $isVoterArray) && $voter != '')
+					if (!in_array($voter, $isVoterArray) && $voter != '')
 					{
 						$searchType .= "(ctt_voter_no = '$voter') OR ";
 						array_push($isVoterArray, $voter);
@@ -1125,7 +1125,7 @@ class Contact extends BaseActiveRecord
 					##########VOTER SEARCH END################################################
 					##########AADHAR SEARCH###################################################
 					$aadhar = $dataprovider[$key]['ctt_aadhaar_no'];
-					if(!in_array($aadhar, $isAadharArray) && $aadhar != '')
+					if (!in_array($aadhar, $isAadharArray) && $aadhar != '')
 					{
 						$searchType .= "(ctt_aadhaar_no = '$aadhar') OR ";
 						array_push($isAadharArray, $aadhar);
@@ -1133,7 +1133,7 @@ class Contact extends BaseActiveRecord
 					##########AADHAR SEARCH END################################################
 					##########PAN SEARCH#######################################################
 					$pan = $dataprovider[$key]['ctt_pan_no'];
-					if(!in_array($pan, $isPanArray) && $pan != '')
+					if (!in_array($pan, $isPanArray) && $pan != '')
 					{
 						$searchType .= "(ctt_pan_no = '$pan') OR ";
 						array_push($isPanArray, $pan);
@@ -1145,7 +1145,7 @@ class Contact extends BaseActiveRecord
 			else
 			{
 				DBUtil::getLikeStatement($this->search, $bindString, $params);
-				if($this->searchtype == 1)
+				if ($this->searchtype == 1)
 				{
 					$searchType = "(cnte.eml_email_address = '$this->search')";
 				}
@@ -1214,11 +1214,11 @@ class Contact extends BaseActiveRecord
 				WHERE c1.ctt_active IN (1,3,4) AND c2.ctt_active IN (1,3,4)
                                ";
 
-		if($type == 1)
+		if ($type == 1)
 		{
 			$sql .= " AND eml_email_address = '{$data}' ";
 		}
-		else if($type == 2)
+		else if ($type == 2)
 		{
 			$sql .= " AND phn_phone_no = '{$data}' ";
 		}
@@ -1226,9 +1226,9 @@ class Contact extends BaseActiveRecord
 
 		$result = DBUtil::query($sql, DBUtil::SDB());
 
-		if($result)
+		if ($result)
 		{
-			foreach($result as $row)
+			foreach ($result as $row)
 			{
 				$cttId		 = $row['ctt_id'];
 				$voterNo	 = trim($row['ctt_voter_no']);
@@ -1242,54 +1242,54 @@ class Contact extends BaseActiveRecord
 
 				// Voter
 				$res = self::getIdsBySearchType($voterNo, 'voter');
-				if($res)
+				if ($res)
 				{
 					$arrContactIds = array_merge($arrContactIds, explode(',', $res));
 				}
 
 				// Aadhaar
 				$res = self::getIdsBySearchType($aadhaarNo, 'aadhaar');
-				if($res)
+				if ($res)
 				{
 					$arrContactIds = array_merge($arrContactIds, explode(',', $res));
 				}
 
 				// PAN
 				$res = self::getIdsBySearchType($panNo, 'pan');
-				if($res)
+				if ($res)
 				{
 					$arrContactIds = array_merge($arrContactIds, explode(',', $res));
 				}
 
 				// License
 				$res = self::getIdsBySearchType($licenseNo, 'license');
-				if($res)
+				if ($res)
 				{
 					$arrContactIds = array_merge($arrContactIds, explode(',', $res));
 				}
 
 				// Email
-				if($type != 1)
+				if ($type != 1)
 				{
 					$res = self::getIdsBySearchType($email, 'email');
-					if($res)
+					if ($res)
 					{
 						$arrContactIds = array_merge($arrContactIds, explode(',', $res));
 					}
 				}
 
 				// Phone
-				if($type != 2)
+				if ($type != 2)
 				{
 					$res = self::getIdsBySearchType($phoneNo, 'phone');
-					if($res)
+					if ($res)
 					{
 						$arrContactIds = array_merge($arrContactIds, explode(',', $res));
 					}
 				}
 			}
 
-			if(count($arrContactIds) > 0)
+			if (count($arrContactIds) > 0)
 			{
 				$contactIds = implode(",", array_unique($arrContactIds));
 
@@ -1319,7 +1319,7 @@ class Contact extends BaseActiveRecord
 						LEFT JOIN contact_phone cntp ON cnt.ctt_id = cntp.phn_contact_id AND cntp.phn_active = 1
 						LEFT JOIN contact_profile as cntf ON cnt.ctt_id = cntf.cr_contact_id AND cntf.cr_status = 1
 						LEFT JOIN vendors vnd ON vnd.vnd_id = cntf.cr_is_vendor
-                                                LEFT JOIN vendors v1 ON v1.vnd_ref_code = vnd.vnd_id
+                        LEFT JOIN vendors v1 ON v1.vnd_ref_code = vnd.vnd_id
 						LEFT JOIN drivers drv ON drv.drv_id = cntf.cr_is_driver
 						WHERE cnt.ctt_active = 1 AND cnt.ctt_id IN ({$contactIds})AND cnt.ctt_id=cnt.ctt_ref_code 
 						GROUP BY cnt.ctt_id,v1.vnd_ref_code";
@@ -1347,7 +1347,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function getIdsBySearchType($data, $type)
 	{
-		if(trim($data) == '' || trim($type) == '')
+		if (trim($data) == '' || trim($type) == '')
 		{
 			return false;
 		}
@@ -1358,7 +1358,7 @@ class Contact extends BaseActiveRecord
 
 		$sqlWhere = " WHERE c1.ctt_active IN (1,3,4) AND c2.ctt_active IN (1,3,4) ";
 
-		switch($type)
+		switch ($type)
 		{
 			case 'email':
 				$sql		 .= " LEFT JOIN contact_email ON c1.ctt_id = eml_contact_id AND eml_active = 1 ";
@@ -1391,7 +1391,7 @@ class Contact extends BaseActiveRecord
 	{
 		$contactList = $this->getContactList($usrtype);
 		$JSONList	 = [];
-		foreach($contactList as $key => $val)
+		foreach ($contactList as $key => $val)
 		{
 			$JSONList[] = array("id" => $key, "text" => $val);
 		}
@@ -1404,7 +1404,7 @@ class Contact extends BaseActiveRecord
 		$sql		 = "SELECT ctt_id,ctt_owner_id,ctt_first_name,ctt_last_name,ctt_pan_no,eml_id,eml_email_address FROM contact INNER JOIN contact_email ON ctt_id = eml_contact_id WHERE ctt_user_type = '" . $utype . "' AND eml_is_primary = 1 AND eml_active = 1";
 		$contactAll	 = DBUtil::queryAll($sql);
 		$arrContacts = array();
-		foreach($contactAll as $val)
+		foreach ($contactAll as $val)
 		{
 			$arrContacts[$val['ctt_id']] = $val['eml_email_address'];
 		}
@@ -1451,11 +1451,11 @@ class Contact extends BaseActiveRecord
 	public function getName()
 	{
 		$name = '';
-		if($this->ctt_user_type == 1)
+		if ($this->ctt_user_type == 1)
 		{
 			$name = $this->ctt_first_name . ' ' . $this->ctt_last_name;
 		}
-		else if($this->ctt_user_type == 2)
+		else if ($this->ctt_user_type == 2)
 		{
 			$name = $this->ctt_business_name;
 		}
@@ -1466,18 +1466,18 @@ class Contact extends BaseActiveRecord
 	{
 		$where	 = "";
 		$where0	 = "";
-		if($arr['name'])
+		if ($arr['name'])
 		{
 			$name	 = $arr['name'];
 			$where	 = " AND  ( (t.ctt_business_name LIKE '%" . ($name) . "%') OR (t.ctt_first_name LIKE '%" . ($name) . "%') OR (t.ctt_last_name LIKE '%" . ($name) . "%'))";
 			$where0	 = " AND ( (cntt.ctt_business_name LIKE '%" . ($name) . "%') OR (cntt.ctt_first_name LIKE '%" . ($name) . "%') OR (cntt.ctt_last_name LIKE '%" . ($name) . "%'))";
 		}
-		if($arr['email_address'])
+		if ($arr['email_address'])
 		{
 			$cntemail	 = $arr['email_address'];
 			$where		 = "  AND (cnte.eml_email_address LIKE '%" . ($cntemail) . "%')";
 		}
-		if($arr['phone_no'])
+		if ($arr['phone_no'])
 		{
 			$cntph	 = $arr['phone_no'];
 			$where	 = "  AND (cntp.phn_phone_no LIKE '%" . ($cntph) . "%')";
@@ -1600,7 +1600,7 @@ class Contact extends BaseActiveRecord
 		$sql		 = "SELECT `vnd_id` FROM `vendors` WHERE `vnd_contact_id` = '$contactId'";
 		$cntVendor	 = DBUtil::command($sql)->execute();
 
-		if($cntVendor)
+		if ($cntVendor)
 		{
 			$sql = "Update `vendors` set `vnd_ref_code` =(SELECT `vnd_id` FROM `vendors` WHERE `vnd_contact_id` = '$contactId'),vnd_merge_on = now() WHERE vnd_contact_id = $arr";
 			$cnt = DBUtil::command($sql)->execute();
@@ -1612,7 +1612,7 @@ class Contact extends BaseActiveRecord
 		$sql		 = "SELECT `drv_id` FROM `drivers` WHERE `drv_contact_id` = '$contactId'";
 		$cntDriver	 = DBUtil::command($sql)->execute();
 
-		if($cntDriver)
+		if ($cntDriver)
 		{
 			$sql = "Update `drivers` set `drv_ref_code` =(SELECT `drv_id` FROM `drivers` WHERE `drv_contact_id` = '$contactId'),drv_merge_on = now() WHERE drv_contact_id = $arr";
 			$cnt = DBUtil::command($sql)->execute();
@@ -1674,7 +1674,7 @@ class Contact extends BaseActiveRecord
 		$joinEmail		 = "";
 		$joinPhone		 = "";
 		$mapEntity		 = "";
-		if($type == "vendors")
+		if ($type == "vendors")
 		{
 			$select		 .= "SELECT  ctt_id,vnd_id,vnd_name,vnd_code, eml_contact_id, 
 					eml_email_address, phn_contact_id, phn_phone_no, ctt_voter_no, ctt_aadhaar_no, ctt_pan_no, 
@@ -1721,7 +1721,7 @@ class Contact extends BaseActiveRecord
 						AND vendors.vnd_active =1 
 						AND vendors.vnd_is_merged =0 
 						AND vendors.vnd_merged_to=0  ";
-			if($ctt_id != NULL)
+			if ($ctt_id != NULL)
 			{
 				$vendors1	 .= "OR cr_contact_id IN
 					(SELECT cr_contact_id
@@ -1769,7 +1769,7 @@ class Contact extends BaseActiveRecord
 			}
 			$groupby = "GROUP BY ctt_id ,vnd_id HAVING vnd =1 ";
 		}
-		else if($type == "drivers")
+		else if ($type == "drivers")
 		{
 			$selectCount	 .= "SELECT  ctt_id,drv_active drv ";
 			$select			 .= "SELECT ctt_id,drv_id,drv_name,drv_code,drv_contact_id, eml_contact_id,
@@ -1785,7 +1785,7 @@ class Contact extends BaseActiveRecord
 			$join			 .= " INNER JOIN drivers  ON contact.ctt_id = drivers.drv_contact_id  AND drivers.drv_active =1 and drivers.drv_is_merged =0 AND drivers.drv_merged_to=0  ";
 			$joinEmail		 .= "INNER JOIN drivers  ON contact_email.eml_contact_id = drivers.drv_contact_id  AND drivers.drv_active =1 and drivers.drv_is_merged =0 AND drivers.drv_merged_to=0 ";
 			$joinPhone		 .= "INNER JOIN drivers  ON contact_phone.phn_contact_id = drivers.drv_contact_id  AND drivers.drv_active =1 and drivers.drv_is_merged =0 AND drivers.drv_merged_to=0 ";
-			if($ctt_id != NULL)
+			if ($ctt_id != NULL)
 			{
 				$vendors1	 .= "OR drv_contact_id IN
 					(SELECT drv_contact_id
@@ -1833,7 +1833,7 @@ class Contact extends BaseActiveRecord
 			$groupby	 = "GROUP BY ctt_id  ";
 		}
 
-		if($arr['ctt_voter_no'])
+		if ($arr['ctt_voter_no'])
 		{
 			$where .= "  ctt_voter_no IN
             (SELECT contact.ctt_voter_no
@@ -1843,7 +1843,7 @@ class Contact extends BaseActiveRecord
              GROUP BY ctt_voter_no
              HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['ctt_id'])
+		if ($arr['ctt_id'])
 		{
 			$where8 .= "ctt_id IN
             (SELECT contact.ctt_id
@@ -1852,7 +1852,7 @@ class Contact extends BaseActiveRecord
 				and (ctt_id = '" . ($arr['ctt_id']) . "')
              HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['ctt_aadhaar_no'])
+		if ($arr['ctt_aadhaar_no'])
 		{
 			$where1 .= "  ctt_aadhaar_no IN
             (SELECT contact.ctt_aadhaar_no
@@ -1861,7 +1861,7 @@ class Contact extends BaseActiveRecord
              GROUP BY ctt_aadhaar_no
              HAVING COUNT(DISTINCT ctt_id) > 1)";
 		}
-		if($arr['ctt_pan_no'])
+		if ($arr['ctt_pan_no'])
 		{
 			$where2 .= "  ctt_pan_no IN (SELECT contact.ctt_pan_no
 				FROM contact $join
@@ -1869,7 +1869,7 @@ class Contact extends BaseActiveRecord
 				GROUP BY ctt_pan_no
 				HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['ctt_license_no'])
+		if ($arr['ctt_license_no'])
 		{
 			$where3 .= " ctt_license_no IN (SELECT contact.ctt_license_no
                         FROM contact $join
@@ -1877,7 +1877,7 @@ class Contact extends BaseActiveRecord
                         GROUP BY ctt_license_no
                         HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['email_address'])
+		if ($arr['email_address'])
 		{
 			$where4 .= " eml_email_address IN
             (SELECT contact_email.eml_email_address
@@ -1886,7 +1886,7 @@ class Contact extends BaseActiveRecord
              GROUP BY eml_email_address
              HAVING count(DISTINCT eml_contact_id) > 1) ";
 		}
-		if($arr['phone_no'])
+		if ($arr['phone_no'])
 		{
 			$where5 .= " phn_phone_no IN
             (SELECT contact_phone.phn_phone_no
@@ -1895,7 +1895,7 @@ class Contact extends BaseActiveRecord
              GROUP BY phn_phone_no
              HAVING count(DISTINCT phn_contact_id) > 1)";
 		}
-		if($arr['contactperson'])
+		if ($arr['contactperson'])
 		{
 			$where6 .= "ctt_first_name IN
 			(SELECT contact.ctt_first_name
@@ -1913,7 +1913,7 @@ class Contact extends BaseActiveRecord
 			 HAVING COUNT(DISTINCT ctt_id) > 1)";
 		}
 
-		if(count($arr) == 0)
+		if (count($arr) == 0)
 		{
 			$sqlCount	 .= "$selectCount	FROM $type
 					  $vendorsCount
@@ -2004,7 +2004,7 @@ class Contact extends BaseActiveRecord
              HAVING count(DISTINCT phn_contact_id) > 1)
              $vendors1 ";
 		}
-		else if($arr['ctt_voter_no'])
+		else if ($arr['ctt_voter_no'])
 		{
 			$sql .= "$select	FROM $type
 					 $vendors
@@ -2020,33 +2020,33 @@ class Contact extends BaseActiveRecord
 					 WHERE  ctt_active = 1 and (
 					$where  $vendors1 ";
 
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or  $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_aadhaar_no'])
+		else if ($arr['ctt_aadhaar_no'])
 		{
 			$sql .= "$select	FROM $type
 					$vendors
@@ -2062,33 +2062,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where1  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_pan_no'])
+		else if ($arr['ctt_pan_no'])
 		{
 			$sql .= "$select	FROM $type
 					 $vendors
@@ -2104,33 +2104,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where2  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_license_no'])
+		else if ($arr['ctt_license_no'])
 		{
 			$sql .= "$select	FROM $type
 				    $vendors
@@ -2145,33 +2145,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where3  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['email_address'])
+		else if ($arr['email_address'])
 		{
 			$sql .= "$select FROM $type
 				    $vendors
@@ -2186,33 +2186,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where4  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['phone_no'])
+		else if ($arr['phone_no'])
 		{
 			$sql .= "$select	FROM $type
 				    $vendors
@@ -2227,33 +2227,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where5  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
 		}
-		else if($arr['contactperson'])
+		else if ($arr['contactperson'])
 		{
 			$sql .= "$select	FROM $type
 				    $vendors
@@ -2268,38 +2268,38 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where6  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_id'])
+		else if ($arr['ctt_id'])
 		{
 			$sql .= "$select FROM $type
 					 $vendors
@@ -2315,46 +2315,46 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where8  $vendors1 ";
 
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or  $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
 
-		if($ctt_id != NULL && count($arr) > 0)
+		if ($ctt_id != NULL && count($arr) > 0)
 		{
-			if($vnd_id != "" && $type == "vendors")
+			if ($vnd_id != "" && $type == "vendors")
 			{
 				$sql		 .= " ) and  vnd_id <> $vnd_id and vnd_is_merged =0 and vnd_merged_to=0  $groupby ORDER BY ctt_id ";
 				$sqlCount	 .= " ) and  vnd_id <> $vnd_id and vnd_is_merged =0 and vnd_merged_to=0  $groupby  ";
 			}
-			else if($vnd_id != "" && $type == "drivers")
+			else if ($vnd_id != "" && $type == "drivers")
 			{
 				$sql		 .= " ) and  drv_id <> $vnd_id and drv_is_merged =0 and drv_merged_to=0  $groupby ORDER BY ctt_id ";
 				$sqlCount	 .= " ) and  drv_id <> $vnd_id and drv_is_merged =0 and drv_merged_to=0  $groupby ";
@@ -2365,14 +2365,14 @@ class Contact extends BaseActiveRecord
 				$sqlCount	 .= " ) and ctt_id <> $ctt_id  $groupby  ";
 			}
 		}
-		else if($ctt_id != NULL && count($arr) == 0)
+		else if ($ctt_id != NULL && count($arr) == 0)
 		{
-			if($vnd_id != "" && $type == "vendors")
+			if ($vnd_id != "" && $type == "vendors")
 			{
 				$sql		 .= " ) and vnd_id <> $vnd_id and  vnd_is_merged=0 and vnd_merged_to=0  $groupby  ";
 				$sqlCount	 .= " ) and vnd_id <> $vnd_id and  vnd_is_merged=0 and vnd_merged_to=0  $groupby  ";
 			}
-			else if($vnd_id != "" && $type == "drivers")
+			else if ($vnd_id != "" && $type == "drivers")
 			{
 				$sql		 .= " ) and drv_id <> $vnd_id and  drv_is_merged=0 and drv_merged_to=0  $groupby ";
 				$sqlCount	 .= " ) and drv_id <> $vnd_id and  drv_is_merged=0 and drv_merged_to=0  $groupby ";
@@ -2417,7 +2417,7 @@ class Contact extends BaseActiveRecord
 		$joinEmail		 = "";
 		$joinPhone		 = "";
 		$mapEntity		 = "";
-		if($type == "vendors")
+		if ($type == "vendors")
 		{
 			$select			 .= "SELECT  ctt_id,vnd_id,vnd_name,vnd_code,vnd_contact_id,
 					eml_contact_id,
@@ -2439,7 +2439,7 @@ class Contact extends BaseActiveRecord
 			$join			 .= " INNER JOIN vendors  ON contact.ctt_id = vendors.vnd_contact_id  AND vendors.vnd_active =1 and vendors.vnd_is_merged =0 AND vendors.vnd_merged_to=0";
 			$joinEmail		 .= " INNER JOIN vendors  ON contact_email.eml_contact_id = vendors.vnd_contact_id  AND vendors.vnd_active =1 and vendors.vnd_is_merged =0 AND vendors.vnd_merged_to=0 ";
 			$joinPhone		 .= " INNER JOIN vendors  ON contact_phone.phn_contact_id = vendors.vnd_contact_id  AND vendors.vnd_active =1 and vendors.vnd_is_merged =0 AND vendors.vnd_merged_to=0 ";
-			if($ctt_id != NULL)
+			if ($ctt_id != NULL)
 			{
 				$vendors1	 .= "OR vnd_contact_id IN
 					(SELECT vnd_contact_id
@@ -2471,7 +2471,7 @@ class Contact extends BaseActiveRecord
 			}
 			$groupby = "GROUP BY ctt_id ,vnd_id HAVING vnd =1 ";
 		}
-		else if($type == "drivers")
+		else if ($type == "drivers")
 		{
 			$selectCount	 .= "SELECT  ctt_id,drv_active drv ";
 			$select			 .= "SELECT ctt_id,drv_id,drv_name,drv_code,drv_contact_id,
@@ -2492,7 +2492,7 @@ class Contact extends BaseActiveRecord
 			$join			 .= " INNER JOIN drivers  ON contact.ctt_id = drivers.drv_contact_id  AND drivers.drv_active =1 and drivers.drv_is_merged =0 AND drivers.drv_merged_to=0  ";
 			$joinEmail		 .= "INNER JOIN drivers  ON contact_email.eml_contact_id = drivers.drv_contact_id  AND drivers.drv_active =1 and drivers.drv_is_merged =0 AND drivers.drv_merged_to=0 ";
 			$joinPhone		 .= "INNER JOIN drivers  ON contact_phone.phn_contact_id = drivers.drv_contact_id  AND drivers.drv_active =1 and drivers.drv_is_merged =0 AND drivers.drv_merged_to=0 ";
-			if($ctt_id != NULL)
+			if ($ctt_id != NULL)
 			{
 				$vendors1	 .= "OR drv_contact_id IN
 					(SELECT drv_contact_id
@@ -2540,7 +2540,7 @@ class Contact extends BaseActiveRecord
 			$groupby	 = "GROUP BY ctt_id  ";
 		}
 
-		if($arr['ctt_voter_no'])
+		if ($arr['ctt_voter_no'])
 		{
 			$where .= "  ctt_voter_no IN
             (SELECT contact.ctt_voter_no
@@ -2549,7 +2549,7 @@ class Contact extends BaseActiveRecord
              GROUP BY ctt_voter_no
              HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['ctt_id'])
+		if ($arr['ctt_id'])
 		{
 			$where8 .= "ctt_id IN
             (SELECT contact.ctt_id
@@ -2557,7 +2557,7 @@ class Contact extends BaseActiveRecord
              WHERE ctt_id <> '' AND ctt_id IS NOT NULL AND ctt_active = 1 and (ctt_id LIKE '%" . ($arr['ctt_id']) . "%')
              HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['ctt_aadhaar_no'])
+		if ($arr['ctt_aadhaar_no'])
 		{
 			$where1 .= "  ctt_aadhaar_no IN
             (SELECT contact.ctt_aadhaar_no
@@ -2566,7 +2566,7 @@ class Contact extends BaseActiveRecord
              GROUP BY ctt_aadhaar_no
              HAVING COUNT(DISTINCT ctt_id) > 1)";
 		}
-		if($arr['ctt_pan_no'])
+		if ($arr['ctt_pan_no'])
 		{
 			$where2 .= "  ctt_pan_no IN (SELECT contact.ctt_pan_no
                         FROM contact $join
@@ -2574,7 +2574,7 @@ class Contact extends BaseActiveRecord
                         GROUP BY ctt_pan_no
                         HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['ctt_license_no'])
+		if ($arr['ctt_license_no'])
 		{
 			$where3 .= " ctt_license_no IN (SELECT contact.ctt_license_no
                         FROM contact $join
@@ -2582,7 +2582,7 @@ class Contact extends BaseActiveRecord
                         GROUP BY ctt_license_no
                         HAVING COUNT(DISTINCT ctt_id) > 1) ";
 		}
-		if($arr['email_address'])
+		if ($arr['email_address'])
 		{
 			$where4 .= " eml_email_address IN
             (SELECT contact_email.eml_email_address
@@ -2591,7 +2591,7 @@ class Contact extends BaseActiveRecord
              GROUP BY eml_email_address
              HAVING count(DISTINCT eml_contact_id) > 1) ";
 		}
-		if($arr['phone_no'])
+		if ($arr['phone_no'])
 		{
 			$where5 .= " phn_phone_no IN
             (SELECT contact_phone.phn_phone_no
@@ -2600,7 +2600,7 @@ class Contact extends BaseActiveRecord
              GROUP BY phn_phone_no
              HAVING count(DISTINCT phn_contact_id) > 1)";
 		}
-		if($arr['contactperson'])
+		if ($arr['contactperson'])
 		{
 
 			$where6 .= "ctt_first_name IN
@@ -2617,7 +2617,7 @@ class Contact extends BaseActiveRecord
              HAVING COUNT(DISTINCT ctt_id) > 1)";
 		}
 
-		if(count($arr) == 0)
+		if (count($arr) == 0)
 		{
 			$sqlCount	 .= "$selectCount	FROM $type
 					  $vendorsCount
@@ -2703,7 +2703,7 @@ class Contact extends BaseActiveRecord
              HAVING count(DISTINCT phn_contact_id) > 1)
              $vendors1 ";
 		}
-		else if($arr['ctt_voter_no'])
+		else if ($arr['ctt_voter_no'])
 		{
 			$sql .= "$select	FROM $type
 					 $vendors
@@ -2719,33 +2719,33 @@ class Contact extends BaseActiveRecord
 					 WHERE  ctt_active = 1 and (
 					$where  $vendors1 ";
 
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or  $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_aadhaar_no'])
+		else if ($arr['ctt_aadhaar_no'])
 		{
 			$sql .= "$select	FROM $type
 					$vendors
@@ -2761,33 +2761,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where1  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_pan_no'])
+		else if ($arr['ctt_pan_no'])
 		{
 			$sql .= "$select	FROM $type
 					 $vendors
@@ -2803,33 +2803,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where2  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_license_no'])
+		else if ($arr['ctt_license_no'])
 		{
 			$sql .= "$select	FROM $type
 				    $vendors
@@ -2844,33 +2844,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where3  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['email_address'])
+		else if ($arr['email_address'])
 		{
 			$sql .= "$select FROM $type
 				    $vendors
@@ -2885,33 +2885,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where4  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['phone_no'])
+		else if ($arr['phone_no'])
 		{
 			$sql .= "$select	FROM $type
 				    $vendors
@@ -2926,33 +2926,33 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where5  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
 		}
-		else if($arr['contactperson'])
+		else if ($arr['contactperson'])
 		{
 			$sql .= "$select	FROM $type
 				    $vendors
@@ -2967,38 +2967,38 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where6  $vendors1 ";
 
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
-		else if($arr['ctt_id'])
+		else if ($arr['ctt_id'])
 		{
 			$sql .= "$select FROM $type
 					 $vendors
@@ -3014,46 +3014,46 @@ class Contact extends BaseActiveRecord
 					WHERE ctt_active = 1 and  (
 					$where8  $vendors1 ";
 
-			if($arr['ctt_aadhaar_no'])
+			if ($arr['ctt_aadhaar_no'])
 			{
 				$sql		 .= " or $where1";
 				$sqlCount	 .= " or $where1";
 			}
-			if($arr['ctt_voter_no'])
+			if ($arr['ctt_voter_no'])
 			{
 				$sql		 .= " or  $where ";
 				$sqlCount	 .= " or $where ";
 			}
-			if($arr['ctt_pan_no'])
+			if ($arr['ctt_pan_no'])
 			{
 				$sql		 .= " or  $where2";
 				$sqlCount	 .= " or $where2";
 			}
-			if($arr['ctt_license_no'])
+			if ($arr['ctt_license_no'])
 			{
 				$sql		 .= " or $where3";
 				$sqlCount	 .= " or $where3";
 			}
-			if($arr['email_address'])
+			if ($arr['email_address'])
 			{
 				$sql		 .= " or $where4";
 				$sqlCount	 .= " or $where4";
 			}
-			if($arr['phone_no'])
+			if ($arr['phone_no'])
 			{
 				$sql		 .= " or $where5";
 				$sqlCount	 .= " or $where5";
 			}
 		}
 
-		if($ctt_id != NULL && count($arr) > 0)
+		if ($ctt_id != NULL && count($arr) > 0)
 		{
-			if($vnd_id != "" && $type == "vendors")
+			if ($vnd_id != "" && $type == "vendors")
 			{
 				$sql		 .= " ) and  vnd_id <> $vnd_id and vnd_is_merged =0 and vnd_merged_to=0  $groupby ORDER BY ctt_id ";
 				$sqlCount	 .= " ) and  vnd_id <> $vnd_id and vnd_is_merged =0 and vnd_merged_to=0  $groupby  ";
 			}
-			else if($vnd_id != "" && $type == "drivers")
+			else if ($vnd_id != "" && $type == "drivers")
 			{
 				$sql		 .= " ) and  drv_id <> $vnd_id and drv_is_merged =0 and drv_merged_to=0  $groupby ORDER BY ctt_id ";
 				$sqlCount	 .= " ) and  drv_id <> $vnd_id and drv_is_merged =0 and drv_merged_to=0  $groupby ";
@@ -3064,14 +3064,14 @@ class Contact extends BaseActiveRecord
 				$sqlCount	 .= " ) and ctt_id <> $ctt_id  $groupby  ";
 			}
 		}
-		else if($ctt_id != NULL && count($arr) == 0)
+		else if ($ctt_id != NULL && count($arr) == 0)
 		{
-			if($vnd_id != "" && $type == "vendors")
+			if ($vnd_id != "" && $type == "vendors")
 			{
 				$sql		 .= " ) and vnd_id <> $vnd_id and  vnd_is_merged=0 and vnd_merged_to=0  $groupby  ";
 				$sqlCount	 .= " ) and vnd_id <> $vnd_id and  vnd_is_merged=0 and vnd_merged_to=0  $groupby  ";
 			}
-			else if($vnd_id != "" && $type == "drivers")
+			else if ($vnd_id != "" && $type == "drivers")
 			{
 				$sql		 .= " ) and drv_id <> $vnd_id and  drv_is_merged=0 and drv_merged_to=0  $groupby ";
 				$sqlCount	 .= " ) and drv_id <> $vnd_id and  drv_is_merged=0 and drv_merged_to=0  $groupby ";
@@ -3096,25 +3096,25 @@ class Contact extends BaseActiveRecord
 
 	public function checkContactInfoDriver($attribute, $params)
 	{
-		if(isset($this->ctt_id) && $this->ctt_id > 0)
+		if (isset($this->ctt_id) && $this->ctt_id > 0)
 		{
 			$result = Contact::model()->getContactDetails($this->ctt_id);
-			if($result['phn_phone_no'] == "")
+			if ($result['phn_phone_no'] == "")
 			{
 				$this->addError($attribute, "Phone number cannot be blank. ");
 				// return false;
 			}
-			if($result['ctt_license_no'] == "")
+			if ($result['ctt_license_no'] == "")
 			{
 				$this->addError($attribute, "Licence Number cannot be blank. ");
 				// return false;
 			}
-			if($result['ctt_license_exp_date'] == "")
+			if ($result['ctt_license_exp_date'] == "")
 			{
 				$this->addError($attribute, "Licence expiry date cannot be blank. ");
 				// return false;
 			}
-			if($result['ctt_license_doc_id'] == "")
+			if ($result['ctt_license_doc_id'] == "")
 			{
 				$this->addError($attribute, "Licence Path cannot be blank. ");
 				// return false;
@@ -3132,7 +3132,7 @@ class Contact extends BaseActiveRecord
 	public function saveProfileImage($cttId = null)
 	{
 		$model = $this;
-		if($cttId != null)
+		if ($cttId != null)
 		{
 			$model = Contact::model()->findByPk($cttId);
 		}
@@ -3141,7 +3141,7 @@ class Contact extends BaseActiveRecord
 			$cttId = $model->ctt_id;
 		}
 		$profileImage = CUploadedFile::getInstance($model, "ctt_profile_path");
-		if($profileImage != "")
+		if ($profileImage != "")
 		{
 			$path					 = Document::model()->uploadDocument($cttId, 'profile', $profileImage, '');
 			$model->ctt_profile_path = $path[0];
@@ -3152,7 +3152,7 @@ class Contact extends BaseActiveRecord
 	public static function saveContactLog($oldCttId, $newCttId)
 	{
 		$userInfo = UserInfo::getInstance();
-		if($oldCttId == NULL)
+		if ($oldCttId == NULL)
 		{
 			$event_id	 = ContactLog::CONTACT_CREATED;
 			$desc		 = "Contact created";
@@ -3171,7 +3171,7 @@ class Contact extends BaseActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if(!$this->save())
+			if (!$this->save())
 			{
 				$returnSet->setErrors($this->getErrors(), 1);
 				throw new CHttpException("Failed to add contact", 1);
@@ -3181,7 +3181,7 @@ class Contact extends BaseActiveRecord
 			$userInfo			 = UserInfo::getInstance();
 			$getOldDifference	 = array_merge(array_diff_assoc($oldData, $this->attributes));
 			$changesForLog		 = " Old Values: " . $this->getModificationMSG($getOldDifference, false);
-			if($oldVendorModel->vnd_id != NULL)
+			if ($oldVendorModel->vnd_id != NULL)
 			{
 				// $message = "Vendor contact merged | Vendor ID: $oldVendorModel->vnd_id and Contact ID: $mgrcttid, Contact Merge:$mgrcttid  is merged with $cttid.";
 				$message = "Vendor contact merged | Vendor ID: $oldVendorModel->vnd_id  Contact:$mgrcttid merged with contact:$cttid.";
@@ -3190,7 +3190,7 @@ class Contact extends BaseActiveRecord
 			}
 
 			$oldDriverModel = Drivers::model()->findByDriverContactID($mgrcttid);
-			if($oldDriverModel->drv_id != NULL)
+			if ($oldDriverModel->drv_id != NULL)
 			{
 				// $message = "Driver contact merged, Driver ID: $oldDriverModel->drv_id And Contact ID: $mgrcttid, Contact	Merge :  $mgrcttid  is merged with $cttid.";
 				$message = "Driver contact merged| Driver ID: $oldDriverModel->drv_id; Contact:$mgrcttid merged with contact:$cttid.";
@@ -3206,10 +3206,10 @@ class Contact extends BaseActiveRecord
 			$returnSet->setStatus(true);
 			$returnSet->setData(["id" => $cttid]);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
-			if($returnSet->getErrorCode() == 0)
+			if ($returnSet->getErrorCode() == 0)
 			{
 				$returnSet->setErrorCode($e->getCode());
 				$returnSet->addError($e->getMessage());
@@ -3222,65 +3222,65 @@ class Contact extends BaseActiveRecord
 	public function getModificationMSG($diff)
 	{
 		$model	 = $msg	 = '';
-		if(count($diff) > 0)
+		if (count($diff) > 0)
 		{
-			if($diff['ctt_first_name'] || $diff['ctt_last_name'])
+			if ($diff['ctt_first_name'] || $diff['ctt_last_name'])
 			{
 				$msg .= ' Contact Name: ' . $diff['ctt_first_name'] . ' ' . $diff['ctt_last_name'] . ',';
 			}
-			if($diff['ctt_business_name'])
+			if ($diff['ctt_business_name'])
 			{
 				$msg .= ' Contact Business Name: ' . $diff['ctt_business_name'] . ',';
 			}
-			if($diff['ctt_address'])
+			if ($diff['ctt_address'])
 			{
 				$msg .= ' Contact Address: ' . $diff['ctt_address'] . ',';
 			}
-			if($diff['ctt_city'])
+			if ($diff['ctt_city'])
 			{
 				$msg .= ' Contact City: ' . $diff['ctt_city'] . ',';
 			}
-			if($diff['ctt_state'])
+			if ($diff['ctt_state'])
 			{
 				$msg .= ' Contact State: ' . $diff['ctt_state'] . ',';
 			}
-			if($diff['ctt_voter_no'])
+			if ($diff['ctt_voter_no'])
 			{
 				$msg .= ' Contact Voter No: ' . $diff['ctt_voter_no'] . ',';
 			}
-			if($diff['ctt_aadhaar_no'])
+			if ($diff['ctt_aadhaar_no'])
 			{
 				$msg .= ' Contact Aadhaar No: ' . $diff['ctt_aadhaar_no'] . ',';
 			}
-			if($diff['ctt_pan_no'])
+			if ($diff['ctt_pan_no'])
 			{
 				$msg .= ' Contact Pan No: ' . $diff['ctt_pan_no'] . ',';
 			}
-			if($diff['ctt_license_no'])
+			if ($diff['ctt_license_no'])
 			{
 				$msg .= ' Contact License No: ' . $diff['ctt_license_no'] . ',';
 			}
-			if($diff['ctt_bank_name'])
+			if ($diff['ctt_bank_name'])
 			{
 				$msg .= ' Contact Bank Name: ' . $diff['ctt_bank_name'] . ',';
 			}
-			if($diff['ctt_bank_branch'])
+			if ($diff['ctt_bank_branch'])
 			{
 				$msg .= ' Contact Bank Branch: ' . $diff['ctt_bank_branch'] . ',';
 			}
-			if($diff['ctt_bank_account_no'])
+			if ($diff['ctt_bank_account_no'])
 			{
 				$msg .= ' Contact Bank Account No: ' . $diff['ctt_bank_account_no'] . ',';
 			}
-			if($diff['ctt_bank_ifsc'])
+			if ($diff['ctt_bank_ifsc'])
 			{
 				$msg .= ' Contact Bank IFSC: ' . $diff['ctt_bank_ifsc'] . ',';
 			}
-			if($diff['ctt_beneficiary_name'])
+			if ($diff['ctt_beneficiary_name'])
 			{
 				$msg .= ' Contact Beneficiary Name: ' . $diff['ctt_beneficiary_name'] . ',';
 			}
-			if($diff['vrs_credit_limit'])
+			if ($diff['vrs_credit_limit'])
 			{
 				$msg .= ' Vendor Credit Limit: ' . $diff['vrs_credit_limit'] . ',';
 			}
@@ -3299,30 +3299,30 @@ class Contact extends BaseActiveRecord
 
 	public function findDuplicateContacts($email = '', $phone = '', $licence = '', $pan = '', $aadhar = '', $voter = '')
 	{
-		if($email != '' || $phone != '' || $licence != '' || $pan != '' || $aadhar != '' || $voter != '')
+		if ($email != '' || $phone != '' || $licence != '' || $pan != '' || $aadhar != '' || $voter != '')
 		{
 			$cond = "";
-			if($email != '')
+			if ($email != '')
 			{
 				$cond = " AND eml_email_address = '$email'";
 			}
-			if($phone != '')
+			if ($phone != '')
 			{
 				$cond .= " AND phn_phone_no = '$phone'";
 			}
-			if($licence != '')
+			if ($licence != '')
 			{
 				$cond .= " AND ctt_license_no='$licence'";
 			}
-			if($pan != '')
+			if ($pan != '')
 			{
 				$cond .= " AND ctt_pan_no = '$pan'";
 			}
-			if($aadhar != '')
+			if ($aadhar != '')
 			{
 				$cond .= " AND ctt_aadhaar_no = '$aadhar'";
 			}
-			if($voter != '')
+			if ($voter != '')
 			{
 				$cond .= " AND ctt_voter_no = '$voter'";
 			}
@@ -3391,11 +3391,11 @@ class Contact extends BaseActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if($arr['bcb_drv_lic_exp_date'] != '' || $arr['bcb_drv_lic_number'] != '' || $documents != null)
+			if ($arr['bcb_drv_lic_exp_date'] != '' || $arr['bcb_drv_lic_number'] != '' || $documents != null)
 			{
 				$doc_file_front_path = CUploadedFile::getInstance($dmodel, 'doc_file_front_path');
 				$doc_file_back_path	 = CUploadedFile::getInstance($dmodel, 'doc_file_back_path');
-				if($doc_file_front_path !== null || $doc_file_back_path != null)
+				if ($doc_file_front_path !== null || $doc_file_back_path != null)
 				{
 					$dmodel->attributes							 = $documents;
 					$dmodel->doc_type							 = 5;
@@ -3405,20 +3405,20 @@ class Contact extends BaseActiveRecord
 					$drvModel->drvContact->addType				 = -1;
 					$drvModel->drvContact->ctt_license_doc_id	 = $dmodel->doc_id;
 				}
-				if($arr['bcb_drv_lic_exp_date'] != '' && $arr['bcb_drv_lic_exp_date'] != NULL)
+				if ($arr['bcb_drv_lic_exp_date'] != '' && $arr['bcb_drv_lic_exp_date'] != NULL)
 				{
 					$drvLicExpDate								 = DateTimeFormat::DatePickerToDate($arr['bcb_drv_lic_exp_date']);
 					$drvModel->drvContact->ctt_license_exp_date	 = $drvLicExpDate;
 					$newData['ctt_license_exp_date']			 = $drvModel->drvContact->ctt_license_exp_date;
 					$drvModel->drvContact->ctt_license_exp_date	 = $drvLicExpDate;
 				}
-				if($arr['bcb_drv_lic_number'] != '' && $arr['bcb_drv_lic_number'] != NULL)
+				if ($arr['bcb_drv_lic_number'] != '' && $arr['bcb_drv_lic_number'] != NULL)
 				{
 					$drvModel->drvContact->ctt_license_no	 = $arr['bcb_drv_lic_number'];
 					$newData['ctt_license_no']				 = $drvModel->drvContact->ctt_license_no;
 					$drvModel->drvContact->ctt_license_no	 = $arr['bcb_drv_lic_number'];
 				}
-				if($drvModel->drvContact->update())
+				if ($drvModel->drvContact->update())
 				{
 					$description = "Driver modified| ";
 					$description .= "Params updated: " . Drivers::model()->getModificationMSG($newData, false);
@@ -3428,7 +3428,7 @@ class Contact extends BaseActiveRecord
 			DBUtil::commitTransaction($transaction);
 			return true;
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			return false;
@@ -3444,14 +3444,14 @@ class Contact extends BaseActiveRecord
 	public static function checkExistingDetails($field, $value, $id = null)
 	{
 		$success = false;
-		if($value == '')
+		if ($value == '')
 		{
 			goto end;
 		}
 
 		$params = ['value' => $value];
 
-		if($id != null)
+		if ($id != null)
 		{
 			$where			 = " AND ctt_id<>:id";
 			$params['id']	 = $id;
@@ -3477,7 +3477,7 @@ class Contact extends BaseActiveRecord
 
 		try
 		{
-			if(empty($licenseNo))
+			if (empty($licenseNo))
 			{
 				throw new Exception("Data not passed", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3487,7 +3487,7 @@ class Contact extends BaseActiveRecord
 
 			$returnset->setStatus($count > 0);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3507,7 +3507,7 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($licenseNo))
+			if (empty($licenseNo))
 			{
 				throw new Exception("Data not passed", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3515,13 +3515,13 @@ class Contact extends BaseActiveRecord
 			$sql	 = "SELECT ctt_id FROM contact WHERE ctt_license_no = '$licenseNo' and  ctt_active = 1";
 			$data	 = DBUtil::command($sql, DBUtil::SDB())->queryScalar();
 
-			if(!empty($data))
+			if (!empty($data))
 			{
 				$returnset->setStatus(true);
 				$returnset->setData($data);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3541,7 +3541,7 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($voterNo))
+			if (empty($voterNo))
 			{
 				throw new Exception("Data not passed", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3550,7 +3550,7 @@ class Contact extends BaseActiveRecord
 			$count	 = DBUtil::command($sql, DBUtil::SDB())->queryScalar(['id' => $voterNo]);
 			$returnset->setStatus($count > 0);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3569,7 +3569,7 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($aadhaarNo))
+			if (empty($aadhaarNo))
 			{
 				throw new Exception("Data not passed", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3578,7 +3578,7 @@ class Contact extends BaseActiveRecord
 			$count	 = DBUtil::command($sql, DBUtil::SDB())->queryScalar(['id' => $aadhaarNo]);
 			$returnset->setStatus($count > 0);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3597,7 +3597,7 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($panNo))
+			if (empty($panNo))
 			{
 				throw new Exception("Data not passed", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3606,7 +3606,7 @@ class Contact extends BaseActiveRecord
 			$count	 = DBUtil::command($sql, DBUtil::SDB())->queryScalar(['id' => $panNo]);
 			$returnset->setStatus($count > 0);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3629,12 +3629,12 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($validationType) || empty($validationId) || empty($validationValue))
+			if (empty($validationType) || empty($validationId) || empty($validationValue))
 			{
 				throw new Exception("Invalid Parameters", ReturnSet::ERROR_INVALID_DATA);
 			}
 
-			switch($validationType)
+			switch ($validationType)
 			{
 				case 1:
 					$validationSource	 = empty($validationSource) ? SocialAuth::Eml_Gozocabs : $validationSource;
@@ -3646,7 +3646,7 @@ class Contact extends BaseActiveRecord
 					break;
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3668,7 +3668,7 @@ class Contact extends BaseActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if(empty($requestData))
+			if (empty($requestData))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3688,7 +3688,7 @@ class Contact extends BaseActiveRecord
 			$contactModel->ctt_license_no	 = empty($requestData->driverLicenseNo) ? "" : $requestData->driverLicenseNo;
 			$contactModel->ctt_active		 = 2; //Deactive mode
 			//Saving in inactive mode
-			if(!$contactModel->save())
+			if (!$contactModel->save())
 			{
 				throw new Exception(json_encode($contactModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -3701,7 +3701,7 @@ class Contact extends BaseActiveRecord
 			$phResponse		 = ContactPhone::add($contactId, $requestData->phoneNumber, UserInfo::TYPE_VENDOR, $requestData->countryCode, SocialAuth::Eml_Gozocabs, 1, 0);
 
 			//$returnset->setData(0);
-			if($emailResponse->getStatus() || $phResponse->getStatus())
+			if ($emailResponse->getStatus() || $phResponse->getStatus())
 			{
 				$updateModel			 = Contact::model()->findByPk($contactId);
 				$updateModel->ctt_active = 1; //Active Mode
@@ -3721,7 +3721,7 @@ class Contact extends BaseActiveRecord
 
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3736,7 +3736,7 @@ class Contact extends BaseActiveRecord
 		try
 		{
 
-			if($mgrcttId)
+			if ($mgrcttId)
 			{
 				/**
 				 * Deactivate contact of merged contact
@@ -3766,7 +3766,7 @@ class Contact extends BaseActiveRecord
 
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			return false;
@@ -3786,7 +3786,7 @@ class Contact extends BaseActiveRecord
 	public static function emailVerificationLink($emailAddress, $contactId, $sourceType, $templateStyle, $tempPkId = 0, $vndId = 0)
 	{
 		$emailWrapper = new emailWrapper();
-		switch($sourceType)
+		switch ($sourceType)
 		{
 			case UserInfo::TYPE_VENDOR:
 				$userType	 = EmailLog::Vendor;
@@ -3831,7 +3831,7 @@ class Contact extends BaseActiveRecord
 		$smsWrapper	 = new smsWrapper();
 		$userType	 = "";
 		$refId		 = "";
-		switch($sourceType)
+		switch ($sourceType)
 		{
 			case UserInfo::TYPE_VENDOR:
 				$userType	 = SmsLog::Vendor;
@@ -3861,7 +3861,7 @@ class Contact extends BaseActiveRecord
 
 		#echo "$contactId - $phone - $otp - $templateStyle - $tempPkId - $sourceType - $entityId - $vndId";
 		#echo $response->getStatus();
-		if(!$response->getStatus())
+		if (!$response->getStatus())
 		{
 			$response = $smsWrapper->sendOtpForVerification($contactId, $phone, $sourceType, $userType, $refId, $templateStyle, $tempPkId, $ext, $otp, $vndId);
 		}
@@ -3877,7 +3877,7 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(!$this->save())
+			if (!$this->save())
 			{
 				throw new Exception(json_encode($this->getErrors()), ReturnSet::ERROR_FAILED);
 			}
@@ -3891,13 +3891,13 @@ class Contact extends BaseActiveRecord
 			 */
 			Contact::model()->updateRefCode($this->ctt_id, $this->ctt_id);
 
-			foreach($this->contactDetails as $contact)
+			foreach ($this->contactDetails as $contact)
 			{
-				switch($contact->mediumType)
+				switch ($contact->mediumType)
 				{
 					case Stub\common\ContactMedium::TYPE_EMAIL:
 						$response = ContactEmail::model()->addNew($contactId, $contact->eml_email_address, SocialAuth::Eml_Gozocabs, $contact->eml_is_primary);
-						if($response->getData() < 0)
+						if ($response->getData() < 0)
 						{
 							throw new Exception("Failed to create contact email", ReturnSet::ERROR_FAILED);
 						}
@@ -3905,7 +3905,7 @@ class Contact extends BaseActiveRecord
 
 					case Stub\common\ContactMedium::TYPE_PHONE:
 						$response = ContactPhone::model()->add($contactId, $contact->phn_phone_no, 0, $contact->phn_phone_country_code, SocialAuth::Eml_Gozocabs, $contact->phn_is_primary);
-						if($response->getData() < 0)
+						if ($response->getData() < 0)
 						{
 							throw new Exception("Failed to create contact phone", ReturnSet::ERROR_FAILED);
 						}
@@ -3916,7 +3916,7 @@ class Contact extends BaseActiveRecord
 			$returnset->setStatus(true);
 			$returnset->setData($contactId, false);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -3942,9 +3942,9 @@ class Contact extends BaseActiveRecord
 			$emailResponse	 = ContactEmail::model()->findEmail($emailId, 0, 1, 1);
 			$phoneResponse	 = ContactPhone::model()->findPhone($phone, 0, 1, 0);
 
-			if($emailResponse->getStatus() || $phoneResponse->getStatus())
+			if ($emailResponse->getStatus() || $phoneResponse->getStatus())
 			{
-				if($returnType > 0)
+				if ($returnType > 0)
 				{
 					$response		 = new stdClass();
 					$response->email = $emailResponse->getData();
@@ -3956,7 +3956,7 @@ class Contact extends BaseActiveRecord
 				$returnset->setStatus(true);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset = $returnset->setException($ex);
@@ -3975,7 +3975,7 @@ class Contact extends BaseActiveRecord
 	public static function verifyItem($itemId, $type, $mode, $isVerify = 0, $email = null, $modifyPhone = null)
 	{
 		$returnSet = new ReturnSet();
-		switch($type)
+		switch ($type)
 		{
 			case Contact::TYPE_EMAIL:
 
@@ -4010,7 +4010,7 @@ class Contact extends BaseActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($this->contactTempDetails["tmp_ctt_phn_number"]))
+			if (empty($this->contactTempDetails["tmp_ctt_phn_number"]))
 			{
 				// throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 				$returnset->setErrors("Invalid data", ReturnSet::ERROR_INVALID_DATA);
@@ -4021,7 +4021,7 @@ class Contact extends BaseActiveRecord
 			$licenseNo		 = $this->contactTempDetails['tmp_ctt_license'];
 			$isLicenseExist	 = $this->getLicenseCtt($licenseNo);
 			$arrFoundConIds	 = [];
-			if($isLicenseExist->getStatus())
+			if ($isLicenseExist->getStatus())
 			{
 				array_push($arrFoundConIds, $isLicenseExist->getData());
 				goto skipData;
@@ -4031,7 +4031,7 @@ class Contact extends BaseActiveRecord
 			$email		 = $this->contactTempDetails['tmp_ctt_email'];
 			$response	 = Contact::verifyContact($email, $this->contactTempDetails["tmp_ctt_phn_number"], self::RETURN_ARRAY);
 			//Verified Contact dont exists. Treat as New
-			if(!$response->getStatus())
+			if (!$response->getStatus())
 			{
 				goto skipAll;
 			}
@@ -4040,15 +4040,15 @@ class Contact extends BaseActiveRecord
 			$data = $response->getData();
 
 			//Found contact Id Email Detail
-			if(isset($data->email) && !empty($data->email))
+			if (isset($data->email) && !empty($data->email))
 			{
-				foreach($data->email as $email)
+				foreach ($data->email as $email)
 				{
 					array_push($arrFoundConIds, $email["ctt_id"]);
-					if(isset($email["mapVendors"]) && !empty($email["mapVendors"]))
+					if (isset($email["mapVendors"]) && !empty($email["mapVendors"]))
 					{
 						$mapVendors = $email["mapVendors"];
-						foreach($mapVendors as $vnd)
+						foreach ($mapVendors as $vnd)
 						{
 							array_push($arrFoundVndIds, $vnd->vnd_id);
 						}
@@ -4056,15 +4056,15 @@ class Contact extends BaseActiveRecord
 				}
 			}
 			//Found Contact Id Phone details
-			if(isset($data->phone) && !empty($data->phone))
+			if (isset($data->phone) && !empty($data->phone))
 			{
-				foreach($data->phone as $phone)
+				foreach ($data->phone as $phone)
 				{
 					array_push($arrFoundConIds, $phone["ctt_id"]);
-					if(isset($phone["mapVendors"]) && !empty($phone["mapVendors"]))
+					if (isset($phone["mapVendors"]) && !empty($phone["mapVendors"]))
 					{
 						$mapVendors = $phone["mapVendors"];
-						foreach($mapVendors as $vnd)
+						foreach ($mapVendors as $vnd)
 						{
 							array_push($arrFoundVndIds, $vnd->vnd_id);
 						}
@@ -4074,13 +4074,13 @@ class Contact extends BaseActiveRecord
 
 			skipData:
 			$vndId = $this->vndId;
-			if(empty($vndId))
+			if (empty($vndId))
 			{
 				$vndId = UserInfo::getEntityId();
 			}
 
 			//Checks if mapped vendor Id matches with logged in vendor Id
-			if(in_array($vndId, array_unique($arrFoundVndIds)))
+			if (in_array($vndId, array_unique($arrFoundVndIds)))
 			{
 				$returnset->setStatus(true);
 				$returnset->setMessage("Driver is already mapped to your account. Can't add it further.");
@@ -4090,17 +4090,17 @@ class Contact extends BaseActiveRecord
 
 			$response	 = ContactTemp::model()->add($arrFoundConIds[0], $this->contactTempDetails["tmp_ctt_email"], $this->contactTempDetails["tmp_ctt_name"], $this->contactTempDetails["tmp_ctt_phn_code"], $this->contactTempDetails["tmp_ctt_phn_number"], $this->contactTempDetails["tmp_ctt_license"], $vndId, $this->contactTempDetails["tmp_ctt_phn_otp"]);
 			$isEmailSend = Contact::sendVerification($this->contactTempDetails["tmp_ctt_email"], Contact::TYPE_EMAIL, $arrFoundConIds[0], Contact::NOTIFY_OLD_CON_TEMPLATE, Contact::MODE_LINK, UserInfo::TYPE_DRIVER, $response->getData());
-			if(!$isEmailSend)
+			if (!$isEmailSend)
 			{
 				$isOtpSend = Contact::sendVerification($this->contactTempDetails["tmp_ctt_phn_number"], Contact::TYPE_PHONE, $arrFoundConIds[0], Contact::NOTIFY_OLD_CON_TEMPLATE, Contact::MODE_OTP, UserInfo::TYPE_DRIVER, $response->getData(), $this->contactTempDetails["tmp_ctt_phn_otp"], $this->contactTempDetails["tmp_ctt_phn_code"]);
 			}
-			if($isEmailSend || $isOtpSend)
+			if ($isEmailSend || $isOtpSend)
 			{
 				$returnset->setStatus(true);
 				$returnset->setMessage("Your request has been noted. We have send verification to the contact details. Please verify it ");
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -4112,7 +4112,7 @@ class Contact extends BaseActiveRecord
 
 	public function handleEntity($contactId)
 	{
-		if(empty($this->vndId))
+		if (empty($this->vndId))
 		{
 			$vndId = UserInfo::getEntityId();
 		}
@@ -4146,9 +4146,9 @@ class Contact extends BaseActiveRecord
 		try
 		{
 
-			if($contactValue)
+			if ($contactValue)
 			{
-				switch($contactType)
+				switch ($contactType)
 				{
 					case self::TYPE_EMAIL:
 
@@ -4165,7 +4165,7 @@ class Contact extends BaseActiveRecord
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnSet->setException($ex);
@@ -4184,13 +4184,13 @@ class Contact extends BaseActiveRecord
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($this->contactDetails))
+			if (empty($this->contactDetails))
 			{
 				throw new Exception("Invalid input", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$response = Contact::isVendor($this->contactDetails);
-			if($response->getStatus())
+			if ($response->getStatus())
 			{
 				$returnSet->setMessage("This contact details is already registered as vendor. Please use that account");
 				goto skipAll;
@@ -4200,13 +4200,13 @@ class Contact extends BaseActiveRecord
 			$response	 = Contact::handleContact();
 			$contactId	 = $response->getData();
 
-			if(empty($contactId))
+			if (empty($contactId))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$name = "";
-			if($this->ctt_user_type == 2)
+			if ($this->ctt_user_type == 2)
 			{
 				$name = $this->ctt_business_name;
 			}
@@ -4218,7 +4218,7 @@ class Contact extends BaseActiveRecord
 			$response	 = Vendors::add($contactId, $name, $this->isDco, $this->ctt_city);
 			$vndId		 = $response->getData();
 
-			if(!$response->getStatus())
+			if (!$response->getStatus())
 			{
 				$returnSet->setMessage("Failed to create vendor");
 				goto skipAll;
@@ -4226,11 +4226,11 @@ class Contact extends BaseActiveRecord
 
 			//Create vendor profile
 			ContactProfile::setProfile($contactId, UserInfo::TYPE_VENDOR);
-			if($this->isDco)
+			if ($this->isDco)
 			{
 				$driverName	 = $this->ctt_first_name . " " . $this->ctt_last_name;
 				$res		 = Drivers::addDriverDetails($contactId, $driverName);
-				if($res->getStatus())
+				if ($res->getStatus())
 				{
 					ContactProfile::setProfile($contactId, UserInfo::TYPE_DRIVER);
 					$data		 = ['vendor' => $vndId, 'driver' => $res->getData()];
@@ -4254,7 +4254,7 @@ class Contact extends BaseActiveRecord
 			$returnSet->setData($obj);
 			$returnSet->setMessage("Vendor account is created successfully, we have sent a verification link to vendor mail and mobile number.Please verify it");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnSet->setException($ex);
@@ -4273,16 +4273,16 @@ class Contact extends BaseActiveRecord
 	{
 		$returnSet = new ReturnSet();
 
-		foreach($contactDetails as $contact)
+		foreach ($contactDetails as $contact)
 		{
 			$cttId	 = self::getIdByDetails($contact->eml_email_address, $contact->phn_phone_no);
 			$isExist = ContactProfile::checkExists($cttId);
-			if($isExist)
+			if ($isExist)
 			{
 				$profileModel = contactProfile::model()->findByContactId($cttId);
-				foreach($profileModel as $model)
+				foreach ($profileModel as $model)
 				{
-					if($model->cr_is_vendor && $model->cr_status)
+					if ($model->cr_is_vendor && $model->cr_status)
 					{
 						$returnSet->setStatus(true);
 					}
@@ -4303,12 +4303,12 @@ class Contact extends BaseActiveRecord
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($authData) || empty($userId) || empty($userType))
+			if (empty($authData) || empty($userId) || empty($userType))
 			{
 				throw new Exception("Invalid input", ReturnSet::ERROR_INVALID_DATA);
 			}
 
-			switch($userType)
+			switch ($userType)
 			{
 				case UserInfo::TYPE_VENDOR:
 					$sql		 = "SELECT ctt_id FROM vendors
@@ -4336,13 +4336,13 @@ class Contact extends BaseActiveRecord
 			$conResponse	 = ContactEmail::model()->updateContacts($contactId, $emailId, $provider);
 			$contactProfile	 = ContactProfile::model()->findByContactId($contactId);
 
-			if(isset($contactProfile->cr_is_driver) && !empty($contactProfile->cr_is_driver))
+			if (isset($contactProfile->cr_is_driver) && !empty($contactProfile->cr_is_driver))
 			{
 				$drvModel				 = Drivers::model()->findByPk($contactProfile->cr_is_driver);
 				$drvModel->drv_id		 = $contactProfile->cr_is_driver;
 				$drvModel->drv_user_id	 = $socialUserId;
 
-				if(!$drvModel->save())
+				if (!$drvModel->save())
 				{
 					throw new Exception(json_encode($drvModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
@@ -4352,13 +4352,13 @@ class Contact extends BaseActiveRecord
 				DBUtil::command($unlinkOtherDrivers)->execute();
 			}
 
-			if(isset($contactProfile->cr_is_vendor) && !empty($contactProfile->cr_is_vendor))
+			if (isset($contactProfile->cr_is_vendor) && !empty($contactProfile->cr_is_vendor))
 			{
 				$vndModel				 = Vendors::model()->findByPk($contactProfile->cr_is_vendor);
 				$vndModel->vnd_id		 = $contactProfile->cr_is_vendor;
 				$vndModel->vnd_user_id	 = $socialUserId;
 
-				if(!$vndModel->save())
+				if (!$vndModel->save())
 				{
 					throw new Exception(json_encode($vndModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
@@ -4381,7 +4381,7 @@ class Contact extends BaseActiveRecord
 			$returnSet->setStatus(true);
 			$returnSet->setMessage("Successfully linked your social account");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnSet->setException($ex);
@@ -4406,7 +4406,7 @@ class Contact extends BaseActiveRecord
 			$phone	 = Filter::processPhoneNumber($jsonData->profile->primaryContact->number, $jsonData->profile->primaryContact->code);
 			$cttId	 = self::getIdByDetails($jsonData->profile->email, $phone);
 
-			if($cttId > 0)
+			if ($cttId > 0)
 			{
 				Logger::info('Modify Contact ' . $cttId);
 				Contact::modifyContact($jsonData, $cttId, 0, $userType, $provider);
@@ -4427,7 +4427,7 @@ class Contact extends BaseActiveRecord
 			//$contactModel->setProfile();
 			End:
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -4440,7 +4440,7 @@ class Contact extends BaseActiveRecord
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($jsonObj) || empty($cttId))
+			if (empty($jsonObj) || empty($cttId))
 			{
 				throw new Exception("Invalid input", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -4451,14 +4451,14 @@ class Contact extends BaseActiveRecord
 			$contactModel->ctt_address		 = $jsonObj->profile->address;
 			$contactModel->ctt_state		 = $jsonObj->profile->ctt_state;
 			$contactModel->ctt_city			 = $jsonObj->profile->ctt_city;
-			if($isApp)
+			if ($isApp)
 			{
 				$contactModel->ctt_state = $jsonObj->profile->state;
 				//$contactModel->ctt_address	 = $jsonObj->profile->address . " " . $jsonObj->profile->pincode;
 			}
 
 			$emailResponse = ContactEmail::model()->editContacts($cttId, $jsonObj->profile->email, $provider);
-			if(!empty($jsonObj->profile->primaryContact->number))
+			if (!empty($jsonObj->profile->primaryContact->number))
 			{
 				$phNumber		 = "+" . $jsonObj->profile->primaryContact->code . $jsonObj->profile->primaryContact->number;
 				$phoneResponse	 = ContactPhone::model()->updateContacts($cttId, $phNumber, $userType, $provider);
@@ -4471,13 +4471,13 @@ class Contact extends BaseActiveRecord
 				$phoneData		 = $phoneResponse->getData();
 				ContactPhone::primaryToggle($phNumber, $cttId);
 			}
-			if(!empty($phoneData))
+			if (!empty($phoneData))
 			{
 				$isOtpSend = Contact::sendVerification($phoneData["number"], Contact::TYPE_PHONE, $cttId, Contact::MODIFY_CON_TEMPLATE, Contact::MODE_OTP, $userType, 0, $phoneData["otp"], $phoneData["ext"]);
 			}
 			$emailData = $emailResponse->getData();
 			ContactEmail::primaryToggle($jsonObj->profile->email, $cttId);
-			if(!empty($emailData))
+			if (!empty($emailData))
 			{
 				$emailSend = Contact::sendVerification($jsonObj->profile->email, Contact::TYPE_EMAIL, $cttId, Contact::MODIFY_CON_TEMPLATE, Contact::MODE_LINK, $userType);
 			}
@@ -4492,7 +4492,7 @@ class Contact extends BaseActiveRecord
 			ContactLog::model()->createLog($cttId, $desc, ContactLog::CONTACT_MODIFIED, null);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			//$returnSet->setException($ex);
@@ -4515,11 +4515,11 @@ class Contact extends BaseActiveRecord
 	public static function setPrimary($status, $address, $cttId, $type = 0)
 	{
 		$returnSet = new ReturnSet();
-		if($type == 1)
+		if ($type == 1)
 		{
 			try
 			{
-				if(empty($status) || empty($address) || empty($cttId))
+				if (empty($status) || empty($address) || empty($cttId))
 				{
 					throw new Exception("Invalid Parameters", ReturnSet::ERROR_INVALID_DATA);
 				}
@@ -4537,7 +4537,7 @@ class Contact extends BaseActiveRecord
 				$returnSet->setStatus(true);
 				DBUtil::commitTransaction($transaction);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				DBUtil::rollbackTransaction($transaction);
 				Logger::error($ex->getMessage());
@@ -4549,7 +4549,7 @@ class Contact extends BaseActiveRecord
 		{
 			try
 			{
-				if(empty($status) || empty($address) || empty($cttId))
+				if (empty($status) || empty($address) || empty($cttId))
 				{
 					throw new Exception("Invalid Parameters", ReturnSet::ERROR_INVALID_DATA);
 				}
@@ -4567,7 +4567,7 @@ class Contact extends BaseActiveRecord
 				$returnSet->setStatus(true);
 				DBUtil::commitTransaction($transaction);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				DBUtil::rollbackTransaction($transaction);
 				Logger::error($ex->getMessage());
@@ -4593,7 +4593,7 @@ class Contact extends BaseActiveRecord
 	public static function getDuplicateList($contactIds)
 	{
 		$ids = $contactIds;
-		if(empty($contactIds))
+		if (empty($contactIds))
 		{
 			throw new Exception("Data not passed", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4635,14 +4635,14 @@ class Contact extends BaseActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if(empty($primaryConId) || empty($duplicateConId))
+			if (empty($primaryConId) || empty($duplicateConId))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
 			self::updateConIds($primaryConId, $duplicateConId, $source);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			DBUtil::rollbackTransaction($transaction);
@@ -4657,14 +4657,14 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function updateConIds($primaryConId, $duplicateConId, $source = null)
 	{
-		if(empty($primaryConId) || empty($duplicateConId))
+		if (empty($primaryConId) || empty($duplicateConId))
 		{
 			throw new Exception("Invalid data passed", ReturnSet::ERROR_INVALID_DATA);
 		}
 
 		$isEligible = self::checkMergeEligiblity($primaryConId, $duplicateConId);
 
-		if(!$isEligible)
+		if (!$isEligible)
 		{
 			ContactMergeRemarks::setManualMerge($primaryConId, $duplicateConId);
 			goto skipMerge;
@@ -4686,11 +4686,11 @@ class Contact extends BaseActiveRecord
 //		ContactProfile::activate($primaryConId);
 
 		$docType = "";
-		if($source == Document::Document_Licence)
+		if ($source == Document::Document_Licence)
 		{
 			$docType = "(Driving License matched)";
 		}
-		if($source == Document::Document_Pan)
+		if ($source == Document::Document_Pan)
 		{
 			$docType = "(PAN matched)";
 		}
@@ -4710,7 +4710,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function updateRefCode($primaryConId, $duplicateConId)
 	{
-		if(empty($primaryConId) || empty($duplicateConId))
+		if (empty($primaryConId) || empty($duplicateConId))
 		{
 			throw new Exception("Invalid data passed", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4756,7 +4756,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function checkMergeEligiblity($primaryConId, $duplicateConId)
 	{
-		if(empty($primaryConId) || empty($duplicateConId))
+		if (empty($primaryConId) || empty($duplicateConId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4806,7 +4806,7 @@ class Contact extends BaseActiveRecord
 	public static function deactivate($contactId, $reason = null)
 	{
 		$returnSet = new ReturnSet();
-		if(empty($contactId))
+		if (empty($contactId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4829,7 +4829,7 @@ class Contact extends BaseActiveRecord
 
 			$desc = "Contact deactivated.";
 
-			if($reason != null)
+			if ($reason != null)
 			{
 				$desc .= " Reason: " . $reason;
 			}
@@ -4837,7 +4837,7 @@ class Contact extends BaseActiveRecord
 			DBUtil::commitTransaction($transaction);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($exc);
@@ -4858,7 +4858,7 @@ class Contact extends BaseActiveRecord
 	public static function deactivateV1($contactId, $reason = null)
 	{
 		$returnSet = new ReturnSet();
-		if(empty($contactId))
+		if (empty($contactId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4873,7 +4873,7 @@ class Contact extends BaseActiveRecord
 			DBUtil::commitTransaction($transaction);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($exc);
@@ -4891,13 +4891,13 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function checkDoc($refValue, $refType)
 	{
-		if(empty($refValue) && empty($refType))
+		if (empty($refValue) && empty($refType))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
 
 		$data = trim($refValue);
-		switch($refType)
+		switch ($refType)
 		{
 			case Document::Document_Licence:
 				$response = Contact::checkLicenseNo($data);
@@ -4984,7 +4984,7 @@ class Contact extends BaseActiveRecord
 
 			DBUtil::command($updateLicId)->execute();
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 		}
@@ -4998,7 +4998,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function updateBankDetails($primaryConId, $duplicateConId)
 	{
-		if(empty($primaryConId) || empty($duplicateConId))
+		if (empty($primaryConId) || empty($duplicateConId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5028,7 +5028,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function isContactMerged($primaryContactId = null)
 	{
-		if(empty($primaryContactId))
+		if (empty($primaryContactId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5065,17 +5065,17 @@ class Contact extends BaseActiveRecord
 	{
 		$contactId	 = $this->ctt_id;
 		$isProfile	 = $userId		 = ContactProfile::getUserId($contactId);
-		if(!$userId)
+		if (!$userId)
 		{
 			$userId = Users::getByContactId($contactId);
 		}
 
-		if(!$userId && $createIfNotExist)
+		if (!$userId && $createIfNotExist)
 		{
 			$userModel	 = Users::createbyContact($this);
 			$userId		 = $userModel->user_id;
 		}
-		if($userId > 0 && !$isProfile)
+		if ($userId > 0 && !$isProfile)
 		{
 			ContactProfile::updateEntity($contactId, $userId, UserInfo::TYPE_CONSUMER);
 		}
@@ -5093,12 +5093,12 @@ class Contact extends BaseActiveRecord
 	public static function copyDocDetails($docId = null, $docType = null, $primary = null, $duplicate = null, $status)
 	{
 		$returnSet = new ReturnSet();
-		if($docId == null || $docType == null || $duplicate == null)
+		if ($docId == null || $docType == null || $duplicate == null)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
 
-		switch($docType)
+		switch ($docType)
 		{
 			case Document::Document_Voter:
 				$attributeCol1	 = "ctt_voter_no";
@@ -5121,7 +5121,7 @@ class Contact extends BaseActiveRecord
 				break;
 		}
 
-		if($status)
+		if ($status)
 		{
 			$updatePrimaryDocRefValue = "
 			 UPDATE Contact SET contact.$attributeCol2 = $docId where ctt_id = $primary;
@@ -5129,7 +5129,7 @@ class Contact extends BaseActiveRecord
 		}
 		$numrows = DBUtil::command($updatePrimaryDocRefValue)->execute();
 
-		if($numrows >= 0)
+		if ($numrows >= 0)
 		{
 			$returnSet->setStatus(true);
 		}
@@ -5144,14 +5144,14 @@ class Contact extends BaseActiveRecord
 		try
 		{
 			$cttId = trim($data['id']);
-			if(empty($cttId))
+			if (empty($cttId))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$model	 = Contact::model()->findByPk($cttId);
 			$oldData = $model->attributes;
-			if($model == null)
+			if ($model == null)
 			{
 				throw new Exception("Contact not found", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -5168,7 +5168,7 @@ class Contact extends BaseActiveRecord
 			$model->ctt_license_no		 = trim($data['license']);
 			$model->ctt_voter_no		 = trim($data['voter']);
 			$model->ctt_pan_no			 = trim($data['panno']);
-			if(!$model->update())
+			if (!$model->update())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -5177,7 +5177,7 @@ class Contact extends BaseActiveRecord
 			$returnset->setStatus(true);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -5196,20 +5196,20 @@ class Contact extends BaseActiveRecord
 		$cttId		 = 0;
 		$emlCttIds	 = ContactEmail::getData($emailId, $verified);
 
-		if($phoneNo != null)
+		if ($phoneNo != null)
 		{
 			$phCttIds = ContactPhone::getData($phoneNo, $verified);
 		}
 
-		if(isset($emlCttIds))
+		if (isset($emlCttIds))
 		{
 			$cttId = $emlCttIds;
 		}
-		if(isset($phCttIds))
+		if (isset($phCttIds))
 		{
 			$cttId = $phCttIds;
 		}
-		if(isset($emlCttIds) && isset($phCttIds))
+		if (isset($emlCttIds) && isset($phCttIds))
 		{
 			$cttId = trim("{$emlCttIds},{$phCttIds}", ",");
 		}
@@ -5231,7 +5231,7 @@ class Contact extends BaseActiveRecord
 		DBUtil::getINStatement($cttIds, $bindString, $params1);
 		$params		 = array();
 		$selectQry	 = "";
-		if($firstName != "")
+		if ($firstName != "")
 		{
 			$params['firstName'] = $firstName;
 			$selectQry			 .= "IF(SOUNDEX(ctt.ctt_first_name)=SOUNDEX(:firstName),1,0) as firstNameScore, ";
@@ -5241,7 +5241,7 @@ class Contact extends BaseActiveRecord
 			$selectQry .= "0 as firstNameScore, ";
 		}
 
-		if($lastName != "")
+		if ($lastName != "")
 		{
 			$params['lastName']	 = $lastName;
 			$selectQry			 .= "IF(SOUNDEX(ctt.ctt_last_name)=SOUNDEX(:lastName),1,0) as lastNameScore, ";
@@ -5310,7 +5310,7 @@ class Contact extends BaseActiveRecord
 	public static function createByUser($usrModel, $provider = 1, $tempValue = 1)
 	{
 		Logger::profile("contact:createByUser Started");
-		if($provider > 1)
+		if ($provider > 1)
 		{
 			$tempValue = 0;
 		}
@@ -5324,7 +5324,7 @@ class Contact extends BaseActiveRecord
 		$contactModel->ctt_last_name	 = $usrModel->usr_lname;
 		$contactModel->ctt_address		 = $usrModel->usr_address1 . " " . $usrModel->usr_address2 . " " . $usrModel->usr_address3 . " " . $usrModel->usr_zip;
 		$contactModel->ctt_state		 = $stateId;
-		if($usrModel->usr_city && $stateId)
+		if ($usrModel->usr_city && $stateId)
 		{
 			Logger::profile("Cities::findByCityName Started");
 			$cityData = Cities::findByCityName($usrModel->usr_city, $stateId);
@@ -5339,7 +5339,7 @@ class Contact extends BaseActiveRecord
 		Logger::profile("Contact::convertToPhoneObjects Ended");
 		$returnSet					 = $contactModel->createUser(2); //1=For not sending verification
 		$cttId						 = $returnSet->getData()['id'];
-		if($usrModel->user_id > 0)
+		if ($usrModel->user_id > 0)
 		{
 			Users::updateContactId($cttId, $usrModel->user_id);
 			$contactModel->userId = $usrModel->user_id;
@@ -5363,7 +5363,7 @@ class Contact extends BaseActiveRecord
 		$firstName	 = $bkguser->bkg_user_fname ? $bkguser->bkg_user_fname : "";
 		$lastName	 = $bkguser->bkg_user_lname ? $bkguser->bkg_user_lname : "";
 
-		if($bkguser->bkg_contact_id > 0)
+		if ($bkguser->bkg_contact_id > 0)
 		{
 			$cttId = $bkguser->bkg_contact_id;
 		}
@@ -5371,11 +5371,11 @@ class Contact extends BaseActiveRecord
 		{
 			$cttId = self::getIdByDetails($email, $phone, $firstName, $lastName, false);
 		}
-		if($bkguser->buiBkg->bkg_agent_id > 0)
+		if ($bkguser->buiBkg->bkg_agent_id > 0)
 		{
 			goto skipAll;
 		}
-		if($cttId > 0)
+		if ($cttId > 0)
 		{
 			self::modifiedByBookingUser($bkguser, $cttId, 1);
 			goto skipAll;
@@ -5384,7 +5384,7 @@ class Contact extends BaseActiveRecord
 		$primaryPhone	 = array(array('phn_phone_country_code' => $bkguser->bkg_country_code, 'phn_phone_no' => trim(str_replace(' ', '', $bkguser->bkg_contact_no)), 'phn_is_primary' => 1));
 
 		$cttId = Contact::checkExistingInfoByUser($bkguser);
-		if($cttId != '')
+		if ($cttId != '')
 		{
 			$contactModel = Contact::model()->findByPk($cttId);
 		}
@@ -5398,14 +5398,14 @@ class Contact extends BaseActiveRecord
 		$contactModel->contactEmails = $contactModel->convertToEmailObjects($primaryEmail);
 		$contactModel->contactPhones = $contactModel->convertToPhoneObjects($primaryPhone);
 
-		if($cttId == null && $forceCreate)
+		if ($cttId == null && $forceCreate)
 		{
 
 //  $returnSet = new ReturnSet();
 			$returnSet = $contactModel->createUser(2); //2=For not sending verification
-			if($returnSet->getStatus())
+			if ($returnSet->getStatus())
 			{
-				if(!in_array($agentId, Yii::app()->params['notAllowedConProfAgents']))
+				if (!in_array($agentId, Yii::app()->params['notAllowedConProfAgents']))
 				{
 					$contactModel->setProfile();
 				}
@@ -5416,7 +5416,7 @@ class Contact extends BaseActiveRecord
 				throw new Exception("Invalid input", ReturnSet::ERROR_VALIDATION);
 			}
 		}
-		else if($cttId > 0)
+		else if ($cttId > 0)
 		{
 
 			ContactEmail::saveEmails($contactModel->contactEmails, $cttId);
@@ -5432,22 +5432,22 @@ class Contact extends BaseActiveRecord
 	{
 		$contactId	 = $this->ctt_id;
 		$isProfile	 = $userId		 = ContactProfile::getUserId($contactId);
-		if(!$userId)
+		if (!$userId)
 		{
 			$userId = Users::getByContactId($contactId);
 		}
 
-		if($this->userId > 0)
+		if ($this->userId > 0)
 		{
 			$userId = $this->userId;
 		}
-		if(!$userId)
+		if (!$userId)
 		{
 			$userModel	 = Users::createbyContact($this);
 			$userId		 = $userModel->user_id;
 		}
 		Logger::profile("Contactprofile:addNew Started");
-		if($userId > 0 && !$isProfile)
+		if ($userId > 0 && !$isProfile)
 		{
 			ContactProfile::setProfile($contactId, UserInfo::TYPE_CONSUMER);
 		}
@@ -5466,14 +5466,14 @@ class Contact extends BaseActiveRecord
 	{
 		try
 		{
-			if(empty($bkguser) || empty($cttId))
+			if (empty($bkguser) || empty($cttId))
 			{
 				throw new Exception("Invalid input", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$primaryEmail	 = ContactEmail::getPrimaryEmail($cttId);
 			$primaryphone	 = ContactPhone::getContactNumber($cttId);
 			$isValid		 = Filter::validatePhoneNumber($primaryphone);
-			if($isValid)
+			if ($isValid)
 			{
 				Filter::parsePhoneNumber($primaryphone, $code, $number);
 			}
@@ -5487,11 +5487,11 @@ class Contact extends BaseActiveRecord
 			ContactPhone::model()->updateContacts($cttId, $phone, '', $provider);
 
 			$contactModel->save();
-			if($email != '')
+			if ($email != '')
 			{
 				ContactEmail::primaryToggle($email, $cttId);
 			}
-			if($phone != '')
+			if ($phone != '')
 			{
 				ContactPhone::primaryToggle($phone, $cttId);
 			}
@@ -5502,7 +5502,7 @@ class Contact extends BaseActiveRecord
 			$desc = "Contacts modified";
 			ContactLog::model()->createLog($cttId, $desc, ContactLog::CONTACT_MODIFIED, null);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 		}
@@ -5516,20 +5516,20 @@ class Contact extends BaseActiveRecord
 		$contactId	 = 0;
 		$state		 = ContactLog::CONTACT_CREATED;
 		$desc		 = "Contact created from app";
-		if(empty($this->contactEmails[0]->eml_email_address) && empty($this->contactPhones[0]->phn_phone_no))
+		if (empty($this->contactEmails[0]->eml_email_address) && empty($this->contactPhones[0]->phn_phone_no))
 		{
 			goto skipAll;
 		}
 
 		$arrBkp	 = array();
 		$result	 = CActiveForm::validate($this);
-		if($result != "[]")
+		if ($result != "[]")
 		{
-			if(strpos($result, 'license') !== false)
+			if (strpos($result, 'license') !== false)
 			{
 				$contactId = $this->getContactIdByLicense($this->ctt_license_no);
 			}
-			else if(strpos($result, 'pan') !== false)
+			else if (strpos($result, 'pan') !== false)
 			{
 				$contactId = $this->getIdByPan($this->ctt_pan_no);
 			}
@@ -5538,17 +5538,17 @@ class Contact extends BaseActiveRecord
 		}
 
 		$contactId = $this->getIdByDetails($this->contactEmails[0]->eml_email_address, $this->contactPhones[0]->phn_phone_no);
-		if($contactId > 0)
+		if ($contactId > 0)
 		{
 			$model = self::model()->findByPk($contactId);
-			if(($this->ctt_license_no != $model->ctt_license_no) || ($this->ctt_pan_no != $model->ctt_pan_no))
+			if (($this->ctt_license_no != $model->ctt_license_no) || ($this->ctt_pan_no != $model->ctt_pan_no))
 			{
 				//Treat the model as new
 				goto skipSave;
 			}
 		}
 		skipToUpdate:
-		if($contactId > 0)
+		if ($contactId > 0)
 		{
 			$desc	 = "Contact updated from app";
 			$state	 = ContactLog::CONTACT_MODIFIED;
@@ -5562,7 +5562,7 @@ class Contact extends BaseActiveRecord
 		}
 
 		skipSave:
-		if($this->save())
+		if ($this->save())
 		{
 			$contactId = $this->ctt_id;
 		}
@@ -5591,14 +5591,14 @@ class Contact extends BaseActiveRecord
 		$userName	 = $model->bkg_user_fname;
 		$firstName	 = $model->bkg_user_fname;
 		$lastName	 = $model->bkg_user_lname;
-		if($type == 1 || $type == 3)
+		if ($type == 1 || $type == 3)
 		{
 			$email				 = $model->bkg_user_email;
 			$emailData			 = ['email' => $email, 'userName' => $userName, 'firstName' => $firstName, 'lastName' => $lastName];
 			$contactData->email	 = $emailData;
 			$returnset->setData($contactData);
 		}
-		if($type == 2 || $type == 3)
+		if ($type == 2 || $type == 3)
 		{
 			$number				 = $model->bkg_contact_no;
 			$ext				 = $model->bkg_country_code;
@@ -5612,11 +5612,11 @@ class Contact extends BaseActiveRecord
 
 	public function getDocId($refvalue, $type)
 	{
-		if($type == 5)
+		if ($type == 5)
 		{
 			$sql = "select ctt_license_doc_id  from contact WHERE ctt_active =1 AND ctt_license_no = '$refvalue' order by ctt_license_doc_id DESC LIMIT 0,1";
 		}
-		else if($type == 4)
+		else if ($type == 4)
 		{
 			$sql = "select ctt_pan_doc_id  from contact WHERE ctt_active =1 AND ctt_pan_no = '$refvalue'order by ctt_pan_doc_id DESC LIMIT 0,1";
 		}
@@ -5647,16 +5647,16 @@ class Contact extends BaseActiveRecord
 		$model		 = Users::model()->findByPk($user_id);
 		$contactId	 = ContactProfile::getByEntityId($user_id, UserInfo::TYPE_CONSUMER);
 		$contactData = new stdClass();
-		if($contactId)
+		if ($contactId)
 		{
 			$cttModel	 = self::model()->findByPk($contactId);
 			$firstName	 = $cttModel->ctt_first_name;
 			$lastName	 = $cttModel->ctt_last_name;
 			$userName	 = $cttModel->ctt_first_name . ' ' . $cttModel->ctt_last_name;
-			if($type == 1)
+			if ($type == 1)
 			{
 				$email = ContactEmail::getPrimaryEmail($contactId);
-				if($email)
+				if ($email)
 				{
 					$emailData			 = ['email' => $email, 'userName' => $userName, 'firstName' => $firstName, 'lastName' => $lastName];
 					$contactData->email	 = $emailData;
@@ -5667,10 +5667,10 @@ class Contact extends BaseActiveRecord
 					goto skipTo;
 				}
 			}
-			if($type == 2)
+			if ($type == 2)
 			{
 				$result = ContactPhone::getPrimaryNumber($contactId);
-				if($result)
+				if ($result)
 				{
 					$number				 = $result->getNationalNumber();
 					$ext				 = $result->getCountryCode() ? $result->getCountryCode() : '91';
@@ -5683,11 +5683,11 @@ class Contact extends BaseActiveRecord
 					goto skipTo;
 				}
 			}
-			if($type == 3)
+			if ($type == 3)
 			{
 				$email	 = ContactEmail::getPrimaryEmail($contactId);
 				$result	 = ContactPhone::getPrimaryNumber($contactId);
-				if($email && $result)
+				if ($email && $result)
 				{
 					$number				 = $result->getNationalNumber();
 					$ext				 = $result->getCountryCode() ? $result->getCountryCode() : '91';
@@ -5710,14 +5710,14 @@ class Contact extends BaseActiveRecord
 			$userName	 = $model->usr_name;
 			$firstName	 = $model->usr_name;
 			$lastName	 = $model->usr_lname;
-			if($type == 1 || $type == 3)
+			if ($type == 1 || $type == 3)
 			{
 				$email				 = $model->usr_email;
 				$emailData			 = ['email' => $email, 'userName' => $userName, 'firstName' => $firstName, 'lastName' => $lastName];
 				$contactData->email	 = $emailData;
 				$returnset->setData($contactData);
 			}
-			if($type == 2 || $type == 3)
+			if ($type == 2 || $type == 3)
 			{
 				$number				 = $model->usr_mobile;
 				$ext				 = $model->usr_country_code;
@@ -5742,7 +5742,7 @@ class Contact extends BaseActiveRecord
 
 			$res = $this->save();
 			// Logger::trace("Save Contact First Name ======".$this->ctt_first_name."Contact ID ==".$this->ctt_id."======SAVE RESULT=======".$res."===ERRORS===".json_encode($errors));
-			if(!$res)
+			if (!$res)
 			{
 				//   Logger::error("NOT SAVED====GET ERROR",json_encode($this->getErrors()));
 				$returnSet->setErrors($this->getErrors(), 0);
@@ -5764,7 +5764,7 @@ class Contact extends BaseActiveRecord
 			$event			 = ($isNew) ? ContactLog::CONTACT_CREATED : ContactLog::CONTACT_MODIFIED;
 
 			//ContactLog::model()->createLog($this->ctt_id, $desc, $event, null);
-			if($tempflag == 1)
+			if ($tempflag == 1)
 			{
 				$this->saveProfileImage($this->ctt_id);
 				ContactLog::model()->createLog($this->ctt_id, $desc, $event, null);
@@ -5772,17 +5772,17 @@ class Contact extends BaseActiveRecord
 				$emlPkId	 = $emailResponse->getData();
 				$emailData	 = ContactEmail::model()->findByPk($emlPkId);
 				$userType	 = UserInfo::TYPE_CONSUMER;
-				if(!$isNew)
+				if (!$isNew)
 				{
-					if($emailResponse->getStatus())
+					if ($emailResponse->getStatus())
 					{
 						$isEmailSend = Contact::sendVerification($emailData->eml_email_address, Contact::TYPE_EMAIL, $this->ctt_id, Contact::MODIFY_CON_TEMPLATE, Contact::MODE_LINK, $userType);
 					}
-					if($phoneResponse->getStatus())
+					if ($phoneResponse->getStatus())
 					{
 						$phoneData	 = $phoneResponse->getData();
 						$isNew		 = $phoneData['isNew'];
-						if($isNew)
+						if ($isNew)
 						{
 							$isOtpSend = Contact::sendVerification($phoneData["number"], Contact::TYPE_PHONE, $this->ctt_id, Contact::MODIFY_CON_TEMPLATE, Contact::MODE_OTP, $userType, 0, $phoneData["otp"], $phoneData["ext"]);
 						}
@@ -5790,11 +5790,11 @@ class Contact extends BaseActiveRecord
 				}
 				else
 				{
-					if($emailResponse->getStatus())
+					if ($emailResponse->getStatus())
 					{
 						$isEmailSend = Contact::sendVerification($emailData->eml_email_address, Contact::TYPE_EMAIL, $this->ctt_id, Contact::NEW_CON_TEMPLATE, Contact::MODE_LINK, $userType);
 					}
-					if($phoneResponse->getData())
+					if ($phoneResponse->getData())
 					{
 						$isOtpSend = Contact::sendVerification($phoneData["number"], Contact::TYPE_PHONE, $this->ctt_id, Contact::NEW_CON_TEMPLATE, Contact::MODE_OTP, $userType, 0, $phoneData["otp"], $phoneData["ext"]);
 					}
@@ -5804,11 +5804,11 @@ class Contact extends BaseActiveRecord
 			$returnSet->setData(["id" => $this->ctt_id]);
 			Logger::profile("Contact::createUser Ended");
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::error(json_encode($e));
 			$returnSet->setStatus(false);
-			if($returnSet->getErrorCode() == 0)
+			if ($returnSet->getErrorCode() == 0)
 			{
 				$returnSet->setErrorCode($e->getCode());
 				$returnSet->addError($e->getMessage());
@@ -5831,12 +5831,12 @@ class Contact extends BaseActiveRecord
 		$vndStatus		 = false;
 		$primaryEmail	 = array(array('eml_email_address' => trim(str_replace(' ', '', $emailArray['eml_email_address'])), 'eml_is_primary' => 1, 'eml_type' => $provider));
 		$primaryPhone	 = array(array('phn_phone_no' => trim(str_replace(' ', '', $phoneArray['phn_phone_no'])), 'phn_is_primary' => 1));
-		if($model->ctt_id)
+		if ($model->ctt_id)
 		{
 
 			//    Logger::trace("getting contact ID to model =====================".$model->ctt_id);
 			$contactModel = Contact::model()->findByPk($model->ctt_id);
-			if($model->scenario)
+			if ($model->scenario)
 			{
 				$contactModel->scenario = $model->scenario;
 			}
@@ -5848,17 +5848,17 @@ class Contact extends BaseActiveRecord
 		}
 		$cityData = [];
 
-		if($contactArray['ctt_first_name'] != "" && $contactArray['ctt_last_name'] != "")
+		if ($contactArray['ctt_first_name'] != "" && $contactArray['ctt_last_name'] != "")
 		{
 			$contactModel->ctt_first_name	 = trim($contactArray['ctt_first_name']);
 			$contactModel->ctt_last_name	 = trim($contactArray['ctt_last_name']);
 		}
 		$contactModel->ctyName = $contactArray['ctt_city'];
-		if($contactArray['ctt_business_name'] != '')
+		if ($contactArray['ctt_business_name'] != '')
 		{
 			$contactModel->ctt_business_name = trim($contactArray['ctt_business_name']);
 		}
-		if($contactModel->ctyName)
+		if ($contactModel->ctyName)
 		{
 			$cityData = Cities::findByCityName($contactModel->ctyName, $contactArray['ctt_state']);
 		}
@@ -5880,7 +5880,7 @@ class Contact extends BaseActiveRecord
 		$contactId	 = $data->ctt_id;
 		$model		 = Contact::model()->findByPk($contactId);
 
-		if($model == null)
+		if ($model == null)
 		{
 			throw new Exception("Contact not found", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5893,7 +5893,7 @@ class Contact extends BaseActiveRecord
 		$model->ctt_address				 = trim($data->ctt_address);
 		$model->ctt_dl_issue_authority	 = trim($data->ctt_dl_issue_authority);
 
-		if(!$model->update())
+		if (!$model->update())
 		{
 			throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -5911,7 +5911,7 @@ class Contact extends BaseActiveRecord
 					WHERE doc.doc_status = 2 AND ctt.ctt_active=1";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
 		$num	 = 0;
-		foreach($result as $val)
+		foreach ($result as $val)
 		{
 			$params		 = array('ctt_id' => $val['ctt_id']);
 			$sqlUpdate	 = "UPDATE contact SET ctt_is_name_dl_matched = 2 WHERE ctt_id=:ctt_id AND ctt_active=1";
@@ -5929,7 +5929,7 @@ class Contact extends BaseActiveRecord
                 WHERE doc.doc_status = 2 AND ctt.ctt_active=1";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
 		$num	 = 0;
-		foreach($result as $val)
+		foreach ($result as $val)
 		{
 			$params		 = array('ctt_id' => $val['ctt_id']);
 			$sqlUpdate	 = "UPDATE contact SET ctt_is_name_dl_matched = 2 WHERE ctt_id=:ctt_id AND ctt_active=1";
@@ -5947,7 +5947,7 @@ class Contact extends BaseActiveRecord
 					WHERE doc.doc_status = 2 AND ctt.ctt_active=1";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
 		$num	 = 0;
-		foreach($result as $val)
+		foreach ($result as $val)
 		{
 			$params		 = array('ctt_id' => $val['ctt_id']);
 			$sqlUpdate	 = "UPDATE contact SET ctt_is_name_pan_matched = 2 WHERE ctt_id=:ctt_id AND ctt_active=1";
@@ -5965,7 +5965,7 @@ class Contact extends BaseActiveRecord
 					WHERE doc.doc_status = 2 AND ctt.ctt_active=1";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
 		$num	 = 0;
-		foreach($result as $val)
+		foreach ($result as $val)
 		{
 			$params		 = array('ctt_id' => $val['ctt_id']);
 			$sqlUpdate	 = "UPDATE contact SET ctt_is_name_pan_matched = 2 WHERE ctt_id=:ctt_id AND ctt_active=1";
@@ -5997,7 +5997,7 @@ class Contact extends BaseActiveRecord
 					) a ORDER BY rank DESC";
 		$row	 = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
 		$model	 = false;
-		if($row)
+		if ($row)
 		{
 			$model = self::model()->findByPk($row["ctt_id"]);
 		}
@@ -6008,12 +6008,12 @@ class Contact extends BaseActiveRecord
 	public static function updateDlIssueDate($cttId, $issueDate)
 	{
 		$cttModel = Contact::model()->findByPk($cttId);
-		if(empty($cttModel))
+		if (empty($cttModel))
 		{
 			throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 		}
 		$cttModel->ctt_license_issue_date = $issueDate;
-		if($cttModel->save())
+		if ($cttModel->save())
 		{
 			$param	 = ['docID' => $cttModel->ctt_license_doc_id];
 			$sql	 = "UPDATE `document` SET `doc_status`= 0 WHERE `doc_id`=:docID";
@@ -6024,12 +6024,12 @@ class Contact extends BaseActiveRecord
 	public static function updateDlExpiryDate($cttId, $expDate)
 	{
 		$cttModel = Contact::model()->findByPk($cttId);
-		if(empty($cttModel))
+		if (empty($cttModel))
 		{
 			throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 		}
 		$cttModel->ctt_license_exp_date = $expDate;
-		if($cttModel->save())
+		if ($cttModel->save())
 		{
 			$param	 = ['docID' => $cttModel->ctt_license_doc_id];
 			$sql	 = "UPDATE `document` SET `doc_status`= 0 WHERE `doc_id`=:docID";
@@ -6040,17 +6040,17 @@ class Contact extends BaseActiveRecord
 	public static function createByPhoneNumber($phone)
 	{
 		$contactId = ContactPhone::getContactid($phone);
-		if(!$contactId)
+		if (!$contactId)
 		{
 			$cModel = new Contact();
-			if(!$cModel->save())
+			if (!$cModel->save())
 			{
 				throw new Exception('Error in contact creating: ' . json_encode($cModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			$contactId	 = $cModel->ctt_id;
 			Filter::parsePhoneNumber($phone, $code, $number);
 			$returnSet	 = ContactPhone::model()->add($contactId, $number, $userType	 = 0, $code);
-			if(!$returnSet->getStatus())
+			if (!$returnSet->getStatus())
 			{
 				throw new Exception('Error in adding contact phone: ' . json_encode($cModel->getErrors()), ReturnSet::ERROR_FAILED);
 			}
@@ -6095,22 +6095,22 @@ class Contact extends BaseActiveRecord
 		try
 		{
 			$model = Contact::model()->findByPk($cttId);
-			if(!$model)
+			if (!$model)
 			{
 				throw new Exception('Invalid Contact', ReturnSet::ERROR_INVALID_DATA);
 			}
 			$model->ctt_vaccine_status			 = $details['vaccineStatus'];
 			$model->ctt_vaccine_details			 = CJSON::encode($details['vaccinationDetails']);
 			$model->ctt_vaccine_modified_date	 = new CDbExpression('NOW()');
-			if($model->save())
+			if ($model->save())
 			{
 				$returnset->setStatus(true);
 				$returnset->setMessage("Vaccine Status Updated successfully");
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
-			if($returnSet->getErrorCode() == 0)
+			if ($returnSet->getErrorCode() == 0)
 			{
 				$returnSet->setErrorCode($e->getCode());
 				$returnSet->addError($e->getMessage());
@@ -6133,11 +6133,11 @@ class Contact extends BaseActiveRecord
 		$diff		 = abs($date1 - $date2);
 		$day		 = $diff / (60 * 60 * 24);
 
-		if(($result['ctt_vaccine_status'] == 0 || $result['ctt_vaccine_status'] == 1) && $day >= 15)
+		if (($result['ctt_vaccine_status'] == 0 || $result['ctt_vaccine_status'] == 1) && $day >= 15)
 		{
 			$result = true;
 		}
-		else if($result['ctt_vaccine_status'] == 2)
+		else if ($result['ctt_vaccine_status'] == 2)
 		{
 			$result = false;
 		}
@@ -6153,10 +6153,10 @@ class Contact extends BaseActiveRecord
 	public static function getIdByPhoneOrDL($license, $phone)
 	{
 		$contactId = Contact::getContactIdByLicense($license);
-		if(empty($contactId))
+		if (empty($contactId))
 		{
 			$contactData = ContactPhone::model()->findByContact($phone);
-			if(!empty($contactData))
+			if (!empty($contactData))
 			{
 				$contactId = $contactData->phn_contact_id;
 			}
@@ -6178,7 +6178,7 @@ class Contact extends BaseActiveRecord
 		$phone		 = $profile->phone;
 		$contactId	 = Contact::model()->getIdByDetails($email, $phone, $profile->firstName, $profile->lastName);
 		$transaction = null;
-		if($contactId > 0)
+		if ($contactId > 0)
 		{
 			$returnSet->setStatus(true);
 			$returnSet->setData(['contactId' => $contactId]);
@@ -6186,7 +6186,7 @@ class Contact extends BaseActiveRecord
 		}
 		try
 		{
-			if($email == '' && $phone == '')
+			if ($email == '' && $phone == '')
 			{
 				Logger::trace(CJSON::encode($profile));
 				throw new Exception("Unable to fetch phone/email information", ReturnSet::ERROR_INVALID_DATA);
@@ -6195,23 +6195,23 @@ class Contact extends BaseActiveRecord
 			$model					 = new Contact();
 			$model->ctt_first_name	 = $profile->firstName;
 			$model->ctt_last_name	 = $profile->lastName;
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			$contactId = $model->ctt_id;
-			if($email != '')
+			if ($email != '')
 			{
 				$emailReturnSet = ContactEmail::model()->addNew($model->ctt_id, $email, $type, 1, 1, 1);
-				if($emailReturnSet->getStatus() != true)
+				if ($emailReturnSet->getStatus() != true)
 				{
 					throw new Exception(CJSON::encode($emailReturnSet->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
 			}
-			if($phone != '')
+			if ($phone != '')
 			{
 				$phoneReturnSet = ContactPhone::model()->add($model->ctt_id, $phone, $type, 1, 1, 1);
-				if($phoneReturnSet->getStatus() != true)
+				if ($phoneReturnSet->getStatus() != true)
 				{
 					throw new Exception(CJSON::encode($phoneReturnSet->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
@@ -6220,7 +6220,7 @@ class Contact extends BaseActiveRecord
 			$returnSet->setData(['contactId' => $contactId]);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
@@ -6275,10 +6275,10 @@ class Contact extends BaseActiveRecord
 	{
 		$contactId = Contact::getContactIdByLicense($license);
 		//$contactId = ContactProfile::getProfilebyNumber($phone)['cr_contact_id'];
-		if(empty($contactId))
+		if (empty($contactId))
 		{
 			$profileData = ContactProfile::getProfilebyNumber($phone);
-			if(!empty($profileData))
+			if (!empty($profileData))
 			{
 				$contactId = $profileData['cr_contact_id'];
 			}
@@ -6288,24 +6288,24 @@ class Contact extends BaseActiveRecord
 
 	public static function getContactIdByEmailPhone($emailRecord, $phoneRecord, $obj, $sendVerifyLink = 0)
 	{
-		if(($emailRecord == null || $emailRecord->getRowCount() == 0) && ($phoneRecord == null || $phoneRecord->getRowCount() == 0) && $sendVerifyLink != 1)
+		if (($emailRecord == null || $emailRecord->getRowCount() == 0) && ($phoneRecord == null || $phoneRecord->getRowCount() == 0) && $sendVerifyLink != 1)
 		{
 			$contactSet	 = Contact::createContact($obj, $sendVerifyLink, UserInfo::TYPE_CONSUMER);
 			$contactId	 = $contactSet->getData()['id'];
 		}
 		else
 		{
-			foreach($emailRecord as $contactEmail)
+			foreach ($emailRecord as $contactEmail)
 			{
 				$idByEmail = $contactEmail['ctt_id'];
 			}
-			foreach($phoneRecord as $contactPhone)
+			foreach ($phoneRecord as $contactPhone)
 			{
 				$idByPhone = $contactPhone['ctt_id'];
 			}
 
 			$contactId = $idByEmail;
-			if($idByPhone != '' && $idByEmail == '')
+			if ($idByPhone != '' && $idByEmail == '')
 			{
 				$contactId = $idByPhone;
 			}
@@ -6325,11 +6325,11 @@ class Contact extends BaseActiveRecord
 		$signupObj	 = new \Stub\consumer\SignUpRequest();
 		$obj		 = $signupObj->setModel($bkgUserModel);
 
-		if(trim($email) != '')
+		if (trim($email) != '')
 		{
 			$emailRecord = ContactEmail::getByEmail($email, $phone, $fname, $lname, $limit);
 		}
-		if(trim($phone) != '')
+		if (trim($phone) != '')
 		{
 			$phoneRecord = ContactPhone::getByPhone($phone, $email, $fname, $lname, $limit);
 		}
@@ -6351,24 +6351,24 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function getByEmailPhone($email = '', $phone = '', $createIfNotExist = false)
 	{
-		if(trim($phone) != '')
+		if (trim($phone) != '')
 		{
 
 			$phone	 = Filter::processPhoneNumber($phone);
 			$value	 = Filter::parsePhoneNumber($phone, $code, $number);
 			//$phone	 = $code . $number;
 		}
-		if(trim($email) != '')
+		if (trim($email) != '')
 		{
 			$emailRecord = ContactEmail::getByEmail($email, $code . $number, '', '', 'limit 1');
 		}
-		if(trim($phone) != '')
+		if (trim($phone) != '')
 		{
 			$phoneRecord = ContactPhone::getByPhone($code . $number, $email, '', '', 'limit 1');
 		}
 		$contactId = Contact::getIdByRecord($emailRecord, $phoneRecord);
 		Logger::info("Contact::getIdByRecord contactId " . $contactId);
-		if($contactId == '' && $createIfNotExist)
+		if ($contactId == '' && $createIfNotExist)
 		{
 			$contactSet	 = Contact::createContactByInfo($email, $phone, 0, UserInfo::TYPE_CONSUMER);
 			$contactId	 = $contactSet->getData()['id'];
@@ -6380,21 +6380,21 @@ class Contact extends BaseActiveRecord
 	public static function getIdByRecord($emailRecord = null, $phoneRecord = null)
 	{
 		$contactId = '';
-		foreach($emailRecord as $contactEmail)
+		foreach ($emailRecord as $contactEmail)
 		{
 			$idByEmail = $contactEmail['ctt_id'];
 		}
-		foreach($phoneRecord as $contactPhone)
+		foreach ($phoneRecord as $contactPhone)
 		{
 			$idByPhone = $contactPhone['ctt_id'];
 			Logger::create("Contact::getIdByRecord idByPhone" . $idByPhone, CLogger::LEVEL_INFO);
 		}
 
-		if($idByPhone != '')
+		if ($idByPhone != '')
 		{
 			$contactId = $idByPhone;
 		}
-		else if($idByEmail != '')
+		else if ($idByEmail != '')
 		{
 			$contactId = $idByEmail;
 		}
@@ -6412,12 +6412,12 @@ class Contact extends BaseActiveRecord
 		try
 		{
 			$contactModel = new Contact();
-			if($email != '')
+			if ($email != '')
 			{
 				$primaryEmail				 = array(array('eml_email_address' => $email, 'eml_is_primary' => 1, 'eml_type' => $provider, 'eml_is_verified' => 1));
 				$contactModel->contactEmails = $contactModel->convertToEmailObjects($primaryEmail);
 			}
-			if($phone != '')
+			if ($phone != '')
 			{
 				Filter::parsePhoneNumber($phone, $code, $number);
 				$primaryPhone				 = array(array('phn_phone_country_code' => $code, 'phn_phone_no' => $number, 'phn_is_primary' => 1, 'phn_type' => $provider, 'phn_is_verified' => 1));
@@ -6426,7 +6426,7 @@ class Contact extends BaseActiveRecord
 
 			$returnSet = $contactModel->contactAddByInfo($tempVal);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -6447,19 +6447,19 @@ class Contact extends BaseActiveRecord
 			 * update ref code for contact
 			 */
 			Contact::updateRefCode($this->ctt_id, $this->ctt_id);
-			if(!$res)
+			if (!$res)
 			{
 				$returnSet->setErrors($this->getErrors(), 0);
 				throw new CHttpException("Failed to add contact", 1);
 			}
-			if($this->contactEmails)
+			if ($this->contactEmails)
 			{
 				$emailResponse	 = $this->saveEmails();
 				ContactEmail::setPrimaryEmail($this->ctt_id);
 				$emlPkId		 = $emailResponse->getData();
 				$emailData		 = ContactEmail::model()->findByPk($emlPkId);
 			}
-			if($this->contactPhones)
+			if ($this->contactPhones)
 			{
 				$phoneResponse	 = $this->savePhones();
 				ContactPhone::setPrimaryPhone($this->ctt_id);
@@ -6475,17 +6475,17 @@ class Contact extends BaseActiveRecord
 
 			ContactLog::model()->createLog($this->ctt_id, $desc, $event, null);
 
-			if($this->commit)
+			if ($this->commit)
 			{
 				DBUtil::commitTransaction($transaction);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData(["id" => $this->ctt_id]);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
-			if($returnSet->getErrorCode() == 0)
+			if ($returnSet->getErrorCode() == 0)
 			{
 				$returnSet->setErrorCode($e->getCode());
 				$returnSet->addError($e->getMessage());
@@ -6499,24 +6499,47 @@ class Contact extends BaseActiveRecord
 	public static function verifyOTP($objCttVerify, $canSendSMS = true, $smstextType = null, $canSendEmail = true, $smsLogType = SmsLog::SMS_LOGIN_REGISTER)
 	{
 
-		if($objCttVerify->otp == null || $objCttVerify->otpValidTill == null || $objCttVerify->otpValidTill < time())
+		if ($objCttVerify->otp == null || $objCttVerify->otpValidTill == null || $objCttVerify->otpValidTill < time())
 		{
 			$objCttVerify->otp			 = Filter::generateOtp();
 			$objCttVerify->otpValidTill	 = time() + 300;
 		}
 		$objCttVerify->isSendSMS = 0;
-		if($objCttVerify->otpRetry < 3 && ($objCttVerify->otpLastSent == null || $objCttVerify->otpLastSent < time() - 120))
+		if ($objCttVerify->otpRetry < 3 && ($objCttVerify->otpLastSent == null || $objCttVerify->otpLastSent < time() - 120))
 		{
-			if($objCttVerify->type == Stub\common\ContactVerification::TYPE_EMAIL && $canSendEmail)
+			if ($objCttVerify->type == Stub\common\ContactVerification::TYPE_EMAIL && $canSendEmail)
 			{
 				emailWrapper::sendOtp($objCttVerify->value, $objCttVerify->otp);
 			}
-			else if($objCttVerify->type == Stub\common\ContactVerification::TYPE_PHONE && $canSendSMS)
+			else if ($objCttVerify->type == Stub\common\ContactVerification::TYPE_PHONE && $canSendSMS)
 			{
-				Filter::parsePhoneNumber($objCttVerify->value, $code, $number);
-				if(UserInfo::$platform == 1)
+				$cacheOTPKey = "OTPCtr {$objCttVerify->value}";
+				$cacheObj	 = Yii::app()->cache->get($cacheOTPKey);
+				if ($cacheObj == null)
 				{
-					if($smsLogType == SmsLog::SMS_FORGET_PASSWORD)
+					$cacheObj = $objCttVerify;
+					Yii::app()->cache->set($cacheOTPKey, $cacheObj, 10, new CacheDependency("CustomLog"));
+				}
+				else
+				{
+					$cacheObj->otpRetry++;
+					Logger::trace(session_id());
+					Logger::trace(json_encode($cacheObj));
+					Logger::warning("Multiple OTP tried", true);
+					return $cacheObj;
+				}
+
+				Filter::parsePhoneNumber($objCttVerify->value, $code, $number);
+				$noOfHRvalid = 1;
+				$countSms	 = SmsLog::getCountByType($code, $smsLogType, $code . $number, $noOfHRvalid);
+				if ($countSms >= SmsLog::SMS_MAX_ALLOWED)
+				{
+					return $cacheObj;
+				}
+
+				if (UserInfo::$platform == 1)
+				{
+					if ($smsLogType == SmsLog::SMS_FORGET_PASSWORD)
 					{
 						$smsWrapperKey = smsWrapper::DLT_OTP_FORGOTPASSWORD;
 					}
@@ -6527,7 +6550,7 @@ class Contact extends BaseActiveRecord
 					$dltId	 = $smstextType != null ? $smsWrapperKey : smsWrapper::DLT_OTP_TEMPID;
 					$isSend	 = Users::notifySendOtp($code, $number, $objCttVerify->otp, $dltId, $smstextType, $smsLogType);
 				}
-				else if($smstextType != null)
+				else if ($smstextType != null)
 				{
 
 					$isSend = smsWrapper::sendOtpWEBOTP($code, $number, $objCttVerify->otp, $smsLogType);
@@ -6536,26 +6559,33 @@ class Contact extends BaseActiveRecord
 				{
 					$isSend = smsWrapper::sendOtp($code, $number, $objCttVerify->otp, $smsLogType);
 				}
-				if($isSend)
+				if ($isSend)
 				{
 					$objCttVerify->isSendSMS = 1;
 				}
-				if(YII_DEBUG && APPLICATION_ENV != 'production' && Yii::app()->params['sendSMS'] == false)
+				if (YII_DEBUG && APPLICATION_ENV != 'production' && Yii::app()->params['sendSMS'] == false)
 				{
 					$objCttVerify->isSendSMS = 1;
 				}
 			}
 			$objCttVerify->otpLastSent = time();
 			$objCttVerify->otpRetry++;
+			Yii::app()->cache->set($cacheOTPKey, $cacheObj, 20, new CacheDependency("CustomLog"));
+			if ($cacheObj->otpRetry > 1)
+			{
+				Logger::trace(json_encode($cacheObj));
+				Logger::warning("Multiple OTP Sent", true);
+			}
 		}
+		skipOTP:
 		return $objCttVerify;
 	}
 
 	public static function getKeyBySession($contactVerifications, $verifyValue, $verifyType)
 	{
-		foreach($contactVerifications as $key => $contactVerification)
+		foreach ($contactVerifications as $key => $contactVerification)
 		{
-			if($contactVerification->value == $verifyValue && $contactVerification->type == $verifyType)
+			if ($contactVerification->value == $verifyValue && $contactVerification->type == $verifyType)
 			{
 				$keyVal = $key;
 			}
@@ -6567,17 +6597,17 @@ class Contact extends BaseActiveRecord
 	{
 		$cttIds = [];
 
-		if($email != '')
+		if ($email != '')
 		{
 			$cttIds[] = ContactEmail::getLinkedContactIds($email);
 		}
 
-		if($phone != '')
+		if ($phone != '')
 		{
 			$cttIds[] = ContactPhone::getLinkedContactIds($phone);
 		}
 
-		if($phone != '' || $email != '')
+		if ($phone != '' || $email != '')
 		{
 			$cttIds[] = Users::getLinkedContactIds($phone, $email);
 		}
@@ -6586,7 +6616,7 @@ class Contact extends BaseActiveRecord
 		$ids	 = implode(",", $cttIds);
 		$cttIds	 = array_filter(array_unique(explode(",", $ids)));
 
-		if(count($cttIds) == 0)
+		if (count($cttIds) == 0)
 		{
 			return false;
 		}
@@ -6602,13 +6632,13 @@ class Contact extends BaseActiveRecord
 	{
 		$contactIds = Contact::getLinkedIdsByEmailPhone($email, $phone);
 
-		if(!$contactIds)
+		if (!$contactIds)
 		{
 			return false;
 		}
 		$fullNumber	 = "";
 		$phone		 = Filter::processPhoneNumber($phone);
-		if($phone)
+		if ($phone)
 		{
 			Filter::parsePhoneNumber($phone, $code, $number);
 			$fullNumber = $code . $number;
@@ -6653,7 +6683,7 @@ class Contact extends BaseActiveRecord
 			$verifyCode = Filter::generateOtp();
 
 			$contactCount = Contact::countContactByValue($otpType, $value);
-			if($contactCount > 1 && $value != '')
+			if ($contactCount > 1 && $value != '')
 			{
 				$callBackLink = '<a class="font-12 pl10 pr10 hvr-push" onClick="return reqCMB(2)" href=' . Yii::app()->getBaseUrl(true) . '/scq/existingBookingCallBack?reftype=2 target="_blank">Click here</a>';
 				throw new Exception("This no is already linked with another account. If this number belongs to you please " . $callBackLink . " to create a support ticket.", ReturnSet::ERROR_FAILED);
@@ -6670,7 +6700,7 @@ class Contact extends BaseActiveRecord
 			$returnSet->setData(['encCode' => $encriptedData]);
 			$status ? $returnSet->setMessage("OTP sent successfully") : $returnSet->setMessage("Unable to send  OTP");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			$returnSet = ReturnSet::setException($ex);
@@ -6682,7 +6712,7 @@ class Contact extends BaseActiveRecord
 
 	public static function countContactByValue($otpType, $value)
 	{
-		if($otpType == 1)
+		if ($otpType == 1)
 		{
 			$count = ContactEmail::getLinkedContactCountByEmail($value);
 		}
@@ -6701,7 +6731,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function setDataByType($value, $verifyCode, $otpType)
 	{
-		switch($otpType)
+		switch ($otpType)
 		{
 			case '1':
 				$msg	 = "Your OTP for email verification is " . $verifyCode . " - Gozocabs";
@@ -6737,12 +6767,12 @@ class Contact extends BaseActiveRecord
 
 		$type	 = $decriptArr->type;
 		$model	 = Contact::model()->findByPk($cttId);
-		if($decriptArr->otp != $code)
+		if ($decriptArr->otp != $code)
 		{
 			$msg = "Sorry! OTP doesn't match.";
 			throw new Exception($msg, ReturnSet::ERROR_INVALID_DATA);
 		}
-		switch($type)
+		switch ($type)
 		{
 			case Contact::TYPE_EMAIL:
 				$returnSet	 = ContactEmail::model()->editContacts($cttId, $decriptArr->value, SocialAuth::Eml_Gozocabs, 1, 1);
@@ -6763,7 +6793,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function checkIsVerified($value, $cttId, $type)
 	{
-		switch($type)
+		switch ($type)
 		{
 			case '1':
 				$contactEmailModel	 = ContactEmail::model()->find('eml_contact_id=:id && eml_email_address=:email', ['id' => $cttId, 'email' => $value]);
@@ -6786,7 +6816,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function setPrimaryByType($type, $value, $cttId)
 	{
-		switch($type)
+		switch ($type)
 		{
 			case '1':
 				$response	 = ContactEmail::setPrimaryByEmail($value, $cttId);
@@ -6805,15 +6835,15 @@ class Contact extends BaseActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			switch($type)
+			switch ($type)
 			{
 				case '1':
 					$returnSet = ContactEmail::model()->validateEmailById($value, $params);
-					if($returnSet->getStatus())
+					if ($returnSet->getStatus())
 					{
 						$contactEmailModel				 = ContactEmail::model()->find('eml_contact_id=:id && eml_email_address=:email', ['id' => $cttId, 'email' => $value]);
 						$contactEmailModel->eml_active	 = 0;
-						if(!$contactEmailModel->save())
+						if (!$contactEmailModel->save())
 						{
 							throw new Exception(CJSON::encode($contactEmailModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 						}
@@ -6822,11 +6852,11 @@ class Contact extends BaseActiveRecord
 					break;
 				case '2':
 					$returnSet = ContactPhone::model()->validatePhoneById($value, $params);
-					if($returnSet->getStatus())
+					if ($returnSet->getStatus())
 					{
 						$phoneModel				 = ContactPhone::model()->find('phn_contact_id=:id && phn_phone_no=:phone', ['id' => $cttId, 'phone' => $value]);
 						$phoneModel->phn_active	 = 0;
-						if(!$phoneModel->save())
+						if (!$phoneModel->save())
 						{
 							throw new Exception(CJSON::encode($phoneModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 						}
@@ -6836,7 +6866,7 @@ class Contact extends BaseActiveRecord
 			}
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
@@ -6857,7 +6887,7 @@ class Contact extends BaseActiveRecord
 	public static function getByLicenseAndPhone($license, $phone)
 	{
 		$phone = Filter::processPhoneNumber($phone);
-		if(!$phone)
+		if (!$phone)
 		{
 			return false;
 		}
@@ -6927,7 +6957,7 @@ class Contact extends BaseActiveRecord
 
 
 		$returnSet = $cttModel->create(true, UserInfo::TYPE_CONSUMER);
-		if(!$returnSet->isSuccess())
+		if (!$returnSet->isSuccess())
 		{
 			throw new Exception("Sorry, unable to create your accounts", ReturnSet::ERROR_FAILED);
 		}
@@ -6940,7 +6970,7 @@ class Contact extends BaseActiveRecord
 		$identityNo	 = "";
 		$docId		 = "";
 
-		switch($docType)
+		switch ($docType)
 		{
 			case Document::Document_Voter:
 				$identityNo	 = "ctt_voter_no";
@@ -6982,7 +7012,7 @@ class Contact extends BaseActiveRecord
 
 			$contactData = \ContactProfile::getCodeByCttId($contactId);
 
-			if($contactData && $contactData['cr_is_vendor'] > 0)
+			if ($contactData && $contactData['cr_is_vendor'] > 0)
 			{
 				$vndId = $contactData['cr_is_vendor'];
 				goto skipNewVendor;
@@ -6990,7 +7020,7 @@ class Contact extends BaseActiveRecord
 			$response	 = Vendors::model()->add($contactId, $name, $this->isDco, $this->ctt_city, $regPlatform);
 			$vndId		 = $response->getData();
 
-			if(!$response->getStatus())
+			if (!$response->getStatus())
 			{
 				$returnSet->setMessage("Failed to create vendor");
 				goto skipAll;
@@ -7000,16 +7030,16 @@ class Contact extends BaseActiveRecord
 			skipNewVendor:
 			$data['vendor']	 = $vndId;
 			$dbDate			 = Filter::getDBDateTime();
-			if($this->isDco && $this->ctt_license_no != '' && $this->locale_license_exp_date > $dbDate && $this->ctt_license_doc_id > 0)
+			if ($this->isDco && $this->ctt_license_no != '' && $this->locale_license_exp_date > $dbDate && $this->ctt_license_doc_id > 0)
 			{
-				if($contactData && $contactData['cr_is_driver'] > 0)
+				if ($contactData && $contactData['cr_is_driver'] > 0)
 				{
 					$drvId = $contactData['cr_is_driver'];
 					goto skipNewDriver;
 				}
 				$driverName	 = $this->ctt_first_name . " " . $this->ctt_last_name;
 				$returnSet	 = Drivers::addDriverDetails($contactId, $driverName);
-				if($returnSet->getStatus())
+				if ($returnSet->getStatus())
 				{
 					$drvId		 = $returnSet->getData();
 					ContactProfile::updateEntity($contactId, $drvId, UserInfo::TYPE_DRIVER);
@@ -7018,7 +7048,7 @@ class Contact extends BaseActiveRecord
 				}
 				else
 				{
-					if($returnSet->getMessage() != '')
+					if ($returnSet->getMessage() != '')
 					{
 						throw new Exception($returnSet->getMessage(), ReturnSet::ERROR_VALIDATION);
 					}
@@ -7031,7 +7061,7 @@ class Contact extends BaseActiveRecord
 			$returnSet->setData($data);
 			$returnSet->setMessage("Vendor account is created successfully ");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnSet->setException($ex);
@@ -7054,12 +7084,12 @@ class Contact extends BaseActiveRecord
 			$sql	 = "SELECT tpc.tpc_fname fname,tpc.tpc_lname lname,tpc.tpc_email email,tpc.tpc_phone number FROM test.temp_contacts tpc WHERE tpc.tpc_phone = :phone";
 			$resQ	 = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
 
-			if(!is_null($resQ) && $resQ != '')
+			if (!is_null($resQ) && $resQ != '')
 			{
 				return $resQ;
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -7074,7 +7104,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function updateTempContactsRegisteredByPhone($phone, $cttId)
 	{
-		if($phone != '' && $cttId > 0)
+		if ($phone != '' && $cttId > 0)
 		{
 			try
 			{
@@ -7086,7 +7116,7 @@ class Contact extends BaseActiveRecord
 				$resQ	 = DBUtil::execute($sql, $param);
 				return $resQ;
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::trace($ex->getMessage());
 			}
@@ -7101,7 +7131,7 @@ class Contact extends BaseActiveRecord
 	 */
 	public static function updateTempContactsAttemptedByPhone($phone)
 	{
-		if($phone != '')
+		if ($phone != '')
 		{
 			try
 			{
@@ -7112,7 +7142,7 @@ class Contact extends BaseActiveRecord
 				$resQ	 = DBUtil::execute($sql, $param);
 				return $resQ;
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::trace($ex->getMessage());
 			}
@@ -7133,12 +7163,12 @@ class Contact extends BaseActiveRecord
 			$sql	 = "SELECT tpc.tpc_id FROM test.temp_contacts tpc WHERE tpc.tpc_phone = :phone";
 			$resQ	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $param);
 
-			if(!is_null($resQ) && $resQ != '')
+			if (!is_null($resQ) && $resQ != '')
 			{
 				return $resQ;
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -7154,12 +7184,12 @@ class Contact extends BaseActiveRecord
 	public static function markVerified($cttId, $type, $value)
 	{
 		$returnSet = new ReturnSet();
-		switch($type)
+		switch ($type)
 		{
 			case Contact::TYPE_PHONE:
 
 				$isPhoneVerified = \ContactPhone::checkData($cttId, $value, null, null, 1);
-				if(!$isPhoneVerified->getStatus())
+				if (!$isPhoneVerified->getStatus())
 				{
 					\ContactPhone::model()->updateContactStatus($cttId, $value);
 				}
@@ -7168,7 +7198,7 @@ class Contact extends BaseActiveRecord
 			case Contact::TYPE_EMAIL:
 
 				$isEmailVerified = \ContactEmail::checkData($value, null, $cttId, null, 1);
-				if(!$isEmailVerified->getStatus())
+				if (!$isEmailVerified->getStatus())
 				{
 					\ContactEmail::markVerified($cttId, $value);
 				}
@@ -7200,30 +7230,30 @@ class Contact extends BaseActiveRecord
 		$licStatus		 = $listDoc['doc_status5'];
 		$cttModel		 = Contact::model()->findByPk($cttId);
 		/** @var Contact $cttModel */
-		if($voterStatus != 1 && $contactObj->voter != '')
+		if ($voterStatus != 1 && $contactObj->voter != '')
 		{
 			$cttModel->validateDocumentInfo($contactObj->voter, Document::Document_Voter);
 		}
-		if($aadhaarStatus != 1 && $contactObj->aadhaar != '')
+		if ($aadhaarStatus != 1 && $contactObj->aadhaar != '')
 		{
 			$cttModel->validateDocumentInfo($contactObj->aadhaar, Document::Document_Aadhar);
 		}
-		if($panStatus != 1 && $contactObj->pan != '')
+		if ($panStatus != 1 && $contactObj->pan != '')
 		{
 			$cttModel->validateDocumentInfo($contactObj->pan, Document::Document_Pan);
 		}
-		if($licStatus != 1 && $contactObj->dlNumber != '')
+		if ($licStatus != 1 && $contactObj->dlNumber != '')
 		{
 			$dlNumber		 = $contactObj->dlNumber;
 			$dlExpiryDate	 = $contactObj->dlExpiryDate;
 			$dlIssuingState	 = $contactObj->dlIssuingState;
 			$cttModel->validateDrivingLicenceInfo($dlNumber, $dlExpiryDate, $dlIssuingState);
 		}
-		if($contactObj->accountInfo)
+		if ($contactObj->accountInfo)
 		{
 			$cttModel->setDCOBankInfo($contactObj->accountInfo[0]);
 		}
-		if(!$cttModel->validate())
+		if (!$cttModel->validate())
 		{
 			throw new Exception(json_encode($cttModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -7243,7 +7273,7 @@ class Contact extends BaseActiveRecord
 		$fieldName	 = Document::getFieldByType($docType);
 		$cttId		 = $this->ctt_id;
 		$docCttId	 = Contact::checkContactIdForDocNumber($fieldName, $docNumber);
-		if(!$docCttId || $docCttId == $cttId)
+		if (!$docCttId || $docCttId == $cttId)
 		{
 			$this->$fieldName = $docNumber;
 		}
@@ -7268,19 +7298,19 @@ class Contact extends BaseActiveRecord
 		$cttId		 = $this->ctt_id;
 		$docCttId	 = Contact::checkContactIdForDocNumber($fieldName, $docNumber);
 
-		if($dlExpiryDate == '')
+		if ($dlExpiryDate == '')
 		{
 			throw new Exception("Driving Licence expiry date not given", ReturnSet::ERROR_INVALID_DATA);
 		}
-		if($dlIssuingState == '')
+		if ($dlIssuingState == '')
 		{
 			throw new Exception("Driving Licence issuing state not given", ReturnSet::ERROR_INVALID_DATA);
 		}
-		if($dlExpiryDate < \Filter::getDBDateTime())
+		if ($dlExpiryDate < \Filter::getDBDateTime())
 		{
 			throw new Exception("Driving Licence already expired", ReturnSet::ERROR_INVALID_DATA);
 		}
-		if(!$docCttId || $docCttId == $cttId)
+		if (!$docCttId || $docCttId == $cttId)
 		{
 			$this->$fieldName				 = $docNumber;
 			$this->ctt_license_exp_date		 = $dlExpiryDate;
@@ -7298,27 +7328,27 @@ class Contact extends BaseActiveRecord
 	 */
 	public function setDCOBankInfo(\Beans\common\AccountInfo $accountInfoObj)
 	{
-		if(trim($accountInfoObj->type) != '')
+		if (trim($accountInfoObj->type) != '')
 		{
 			$this->ctt_account_type = (strtolower($accountInfoObj->type) == 'current') ? 1 : 0;
 		}
-		if(trim($accountInfoObj->accountNumber) != '')
+		if (trim($accountInfoObj->accountNumber) != '')
 		{
 			$this->ctt_bank_account_no = trim($accountInfoObj->accountNumber);
 		}
-		if(trim($accountInfoObj->accountName) != '')
+		if (trim($accountInfoObj->accountName) != '')
 		{
 			$this->ctt_bank_name = trim($accountInfoObj->accountName);
 		}
-		if(trim($accountInfoObj->benificiaryName) != '')
+		if (trim($accountInfoObj->benificiaryName) != '')
 		{
 			$this->ctt_beneficiary_name = trim($accountInfoObj->benificiaryName);
 		}
-		if(trim($accountInfoObj->branchName) != '')
+		if (trim($accountInfoObj->branchName) != '')
 		{
 			$this->ctt_bank_branch = trim($accountInfoObj->branchName);
 		}
-		if(trim($accountInfoObj->ifscCode) != '')
+		if (trim($accountInfoObj->ifscCode) != '')
 		{
 			$this->ctt_bank_ifsc = trim($accountInfoObj->ifscCode);
 		}
@@ -7333,7 +7363,7 @@ class Contact extends BaseActiveRecord
 	public static function checkContactIdForDocNumber($fieldName, $docNumber)
 	{
 
-		if($fieldName != '' && $docNumber != '')
+		if ($fieldName != '' && $docNumber != '')
 		{
 			$sql = "SELECT ctt_ref_code FROM contact WHERE $fieldName = '$docNumber'";
 			return DBUtil::queryScalar($sql, DBUtil::SDB());
@@ -7351,7 +7381,7 @@ class Contact extends BaseActiveRecord
 
 		$path					 = Document::upload($this->ctt_id, "profile", $profileImage);
 		$this->ctt_profile_path	 = $path;
-		if($this->save())
+		if ($this->save())
 		{
 			return $path;
 		}
@@ -7360,7 +7390,7 @@ class Contact extends BaseActiveRecord
 
 	public static function getTags($cttId = 0)
 	{
-		if(!$cttId || $cttId == '')
+		if (!$cttId || $cttId == '')
 		{
 			return '';
 		}
@@ -7375,32 +7405,32 @@ class Contact extends BaseActiveRecord
 
 		$phone	 = $contactModel->contactPhones[0]->phn_phone_no;
 		$email	 = $contactModel->contactEmails[0]->eml_email_address;
-		if($phone)
+		if ($phone)
 		{
 			$phCttIds = ContactPhone::getData($phone, false);
 		}
 
 		$emlCttIds = null;
-		if($email)
+		if ($email)
 		{
 			$emlCttIds = ContactEmail::getData($email, false);
 		}
-		if($phCttIds && (!$licCttId || !in_array($licCttId, explode(',', $phCttIds))))
+		if ($phCttIds && (!$licCttId || !in_array($licCttId, explode(',', $phCttIds))))
 		{
 			$contactModel->addError("ctt_id", "This phone number is already registered with other account");
 		}
 
-		if($emlCttIds && (!$licCttId || !in_array($licCttId, explode(',', $emlCttIds))))
+		if ($emlCttIds && (!$licCttId || !in_array($licCttId, explode(',', $emlCttIds))))
 		{
 			$contactModel->addError("ctt_id", "This email is already registered with other account");
 		}
 
-		if(strlen($contactModel->ctt_license_no) < 12)
+		if (strlen($contactModel->ctt_license_no) < 12)
 		{
 			$contactModel->addError("ctt_id", "Your license was not valid");
 		}
 
-		if($contactModel->hasErrors())
+		if ($contactModel->hasErrors())
 		{
 			throw new Exception(json_encode($contactModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -7426,17 +7456,17 @@ class Contact extends BaseActiveRecord
 
 		$where	 = '';
 		$params	 = [];
-		if($pan && $pan != '')
+		if ($pan && $pan != '')
 		{
 			$where			 .= " AND ctt_pan_no = :pan ";
 			$params['pan']	 = $pan;
 		}
-		if($licenseNo && $licenseNo != '')
+		if ($licenseNo && $licenseNo != '')
 		{
 			$where				 .= " AND ctt_license_no = :licenseNo ";
 			$params['licenseNo'] = $licenseNo;
 		}
-		if(empty($params))
+		if (empty($params))
 		{
 			return false;
 		}
@@ -7495,11 +7525,11 @@ class Contact extends BaseActiveRecord
 		$totRows = $start;
 		$i		 = 0;
 		$ctr	 = 1;
-		while($ctr > 0)
+		while ($ctr > 0)
 		{
 			$ctr		 = 0;
 			$dataReader	 = Contact::getPrimaryContactToMerger($totRows);
-			foreach($dataReader as $data)
+			foreach ($dataReader as $data)
 			{
 				$ctr++;
 				$totRows++;
@@ -7512,7 +7542,7 @@ class Contact extends BaseActiveRecord
 				$phone	 = preg_replace('/[^0-9]/', '', $data['phn_full_number']);
 				$email	 = $data['eml_email_address'];
 
-				if($aadhaar != '' || $voter != '' || $license != '' || $pan != '' || $phone != '' || $email != '')
+				if ($aadhaar != '' || $voter != '' || $license != '' || $pan != '' || $phone != '' || $email != '')
 				{
 					$docData = \Contact::getDocumentWeightById($cttId);
 
@@ -7523,7 +7553,7 @@ class Contact extends BaseActiveRecord
 
 					$dataVal = self::getDuplicateIds($cttId, $aadhaar, $voter, $license, $pan, $phone, $email);
 
-					foreach($dataVal as $dataMerger)
+					foreach ($dataVal as $dataMerger)
 					{
 						try
 						{
@@ -7537,37 +7567,37 @@ class Contact extends BaseActiveRecord
 							$cttDupDocRank	 = $docDupData['docWeight'] | 0;
 							$cttDupBankRef	 = $dataMerger['hasBankRef'] | 0;
 
-							if($cttEmailRank + $cttPhoneRank + $cttDocRank + $hasBankRef < $cttDupEmailRank + $cttDupPhoneRank + $cttDupDocRank + $cttDupBankRef)
+							if ($cttEmailRank + $cttPhoneRank + $cttDocRank + $hasBankRef < $cttDupEmailRank + $cttDupPhoneRank + $cttDupDocRank + $cttDupBankRef)
 							{
 								$cmdModel->cmd_duplicate_ctt_id	 = $cttId;
 								$cmdModel->cmd_ctt_id			 = $dataMerger['ctt_id'];
 							}
 
-							if($dataMerger['hasAdhaar'] == 1)
+							if ($dataMerger['hasAdhaar'] == 1)
 							{
 								$cmdModel->cmd_is_adhaar_matched = 1;
 							}
-							if($dataMerger['hasVoter'] == 1)
+							if ($dataMerger['hasVoter'] == 1)
 							{
 								$cmdModel->cmd_is_voter_matched = 1;
 							}
-							if($dataMerger['hasLicense'] == 1)
+							if ($dataMerger['hasLicense'] == 1)
 							{
 								$cmdModel->cmd_is_license_matched = 1;
 							}
-							if($dataMerger['hasPan'] == 1)
+							if ($dataMerger['hasPan'] == 1)
 							{
 								$cmdModel->cmd_is_pan_matched = 1;
 							}
-							if($dataMerger['hasPhone'] == 1)
+							if ($dataMerger['hasPhone'] == 1)
 							{
 								$cmdModel->cmd_is_phone_matched = 1;
 							}
-							if($dataMerger['hasEmail'] == 1)
+							if ($dataMerger['hasEmail'] == 1)
 							{
 								$cmdModel->cmd_is_email_matched = 1;
 							}
-							if($cmdModel->save())
+							if ($cmdModel->save())
 							{
 								$i++;
 							}
@@ -7575,7 +7605,7 @@ class Contact extends BaseActiveRecord
 							echo $cttId . "\t :: " . $dataMerger['ctt_id'] . "\t done";
 							echo "\n";
 						}
-						catch(Exception $ex)
+						catch (Exception $ex)
 						{
 							echo "Error in data entry: 
   		contactId ->\t" . $cttId . " with :\t" . $dataMerger['ctt_id'] . ". Reason : " . $ex->getMessage();
@@ -7695,4 +7725,35 @@ class Contact extends BaseActiveRecord
 		$relData = DBUtil::queryRow($sql, DBUtil::SDB());
 		return $relData;
 	}
+
+	public static function getRelatedPrimaryListByType($refId = 0, $refType = 0, $showPrimaryOnly = true)
+	{
+		if ($refId == 0)
+		{
+			return 0;
+		}
+		switch ($refType)
+		{
+			case '0':
+				$cttIds	 = $refId;
+				break;
+			case UserInfo::TYPE_CONSUMER :
+				$cttIds	 = \Users::getCttIdsById($refId);
+				break;
+			case UserInfo::TYPE_VENDOR:
+				$cttIds	 = \Vendors::getCttIdsById($refId);
+				break;
+			case UserInfo::TYPE_DRIVER :
+				$cttIds	 = \Drivers::getCttIdsById($refId);
+				break;
+			default:
+				echo "Wrong user type";
+				exit;
+				break;
+		}
+		$relData = ContactProfile::getPrimaryEntitiesByContact($cttIds, $showPrimaryOnly);
+
+		return $relData;
+	}
+
 }

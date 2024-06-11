@@ -40,8 +40,8 @@
 					<input type="hidden" id="from_uberlist" name="from_uberlist" value="0"/>
                     <div class="panel-body panel-no-padding">
 						<div class="form-group">
-                            <label for="delete"><b>Reason for cancellation : </b></label>
-							<?= CHtml::dropDownList('bkreason', '', ['' => '< Select a reason >'] + $reasonList, ['id' => "bkreason", 'class' => "form-control", 'required' => true]) ?>
+                            <label for="delete"><b>Reason for cancellation  : </b></label>
+							<?= CHtml::dropDownList('bkreason', '', ['' => '< Select a reason >'] + UnassignReasons::model()->getListbyUserType(1), ['id' => "bkreason", 'class' => "form-control", 'required' => true]) ?>
                         </div>
                         <div class="form-group">
                             <label for="delete"><b>Reason for cancellation or deletion : </b></label>

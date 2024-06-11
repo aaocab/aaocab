@@ -22,7 +22,7 @@
         
         <div class="search-results disabled-search-list bottom-10">
             <div data-filter-item data-filter-name="all products mega mobile" class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/1s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/1s.jpg" alt="img">
                 <h1>Mega Mobile</h1>
                 <p>
                     Mega Flexible and Feature Filled Mobile Template. 
@@ -30,7 +30,7 @@
                 <a href="#" class="bg-highlight">VIEW</a>
             </div>	   
             <div data-filter-item data-filter-name="all products mega mobile" class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/2s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/2s.jpg" alt="img">
                 <h1>Mega PhoneGap</h1>
                 <p>
                     Mega Flexible and Feature Filled Mobile Template. 
@@ -38,7 +38,7 @@
                 <a href="#" class="bg-highlight">VIEW</a>
             </div>
             <div data-filter-item data-filter-name="all products mega mobile" class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/3s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/3s.jpg" alt="img">
                 <h1>Mega Cordova</h1>
                 <p>
                     Mega Flexible and Feature Filled Mobile Template. 
@@ -47,7 +47,7 @@
             </div>	
             
             <div data-filter-item data-filter-name="all products ultra mobile"  class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/4s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/4s.jpg" alt="img">
                 <h1>Ultra Mobile</h1>
                 <p>
                     The Ultra Powerful and Fast Mobile Website. 
@@ -56,7 +56,7 @@
             </div>      
             
             <div data-filter-item data-filter-name="all products ultra mobile"  class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/5s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/5s.jpg" alt="img">
                 <h1>Ultra PhoneGap</h1>
                 <p>
                     The Ultra Powerful and Fast Mobile Website. 
@@ -65,7 +65,7 @@
             </div>         
             
             <div data-filter-item data-filter-name="all products ultra mobile"  class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/6s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/6s.jpg" alt="img">
                 <h1>Ultra Cordova</h1>
                 <p>
                     The Ultra Powerful and Fast Mobile Website. 
@@ -74,7 +74,7 @@
             </div> 
             
             <div data-filter-item data-filter-name="all products appeca mobile"  class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/7s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/7s.jpg" alt="img">
                 <h1>Appeca Mobile</h1>
                 <p>
                     Blazint Fast Dark and Light Mode Mobile Template. 
@@ -82,7 +82,7 @@
                 <a href="#" class="bg-highlight">VIEW</a>
             </div>
             <div data-filter-item data-filter-name="all products appeca mobile"  class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/8s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/8s.jpg" alt="img">
                 <h1>Appeca PhoneGap</h1>
                 <p>
                     Blazint Fast Dark and Light Mode Mobile Template. 
@@ -90,7 +90,7 @@
                 <a href="#" class="bg-highlight">VIEW</a>
             </div>        
             <div data-filter-item data-filter-name="all products appeca mobile"  class="search-result-list">
-                <img src="<?= ASSETS_URL  ?>images/mobile/empty.png" class="preload-search-image" data-src="images/pictures/9s.jpg" alt="img">
+                <img src="<?=IMAGE_URL?>/mobile/empty.png" class="preload-search-image" data-src="images/pictures/9s.jpg" alt="img">
                 <h1>Appeca Cordova</h1>
                 <p>
                     Blazint Fast Dark and Light Mode Mobile Template. 

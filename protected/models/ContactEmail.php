@@ -260,7 +260,7 @@ class ContactEmail extends CActiveRecord
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
-		$model = ContactEmail::model()->findAll(array("condition" => "eml_contact_id =$cttId AND eml_active > 0", "order" => "eml_is_primary desc, eml_is_verified DESC"));
+		$model = ContactEmail::model()->findAll(array("condition" => "eml_contact_id =$cttId AND eml_active > 0 AND eml_email_address !=''", "order" => "eml_is_primary desc, eml_is_verified DESC"));
 		return $model;
 	}
 

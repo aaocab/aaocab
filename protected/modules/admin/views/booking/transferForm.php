@@ -42,6 +42,8 @@
 						<div class="col-xs-6"><?php echo $onlineRefundable['balance'] ?></div>
 						<div class="col-xs-6">Total Wallet Balance : </div>
 						<div class="col-xs-6"><?php echo $walletBalance ?></div>
+						<div class="col-xs-6 text-danger">Online Expired Balance : </div>
+						<div class="col-xs-6 text-danger"><?php echo $onlineExpiredBalance ?></div>
 					</div>
 					<form class="form form-horizontal" name="refundOnlineform" id="payform"  method="POST" 
 						  action="/admpnl/booking/pgrefund">

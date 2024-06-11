@@ -113,6 +113,15 @@ class DriverController extends BaseController
 		$this->onRest('req.post.removeDriver.render', function () {
 			return $this->renderJSON($this->removeDriver());
 		});
+		$this->onRest('req.post.accountBonus.render', function () {
+			return $this->renderJSON($this->accountBonus());
+		});
+		$this->onRest('req.post.redemBonus.render', function () {
+			return $this->renderJSON($this->redemBonus());
+		});
+		$this->onRest('req.post.ratingCustomer.render', function () {
+			return $this->renderJSON($this->ratingCustomer());
+		});
 	}
 
 	public function getlist()
@@ -126,14 +135,14 @@ class DriverController extends BaseController
 
 			$drvList	 = \Beans\Driver::getList($drvData);
 			$response	 = Filter::removeNull($drvList);
-			if(!$response)
+			if (!$response)
 			{
 				throw new Exception("No Data Found", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData($response);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -147,14 +156,14 @@ class DriverController extends BaseController
 		{
 			$drvId = $this->getDriverId(false);
 
-			if(!$drvId)
+			if (!$drvId)
 			{
 				throw new Exception(json_encode("No driver found in your DCO profile"), ReturnSet::ERROR_VALIDATION);
 			}
 
 			$returnSet = BookingSub::populateAssignedListForDriver($drvId);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -167,7 +176,7 @@ class DriverController extends BaseController
 		$returnSet	 = new ReturnSet();
 		try
 		{
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -176,13 +185,13 @@ class DriverController extends BaseController
 			$bkgId	 = $reqObj->bkgId;
 			$drvId	 = $this->getDriverId(false);
 
-			if(!$drvId)
+			if (!$drvId)
 			{
 				throw new Exception(json_encode("No driver found in your DCO profile"), ReturnSet::ERROR_VALIDATION);
 			}
 			$isDriver = BookingCab::checkDriverBookingRelation($bkgId, $drvId);
 
-			if(!$isDriver)
+			if (!$isDriver)
 			{
 				throw new Exception("You are not authorized to view the booking details.", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 			}
@@ -190,7 +199,7 @@ class DriverController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($objBooking);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -209,14 +218,14 @@ class DriverController extends BaseController
 			//$obj		 = new \Beans\Driver();
 			$obj		 = \Beans\Driver::setByStatusByData($drvData);
 			$response	 = Filter::removeNull($obj);
-			if(!$response)
+			if (!$response)
 			{
 				throw new Exception("No Data Found", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData($response);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -230,7 +239,7 @@ class DriverController extends BaseController
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -240,25 +249,25 @@ class DriverController extends BaseController
 			$obj		 = $jsonMapper->map($reqObj, new Beans\booking\DriverComment());
 
 			$bkgId = $obj->booking->id;
-			if(!$bkgId)
+			if (!$bkgId)
 			{
 				throw new Exception(json_encode("No booking provided"), ReturnSet::ERROR_VALIDATION);
 			}
 			$drvId		 = $this->getDriverId();
 			$isSuccess	 = \BookingCab::checkDriverBookingRelation($bkgId, $drvId);
-			if(!$isSuccess)
+			if (!$isSuccess)
 			{
 				throw new Exception(json_encode("The booking is not assigned to you"), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if(trim($obj->remarks) != '')
+			if (trim($obj->remarks) != '')
 			{
 				$userInfo	 = UserInfo::getInstance();
 				$platform	 = AppTokens::Platform_DCO;
 				/** @var \BookingTrackLog $btlModel */
 				$btlModel	 = $obj->setTrackLogModel($userInfo, $platform);
 				$success	 = $btlModel->saveData();
-				if($success)
+				if ($success)
 				{
 					$eventId				 = BookingLog::REMARKS_ADDED;
 					$desc					 = $obj->remarks;
@@ -274,7 +283,7 @@ class DriverController extends BaseController
 			$returnSet->setData($data);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -287,7 +296,7 @@ class DriverController extends BaseController
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -299,18 +308,18 @@ class DriverController extends BaseController
 			$bkgId = (int) $obj->booking->id;
 
 			$drvId = $this->getDriverId(false);
-			if(!$drvId)
+			if (!$drvId)
 			{
 				throw new Exception(json_encode("No driver found in your DCO profile"), ReturnSet::ERROR_VALIDATION);
 			}
 			$isSuccess = BookingCab::checkDriverBookingRelation($bkgId, $drvId);
-			if(!$isSuccess)
+			if (!$isSuccess)
 			{
 				throw new Exception(json_encode("Not authorised to proceed"), ReturnSet::ERROR_VALIDATION);
 			}
 			$eventId	 = BookingLog::REMARKS_ADDED;
 			$dataReader	 = BookingLog::getCommentTraceByDriverId($drvId, $eventId, $bkgId);
-			if($dataReader->getRowCount() == 0)
+			if ($dataReader->getRowCount() == 0)
 			{
 				throw new Exception("No remarks to show", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
@@ -319,7 +328,7 @@ class DriverController extends BaseController
 			$returnSet->setData($data);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -332,13 +341,13 @@ class DriverController extends BaseController
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$drvId = $this->getDriverId();
-			if(!$drvId)
+			if (!$drvId)
 			{
 				throw new Exception("Invalid Driver", ReturnSet::ERROR_UNAUTHORISED);
 			}
@@ -361,7 +370,7 @@ class DriverController extends BaseController
 
 			/////////////////
 			$driverAddDetailsmodel = DriversAddDetails::model()->findByDriverId($driverId);
-			if(empty($driverAddDetailsmodel))
+			if (empty($driverAddDetailsmodel))
 			{
 				$driverAddDetailsmodel				 = new DriversAddDetails();
 				$driverAddDetailsmodel->dad_drv_id	 = $driverId;
@@ -370,7 +379,7 @@ class DriverController extends BaseController
 			}
 			//////////////////
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -385,7 +394,7 @@ class DriverController extends BaseController
 		{
 			$userInfo		 = UserInfo::getInstance();
 			$uploadedFile	 = CUploadedFile::getInstanceByName('img');
-			if(empty($uploadedFile))
+			if (empty($uploadedFile))
 			{
 				throw new Exception(json_encode("No Image Found."), ReturnSet::ERROR_VALIDATION);
 			}
@@ -399,7 +408,7 @@ class DriverController extends BaseController
 			$package_type	 = $typeArr[$type];
 			$app_type		 = 5;
 			$returnFile		 = VehicleDocs::model()->savePackageImage($uploadedFile, $package_type, $vehicleId);
-			if(!$returnFile)
+			if (!$returnFile)
 			{
 				throw new Exception(json_encode("Error in image upload"), ReturnSet::ERROR_VALIDATION);
 			}
@@ -409,7 +418,7 @@ class DriverController extends BaseController
 			$systemChkSum = md5_file($uploadedFile->getTempName());
 
 			$success = BookingPayDocs::model()->uploadCarVerifyImageV1($package_type, $app_type, $bookingId, $returnFile, $systemChkSum);
-			if($success)
+			if ($success)
 			{
 				$userInfo					 = UserInfo::getInstance();
 				$userInfo->userType			 = UserInfo::TYPE_DRIVER;
@@ -425,7 +434,7 @@ class DriverController extends BaseController
 				$returnSet->setStatus(true);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 
 			$returnSet->setStatus(false);
@@ -443,7 +452,7 @@ class DriverController extends BaseController
 			$data = Yii::app()->request->rawBody;
 
 			Logger::trace("<===Request===>" . $data);
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Data.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -455,14 +464,14 @@ class DriverController extends BaseController
 			$drvContactData	 = ContactProfile::getDriverData($cttId);
 			$drvId			 = $drvContactData["entityId"];
 
-			if($drvId > 0)
+			if ($drvId > 0)
 			{
 
-				if(empty($cttId))
+				if (empty($cttId))
 				{
 					throw new \Exception("Invalid User : ", \ReturnSet::ERROR_INVALID_DATA);
 				}
-				if($drvId > 0)
+				if ($drvId > 0)
 				{
 					$drvObj = new \Beans\Driver();
 					$drvObj->setData($drvId, $cttId);
@@ -476,7 +485,7 @@ class DriverController extends BaseController
 			}
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 
 			$returnSet->setStatus(false);
@@ -491,12 +500,20 @@ class DriverController extends BaseController
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
-			$reqObj = CJSON::decode($requestData, false);
+			$reqObj		 = CJSON::decode($requestData, false);
+			$vendorId	 = $this->getVendorId();
+			$vndModel	 = Vendors::model()->findByPk($vendorId);
+			if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+			{
+				$activeList	 = $vndModel->vendorStatus;
+				$status		 = $activeList[$vndModel->vnd_active];
 
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+			}
 			$jsonMapper	 = new JsonMapper();
 			$beans		 = new \Beans\contact\Person();
 			$obj		 = $jsonMapper->map($reqObj, $beans);
@@ -506,24 +523,25 @@ class DriverController extends BaseController
 			/** @var Beans\contact\Person $obj */
 			$transaction = DBUtil::beginTransaction();
 			$returnSet	 = Drivers::addByContact($contactModel, $contactModel->ctt_driver);
-			if($returnSet->getStatus() == false)
+			if ($returnSet->getStatus() == false)
 			{
 				throw new Exception("Unable to add driver.", ReturnSet::ERROR_INVALID_DATA);
 			}
-			$vendorId	 = UserInfo::getEntityId();
+
+
 			$returnData	 = $returnSet->getData();
 			$driverId	 = $returnData->id;
 
 			$data		 = ['vendor' => $vendorId, 'driver' => $driverId];
 			$resLinked	 = VendorDriver::model()->checkAndSave($data);
-			if(!$resLinked)
+			if (!$resLinked)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			VendorStats::model()->updateCountDrivers($vendorId);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
@@ -537,7 +555,7 @@ class DriverController extends BaseController
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -548,7 +566,7 @@ class DriverController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($drvObj);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -562,7 +580,7 @@ class DriverController extends BaseController
 		{
 
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -582,13 +600,13 @@ class DriverController extends BaseController
 			$driverModel->drv_dob	 = $reqObj->driver->birthDate;
 			$driverModel->drv_zip	 = $reqObj->contact->address->pincode;
 			$success				 = Drivers::addDetailsInfo($driverModel);
-			if($success)
+			if ($success)
 			{
 				$returnSet->setStatus(true);
 				$returnSet->setMessage("Driver data updated successfully");
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -600,22 +618,31 @@ class DriverController extends BaseController
 		$returnSet = new ReturnSet();
 		try
 		{
-			$vndId		 = $this->getVendorId(false);
+			$vendorId	 = $this->getVendorId();
+			$vndModel	 = Vendors::model()->findByPk($vendorId);
+			if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+			{
+				$activeList	 = $vndModel->vendorStatus;
+				$status		 = $activeList[$vndModel->vnd_active];
+
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+
 			$requestData = Yii::app()->request->getParam('data');
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$jsonObj	 = CJSON::decode($requestData, false);
-			$driverId	 = $reqObj->driver->id;
+			$driverId	 = $jsonObj->driver->id;
 			$dvrResponse = new \Beans\Driver();
 			$model		 = $dvrResponse->setDocumentData($jsonObj);
-			if(!empty($model))
+			if (!empty($model))
 			{
 				$returnSet	 = Document::model()->updateDriverDocument($model, $_FILES['photo']['name'], $_FILES['photo']['tmp_name']);
 				$driverId	 = $model->id;
 			}
-			if(!$returnSet->isSuccess())
+			if (!$returnSet->isSuccess())
 			{
 				throw new Exception("File not updated", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -624,7 +651,7 @@ class DriverController extends BaseController
 				$returnSet->setMessage("Document added successfully");
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -638,17 +665,17 @@ class DriverController extends BaseController
 		{
 			$vndId		 = $this->getVendorId(false);
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$reqObj		 = CJSON::decode($requestData, false);
 			$driverId	 = $reqObj->id;
-			if($driverId > 0)
+			if ($driverId > 0)
 			{
 				$vdrv_id = VendorDriver::getVndDrvId($driverId, $vndId);
 				$success = VendorDriver::unlinkByVendorDriverId($vdrv_id);
-				if($success == true)
+				if ($success == true)
 				{
 					$returnSet->setStatus(true);
 					$returnSet->setMessage("Driver unlink successfully");
@@ -659,7 +686,103 @@ class DriverController extends BaseController
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
+		{
+			$returnSet = ReturnSet::setException($ex);
+		}
+		return $returnSet;
+	}
+
+	public function accountBonus()
+	{
+		$returnSet	 = new ReturnSet();
+		$driverId	 = $this->getDriverId();
+		if ($driverId < 1)
+		{
+			throw new Exception("No driver found.", ReturnSet::ERROR_INVALID_DATA);
+		}
+		$requestData = Yii::app()->request->rawBody;
+		$wholeData	 = CJSON::decode($requestData, true);
+		if (!empty($wholeData))
+		{
+			$date1		 = $wholeData['date1'];
+			$date2		 = $wholeData['date2'];
+			$newDate1	 = ($date1 != '') ? date('Y-m-d', strtotime($date1)) : date('Y-m-d', strtotime("-30 days"));
+			$newDate2	 = ($date2 != '') ? date('Y-m-d', strtotime($date2)) : date('Y-m-d');
+		}
+		try
+		{
+			$tripArr = AccountTransDetails::drvTransactionList($driverId, $newDate1, $newDate2);
+			if (!empty($tripArr))
+			{
+				$showModel = new \Beans\Driver();
+				$showModel->getTransactionList($tripArr);
+
+				$response = Filter::removeNull($showModel);
+				$returnSet->setStatus(true);
+				$returnSet->setData($response);
+			}
+			else
+			{
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("No record found");
+			}
+		}
+		catch (Exception $ex)
+		{
+			$returnSet = ReturnSet::setException($ex);
+		}
+		return $returnSet;
+	}
+
+	public function redemBonus()
+	{
+		$returnSet = new ReturnSet();
+		try
+		{
+			$drvId		 = $this->getDriverId(false);
+			$requestData = Yii::app()->request->rawBody;
+			if (!$requestData)
+			{
+				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
+			}
+			$dmodel				 = Drivers::model()->findByPk($drvId);
+			$drv_account_number	 = $dmodel->drvContact->ctt_bank_account_no;
+			if ($drv_account_number == NULL)
+			{
+				throw new Exception("Please update your bank details.", ReturnSet::ERROR_INVALID_DATA);
+			}
+		}
+		catch (Exception $ex)
+		{
+			$returnSet = ReturnSet::setException($ex);
+		}
+		return $returnSet;
+	}
+
+	public function ratingCustomer()
+	{
+		$returnSet = new ReturnSet();
+		try
+		{
+			$drvId		 = $this->getDriverId();
+			$success == false;
+			$requestData = Yii::app()->request->rawBody;
+			if (!$requestData)
+			{
+				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
+			}
+			$data	 = CJSON::decode($requestData, true);
+			$res	 = Ratings::driverGivenRating($data);
+			$success = $res;
+			if ($success == true)
+			{
+				$msg = "Your Rating is added";
+				$returnSet->setStatus($success);
+				$returnSet->setMessage($msg);
+			}
+		}
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}

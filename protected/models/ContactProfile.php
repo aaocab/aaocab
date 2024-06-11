@@ -138,13 +138,13 @@ class ContactProfile extends CActiveRecord
 	public function setProfile($contactId, $userType)
 	{
 		$returnset = new ReturnSet();
-		if(empty($contactId) || empty($userType))
+		if (empty($contactId) || empty($userType))
 		{
 			throw new Exception("Invalid Parameters", ReturnSet::ERROR_INVALID_DATA);
 		}
 		//Check for contact id whether its new or old
 		$isExist = ContactProfile::checkExists($contactId);
-		if(!$isExist)
+		if (!$isExist)
 		{
 			$returnset = ContactProfile::model()->createProfile($contactId, $userType);
 		}
@@ -236,12 +236,12 @@ class ContactProfile extends CActiveRecord
 
 			$DBId = $contactProfile->cr_id;
 
-			if(empty($contactProfile))
+			if (empty($contactProfile))
 			{
 				throw new Exception("Contact not found", ReturnSet::ERROR_VALIDATION);
 			}
 
-			switch($userType)
+			switch ($userType)
 			{
 				case UserInfo::TYPE_DRIVER:
 					$drvId							 = self::getDrvId($contactId);
@@ -271,7 +271,7 @@ class ContactProfile extends CActiveRecord
 			$contactProfile->cr_status	 = 1;
 			$contactProfile->cr_created	 = new CDbExpression('now()');
 
-			if(!$contactProfile->save())
+			if (!$contactProfile->save())
 			{
 				throw new Exception(json_encode($contactProfile->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -281,7 +281,7 @@ class ContactProfile extends CActiveRecord
 			$returnset->setStatus(true);
 			$returnset->setMessage("Updated the record");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -298,7 +298,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getDrvId($contactId = 0)
 	{
-		if($contactId == 0)
+		if ($contactId == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -315,7 +315,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getVndId($contactId = 0)
 	{
-		if($contactId == 0)
+		if ($contactId == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -332,7 +332,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getUsrId($contactId = 0)
 	{
-		if($contactId == 0)
+		if ($contactId == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -348,7 +348,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getAgtId($contactId = 0)
 	{
-		if($contactId == 0)
+		if ($contactId == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -374,14 +374,14 @@ class ContactProfile extends CActiveRecord
 		{
 			$model	 = new ContactProfile();
 			$count	 = ContactProfile::checkExists($contactId);
-			if($count)
+			if ($count)
 			{
 				throw new Exception("Failed to create profile. This contact id exists", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$model->cr_contact_id	 = $contactId;
 			$oldUserId				 = $model->cr_is_consumer;
-			switch($userType)
+			switch ($userType)
 			{
 				case UserInfo::TYPE_DRIVER:
 
@@ -415,12 +415,12 @@ class ContactProfile extends CActiveRecord
 			$model->cr_status	 = 1;
 			$model->cr_created	 = new CDbExpression('now()');
 
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if(($oldUserId == "" || $oldUserId == "0") && $model->cr_is_consumer > 0)
+			if (($oldUserId == "" || $oldUserId == "0") && $model->cr_is_consumer > 0)
 			{
 				Users::addSignUpBonus($userId);
 			}
@@ -428,7 +428,7 @@ class ContactProfile extends CActiveRecord
 			$returnset->setMessage("Profile created");
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			ReturnSet::setException($ex);
@@ -443,7 +443,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getProfileByCttId($contactId)
 	{
-		if(trim($contactId) == null || trim($contactId) == "")
+		if (trim($contactId) == null || trim($contactId) == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -461,7 +461,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function deactivate($contactId)
 	{
-		if(empty($contactId))
+		if (empty($contactId))
 		{
 			throw new Exception("Invalid data passed", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -477,7 +477,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function activate($contactId)
 	{
-		if(empty($contactId))
+		if (empty($contactId))
 		{
 			throw new Exception("Invalid data passed", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -497,12 +497,12 @@ class ContactProfile extends CActiveRecord
 	public static function updateEntity($contactId, $entityId, $entityType = UserInfo::TYPE_CONSUMER)
 	{
 		$model = self::findByContactId($contactId);
-		if(!$model)
+		if (!$model)
 		{
 			$model					 = new ContactProfile();
 			$model->cr_contact_id	 = $contactId;
 		}
-		switch($entityType)
+		switch ($entityType)
 		{
 			case UserInfo::TYPE_CONSUMER:
 				$model->cr_is_consumer	 = $entityId;
@@ -519,7 +519,7 @@ class ContactProfile extends CActiveRecord
 			default:
 				break;
 		}
-		if($model->validate())
+		if ($model->validate())
 		{
 			return $model->save();
 		}
@@ -533,7 +533,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getEntityById($contactId, $entityType)
 	{
-		switch($entityType)
+		switch ($entityType)
 		{
 			case UserInfo::TYPE_DRIVER:
 				$profileId	 = "cr_is_driver";
@@ -558,7 +558,7 @@ class ContactProfile extends CActiveRecord
 
 	public static function verifyEntities($entityData, $type)
 	{
-		switch($type)
+		switch ($type)
 		{
 			CASE '1':
 				$entityId	 = "cr_is_vendor";
@@ -575,38 +575,38 @@ class ContactProfile extends CActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if(empty($entityData[$entityId]) || $entityData[$entityId] == 0)
+			if (empty($entityData[$entityId]) || $entityData[$entityId] == 0)
 			{
 				exit();
 			}
 			$sql	 = "SELECT cr_contact_id from contact_profile WHERE cr_status = 1 AND $entityId =" . $entityData[$entityId];
 			$data	 = DBUtil::query($sql);
-			foreach($data as $data)
+			foreach ($data as $data)
 			{
-				if($type === '1')
+				if ($type === '1')
 				{
 					$vendorModel = Vendors::model()->findByContactID($data['cr_contact_id']);
-					if($vendorModel)
+					if ($vendorModel)
 					{
 						$id			 = $vendorModel[0]->vnd_contact_id;
 						$updateData	 = "UPDATE contact_profile SET cr_status = 0 WHERE cr_contact_id<>$id AND $entityId=" . $entityData[$entityId];
 						DBUtil::command($updateData)->execute();
 					}
 				}
-				if($type === '2')
+				if ($type === '2')
 				{
 					$driverModel = Drivers::model()->findByContactID($data['cr_contact_id']);
-					if($driverModel)
+					if ($driverModel)
 					{
 						$id			 = $driverModel[0]->drv_contact_id;
 						$updateData	 = "UPDATE contact_profile SET cr_status = 0 WHERE cr_contact_id<>$id AND $entityId=" . $entityData[$entityId];
 						DBUtil::command($updateData)->execute();
 					}
 				}
-				if($type === '3')
+				if ($type === '3')
 				{
 					$userModel = Users::model()->findByContactID($data['cr_contact_id']);
-					if($userModel)
+					if ($userModel)
 					{
 						$id			 = $userModel[0]->usr_contact_id;
 						$updateData	 = "UPDATE contact_profile SET cr_status = 0 WHERE cr_contact_id<>$id AND $entityId=" . $entityData[$entityId];
@@ -617,7 +617,7 @@ class ContactProfile extends CActiveRecord
 			DBUtil::commitTransaction($transaction);
 			Logger::error('contactProfile verifyEntities: set cr_status = 0. Request:' . json_encode($entityData) . ' Type: ' . $type, true);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			Logger::error($e->getMessage());
@@ -627,7 +627,7 @@ class ContactProfile extends CActiveRecord
 
 	public static function getByUserId($userid = 0)
 	{
-		if($userid == 0)
+		if ($userid == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -637,7 +637,7 @@ class ContactProfile extends CActiveRecord
 
 	public static function getByVndId($vndid = 0)
 	{
-		if($vndid == 0)
+		if ($vndid == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -647,7 +647,7 @@ class ContactProfile extends CActiveRecord
 
 	public static function getByDrvId($drvid = 0)
 	{
-		if($drvid == 0)
+		if ($drvid == 0)
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -663,7 +663,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getByEntityId($entityId, $entityType = UserInfo::TYPE_CONSUMER)
 	{
-		switch($entityType)
+		switch ($entityType)
 		{
 			case UserInfo::TYPE_DRIVER:
 				$profileId	 = "cr_is_driver";
@@ -685,7 +685,7 @@ class ContactProfile extends CActiveRecord
 				INNER JOIN contact ctt ON ctt_id=cr_contact_id
 				INNER JOIN contact cttPrimary ON ctt.ctt_ref_code=cttPrimary.ctt_id
 				WHERE $profileId=:id AND cr_status=1";
-		$arrProfile	 = DBUtil::queryScalar($sql, \DBUtil::MDB(), ['id' => $entityId]);
+		$arrProfile	 = DBUtil::queryScalar($sql, DBUtil::MDB(), ['id' => $entityId]);
 		return $arrProfile;
 	}
 
@@ -757,7 +757,7 @@ class ContactProfile extends CActiveRecord
 	{
 		$entityId		 = 0;
 		$contactDetails	 = ContactProfile::findByContactId($contactId);
-		if(!empty($contactDetails))
+		if (!empty($contactDetails))
 		{
 			$entityId = $contactDetails->cr_is_driver;
 		}
@@ -771,13 +771,13 @@ class ContactProfile extends CActiveRecord
 	public static function linkUserId($contactId, $userId)
 	{
 		$model = ContactProfile::model()->findByContactId($contactId);
-		if(!$model)
+		if (!$model)
 		{
 			$model					 = new ContactProfile();
 			$model->cr_contact_id	 = $contactId;
 		}
 		$model->cr_is_consumer = $userId;
-		if(!$model->save())
+		if (!$model->save())
 		{
 			throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -843,26 +843,26 @@ class ContactProfile extends CActiveRecord
 		try
 		{
 			$contactUserId = ContactProfile::getUserByAgentId($agentId);
-			if(!$contactUserId)
+			if (!$contactUserId)
 			{
 				$profileModel = ContactProfile::model()->find('cr_is_consumer=:userId ', ['userId' => $userId]);
-				if($profileModel)
+				if ($profileModel)
 				{
 					$profileModel->cr_is_partner = $agentId;
-					if(!$profileModel->save())
+					if (!$profileModel->save())
 					{
 						throw new Exception(CJSON::encode($profileModel->getErrors()), ReturnSet::ERROR_INVALID_DATA);
 					}
 					$returnset->setMessage("Updated the record");
 				}
 			}
-			elseif($contactUserId != $userId)
+			elseif ($contactUserId != $userId)
 			{
 				throw new Exception("Contact user id: {$contactUserId} is not same as user id: {$userId} !!!", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$returnset->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnset->setMessage($ex->getMessage());
 			$returnset->setStatus(false);
@@ -880,7 +880,7 @@ class ContactProfile extends CActiveRecord
 	 */
 	public static function getCountByEntityId($entityId, $entityType = UserInfo::TYPE_CONSUMER)
 	{
-		switch($entityType)
+		switch ($entityType)
 		{
 			case UserInfo::TYPE_DRIVER:
 				$profileId	 = "cr_is_driver";
@@ -939,15 +939,15 @@ class ContactProfile extends CActiveRecord
 		$user instanceof DcoWebUser;
 		$userType	 = $user->getUserType();
 		$contactData = ContactProfile::getEntitybyUserId($userId);
-		if($contactData['cr_is_vendor'] > 0 && $userType == UserInfo::TYPE_VENDOR)
+		if ($contactData['cr_is_vendor'] > 0 && $userType == UserInfo::TYPE_VENDOR)
 		{
 			return UserInfo::TYPE_VENDOR;
 		}
-		else if($contactData['cr_is_driver'] > 0 && $userType == UserInfo::TYPE_DRIVER)
+		else if ($contactData['cr_is_driver'] > 0 && $userType == UserInfo::TYPE_DRIVER)
 		{
 			return UserInfo::TYPE_DRIVER;
 		}
-		else if($contactData['cr_is_consumer'] > 0)
+		else if ($contactData['cr_is_consumer'] > 0)
 		{
 			return UserInfo::TYPE_CONSUMER;
 		}
@@ -965,15 +965,15 @@ class ContactProfile extends CActiveRecord
 	public static function getEntityListByData($contactData)
 	{
 		$userTypes = [];
-		if($contactData['cr_is_consumer'] > 0)
+		if ($contactData['cr_is_consumer'] > 0)
 		{
 			$userTypes[] = UserInfo::TYPE_CONSUMER;
 		}
-		if($contactData['cr_is_vendor'] > 0 && $contactData['vnd_active'] > 0)
+		if ($contactData['cr_is_vendor'] > 0 && $contactData['vnd_active'] > 0)
 		{
 			$userTypes[] = UserInfo::TYPE_VENDOR;
 		}
-		if($contactData['cr_is_driver'] > 0 && $contactData['drv_active'] > 0)
+		if ($contactData['cr_is_driver'] > 0 && $contactData['drv_active'] > 0)
 		{
 			$userTypes[] = UserInfo::TYPE_DRIVER;
 		}
@@ -981,11 +981,11 @@ class ContactProfile extends CActiveRecord
 		return $userTypes;
 	}
 
-	public static function getPrimaryEntitiesByContact($cttId)
+	public static function getPrimaryEntitiesByContact($cttId, $onlyPrimary = true)
 	{
 		$relCttIds = Contact::getRelatedIds($cttId);
 
-		if($relCttIds)
+		if ($relCttIds)
 		{
 			$primaryCtt	 = Contact::getPrimaryByIds($relCttIds);
 			$cttId		 = (int) $primaryCtt['ctt_id'];
@@ -995,26 +995,76 @@ class ContactProfile extends CActiveRecord
 		$relDriverList	 = Drivers::getRelatedByCttIds($relCttIds);
 		$relVendorList	 = Vendors::getRelatedByCttIds($relCttIds);
 
-		if($relDriverList)
+		if ($relDriverList)
 		{
-			$primaryDrv = Drivers::getPrimaryByIds($relDriverList);
+			$primaryDrv = Drivers::getPrimaryByIds($relDriverList, $onlyPrimary);
 		}
-		if($relVendorList)
+		if ($relVendorList)
 		{
-			$primaryVnd = Vendors::getPrimaryByIds($relVendorList);
+			$primaryVnd = Vendors::getPrimaryByIds($relVendorList, $onlyPrimary);
 		}
-		if($relUsersList)
+		if ($relUsersList)
 		{
-			$primaryUser = Users::getPrimaryByIds($relUsersList);
+			$primaryUser = Users::getPrimaryByIds($relUsersList, $onlyPrimary);
 		}
-		$data = [
-			'primaryContact' => $cttId,
-			'cr_contact_id'	 => $cttId,
-			'cr_is_driver'	 => (int) $primaryDrv['drv_id'],
-			'cr_is_vendor'	 => (int) $primaryVnd['vnd_id'],
-			'cr_is_consumer' => (int) $primaryUser['user_id'],
-			'vnd_active'	 => (int) $primaryVnd['vnd_active'],
-			'drv_active'	 => (int) $primaryDrv['drv_active']];
-		return $data;
+
+		if ($onlyPrimary)
+		{
+			$data = [
+				'primaryContact' => $cttId,
+				'cr_contact_id'	 => $cttId,
+				'cr_is_driver'	 => (int) $primaryDrv['drv_id'],
+				'cr_is_vendor'	 => (int) $primaryVnd['vnd_id'],
+				'cr_is_consumer' => (int) $primaryUser['user_id'],
+				'vnd_active'	 => (int) $primaryVnd['vnd_active'],
+				'drv_active'	 => (int) $primaryDrv['drv_active'],
+				'drv_approved'	 => (int) $primaryDrv['drv_approved']];
+			return $data;
+		}
+		else
+		{
+			$data = [
+				'primaryContact' => $cttId,
+				'cr_contact_id'	 => $cttId,
+				'driverData'	 => $primaryDrv,
+				'vendorData'	 => $primaryVnd,
+				'consumerData'	 => $primaryUser];
+			return $data;
+		}
+	}
+
+	public function checkPermission($contactId)
+	{
+		$contactData = ContactProfile::getProfileByCttId($contactId);
+
+		$vndId	 = $contactData['cr_is_vendor'];
+		$drvId	 = $contactData['cr_is_driver'];
+		// start check block or not
+		if ($vndId > 0 && $drvId < 1)
+		{
+			$blockVndStatus = Vendors::checkVndStatus($vndId);
+			if ($blockVndStatus == 1)
+			{
+				throw new Exception("You don't have permission to edit data.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+		}
+		if ($drvId > 0 && $vndId < 1)
+		{
+			$blockDrvStatus = Drivers::checkDrvStat($drvId);
+			if ($blockDrvStatus == 1)
+			{
+				throw new Exception("You don't have permission to edit data.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+		}
+		if ($vndId > 0 && $drvId > 0)
+		{
+			$blockVndStatus	 = Vendors::checkVndStatus($vndId);
+			$blockDrvStatus	 = Drivers::checkDrvStat($drvId);
+			if ($blockVndStatus == 1 && $blockDrvStatus == 1)
+			{
+				throw new Exception("You don't have permission to edit data.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+		}
+		return true;
 	}
 }

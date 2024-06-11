@@ -1719,6 +1719,7 @@ class AccountTransactions extends CActiveRecord
 	{
 		// Getting Merged VendorIds
 		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
+
 		if ($vndIds == null || $vndIds == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
@@ -2069,7 +2070,7 @@ class AccountTransactions extends CActiveRecord
 			$credits	 = max([$credits1, 200000]);
 			$remarks	 = " Bookings";
 		}
-		elseif ($walletBalance < 0 && in_array($agentId, [30228, 35108]))
+		elseif (($walletBalance < 0 || $walletBalance < $creditUsed) && in_array($agentId, [30228, 35108]))
 		{
 			$credits1	 = $creditUsed - $walletBalance;
 			$credits	 = max([$credits1, 10000]);
@@ -2741,11 +2742,14 @@ class AccountTransactions extends CActiveRecord
 	public static function getSecurityAmount($vndIds)
 	{
 		DBUtil::getINStatement($vndIds, $bindString, $params);
-		$sql				 = "SELECT SUM(adt1.adt_amount) FROM account_transactions act
+		$sql = "SELECT IFNULL(SUM(adt1.adt_amount),0) FROM account_transactions act
 				INNER JOIN account_trans_details adt ON adt.adt_trans_id = act.act_id AND adt.adt_ledger_id = 34 AND adt.adt_active=1 
-				INNER JOIN account_trans_details adt1 ON adt1.adt_trans_id = act.act_id AND adt1.adt_ledger_id IN(57,14) AND adt1.adt_active=1 AND adt1.adt_trans_ref_id IN ($bindString)
+				INNER JOIN account_trans_details adt1 ON adt1.adt_trans_id = act.act_id AND adt1.adt_ledger_id IN(57,14) 
+				AND adt1.adt_active=1 AND adt1.adt_trans_ref_id IN ($bindString) 
+					AND act.act_date >= '2021-04-01 00:00:00' 
 				WHERE act.act_active = 1";
-		$vendorSecurityAmt	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+
+		$vendorSecurityAmt = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		return $vendorSecurityAmt;
 	}
 
@@ -3520,7 +3524,10 @@ class AccountTransactions extends CActiveRecord
 				DATE_FORMAT(act.act_date, '%b-%Y') AS monthname,	DATE_FORMAT(act.act_date, '%Y-%m') AS month, 
 				'$orderby' groupType,
 						    SUM(adt.adt_amount*-1) as totalPenalty,
-							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=215, adt.adt_amount*-1, 0)) AS app,
+							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=203, adt.adt_amount*-1, 0)) AS appNotCompleted,
+							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=219, adt.adt_amount*-1, 0)) AS appNotUsed,
+							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=220, adt.adt_amount*-1, 0)) AS appNotArrived,
+							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=215, adt.adt_amount*-1, 0)) AS appNotStarted,
 							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=209, adt.adt_amount*-1, 0)) AS noShow,
 							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=201, adt.adt_amount*-1, 0)) AS notAllocated,
 							SUM(IF(JSON_VALUE(adt.adt_addt_params,'$.penaltyType')=210, adt.adt_amount*-1, 0)) AS late,
@@ -3559,7 +3566,7 @@ class AccountTransactions extends CActiveRecord
 		}
 	}
 
-	public static function getPenaltyDetails($actId, $vndId = null)
+	public static function getPenaltyDetails($actId, $vndIds = '')
 	{
 		$params	 = ["actId" => $actId];
 		$sql	 = "SELECT atd.adt_amount, act.act_id, act.act_date, act_remarks, atd.adt_trans_ref_id, atd.adt_type,atd.adt_trans_ref_id,act.act_created,
@@ -3568,10 +3575,9 @@ class AccountTransactions extends CActiveRecord
 					INNER JOIN account_trans_details atd ON atd.adt_trans_id = act.act_id  AND atd.adt_ledger_id=28
 					INNER JOIN account_trans_details atd1 ON atd1.adt_trans_id = act.act_id  AND atd1.adt_ledger_id=14
 					WHERE act.act_active = 1 AND act.act_id=:actId AND atd.adt_amount<0";
-		if ($vndId != null)
+		if ($vndIds != '')
 		{
-			$sql			 .= " AND atd1.adt_trans_ref_id=:refId";
-			$params["refId"] = $vndId;
+			$sql .= " AND atd1.adt_trans_ref_id IN ({$vndIds})";
 		}
 
 		$row = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
@@ -4134,35 +4140,50 @@ class AccountTransactions extends CActiveRecord
 
 	public static function getEntriesByBooking($bkgId)
 	{
-		if ($bkgId > 0)
+		if (empty($bkgId))
 		{
-			$sql	 = "SELECT distinct adt_id, adt_trans_id, adt_trans_ref_id,concat(adt_ledger_id,' (',al.ledgerName,')') ledger, 
-				adt_type, adt_remarks,adt_amount,adt_ref_id,adt_addt_params,adt_modified,adt_active
-				from account_trans_details adt 
-					JOIN account_ledger al ON al.ledgerId = adt.adt_ledger_id
-					WHERE adt.adt_trans_id IN ( SELECT * from (
-						SELECT adt_trans_id  FROM `account_trans_details` 
-						WHERE adt_trans_ref_id = :bkgId 
-						#AND adt_ledger_id IN (13,43) 
-						AND adt_type = 1 
-							UNION 
-						SELECT  adt_trans_id  FROM `account_trans_details` 
-						INNER JOIN payment_gateway pg ON pg.apg_booking_id = :bkgId 
-						WHERE adt_trans_ref_id = pg.apg_id AND adt_ledger_id = pg.apg_ledger_id 
-							UNION 
-						SELECT  adt_trans_id  FROM booking bkg  
-						INNER JOIN `account_trans_details` at ON at.adt_trans_ref_id = bkg.bkg_bcb_id 
-						AND adt_ledger_id =28 AND adt_type = 5 
-						WHERE  bkg_id=:bkgId  
-							UNION 
-						SELECT  adt_trans_id  FROM booking_cab bcb  
-						INNER JOIN `account_trans_details` at ON at.adt_trans_ref_id = bcb.bcb_id 
-						AND adt_ledger_id =28 AND adt_type = 5 
-						WHERE bcb.bcb_bkg_id1=:bkgId  
-				) ad) 				
-				ORDER by adt_modified,adt_id";
-			$result	 = DBUtil::query($sql, null, ["bkgId" => $bkgId]);
+			return '';
 		}
+		$atList		 = AccountTransDetails::getAccountTypeList();
+		$atTypeCase	 = ' CASE adt_type';
+
+		foreach ($atList as $key => $value)
+		{
+			$atTypeCase .= " WHEN $key THEN '$value' ";
+		}
+		$atTypeCase	 .= " END";
+		$sql		 = "SELECT distinct adt_id, adt_trans_id, adt_trans_ref_id,
+			concat(adt_ledger_id,' (',al.ledgerName,')') ledger, 
+			concat(adt_type,' (',{$atTypeCase},')')  accountType,
+			adt_remarks,adt_amount,adt_ref_id,adt_addt_params, adt_modified,
+			adt_active
+			from account_trans_details adt  
+				JOIN account_ledger al ON al.ledgerId = adt.adt_ledger_id
+				WHERE adt.adt_trans_id IN ( SELECT * from (
+					SELECT adt_trans_id  FROM `account_trans_details` 
+					WHERE adt_trans_ref_id = :bkgId 
+					#AND adt_ledger_id IN (13,43) 
+					AND adt_type = 1 
+						UNION 
+					SELECT  adt_trans_id  FROM `account_trans_details` 
+					INNER JOIN payment_gateway pg ON pg.apg_booking_id = :bkgId 
+					WHERE adt_trans_ref_id = pg.apg_id 
+						AND adt_ledger_id = pg.apg_ledger_id 
+						UNION 
+					SELECT  adt_trans_id  FROM booking bkg  
+					INNER JOIN `account_trans_details` at 
+						ON at.adt_trans_ref_id = bkg.bkg_bcb_id 
+					AND adt_ledger_id =28 AND adt_type = 5 
+					WHERE  bkg_id=:bkgId  
+						UNION 
+					SELECT  adt_trans_id  FROM booking_cab bcb  
+					INNER JOIN `account_trans_details` at 
+						ON at.adt_trans_ref_id = bcb.bcb_id 
+					AND adt_ledger_id =28 AND adt_type = 5 
+					WHERE bcb.bcb_bkg_id1=:bkgId  
+			) ad) 				
+			ORDER by adt_modified,adt_id";
+		$result		 = DBUtil::query($sql, null, ["bkgId" => $bkgId]);
 		return $result;
 	}
 
@@ -4245,7 +4266,8 @@ class AccountTransactions extends CActiveRecord
 
 	public static function getRemainingPenaltybyTransid($actId, $vndId = null, $isModify = false)
 	{
-		$row = AccountTransactions::getPenaltyDetails($actId, $vndId);
+		$relVndIds	 = \Vendors::getRelatedIds($vndId);
+		$row		 = AccountTransactions::getPenaltyDetails($actId, $relVndIds);
 
 		if (!$row)
 		{

@@ -9,7 +9,7 @@ class ExtraCharge
 	public $applicable_time_from, $applicable_time_till;
 	public $free_waiting_time, $is_applicable;
 
-	public static function setCharges($flag, $amount, $tripType=null, $airportEntryFeeFlag = null)
+	public static function setCharges($flag, $amount, $tripType=null, $airportEntryFeeFlag = null, $event = null)
 	{
 
 		$obj		 = new ExtraCharge();
@@ -28,6 +28,11 @@ class ExtraCharge
 				$obj->is_included_in_grand_total = true;
 			}
 		}
+		elseif (in_array($tripType, [2,3]) && $event == 1) 
+		{
+			$obj->is_included_in_base_fare	 = false;
+			$obj->is_included_in_grand_total = false;
+		}
         else
         {
             if ($amount == 0 && $flag == 1)
@@ -45,7 +50,8 @@ class ExtraCharge
 
 	public function setNightCharges($flag, $amount, $from, $to, $tripType=null)
 	{
-		$obj						 = self::setCharges($flag, $amount, $tripType);
+		$event = \GoMmt::NIGHT_ALLOWENCE_CHARGE;
+		$obj						 = self::setCharges($flag, $amount, $tripType, $airportEntryFeeFlag = null, $event);
 		$obj->applicable_time_from	 = ((int) $from > 22 ? 22 : (int) $from);
 		$obj->applicable_time_till	 = ((int) $to < 6 ? 6 : (int) $to);
 		return $obj;

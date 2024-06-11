@@ -30,7 +30,7 @@ class VendorCoins extends CActiveRecord
 	const REF_BOOKING			 = 1;
 	const REF_ACCOUNTS		 = 2;
 
-	public $from_date, $to_date, $groupBy;
+	public $from_date, $to_date, $groupBy, $vndStatus;
 
 	const vncType		 = [1 => "Rating", 2 => "Driver On time", 3 => "GozoNow", 4 => "Penalty"];
 	const vncRefType	 = [1 => "Booking", 2 => "Trip"];
@@ -303,16 +303,16 @@ class VendorCoins extends CActiveRecord
 
 	/**
 	 * function used for total coin balance for vendor
-	 * @param type $vndId
+	 * @param type $relVndIds
 	 * @return type
 	 */
-	public static function totalCoin($vndId)
+	public static function totalCoin($relVndIds)
 	{
-		$params = ["vndId" => $vndId];
+//		$params = ["vndId" => $vndId];
 
 		$sql	 = "SELECT SUM(vnc_value) as totalCoin FROM `vendor_coins` 
-			WHERE vnc_vnd_id =:vndId AND vnc_active =1 AND vnc_value <>0";
-		$coins	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+			WHERE vnc_vnd_id IN ({$relVndIds}) AND vnc_active =1 AND vnc_value <>0";
+		$coins	 = DBUtil::queryScalar($sql, DBUtil::SDB());
 		return $coins;
 	}
 
@@ -320,16 +320,17 @@ class VendorCoins extends CActiveRecord
 	 * @param int $vndId
 	 * @return type dataprovider
 	 */
-	public static function getCoinList($vndId)
+	public static function getCoinList($vndIds)
 	{
-		$params			 = ["vndId" => $vndId];
-		$sql			 = "SELECT vnc_type,vnc_value,vnc_desc,vnc_ref_type,vnc_ref_id,vnc_created_at FROM vendor_coins WHERE vnc_vnd_id = :vndId AND vnc_active=1";
-		$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB(), $params);
+		$sql			 = "SELECT vnc_type,vnc_value,vnc_desc,vnc_ref_type,vnc_ref_id,vnc_created_at 
+ 				FROM vendor_coins WHERE vnc_vnd_id IN ({$vndIds}) AND vnc_active=1";
+		$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB());
 		$dataprovider	 = new CSqlDataProvider($sql, [
-			'params'		 => $params,
 			'db'			 => DBUtil::SDB(),
 			'totalItemCount' => $count,
-			'sort'			 => ['attributes' => ['vnc_id'], 'defaultOrder' => 'vnc_created_at DESC'],
+			'sort'			 => [
+				'attributes'	 => ['vnc_id'],
+				'defaultOrder'	 => 'vnc_created_at DESC'],
 			'pagination'	 => ['pageSize' => 50],
 		]);
 		return $dataprovider;
@@ -664,8 +665,10 @@ class VendorCoins extends CActiveRecord
 		$transaction = null;
 		try
 		{
+			$relVndIds = \Vendors::getRelatedIds($vndId);
+
 			Logger::trace("Trans ID: {$transactionId}, VendorId: {$vndId}");
-			$row = AccountTransactions::getPenaltyDetails($transactionId, $vndId);
+			$row = AccountTransactions::getPenaltyDetails($transactionId, $relVndIds);
 
 			if (!$row)
 			{
@@ -691,13 +694,13 @@ class VendorCoins extends CActiveRecord
 			Logger::trace("Trans Details: " . json_encode($row));
 			$originalRemarks = $remarks;
 			$penaltyType	 = $penaltyTypeArr["penaltyType"];
-			$totalVendorCoin = self::totalCoin($vndId);
+			$totalVendorCoin = self::totalCoin($relVndIds);
 			if ($totalVendorCoin <= 0)
 			{
 				throw new Exception(json_encode("Insufficient vendor coins"), ReturnSet::ERROR_VALIDATION);
 			}
 
-			$waiveOffData	 = VendorCoins::maxRedeemablePenalty($refType, $refId, $vndId, $penaltyAmount, $penaltyType);
+			$waiveOffData	 = VendorCoins::maxRedeemablePenalty($refType, $refId, $relVndIds, $penaltyAmount, $penaltyType);
 			$actualWaivedOff = $penaltyTypeArr['totalWaivedOff'] | 0;
 			$waivedOff		 = max($waiveOffData["waivedOff"], $actualWaivedOff);
 			$maxWaiveOff	 = min($waiveOffData["maxWaiveOff"] - $waivedOff, $totalVendorCoin);
@@ -730,12 +733,12 @@ class VendorCoins extends CActiveRecord
 			$transaction						 = DBUtil::beginTransaction();
 			$amount								 = $maxWaiveOff * -1;
 
-			$vncType	 = VendorCoins::TYPE_PENALTY;
-			$vncDesc	 = "Penalty of ₹$maxWaiveOff waived off. " . $balanceRemarks;
-			$type		 = ($refType == 5 ? 2 : $refType);
+			$vncType				 = VendorCoins::TYPE_PENALTY;
+			$vncDesc				 = "Penalty of ₹$maxWaiveOff waived off. " . $balanceRemarks;
+			$type					 = ($refType == 5 ? 2 : $refType);
 			$vncModel				 = self::add($vndId, $vncType, $amount, $vncDesc, $type, $refId, $penaltyType);
 			$penaltyTypeArr['vncId'] = $vncModel->vnc_id;
-			$actModel	 = AccountTransactions::penalizeVendor($refType, $refId, $vndId, $amount, $remarks, $penaltyType, $penaltyTypeArr);
+			$actModel				 = AccountTransactions::penalizeVendor($refType, $refId, $vndId, $amount, $remarks, $penaltyType, $penaltyTypeArr);
 			if (!$actModel)
 			{
 				throw new Exception("Invalid transaction", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
@@ -779,13 +782,13 @@ class VendorCoins extends CActiveRecord
 	 * @param type $penaltyType
 	 * @return int
 	 */
-	public static function getWaivedOffPenalty($vendorId, $refType, $refId, $penaltyType = null)
+	public static function getWaivedOffPenalty($relVndIds, $refType, $refId, $penaltyType = null)
 	{
 		$refTypeCoin = ($refType == 5 ? 2 : $refType);
-		$params		 = ["refType" => $refTypeCoin, "refId" => $refId, "vndId" => $vendorId];
+		$params		 = ["refType" => $refTypeCoin, "refId" => $refId];
 		$sql		 = "SELECT sum(vnc_value * -1) as total FROM vendor_coins
 					WHERE  vnc_active =1 AND vnc_ref_id=:refId AND vnc_ref_type=:refType 
-						AND vnc_vnd_id=:vndId AND vnc_type=4 AND vnc_value<0";
+						AND vnc_vnd_id IN ({$relVndIds}) AND vnc_type=4 AND vnc_value<0";
 
 		if ($penaltyType != null)
 		{
@@ -812,9 +815,9 @@ class VendorCoins extends CActiveRecord
 	 * @param type $penaltyType
 	 * @return type array
 	 */
-	public static function maxRedeemablePenalty($refType, $refId, $vendorId, $currentPenalty, $penaltyType)
+	public static function maxRedeemablePenalty($refType, $refId, $relVndIds, $currentPenalty, $penaltyType)
 	{
-		$penaltyWaivedOff	 = VendorCoins::getWaivedOffPenalty($vendorId, $refType, $refId, $penaltyType);
+		$penaltyWaivedOff	 = VendorCoins::getWaivedOffPenalty($relVndIds, $refType, $refId, $penaltyType);
 		$actualPenalty		 = $currentPenalty;
 		$maxWaiveOff		 = max($currentPenalty - $penaltyWaivedOff, 0);
 		if ($penaltyType == PenaltyRules::PTYPE_CAB_NO_SHOW)
@@ -828,6 +831,7 @@ class VendorCoins extends CActiveRecord
 
 	public function getCoinDetails()
 	{
+		$cond		 = "";
 		$fromDate	 = $this->from_date . " 00:00:00";
 		$toDate		 = $this->to_date . " 23:59:59";
 		$groupBy	 = $this->groupBy;
@@ -837,6 +841,24 @@ class VendorCoins extends CActiveRecord
 		{
 			$orderBy = 'balance';
 		}
+		if ($this->vndStatus > 0)
+		{
+			switch ($this->vndStatus)
+			{
+				case 1:
+					$cond	 = " AND v.vnd_active = 1 ";
+					break;
+				case 2:
+					$cond	 = " AND v.vnd_active = 2 ";
+					break;
+				case 3:
+					$cond	 = "  AND v.vnd_active IN (1,2) AND vnp_is_freeze=1 ";
+					break;
+				case 4:
+					$cond	 = "  AND v.vnd_active IN (1,2) AND vnp_manual_freeze=1 ";
+					break;
+			}
+		}
 
 		$sql = "SELECT DATE_FORMAT(vnc.vnc_created_at, '%Y-%m-%d') AS date, DATE_FORMAT(vnc.vnc_created_at, '%x-%v') AS week, 
 					CONCAT(DATE_FORMAT(vnc_created_at, '%x-%v'), '\n',DATE_FORMAT(MIN(vnc_created_at), '%D %b'),' - ',DATE_FORMAT(MAX(vnc_created_at), '%D %b')) as weekLabel,
@@ -844,11 +866,15 @@ class VendorCoins extends CActiveRecord
 					vrs.vrs_vnd_overall_rating, vrs.vrs_first_approve_date, 
 					COUNT(DISTINCT IF(vnc.vnc_ref_type = 1 AND vnc_value > 0, vnc_ref_id, NULL)) AS cntBkg, 
 					COUNT(DISTINCT IF(vnc.vnc_ref_type = 2 AND vnc_value > 0, vnc_ref_id, NULL)) AS cntTrips, 
-					SUM(vnc.vnc_value) AS balance, SUM(GREATEST(vnc_value, 0)) AS credited, SUM(LEAST(vnc_value, 0)) AS debited 
+					SUM(vnc.vnc_value) AS balance, SUM(GREATEST(vnc_value, 0)) AS credited, SUM(LEAST(vnc_value, 0)) AS debited ,
+                    SUM(IF(vnc.vnc_type = 1 AND vnc.vnc_value > 0,vnc.vnc_value,0)) as Rating,
+                    SUM(IF(vnc.vnc_type = 2  AND vnc.vnc_value > 0,vnc.vnc_value,0)) as Dot,
+                    SUM(IF(vnc.vnc_type = 3  AND vnc.vnc_value > 0,vnc.vnc_value,0))as GozoNow
 				FROM vendor_coins vnc 
 				INNER JOIN vendors v ON v.vnd_id = vnc.vnc_vnd_id 
+				INNER JOIN vendor_pref ON v.vnd_id = vnp_vnd_id 
 				INNER JOIN vendor_stats vrs ON v.vnd_id = vrs.vrs_vnd_id 
-				WHERE vnc.vnc_active = 1 AND vnc.vnc_created_at BETWEEN '{$fromDate}' AND '{$toDate}' 
+				WHERE vnc.vnc_active = 1 AND vnc.vnc_created_at BETWEEN '{$fromDate}' AND '{$toDate}' {$cond} 
 				GROUP BY {$groupBy}";
 
 		$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB());
@@ -861,9 +887,9 @@ class VendorCoins extends CActiveRecord
 		return $dataprovider;
 	}
 
-	public static function getTransactionList($vndId, $tripId = null, $dateRangeObj = null, $pageRef = null)
+	public static function getTransactionList($relVndIds, $tripId = null, $dateRangeObj = null, $pageRef = null)
 	{
-		if ($vndId == null || $vndId == "")
+		if ($relVndIds == null || $relVndIds == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -898,7 +924,7 @@ class VendorCoins extends CActiveRecord
 
 			$dateRange = " AND (vnc.vnc_modified_at)<= '$toDate 23:59:59' AND (vnc.vnc_modified_at)>= '$fromDate 00:00:00' ";
 		}
-		$param		 = ['vndId' => $vndId];
+
 		$sql		 = "SELECT vnc.vnc_id,vnc.vnc_type,vnc.vnc_value,vnc.vnc_desc,vnc.vnc_ref_type,vnc.vnc_ref_id,
 					bkg.bkg_id, if(vnc.vnc_ref_type=1,bkg.bkg_bcb_id, bcb.bcb_id) tripId,
 					vnc.vnc_user_id,vnc.vnc_user_type,vnc.vnc_created_at,vnc.vnc_modified_at,
@@ -907,10 +933,10 @@ class VendorCoins extends CActiveRecord
 					LEFT JOIN booking bkg ON bkg.bkg_id = vnc.vnc_ref_id AND vnc.vnc_ref_type = 1
 					LEFT JOIN booking_cab bcb ON  bcb.bcb_id = vnc.vnc_ref_id AND vnc.vnc_ref_type = 2
 					LEFT JOIN admins adm ON adm.adm_id = vnc.vnc_user_id AND vnc.vnc_user_type = 4 
-				WHERE `vnc_vnd_id` = :vndId AND vnc_active=1 AND vnc_value <>0 $dateRange $tripQry 
+				WHERE `vnc_vnd_id` IN ({$relVndIds}) AND vnc_active=1 AND vnc_value <>0 $dateRange $tripQry 
 				ORDER BY vnc.vnc_created_at ASC	$limit";
 		//	echo $sql;exit;
-		$resultSet	 = DBUtil::query($sql, DBUtil::SDB(), $param);
+		$resultSet	 = DBUtil::query($sql, DBUtil::SDB());
 		return $resultSet;
 	}
 

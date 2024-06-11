@@ -23,8 +23,8 @@ class Driver extends Person
 	public $contactId;
 	public $mobile_number;
 	public $image;
-	public $rating,$totalTrips;
-	
+	public $rating, $totalTrips;
+
 	/** @var \Stub\common\Person $profile */
 	//public $profile;
 
@@ -33,7 +33,6 @@ class Driver extends Person
 
 	/** @var \Stub\common\Document $license */
 	public $license;
-	
 	public $dob;
 	public $issueauthstate;
 	public $location;
@@ -100,13 +99,13 @@ class Driver extends Person
 		$this->name = $model->drv_name;
 	}
 
-	public function fillData($row,$tripId=null)
+	public function fillData($row, $tripId = null)
 	{
-		
+
 
 		$this->id			 = (int) $row['drv_id'];
 		$this->linkId		 = (int) $row["vdrv_id"];
-		$this->name			 = ($row["drv_name"]==""?$row['ctt_first_name']:$row["drv_name"]);
+		$this->name			 = ($row["drv_name"] == "" ? $row['ctt_first_name'] : $row["drv_name"]);
 		$this->code			 = $row['drv_code'];
 		$this->firstName	 = $row['ctt_first_name'];
 		$this->lastName		 = $row["ctt_last_name"];
@@ -125,10 +124,10 @@ class Driver extends Person
 		$this->primaryContact->code			 = (int) ($row['drv_phone_code'] == "" ? '91' : $row['drv_phone_code']);
 		$this->primaryContact->number		 = $row['drv_phone'];
 		$this->primaryContact->isVerified	 = (int) $row["isPhVerified"];
-		if($tripId!=null)
+		if ($tripId != null)
 		{
-			$chkAvailabily = \Drivers::checkDrvAvialability($tripId,$this->id);
-			$this->isAvailable = ($chkAvailabily>0?0:1);
+			$chkAvailabily		 = \Drivers::checkDrvAvialability($tripId, $this->id);
+			$this->isAvailable	 = ($chkAvailabily > 0 ? 0 : 1);
 		}
 	}
 
@@ -139,13 +138,13 @@ class Driver extends Person
 		$this->license	 = $row["ctt_license_no"];
 	}
 
-	public function getList($dataArr,$tripId=null)
+	public function getList($dataArr, $tripId = null)
 	{
 
 		foreach ($dataArr as $row)
 		{
 			$obj				 = new \Stub\common\Driver();
-			$obj->fillData($row,$tripId);
+			$obj->fillData($row, $tripId);
 			$this->dataList[]	 = $obj;
 		}
 	}
@@ -158,7 +157,6 @@ class Driver extends Person
 	}
 
 	/**
-	 * 
 	 * @param object $model
 	 * @param boolean $isMask
 	 * @return $this
@@ -169,18 +167,24 @@ class Driver extends Person
 		{
 			return false;
 		}
-        
-		$this->name				 = $model->drv_name;
-		$this->contact->code	 = strval(91);
+		$this->name = $model->drv_name;
 		//$number					 = ($isMask) ? \Yii::app()->params['customerToDriver'] : (int) $model->drv_phone;
-		if(!$model instanceof Booking && isset($model->bkg_id) && $model->bkg_id > 0)
+		if (!$model instanceof Booking && isset($model->bkg_id) && $model->bkg_id > 0)
 		{
 			$bkgModel = \Booking::model()->findByPk($model->bkg_id);
 		}
-
-		$orignalNumber				 = \Filter::processDriverNumber($model->drv_phone, $bkgModel->bkg_agent_id);
-		$number = \BookingPref::getDriverNumber($bkgModel, $orignalNumber);         
-		$this->contact->number	 = (int) strval($number);
+		if ($bkgModel->bkg_status == \Booking::STATUS_PROCESSED && \BookingPref::isDriverDetailsViewable($bkgModel))
+		{
+			$orignalNumber			 = \Filter::processDriverNumber($model->drv_phone, $bkgModel->bkg_agent_id);
+			$number					 = \BookingPref::getDriverNumber($bkgModel, $orignalNumber);
+			$this->contact->code	 = strval(91);
+			$this->contact->number	 = (int) strval($number);
+		}
+		if ($bkgModel->bkg_status != \Booking::STATUS_COMPLETED)
+		{
+			$this->rating = (float)\DriverStats::fetchRating($bkgModel->bkgBcb->bcb_driver_id);
+		}
+		$this->image = $model->profileImage;
 		return $this;
 	}
 
@@ -300,36 +304,33 @@ class Driver extends Person
 	 */
 	public function setSpicejetData($driverModel, $contactModel)
 	{
-		$arr			 = $contactModel->getContactDetails($contactModel->ctt_id);
-		$this->id		 = (int) $driverModel->drv_id;
-		$this->name = $contactModel->ctt_first_name;
-		$this->mobile_number	 = $arr['phn_phone_no'];
-		$this->profilePic = \AttachmentProcessing::ImagePath($contactModel->ctt_profile_path);
+		$arr				 = $contactModel->getContactDetails($contactModel->ctt_id);
+		$this->id			 = (int) $driverModel->drv_id;
+		$this->name			 = $contactModel->ctt_first_name;
+		$this->mobile_number = $arr['phn_phone_no'];
+		$this->profilePic	 = \AttachmentProcessing::ImagePath($contactModel->ctt_profile_path);
 		return $this;
 	}
-	
+
 	public function allData($row)
 	{
-		
+
 		$this->id	 = (int) $row['drv_id'];
-		$this->text	 = $row['ctt_first_name'].' '.$row['ctt_last_name'];
-		$this->code			 = $row['drv_code'];
+		$this->text	 = $row['ctt_first_name'] . ' ' . $row['ctt_last_name'];
+		$this->code	 = $row['drv_code'];
 	}
 
 	public function getData($dataArr)
 	{
-		
+
 		foreach ($dataArr as $row)
 		{
-			
+
 			$obj				 = new \Stub\common\Driver();
 			$obj->allData($row);
 			$this->dataList[]	 = $obj;
 		}
 		return $this->dataList;
 	}
-	
-	
-	
 
 }

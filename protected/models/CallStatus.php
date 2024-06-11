@@ -368,7 +368,7 @@ class CallStatus extends CActiveRecord
 		}
 		else
 		{
-			return DBUtil::query($sql." ORDER BY cst_created DESC", DBUtil::SDB());
+			return DBUtil::query($sql . " ORDER BY cst_created DESC", DBUtil::SDB());
 		}
 	}
 
@@ -507,29 +507,26 @@ class CallStatus extends CActiveRecord
 		$limit		 = $lowerLimit;
 		while ($chk)
 		{
-			$transaction = "";
+			Logger::writeToConsole("While");
+			$transaction = DBUtil::beginTransaction();
 			try
 			{
-				$sql	 = "SELECT GROUP_CONCAT(cst_call_id) AS cst_call_id FROM (SELECT cst_call_id FROM call_status WHERE 1 AND cst_created <= '2021-03-31 23:59:59' AND cst_status IN (0,2,3) ORDER BY cst_call_id ASC LIMIT 0, $limit) as temp";
+				$sql	 = "SELECT GROUP_CONCAT(cst_call_id) AS cst_call_id FROM (SELECT cst_call_id FROM call_status WHERE 1 AND cst_created <= DATE_SUB(CURDATE(), INTERVAL 18 MONTH) AND cst_status IN (0,2,3) ORDER BY cst_call_id ASC LIMIT 0, $limit) as temp";
 				$resQ	 = DBUtil::queryScalar($sql);
 				if (!is_null($resQ) && $resQ != '')
 				{
-					$transaction = DBUtil::beginTransaction();
+					Logger::writeToConsole("INSERT");
 					DBUtil::getINStatement($resQ, $bindString, $params);
-					$sql		 = "INSERT INTO " . $archiveDB . ".call_status (SELECT * FROM call_status WHERE cst_call_id IN ($bindString))";
-					$rows		 = DBUtil::execute($sql, $params);
+					$sql	 = "INSERT INTO " . $archiveDB . ".call_status (SELECT * FROM call_status WHERE cst_call_id IN ($bindString))";
+					$rows	 = DBUtil::execute($sql, $params);
 					if ($rows > 0)
 					{
 						$sql = "DELETE FROM `call_status` WHERE cst_call_id IN ($bindString)";
 						DBUtil::execute($sql, $params);
-						DBUtil::commitTransaction($transaction);
-					}
-					else
-					{
-						DBUtil::rollbackTransaction($transaction);
 					}
 				}
-
+				Logger::writeToConsole("COMMITTED");
+				DBUtil::commitTransaction($transaction);
 				$i += $limit;
 				if (($resQ <= 0) || $totRecords <= $i)
 				{
@@ -539,7 +536,7 @@ class CallStatus extends CActiveRecord
 			catch (Exception $ex)
 			{
 				DBUtil::rollbackTransaction($transaction);
-				Logger::exception($ex);
+				Logger::writeToConsole("ERROR: " . $ex->getMessage());
 				echo $ex->getMessage() . "\n\n";
 			}
 		}

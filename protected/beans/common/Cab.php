@@ -102,7 +102,7 @@ class Cab
 	}
 
 	/** @var \Vehicles $vhcModel */
-	public static function setDataByCabModel($vhcModel)
+	public static function setDataByCabModel($vhcModel,$bcbModel=null)
 	{
 		$obj		 = new Cab();
 		$obj->id	 = (int) $vhcModel->vhc_id;
@@ -131,7 +131,7 @@ class Cab
 		$obj->registrationCertificateExpiry	 = $vhcModel->vhc_reg_exp_date;
 		$obj->hasAC							 = 1;
 
-		$obj->category = \Beans\common\CabCategory::setByVhtModel($vhcModel->vhcType);
+		$obj->category = \Beans\common\CabCategory::setByVhtModel($vhcModel->vhcType,true,$bcbModel);
 
 		return $obj;
 	}
@@ -286,7 +286,7 @@ class Cab
 		}
 		return $obj;
 	}
-	public static function setcab($cabId)
+	public static function setcab($cabId,$bcbModel=null)
 	{
 		
 		$obj	 = new Cab();
@@ -294,7 +294,7 @@ class Cab
 		if($cabId)
 		{
 			$vhcModel	 = \Vehicles::model()->findByPk($cabId);
-			$obj		 = Cab::setDataByCabModel($vhcModel);
+			$obj		 = Cab::setDataByCabModel($vhcModel,$bcbModel);
 		}
 		return $obj;
 	}

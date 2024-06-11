@@ -162,16 +162,22 @@ class Person extends \Beans\contact\Contact
 	}
 
 	/** @var \BookingUser $bkgUserInfo */
-	public static function setTravellerInfoByModel($bkgUserInfo)
+	public static function setTravellerInfoByModel($bkgUserInfo, $showCustomerNumber = 1)
 	{
 		$obj			 = new Person();
 		$obj->firstName	 = $bkgUserInfo->bkg_user_fname;
 		$obj->lastName	 = $bkgUserInfo->bkg_user_lname;
-		$obj->email[]	 = \Beans\contact\Email::setUserEmail($bkgUserInfo->bkg_user_email);
-		if (trim($bkgUserInfo->bkg_contact_no) != '')
+		if ($showCustomerNumber == 0)
 		{
-			$obj->phone[] = \Beans\contact\Phone::setUserPhone(['code' => $bkgUserInfo->bkg_country_code, 'number' => $bkgUserInfo->bkg_contact_no]);
+			$maskingNumber	 = \Yii::app()->params['driverToCustomer'];
+			$obj->phone[]	 = \Beans\contact\Phone::setUserPhone(['code' => '', 'number' => $maskingNumber]);
+			goto skip;
 		}
+		$obj->email[] = \Beans\contact\Email::setUserEmail($bkgUserInfo->bkg_user_email);
+
+		$obj->phone[] = \Beans\contact\Phone::setUserPhone(['code' => $bkgUserInfo->bkg_country_code, 'number' => $bkgUserInfo->bkg_contact_no]);
+		skip:
+
 		return $obj;
 	}
 
@@ -182,8 +188,8 @@ class Person extends \Beans\contact\Contact
 		$obj->firstName	 = $data['ctt_first_name'];
 		$obj->lastName	 = $data['ctt_last_name'];
 		$objPhn			 = new \Beans\contact\Phone();
-		//$obj->phone	 = $objPhn->setUserPhone($objPhn);
-		$obj->phone		 = $objPhn->setObjPhone($objPhn);
+		$obj->phone[]	 = \Beans\contact\Phone::setUserPhone($data);
+//		$obj->phone		 = \Beans\contact\Phone::setObjPhone($objPhn);
 		$objEmail		 = new \Beans\contact\Email();
 		$obj->email		 = $objEmail->setByContactId($cttId);
 		$prefLanguage	 = $data['ctt_preferred_language'] | 0;

@@ -45,7 +45,9 @@
 												echo $data->blg_booking_id;
 											}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'			 => $model->getAttributeLabel('blg_booking_id')),
 										array('name'	 => 'blg_desc', 'filter' => CHtml::activeTextField($model, 'blg_desc', array('class' => 'form-control',)), 'value'	 => function ($data) use ($bkgPrefModel) {
-												if ($data->blg_event_id == BookingLog::BID_SET && (Yii::app()->user->checkAccess('showBidAmount') || (in_array($data->blgBooking->bkg_status, [3,5,6,7])) || $bkgPrefModel->bpr_assignment_id == Yii::app()->user->getId()))
+												  $currDateTime     = Filter::getDBDateTime();
+                                                $tripTimeDiff = Filter::getTimeDiff($data->blgBooking->bkg_pickup_date, $currDateTime);
+                                        if ($data->blg_event_id == BookingLog::BID_SET && (($tripTimeDiff <= 90)||($tripTimeDiff > 90 && Yii::app()->user->checkAccess('showBidAmount')) || (in_array($data->blgBooking->bkg_status, [3,5,6,7])) || $bkgPrefModel->bpr_assignment_id == Yii::app()->user->getId()))
 												{
 													echo $data->blg_desc;
 												}
@@ -61,6 +63,10 @@
 												{
 													echo 'Booking directly accepted by vendor.';
 												}
+                                                else if($data->blg_event_id == BookingLog::BID_SET && $tripTimeDiff <= 90)
+                                                {
+                                                    echo $data->blg_desc;
+                                                }
 												else
 												{
 													echo $data->blg_desc;
@@ -69,6 +75,7 @@
 										array('name'				 => 'blg_event_id', 'headerHtmlOptions'	 => array('class' => 'col-xs-4'),
 											'filter'			 => CHtml::activeDropDownList($model, 'blg_event_id', ['' => ''] + BookingLog::model()->eventList(), array('class' => 'form-control',)),
 											'value'				 => function ($data) {
+                                               // echo $data->blg_event_id;
 												switch ($data->blg_event_id)
 												{
 													case '13':

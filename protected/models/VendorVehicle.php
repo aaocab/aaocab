@@ -356,7 +356,7 @@ class VendorVehicle extends CActiveRecord
 			$params['vndId'] = $vndId;
 			$params['vhcId'] = $vhcId;
 		}
- 
+
 		return DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 	}
 
@@ -405,27 +405,33 @@ class VendorVehicle extends CActiveRecord
 	 * @param integer $vndId vendor ID
 	 * @return Array List of all vehicles under the vendor
 	 */
-	public static function getVehicleListByVndId($vndId)
+	public static function getVehicleListByVndId($vndIds, $onlyDataSet = false)
 	{
-		$params	 = ['vndId' => $vndId];
-		$sql	 = "SELECT vehicles.vhc_id,
-						vehicles.vhc_number,
-						vehicles.vhc_code,
-						vehicles.vhc_approved,
-						vht_make as vhc_make,
-						vht_model as vhc_model,
-						vhc_created_at as vhc_created_date,
-                        vct.vct_label,IF(vehicle_types.vht_active = 1,'Active','InActive') as vht_active 
-					FROM
-						`vendor_vehicle`
-					INNER JOIN vehicles ON vendor_vehicle.vvhc_vhc_id = vehicles.vhc_id AND vehicles.vhc_active = 1
-					INNER JOIN vehicle_types ON vehicles.vhc_type_id = vehicle_types.vht_id AND vehicle_types.vht_active = 1
-					INNER JOIN vcv_cat_vhc_type vcv ON vcv.vcv_vht_id = vehicle_types.vht_id
-                    INNER JOIN vehicle_category vct ON vct.vct_id = vcv.vcv_vct_id
-					WHERE
-						vendor_vehicle.vvhc_vnd_id =:vndId AND vendor_vehicle.vvhc_active = 1 GROUP BY vehicles.vhc_id";
-
-		$result = DBUtil::queryAll($sql, DBUtil::SDB(), $params);
+		
+		$sql	 = "SELECT vehicles.vhc_id, vehicles.vhc_number, vehicles.vhc_code, 
+			vehicles.vhc_approved,vehicles.vhc_is_freeze,vhc_active,
+			IF(vehicles.vhc_approved = 1,'Approved','Unapproved') as approveStatus, 
+			vht_make as vhc_make, vht_model as vhc_model, 
+			vhc_created_at as vhc_created_date,
+			vct.vct_label,vvhc_vnd_id,vnd.vnd_code,
+		IF(vehicle_types.vht_active = 1,'Active','InActive') as vht_active 
+		FROM `vendor_vehicle`
+		INNER JOIN vehicles ON vendor_vehicle.vvhc_vhc_id = vehicles.vhc_id AND vehicles.vhc_active = 1
+		INNER JOIN vehicle_types ON vehicles.vhc_type_id = vehicle_types.vht_id AND vehicle_types.vht_active = 1
+		INNER JOIN vcv_cat_vhc_type vcv ON vcv.vcv_vht_id = vehicle_types.vht_id
+		INNER JOIN vehicle_category vct ON vct.vct_id = vcv.vcv_vct_id
+		INNER JOIN vendors vnd ON vnd.vnd_id = vendor_vehicle.vvhc_vnd_id
+		WHERE vendor_vehicle.vvhc_vnd_id IN ({$vndIds}) 
+			AND vendor_vehicle.vvhc_active = 1 
+		GROUP BY vehicles.vhc_id";
+		if ($onlyDataSet)
+		{
+			$result = DBUtil::query($sql, DBUtil::SDB());
+		}
+		else
+		{
+			$result = DBUtil::queryAll($sql, DBUtil::SDB());
+		}
 		return $result;
 	}
 

@@ -1464,8 +1464,7 @@ ORDER BY
 		}
 		return $coinsApplied;
 	}
-
-	/**
+/**
 	 * 
 	 * @param integer $userID|0
 	 * @param integer $giftCoinAmount
@@ -1493,6 +1492,38 @@ ORDER BY
 		#$result = DBUtil::command($sql, DBUtil::SDB())->query($params);
 		#Logger::writeToConsole($sql);
 		$result	 = DBUtil::query($sql, DBUtil::SDB(), $params);
+		return $result;
+	}
+	/**
+	 * 
+	 * @param integer $userID|0
+	 * @param integer $giftCoinAmount
+	 * @return array $result
+	 */
+	public static function getEligibleUserForRecharge($userID = 0, $giftCoinAmount)
+	{
+		$condition	 = '';
+		$params		 = [];
+		if ($userID > 0)
+		{
+			$params		 = ["userId" => $userID];
+			$condition	 = " AND user_id =:userId ";
+		}
+
+		$sql = "SELECT SUM(ucr_value - ucr_used) as coinHave, user_id, cr_contact_id
+				FROM users 
+				INNER JOIN booking_user ON bkg_user_id = user_id 
+				INNER JOIN contact_profile ON cr_is_consumer = user_id AND usr_active = 1 
+				INNER JOIN contact ON cr_contact_id = ctt_id AND ctt_active = 1
+				LEFT JOIN user_credits ON ucr_user_id = user_id AND ucr_status = 1 AND (ucr_validity> NOW() OR ucr_validity IS NULL) 
+				WHERE cr_is_consumer > 0 AND cr_status = 1 AND usr_active = 1 
+				$condition 
+				GROUP BY ctt_ref_code 
+				HAVING (coinHave IS NULL OR coinHave < {$giftCoinAmount})";
+
+		Logger::writeToConsole($sql);
+
+		$result = DBUtil::query($sql, DBUtil::SDB(), $params);
 		return $result;
 	}
 

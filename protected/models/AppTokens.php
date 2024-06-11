@@ -162,16 +162,16 @@ class AppTokens extends CActiveRecord
 	{
 		$success	 = false;
 		$apptoken	 = AppTokens::model()->find('apt_user_id=:userID AND apt_token_id=:sessionID AND apt_status=1', array('userID' => $id, 'sessionID' => $data['apt_token_id']));
-		if($apptoken != '')
+		if ($apptoken != '')
 		{
 			$apptoken->attributes = $data;
-			if($apptoken->validate())
+			if ($apptoken->validate())
 			{
 				try
 				{
 					$success = $apptoken->update();
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					$success = false;
 					$apptoken->addError('apt_id', $e->getMessage());
@@ -190,7 +190,7 @@ class AppTokens extends CActiveRecord
 	public static function getMinimumAppVersion($entity, $platformType = 0)
 	{
 		$entityType = 'consumer';
-		switch($entity)
+		switch ($entity)
 		{
 			case 1:
 				$entityType	 = 'consumer';
@@ -228,7 +228,7 @@ class AppTokens extends CActiveRecord
 		$result			 = [];
 		$message		 = 'Validation Done';
 		$isVersionCheck	 = self::validateVersion($existingVersion, $activeVersion);
-		if(!$isVersionCheck)
+		if (!$isVersionCheck)
 		{
 			$message = "Invalid version.";
 			$success = false;
@@ -238,13 +238,13 @@ class AppTokens extends CActiveRecord
 			'message'		 => $message,
 			'versionCheck'	 => $versionCheck,
 			'sessionCheck'	 => $sessionCheck];
-		if(!$success)
+		if (!$success)
 		{
 			return $result;
 		};
 
 		$isValidate = self::validateToken($token);
-		if(!$isValidate)
+		if (!$isValidate)
 		{
 			$message = "Unauthorized user.";
 			$success = false;
@@ -254,13 +254,13 @@ class AppTokens extends CActiveRecord
 			'message'		 => $message,
 			'versionCheck'	 => $versionCheck,
 			'sessionCheck'	 => $sessionCheck];
-		if(!$success)
+		if (!$success)
 		{
 			return $result;
 		};
 		/* @var $result AppTokens */
 		$result = self::validatePlatform($userId, $token);
-		if(!$result)
+		if (!$result)
 		{
 			$message = "Unauthorized Platform.";
 			$success = false;
@@ -291,7 +291,7 @@ class AppTokens extends CActiveRecord
 		$message		 = 'Validation Done';
 		$isVersionCheck	 = self::validateVersion($existingVersion, $activeVersion);
 
-		if(!$isVersionCheck)
+		if (!$isVersionCheck)
 		{
 			$message = "Invalid version.";
 			$success = false;
@@ -302,14 +302,14 @@ class AppTokens extends CActiveRecord
 			'versionCheck'	 => $versionCheck,
 			'sessionCheck'	 => $sessionCheck];
 
-		if(!$success)
+		if (!$success)
 		{
 			return $result;
 		};
 
 		$isValidate = self::validateToken($token);
 
-		if(!$isValidate)
+		if (!$isValidate)
 		{
 			$message = "Unauthorized user.";
 			$success = false;
@@ -320,14 +320,14 @@ class AppTokens extends CActiveRecord
 			'versionCheck'	 => $versionCheck,
 			'sessionCheck'	 => $sessionCheck];
 
-		if(!$success)
+		if (!$success)
 		{
 			return $result;
 		};
 		/* @var $result AppTokens */
 
 		$result = self::validatePlatform($userId, $token);
-		if(!$result)
+		if (!$result)
 		{
 			$message = "Unauthorized Platform.";
 			$success = false;
@@ -346,9 +346,9 @@ class AppTokens extends CActiveRecord
 	{
 		$success	 = false;
 		$apptoken	 = AppTokens::model()->find('apt_entity_id=:drvID AND apt_status=1', array('drvID' => $driverId));
-		if($apptoken != '')
+		if ($apptoken != '')
 		{
-			if(count($apptoken) > 0)
+			if (count($apptoken) > 0)
 			{
 				$sql	 = "UPDATE `app_tokens` SET `apt_status`=0 WHERE `apt_entity_id`= $driverId   AND `apt_user_type`= 5 AND `apt_status`= 1";
 				$result	 = DBUtil::command($sql)->execute();
@@ -365,7 +365,7 @@ class AppTokens extends CActiveRecord
 	public function getArrayByOS($aptModels)
 	{
 		$arrApn = array();
-		foreach($aptModels as $aptModel)
+		foreach ($aptModels as $aptModel)
 		{
 			$arrApn[1][$aptModel->apt_user_type][] = $aptModel->apt_device_token; //$arrApn[$aptModel->apt_os_type][$aptModel->apt_user_type][]
 		}
@@ -375,7 +375,7 @@ class AppTokens extends CActiveRecord
 
 	public function sendNotifications($aptModels, $message, $param)
 	{
-		if(!Yii::app()->params['sendAppNotification'])
+		if (!Yii::app()->params['sendAppNotification'])
 		{
 			return true;
 		}
@@ -386,33 +386,33 @@ class AppTokens extends CActiveRecord
 		$result		 = [];
 		/* @var $apnGcm YiiApnsGcm */
 		/* @var $apnGcmUser YiiApnsGcm */
-		if($aptModels)
+		if ($aptModels)
 		{
 			$logId										 = NotificationLog::createLog($aptModels, $param);
 			$param['notifications']['notificationId']	 = (int) $logId;
 		}
-		if(count($arrApn[1][6]) > 0)
+		if (count($arrApn[1][6]) > 0)
 		{
 			Logger::create('push notification just before send: (' . $message . ')', CLogger::LEVEL_TRACE);
 			$result['fcm'] = FCM::send($arrApn[1][6], $message, $param);
 			//	$result['gcm'] = $apnsGcmUser->sendMulti(YiiApnsGcm::TYPE_GCM, $arrApn[1][1], $message, $param);
 			Logger::create('push notification just after send' . json_encode($result['fcm']), CLogger::LEVEL_TRACE);
 		}
-		if(count($arrApn[1][5]) > 0)
+		if (count($arrApn[1][5]) > 0)
 		{
 			Logger::create('push notification just before send: (' . $message . ')', CLogger::LEVEL_TRACE);
 			//$result['gcm'] = $apnsGcm->sendMulti(YiiApnsGcm::TYPE_GCM, $arrApn[1][5], $message, $param);
 			$result['fcm'] = FCM::send($arrApn[1][5], $message, $param);
 			Logger::create('push notification just after send' . json_encode($result['fcm']), CLogger::LEVEL_TRACE);
 		}
-		if(count($arrApn[1][2]) > 0)
+		if (count($arrApn[1][2]) > 0)
 		{
 			Logger::create('push notification just before send: (' . $message . ')', CLogger::LEVEL_TRACE);
 			//$result['gcm'] = $apnsGcm->sendMulti(YiiApnsGcm::TYPE_GCM, $arrApn[1][2], $message, $param);
 			$result['fcm'] = FCM::send($arrApn[1][2], $message, $param);
 			Logger::create('push notification just after send' . json_encode($result['fcm']), CLogger::LEVEL_TRACE);
 		}
-		if(count($arrApn[1][1]) > 0)
+		if (count($arrApn[1][1]) > 0)
 		{
 			Logger::create('push notification just before send: (' . $message . ')', CLogger::LEVEL_TRACE);
 			$result['fcm'] = FCM::send($arrApn[1][1], $message, $param);
@@ -420,7 +420,7 @@ class AppTokens extends CActiveRecord
 			Logger::create('push notification just after send' . json_encode($result['fcm']), CLogger::LEVEL_TRACE);
 		}
 
-		if($result)
+		if ($result)
 		{
 			NotificationLog::createLog($aptModels, $param, $result, $logId);
 		}
@@ -449,7 +449,7 @@ class AppTokens extends CActiveRecord
 		AppTokens::$db	 = DBUtil::SDB();
 		$appTokenModel	 = AppTokens::model()->findAll("apt_status=:status AND apt_last_login>=DATE_SUB(NOW(), INTERVAL '$daysCount' DAY) AND apt_device_token IS NOT NULL AND apt_entity_id=:id AND apt_user_type=:type", ['status' => 1, 'type' => 2, 'id' => $vendor_id]);
 		AppTokens::$db	 = DBUtil::MDB();
-		if($isDriverPending == true)
+		if ($isDriverPending == true)
 		{
 			return AppTokens::model()->sendNotifications($appTokenModel, $data, ['notifications' => ['title' => $title, 'tripId' => $data['tripId'], 'EventCode' => $data['EventCode'], 'filterCode' => $data['FilterCode'], 'Status' => $data['Status'], 'message' => $message, 'icon' => '@drawable/logo', 'sound' => 'default']]);
 		}
@@ -537,7 +537,7 @@ class AppTokens extends CActiveRecord
 	 */
 	public static function deactivateByUserIdandUserType($user_id, $user_type)
 	{
-		if($user_id > 0 && $user_type > 0)
+		if ($user_id > 0 && $user_type > 0)
 		{
 			$params	 = ['userId' => $user_id, 'userType' => $user_type];
 			$sql	 = "UPDATE `app_tokens` set apt_status = 0,apt_logout=NOW() WHERE `apt_user_id` = :userId AND `apt_user_type` = :userType AND `apt_status` = 1 ";
@@ -547,14 +547,14 @@ class AppTokens extends CActiveRecord
 		return false;
 	}
 
-	/** 
+	/**
 	 * @param integer $entity_id
 	 * @param integer $entity_type
 	 * @return boolean
 	 */
 	public static function deactivateByEntityIdandEntityType($entity_id, $entity_type)
 	{
-		if($entity_id > 0 && $entity_type > 0)
+		if ($entity_id > 0 && $entity_type > 0)
 		{
 			$params	 = ['entityId' => $entity_id, 'userType' => $entity_type];
 			$sql	 = "UPDATE `app_tokens` set apt_status = 0,apt_logout=NOW() WHERE `apt_entity_id` = :entityId AND `apt_user_type` = :userType AND `apt_status` = 1 ";
@@ -604,11 +604,11 @@ class AppTokens extends CActiveRecord
 	{//using in DCO and conApp
 		$userInfo	 = UserInfo::getInstance();
 		$model		 = new AppTokens();
-		if($device instanceof AppTokens)
+		if ($device instanceof AppTokens)
 		{
 			$model = $device;
 		}
-		if(!$model->apt_token_id)
+		if (!$model->apt_token_id)
 		{
 			$tokenId				 = self::generateAuthToken($userInfo->userId, $model->apt_device, $model->apt_device_uuid, $model->apt_apk_version);
 			$model->apt_token_id	 = md5($tokenId);
@@ -618,29 +618,32 @@ class AppTokens extends CActiveRecord
 		}
 		else
 		{
-			$model					 = self::validateToken($model->apt_token_id);
-			$model->apt_entity_id	 = $usr->getEntityId();
+			$model = self::validateToken($model->apt_token_id);
+			if ($usr->getEntityId() > 0)
+			{
+				$model->apt_entity_id = $usr->getEntityId();
+			}
 			$model->apt_user_id		 = $usr->getUserId();
 			$model->apt_last_login	 = new CDbExpression('NOW()');
 			$model->apt_apk_version	 = $device->apt_apk_version;
 		}
 
-		if($platform > 0)
+		if ($platform > 0)
 		{
 			$model->apt_platform = (int) $platform;
 		}
 
-		if($activeVersion != null)
+		if ($activeVersion != null)
 		{
 			$isVersionCheck = self::validateVersion($model->apt_apk_version, $activeVersion);
-			if(!$isVersionCheck)
+			if (!$isVersionCheck)
 			{
 				goto endRegisterToken;
 			}
 		}
 		self::removeDuplicateDevice($model->apt_device_uuid, $model->apt_device_token, $model->apt_user_type, $usr->getUserId());
 
-		if(!$model->save())
+		if (!$model->save())
 		{
 			throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -659,12 +662,12 @@ class AppTokens extends CActiveRecord
 	public static function Register(GWebUser $user, $device = null)
 	{//not any where
 		$model = new AppTokens();
-		if($device instanceof AppTokens)
+		if ($device instanceof AppTokens)
 		{
 			$model = $device;
 		}
 		$tokenId = $model->apt_token_id;
-		if(!$tokenId)
+		if (!$tokenId)
 		{
 			$tokenId					 = self::generateAuthToken($user->getId(), $model->apt_device, $model->apt_device_uuid, $model->apt_apk_version);
 			$apkModel					 = new AppTokens();
@@ -685,7 +688,7 @@ class AppTokens extends CActiveRecord
 		}
 
 		self::removeDuplicateDevice($apkModel->apt_device_uuid, $apkModel->apt_device_token, $user->getUserType(), $user->getId());
-		if(!$apkModel->save())
+		if (!$apkModel->save())
 		{
 			throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -700,7 +703,7 @@ class AppTokens extends CActiveRecord
 			$model					 = new AppTokens();
 			$model->apt_entity_id	 = $entityId;
 			$model->apt_user_type	 = 2;
-			if($deviceData instanceof \Stub\common\Platform)
+			if ($deviceData instanceof \Stub\common\Platform)
 			{
 				$appTokenModel			 = $deviceData->getAppToken();
 				$model->apt_device		 = $appTokenModel->apt_device;
@@ -718,7 +721,7 @@ class AppTokens extends CActiveRecord
 
 			$model->scenario = ($checkFcm == true) ? 'fcm' : '';
 
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -726,7 +729,7 @@ class AppTokens extends CActiveRecord
 			$returnSet->setStatus(true);
 			$returnSet->setData($tokenId);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
 		}
@@ -753,7 +756,7 @@ class AppTokens extends CActiveRecord
 			$model->apt_user_type	 = $userType;
 			$model->apt_entity_id	 = $entityId;
 			//$model->apt_token_id	 = $sessionId;
-			if($deviceData instanceof \Stub\common\Platform || $deviceData instanceof \Beans\common\DeviceInfo)
+			if ($deviceData instanceof \Stub\common\Platform || $deviceData instanceof \Beans\common\DeviceInfo)
 			{
 				//$deviceData->getAppToken();
 				$appTokenModel			 = $deviceData->getAppToken();
@@ -778,7 +781,7 @@ class AppTokens extends CActiveRecord
 			$model->apt_last_login	 = new CDbExpression('NOW()');
 
 			$model->scenario = ($checkFcm == true) ? 'fcm' : '';
-			if($model->save())
+			if ($model->save())
 			{
 				DBUtil::commitTransaction($transaction);
 				return $model;
@@ -789,7 +792,7 @@ class AppTokens extends CActiveRecord
 			}
 			self::removeDuplicateDevice($model->apt_device_uuid, $model->apt_device_token, $model->apt_user_type, $userId);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			ReturnSet::setException($ex);
@@ -829,12 +832,12 @@ class AppTokens extends CActiveRecord
 
 		$vndId	 = $contactData['cr_is_vendor'];
 		$drvId	 = $contactData['cr_is_driver'];
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$userType	 = UserInfo::TYPE_VENDOR;
 			$succ1		 = self::removeDuplicateVendorDevice($deviceId, $token, $userType, $userId);
 		}
-		if($drvId > 0)
+		if ($drvId > 0)
 		{
 			$userType		 = UserInfo::TYPE_DRIVER;
 			$succ2			 = self::removeDuplicateDriverDevice($deviceId, $token, $userType, $userId);
@@ -861,19 +864,19 @@ class AppTokens extends CActiveRecord
 
 	public static function removeDuplicateDevice($deviceId, $token, $userType = UserInfo::TYPE_CONSUMER, $userId = null)
 	{
-		if($userId == null || $userId == 0)
+		if ($userId == null || $userId == 0)
 		{
 			return;
 		}
-		elseif($userType == UserInfo::TYPE_CONSUMER)
+		elseif ($userType == UserInfo::TYPE_CONSUMER)
 		{
 			return self::removeDuplicateConsumerDevice($deviceId, $token, $userType, $userId);
 		}
-		elseif($userType == UserInfo::TYPE_VENDOR)
+		elseif ($userType == UserInfo::TYPE_VENDOR)
 		{
 			return self::removeDuplicateDCODevice($deviceId, $token, $userType, $userId);
 		}
-		elseif(in_array($userType, [3, 5]))
+		elseif (in_array($userType, [3, 5]))
 		{
 			return self::removeDuplicateDCODevice($deviceId, $token, $userType, $userId);
 		}
@@ -885,11 +888,11 @@ class AppTokens extends CActiveRecord
 
 	public static function removeDuplicateSession($deviceId, $token, $userType = UserInfo::TYPE_CONSUMER, $userId = null, $platform = null)
 	{
-		if($userId == null || $userId == 0)
+		if ($userId == null || $userId == 0)
 		{
 			return;
 		}
-		if($userType == 0)
+		if ($userType == 0)
 		{
 			return;
 		}
@@ -900,7 +903,7 @@ class AppTokens extends CActiveRecord
 			'deviceId'		 => $deviceId
 		];
 		$where	 = '';
-		if($platform > 0)
+		if ($platform > 0)
 		{
 			$params['platform']	 = $platform;
 			$where				 = ' AND apt_platform=:platform';
@@ -923,7 +926,7 @@ class AppTokens extends CActiveRecord
 	public function validateVersion($currentVersion, $activeVersion)
 	{
 		$success = false;
-		if(version_compare($currentVersion, $activeVersion) >= 0)
+		if (version_compare($currentVersion, $activeVersion) >= 0)
 		{
 			$success = true;
 		}
@@ -941,7 +944,7 @@ class AppTokens extends CActiveRecord
 		$success = true;
 		/* @var $model AppTokens */
 		$model	 = AppTokens::model()->getByToken($token);
-		if(!$model)
+		if (!$model)
 		{
 			$message = "Unauthorized Token.";
 			$success = false;
@@ -959,7 +962,7 @@ class AppTokens extends CActiveRecord
 	public static function verifyVerison($currentVersion, $activeVersion)
 	{
 		$success = false;
-		if(version_compare($currentVersion, $activeVersion) >= 0)
+		if (version_compare($currentVersion, $activeVersion) >= 0)
 		{
 			$success = true;
 			$message = '';
@@ -983,11 +986,11 @@ class AppTokens extends CActiveRecord
 		$appToken	 = false;
 		$appToken	 = AppTokens::model()->find('apt_token_id = :token and apt_status = 1', array('token' => $token));
 
-		if(!$appToken)
+		if (!$appToken)
 		{
 			Logger::trace($token);
 			Logger::warning("Unauthorised Token", true);
-			throw new Exception("Unauthorised token.", 401);
+			throw new CHttpException(401, "Unauthorised token.", 401);
 		}
 		return $appToken;
 	}
@@ -1003,7 +1006,7 @@ class AppTokens extends CActiveRecord
 	{
 		$success	 = false;
 		$appToken	 = AppTokens::model()->find('apt_user_id=:userID AND apt_token_id=:sessionID AND apt_status=1', array('userID' => $userId, 'sessionID' => $token));
-		if(!$appToken)
+		if (!$appToken)
 		{
 			throw new Exception("Unauthorised user. ", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -1020,14 +1023,14 @@ class AppTokens extends CActiveRecord
 	{
 		$success = true;
 		$message = '';
-		if(empty($authToken) && empty($fcmToken))
+		if (empty($authToken) && empty($fcmToken))
 		{
 			$success = false;
 			goto resultSet;
 		}
 		/* @var $appModel AppTokens */
 		$appModel = AppTokens::model()->find('apt_token_id = :token and apt_status = 1', array('token' => $authToken));
-		if(!$appModel)
+		if (!$appModel)
 		{
 			$message = ('Unauthorised token');
 			$success = false;
@@ -1035,7 +1038,7 @@ class AppTokens extends CActiveRecord
 		}
 		$appModel->apt_device_token	 = $fcmToken;
 		$appModel->scenario			 = 'updateFcm';
-		if(!$appModel->save())
+		if (!$appModel->save())
 		{
 			$message = ('Unable to save data.');
 			$success = false;
@@ -1053,15 +1056,15 @@ class AppTokens extends CActiveRecord
 	 */
 	public static function getVersionByApp($app)
 	{
-		if(!$app)
+		if (!$app)
 		{
 			return false;
 		}
-		if(\AppTokens::Platform_Android == $app)
+		if (\AppTokens::Platform_Android == $app)
 		{
 			$activeVersion = Config::get("Version.Android.consumer"); // Yii::app()->params['versionCheck']['consumer'];
 		}
-		else if(\AppTokens::Platform_Ios == $app)
+		else if (\AppTokens::Platform_Ios == $app)
 		{
 			$activeVersion = Config::get("Version.Ios.consumer"); //Yii::app()->params['versionCheck']['consumerios'];
 		}
@@ -1078,15 +1081,15 @@ class AppTokens extends CActiveRecord
 	 */
 	public static function generateAuthToken($userId = null, $deviceName = null, $deviceUniqueId, $deviceApkVersion = null)
 	{
-		if(empty($deviceName))
+		if (empty($deviceName))
 		{
 			return false;
 		}
-		if(empty($deviceUniqueId))
+		if (empty($deviceUniqueId))
 		{
 			return false;
 		}
-		if(empty($deviceApkVersion))
+		if (empty($deviceApkVersion))
 		{
 			return false;
 		}
@@ -1103,9 +1106,9 @@ class AppTokens extends CActiveRecord
 	public function checkToken($uniqueId)
 	{
 		$appToken = AppTokens::model()->findAll('apt_device_uuid=:device and apt_user_type=:type', array('device' => $uniqueId, 'type' => 5));
-		foreach($appToken as $app)
+		foreach ($appToken as $app)
 		{
-			if(count($app) > 0)
+			if (count($app) > 0)
 			{
 				$app->apt_status = 0;
 				$app->update();
@@ -1122,13 +1125,13 @@ class AppTokens extends CActiveRecord
 	{
 		Logger::create("driver temporaryLogin  driverId: {$driverId}, userId {$userId}, token {$token}", CLogger::LEVEL_INFO);
 		$row = self::model()->getByTokenId($token, AppTokens::Platform_Driver);
-		if($row)
+		if ($row)
 		{
 			Logger::create("driver temporaryLogin  if getByTokenId  apt_id: " . $row['apt_id'], CLogger::LEVEL_INFO);
 			$appTokenModel = AppTokens::model()->findByPk($row['apt_id']);
 		}
 
-		if(!$appTokenModel || $appTokenModel->apt_status == 0)
+		if (!$appTokenModel || $appTokenModel->apt_status == 0)
 		{
 			$appTokenModel					 = new AppTokens();
 			$appTokenModel->apt_token_id	 = $token;
@@ -1144,11 +1147,11 @@ class AppTokens extends CActiveRecord
 		$appTokenModel->apt_user_type	 = AppTokens::Platform_Driver;
 		$appTokenModel->apt_apk_version	 = $deviceData->version;
 		$appTokenModel->apt_ip_address	 = $ipAddress;
-		if($fcmToken != '')
+		if ($fcmToken != '')
 		{
 			$appTokenModel->apt_device_token = $fcmToken;
 		}
-		if(!$appTokenModel->save())
+		if (!$appTokenModel->save())
 		{
 			Logger::create("driver temporaryLogin  if apptoken not saved", CLogger::LEVEL_INFO);
 			throw new Exception(json_encode($appTokenModel->getErrors()), ReturnSet::ERROR_FAILED);
@@ -1160,14 +1163,14 @@ class AppTokens extends CActiveRecord
 	{
 		$params		 = array('drvId' => $drvId);
 		$pageSize	 = 25;
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$params['date1'] = $date1;
 			$params['date2'] = $date2;
 			$dateCond		 = " AND apt_last_login BETWEEN :date1  AND :date2";
 		}
 		$cond = '';
-		if($user_type == "driver")
+		if ($user_type == "driver")
 		{
 			$cond = ' AND `apt_entity_id` =:drvId AND apt_user_type  = 5';
 		}
@@ -1194,14 +1197,14 @@ class AppTokens extends CActiveRecord
 		$sql	 = "SELECT * FROM app_tokens WHERE apt_user_type = 6 AND apt_user_id =:admId ORDER BY apt_id DESC LIMIT 0,1";
 		$result	 = DBUtil::queryRow($sql, DBUtil::MDB(), $param);
 
-		if($result != '')
+		if ($result != '')
 		{
 			$model = AppTokens::model()->findByPk($result['apt_id']);
-			if($model->apt_status == 1)
+			if ($model->apt_status == 1)
 			{
 				$model->apt_status	 = 0;
 				$model->apt_logout	 = Filter::getDBDateTime();
-				if($model->update())
+				if ($model->update())
 				{
 					$success = true;
 				}
@@ -1228,7 +1231,7 @@ class AppTokens extends CActiveRecord
 	{
 		$appToken = AppTokens::model()->findAll('apt_entity_id=:entityId AND apt_user_type=:userType AND apt_device_token<>:deviceToken',
 				array('entityId' => $entityId, 'deviceToken' => $token, 'userType' => $userType));
-		foreach($appToken as $app)
+		foreach ($appToken as $app)
 		{
 			$app->apt_status = 0;
 			$app->update();
@@ -1247,7 +1250,7 @@ class AppTokens extends CActiveRecord
 	{
 		$appToken = AppTokens::model()->findAll('apt_entity_id=:entityId AND apt_user_type=:userType AND apt_token_id<>:aptToken',
 				array('entityId' => $entityId, 'aptToken' => $token, 'userType' => $userType));
-		foreach($appToken as $app)
+		foreach ($appToken as $app)
 		{
 			$app->apt_status = 0;
 			$app->update();
@@ -1256,7 +1259,7 @@ class AppTokens extends CActiveRecord
 
 	public static function logoutUserTypeOnDevice($deviceId, $userType = '0')
 	{
-		if(!$userType || $userType == 0)
+		if (!$userType || $userType == 0)
 		{
 			return 0;
 		}
@@ -1274,30 +1277,36 @@ class AppTokens extends CActiveRecord
 	public static function getAppUsage($id, $type)
 	{
 		$cond = '';
-		if($type == 5)
+		if ($type == 3 || $type == 5)
+		{
+			$resPrimary = Contact::getRelatedPrimaryListByType($id, $type, true);
+ 
+			$userId	 = $resPrimary['cr_is_consumer'];
+			$userIds = Users::getRelatedIds($userId);
+
+			$cond	 = "AND app_tokens.apt_user_id IN({$userIds}) AND apt_user_type  IN (2,3,5)";
+			$params	 = [];
+		}
+		if ($type == 2)
 		{
 			$cond	 = 'AND app_tokens.apt_entity_id =:id AND apt_user_type  = :type';
 			$params	 = array('id' => $id, 'type' => $type);
 		}
-		if($type == 2)
-		{
-			$cond	 = 'AND app_tokens.apt_entity_id =:id AND apt_user_type  = :type';
-			$params	 = array('id' => $id, 'type' => $type);
-		}
-		if($type == 1)
+		if ($type == 1)
 		{
 			$cond	 = 'AND app_tokens.apt_user_id =:id AND apt_user_type  = :type';
 			$params	 = array('id' => $id, 'type' => $type);
 		}
-		$pageSize		 = 25;
-		$sql			 = "SELECT apt_id,apt_device, apt_date, apt_logout, apt_device_uuid, apt_apk_version, apt_os_version,
-							 apt_status,apt_token_id,apt_last_login,apt_last_loc_lat,apt_last_loc_long,
-							 CASE WHEN apt_user_type = '1' THEN 'Customer'
-								  WHEN apt_user_type = '2' THEN 'Vendor'
-								  WHEN apt_user_type = '5' THEN 'Driver'
-							 END as 'apt_user_type'
-							FROM app_tokens
-							WHERE 1=1 " . $cond;
+		$pageSize	 = 25;
+		$sql		 = "SELECT apt_id,apt_device, apt_date, apt_logout, apt_device_uuid, apt_apk_version, apt_os_version,
+				apt_status,apt_token_id,apt_last_login,apt_last_loc_lat,apt_last_loc_long,
+				CASE WHEN apt_user_type = '1' THEN 'Customer'
+					 WHEN apt_user_type = '2' THEN 'Vendor'
+					 WHEN apt_user_type IN (3,5) THEN 'Driver'
+				END as 'apt_user_type'
+			   FROM app_tokens
+			   WHERE 1=1 " . $cond;
+		 
 		$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB(), $params);
 		$dataprovider	 = new CSqlDataProvider($sql, [
 			'totalItemCount' => $count,
@@ -1339,7 +1348,7 @@ class AppTokens extends CActiveRecord
 	{
 		$success = true;
 		$message = '';
-		if(empty($authToken) || empty($device_token))
+		if (empty($authToken) || empty($device_token))
 		{
 			$success = false;
 			$message = 'Invalid token';
@@ -1347,7 +1356,7 @@ class AppTokens extends CActiveRecord
 		}
 		/* @var $appModel AppTokens */
 		$appModel = AppTokens::model()->find('apt_token_id = :token and apt_entity_id = :entity_id and apt_status = 1', array('token' => $authToken, 'entity_id' => $entityId));
-		if(!$appModel)
+		if (!$appModel)
 		{
 			$message = 'Unauthorised token';
 			$success = false;
@@ -1356,7 +1365,7 @@ class AppTokens extends CActiveRecord
 		$appModel->apt_device_token	 = $device_token;
 		$appModel->apt_user_id		 = $userId;
 		$appModel->scenario			 = 'updateFcm';
-		if(!$appModel->save())
+		if (!$appModel->save())
 		{
 			$message = 'Unable to save data.';
 			$success = false;
@@ -1376,12 +1385,12 @@ class AppTokens extends CActiveRecord
 	{
 		$entityId	 = UserInfo::getEntityId();
 		$appModel	 = AppTokens::model()->find('apt_token_id = :token and apt_entity_id = :entity_id and apt_status = 1', array('token' => $authToken, 'entity_id' => $entityId));
-		if($appModel)
+		if ($appModel)
 		{
 			$appModel->apt_last_loc_lat	 = $data->coordinates->latitude;
 			$appModel->apt_last_loc_long = $data->coordinates->longitude;
 			$appModel->apt_date			 = new CDbExpression('NOW()');
-			if($appModel->save())
+			if ($appModel->save())
 			{
 				$status = true;
 			}
@@ -1419,7 +1428,7 @@ class AppTokens extends CActiveRecord
 
 	public function checkDriverLastLogin($drvId)
 	{
-		$sql = "SELECT COUNT(1) as cnt FROM `app_tokens` WHERE app_tokens.apt_entity_id='.$drvId.' AND app_tokens.apt_user_type=5 AND app_tokens.apt_status=1";
+		$sql = "SELECT COUNT(1) as cnt FROM `app_tokens` WHERE app_tokens.apt_entity_id='.$drvId.' AND app_tokens.apt_user_type IN (3,5) AND app_tokens.apt_status=1";
 		return DBUtil::queryScalar($sql);
 	}
 
@@ -1446,7 +1455,7 @@ class AppTokens extends CActiveRecord
 	public function notifyUserOld($user_id, $userType, $data, $message, $title)
 	{
 		AppTokens::$db = DBUtil::SDB();
-		if($userType != 1)
+		if ($userType != 1)
 		{
 			return false;
 		}
@@ -1466,7 +1475,7 @@ class AppTokens extends CActiveRecord
 				'data'		 => $data['data']
 			]
 		];
-		if(isset($data['isGozoNow']))
+		if (isset($data['isGozoNow']))
 		{
 			$notification['notifications']['isGozoNow'] = $data['isGozoNow'];
 		}
@@ -1483,7 +1492,7 @@ class AppTokens extends CActiveRecord
 	 */
 	public function notifyUser($user_id, $userType, $payLoadData, $message, $title)
 	{
-		if($userType != 1)
+		if ($userType != 1)
 		{
 			return false;
 		}
@@ -1503,7 +1512,7 @@ class AppTokens extends CActiveRecord
 			]
 		];
 
-		if(count($apptokenList) > 0)
+		if (count($apptokenList) > 0)
 		{
 
 			$aptModel[] = new AppTokens();
@@ -1533,7 +1542,7 @@ class AppTokens extends CActiveRecord
 		$logginDayCount	 = 0;
 		$daysCount		 = ($logginDayCount > 0) ? $logginDayCount : 5;
 		AppTokens::$db	 = DBUtil::SDB();
-		if($checkLogin == true)
+		if ($checkLogin == true)
 		{
 			$condition = "AND apt_last_login>=DATE_SUB(NOW(), INTERVAL '$daysCount' DAY)";
 		}
@@ -1553,7 +1562,7 @@ class AppTokens extends CActiveRecord
 				'data'		 => $data['data']
 			]
 		];
-		if(isset($data['isGozoNow']))
+		if (isset($data['isGozoNow']))
 		{
 			$notification['notifications']['isGozoNow'] = $data['isGozoNow'];
 		}
@@ -1586,7 +1595,7 @@ class AppTokens extends CActiveRecord
 
 //		$tokens = [];
 
-		if(count($apptokenList) > 0)
+		if (count($apptokenList) > 0)
 		{
 
 			$aptModel[] = new AppTokens();
@@ -1609,7 +1618,7 @@ class AppTokens extends CActiveRecord
 	public static function getByTokens($deviceToken, $userTokenId = '')
 	{
 		$strUserToken = '';
-		if($userTokenId != '' && $userTokenId != null)
+		if ($userTokenId != '' && $userTokenId != null)
 		{
 			$strUserToken = " AND apt_token_id = '{$userTokenId}' ";
 		}
@@ -1648,7 +1657,7 @@ class AppTokens extends CActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			switch($type)
+			switch ($type)
 			{
 				case UserInfo::TYPE_VENDOR:
 					$id	 = "apt_entity_id";
@@ -1669,7 +1678,7 @@ class AppTokens extends CActiveRecord
 					'sound'		 => 'default',
 				]
 			];
-			if(isset($data['scqId']))
+			if (isset($data['scqId']))
 			{
 				$notification['notifications']['scqId'] = $data['scqId'];
 			}
@@ -1677,7 +1686,7 @@ class AppTokens extends CActiveRecord
 			DBUtil::commitTransaction($transaction);
 			return $result;
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
 			DBUtil::rollbackTransaction($transaction);
@@ -1712,7 +1721,7 @@ class AppTokens extends CActiveRecord
 				'data'		 => $payLoadData['data']
 			]
 		];
-		if(isset($payLoadData['isGozoNow']))
+		if (isset($payLoadData['isGozoNow']))
 		{
 			$notification['notifications']['isGozoNow'] = $payLoadData['isGozoNow'];
 		}
@@ -1742,7 +1751,7 @@ class AppTokens extends CActiveRecord
 
 		$notification['notifications']['tripId'] = $payLoadData['tripId'];
 
-		if($batchId != '')
+		if ($batchId != '')
 		{
 			$payLoadData['batchId'] = $batchId;
 		}
@@ -1769,7 +1778,7 @@ class AppTokens extends CActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if($device instanceof AppTokens)
+			if ($device instanceof AppTokens)
 			{
 				$model = $device;
 			}
@@ -1779,37 +1788,35 @@ class AppTokens extends CActiveRecord
 			$model->apt_user_type	 = ($userInfo->getUserType() == null) ? 10 : $userInfo->getUserType();
 			$model->apt_user_id		 = $userInfo->getUserId();
 			$model->apt_ip_address	 = \Filter::getUserIP();
-			if($platform > 0)
+			if ($platform > 0)
 			{
 				$model->apt_platform = $platform;
 			}
-			if($activeVersion != null)
+			if ($activeVersion != null)
 			{
 				$isVersionCheck = self::validateVersion($model->apt_apk_version, $activeVersion);
-				if(!$isVersionCheck)
+				if (!$isVersionCheck)
 				{
 					$message = "Invalid version.";
 					throw new Exception(CJSON::encode($message), ReturnSet::ERROR_VALIDATION);
 				}
 			}
-
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			self::deactivateExpiredToken($model->apt_device_uuid, $model->apt_token_id, $userInfo->getUserType());
-			if($model->apt_device_token != '')
+			if ($model->apt_device_token != '')
 			{
 				AppTokens::deactivateExpiredFCMToken($model->apt_token_id, $model->apt_device_token);
 			}
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			throw $ex;
 		}
-
 		return $model;
 	}
 
@@ -1855,7 +1862,7 @@ class AppTokens extends CActiveRecord
 		$appToken = AppTokens::validateToken($token);
 
 		$userModel = Users::model()->findByPk($appToken->apt_user_id);
-		if($userModel)
+		if ($userModel)
 		{
 			$appToken->apt_last_login = new CDbExpression('NOW()');
 			$appToken->save();
@@ -1871,7 +1878,7 @@ class AppTokens extends CActiveRecord
 	public static function logoutDCO($jwtToken)
 	{
 		$appRecord = AppTokens::getModelByJWT($jwtToken);
-		if($appRecord)
+		if ($appRecord)
 		{
 			$appRecord->apt_status	 = 0;
 			$appRecord->apt_logout	 = new CDbExpression('NOW()');
@@ -1908,41 +1915,47 @@ class AppTokens extends CActiveRecord
 		$chk		 = true;
 		$totRecords	 = $upperLimit;
 		$limit		 = $lowerLimit;
-		while($chk)
+		while ($chk)
 		{
+			Logger::writeToConsole("While");
 			$transaction = "";
 			try
 			{
-				$sql	 = "SELECT GROUP_CONCAT(apt_id) AS apt_id FROM (SELECT apt_id FROM app_tokens WHERE 1 AND apt_date <= '2021-03-31 23:59:59' AND apt_status = 0 ORDER BY apt_id ASC LIMIT 0, $limit) as temp";
+				$sql	 = "SELECT GROUP_CONCAT(apt_id) AS apt_id FROM (SELECT apt_id FROM app_tokens WHERE 1 AND apt_date <= DATE_SUB(NOW(),INTERVAL 1 YEAR) AND apt_status = 0 ORDER BY apt_id ASC LIMIT 0, $limit) as temp";
 				$resQ	 = DBUtil::queryScalar($sql);
-				if(!is_null($resQ) && $resQ != '')
+				if (!is_null($resQ) && $resQ != '')
 				{
+					Logger::writeToConsole("INSERT");
 					$transaction = DBUtil::beginTransaction();
 					DBUtil::getINStatement($resQ, $bindString, $params);
 					$sql		 = "INSERT INTO " . $archiveDB . ".app_tokens (SELECT * FROM app_tokens WHERE apt_id IN ($bindString))";
 					$rows		 = DBUtil::execute($sql, $params);
-					if($rows > 0)
+					if ($rows > 0)
 					{
+						Logger::writeToConsole("DELETE");
 						$sql = "DELETE FROM `app_tokens` WHERE apt_id IN ($bindString)";
 						DBUtil::execute($sql, $params);
 						DBUtil::commitTransaction($transaction);
+						Logger::writeToConsole("COMMITTED");
 					}
 					else
 					{
 						DBUtil::rollbackTransaction($transaction);
+						Logger::writeToConsole("ROLLBACK");
 					}
 				}
 
 				$i += $limit;
-				if(($resQ <= 0) || $totRecords <= $i)
+				if (($resQ <= 0) || $totRecords <= $i)
 				{
 					break;
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				DBUtil::rollbackTransaction($transaction);
 				Logger::exception($ex);
+				Logger::writeToConsole("ERROR: " . $e->getMessage());
 				echo $ex->getMessage() . "\n\n";
 			}
 		}
@@ -1966,7 +1979,7 @@ class AppTokens extends CActiveRecord
 	{
 		$params = ['userType' => $entityType, 'entityId' => $entityId];
 
-		switch($entityType)
+		switch ($entityType)
 		{
 			case UserInfo::TYPE_VENDOR:
 				$id	 = "apt_entity_id";
@@ -2054,14 +2067,14 @@ class AppTokens extends CActiveRecord
 	public static function notifyDCOForAdminChat($msgId, $entityId = 0, $batchId = '')
 	{
 		$dataRow = \ChatLog::getCurrentMessageById($msgId);
-		if($dataRow['bcb_vendor_id'] > 0)
+		if ($dataRow['bcb_vendor_id'] > 0)
 		{
 			$entityId = $dataRow['bcb_vendor_id'];
 		}
 		$userType	 = 2;
 		$platform	 = AppTokens::Platform_DCO;
 		$tokenRow	 = \AppTokens::getFCMTokenListByEntity($entityId, $userType, $platform);
-		if(!$tokenRow)
+		if (!$tokenRow)
 		{
 			return false;
 		}
@@ -2104,7 +2117,7 @@ class AppTokens extends CActiveRecord
 		$notification ['notifications']['tripId']	 = $payLoadData['tripId'];
 		$notification ['notifications']['bkgId']	 = $payLoadData['bkgId'];
 
-		if($batchId != '')
+		if ($batchId != '')
 		{
 			$payLoadData['batchId'] = $batchId;
 		}
@@ -2127,7 +2140,7 @@ class AppTokens extends CActiveRecord
 	{
 		$where	 = '';
 		$params	 = ['entityId' => $entityId, 'entityType' => $entityType];
-		if($platform > 0)
+		if ($platform > 0)
 		{
 			$where				 = " AND apt.apt_platform = :platform";
 			$params['platform']	 = $platform;

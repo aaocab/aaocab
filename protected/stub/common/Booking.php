@@ -91,7 +91,8 @@ class Booking
 	/** @var Booking $model */
 	public function setData($booking)
 	{
-		$result				 = \Booking::model()->getBookingCodeStatus($booking['bkg_status']);
+		$model = \Booking::model()->findByPk($booking['bkg_id']);
+		$result				 = $model->getBookingCodeStatus();
 		$this->id			 = (int) $booking['bkg_id'];
 		$this->bookingId	 = $booking['bkg_booking_id'];
 		$this->routeNames	 = json_decode($booking['bkg_route_city_names']);

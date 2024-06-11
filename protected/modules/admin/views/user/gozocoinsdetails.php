@@ -4,7 +4,7 @@
             <div class="panel" >
                 <div class="panel-body p0">
                     <h3 class="mt0">Gozo Coins
-						<span class="pull-right">Pending : <?= $totalGozoCoins ?> Coins</span>
+						<span class="pull-right">Credit balance:<?= $totalGozoCoins ?> Coins</span>
 					</h3>
 					
                     <div class="">

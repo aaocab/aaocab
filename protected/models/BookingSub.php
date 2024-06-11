@@ -16167,4 +16167,71 @@ WHERE 1=1 {$where}{$whereType} ORDER BY bkg.bkg_pickup_date ASC";
 
 		return $arrData;
 	}
+    
+    
+    
+    public static function getTrackTrip($params)
+    {
+            $from_date = $params['from_date'];
+            $to_date   = $params['to_date'];
+
+            $where = '1=1';
+
+            if ($from_date != '' && $to_date != '')
+            {
+                $where .= " AND (bkg_pickup_date BETWEEN '$from_date 00:00:00' AND '$to_date 23:59:59')";
+            }
+
+            $sqlData = "SELECT DATE(bkg_pickup_date) pickupDate, count( DISTINCT bkg_id) as tot, GROUP_CONCAT(DISTINCT bkg_id) as bookings, GROUP_CONCAT(DISTINCT blg_user_type) as usrtTypes,
+    COUNT(DISTINCT IF(btr.bkg_trip_end_time IS NOT NULL, bkg_id, NULL)) as totalCompletedTrips,
+    COUNT( DISTINCT IF(blg_event_id = 215 AND blg_user_type  = 4,bkg_id,NULL)) as tripStartAdmin,
+    COUNT( DISTINCT IF(blg_event_id = 216 AND blg_user_type  = 4,bkg_id,NULL)) as tripStopAdmin,
+    COUNT( DISTINCT IF(blg_event_id = 93 AND blg_user_type  = 4,bkg_id,NULL)) as carArrivedAdmin,
+    COUNT(DISTINCT IF(blg_event_id = 215 AND blg_user_type<>4  AND blg_user_type IS NOT NULL,bkg_id,NULL)) as tripStartDriver,
+    COUNT(DISTINCT IF(blg_event_id = 216 AND blg_user_type<>4  AND blg_user_type IS NOT NULL,bkg_id,NULL)) as tripStopDriver,
+    COUNT(DISTINCT IF(blg_event_id = 93 AND blg_user_type<>4  AND blg_user_type IS NOT NULL,bkg_id,NULL)) as carArrivedDriver
+    FROM `booking`
+    INNER JOIN booking_track btr ON btr.btk_bkg_id=bkg_id
+    LEFT JOIN booking_log ON bkg_id = blg_booking_id 
+    WHERE $where AND bkg_status IN(5,6,7) AND blg_event_id IN (215,216,93) 
+      GROUP BY pickupDate";
+
+//        $sqlData = "SELECT  count( DISTINCT bkg_id) as tot, GROUP_CONCAT(DISTINCT bkg_id) as bookings,DATE(bkg_pickup_date) pickupDate,
+//
+//COUNT( DISTINCT IF(blg_event_id = 215 AND blg_user_type  = 10,blg_id,NULL)) as tripStartAdmin,
+//COUNT( DISTINCT IF(blg_event_id = 216 AND blg_user_type  = 10,blg_id,NULL)) as tripStopAdmin,
+//COUNT( DISTINCT IF(blg_event_id = 93 AND blg_user_type  = 10,blg_id,NULL)) as carArrivedAdmin,
+//
+//
+//COUNT(DISTINCT IF(blg_event_id = 215 AND blg_user_type  = 3,blg_id,NULL)) as tripStartDriver,
+//COUNT(DISTINCT IF(blg_event_id = 216 AND blg_user_type  = 3,blg_id,NULL)) as tripStopDriver,
+//COUNT(DISTINCT IF(blg_event_id = 93 AND blg_user_type  = 3,blg_id,NULL)) as carArrivedDriver
+//
+//
+//FROM `booking`
+//JOIN booking_log ON bkg_id = blg_booking_id  WHERE $where AND bkg_status IN(5,6,7) AND blg_event_id IN (215,216,93)
+//  GROUP BY pickupDate ";
+        
+       // bkg_pickup_date>'2024-01-01 05:00:00'
+
+//        if ($type == DBUtil::ReturnType_Provider)
+//        {
+            $count        = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sqlData ) temp", DBUtil::SDB3(), $params);
+            $dataprovider = new CSqlDataProvider($sqlData, array(
+                "totalItemCount" => $count,
+                "params"         => $params,
+                'db'             => DBUtil ::SDB3(),
+                "pagination"     => array("pageSize" => 50),
+              'sort'           => array('attributes'   => array('tripStartAdmin,tripStartDriver'),
+                    'defaultOrder' => 'pickupDate DESC'
+                )
+            ));
+            return $dataprovider;
+//        }
+//        else
+//        {
+//            return DBUtil::query($sqlData, DBUtil::SDB3(), $params);
+//        }
+    }
+
 }

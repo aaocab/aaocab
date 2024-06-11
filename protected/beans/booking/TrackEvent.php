@@ -50,7 +50,7 @@ class TrackEvent
 	/**
 	 * 
 	 * @param type $data
-	 * @return type
+	 * @return [\BookingTrackLog, SyncEvents]
 	 */
 	public static function setTrackModel($data, $isDCO = true)
 	{
@@ -302,6 +302,7 @@ class TrackEvent
 		return \BookingTrackLog::getDocs($model, $data);
 	}
 
+	/** @return \BookingTrackLog */
 	public static function takeFile($model, $data)
 	{
 	    #$data	 = json_decode($data);

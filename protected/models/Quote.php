@@ -22,23 +22,23 @@ abstract class DynamicPriceAvailability
 class Quote
 {
 
-	public $key				 = false;
-	public $cabQuotes		 = [];
-	public $vehicleModelId	 = 0;
-	public $skuId			 = 0;
-	public $classId			 = 0;
-	public $sourceCity		 = 0;
-	public $destinationCity	 = 0;
+	public $key				= false;
+	public $cabQuotes		= [];
+	public $vehicleModelId	= 0;
+	public $skuId			= 0;
+	public $classId			= 0;
+	public $sourceCity		= 0;
+	public $destinationCity = 0;
 
 	/** @var RouteDistance */
 	public $routeDistance;
-	public $sourceQuotation			 = 0;
-	public $isB2Cbooking			 = true;
-	public $isDynamicSurgeAvialable	 = DynamicPriceAvailability::Unknown;
-	public $dynamicSurgeFactor		 = 0;
-	public $isManuualSurgeAvialable	 = DynamicPriceAvailability::Unknown;
-	public $manuualSurgeFactor		 = 0;
-	public static $updateCounter	 = false;
+	public $sourceQuotation			= 0;
+	public $isB2Cbooking			= true;
+	public $isDynamicSurgeAvialable = DynamicPriceAvailability::Unknown;
+	public $dynamicSurgeFactor		= 0;
+	public $isManuualSurgeAvialable = DynamicPriceAvailability::Unknown;
+	public $manuualSurgeFactor		= 0;
+	public static $updateCounter	= false;
 
 	/** @var RouteDuration */
 	public $routeDuration;
@@ -52,6 +52,7 @@ class Quote
 			$quoteDate, $packageID, $packageName, $flexxi_type, $flexxiRates, $noofseat, $flexxi_base_amount, $usedParentCabPrice	 = false;
 	public $applyPromo			 = false;
 	public $gozoNow				 = false;
+	public $useHyperLocation	 = true;
 	public $gozoNowVendorAmount	 = 0;
 	public $processedTripType;
 	public $servingRoute		 = [];
@@ -66,35 +67,35 @@ class Quote
 	public $additionalMarkup	 = false;
 
 	/** @var BookingRoute[] */
-	public $routes					 = [];
-	public $toCities				 = [];
-	public $specialNeeds			 = [
-		'1'	 => 'Need carrier',
-		'2'	 => 'Female only passengers',
-		'3'	 => 'Elderly passengers',
-		'4'	 => 'Other requests'
+	public $routes				  = [];
+	public $toCities			  = [];
+	public $specialNeeds		  = [
+		'1' => 'Need carrier',
+		'2' => 'Female only passengers',
+		'3' => 'Elderly passengers',
+		'4' => 'Other requests'
 	];
-	public $tripList				 = [
-		'1'	 => 'One Way',
-		'2'	 => 'Round Trip',
-		'3'	 => 'Multi-City Trip',
-		'4'	 => 'Transfer Trip'
+	public $tripList			  = [
+		'1' => 'One Way',
+		'2' => 'Round Trip',
+		'3' => 'Multi-City Trip',
+		'4' => 'Transfer Trip'
 	];
-	public $includeAirportCharges	 = true;
-	public $catypeArr				 = [];
-	public $catypeArrIncFlexxi		 = [];
-	public $disMultipleFP			 = [1 => 1.15, 2 => 1.1, 3 => 1];
-	public $disMultipleFS			 = [1 => 1.25, 2 => 1.2, 3 => 1.1];
-	private $excludedCabTypes		 = [];
+	public $includeAirportCharges = true;
+	public $catypeArr			  = [];
+	public $catypeArrIncFlexxi	  = [];
+	public $disMultipleFP		  = [1 => 1.15, 2 => 1.1, 3 => 1];
+	public $disMultipleFS		  = [1 => 1.25, 2 => 1.2, 3 => 1.1];
+	private $excludedCabTypes	  = [];
 
 	//quote_platform
-	const Platform_User			 = 1;
-	const Platform_Admin			 = 2;
-	const Platform_App			 = 3;
-	const Platform_Agent			 = 4;
-	const Platform_System			 = 0;
-	const Platform_Partner_Spot	 = 5;
-	const Platform_Bot			 = 6;
+	const Platform_User		  = 1;
+	const Platform_Admin		  = 2;
+	const Platform_App		  = 3;
+	const Platform_Agent		  = 4;
+	const Platform_System		  = 0;
+	const Platform_Partner_Spot = 5;
+	const Platform_Bot		  = 6;
 
 	/**
 	 *  @param mixed $model Booking | BookingTemp 
@@ -104,11 +105,11 @@ class Quote
 		/*
 		 *  Get blocked location data
 		 *  @var $placeObj \Stub\common\Place */
-		$pickupPlaceObj			 = Stub\common\Place::init($model->bookingRoutes[0]->brt_from_latitude, $model->bookingRoutes[0]->brt_from_longitude);
-		$pickupBlockedLocation	 = BlockedLocations::getBlockedLocation($pickupPlaceObj);
+		$pickupPlaceObj		   = Stub\common\Place::init($model->bookingRoutes[0]->brt_from_latitude, $model->bookingRoutes[0]->brt_from_longitude);
+		$pickupBlockedLocation = BlockedLocations::getBlockedLocation($pickupPlaceObj);
 
-		$dropoffPlaceObj		 = Stub\common\Place::init($model->bookingRoutes[0]->brt_to_latitude, $model->bookingRoutes[0]->brt_to_longitude);
-		$dropoffBlockedLocation	 = BlockedLocations::getBlockedLocation($dropoffPlaceObj);
+		$dropoffPlaceObj		= Stub\common\Place::init($model->bookingRoutes[0]->brt_to_latitude, $model->bookingRoutes[0]->brt_to_longitude);
+		$dropoffBlockedLocation = BlockedLocations::getBlockedLocation($dropoffPlaceObj);
 
 		if ($pickupBlockedLocation || $dropoffBlockedLocation)
 		{
@@ -132,11 +133,11 @@ class Quote
 		{
 			$quote->routes = $model->newBookingRoutes;
 		}
-		$quote->quoteDate	 = $model->bkg_create_date;
-		$quote->pickupDate	 = $model->bkg_pickup_date;
+		$quote->quoteDate  = $model->bkg_create_date;
+		$quote->pickupDate = $model->bkg_pickup_date;
 		//$quote->sourceQuotation = $model->bkgTrail->bkg_platform;
-		$quote->tripType	 = $model->bkg_booking_type;
-		$quote->partnerId	 = $model->bkg_agent_id;
+		$quote->tripType   = $model->bkg_booking_type;
+		$quote->partnerId  = $model->bkg_agent_id;
 
 		if ($model instanceof Booking)
 		{
@@ -157,15 +158,20 @@ class Quote
 
 		$quote->isconvertedToDR = $model->isconvertedToDR;
 
+		if (in_array($quote->tripType, [2,3,9,10,11]) && $quote->partnerId == 18190)
+		{
+			$quote->useHyperLocation = false;
+		}
+		
 		if ($quote->tripType == 5)
 		{
 			$quote->packageID = $model->bkg_package_id;
 		}
-		Quote::$updateCounter	 = true;
-		$quote->flexxi_type		 = 1;
-		$quote->applyPromo		 = $applyPromo;
-		$partnerId				 = Yii::app()->params['gozoChannelPartnerId'];
-		$quote->partnerId		 = ($model->bkg_agent_id == null) ? $partnerId : $model->bkg_agent_id;
+		Quote::$updateCounter = true;
+		$quote->flexxi_type	  = 1;
+		$quote->applyPromo	  = $applyPromo;
+		$partnerId			  = Yii::app()->params['gozoChannelPartnerId'];
+		$quote->partnerId	  = ($model->bkg_agent_id == null) ? $partnerId : $model->bkg_agent_id;
 		$quote->setCabTypeArr();
 
 		$cabModel = SvcClassVhcCat::getCabModelById($cabType);
@@ -199,8 +205,8 @@ class Quote
 		if ($isGozoNow == 1)
 //		if ($model->bkgPref->bkg_is_gozonow == 1)
 		{
-			$quote->gozoNow				 = true;
-			$quote->gozoNowVendorAmount	 = $gNowVendorAmount;
+			$quote->gozoNow				= true;
+			$quote->gozoNowVendorAmount = $gNowVendorAmount;
 			if ($cabType == null)
 			{
 				$quote->catypeArr = SvcClassVhcCat::getCabListGNowQuote();
@@ -247,10 +253,10 @@ class Quote
 	public function tripList()
 	{
 		$tripList = [
-			1	 => strtoupper('One Way'),
-			2	 => strtoupper('Round Trip'),
-			3	 => strtoupper('Multi-City Trip'),
-			4	 => strtoupper('Transfer Trip'),
+			1 => strtoupper('One Way'),
+			2 => strtoupper('Round Trip'),
+			3 => strtoupper('Multi-City Trip'),
+			4 => strtoupper('Transfer Trip'),
 		];
 		asort($tripList);
 		return $tripList;
@@ -295,29 +301,29 @@ class Quote
 				$saveAmountPromo = $this->routeRates->baseAmount - $fpBaseFare;
 
 				//subscriber fare
-				$fsBaseFare		 = ROUND(($this->routeRates->baseAmount / $totSeats) * $i * $this->disMultipleFS[$i]) + $extraAmount;
-				$fsToll			 = ROUND(($tollTax / $totSeats) * $i);
-				$fsState		 = ROUND(($stateTax / $totSeats) * $i);
-				$fsDA			 = ROUND(($driverAllowance / $totSeats) * $i);
-				$fsGst			 = ROUND(($fsBaseFare + $fsToll + $fsState + $fsDA) * $tax_rate / 100, 0);
-				$fsTotal		 = $fsBaseFare + $fsToll + $fsState + $fsDA + $fsGst;
-				$fssaveamount	 = $this->routeRates->baseAmount - $fsBaseFare;
+				$fsBaseFare	  = ROUND(($this->routeRates->baseAmount / $totSeats) * $i * $this->disMultipleFS[$i]) + $extraAmount;
+				$fsToll		  = ROUND(($tollTax / $totSeats) * $i);
+				$fsState	  = ROUND(($stateTax / $totSeats) * $i);
+				$fsDA		  = ROUND(($driverAllowance / $totSeats) * $i);
+				$fsGst		  = ROUND(($fsBaseFare + $fsToll + $fsState + $fsDA) * $tax_rate / 100, 0);
+				$fsTotal	  = $fsBaseFare + $fsToll + $fsState + $fsDA + $fsGst;
+				$fssaveamount = $this->routeRates->baseAmount - $fsBaseFare;
 
 				$flexxiFare[$i] = [
-					'flexxiBaseAmount'		 => $fpBaseFare,
-					'flexxiTollTax'			 => $fpToll,
-					'flexxiStateTax'		 => $fpState,
-					'flexxiDriverAllowance'	 => $fpDA,
-					'flexxiGst'				 => $fpGst,
-					'flexxipayble'			 => $fpTotal,
-					'fpsaved'				 => $saveAmountPromo,
-					'subsBaseAmount'		 => $fsBaseFare,
-					'subsTollTax'			 => $fsToll,
-					'subsStateTax'			 => $fsState,
-					'subsDriverAllowance'	 => $fsDA,
-					'subsGst'				 => $fsGst,
-					'subscriberpayble'		 => $fsTotal,
-					'fssaved'				 => $fssaveamount,
+					'flexxiBaseAmount'		=> $fpBaseFare,
+					'flexxiTollTax'			=> $fpToll,
+					'flexxiStateTax'		=> $fpState,
+					'flexxiDriverAllowance' => $fpDA,
+					'flexxiGst'				=> $fpGst,
+					'flexxipayble'			=> $fpTotal,
+					'fpsaved'				=> $saveAmountPromo,
+					'subsBaseAmount'		=> $fsBaseFare,
+					'subsTollTax'			=> $fsToll,
+					'subsStateTax'			=> $fsState,
+					'subsDriverAllowance'	=> $fsDA,
+					'subsGst'				=> $fsGst,
+					'subscriberpayble'		=> $fsTotal,
+					'fssaved'				=> $fssaveamount,
 				];
 			}
 
@@ -326,23 +332,23 @@ class Quote
 			{
 				if ($noOfSeats == 4)
 				{
-					$this->routeRates->baseAmount	 = $this->flexxi_base_amount;
-					$this->routeRates->gst			 = ROUND(($this->routeRates->baseAmount + $this->routeRates->stateTax + $this->routeRates->tollTaxAmount + $this->routeRates->driverAllowance + $this->routeRates->parkingAmount) * $tax_rate / 100, 0);
-					$this->routeRates->totalAmount	 = $this->routeRates->baseAmount + $this->routeRates->gst + $this->routeRates->getAllowanceAndTaxes();
+					$this->routeRates->baseAmount  = $this->flexxi_base_amount;
+					$this->routeRates->gst		   = ROUND(($this->routeRates->baseAmount + $this->routeRates->stateTax + $this->routeRates->tollTaxAmount + $this->routeRates->driverAllowance + $this->routeRates->parkingAmount) * $tax_rate / 100, 0);
+					$this->routeRates->totalAmount = $this->routeRates->baseAmount + $this->routeRates->gst + $this->routeRates->getAllowanceAndTaxes();
 				}
 				else
 				{
-					$this->routeRates->stateTax			 = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiStateTax'] : $flexxiFare[$noOfSeats]['subsStateTax'];
-					$this->routeRates->tollTaxAmount	 = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiTollTax'] : $flexxiFare[$noOfSeats]['subsTollTax'];
-					$this->routeRates->driverAllowance	 = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiDriverAllowance'] : $flexxiFare[$noOfSeats]['subsDriverAllowance'];
-					$this->routeRates->baseAmount		 = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiBaseAmount'] : $flexxiFare[$noOfSeats]['subsBaseAmount'];
-					$this->routeRates->gst				 = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiGst'] : $flexxiFare[$noOfSeats]['subsGst'];
-					$this->routeRates->totalAmount		 = $this->routeRates->baseAmount + $this->routeRates->gst + $this->routeRates->getAllowanceAndTaxes();
+					$this->routeRates->stateTax		   = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiStateTax'] : $flexxiFare[$noOfSeats]['subsStateTax'];
+					$this->routeRates->tollTaxAmount   = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiTollTax'] : $flexxiFare[$noOfSeats]['subsTollTax'];
+					$this->routeRates->driverAllowance = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiDriverAllowance'] : $flexxiFare[$noOfSeats]['subsDriverAllowance'];
+					$this->routeRates->baseAmount	   = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiBaseAmount'] : $flexxiFare[$noOfSeats]['subsBaseAmount'];
+					$this->routeRates->gst			   = ($this->flexxi_type == 1) ? $flexxiFare[$noOfSeats]['flexxiGst'] : $flexxiFare[$noOfSeats]['subsGst'];
+					$this->routeRates->totalAmount	   = $this->routeRates->baseAmount + $this->routeRates->gst + $this->routeRates->getAllowanceAndTaxes();
 				}
 			}
 
-			$this->flexxiRates	 = $flexxiFare;
-			$this->cabType		 = ($svcVct == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? VehicleCategory::SHARED_SEDAN_ECONOMIC : $this->cabType;
+			$this->flexxiRates = $flexxiFare;
+			$this->cabType	   = ($svcVct == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? VehicleCategory::SHARED_SEDAN_ECONOMIC : $this->cabType;
 		}
 	}
 
@@ -386,8 +392,8 @@ class Quote
 
 	public function getNearestRates($cabType)
 	{
-		$route	 = $this->routes[0];
-		$res	 = Route::getNearestRates($route->brt_from_city_id, $route->brt_to_city_id, $cabType);
+		$route = $this->routes[0];
+		$res   = Route::getNearestRates($route->brt_from_city_id, $route->brt_to_city_id, $cabType);
 		Logger::info("Route::getNearestRates fcity-tcity: " . $route->brt_from_city_id . "-" . $route->brt_to_city_id . " cabtype: " . $cabType);
 		Logger::info("Route::getNearestRates results: " . json_encode($res));
 //        if ($res)
@@ -413,20 +419,20 @@ class Quote
 		{
 			goto end;
 		}
-		$parentCabType	 = $svcModel->scv_parent_id;
-		$res			 = $this->getNearestRates($parentCabType);
+		$parentCabType = $svcModel->scv_parent_id;
+		$res		   = $this->getNearestRates($parentCabType);
 		if ($res)
 		{
 			$toCityId = (in_array($this->tripType, [9, 10, 11]) || $this->routes[count($this->routes) - 1]->brt_to_city_id == "") ? $this->routes[0]->brt_from_city_id : $this->routes[count($this->routes) - 1]->brt_to_city_id;
 			if ($this->tripType == 5)
 			{
-				$res['base_prt_vendor_amt']	 = $res['prt_vendor_amt'];
-				$res['prt_vendor_amt']		 = ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $cabType, $res['prt_vendor_amt']);
+				$res['base_prt_vendor_amt'] = $res['prt_vendor_amt'];
+				$res['prt_vendor_amt']		= ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $cabType, $res['prt_vendor_amt']);
 				goto end;
 			}
-			$res['base_rte_vendor_amount']	 = (isset($res['base_rte_vendor_amount']) && $res['base_rte_vendor_amount'] > 0) ? $res['base_rte_vendor_amount'] : $res['rte_vendor_amount'];
-			$otherCharges					 = $res['rte_toll_tax'] + $res['rte_state_tax'];
-			$baseAmount						 = $res['rte_vendor_amount'] - $otherCharges;
+			$res['base_rte_vendor_amount'] = (isset($res['base_rte_vendor_amount']) && $res['base_rte_vendor_amount'] > 0) ? $res['base_rte_vendor_amount'] : $res['rte_vendor_amount'];
+			$otherCharges				   = $res['rte_toll_tax'] + $res['rte_state_tax'];
+			$baseAmount					   = $res['rte_vendor_amount'] - $otherCharges;
 
 			$res['rte_vendor_amount'] = ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $toCityId, $cabType, $baseAmount) + $otherCharges;
 		}
@@ -442,22 +448,22 @@ class Quote
 		{
 			goto end;
 		}
-		$parentCabType	 = $svcModel->scv_parent_id;
-		$res			 = $this->getRates($checkNearestRoute, $parentCabType);
+		$parentCabType = $svcModel->scv_parent_id;
+		$res		   = $this->getRates($checkNearestRoute, $parentCabType);
 		if ($res)
 		{
 			$toCityId = (in_array($this->tripType, [9, 10, 11]) || $this->routes[count($this->routes) - 1]->brt_to_city_id == "") ? $this->routes[0]->brt_from_city_id : $this->routes[count($this->routes) - 1]->brt_to_city_id;
 			if ($this->tripType == 5)
 			{
-				$res['base_prt_vendor_amt']	 = $res['prt_vendor_amt'];
-				$res['prt_vendor_amt']		 = ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $cabType, $res['prt_vendor_amt']);
+				$res['base_prt_vendor_amt'] = $res['prt_vendor_amt'];
+				$res['prt_vendor_amt']		= ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $cabType, $res['prt_vendor_amt']);
 				goto end;
 			}
-			$res['base_rte_vendor_amount']	 = (isset($res['base_rte_vendor_amount']) && $res['base_rte_vendor_amount'] > 0) ? $res['base_rte_vendor_amount'] : $res['rte_vendor_amount'];
-			$otherCharges					 = $res['rte_toll_tax'] + $res['rte_state_tax'];
-			$baseAmount						 = $res['rte_vendor_amount'] - $otherCharges;
+			$res['base_rte_vendor_amount'] = (isset($res['base_rte_vendor_amount']) && $res['base_rte_vendor_amount'] > 0) ? $res['base_rte_vendor_amount'] : $res['rte_vendor_amount'];
+			$otherCharges				   = $res['rte_toll_tax'] + $res['rte_state_tax'];
+			$baseAmount					   = $res['rte_vendor_amount'] - $otherCharges;
 			Logger::info("Quote::getFromParentRates before markup rte_vendor_amount: " . $res['rte_vendor_amount']);
-			$res['rte_vendor_amount']		 = ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $toCityId, $cabType, $baseAmount) + $otherCharges;
+			$res['rte_vendor_amount']	   = ServiceClassRule::getRateWithMarkUp($this->routes[0]->brt_from_city_id, $toCityId, $cabType, $baseAmount) + $otherCharges;
 			Logger::info("Quote::getFromParentRates after markup rte_vendor_amount: " . $res['rte_vendor_amount']);
 		}
 		end:
@@ -484,11 +490,11 @@ class Quote
 				throw new Exception("City or Cab Type not supported", 102);
 			}
 
-			$this->servingRoute['start']	 = $res['start'];
-			$this->servingRoute['end']		 = $res['end'];
-			$this->servingRoute['pickup']	 = $route->brt_from_city_id;
-			$this->servingRoute['drop']		 = $route->brt_to_city_id;
-			$this->toCities					 = [$this->servingRoute['drop'], $res['end']];
+			$this->servingRoute['start']  = $res['start'];
+			$this->servingRoute['end']	  = $res['end'];
+			$this->servingRoute['pickup'] = $route->brt_from_city_id;
+			$this->servingRoute['drop']	  = $route->brt_to_city_id;
+			$this->toCities				  = [$this->servingRoute['drop'], $res['end']];
 
 			$extraGarageDistance = $res['extraDistance'];
 			$extraEndDistance	 = $extraGarageDistance - $res['extraStartDistance'];
@@ -514,8 +520,8 @@ class Quote
 			$extraGarageDistance = max([$extraGarageDistance, 0]);
 
 			$route->calculateDistance();
-			$tripDistance	 = $route->brt_trip_distance;
-			$quotedDistance	 = max([$tripDistance, $res['quotedDistance']]);
+			$tripDistance	= $route->brt_trip_distance;
+			$quotedDistance = max([$tripDistance, $res['quotedDistance']]);
 
 			//Logger::trace("trip distance====" . $tripDistance . "====quoted distance===" . $quotedDistance);
 			if ($quotedDistance >= $res['rateDistance'])
@@ -526,12 +532,12 @@ class Quote
 			{
 				$extraDistance = max([$res['rateDistance'] - $quotedDistance, 0]);
 			}
-			$extraRequiredDistance	 = max([0, $this->minRequiredKms - $quotedDistance]);
-			$quotedDistance			 = $quotedDistance + $extraRequiredDistance;
-			$extraDistance			 += $extraRequiredDistance;
+			$extraRequiredDistance = max([0, $this->minRequiredKms - $quotedDistance]);
+			$quotedDistance		   = $quotedDistance + $extraRequiredDistance;
+			$extraDistance		   += $extraRequiredDistance;
 
-			$extraGarageFare	 = round($extraGarageDistance * max([$this->priceRule->prr_rate_per_km * 0.8, 5]));
-			$extraDistanceFare	 = $extraDistance * $this->priceRule->prr_rate_per_km;
+			$extraGarageFare   = round($extraGarageDistance * max([$this->priceRule->prr_rate_per_km * 0.8, 5]));
+			$extraDistanceFare = $extraDistance * $this->priceRule->prr_rate_per_km;
 			Logger::info("extraDistance: " . $extraDistance . " extraDistanceFare:" . $extraDistanceFare);
 			if ($this->usedParentCabPrice && $this->cabQuotes != [])
 			{
@@ -548,18 +554,18 @@ class Quote
 			$routeDesc[]						 = $route->brtToCity->cty_name;
 			$this->routeDistance->routeDesc		 = $routeDesc;
 
-			$endDate								 = new DateTime($route->brt_pickup_datetime);
+			$endDate							  = new DateTime($route->brt_pickup_datetime);
 			$endDate->add(new DateInterval('PT' . $route->brt_trip_duration . 'M'));
-			$routeDuration							 = new RouteDuration();
-			$routeDuration->fromDate				 = $route->brt_pickup_datetime;
-			$routeDuration->toDate					 = $endDate->format('Y-m-d H:i:s');
+			$routeDuration						  = new RouteDuration();
+			$routeDuration->fromDate			  = $route->brt_pickup_datetime;
+			$routeDuration->toDate				  = $endDate->format('Y-m-d H:i:s');
 			$routeDuration->calculate();
-			$this->routeDuration					 = $routeDuration;
-			$this->routeDuration->tripDuration		 = $res['rut_estm_time'];
-			$this->routeDuration->garageTimeStart	 = $res['startTime'];
-			$this->routeDuration->garageTimeEnd		 = $res['endTime'];
+			$this->routeDuration				  = $routeDuration;
+			$this->routeDuration->tripDuration	  = $res['rut_estm_time'];
+			$this->routeDuration->garageTimeStart = $res['startTime'];
+			$this->routeDuration->garageTimeEnd	  = $res['endTime'];
 			step2:
-			$prtRes									 = PartnerRate::model()->getRates($route->brt_from_city_id, $route->brt_to_city_id, $this->cabType, $pid);
+			$prtRes								  = PartnerRate::model()->getRates($route->brt_from_city_id, $route->brt_to_city_id, $this->cabType, $pid);
 
 			if ($prtRes)
 			{
@@ -584,26 +590,26 @@ class Quote
 				$diffMarkup = $res['rte_vendor_amount'] - $res['base_rte_vendor_amount'];
 			}
 			Logger::info("extraDistanceFare: fcity-tcity: " . $route->brt_from_city_id . "-" . $route->brt_to_city_id . " " . $extraDistanceFare);
-			$this->routeRates->classMarkup				 = $diffMarkup;
-			$this->routeRates->parentCost				 = $res['base_rte_vendor_amount'];
-			$this->routeRates->vendorAmount				 = $res['rte_vendor_amount'] + $extraGarageFare + $extraDistanceFare;
-			$this->routeRates->oldVendorAmount			 = $res['rte_vendor_amount'];
-			$this->routeRates->tollTaxAmount			 = $res['rte_toll_tax'];
-			$this->routeRates->stateTax					 = $res['rte_state_tax'];
-			$this->routeRates->ignoreDayDriverAllowance	 = true;
-			$this->routeRates->isTollIncluded			 = 1;
-			$this->routeRates->isStateTaxIncluded		 = 1;
-			$this->routeRates->rateMarkup				 = $res['rte_minimum_markup'];
-			$this->routeRates->costPerKM				 = $this->priceRule->prr_rate_per_km;
-			$this->routeRates->ratePerKM				 = $this->priceRule->prr_rate_per_km_extra;
-			$this->routeRates->extraPerMinCharge		 = $this->priceRule->prr_rate_per_minute_extra;
+			$this->routeRates->classMarkup				= $diffMarkup;
+			$this->routeRates->parentCost				= $res['base_rte_vendor_amount'];
+			$this->routeRates->vendorAmount				= $res['rte_vendor_amount'] + $extraGarageFare + $extraDistanceFare;
+			$this->routeRates->oldVendorAmount			= $res['rte_vendor_amount'];
+			$this->routeRates->tollTaxAmount			= $res['rte_toll_tax'];
+			$this->routeRates->stateTax					= $res['rte_state_tax'];
+			$this->routeRates->ignoreDayDriverAllowance = true;
+			$this->routeRates->isTollIncluded			= 1;
+			$this->routeRates->isStateTaxIncluded		= 1;
+			$this->routeRates->rateMarkup				= $res['rte_minimum_markup'];
+			$this->routeRates->costPerKM				= $this->priceRule->prr_rate_per_km;
+			$this->routeRates->ratePerKM				= $this->priceRule->prr_rate_per_km_extra;
+			$this->routeRates->extraPerMinCharge		= $this->priceRule->prr_rate_per_minute_extra;
 			//$this->routeRates->extraPerMin               = $this->priceRule->prr_rate_per_minute;
 
 			if ($this->routeRates->partnerFixedAmount)
 			{
-				$this->routeRates->isTollIncluded		 = $prtRes['prt_is_toll_included'];
-				$this->routeRates->isStateTaxIncluded	 = $prtRes['prt_is_state_included'];
-				$this->routeRates->rateMarkup			 = 0;
+				$this->routeRates->isTollIncluded	  = $prtRes['prt_is_toll_included'];
+				$this->routeRates->isStateTaxIncluded = $prtRes['prt_is_state_included'];
+				$this->routeRates->rateMarkup		  = 0;
 				$this->routeRates->addAirportCharges($route, $this->includeAirportCharges);
 			}
 			else
@@ -638,10 +644,10 @@ class Quote
 	public function calculatePackage($includeNightAllowance = true, $rateAddedonly = false)
 	{
 		/* @var $route BookingRoute */
-		$route				 = $this->routes;
-		$checkNearestRoute	 = false;
-		$res				 = $this->getRates($checkNearestRoute, $this->cabType);
-		$success			 = false;
+		$route			   = $this->routes;
+		$checkNearestRoute = false;
+		$res			   = $this->getRates($checkNearestRoute, $this->cabType);
+		$success		   = false;
 		if ($res['pck_id'] && (!$rateAddedonly || $res['prt_package_rate'] > 0))
 		{
 			$this->priceRule = PriceRule::getByCity($res['firstFromCity'], $this->tripType, $this->cabType, $this->destinationCity);
@@ -649,11 +655,11 @@ class Quote
 			{
 				throw new Exception("City or Cab Type not supported", ReturnSet::ERROR_INVALID_DATA);
 			}
-			$this->servingRoute['start']	 = $res['firstFromCity'];
-			$this->servingRoute['end']		 = $res['lastToCity'];
-			$this->servingRoute['pickup']	 = $res['firstFromCity'];
-			$this->servingRoute['drop']		 = $res['lastToCity'];
-			$this->toCities					 = [$this->servingRoute['drop'], $res['lastToCity']];
+			$this->servingRoute['start']  = $res['firstFromCity'];
+			$this->servingRoute['end']	  = $res['lastToCity'];
+			$this->servingRoute['pickup'] = $res['firstFromCity'];
+			$this->servingRoute['drop']	  = $res['lastToCity'];
+			$this->toCities				  = [$this->servingRoute['drop'], $res['lastToCity']];
 
 			//$extraDistanceFare				 = $res['extraDistance'] * $this->priceRule->prr_rate_per_km;
 			$this->routeDistance->quotedDistance = $res['pck_km_included'];
@@ -667,13 +673,13 @@ class Quote
 				$routeDesc[] = $rt->brtToCity->cty_name;
 			}
 //			$routeDesc[]					 = $route[count($route) - 1]->brtToCity->cty_name;
-			$this->routeDistance->routeDesc	 = $routeDesc;
-			$durationDetail					 = PackageDetails::model()->getTotalDuration($this->packageID);
+			$this->routeDistance->routeDesc = $routeDesc;
+			$durationDetail					= PackageDetails::model()->getTotalDuration($this->packageID);
 
 			$totDuration = max([$res['pck_min_included'], $durationDetail['totDuration']]);
 
-			$pickDateTime	 = $route[0]->brt_pickup_datetime;
-			$startDateTime	 = new DateTime($pickDateTime);
+			$pickDateTime  = $route[0]->brt_pickup_datetime;
+			$startDateTime = new DateTime($pickDateTime);
 
 			$endDate = $startDateTime->add(new DateInterval('PT' . $totDuration . 'M'));
 
@@ -682,29 +688,29 @@ class Quote
 			$routeDuration->toDate	 = $endDate->format('Y-m-d H:i:s');
 			$routeDuration->calculate();
 
-			$this->routeDuration				 = $routeDuration;
-			$this->routeDuration->tripDuration	 = $totDuration;
+			$this->routeDuration			   = $routeDuration;
+			$this->routeDuration->tripDuration = $totDuration;
 			//$this->routeDuration->garageTimeStart		 = $res['startTime'];
 			//$this->routeDuration->garageTimeEnd			 = $res['endTime'];
 			if ($res['prt_package_rate'] > 0)
 			{
-				$success									 = true;
-				$this->routeRates->vendorAmount				 = $res['prt_vendor_amt'] | 0;
-				$this->routeRates->tollTaxAmount			 = $res['prt_toll_tax'] | 0;
-				$this->routeRates->stateTax					 = $res['prt_state_tax'] | 0;
-				$this->routeRates->driverAllowance			 = $res['prt_driver_allowance'] | 0;
-				$this->routeRates->parkingAmount			 = $res['prt_parking'] | 0;
+				$success									= true;
+				$this->routeRates->vendorAmount				= $res['prt_vendor_amt'] | 0;
+				$this->routeRates->tollTaxAmount			= $res['prt_toll_tax'] | 0;
+				$this->routeRates->stateTax					= $res['prt_state_tax'] | 0;
+				$this->routeRates->driverAllowance			= $res['prt_driver_allowance'] | 0;
+				$this->routeRates->parkingAmount			= $res['prt_parking'] | 0;
 				//$this->routeRates->rateMarkup				 = $res['rte_minimum_markup'];
-				$this->routeRates->ignoreDayDriverAllowance	 = true;
-				$this->routeRates->costPerKM				 = $this->priceRule->prr_rate_per_km;
-				$this->routeRates->ratePerKM				 = $res['prt_rate_per_km'];
-				$this->routeRates->extraPerMinCharge		 = $this->priceRule->prr_rate_per_km_extra;
+				$this->routeRates->ignoreDayDriverAllowance = true;
+				$this->routeRates->costPerKM				= $this->priceRule->prr_rate_per_km;
+				$this->routeRates->ratePerKM				= $res['prt_rate_per_km'];
+				$this->routeRates->extraPerMinCharge		= $this->priceRule->prr_rate_per_km_extra;
 				//$this->routeRates->extraPerMin               = $this->priceRule->prr_rate_per_minute;
 				if ($res['prt_isIncluded'] == 1)
 				{
-					$taxes									 = $this->routeRates->tollTaxAmount + $this->routeRates->stateTax;
-					$this->routeRates->isTollIncluded		 = 1;
-					$this->routeRates->isStateTaxIncluded	 = 1;
+					$taxes								  = $this->routeRates->tollTaxAmount + $this->routeRates->stateTax;
+					$this->routeRates->isTollIncluded	  = 1;
+					$this->routeRates->isStateTaxIncluded = 1;
 				}
 				else
 				{
@@ -723,9 +729,9 @@ class Quote
 					$parking = 0;
 				}
 
-				$basefare						 = $res['prt_package_rate'] - ($taxes + $parking + $driverAllowance);
-				$this->routeRates->baseAmount	 = $basefare;
-				$this->routeRates->packageID	 = $this->packageID;
+				$basefare					  = $res['prt_package_rate'] - ($taxes + $parking + $driverAllowance);
+				$this->routeRates->baseAmount = $basefare;
+				$this->routeRates->packageID  = $this->packageID;
 			}
 			else
 			{
@@ -746,29 +752,29 @@ class Quote
 	public function calculatePartnerAT()
 	{
 		/* @var $route BookingRoute */
-		$route			 = $this->routes[0];
-		$atTransferType	 = 0;
+		$route			= $this->routes[0];
+		$atTransferType = 0;
 		if ($route->brtFromCity->cty_is_airport == 1)
 		{
-			$atTransferType	 = 1;
-			$airportId		 = $route->brt_from_city_id;
+			$atTransferType = 1;
+			$airportId		= $route->brt_from_city_id;
 		}
 		if ($route->brtToCity->cty_is_airport == 1)
 		{
-			$atTransferType	 = 2;
-			$airportId		 = $route->brt_to_city_id;
+			$atTransferType = 2;
+			$airportId		= $route->brt_to_city_id;
 		}
 		if ($atTransferType == 0 || $airportId == null)
 		{
 			return false;
 		}
 
-		$tripDistance	 = $route->brt_trip_distance;
-		$quotedDistance	 = max([0, $this->minRequiredKms, $tripDistance]);
+		$tripDistance	= $route->brt_trip_distance;
+		$quotedDistance = max([0, $this->minRequiredKms, $tripDistance]);
 		Logger::trace("trip distance =>" . $quotedDistance . "from city" . $route->brt_from_city_id . "to_city" . $route->brt_to_city_id);
 
-		$spiceId	 = Config::get('spicejet.partner.id');
-		$sugerboxId	 = Config::get('sugerbox.partner.id');
+		$spiceId	= Config::get('spicejet.partner.id');
+		$sugerboxId = Config::get('sugerbox.partner.id');
 		if (($this->partnerId == $spiceId || $this->partnerId == $sugerboxId) && $this->minRequiredKms > 0)
 		{
 			$quotedDistance = min([$this->minRequiredKms, $tripDistance]);
@@ -786,16 +792,16 @@ class Quote
 
 			$extraKmRate = $patRes['pat_extra_per_km_rate'];
 
-			$extraDistance		 = max([$quotedDistance - $kmInData, 0]);
-			$extraDistanceFare	 = $extraDistance * $extraKmRate;
+			$extraDistance	   = max([$quotedDistance - $kmInData, 0]);
+			$extraDistanceFare = $extraDistance * $extraKmRate;
 
 //			$this->routeRates->calculateSellBaseFromTotal($patRes['pat_total_fare']);
 //			$fixedBasePrice	 = $this->routeRates->fixedBaseAmount;
 //			$basefare		 = $fixedBasePrice + $extraDistanceFare;
 			$this->routeRates->addAirportCharges($route, $is_airport_fee_included);
-			$totalfare	 = $patRes['pat_total_fare'] + $extraDistanceFare;
+			$totalfare = $patRes['pat_total_fare'] + $extraDistanceFare;
 			$this->routeRates->calculateSellBaseFromTotal($totalfare, $this->partnerId, $this->tripType);
-			$basefare	 = $this->routeRates->fixedBaseAmount;
+			$basefare  = $this->routeRates->fixedBaseAmount;
 
 			$this->routeDistance->quotedDistance = $quotedDistance;
 			$this->servingRoute['start']		 = $route->brt_from_city_id;
@@ -815,14 +821,14 @@ class Quote
 			$this->routeRates->costPerKM		 = round(($extraKmRate / ( 1 + (0.01 * $staxrate))), 0);
 			$this->routeDistance->routeDesc		 = $routeDesc;
 
-			$this->routeRates->partnerFixedAmount		 = true;
-			$this->routeRates->isStateTaxIncluded		 = 1;
-			$this->routeRates->isTollIncluded			 = 1;
-			$this->routeRates->isNightAllowanceIncluded	 = 1;
-			$this->routeRates->isDayAllowanceIncluded	 = 1;
-			$this->routeRates->isNightDropIncluded		 = 1;
-			$this->routeRates->isNightPickupIncluded	 = 1;
-			$this->routeRates->driverNightAllowance		 = 0;
+			$this->routeRates->partnerFixedAmount		= true;
+			$this->routeRates->isStateTaxIncluded		= 1;
+			$this->routeRates->isTollIncluded			= 1;
+			$this->routeRates->isNightAllowanceIncluded = 1;
+			$this->routeRates->isDayAllowanceIncluded	= 1;
+			$this->routeRates->isNightDropIncluded		= 1;
+			$this->routeRates->isNightPickupIncluded	= 1;
+			$this->routeRates->driverNightAllowance		= 0;
 
 			$vendorAmount = round($patRes['pat_vendor_amount'] + ($extraDistanceFare * 0.8));
 
@@ -858,27 +864,27 @@ class Quote
 	public function calculateLocalTransferPackage()
 	{
 		/* @var $route BookingRoute */
-		$route			 = $this->routes[0];
-		$transferType	 = 0;
+		$route		  = $this->routes[0];
+		$transferType = 0;
 		if (in_array($route->brtFromCity->cty_poi_type, [1, 2]))
 		{
-			$transferType	 = 1;
-			$poiCityId		 = $route->brt_from_city_id;
-			$ctyType		 = $route->brtFromCity->cty_poi_type;
+			$transferType = 1;
+			$poiCityId	  = $route->brt_from_city_id;
+			$ctyType	  = $route->brtFromCity->cty_poi_type;
 		}
 		if (in_array($route->brtToCity->cty_poi_type, [1, 2]))
 		{
-			$transferType	 = 2;
-			$poiCityId		 = $route->brt_to_city_id;
-			$ctyType		 = $route->brtToCity->cty_poi_type;
+			$transferType = 2;
+			$poiCityId	  = $route->brt_to_city_id;
+			$ctyType	  = $route->brtToCity->cty_poi_type;
 		}
 		if ($transferType == 0 || $poiCityId == null || $ctyType == 0)
 		{
 			return false;
 		}
 
-		$tripDistance	 = $route->brt_trip_distance;
-		$quotedDistance	 = max([0, $this->minRequiredKms, $tripDistance]);
+		$tripDistance	= $route->brt_trip_distance;
+		$quotedDistance = max([0, $this->minRequiredKms, $tripDistance]);
 
 		$ltpRes	 = LocalTransferPackage::getRates($this->partnerId, $poiCityId, $transferType, $this->cabType, $quotedDistance, $ctyType);
 		$success = false;
@@ -888,8 +894,8 @@ class Quote
 
 			$extraKmRate = $ltpRes['ltp_extra_per_km_rate'];
 
-			$extraDistance		 = max([$quotedDistance - $kmInData, 0]);
-			$extraDistanceFare	 = $extraDistance * $extraKmRate;
+			$extraDistance	   = max([$quotedDistance - $kmInData, 0]);
+			$extraDistanceFare = $extraDistance * $extraKmRate;
 
 			$this->routeRates->parkingAmount = ($ltpRes['ltp_parking_included'] == 1) ? $ltpRes['ltp_parking_charge'] : 0;
 			$totalfare						 = $ltpRes['ltp_total_fare'] + $extraDistanceFare;
@@ -914,14 +920,14 @@ class Quote
 			$this->routeRates->costPerKM		 = round(($extraKmRate / ( 1 + (0.01 * $staxrate))), 0);
 			$this->routeDistance->routeDesc		 = $routeDesc;
 
-			$this->routeRates->partnerFixedAmount		 = true;
-			$this->routeRates->isStateTaxIncluded		 = 1;
-			$this->routeRates->isTollIncluded			 = 1;
-			$this->routeRates->isNightAllowanceIncluded	 = 1;
-			$this->routeRates->isDayAllowanceIncluded	 = 1;
-			$this->routeRates->isNightDropIncluded		 = 1;
-			$this->routeRates->isNightPickupIncluded	 = 1;
-			$this->routeRates->driverNightAllowance		 = 0;
+			$this->routeRates->partnerFixedAmount		= true;
+			$this->routeRates->isStateTaxIncluded		= 1;
+			$this->routeRates->isTollIncluded			= 1;
+			$this->routeRates->isNightAllowanceIncluded = 1;
+			$this->routeRates->isDayAllowanceIncluded	= 1;
+			$this->routeRates->isNightDropIncluded		= 1;
+			$this->routeRates->isNightPickupIncluded	= 1;
+			$this->routeRates->driverNightAllowance		= 0;
 
 			$vendorAmount = round($ltpRes['ltp_vendor_amount'] + ($extraDistanceFare * 0.8));
 
@@ -970,15 +976,15 @@ class Quote
 	{
 		$this->excludedCabTypes = SvcClassVhcCat::getExcludedCabTypes($this->routes[0]->brt_from_city_id, $this->routes[count($this->routes) - 1]->brt_to_city_id);
 
-		$cabTypeList	 = (is_array($cabType)) ? $cabType : $this::getCabTypeArr();
-		$availableList	 = array_diff($cabTypeList, $this->excludedCabTypes);
+		$cabTypeList   = (is_array($cabType)) ? $cabType : $this::getCabTypeArr();
+		$availableList = array_diff($cabTypeList, $this->excludedCabTypes);
 		return $availableList;
 	}
 
 	public function isCabTypeSupported($cabType)
 	{
-		$success				 = true;
-		$this->excludedCabTypes	 = SvcClassVhcCat::getExcludedCabTypes($this->routes[0]->brt_from_city_id, $this->routes[count($this->routes) - 1]->brt_to_city_id);
+		$success				= true;
+		$this->excludedCabTypes = SvcClassVhcCat::getExcludedCabTypes($this->routes[0]->brt_from_city_id, $this->routes[count($this->routes) - 1]->brt_to_city_id);
 
 		$cabTypes = ServiceClassRule::filterCabsByRule($this->sourceCity, $this->destinationCity, $this->tripType, [$cabType]);
 
@@ -1000,8 +1006,8 @@ class Quote
 	public function getQuote($cabs = '', $priceSurge = true, $includeNightAllowance = true, $checkBestRate = false, $isAllowed = false)
 	{
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
-		$this->sourceCity		 = $this->routes[0]->brt_from_city_id;
-		$this->destinationCity	 = end($this->routes)->brt_to_city_id;
+		$this->sourceCity	   = $this->routes[0]->brt_from_city_id;
+		$this->destinationCity = end($this->routes)->brt_to_city_id;
 		if ($this->destinationCity == '')
 		{
 			$this->destinationCity = 0;
@@ -1019,8 +1025,8 @@ class Quote
 			}
 			else
 			{
-				$cabTypes	 = $this->filterCabType($cabs);
-				$cabTypes	 = ServiceClassRule::filterCabsByRule($this->sourceCity, $this->destinationCity, $this->tripType, $cabTypes);
+				$cabTypes = $this->filterCabType($cabs);
+				$cabTypes = ServiceClassRule::filterCabsByRule($this->sourceCity, $this->destinationCity, $this->tripType, $cabTypes);
 			}
 		}
 		if (count($cabTypes) == 0)
@@ -1042,10 +1048,10 @@ class Quote
 			}
 			$model = $this->processCabType($cabType, $priceSurge, $includeNightAllowance, $checkBestRate);
 
-			$sql			 = "SELECT svc.scv_scc_id FROM svc_class_vhc_cat svc
+			$sql		  = "SELECT svc.scv_scc_id FROM svc_class_vhc_cat svc
 					-- INNER JOIN service_class scc ON svc.scv_scc_id=scc_id
 					WHERE scv_id=:cabId";
-			$serviceClass	 = DBUtil::queryScalar($sql, DBUtil::SDB(), ["cabId" => $cabType]);
+			$serviceClass = DBUtil::queryScalar($sql, DBUtil::SDB(), ["cabId" => $cabType]);
 
 			if (!in_array($this->tripType, array(9, 10, 11)))
 			{
@@ -1054,9 +1060,9 @@ class Quote
 			$result = Vendors::getCountByCity($this->routes[0]->brt_from_city_id);
 			if (!$result)
 			{
-				$model->success		 = false;
-				$model->errorCode	 = ReturnSet::ERROR_REQUEST_CANNOT_PROCEED;
-				$model->errorText	 = "Trip type not supported for this city.";
+				$model->success	  = false;
+				$model->errorCode = ReturnSet::ERROR_REQUEST_CANNOT_PROCEED;
+				$model->errorText = "Trip type not supported for this city.";
 			}
 
 			skipDRCityCheck:
@@ -1070,9 +1076,9 @@ class Quote
 			$distance = max([$model->routeDistance->totalRunning, $model->routeDistance->quotedDistance]);
 			if ($distance > $maxCNGLimit && $serviceClass == 6 && $model->success)
 			{
-				$model->success		 = false;
-				$model->errorCode	 = ReturnSet::ERROR_REQUEST_CANNOT_PROCEED;
-				$model->errorText	 = "Cab type not supported for this route. (Maximum limit exceeded for CNG)";
+				$model->success	  = false;
+				$model->errorCode = ReturnSet::ERROR_REQUEST_CANNOT_PROCEED;
+				$model->errorText = "Cab type not supported for this route. (Maximum limit exceeded for CNG)";
 			}
 			$GLOBALS[$key] = $model;
 
@@ -1080,8 +1086,8 @@ class Quote
 
 			if ($model->success || $this->showErrorQuotes)
 			{
-				$this->cabQuotes[$model->skuId]	 = $model;
-				$this->routeDistance			 = $model->routeDistance;
+				$this->cabQuotes[$model->skuId] = $model;
+				$this->routeDistance			= $model->routeDistance;
 
 				$this->routeDuration = $model->routeDuration;
 			}
@@ -1093,9 +1099,9 @@ class Quote
 		//Logger::trace("from city===" . $this->routes[0]->brt_from_city_id . "====to city======" . $this->routes[count($this->routes) - 1]->brt_to_city_id);
 		//Logger::trace("trip distance======>" . $this->routes[0]->brt_trip_distance);
 
-		$tableName	 = "nearest_route_" . $this->sourceCity . "_" . $this->destinationCity;
+		$tableName = "nearest_route_" . $this->sourceCity . "_" . $this->destinationCity;
 		DBUtil::dropTempTable($tableName);
-		$tableName	 = "GarageRoute_{$this->sourceCity}_{$this->destinationCity}";
+		$tableName = "GarageRoute_{$this->sourceCity}_{$this->destinationCity}";
 		DBUtil::dropTempTable($tableName);
 		if ($this->suggestedPrice != 1)
 		{
@@ -1104,9 +1110,9 @@ class Quote
 		if ($isAllowed)
 		{
 			// booking confirm request saved for Iread Start
-			$IReadBooking	 = new Stub\common\IReadBooking();
-			$IReadBooking	 = $IReadBooking->setData($this, $cabs);
-			$IReadresponse	 = Filter::removeNull($IReadBooking);
+			$IReadBooking  = new Stub\common\IReadBooking();
+			$IReadBooking  = $IReadBooking->setData($this, $cabs);
+			$IReadresponse = Filter::removeNull($IReadBooking);
 			IRead::setQuoteRequest($IReadresponse);
 			// booking confirm requst saved for Iread Ends
 		}
@@ -1132,9 +1138,9 @@ class Quote
 		{
 			return;
 		}
-		$routes		 = $this->routes;
-		$startCity	 = $routes[0]->brt_from_city_id;
-		$endCity	 = $routes[count($routes) - 1]->brt_to_city_id;
+		$routes	   = $this->routes;
+		$startCity = $routes[0]->brt_from_city_id;
+		$endCity   = $routes[count($routes) - 1]->brt_to_city_id;
 
 		if ($startCity == $endCity)
 		{
@@ -1157,20 +1163,21 @@ class Quote
 	{
 		try
 		{
-			$isFixedPrice								 = false;
-			$model										 = clone $this;
-			$model->success								 = true;
+			$isFixedPrice							  = false;
+			$model									  = clone $this;
+			$model->success							  = true;
 			$model->isCabTypeSupported($cabType);
-			$model->processedTripType					 = $this->tripType;
-			$model->routeDistance						 = new RouteDistance();
-            //$model->routeDuration			             = new RouteDuration();
-			$model->routeRates							 = new RouteRates();
-			$model->routeRates->includeNightAllowance	 = $includeNightAllowance;
-			$model->routeRates->applySurge				 = $priceSurge;
-			$model->routeRates->checkBestRate			 = $checkBestRate;
-			$model->noofseat							 = $this->noofseat;
-			$model->skuId								 = $cabType;
-			$svcModel									 = SvcClassVhcCat::model()->findByPk($model->skuId);
+			$model->processedTripType				  = $this->tripType;
+			$model->routeDistance					  = new RouteDistance();
+			$model->routeDistance->hyperLocation	  = $model->useHyperLocation;
+			//$model->routeDuration			             = new RouteDuration();
+			$model->routeRates						  = new RouteRates();
+			$model->routeRates->includeNightAllowance = $includeNightAllowance;
+			$model->routeRates->applySurge			  = $priceSurge;
+			$model->routeRates->checkBestRate		  = $checkBestRate;
+			$model->noofseat						  = $this->noofseat;
+			$model->skuId							  = $cabType;
+			$svcModel								  = SvcClassVhcCat::model()->findByPk($model->skuId);
 
 			$addons					 = AddonServiceClassRule::getIdsByCityClassId($this->routes[0]->brt_from_city_id, $svcModel->scv_scc_id);
 			$model->applicableAddons = $addons;
@@ -1178,24 +1185,24 @@ class Quote
 			$model->classId			 = $svcModel->scc_ServiceClass->scc_id;
 			if ($svcModel->scv_model > 0)
 			{
-				$model->vehicleModelId	 = $svcModel->scv_model;
-				$row					 = SvcClassVhcCat::getModelServiceClass($svcModel->scv_id);
-				$cabType				 = $svcModel->scv_id;
+				$model->vehicleModelId = $svcModel->scv_model;
+				$row				   = SvcClassVhcCat::getModelServiceClass($svcModel->scv_id);
+				$cabType			   = $svcModel->scv_id;
 			}
 			$model->cabType = ($cabType == VehicleCategory::SHARED_SEDAN_ECONOMIC) ? VehicleCategory::SEDAN_ECONOMIC : $cabType;
 
 			if ($this->packageID != '')
 			{
-				$model->pckageID	 = $this->packageID;
-				$model->packageName	 = $this->packageName;
-				$model->returnDate	 = $this->returnDate;
+				$model->pckageID	= $this->packageID;
+				$model->packageName = $this->packageName;
+				$model->returnDate	= $this->returnDate;
 			}
 			$tripType = $this->tripType;
 			if ($this->tripType == 12 || $this->tripType == 4 || $tripType == 4)
 			{
-				$model->partnerId	 = ($model->partnerId > 0) ? $model->partnerId : Yii::app()->params['gozoChannelPartnerId'];
-				$isFixedPrice		 = $model->calculatePartnerAT();
-				$model->tripType	 = ($isFixedPrice == true ? 12 : 4);
+				$model->partnerId = ($model->partnerId > 0) ? $model->partnerId : Yii::app()->params['gozoChannelPartnerId'];
+				$isFixedPrice	  = $model->calculatePartnerAT();
+				$model->tripType  = ($isFixedPrice == true ? 12 : 4);
 //				if (!$isFixedPrice)
 //				{
 //					$model->tripType = 4;
@@ -1228,9 +1235,9 @@ class Quote
 		}
 		catch (Exception $e)
 		{
-			$model->success		 = false;
-			$model->errorCode	 = $e->getCode();
-			$model->errorText	 = $e->getMessage();
+			$model->success	  = false;
+			$model->errorCode = $e->getCode();
+			$model->errorText = $e->getMessage();
 			Logger::info($e->getCode() . ": " . $e->getMessage());
 		}
 		return $model;
@@ -1297,12 +1304,12 @@ class Quote
 			{
 				$quote->minRequiredKms = $this->minRequiredKms;
 			}
-			$quote->routes			 = Route::addNeareastReturnRoute($this->routes);
-			$quote->routeDistance	 = new RouteDistance();
-			$quote->routeRates		 = new RouteRates();
-			$quote->tripType		 = 2;
-			$quote->cabType			 = $this->cabType;
-			$quote->priceRule		 = PriceRule::getByCity($this->sourceCity, $quote->tripType, $this->cabType, $this->destinationCity);
+			$quote->routes		  = Route::addNeareastReturnRoute($this->routes);
+			$quote->routeDistance = new RouteDistance();
+			$quote->routeRates	  = new RouteRates();
+			$quote->tripType	  = 2;
+			$quote->cabType		  = $this->cabType;
+			$quote->priceRule	  = PriceRule::getByCity($this->sourceCity, $quote->tripType, $this->cabType, $this->destinationCity);
 			Logger::trace("Quote::calculateRules (TripCheck: Round): " . $quote->priceRule->prr_id . " CabType: " . $this->cabType);
 			$quote->routeDistance->calculateDistance($quote);
 
@@ -1319,23 +1326,23 @@ class Quote
 				}
 
 
-				$this->routeRates					 = $quote->routeRates;
-				$this->priceRule->basePriceRule		 = $quote->priceRule->basePriceRule;
-				$this->routeDuration->calendarDays	 = $quote->routeDuration->calendarDays;
-				$this->routeDuration->pickupTime	 = $quote->routeDuration->pickupTime;
-				$this->routeDuration->dropTime		 = $quote->routeDuration->dropTime;
+				$this->routeRates				   = $quote->routeRates;
+				$this->priceRule->basePriceRule	   = $quote->priceRule->basePriceRule;
+				$this->routeDuration->calendarDays = $quote->routeDuration->calendarDays;
+				$this->routeDuration->pickupTime   = $quote->routeDuration->pickupTime;
+				$this->routeDuration->dropTime	   = $quote->routeDuration->dropTime;
 				Logger::trace("Quote::calculateRules (TripCheck: Round): used" . $quote->priceRule->prr_rate_per_km . " CabType: " . $this->cabType);
 			}
 		}
 		if ($this->priceRule->basePriceRule != null && $this->priceRule->prr_id != $this->priceRule->basePriceRule->prr_id)
 		{
-			$quote							 = clone $this;
-			$quote->routeRates				 = clone $this->routeRates;
-			$quote->priceRule				 = $this->priceRule->basePriceRule;
-			$quote->cabType					 = $quote->priceRule->prr_cab_type;
+			$quote						   = clone $this;
+			$quote->routeRates			   = clone $this->routeRates;
+			$quote->priceRule			   = $this->priceRule->basePriceRule;
+			$quote->cabType				   = $quote->priceRule->prr_cab_type;
 			$quote->calculateRules();
-			$this->routeRates->classMarkup	 = round($this->routeRates->vendorBaseFare - $quote->routeRates->vendorBaseFare);
-			$this->routeRates->parentCost	 = $quote->routeRates->vendorBaseFare;
+			$this->routeRates->classMarkup = round($this->routeRates->vendorBaseFare - $quote->routeRates->vendorBaseFare);
+			$this->routeRates->parentCost  = $quote->routeRates->vendorBaseFare;
 		}
 		$this->routeRates->calculate($this);
 		Logger::info("baseAmount: " . $this->routeRates->baseAmount . " totalAmount: " . $this->routeRates->totalAmount);
@@ -1369,13 +1376,13 @@ class Quote
 
 	public function getAddonRates()
 	{
-		$rates	 = [];
-		$addons	 = explode(',', $this->applicableAddons);
+		$rates	= [];
+		$addons = explode(',', $this->applicableAddons);
 		foreach ($addons as $addon)
 		{
-			$routeRates		 = clone $this->routeRates;
+			$routeRates	   = clone $this->routeRates;
 			$routeRates->applyAddon($addon);
-			$rates[$addon]	 = $routeRates;
+			$rates[$addon] = $routeRates;
 		}
 		return $rates;
 	}
@@ -1390,22 +1397,22 @@ class Quote
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		try
 		{
-			$vctQuotesArr	 = [];
-			$scvIds			 = implode(",", array_keys($quotesArr));
-			$rows			 = SvcClassVhcCat::getClassesByIds($scvIds);
+			$vctQuotesArr = [];
+			$scvIds		  = implode(",", array_keys($quotesArr));
+			$rows		  = SvcClassVhcCat::getClassesByIds($scvIds);
 			if (!$rows)
 			{
 				return false;
 			}
 			foreach ($rows as $row)
 			{
-				$clsQuotes	 = [];
-				$sccIds		 = explode(',', $row['sccIds']);
-				$vctId		 = $row['vctId'];
+				$clsQuotes = [];
+				$sccIds	   = explode(',', $row['sccIds']);
+				$vctId	   = $row['vctId'];
 				foreach ($sccIds as $sccId)
 				{
-					$scvId	 = SvcClassVhcCat::getSvcClassIdByVehicleCat($vctId, $sccId);
-					$quote	 = $quotesArr[$scvId];
+					$scvId = SvcClassVhcCat::getSvcClassIdByVehicleCat($vctId, $sccId);
+					$quote = $quotesArr[$scvId];
 					if ($quote == null)
 					{
 						continue;
@@ -1429,6 +1436,7 @@ class RouteDistance
 
 	public $startDistance, $endDistance, $tripDistance, $garageEndDistance,
 			$totalRunning, $totalGarage, $quotedDistance, $routeDesc, $chargeableDistance;
+	public $hyperLocation = true;
 
 	/**
 	 * @param Quote $quoteModel 
@@ -1441,7 +1449,6 @@ class RouteDistance
 		$startTime		 = 0;
 		$endTime		 = 0;
 		$arrToCity		 = [];
-		$api			 = false;
 		$routeUpdate	 = false;
 		$airportTransfer = false;
 		if ($quoteModel->tripType == 4)
@@ -1451,22 +1458,22 @@ class RouteDistance
 		foreach ($brtRoutes as $brtKey => $brtRoute)
 		{
 			/* @var $brtRoute BookingRoute */
-			$brtRoute->calculateDistance($api, $airportTransfer);
+			$brtRoute->calculateDistance($this->hyperLocation, $airportTransfer);
 
 			if (in_array($quoteModel->tripType, array(9, 10, 11)))
 			{
 				$brtRoute->brt_trip_distance = max($quoteModel->priceRule->prr_min_km, $brtRoute->brt_trip_distance);
 				$brtRoute->brt_trip_duration = $quoteModel->priceRule->prr_min_duration;
 
-				$quoteModel->routes[$brtKey]->brt_trip_distance	 = $brtRoute->brt_trip_distance;
-				$quoteModel->routes[$brtKey]->brt_trip_duration	 = $brtRoute->brt_trip_duration;
-				$quoteModel->routes[$brtKey]->est_date			 = date('Y-m-d H:i:s', strtotime($brtRoute->brt_pickup_datetime . '+ ' . $brtRoute->brt_trip_duration . ' minute'));
+				$quoteModel->routes[$brtKey]->brt_trip_distance = $brtRoute->brt_trip_distance;
+				$quoteModel->routes[$brtKey]->brt_trip_duration = $brtRoute->brt_trip_duration;
+				$quoteModel->routes[$brtKey]->est_date			= date('Y-m-d H:i:s', strtotime($brtRoute->brt_pickup_datetime . '+ ' . $brtRoute->brt_trip_duration . ' minute'));
 			}
 			if ($quoteModel->routes[$brtKey]->brt_from_city_id != $brtRoute->brt_from_city_id || $quoteModel->routes[$brtKey]->brt_to_city_id != $brtRoute->brt_to_city_id)
 			{
-				$quoteModel->routes[$brtKey]->brt_from_city_id	 = $brtRoute->brt_from_city_id;
-				$quoteModel->routes[$brtKey]->brt_to_city_id	 = $brtRoute->brt_to_city_id;
-				$routeUpdate									 = true;
+				$quoteModel->routes[$brtKey]->brt_from_city_id = $brtRoute->brt_from_city_id;
+				$quoteModel->routes[$brtKey]->brt_to_city_id   = $brtRoute->brt_to_city_id;
+				$routeUpdate								   = true;
 			}
 			$arrToCity[] = $brtRoute->brt_to_city_id;
 			$distance	 += $brtRoute->brt_trip_distance;
@@ -1478,14 +1485,14 @@ class RouteDistance
 		{
 			$model->updateRoutes($quoteModel->routes);
 		}
-		$quoteModel->toCities	 = $arrToCity;
-		$this->tripDistance		 = max([$distance, 0]);
-		$startRoute				 = $brtRoutes[0];
+		$quoteModel->toCities = $arrToCity;
+		$this->tripDistance	  = max([$distance, 0]);
+		$startRoute			  = $brtRoutes[0];
 		/** @var BookingRoute $lastRoute */
-		$lastRoute				 = $brtRoutes[count($brtRoutes) - 1];
-		$pickupCity				 = $startRoute->brt_from_city_id;
-		$pickupAddress			 = $startRoute->brt_from_location;
-		$startTripDate			 = $startRoute->brt_pickup_datetime;
+		$lastRoute			  = $brtRoutes[count($brtRoutes) - 1];
+		$pickupCity			  = $startRoute->brt_from_city_id;
+		$pickupAddress		  = $startRoute->brt_from_location;
+		$startTripDate		  = $startRoute->brt_pickup_datetime;
 		if ($lastRoute->brt_return_date_date == NULL || $lastRoute->brt_return_date_date == '1970-01-01')
 		{
 			$endDate = new DateTime($lastRoute->brt_pickup_datetime);
@@ -1521,22 +1528,22 @@ class RouteDistance
 		goto skipGarageCity;
 
 		skipLocalVendorStats:
-		$result						 = $this->getGarageCity($pickupCity, $dropCity, $quoteModel->cabType, $quoteModel->tripType);
-		$sourceCity					 = $result[0]['id'];
-		$destinationCity			 = $result[1]['id'];
-		$destinationCity			 = ($destinationCity == null) ? $dropCity : $destinationCity;
+		$result					  = $this->getGarageCity($pickupCity, $dropCity, $quoteModel->cabType, $quoteModel->tripType);
+		$sourceCity				  = $result[0]['id'];
+		$destinationCity		  = $result[1]['id'];
+		$destinationCity		  = ($destinationCity == null) ? $dropCity : $destinationCity;
 		skipGarageCity:
-		$startDistance				 = 0;
-		$quoteModel->servingRoute	 = ['start' => $sourceCity, 'end' => $dropCity, 'pickup' => $pickupCity, 'drop' => $dropCity];
-		$this->routeDesc			 = $routeDesc;
+		$startDistance			  = 0;
+		$quoteModel->servingRoute = ['start' => $sourceCity, 'end' => $dropCity, 'pickup' => $pickupCity, 'drop' => $dropCity];
+		$this->routeDesc		  = $routeDesc;
 
 		if ($sourceCity != $pickupCity || $pickupAddress != '')
 		{
-			$brtModel					 = new BookingRoute();
-			$brtModel->brt_from_city_id	 = $sourceCity;
-			$brtModel->brt_to_city_id	 = $pickupCity;
-			$brtModel->calculateDistance();
-			$startDistance				 = $brtModel->brt_trip_distance;
+			$brtModel					= new BookingRoute();
+			$brtModel->brt_from_city_id = $sourceCity;
+			$brtModel->brt_to_city_id	= $pickupCity;
+			$brtModel->calculateDistance(false);
+			$startDistance				= $brtModel->brt_trip_distance;
 			if ($sourceCity == $pickupCity)
 			{
 				$startDistance = max([0, $startDistance - 20]);
@@ -1548,26 +1555,26 @@ class RouteDistance
 			}
 		}
 
-		$endDistance	 = 0;
-		$garageDistance	 = 0;
+		$endDistance	= 0;
+		$garageDistance = 0;
 		if ($sourceCity != $dropCity || $dropAddress != '')
 		{
-			$brtModel					 = new BookingRoute();
-			$brtModel->brt_from_city_id	 = $dropCity;
-			$brtModel->brt_to_city_id	 = $sourceCity;
-			$brtModel->calculateDistance();
-			$endDistance				 = $brtModel->brt_trip_distance;
+			$brtModel					= new BookingRoute();
+			$brtModel->brt_from_city_id = $dropCity;
+			$brtModel->brt_to_city_id	= $sourceCity;
+			$brtModel->calculateDistance(false);
+			$endDistance				= $brtModel->brt_trip_distance;
 			if ($destinationCity == $dropCity)
 			{
 				$endDistance = max([0, $endDistance - 20]);
 			}
-			$endTime		 = $brtModel->brt_trip_duration;
-			$garageDistance	 = 0;
+			$endTime		= $brtModel->brt_trip_duration;
+			$garageDistance = 0;
 
 			if ($sourceCity == $dropCity)
 			{
-				$garageDistance	 = 0;
-				$endTime		 = 0;
+				$garageDistance = 0;
+				$endTime		= 0;
 			}
 			else if ($destinationCity == $sourceCity)
 			{
@@ -1576,30 +1583,30 @@ class RouteDistance
 			}
 			else
 			{
-				$brtModel					 = new BookingRoute();
-				$brtModel->brt_from_city_id	 = $dropCity;
-				$brtModel->brt_to_city_id	 = $destinationCity;
-				$brtModel->calculateDistance();
-				$garageDistance				 = min([$brtModel->brt_trip_distance, $endDistance]);
-				$endTime					 = min([$brtModel->brt_trip_duration, $endTime]);
+				$brtModel					= new BookingRoute();
+				$brtModel->brt_from_city_id = $dropCity;
+				$brtModel->brt_to_city_id	= $destinationCity;
+				$brtModel->calculateDistance(false);
+				$garageDistance				= min([$brtModel->brt_trip_distance, $endDistance]);
+				$endTime					= min([$brtModel->brt_trip_duration, $endTime]);
 
 				$quoteModel->servingRoute['end'] = $destinationCity;
 			}
 		}
 
-		$tripDistance					 = max([$this->tripDistance, $quoteModel->minRequiredKms]);
-		$this->totalRunning				 = $startDistance + $tripDistance + $endDistance;
-		$this->endDistance				 = $endDistance;
-		$this->startDistance			 = $startDistance;
-		$this->totalGarage				 = $startDistance + $tripDistance + $garageDistance;
-		$this->garageEndDistance		 = $garageDistance;
-		$this->quotedDistance			 = $tripDistance;
-		$routeDuration					 = new RouteDuration();
-		$routeDuration->fromDate		 = $startTripDate;
-		$routeDuration->toDate			 = $endTripDate;
-		$routeDuration->tripDuration	 = $time;
-		$routeDuration->garageTimeStart	 = $startTime;
-		$routeDuration->garageTimeEnd	 = $endTime;
+		$tripDistance					= max([$this->tripDistance, $quoteModel->minRequiredKms]);
+		$this->totalRunning				= $startDistance + $tripDistance + $endDistance;
+		$this->endDistance				= $endDistance;
+		$this->startDistance			= $startDistance;
+		$this->totalGarage				= $startDistance + $tripDistance + $garageDistance;
+		$this->garageEndDistance		= $garageDistance;
+		$this->quotedDistance			= $tripDistance;
+		$routeDuration					= new RouteDuration();
+		$routeDuration->fromDate		= $startTripDate;
+		$routeDuration->toDate			= $endTripDate;
+		$routeDuration->tripDuration	= $time;
+		$routeDuration->garageTimeStart = $startTime;
+		$routeDuration->garageTimeEnd	= $endTime;
 
 		$routeDuration->calculate();
 		if ($quoteModel->isconvertedToDR == 1)
@@ -1635,21 +1642,21 @@ class RouteDistance
 		if ($result)
 		{
 			return [
-				0	 => ['id' => $result["c2id"], "address" => $result["c2address"]],
-				1	 => ['id' => $result["c4id"], "address" => $result["c4address"]],
+				0 => ['id' => $result["c2id"], "address" => $result["c2address"]],
+				1 => ['id' => $result["c4id"], "address" => $result["c4address"]],
 			];
 		}
 		if ($pickupCity != '' || $pickupCity != null)
 		{
-			$arrPickup				 = $this->nearestRouteCity($pickupCity);
+			$arrPickup			  = $this->nearestRouteCity($pickupCity);
 			Logger::create("Quote getGarageCity 3:\t", CLogger::LEVEL_PROFILE);
-			$arrPickup['address']	 = $result['address'];
-			$pickupcityid			 = $arrPickup['id'];
+			$arrPickup['address'] = $result['address'];
+			$pickupcityid		  = $arrPickup['id'];
 			if ($dropCity != '' || $dropCity != null)
 			{
-				$arrDrop			 = $this->nearestRouteCity($dropCity, $pickupcityid, $cabType, $tripType);
+				$arrDrop			= $this->nearestRouteCity($dropCity, $pickupcityid, $cabType, $tripType);
 				Logger::create("Quote getGarageCity 4:\t", CLogger::LEVEL_PROFILE);
-				$arrDrop['address']	 = $result['address'];
+				$arrDrop['address'] = $result['address'];
 			}
 		}
 		Logger::endProfile(__CLASS__ . "::" . __FUNCTION__);
@@ -1671,8 +1678,8 @@ class RouteDistance
 		}
 		if ($cabType != '')
 		{
-			$cabType	 = SvcClassVhcCat::getLowerClassId($cabType);
-			$condition	 = " AND rate.rte_vehicletype_id IN ($cabType)";
+			$cabType   = SvcClassVhcCat::getLowerClassId($cabType);
+			$condition = " AND rate.rte_vehicletype_id IN ($cabType)";
 		}
 
 		if ($pickupCity == $dropCity)
@@ -1708,7 +1715,7 @@ class RouteDistance
 		else
 		{
 
-			$sql	 = "SELECT 
+			$sql  = "SELECT 
 						fc.cty_id as c2id, 
 						fc.cty_name as c2name, 
 						fc.cty_garage_address as c2address,
@@ -1719,11 +1726,11 @@ class RouteDistance
 						INNER JOIN cities tc ON rut_to_city_id=tc.cty_id
 						INNER JOIN rate on  rate.rte_route_id=route.rut_id $condition
 						WHERE route.rut_from_city_id=$pickupCity AND route.rut_to_city_id=$dropCity AND route.rut_active=1";
-			$data	 = DBUtil::queryRow($sql, DBUtil::SDB(), [], 2 * 24 * 60 * 60, CacheDependency::Type_Routes);
+			$data = DBUtil::queryRow($sql, DBUtil::SDB(), [], 2 * 24 * 60 * 60, CacheDependency::Type_Routes);
 
 			if (!$data)
 			{
-				$sql	 = "
+				$sql  = "
 				SELECT fc.cty_id as c2id, fc.cty_name as c2name, fc.cty_garage_address as c2address, tc.cty_id as c4id, 
 				tc.cty_name as c4name, tc.cty_garage_address as c4address, totalExtraDistance
 					FROM
@@ -1751,7 +1758,7 @@ class RouteDistance
                      ) a
 					INNER JOIN cities fc ON a.rut_from_city_id=fc.cty_id
 					INNER JOIN cities tc ON a.rut_to_city_id=tc.cty_id ORDER BY totalExtraDistance ASC LIMIT 1";
-				$data	 = DBUtil::queryRow($sql, DBUtil::SDB(), [], 2 * 24 * 60 * 60, CacheDependency::Type_Routes);
+				$data = DBUtil::queryRow($sql, DBUtil::SDB(), [], 2 * 24 * 60 * 60, CacheDependency::Type_Routes);
 			}
 
 			if (!$data)
@@ -1854,12 +1861,12 @@ class RouteDistance
 		{
 			throw new Exception("Required data missing for $cityId", ReturnSet::ERROR_INVALID_DATA);
 		}
-		$latitude	 = $cityDetails->cty_lat;
-		$longitude	 = $cityDetails->cty_long;
-		$latitude1	 = $latitude - 0.5;
-		$latitude2	 = $latitude + 0.5;
-		$longitude1	 = $longitude - 0.5;
-		$longitude2	 = $longitude + 0.5;
+		$latitude	= $cityDetails->cty_lat;
+		$longitude	= $cityDetails->cty_long;
+		$latitude1	= $latitude - 0.5;
+		$latitude2	= $latitude + 0.5;
+		$longitude1 = $longitude - 0.5;
+		$longitude2 = $longitude + 0.5;
 
 		$condition = "";
 		if ($tripType == 1)
@@ -1872,9 +1879,9 @@ class RouteDistance
 		}
 		if ($cabType > 0)
 		{
-			$svcIds		 = SvcClassVhcCat::model()->getParentCabWithClass($cabType);
-			$strSvcIds	 = implode(',', $svcIds);
-			$condition1	 .= " AND rte_vehicletype_id IN ($strSvcIds)";
+			$svcIds		= SvcClassVhcCat::model()->getParentCabWithClass($cabType);
+			$strSvcIds	= implode(',', $svcIds);
+			$condition1 .= " AND rte_vehicletype_id IN ($strSvcIds)";
 		}
 
 		$qry = "WITH RateCte AS (SELECT  rte_route_id  FROM rate WHERE  rte_status = 1 $condition1) 
@@ -1889,7 +1896,7 @@ class RouteDistance
 				AND CalcDistance(cty.cty_lat, cty.cty_long, $latitude,$longitude) IS NOT NULL
 				ORDER BY distance LIMIT 0,1";
 
-		$data = DBUtil::queryRow($qry, DBUtil::MDB(), [], 2 * 24 * 60 * 60, CacheDependency::Type_Routes);
+		$data = DBUtil::queryRow($qry, DBUtil::SDB(), [], 2 * 24 * 60 * 60, CacheDependency::Type_Routes);
 		if (!$data)
 		{
 			$data = null;
@@ -1909,24 +1916,24 @@ class RouteDuration
 
 	public function calculate()
 	{
-		$fromDate			 = $this->fromDate;
-		$toDate				 = $this->toDate;
-		$fromData2			 = strtotime($fromDate);
-		$toDate2			 = strtotime($toDate);
-		$this->pickupTime	 = date("His", $fromData2);
-		$this->dropTime		 = date("His", $toDate2);
-		$startDate			 = new DateTime(date('Y-m-d', $fromData2));
-		$endDate			 = new DateTime(date('Y-m-d', $toDate2));
-		$interval			 = $startDate->diff($endDate);
-		$calendarDays		 = $interval->format('%a');
+		$fromDate		  = $this->fromDate;
+		$toDate			  = $this->toDate;
+		$fromData2		  = strtotime($fromDate);
+		$toDate2		  = strtotime($toDate);
+		$this->pickupTime = date("His", $fromData2);
+		$this->dropTime	  = date("His", $toDate2);
+		$startDate		  = new DateTime(date('Y-m-d', $fromData2));
+		$endDate		  = new DateTime(date('Y-m-d', $toDate2));
+		$interval		  = $startDate->diff($endDate);
+		$calendarDays	  = $interval->format('%a');
 
 		$driverRunningDays = $calendarDays;
 		$calendarDays++;
 
 		if ($this->tripDuration > 0)
 		{
-			$cDays				 = ceil($this->tripDuration / 600);
-			$driverRunningDays	 = max([$calendarDays, $cDays]);
+			$cDays			   = ceil($this->tripDuration / 600);
+			$driverRunningDays = max([$calendarDays, $cDays]);
 		}
 
 		$night = $calendarDays - 1;
@@ -1961,8 +1968,8 @@ class RouteDuration
 
 	public function calculateRunningNight()
 	{
-		$totalMinutes	 = $this->totalMinutes + $this->garageTimeEnd;
-		$totalNight		 = ceil($totalMinutes / 600);
+		$totalMinutes = $this->totalMinutes + $this->garageTimeEnd;
+		$totalNight	  = ceil($totalMinutes / 600);
 		return $totalNight;
 	}
 
@@ -2004,9 +2011,9 @@ class RouteDuration
 		}
 
 
-		$this->extraNights				 = $extraNights;
-		$this->extraNightPickupIncluded	 = $nightPickupIncluded;
-		$this->extraNightDropIncluded	 = $nightDropIncluded;
+		$this->extraNights				= $extraNights;
+		$this->extraNightPickupIncluded = $nightPickupIncluded;
+		$this->extraNightDropIncluded	= $nightDropIncluded;
 		if ($quoteModel->priceRule->prr_day_driver_allowance > 0 && !$quoteModel->routeRates->ignoreDayDriverAllowance)
 		{
 			$night = 0;
@@ -2041,9 +2048,9 @@ class RouteDuration
 //			if (!$response->success)
 //			{
 
-			$quoteModel->success	 = false;
-			$quoteModel->errorCode	 = 103;
-			$quoteModel->errorText	 = "Pickup Time should be greater than " . $currentTime->format("d-M-Y H:i:s");
+			$quoteModel->success   = false;
+			$quoteModel->errorCode = 103;
+			$quoteModel->errorText = "Pickup Time should be greater than " . $currentTime->format("d-M-Y H:i:s");
 //			}
 		}
 	}
@@ -2051,18 +2058,18 @@ class RouteDuration
 	public function checkGozoNow(&$quoteModel, $graceTime)
 	{
 
-		$response->success			 = false;
-		$minTime					 = Config::getMinPickupDuration($quoteModel->partnerId, $quoteModel->tripType, 0);
-		$response					 = new stdClass();
-		$response->timeDifference	 = $minTime;
-		$response->isAllowed		 = false;
+		$response->success		  = false;
+		$minTime				  = Config::getMinPickupDuration($quoteModel->partnerId, $quoteModel->tripType, 0);
+		$response				  = new stdClass();
+		$response->timeDifference = $minTime;
+		$response->isAllowed	  = false;
 
 		$checkGozoNowEnabled = Config::checkGozoNowEnabled();
 		$diff				 = floor((strtotime($this->fromDate) - time()) / 60);
 		if ($checkGozoNowEnabled && $minTime > $diff && ($quoteModel->partnerId == 1249 || null($quoteModel->partnerId) ) && $quoteModel->tripType == 1)
 		{
-			$gzminTime					 = Config::getMinGozoNowPickupDuration($quoteModel->tripType, 0);
-			$response->timeDifference	 = $gzminTime;
+			$gzminTime				  = Config::getMinGozoNowPickupDuration($quoteModel->tripType, 0);
+			$response->timeDifference = $gzminTime;
 			if ($gzminTime < $diff)
 			{
 				$quoteModel->gozoNow = true;
@@ -2097,33 +2104,33 @@ class RouteRates
 			$rockBottomAmount, $fixedBaseAmount,
 			$baseSurge, $costPerKM,
 			$ratePerKM, $surgeAmount, $surgeId, $packageID, $checkBestRate, $bestRateDate, $classMarkup, $extraPerMinCharge, $extraPerMin;
-	public $ignoreDayDriverAllowance	 = false;
-	public $applySurge					 = true;
-	public $includeNightAllowance		 = true;
-	public $isNightPickupIncluded		 = 0;
-	public $isNightDropIncluded			 = 0;
-	public $isDayAllowanceIncluded		 = 0;
-	public $isNightAllowanceIncluded	 = 0;
-	public $cabAvailability				 = 1;
-	public $partnerFixedAmount			 = false;
-	public $surgeFactorUsed				 = 0;
-	public $partner_soldout				 = 0;
-	public $regularBaseAmount			 = 0;
-	public $differentiateSurgeAmount	 = 0;
-	public $airportEntryFee				 = 0;
-	public $isAirportEntryFeeIncluded	 = 0;
-	public $isAirportChargeApplicable	 = 0;
-	public $isTollIncluded				 = 0;
-	public $tollTaxAmount				 = 0;
-	public $isStateTaxIncluded			 = 0;
-	public $stateTax					 = 0;
-	public $parkingAmount				 = 0;
-	public $isParkingIncluded			 = 0;
+	public $ignoreDayDriverAllowance  = false;
+	public $applySurge				  = true;
+	public $includeNightAllowance	  = true;
+	public $isNightPickupIncluded	  = 0;
+	public $isNightDropIncluded		  = 0;
+	public $isDayAllowanceIncluded	  = 0;
+	public $isNightAllowanceIncluded  = 0;
+	public $cabAvailability			  = 1;
+	public $partnerFixedAmount		  = false;
+	public $surgeFactorUsed			  = 0;
+	public $partner_soldout			  = 0;
+	public $regularBaseAmount		  = 0;
+	public $differentiateSurgeAmount  = 0;
+	public $airportEntryFee			  = 0;
+	public $isAirportEntryFeeIncluded = 0;
+	public $isAirportChargeApplicable = 0;
+	public $isTollIncluded			  = 0;
+	public $tollTaxAmount			  = 0;
+	public $isStateTaxIncluded		  = 0;
+	public $stateTax				  = 0;
+	public $parkingAmount			  = 0;
+	public $isParkingIncluded		  = 0;
 	public $promoRow, $coinDiscount, $promoCode;
-	public $addonId						 = 0;
-	public $addonCharge					 = 0;
-	public $parentCost					 = 0;
-	public $addonCharges				 = [];
+	public $addonId					  = 0;
+	public $addonCharge				  = 0;
+	public $parentCost				  = 0;
+	public $addonCharges			  = [];
 
 	/** @var Quote $qModel */
 	private $quoteModel;
@@ -2138,27 +2145,27 @@ class RouteRates
 		Logger::beginProfile("RouteRates::applyPromo for CAB {$this->quoteModel->cabType}");
 
 		/** @var Quote $qModel */
-		$qModel									 = $this->quoteModel;
-		$bkgModel								 = new Booking('new');
-		$bkgModel->bkgInvoice					 = new BookingInvoice();
-		$bkgModel->bkgTrail						 = new BookingTrail();
-		$bkgModel->bkg_create_date				 = $qModel->quoteDate;
-		$bkgModel->bkg_booking_type				 = $this->quoteModel->tripType;
-		$bkgModel->bkg_pickup_date				 = $qModel->routes[0]->brt_pickup_datetime;
-		$bkgModel->bkg_from_city_id				 = $qModel->routes[0]->brt_from_city_id;
-		$bkgModel->bkg_to_city_id				 = $qModel->routes[count($qModel->routes) - 1]->brt_to_city_id;
-		$bkgModel->bkg_vehicle_type_id			 = $qModel->cabType;
-		$bkgModel->bkgInvoice->bkg_base_amount	 = $this->baseAmount;
-		$bkgModel->bkgTrail->bkg_platform		 = $qModel->platform | 1;
-		$rows									 = Promos::allApplicableCodes($bkgModel);
+		$qModel								   = $this->quoteModel;
+		$bkgModel							   = new Booking('new');
+		$bkgModel->bkgInvoice				   = new BookingInvoice();
+		$bkgModel->bkgTrail					   = new BookingTrail();
+		$bkgModel->bkg_create_date			   = $qModel->quoteDate;
+		$bkgModel->bkg_booking_type			   = $this->quoteModel->tripType;
+		$bkgModel->bkg_pickup_date			   = $qModel->routes[0]->brt_pickup_datetime;
+		$bkgModel->bkg_from_city_id			   = $qModel->routes[0]->brt_from_city_id;
+		$bkgModel->bkg_to_city_id			   = $qModel->routes[count($qModel->routes) - 1]->brt_to_city_id;
+		$bkgModel->bkg_vehicle_type_id		   = $qModel->cabType;
+		$bkgModel->bkgInvoice->bkg_base_amount = $this->baseAmount;
+		$bkgModel->bkgTrail->bkg_platform	   = $qModel->platform | 1;
+		$rows								   = Promos::allApplicableCodes($bkgModel);
 
 		if (count($rows) > 0)
 		{
-			$this->promoRow		 = $rows->read();
+			$this->promoRow		= $rows->read();
 			//$this->discount	 = $rows[0]['cashAmount'];
-			$this->discount		 = $this->promoRow['cashAmount'];
-			$this->coinDiscount	 = $this->promoRow['coinsAmount'];
-			$this->promoCode	 = $this->promoRow['prm_code'];
+			$this->discount		= $this->promoRow['cashAmount'];
+			$this->coinDiscount = $this->promoRow['coinsAmount'];
+			$this->promoCode	= $this->promoRow['prm_code'];
 		}
 		Logger::endProfile("RouteRates::applyPromo for CAB {$this->quoteModel->cabType}");
 	}
@@ -2172,14 +2179,14 @@ class RouteRates
 		{
 			if ($i == 0)
 			{
-				$qModel				 = $quoteModel;
-				$qModel->routeRates	 = $quoteModel->routeRates;
+				$qModel				= $quoteModel;
+				$qModel->routeRates = $quoteModel->routeRates;
 			}
 			else
 			{
-				$qModel				 = clone $quoteModel;
-				$qModel->routeRates	 = clone $quoteModel->routeRates;
-				$qModel->routes		 = Filter::cloneObjectArray($quoteModel->routes);
+				$qModel				= clone $quoteModel;
+				$qModel->routeRates = clone $quoteModel->routeRates;
+				$qModel->routes		= Filter::cloneObjectArray($quoteModel->routes);
 			}
 
 			$qModel->routeRates->checkBestRate = false;
@@ -2188,8 +2195,8 @@ class RouteRates
 			/** @var Quote $bestRatesModel */
 			if ($bestRatesModel == null || $bestRatesModel->getNetBaseAmount() > $qModel->routeRates->getNetBaseAmount())
 			{
-				$this->bestRateDate	 = $qModel->routes[0]->brt_pickup_datetime;
-				$bestRatesModel		 = clone $qModel->routeRates;
+				$this->bestRateDate = $qModel->routes[0]->brt_pickup_datetime;
+				$bestRatesModel		= clone $qModel->routeRates;
 			}
 		}
 		$this->bestRatesModel = $bestRatesModel;
@@ -2258,10 +2265,10 @@ class RouteRates
 			goto skipGNowEnd;
 		}
 
-		$key					 = "RouteRates::calculate for CAB {$quoteModel->cabType} {$quoteModel->pickupDate} - Trip Type: {$quoteModel->tripType} " . rand(1, 999999999);
+		$key				  = "RouteRates::calculate for CAB {$quoteModel->cabType} {$quoteModel->pickupDate} - Trip Type: {$quoteModel->tripType} " . rand(1, 999999999);
 		Logger::beginProfile($key);
-		$updateCounter			 = Quote::$updateCounter;
-		Quote::$updateCounter	 = false;
+		$updateCounter		  = Quote::$updateCounter;
+		Quote::$updateCounter = false;
 
 		if ($this->checkBestRate)
 		{
@@ -2308,8 +2315,8 @@ class RouteRates
 			}
 		}
 
-		$this->vendorAmount		 = round($this->vendorBaseFare * 0.99) + $this->getAllowanceAndTaxes() - $fityPercentDA;
-		$this->rockBottomAmount	 = $this->rockBaseAmount + $this->getAllowanceAndTaxes();
+		$this->vendorAmount		= round($this->vendorBaseFare * 0.99) + $this->getAllowanceAndTaxes() - $fityPercentDA;
+		$this->rockBottomAmount = $this->rockBaseAmount + $this->getAllowanceAndTaxes();
 		Logger::trace("rockBaseAmount: " . $this->rockBaseAmount . " VendorAmount: $this->vendorAmount");
 		Logger::info("baseAmount: " . $this->baseAmount . " VendorAmount: $this->vendorAmount");
 
@@ -2354,27 +2361,27 @@ class RouteRates
 //		$this->parkingAmount		 = 0;
 //		$this->airportEntryFee		 = 0;
 
-		$this->checkBestRate			 = false;
-		$this->applySurge				 = true;
-		$this->quoteModel->applyPromo	 = false;
+		$this->checkBestRate		  = false;
+		$this->applySurge			  = true;
+		$this->quoteModel->applyPromo = false;
 
 		//GNow variables
-		$minGZNowMarkup	 = Config::get('booking.gozoNow.quote.minMarkup');
-		$maxGZNowMarkup	 = Config::get('booking.gozoNow.quote.maxMarkup');
+		$minGZNowMarkup = Config::get('booking.gozoNow.quote.minMarkup');
+		$maxGZNowMarkup = Config::get('booking.gozoNow.quote.maxMarkup');
 
 		$minGZNowVal = 1 + (0.01 * $minGZNowMarkup);
 		$maxGZNowVal = 1 + (0.01 * $maxGZNowMarkup);
 
 		if ($this->quoteModel->gozoNowVendorAmount > 0)
 		{
-			$this->vendorBaseFare	 = 0; //$this->quoteModel->gozoNowVendorAmount;
-			$this->vendorAmount		 = $this->quoteModel->gozoNowVendorAmount;
+			$this->vendorBaseFare = 0; //$this->quoteModel->gozoNowVendorAmount;
+			$this->vendorAmount	  = $this->quoteModel->gozoNowVendorAmount;
 		}
 
-		$key					 = "RouteRates::calculate for CAB {$quoteModel->cabType} {$quoteModel->pickupDate} - Trip Type: {$quoteModel->tripType} " . rand(1, 999999999);
+		$key				  = "RouteRates::calculate for CAB {$quoteModel->cabType} {$quoteModel->pickupDate} - Trip Type: {$quoteModel->tripType} " . rand(1, 999999999);
 		Logger::beginProfile($key);
-		$updateCounter			 = Quote::$updateCounter;
-		Quote::$updateCounter	 = false;
+		$updateCounter		  = Quote::$updateCounter;
+		Quote::$updateCounter = false;
 
 		$this->quoteModel		 = $quoteModel;
 		$this->quoteModel->tripType;
@@ -2407,11 +2414,11 @@ class RouteRates
 		$surge = max([$this->differentiateSurgeAmount, 0]);
 
 		Logger::info("RouteRates::calculate cabType={$quoteModel->cabType} vendorBaseFare=" . $this->vendorBaseFare);
-		$this->minVendorAmount	 = round(min($originalVendorAmount * 0.95, $this->vendorAmount));
-		$this->baseAmount		 = $this->rockBaseAmount;
-		$minSurgeMarkup = min($surge * 0.35, $surge);
-		$this->minBaseAmount	 = round(min($this->regularBaseAmount + $minSurgeMarkup, $this->baseAmount));
-		$this->maxBaseAmount	 = round(max(($this->regularBaseAmount + 250), ($this->baseAmount), $this->regularBaseAmount * 1.1));
+		$this->minVendorAmount = round(min($originalVendorAmount * 0.95, $this->vendorAmount));
+		$this->baseAmount	   = $this->rockBaseAmount;
+		$minSurgeMarkup		   = min($surge * 0.35, $surge);
+		$this->minBaseAmount   = round(min($this->regularBaseAmount + $minSurgeMarkup, $this->baseAmount));
+		$this->maxBaseAmount   = round(max(($this->regularBaseAmount + 250), ($this->baseAmount), $this->regularBaseAmount * 1.1));
 
 		$maxVendorSurge = $this->maxBaseAmount - $this->regularBaseAmount;
 
@@ -2422,21 +2429,21 @@ class RouteRates
 		}
 
 		##Calculate minTotalAmount to display in range
-		$minQuote	 = clone $this;
-		$maxQuote	 = clone $this;
+		$minQuote = clone $this;
+		$maxQuote = clone $this;
 
 //		$minQuote->vendorAmount	 = $this->minVendorAmount;
 //		$minQuote->getGNowRockBottomPrice();
-		$minQuote->baseAmount	 = $this->minBaseAmount;
+		$minQuote->baseAmount = $this->minBaseAmount;
 		$minQuote->calculateTotal();
-		$this->minTotalAmount	 = $minQuote->totalAmount;
+		$this->minTotalAmount = $minQuote->totalAmount;
 
 		##Calculate maxTotalAmount to display in range
 //		$maxQuote->vendorAmount	 = $this->maxVendorAmount;
 //		$maxQuote->getGNowRockBottomPrice();
-		$maxQuote->baseAmount	 = $this->maxBaseAmount;
+		$maxQuote->baseAmount = $this->maxBaseAmount;
 		$maxQuote->calculateTotal();
-		$this->maxTotalAmount	 = $maxQuote->totalAmount;
+		$this->maxTotalAmount = $maxQuote->totalAmount;
 
 		skipSurge:
 		$this->calculateTotal();
@@ -2472,10 +2479,10 @@ class RouteRates
 	{
 		if ($this->regularBaseAmount != '')
 		{
-			$baseFareMarkup			 = ServiceClass::getMarkUp($this->quoteModel->cabType, $this->regularBaseAmount);
-			$this->rockBaseAmount	 = $this->regularBaseAmount + $baseFareMarkup;
-			$vendorFareMarkup		 = ServiceClass::getMarkUp($this->quoteModel->cabType, $this->vendorBaseFare);
-			$this->vendorBaseFare	 = $this->vendorBaseFare + ($vendorFareMarkup * 0.5);
+			$baseFareMarkup		  = ServiceClass::getMarkUp($this->quoteModel->cabType, $this->regularBaseAmount);
+			$this->rockBaseAmount = $this->regularBaseAmount + $baseFareMarkup;
+			$vendorFareMarkup	  = ServiceClass::getMarkUp($this->quoteModel->cabType, $this->vendorBaseFare);
+			$this->vendorBaseFare = $this->vendorBaseFare + ($vendorFareMarkup * 0.5);
 		}
 	}
 
@@ -2502,8 +2509,8 @@ class RouteRates
 
 	public function getRockBottomPrice()
 	{
-		$rockMargin				 = Yii::app()->params['rockBottomMargin'];
-		$this->rockBaseAmount	 = round($this->vendorBaseFare * (1 + $rockMargin / 100));
+		$rockMargin			  = Yii::app()->params['rockBottomMargin'];
+		$this->rockBaseAmount = round($this->vendorBaseFare * (1 + $rockMargin / 100));
 		if ($this->partnerFixedAmount)
 		{
 			$this->rockBaseAmount = $this->fixedBaseAmount;
@@ -2518,13 +2525,13 @@ class RouteRates
 		switch ($vendorAmount)
 		{
 			case ($vendorAmount < 0):
-				$margin	 = 0;
+				$margin = 0;
 				break;
 			case ($vendorAmount < 1500):
-				$margin	 = max(99, $vendorAmount * 0.08);
+				$margin = max(99, $vendorAmount * 0.08);
 				break;
 			default:
-				$margin	 = max(199, $vendorAmount * 0.08);
+				$margin = max(199, $vendorAmount * 0.08);
 				break;
 		}
 		return $margin;
@@ -2532,30 +2539,30 @@ class RouteRates
 
 	public function getIntraRockBottomMargin()
 	{
-		$vendorAmount	 = $this->vendorAmount;
-		$margin			 = $vendorAmount * 0.07;
+		$vendorAmount = $this->vendorAmount;
+		$margin		  = $vendorAmount * 0.07;
 		return $margin;
 	}
 
 	public function getGNowRockBottomPrice()
 	{
-		$vendorAmount			 = $this->vendorAmount;
+		$vendorAmount			= $this->vendorAmount;
 		//$rockMargin = $this->getGNowRockBottomMargin();
-		$rockMargin				 = ($this->quoteModel->tripType == 14) ? ($this->getIntraRockBottomMargin()) : ($this->getGNowRockBottomMargin());
-		$this->rockBottomAmount	 = round($vendorAmount + $rockMargin);
-		$this->rockBaseAmount	 = $this->rockBottomAmount - $this->getAllowanceAndTaxes();
+		$rockMargin				= ($this->quoteModel->tripType == 14) ? ($this->getIntraRockBottomMargin()) : ($this->getGNowRockBottomMargin());
+		$this->rockBottomAmount = round($vendorAmount + $rockMargin);
+		$this->rockBaseAmount	= $this->rockBottomAmount - $this->getAllowanceAndTaxes();
 		if ($this->partnerFixedAmount)
 		{
-			$this->rockBaseAmount	 = $this->fixedBaseAmount;
-			$this->rockBottomAmount	 = $this->rockBaseAmount + $this->getAllowanceAndTaxes() + $rockMargin;
+			$this->rockBaseAmount	= $this->fixedBaseAmount;
+			$this->rockBottomAmount = $this->rockBaseAmount + $this->getAllowanceAndTaxes() + $rockMargin;
 		}
 	}
 
 	public function getRockBottomPricePackage()
 	{
-		$rockMargin				 = Yii::app()->params['rockBottomMargin'];
-		$this->rockBaseAmount	 = round($this->baseAmount * (1 + $rockMargin / 100));
-		$this->rockBottomAmount	 = $this->rockBaseAmount + $this->getAllowanceAndTaxes();
+		$rockMargin				= Yii::app()->params['rockBottomMargin'];
+		$this->rockBaseAmount	= round($this->baseAmount * (1 + $rockMargin / 100));
+		$this->rockBottomAmount = $this->rockBaseAmount + $this->getAllowanceAndTaxes();
 	}
 
 	public function calculateDriverAllowance()
@@ -2568,21 +2575,21 @@ class RouteRates
 		$priceRule = $this->quoteModel->priceRule;
 
 		$routeDuration->calculateNight($this->quoteModel);
-		$minDriverAllowance	 = 0;
-		$kmLimit			 = $priceRule->prr_driver_allowance_km_limit;
+		$minDriverAllowance = 0;
+		$kmLimit			= $priceRule->prr_driver_allowance_km_limit;
 		if ($kmLimit > 0 && !$this->ignoreDayDriverAllowance)
 		{
-			$kmDays				 = $this->quoteModel->routeDistance->tripDistance / $kmLimit;
-			$minDriverAllowance	 = floor($kmDays) * $priceRule->prr_night_driver_allowance;
+			$kmDays				= $this->quoteModel->routeDistance->tripDistance / $kmLimit;
+			$minDriverAllowance = floor($kmDays) * $priceRule->prr_night_driver_allowance;
 			if ($priceRule->prr_day_driver_allowance > 0)
 			{
 				$minDriverAllowance = ceil($kmDays) * $priceRule->prr_day_driver_allowance;
 			}
 		}
 
-		$days	 = $routeDuration->calendarDays;
-		$nights	 = ($this->quoteModel->tripType == 1 && $days >= 1 && $priceRule->prr_day_driver_allowance && !$this->ignoreDayDriverAllowance) ? 0 : $routeDuration->nights;
-		$days	 = ($this->ignoreDayDriverAllowance) ? 0 : $days;
+		$days	= $routeDuration->calendarDays;
+		$nights = ($this->quoteModel->tripType == 1 && $days >= 1 && $priceRule->prr_day_driver_allowance && !$this->ignoreDayDriverAllowance) ? 0 : $routeDuration->nights;
+		$days	= ($this->ignoreDayDriverAllowance) ? 0 : $days;
 
 		$extraNights = 0;
 		if ($this->includeNightAllowance)
@@ -2596,20 +2603,20 @@ class RouteRates
 			$this->isNightDropIncluded	 = $routeDuration->extraNightDropIncluded;
 		}
 
-		$totalNights				 = $nights + $extraNights;
-		$this->driverDayAllowance	 = $priceRule->prr_day_driver_allowance * $days;
-		$this->driverNightAllowance	 += $priceRule->prr_night_driver_allowance * ($totalNights);
+		$totalNights				= $nights + $extraNights;
+		$this->driverDayAllowance	= $priceRule->prr_day_driver_allowance * $days;
+		$this->driverNightAllowance += $priceRule->prr_night_driver_allowance * ($totalNights);
 		Logger::trace("calcnight:" . $nights . "extranightcount: " . $extraNights);
 		Logger::trace("driverAllowance " . $this->driverNightAllowance . " driverDayAllowance " . $this->driverDayAllowance . " days " . $days . " priceRule " . $priceRule->prr_id . " totalNight " . $totalNights . "night included " . $routeDuration->extraNightPickupIncluded . "mindriverAllowance:" . $minDriverAllowance);
-		$this->driverAllowance		 = ROUND(max([$minDriverAllowance, $this->driverDayAllowance + $this->driverNightAllowance]));
+		$this->driverAllowance		= ROUND(max([$minDriverAllowance, $this->driverDayAllowance + $this->driverNightAllowance]));
 		Logger::unsetModelCategory(__CLASS__, __FUNCTION__);
 	}
 
 	public function getAllowanceAndTaxes()
 	{
-		$this->parkingAmount	 = $this->parkingAmount | 0;
-		$this->airportEntryFee	 = $this->airportEntryFee | 0;
-		$allowances				 = $this->driverAllowance + $this->stateTax + $this->tollTaxAmount + $this->parkingAmount + $this->airportEntryFee;
+		$this->parkingAmount   = $this->parkingAmount | 0;
+		$this->airportEntryFee = $this->airportEntryFee | 0;
+		$allowances			   = $this->driverAllowance + $this->stateTax + $this->tollTaxAmount + $this->parkingAmount + $this->airportEntryFee;
 		return $allowances;
 	}
 
@@ -2639,20 +2646,20 @@ class RouteRates
 
 			$this->rateMarkup = $defaultMarkup;
 		}
-		$this->baseAmount	 = round($this->rockBaseAmount * (1 + $this->rateMarkup / 100));
-		$preDataArr			 = [];
-		$preData			 = $this->additional_param;
+		$this->baseAmount = round($this->rockBaseAmount * (1 + $this->rateMarkup / 100));
+		$preDataArr		  = [];
+		$preData		  = $this->additional_param;
 		if ($preData != '')
 		{
 			$preDataArr = json_decode($preData, true);
 		}
-		$markupArr					 = [];
-		$markupArr['defMarkupCab']	 = $this->baseAmount;
-		$cpMarkup					 = ChannelPartnerMarkup::model()->calculateMarkup($quoteModel);
+		$markupArr				   = [];
+		$markupArr['defMarkupCab'] = $this->baseAmount;
+		$cpMarkup				   = ChannelPartnerMarkup::model()->calculateMarkup($quoteModel);
 		if ($cpMarkup)
 		{
-			$this->baseAmount		 = $cpMarkup['amount'];
-			$markupArr['cpMarkup']	 = $this->baseAmount;
+			$this->baseAmount	   = $cpMarkup['amount'];
+			$markupArr['cpMarkup'] = $this->baseAmount;
 		}
 		$this->additional_param = json_encode($preDataArr + $markupArr);
 	}
@@ -2660,40 +2667,40 @@ class RouteRates
 	public function applySurge()
 	{
 
-		$key							 = "RouteRates::applySurge for CAB {$this->quoteModel->cabType}";
+		$key						   = "RouteRates::applySurge for CAB {$this->quoteModel->cabType}";
 		Logger::beginProfile($key);
-		$overrideDDBP					 = 0;
-		$overrideDZPP					 = 0;
-		$overrideDEBP					 = 0;
-		$overrideProfitability			 = 0;
-		$overrideDDBPV2					 = 0;
-		$overrideDDSBP					 = 0;
-		$rockBaseAmount					 = $this->rockBaseAmount;
-		$originalRockBaseAmount			 = $this->rockBaseAmount;
-		$this->partner_soldout			 = 0;
-		$pickupDate						 = $this->quoteModel->pickupDate;
-		$this->surgeFactorUsed			 = 0;
-		$rateId							 = $this->quoteModel->rateId;
-		$days							 = -1;
-		$positiveSurgeAmount			 = 0;
-		$positiveSurge					 = new Surge();
-		$positiveSurge->rockBaseAmount	 = $rockBaseAmount;
-		$positiveSurge->type			 = 0;
-		$positiveSurge->factor			 = 1;
-		$this->appliedFactors			 = [0];
+		$overrideDDBP				   = 0;
+		$overrideDZPP				   = 0;
+		$overrideDEBP				   = 0;
+		$overrideProfitability		   = 0;
+		$overrideDDBPV2				   = 0;
+		$overrideDDSBP				   = 0;
+		$rockBaseAmount				   = $this->rockBaseAmount;
+		$originalRockBaseAmount		   = $this->rockBaseAmount;
+		$this->partner_soldout		   = 0;
+		$pickupDate					   = $this->quoteModel->pickupDate;
+		$this->surgeFactorUsed		   = 0;
+		$rateId						   = $this->quoteModel->rateId;
+		$days						   = -1;
+		$positiveSurgeAmount		   = 0;
+		$positiveSurge				   = new Surge();
+		$positiveSurge->rockBaseAmount = $rockBaseAmount;
+		$positiveSurge->type		   = 0;
+		$positiveSurge->factor		   = 1;
+		$this->appliedFactors		   = [0];
 
 		$negativeSurge = clone $positiveSurge;
 
 		$this->srgManual = Surge::apply($this->quoteModel, Surge::Type_Manual);
 		if ($this->srgManual->isApplied) /// manual calculate
 		{
-			$priceSurgeModel		 = $this->srgManual->refModel;
-			$overrideDDBP			 = $priceSurgeModel->prc_override_ds;
-			$overrideDZPP			 = $priceSurgeModel->prc_override_dz;
-			$overrideDEBP			 = $priceSurgeModel->prc_override_de;
-			$overrideDDBPV2			 = $priceSurgeModel->prc_override_ddv2;
-			$overrideDDSBP			 = $priceSurgeModel->prc_override_ddsbp;
-			$overrideProfitability	 = $priceSurgeModel->prc_override_profitability;
+			$priceSurgeModel	   = $this->srgManual->refModel;
+			$overrideDDBP		   = $priceSurgeModel->prc_override_ds;
+			$overrideDZPP		   = $priceSurgeModel->prc_override_dz;
+			$overrideDEBP		   = $priceSurgeModel->prc_override_de;
+			$overrideDDBPV2		   = $priceSurgeModel->prc_override_ddv2;
+			$overrideDDSBP		   = $priceSurgeModel->prc_override_ddsbp;
+			$overrideProfitability = $priceSurgeModel->prc_override_profitability;
 
 			if ($this->srgManual->rockBaseAmount < $this->rockBaseAmount)
 			{
@@ -2704,23 +2711,23 @@ class RouteRates
 				$positiveSurge		 = $this->srgManual;
 				$positiveSurgeAmount = $this->srgManual->surgeAmount;
 			}
-			$this->surgeFactorUsed	 = Surge::Type_Manual;
-			$this->appliedFactors	 = [$this->srgManual->type];
-			$rockBaseAmount			 = $this->srgManual->rockBaseAmount;
+			$this->surgeFactorUsed = Surge::Type_Manual;
+			$this->appliedFactors  = [$this->srgManual->type];
+			$rockBaseAmount		   = $this->srgManual->rockBaseAmount;
 		}
 
 
-		$pickupTime		 = strtotime($pickupDate);
-		$overrideDDSBP	 = 1;
+		$pickupTime	   = strtotime($pickupDate);
+		$overrideDDSBP = 1;
 
 //		if (!(($pickupTime >= strtotime('2022-12-24') && $pickupTime < strtotime('2022-12-27')) || ($pickupTime >= strtotime('2022-12-31') && $pickupTime < strtotime('2023-01-02'))))
 //		{
-		$overrideDZPP	 = 1;
-		$overrideDDBPV2	 = 1;
+		$overrideDZPP	= 1;
+		$overrideDDBPV2 = 1;
 		//}
 
-		$this->srgDZPP				 = Surge::apply($this->quoteModel, Surge::Type_DZPP); //DZPP calculate
-		$this->srgDZPP->isOverRide	 = $overrideDZPP;
+		$this->srgDZPP			   = Surge::apply($this->quoteModel, Surge::Type_DZPP); //DZPP calculate
+		$this->srgDZPP->isOverRide = $overrideDZPP;
 
 		if (!$this->srgDZPP->isApplied || $this->srgDZPP->isOverRide == 1)
 		{
@@ -2735,27 +2742,27 @@ class RouteRates
 		}
 		if ($this->srgDZPP->rockBaseAmount < $negativeSurge->rockBaseAmount)  // if either Manual or DZPP is (negative and applying)
 		{
-			$this->appliedFactors			 = array_diff($this->appliedFactors, [$negativeSurge->type]);
-			$negativeSurge					 = $this->srgDZPP;
-			$rockBaseAmount					 = round($positiveSurge->rockBaseAmount * $this->srgDZPP->factor);
-			$negativeSurge->rockBaseAmount	 = $rockBaseAmount;
+			$this->appliedFactors		   = array_diff($this->appliedFactors, [$negativeSurge->type]);
+			$negativeSurge				   = $this->srgDZPP;
+			$rockBaseAmount				   = round($positiveSurge->rockBaseAmount * $this->srgDZPP->factor);
+			$negativeSurge->rockBaseAmount = $rockBaseAmount;
 			array_push($this->appliedFactors, $this->srgDZPP->type);
-			$this->surgeFactorUsed			 = Surge::Type_DZPP;
+			$this->surgeFactorUsed		   = Surge::Type_DZPP;
 		}
 		elseif ($this->srgDZPP->rockBaseAmount > $positiveSurge->rockBaseAmount)
 		{
-			$this->appliedFactors			 = array_diff($this->appliedFactors, [$positiveSurge->type]);
-			$positiveSurge					 = $this->srgDZPP;
-			$rockBaseAmount					 = round($negativeSurge->rockBaseAmount * $this->srgDZPP->factor);
-			$positiveSurge->rockBaseAmount	 = $rockBaseAmount;
-			$positiveSurgeAmount			 = ($rockBaseAmount - $negativeSurge->rockBaseAmount);
+			$this->appliedFactors		   = array_diff($this->appliedFactors, [$positiveSurge->type]);
+			$positiveSurge				   = $this->srgDZPP;
+			$rockBaseAmount				   = round($negativeSurge->rockBaseAmount * $this->srgDZPP->factor);
+			$positiveSurge->rockBaseAmount = $rockBaseAmount;
+			$positiveSurgeAmount		   = ($rockBaseAmount - $negativeSurge->rockBaseAmount);
 			array_push($this->appliedFactors, $this->srgDZPP->type);
-			$this->surgeFactorUsed			 = Surge::Type_DZPP;
+			$this->surgeFactorUsed		   = Surge::Type_DZPP;
 		}
 
 		skipDZPP:
-		$this->srgDEBP				 = Surge::apply($this->quoteModel, Surge::Type_DEBP); //calculate DEBP
-		$this->srgDEBP->isOverRide	 = $overrideDEBP;
+		$this->srgDEBP			   = Surge::apply($this->quoteModel, Surge::Type_DEBP); //calculate DEBP
+		$this->srgDEBP->isOverRide = $overrideDEBP;
 
 		if (!$this->srgDEBP->isApplied || $this->srgDEBP->isOverRide == 1)
 		{
@@ -2764,22 +2771,22 @@ class RouteRates
 
 		if ($this->srgDEBP->rockBaseAmount < $negativeSurge->rockBaseAmount)  // if either Manual or DZPP is (negative and applying)
 		{
-			$this->appliedFactors			 = array_diff($this->appliedFactors, [$negativeSurge->type]);
-			$negativeSurge					 = $this->srgDEBP;
-			$rockBaseAmount					 = round($positiveSurge->rockBaseAmount * $this->srgDEBP->factor);
-			$negativeSurge->rockBaseAmount	 = $rockBaseAmount;
-			$this->surgeFactorUsed			 = Surge::Type_DEBP;
+			$this->appliedFactors		   = array_diff($this->appliedFactors, [$negativeSurge->type]);
+			$negativeSurge				   = $this->srgDEBP;
+			$rockBaseAmount				   = round($positiveSurge->rockBaseAmount * $this->srgDEBP->factor);
+			$negativeSurge->rockBaseAmount = $rockBaseAmount;
+			$this->surgeFactorUsed		   = Surge::Type_DEBP;
 			array_push($this->appliedFactors, $this->srgDEBP->type);
 		}
 		elseif ($this->srgDEBP->rockBaseAmount > $positiveSurge->rockBaseAmount)
 		{
-			$this->appliedFactors			 = array_diff($this->appliedFactors, [$positiveSurge->type]);
-			$positiveSurge					 = $this->srgDEBP;
-			$rockBaseAmount					 = round($negativeSurge->rockBaseAmount * $this->srgDEBP->factor);
-			$positiveSurge->rockBaseAmount	 = $rockBaseAmount;
-			$positiveSurgeAmount			 = ($rockBaseAmount - $negativeSurge->rockBaseAmount);
-			$positiveSurge->surgeAmount		 = $positiveSurgeAmount;
-			$this->surgeFactorUsed			 = Surge::Type_DEBP;
+			$this->appliedFactors		   = array_diff($this->appliedFactors, [$positiveSurge->type]);
+			$positiveSurge				   = $this->srgDEBP;
+			$rockBaseAmount				   = round($negativeSurge->rockBaseAmount * $this->srgDEBP->factor);
+			$positiveSurge->rockBaseAmount = $rockBaseAmount;
+			$positiveSurgeAmount		   = ($rockBaseAmount - $negativeSurge->rockBaseAmount);
+			$positiveSurge->surgeAmount	   = $positiveSurgeAmount;
+			$this->surgeFactorUsed		   = Surge::Type_DEBP;
 			array_push($this->appliedFactors, $this->srgDEBP->type);
 		}
 
@@ -2803,9 +2810,9 @@ class RouteRates
 
 			if ($positiveSurge->type != Surge::Type_DEBP && $positiveSurge->surgeAmount < $this->srgDDBPV2->surgeAmount)
 			{
-				$this->appliedFactors	 = array_diff($this->appliedFactors, [$positiveSurge->type]);
-				$rockBaseAmount			 = $rockBaseAmount - $positiveSurge->surgeAmount;
-				$positiveSurgeAmount	 -= $positiveSurge->surgeAmount;
+				$this->appliedFactors = array_diff($this->appliedFactors, [$positiveSurge->type]);
+				$rockBaseAmount		  = $rockBaseAmount - $positiveSurge->surgeAmount;
+				$positiveSurgeAmount  -= $positiveSurge->surgeAmount;
 			}
 
 			$rockBaseAmount = round($rockBaseAmount * $this->srgDDBPV2->factor);
@@ -2821,14 +2828,14 @@ class RouteRates
 		$partnerSoldOutParams = Config::get('partnerSoldOut');
 		if (!empty($partnerSoldOutParams))
 		{
-			$result					 = CJSON::decode($partnerSoldOutParams);
-			$partnerSoldFactor		 = $result['partnerSoldFactor'];
-			$partnerSoldPartnerId	 = $result['partnerSoldId'];
+			$result				  = CJSON::decode($partnerSoldOutParams);
+			$partnerSoldFactor	  = $result['partnerSoldFactor'];
+			$partnerSoldPartnerId = $result['partnerSoldId'];
 		}
 		else
 		{
-			$partnerSoldFactor		 = 1.25;
-			$partnerSoldPartnerId	 = "18190,450";
+			$partnerSoldFactor	  = 1.25;
+			$partnerSoldPartnerId = "18190,450";
 		}
 		$this->partner_soldout = (($this->srgDDBPV2->factor >= $partnerSoldFactor) && in_array($this->quoteModel->partnerId, explode(",", $partnerSoldPartnerId))) ? 1 : 0;
 
@@ -2837,17 +2844,17 @@ class RouteRates
 
 		if ($this->srgDURP->isApplied && $this->srgDURP->isApplicable && $this->srgDURP->surgeAmount > $positiveSurgeAmount)
 		{
-			$positiveSurge					 = $this->srgDURP;
-			$rockBaseAmount					 = $rockBaseAmount + ($this->srgDURP->surgeAmount - $positiveSurgeAmount);
-			$positiveSurgeAmount			 = $this->srgDURP->surgeAmount;
-			$positiveSurge->surgeAmount		 = $positiveSurgeAmount;
-			$positiveSurge->rockBaseAmount	 = $rockBaseAmount;
-			$this->surgeFactorUsed			 = Surge::Type_DURP;
-			$this->appliedFactors			 = [$negativeSurge->type, $this->srgDURP->type];
+			$positiveSurge				   = $this->srgDURP;
+			$rockBaseAmount				   = $rockBaseAmount + ($this->srgDURP->surgeAmount - $positiveSurgeAmount);
+			$positiveSurgeAmount		   = $this->srgDURP->surgeAmount;
+			$positiveSurge->surgeAmount	   = $positiveSurgeAmount;
+			$positiveSurge->rockBaseAmount = $rockBaseAmount;
+			$this->surgeFactorUsed		   = Surge::Type_DURP;
+			$this->appliedFactors		   = [$negativeSurge->type, $this->srgDURP->type];
 		}
 
-		$this->srgDDBP				 = Surge::apply($this->quoteModel, Surge::Type_DDBP); //calculate DDBPv1
-		$this->srgDDBP->isOverRide	 = $overrideDDBP;
+		$this->srgDDBP			   = Surge::apply($this->quoteModel, Surge::Type_DDBP); //calculate DDBPv1
+		$this->srgDDBP->isOverRide = $overrideDDBP;
 
 		if (!$this->srgDDBP->isApplied || $this->srgDDBP->isOverRide == 1)
 		{
@@ -2864,29 +2871,29 @@ class RouteRates
 
 		if ($this->srgDDBP->surgeAmount > $positiveSurgeAmount && $DDBPSurgeFactor != 0)
 		{
-			$positiveSurge					 = $this->srgDDBP;
-			$rockBaseAmount					 = round($negativeSurge->rockBaseAmount * $DDBPSurgeFactor);
-			$positiveSurgeAmount			 = round($rockBaseAmount - ($rockBaseAmount / $DDBPSurgeFactor));
-			$positiveSurge->rockBaseAmount	 = $rockBaseAmount;
-			$positiveSurge->surgeAmount		 = $positiveSurgeAmount;
-			$this->surgeFactorUsed			 = Surge::Type_DDBP;
-			$this->appliedFactors			 = [$negativeSurge->type, $positiveSurge->type];
+			$positiveSurge				   = $this->srgDDBP;
+			$rockBaseAmount				   = round($negativeSurge->rockBaseAmount * $DDBPSurgeFactor);
+			$positiveSurgeAmount		   = round($rockBaseAmount - ($rockBaseAmount / $DDBPSurgeFactor));
+			$positiveSurge->rockBaseAmount = $rockBaseAmount;
+			$positiveSurge->surgeAmount	   = $positiveSurgeAmount;
+			$this->surgeFactorUsed		   = Surge::Type_DDBP;
+			$this->appliedFactors		   = [$negativeSurge->type, $positiveSurge->type];
 		}
 
 
 		skipDDBP:
 		//goto skipDDSBP;
-		$this->srgDDSBP				 = Surge::apply($this->quoteModel, Surge::Type_DDSBP); //calculate DDSBP
-		$this->srgDDSBP->isOverRide	 = $overrideDDSBP;
-		$DDSBPSurgeFactor			 = $this->srgDDSBP->factor;
+		$this->srgDDSBP				= Surge::apply($this->quoteModel, Surge::Type_DDSBP); //calculate DDSBP
+		$this->srgDDSBP->isOverRide = $overrideDDSBP;
+		$DDSBPSurgeFactor			= $this->srgDDSBP->factor;
 		if (!$this->srgDDSBP->isApplied || $overrideDDSBP == 1 || $DDSBPSurgeFactor == 1)
 		{
 			goto skipDDSBP;
 		}
 
-		$rockBaseAmount					 = round($rockBaseAmount * $this->srgDDSBP->factor);
-		$this->srgDDSBP->rockBaseAmount	 = $rockBaseAmount;
-		$this->srgDDSBP->surgeAmount	 = round($rockBaseAmount - $rockBaseAmount / $this->srgDDSBP->factor);
+		$rockBaseAmount					= round($rockBaseAmount * $this->srgDDSBP->factor);
+		$this->srgDDSBP->rockBaseAmount = $rockBaseAmount;
+		$this->srgDDSBP->surgeAmount	= round($rockBaseAmount - $rockBaseAmount / $this->srgDDSBP->factor);
 		array_push($this->appliedFactors, $this->srgDDSBP->type);
 
 		skipDDSBP:
@@ -2901,9 +2908,9 @@ class RouteRates
 		if (!$this->partnerFixedAmount && $this->srgDTBP->isApplied)
 		{
 			//DTBP applies on top of the regular price and the "net raised amount by DTBP is always added"
-			$rockBaseAmount					 = round($rockBaseAmount * $this->srgDTBP->factor);
-			$this->srgDTBP->rockBaseAmount	 = $rockBaseAmount;
-			$this->srgDTBP->surgeAmount		 = round($rockBaseAmount - $rockBaseAmount / $this->srgDTBP->factor);
+			$rockBaseAmount				   = round($rockBaseAmount * $this->srgDTBP->factor);
+			$this->srgDTBP->rockBaseAmount = $rockBaseAmount;
+			$this->srgDTBP->surgeAmount	   = round($rockBaseAmount - $rockBaseAmount / $this->srgDTBP->factor);
 			array_push($this->appliedFactors, $this->srgDTBP->type);
 		}
 
@@ -2911,8 +2918,8 @@ class RouteRates
 		$this->rockBaseAmount = $rockBaseAmount;
 		if ($originalRockBaseAmount <> $rockBaseAmount && $originalRockBaseAmount > 0)
 		{
-			$diff							 = $rockBaseAmount - $originalRockBaseAmount;
-			$this->differentiateSurgeAmount	 = $diff;
+			$diff							= $rockBaseAmount - $originalRockBaseAmount;
+			$this->differentiateSurgeAmount = $diff;
 			if ($diff > 0) // if the amount was surged up
 			{
 				$this->vendorBaseFare += round($diff * 0.4); //DSA changed from .7 to .3; Its OK for 30% of the raised price to go to VA directly at first. Giving 70% upfront is too much
@@ -2934,8 +2941,8 @@ class RouteRates
 		$isAdditionalParam = Config::get('Surge.isAdditionalParam');
 		if ($isAdditionalParam)
 		{
-			$surgeSummary			 = $this->getSummary();
-			$this->additional_param	 = json_encode(array(
+			$surgeSummary			= $this->getSummary();
+			$this->additional_param = json_encode(array(
 				'regular'				 => $originalRockBaseAmount,
 				"srgManual"				 => $this->srgManual,
 				"srgDZPP"				 => $this->srgDZPP,
@@ -2959,31 +2966,31 @@ class RouteRates
 
 	public function applySurgeOld1()
 	{
-		$key					 = "RouteRates::applySurge for CAB {$this->quoteModel->cabType}";
+		$key				   = "RouteRates::applySurge for CAB {$this->quoteModel->cabType}";
 		Logger::beginProfile($key);
-		$overrideDDBP			 = 0;
-		$overrideDZPP			 = 0;
-		$overrideDEBP			 = 0;
-		$overrideProfitability	 = 0;
-		$overrideDDBPV2			 = 0;
-		$rockBaseAmount			 = $this->rockBaseAmount;
-		$regularSurgeAmount		 = $this->rockBaseAmount;
-		$this->srgManual		 = Surge::apply($this->quoteModel, Surge::Type_Manual);
-		$this->surgeFactorUsed	 = 0;
-		$surgeDesc				 = "R";
-		$days					 = -1;
+		$overrideDDBP		   = 0;
+		$overrideDZPP		   = 0;
+		$overrideDEBP		   = 0;
+		$overrideProfitability = 0;
+		$overrideDDBPV2		   = 0;
+		$rockBaseAmount		   = $this->rockBaseAmount;
+		$regularSurgeAmount	   = $this->rockBaseAmount;
+		$this->srgManual	   = Surge::apply($this->quoteModel, Surge::Type_Manual);
+		$this->surgeFactorUsed = 0;
+		$surgeDesc			   = "R";
+		$days				   = -1;
 		if ($this->srgManual->isApplied) /// manual calculate
 		{
-			$priceSurgeModel		 = $this->srgManual->refModel;
-			$overrideDDBP			 = $priceSurgeModel->prc_override_ds;
-			$overrideDZPP			 = $priceSurgeModel->prc_override_dz;
-			$overrideDEBP			 = $priceSurgeModel->prc_override_de;
-			$overrideDDBPV2			 = $priceSurgeModel->prc_override_ddv2;
-			$overrideProfitability	 = $priceSurgeModel->prc_override_profitability;
+			$priceSurgeModel	   = $this->srgManual->refModel;
+			$overrideDDBP		   = $priceSurgeModel->prc_override_ds;
+			$overrideDZPP		   = $priceSurgeModel->prc_override_dz;
+			$overrideDEBP		   = $priceSurgeModel->prc_override_de;
+			$overrideDDBPV2		   = $priceSurgeModel->prc_override_ddv2;
+			$overrideProfitability = $priceSurgeModel->prc_override_profitability;
 		}
 
-		$this->srgDZPP				 = Surge::apply($this->quoteModel, Surge::Type_DZPP);
-		$this->srgDZPP->isOverRide	 = $overrideDZPP;
+		$this->srgDZPP			   = Surge::apply($this->quoteModel, Surge::Type_DZPP);
+		$this->srgDZPP->isOverRide = $overrideDZPP;
 
 		if ((($this->srgDZPP->isApplied && $this->srgDZPP->rockBaseAmount < $this->rockBaseAmount) || ($this->srgManual->isApplied && $this->srgManual->rockBaseAmount < $this->rockBaseAmount )) && $overrideDZPP != 1)  // if either is negative and either are applying
 		{
@@ -2992,24 +2999,24 @@ class RouteRates
 			{
 				if ($this->srgManual->isApplied && $this->srgDZPP->isApplied) // if both are applied
 				{
-					$rockBaseAmount			 = min($this->srgDZPP->rockBaseAmount, $this->srgManual->rockBaseAmount);
-					$this->surgeFactorUsed	 = $rockBaseAmount == $this->srgDZPP->rockBaseAmount ? 7 : 1;
-					$this->rockBaseAmount	 = $rockBaseAmount; // master global rockbase is overwritten now
-					$surgeDesc				 .= $this->surgeFactorUsed == 7 ? "=>DZ[-]" : "=>M[-]";
+					$rockBaseAmount		   = min($this->srgDZPP->rockBaseAmount, $this->srgManual->rockBaseAmount);
+					$this->surgeFactorUsed = $rockBaseAmount == $this->srgDZPP->rockBaseAmount ? 7 : 1;
+					$this->rockBaseAmount  = $rockBaseAmount; // master global rockbase is overwritten now
+					$surgeDesc			   .= $this->surgeFactorUsed == 7 ? "=>DZ[-]" : "=>M[-]";
 				}
 				else if ($this->srgManual->isApplied && !$this->srgDZPP->isApplied && $this->srgManual->rockBaseAmount < $this->rockBaseAmount)
 				{
-					$rockBaseAmount			 = $this->srgManual->rockBaseAmount;
-					$this->surgeFactorUsed	 = 1;
-					$this->rockBaseAmount	 = $rockBaseAmount;
-					$surgeDesc				 .= "=>M[-]";
+					$rockBaseAmount		   = $this->srgManual->rockBaseAmount;
+					$this->surgeFactorUsed = 1;
+					$this->rockBaseAmount  = $rockBaseAmount;
+					$surgeDesc			   .= "=>M[-]";
 				}
 				else if (!$this->srgManual->isApplied && $this->srgDZPP->isApplied && $this->srgDZPP->rockBaseAmount < $this->rockBaseAmount)
 				{
-					$rockBaseAmount			 = $this->srgDZPP->rockBaseAmount;
-					$this->surgeFactorUsed	 = 7;
-					$this->rockBaseAmount	 = $rockBaseAmount;
-					$surgeDesc				 .= "=>DZ[-]";
+					$rockBaseAmount		   = $this->srgDZPP->rockBaseAmount;
+					$this->surgeFactorUsed = 7;
+					$this->rockBaseAmount  = $rockBaseAmount;
+					$surgeDesc			   .= "=>DZ[-]";
 				}
 			}
 			else
@@ -3021,30 +3028,30 @@ class RouteRates
 		{
 			if ($this->srgManual->isApplied)
 			{
-				$rockBaseAmount			 = $this->srgManual->rockBaseAmount;
-				$surgeDesc				 .= "=>M[+]";
-				$this->surgeFactorUsed	 = 1;
+				$rockBaseAmount		   = $this->srgManual->rockBaseAmount;
+				$surgeDesc			   .= "=>M[+]";
+				$this->surgeFactorUsed = 1;
 			}
 
 			if ($this->srgDZPP->isApplied && $this->srgDZPP->rockBaseAmount > $rockBaseAmount && $this->srgDZPP->isApplicable && $overrideDZPP != 1) /// dzpp is applied and is increasing the value then do it
 			{
-				$rockBaseAmount			 = $this->srgDZPP->rockBaseAmount;
-				$surgeDesc				 .= "=>DZ[+]";
-				$this->surgeFactorUsed	 = 7;
+				$rockBaseAmount		   = $this->srgDZPP->rockBaseAmount;
+				$surgeDesc			   .= "=>DZ[+]";
+				$this->surgeFactorUsed = 7;
 			}
 		}
 
-		$this->srgDDBP				 = Surge::apply($this->quoteModel, Surge::Type_DDBP);
-		$this->srgDDBP->isOverRide	 = $overrideDDBP;
+		$this->srgDDBP			   = Surge::apply($this->quoteModel, Surge::Type_DDBP);
+		$this->srgDDBP->isOverRide = $overrideDDBP;
 
 		$dynamicSurge	 = $this->srgDDBP->refModel;
 		$DDBPSurgeFactor = $dynamicSurge->dprApplied->factor;
 		if ($this->srgDDBP->isApplied && $this->srgDDBP->rockBaseAmount > $rockBaseAmount && $overrideDDBP != 1 && $dynamicSurge->isApplicable() && $DDBPSurgeFactor != 1
 		)
 		{
-			$this->surgeFactorUsed	 = 2;
-			$rockBaseAmount			 = $this->srgDDBP->rockBaseAmount;
-			$surgeDesc				 .= "=>DD";
+			$this->surgeFactorUsed = 2;
+			$rockBaseAmount		   = $this->srgDDBP->rockBaseAmount;
+			$surgeDesc			   .= "=>DD";
 		}
 
 
@@ -3052,19 +3059,19 @@ class RouteRates
 
 		if ($this->srgDURP->isApplied && $this->srgDURP->isApplicable && $this->srgDURP->rockBaseAmount > $rockBaseAmount)
 		{
-			$rockBaseAmount			 = $this->srgDURP->rockBaseAmount;
-			$this->surgeFactorUsed	 = 8;
-			$surgeDesc				 .= "=>DUR";
+			$rockBaseAmount		   = $this->srgDURP->rockBaseAmount;
+			$this->surgeFactorUsed = 8;
+			$surgeDesc			   .= "=>DUR";
 		}
 
-		$this->srgDEBP				 = Surge::apply($this->quoteModel, Surge::Type_DEBP);
-		$this->srgDEBP->isOverRide	 = $overrideDEBP;
+		$this->srgDEBP			   = Surge::apply($this->quoteModel, Surge::Type_DEBP);
+		$this->srgDEBP->isOverRide = $overrideDEBP;
 
 		if ($this->srgDEBP->isApplied && $this->srgDEBP->rockBaseAmount > $rockBaseAmount && $this->srgDEBP->isApplicable && $overrideDEBP != 1)
 		{
-			$rockBaseAmount			 = $this->srgDEBP->rockBaseAmount;
-			$this->surgeFactorUsed	 = 9;
-			$surgeDesc				 .= "=>DE";
+			$rockBaseAmount		   = $this->srgDEBP->rockBaseAmount;
+			$this->surgeFactorUsed = 9;
+			$surgeDesc			   .= "=>DE";
 		}
 
 		$this->srgDDBPV2			 = Surge::apply($this->quoteModel, Surge::Type_DDBPV2);
@@ -3074,9 +3081,9 @@ class RouteRates
 			$isLiveDDBPV2 = Config::get('DDBPV2_ISLIVE');
 			if ($isLiveDDBPV2)
 			{
-				$rockBaseAmount			 = $this->srgDDBPV2->rockBaseAmount;
-				$this->surgeFactorUsed	 = 10;
-				$surgeDesc				 .= "=>DDv2";
+				$rockBaseAmount		   = $this->srgDDBPV2->rockBaseAmount;
+				$this->surgeFactorUsed = 10;
+				$surgeDesc			   .= "=>DDv2";
 			}
 		}
 
@@ -3102,8 +3109,8 @@ class RouteRates
 
 		if ($this->regularBaseAmount <> $this->rockBaseAmount)
 		{
-			$diff							 = $this->rockBaseAmount - $this->regularBaseAmount;
-			$this->differentiateSurgeAmount	 = $diff;
+			$diff							= $this->rockBaseAmount - $this->regularBaseAmount;
+			$this->differentiateSurgeAmount = $diff;
 			if ($diff > 0)
 			{
 				$this->vendorBaseFare += round($diff * 0.3); //DSA changed from .7 to .3; Its OK for 30% of the raised price to go to VA directly at first. Giving 70% upfront is too much
@@ -3160,8 +3167,8 @@ class RouteRates
 			}
 		}
 
-		$otherFactors	 = array_diff($totalFactors, $this->appliedFactors);
-		$otherDesc		 = [];
+		$otherFactors = array_diff($totalFactors, $this->appliedFactors);
+		$otherDesc	  = [];
 		foreach ($otherFactors as $type)
 		{
 			$srgModel = $this->getSurgeByType($type);
@@ -3173,9 +3180,9 @@ class RouteRates
 			$otherDesc[] = $srgModel->getSummary();
 		}
 
-		$appliedSummary	 = "Applied: " . implode(", ", array_filter($appliedDesc));
-		$otherSummary	 = "Not Applied: " . implode(", ", array_filter($otherDesc));
-		$summary		 = "{$appliedSummary} | {$otherSummary}";
+		$appliedSummary = "Applied: " . implode(", ", array_filter($appliedDesc));
+		$otherSummary	= "Not Applied: " . implode(", ", array_filter($otherDesc));
+		$summary		= "{$appliedSummary} | {$otherSummary}";
 		return $summary;
 	}
 
@@ -3190,31 +3197,31 @@ class RouteRates
 		switch ($type)
 		{
 			case Surge::Type_DTBP:
-				$model	 = $this->srgDTBP;
+				$model = $this->srgDTBP;
 				break;
 			case Surge::Type_DDBP:
-				$model	 = $this->srgDDBP;
+				$model = $this->srgDDBP;
 				break;
 			case Surge::Type_DZPP:
-				$model	 = $this->srgDZPP;
+				$model = $this->srgDZPP;
 				break;
 			case Surge::Type_DEBP:
-				$model	 = $this->srgDEBP;
+				$model = $this->srgDEBP;
 				break;
 			case Surge::Type_DURP:
-				$model	 = $this->srgDURP;
+				$model = $this->srgDURP;
 				break;
 			case Surge::Type_DDBPV2:
-				$model	 = $this->srgDDBPV2;
+				$model = $this->srgDDBPV2;
 				break;
 			case Surge::Type_DDSBP:
-				$model	 = $this->srgDDSBP;
+				$model = $this->srgDDSBP;
 				break;
 			case Surge::Type_Manual:
-				$model	 = $this->srgManual;
+				$model = $this->srgManual;
 				break;
 			default:
-				$model	 = false;
+				$model = false;
 		}
 
 		return $model;
@@ -3227,8 +3234,8 @@ class RouteRates
 		$this->srgManual = Surge::apply($this->quoteModel, Surge::Type_Manual);
 		if ($this->srgManual->isApplied && $this->srgManual->surgeAmount < 0)
 		{
-			$manualSurge			 = 1;
-			$this->rockBaseAmount	 = $this->srgManual->rockBaseAmount;
+			$manualSurge		  = 1;
+			$this->rockBaseAmount = $this->srgManual->rockBaseAmount;
 		}
 		/* @var $priceSurgeModel PriceSurge */
 		if ($this->srgManual->isApplied)
@@ -3246,27 +3253,27 @@ class RouteRates
 
 		if ($this->srgDDBP->isApplied && ($this->srgDDBP->rockBaseAmount > $this->srgManual->rockBaseAmount && $this->srgDDBP->rockBaseAmount > $this->rockBaseAmount) && $overrideDDBP != 1 && $dynamicSurge->isApplicable())
 		{
-			$this->surgeFactorUsed	 = 2 + $manualSurge;
-			$this->rockBaseAmount	 = $this->srgDDBP->rockBaseAmount;
+			$this->surgeFactorUsed = 2 + $manualSurge;
+			$this->rockBaseAmount  = $this->srgDDBP->rockBaseAmount;
 		}
 		else if ($this->srgManual->isApplied && $this->rockBaseAmount < $this->srgManual->rockBaseAmount)
 		{
-			$this->surgeFactorUsed	 = 1;
-			$this->rockBaseAmount	 = $this->srgManual->rockBaseAmount;
+			$this->surgeFactorUsed = 1;
+			$this->rockBaseAmount  = $this->srgManual->rockBaseAmount;
 		}
 
 		$this->srgDTBP = Surge::apply($this->quoteModel, Surge::Type_DTBP);
 		Logger::profile("Rates calculate after DTBP");
 		if (!$this->partnerFixedAmount && $this->srgDTBP->isApplied)
 		{
-			$this->surgeFactorUsed	 = 4;
-			$this->rockBaseAmount	 = $this->srgDTBP->rockBaseAmount;
+			$this->surgeFactorUsed = 4;
+			$this->rockBaseAmount  = $this->srgDTBP->rockBaseAmount;
 		}
 
 		if ($this->regularBaseAmount <> $this->rockBaseAmount)
 		{
-			$diff							 = $this->rockBaseAmount - $this->regularBaseAmount;
-			$this->differentiateSurgeAmount	 = $diff;
+			$diff							= $this->rockBaseAmount - $this->regularBaseAmount;
+			$this->differentiateSurgeAmount = $diff;
 			if ($diff > 0)
 			{
 				$this->vendorBaseFare += round($diff * 0.4);
@@ -3288,10 +3295,10 @@ class RouteRates
 
 	public function calculateTax()
 	{
-		$this->airportEntryFee	 = $this->airportEntryFee | 0;
-		$qModel					 = $this->quoteModel;
-		$staxrate				 = BookingInvoice::getGstTaxRate($qModel->partnerId, $qModel->tripType);
-		$checkNewGstPickupTime	 = Booking::model()->checkNewGstPickupTime($qModel->routes[0]->brt_pickup_datetime);
+		$this->airportEntryFee = $this->airportEntryFee | 0;
+		$qModel				   = $this->quoteModel;
+		$staxrate			   = BookingInvoice::getGstTaxRate($qModel->partnerId, $qModel->tripType);
+		$checkNewGstPickupTime = Booking::model()->checkNewGstPickupTime($qModel->routes[0]->brt_pickup_datetime);
 		if ($checkNewGstPickupTime)
 		{
 			/* by ankesh */
@@ -3305,11 +3312,11 @@ class RouteRates
 
 	public function calculateSellBaseFromTotal($totalAmount, $partnerId, $tripType)
 	{
-		$staxrate				 = BookingInvoice::getGstTaxRate($partnerId, $tripType);
-		$gst					 = $totalAmount - round(( $totalAmount / ( 1 + (0.01 * $staxrate))), 0);
-		$totWithoutTax			 = $totalAmount - $this->getAllowanceAndTaxes() - $gst;
+		$staxrate			   = BookingInvoice::getGstTaxRate($partnerId, $tripType);
+		$gst				   = $totalAmount - round(( $totalAmount / ( 1 + (0.01 * $staxrate))), 0);
+		$totWithoutTax		   = $totalAmount - $this->getAllowanceAndTaxes() - $gst;
 		//$staxrate		 = Filter::getServiceTaxRate();
-		$this->fixedBaseAmount	 = $totWithoutTax;
+		$this->fixedBaseAmount = $totWithoutTax;
 	}
 
 	/**
@@ -3321,8 +3328,8 @@ class RouteRates
 		$gstRate = Filter::getServiceTaxRate();
 		if ($partnerId != null && $partnerId != 1249)
 		{
-			$partnerSetting	 = PartnerSettings::getValueById($partnerId);
-			$data			 = json_decode($partnerSetting['pts_gst_rate'], true);
+			$partnerSetting = PartnerSettings::getValueById($partnerId);
+			$data			= json_decode($partnerSetting['pts_gst_rate'], true);
 
 			$partnerData = $data[$tripType];
 			$gstRate	 = ($partnerData === null) ? $gstRate : $partnerData;
@@ -3339,20 +3346,20 @@ class RouteRates
 class Surge
 {
 
-	CONST Type_Manual			 = 1;
-	CONST Type_DDBP			 = 2;
-	CONST Type_DTBP			 = 3;
-	CONST Type_Profitability	 = 4;
-	CONST Type_DDBPV2			 = 5;
-	CONST Type_DDSBP			 = 6;
-	CONST Type_DZPP			 = 7;
-	CONST Type_DURP			 = 8;
-	CONST Type_DEBP			 = 9;
+	CONST Type_Manual		   = 1;
+	CONST Type_DDBP		   = 2;
+	CONST Type_DTBP		   = 3;
+	CONST Type_Profitability = 4;
+	CONST Type_DDBPV2		   = 5;
+	CONST Type_DDSBP		   = 6;
+	CONST Type_DZPP		   = 7;
+	CONST Type_DURP		   = 8;
+	CONST Type_DEBP		   = 9;
 
-	public $factor		 = 1;
+	public $factor	   = 1;
 	public $rockBaseAmount, $surgeAmount, $refId, $type, $refModel, $desc;
-	public $isApplied	 = false;
-	public $isOverRide	 = 0;
+	public $isApplied  = false;
+	public $isOverRide = 0;
 
 	/**
 	 *  @return Surge 
@@ -3422,8 +3429,8 @@ class Surge
 		$isPBSurgeApplicable = ProfitabilitySurge::isApplicable();
 		if ($isPBSurgeApplicable)
 		{
-			$surge1	 = ProfitabilitySurge:: fetchData($quoteModel->servingRoute['start'], $quoteModel->servingRoute['end'], $quoteModel->routeRates->rockBaseAmount, $quoteModel->cabType, $quoteModel->tripType);
-			$surge2	 = ProfitabilitySurge:: fetchData($quoteModel->servingRoute['pickup'], $quoteModel->servingRoute['drop'], $quoteModel->routeRates->rockBaseAmount, $quoteModel->cabType, $quoteModel->tripType);
+			$surge1 = ProfitabilitySurge::fetchData($quoteModel->servingRoute['start'], $quoteModel->servingRoute['end'], $quoteModel->routeRates->rockBaseAmount, $quoteModel->cabType, $quoteModel->tripType);
+			$surge2 = ProfitabilitySurge::fetchData($quoteModel->servingRoute['pickup'], $quoteModel->servingRoute['drop'], $quoteModel->routeRates->rockBaseAmount, $quoteModel->cabType, $quoteModel->tripType);
 
 			if ($surge1 || $surge2)
 			{
@@ -3435,39 +3442,39 @@ class Surge
 				{
 					$surge = $surge2;
 				}
-				$this->rockBaseAmount	 = round($surge['totamount']);
-				$this->surgeAmount		 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-				$this->refId			 = $surge['prs_id'];
-				$this->factor			 = round((100 + $surge['prs_surge']) / 100, 2);
-				$this->isApplied		 = $this->factor > 0 && $this->factor != 1;
-				$this->isApplicable		 = $isPBSurgeApplicable;
+				$this->rockBaseAmount = round($surge['totamount']);
+				$this->surgeAmount	  = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+				$this->refId		  = $surge['prs_id'];
+				$this->factor		  = round((100 + $surge['prs_surge']) / 100, 2);
+				$this->isApplied	  = $this->factor > 0 && $this->factor != 1;
+				$this->isApplicable	  = $isPBSurgeApplicable;
 			}
 		}
 		else
 		{
-			$this->surgeAmount	 = 0;
-			$this->factor		 = 1.0;
-			$this->isApplied	 = false;
-			$this->isApplicable	 = $isPBSurgeApplicable;
+			$this->surgeAmount	= 0;
+			$this->factor		= 1.0;
+			$this->isApplied	= false;
+			$this->isApplicable = $isPBSurgeApplicable;
 		}
 	}
 
 	public function applyDDBP(Quote &$quoteModel)
 	{
-		$routeRates		 = $quoteModel->routeRates;
-		$route			 = $quoteModel->routes[0];
-		$dynamicSurge	 = new DynamicSurge();
+		$routeRates	  = $quoteModel->routeRates;
+		$route		  = $quoteModel->routes[0];
+		$dynamicSurge = new DynamicSurge();
 		$dynamicSurge->calculate($routeRates->rockBaseAmount, $route->brt_from_city_id, $route->brt_to_city_id, $quoteModel->pickupDate, $quoteModel->tripType);
 
-		$this->rockBaseAmount	 = $dynamicSurge->dprApplied->baseFare;
-		$this->surgeAmount		 = $dynamicSurge->dprApplied->surgeValue;
-		$this->refId			 = $dynamicSurge->dprApplied->bucketRow['dps_id'];
-		$this->refModel			 = $dynamicSurge;
-		$this->factor			 = $dynamicSurge->dprApplied->factor;
-		$this->isApplied		 = ($this->factor > 0 && $this->factor != 1);
+		$this->rockBaseAmount = $dynamicSurge->dprApplied->baseFare;
+		$this->surgeAmount	  = $dynamicSurge->dprApplied->surgeValue;
+		$this->refId		  = $dynamicSurge->dprApplied->bucketRow['dps_id'];
+		$this->refModel		  = $dynamicSurge;
+		$this->factor		  = $dynamicSurge->dprApplied->factor;
+		$this->isApplied	  = ($this->factor > 0 && $this->factor != 1);
 
-		$rockBaseAmount	 = $quoteModel->routeRates->rockBaseAmount;
-		$this->desc		 = "DD1";
+		$rockBaseAmount = $quoteModel->routeRates->rockBaseAmount;
+		$this->desc		= "DD1";
 	}
 
 	public function applyDTBP(Quote &$quoteModel)
@@ -3490,12 +3497,12 @@ class Surge
 		$resGoldenMarkup = GoldenMarkup::model()->fetchData($quoteModel->servingRoute['start'], $quoteModel->servingRoute['end'], $route->brt_pickup_datetime, $quoteModel->routeRates->rockBaseAmount, $quoteModel->cabType, $quoteModel->tripType);
 		if ($resGoldenMarkup)
 		{
-			$this->rockBaseAmount	 = round($resGoldenMarkup['totamount']);
-			$this->surgeAmount		 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-			$this->refId			 = $resGoldenMarkup['glm_id'];
-			$this->factor			 = round((100 + $resGoldenMarkup['glm_markup_value']) / 100, 2);
-			$this->refModel			 = GoldenMarkup::model()->findByPk($resGoldenMarkup['glm_id']);
-			$this->isApplied		 = ($this->factor > 0 && $this->factor != 1);
+			$this->rockBaseAmount = round($resGoldenMarkup['totamount']);
+			$this->surgeAmount	  = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+			$this->refId		  = $resGoldenMarkup['glm_id'];
+			$this->factor		  = round((100 + $resGoldenMarkup['glm_markup_value']) / 100, 2);
+			$this->refModel		  = GoldenMarkup::model()->findByPk($resGoldenMarkup['glm_id']);
+			$this->isApplied	  = ($this->factor > 0 && $this->factor != 1);
 		}
 
 		$mmtFactor = 1;
@@ -3506,9 +3513,9 @@ class Surge
 
 		if ($quoteModel->partnerId == 18190 && $result['isEnable'] == 1)
 		{
-			$effectiveMaxTime	 = $result['effectiveMaxTime'];
-			$maxTimestamp		 = strtotime("+{$effectiveMaxTime} minute");
-			$pickupTimestamp	 = strtotime($quoteModel->pickupDate);
+			$effectiveMaxTime = $result['effectiveMaxTime'];
+			$maxTimestamp	  = strtotime("+{$effectiveMaxTime} minute");
+			$pickupTimestamp  = strtotime($quoteModel->pickupDate);
 
 			if ($pickupTimestamp > $maxTimestamp)
 			{
@@ -3541,31 +3548,31 @@ class Surge
 			{
 				$glmFactor = $this->factor;
 			}
-			$factor					 = (100 + $mmtFactor) / 100;
-			$baseAmount				 = max($quoteModel->routeRates->rockBaseAmount, $this->rockBaseAmount);
-			$amount					 = round($baseAmount * $factor);
-			$this->rockBaseAmount	 = $amount;
-			$this->surgeAmount		 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-			$this->factor			 = round($factor * $glmFactor, 2);
-			$this->isApplied		 = ($this->factor > 0 && $this->factor != 1);
+			$factor				  = (100 + $mmtFactor) / 100;
+			$baseAmount			  = max($quoteModel->routeRates->rockBaseAmount, $this->rockBaseAmount);
+			$amount				  = round($baseAmount * $factor);
+			$this->rockBaseAmount = $amount;
+			$this->surgeAmount	  = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+			$this->factor		  = round($factor * $glmFactor, 2);
+			$this->isApplied	  = ($this->factor > 0 && $this->factor != 1);
 		}
 
-		$rockBaseAmount	 = $quoteModel->routeRates->rockBaseAmount;
-		$this->desc		 = "DT";
+		$rockBaseAmount = $quoteModel->routeRates->rockBaseAmount;
+		$this->desc		= "DT";
 	}
 
 	public function applyDZPP(Quote &$quoteModel)
 	{
-		$isDZPPSurgeApplicable	 = Config::get('Surge.DZPP');
-		$flag					 = 0;
+		$isDZPPSurgeApplicable = Config::get('Surge.DZPP');
+		$flag				   = 0;
 		if ($isDZPPSurgeApplicable)
 		{
 			$row = DynamicZoneSurge::getDZPP($quoteModel);
 
 			if ($row && $row['dzs_dzpp'] != 1)
 			{
-				$rockBaseAmount	 = $quoteModel->routeRates->rockBaseAmount;
-				$factor			 = min(1.3, $row['dzs_dzpp']);
+				$rockBaseAmount = $quoteModel->routeRates->rockBaseAmount;
+				$factor			= min(1.3, $row['dzs_dzpp']);
 				if ($row['dzs_rate_update_days'] != null && ($row['dzs_rate_update_days'] > 30 && $row ['dzs_rate_update_days'] <= 60) && $factor > 1)
 				{
 					$factor = round(($factor - 1) * 0.66 + 1, 2);
@@ -3574,127 +3581,127 @@ class Surge
 				{
 					$factor = round(($factor - 1) * 0.33 + 1, 2);
 				}
-				$factor					 = max($factor, 0.9);
-				$amount					 = round($rockBaseAmount * $factor);
-				$this->rockBaseAmount	 = $amount;
-				$this->surgeAmount		 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-				$this->refId			 = $row['dzs_id'];
-				$this->factor			 = $factor;
-				$this->isApplied		 = $this->factor > 0 && $this->factor != 1;
-				$this->isApplicable		 = true;
-				$this->surgeDesc		 = $row['surgeDesc'] != null ? $row['surgeDesc'] : "90 days dzpp surge";
-				$flag					 = 1;
+				$factor				  = max($factor, 0.9);
+				$amount				  = round($rockBaseAmount * $factor);
+				$this->rockBaseAmount = $amount;
+				$this->surgeAmount	  = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+				$this->refId		  = $row['dzs_id'];
+				$this->factor		  = $factor;
+				$this->isApplied	  = $this->factor > 0 && $this->factor != 1;
+				$this->isApplicable	  = true;
+				$this->surgeDesc	  = $row['surgeDesc'] != null ? $row['surgeDesc'] : "90 days dzpp surge";
+				$flag				  = 1;
 
 				$this->desc = "DZ";
 			}
 		}
 		if ($flag == 0)
 		{
-			$this->surgeAmount	 = 0;
-			$this->factor		 = 1.0;
-			$this->isApplied	 = false;
-			$this->isApplicable	 = false;
-			$this->surgeDesc	 = null;
+			$this->surgeAmount	= 0;
+			$this->factor		= 1.0;
+			$this->isApplied	= false;
+			$this->isApplicable = false;
+			$this->surgeDesc	= null;
 		}
 	}
 
 	public function applyDEBP(Quote &$quoteModel)
 	{
-		$isDEBPSurgeApplicable	 = Config::get('Surge.DEBP');
-		$flag					 = 0;
+		$isDEBPSurgeApplicable = Config::get('Surge.DEBP');
+		$flag				   = 0;
 		if ($isDEBPSurgeApplicable)
 		{
 			$row = CalendarEvent::getDEBP($quoteModel);
 			Logger::trace("getDEBP" . json_encode($row));
 			if ($row && $row['factor'] != 1)
 			{
-				$rockBaseAmount			 = $quoteModel->routeRates->rockBaseAmount;
-				$factor					 = $row['factor'];
-				$amount					 = round($rockBaseAmount * $factor);
-				$this->rockBaseAmount	 = $amount;
-				$this->surgeAmount		 = $this->rockBaseAmount - $rockBaseAmount;
-				$this->refId			 = $row['id'];
-				$this->factor			 = $factor;
-				$this->isApplied		 = $this->factor > 0 && $this->factor != 1;
-				$this->isApplicable		 = true;
-				$flag					 = 1;
+				$rockBaseAmount		  = $quoteModel->routeRates->rockBaseAmount;
+				$factor				  = $row['factor'];
+				$amount				  = round($rockBaseAmount * $factor);
+				$this->rockBaseAmount = $amount;
+				$this->surgeAmount	  = $this->rockBaseAmount - $rockBaseAmount;
+				$this->refId		  = $row['id'];
+				$this->factor		  = $factor;
+				$this->isApplied	  = $this->factor > 0 && $this->factor != 1;
+				$this->isApplicable	  = true;
+				$flag				  = 1;
 
 				$this->desc = "DE";
 			}
 		}
 		if ($flag == 0)
 		{
-			$this->surgeAmount	 = 0;
-			$this->factor		 = 1.0;
-			$this->isApplied	 = false;
-			$this->isApplicable	 = false;
+			$this->surgeAmount	= 0;
+			$this->factor		= 1.0;
+			$this->isApplied	= false;
+			$this->isApplicable = false;
 		}
 	}
 
 	public function applyDURP(Quote &$quoteModel)
 	{
-		$route					 = $quoteModel->routes[0];
-		$zones					 = ZoneCities::getZonesByCity($route->brt_from_city_id);
-		$count					 = Vendors::getHomeZonesCount($zones);
-		$minCount				 = in_array($quoteModel->tripType, [2, 3, 9, 10, 11]) ? 2 : 4;
-		$flag					 = 0;
-		$isDURPSurgeApplicable	 = Config::get('Surge.DURP');
+		$route				   = $quoteModel->routes[0];
+		$zones				   = ZoneCities::getZonesByCity($route->brt_from_city_id);
+		$count				   = Vendors::getHomeZonesCount($zones);
+		$minCount			   = in_array($quoteModel->tripType, [2, 3, 9, 10, 11]) ? 2 : 4;
+		$flag				   = 0;
+		$isDURPSurgeApplicable = Config::get('Surge.DURP');
 		if (!$quoteModel->routeRates->isTollIncluded && $count < $minCount && $isDURPSurgeApplicable)
 		{
 			$checkRoute = ServedBookings::model()->find('seb_from_city_id=:fromcity AND seb_to_city_id=:tocity', ['fromcity' => $route->brt_from_city_id, 'tocity' => $route->brt_to_city_id]);
 			if ($checkRoute == '' || $checkRoute == null)
 			{
-				$rockBaseAmount			 = $quoteModel->routeRates->rockBaseAmount;
-				$this->factor			 = ($quoteModel->partnerId == 18190) ? 1.20 : 1.15;
-				$flag					 = 1;
-				$this->rockBaseAmount	 = round($rockBaseAmount * $this->factor);
-				$this->surgeAmount		 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-				$this->refId			 = 1;
-				$this->isApplied		 = true;
-				$this->isApplicable		 = true;
+				$rockBaseAmount		  = $quoteModel->routeRates->rockBaseAmount;
+				$this->factor		  = ($quoteModel->partnerId == 18190) ? 1.20 : 1.15;
+				$flag				  = 1;
+				$this->rockBaseAmount = round($rockBaseAmount * $this->factor);
+				$this->surgeAmount	  = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+				$this->refId		  = 1;
+				$this->isApplied	  = true;
+				$this->isApplicable	  = true;
 
 				$this->desc = "DU";
 			}
 		}
 		if ($flag == 0)
 		{
-			$this->surgeAmount	 = 0;
-			$this->factor		 = 1.0;
-			$this->isApplied	 = false;
-			$this->isApplicable	 = false;
-			$this->surgeDesc	 = null;
+			$this->surgeAmount	= 0;
+			$this->factor		= 1.0;
+			$this->isApplied	= false;
+			$this->isApplicable = false;
+			$this->surgeDesc	= null;
 		}
 	}
 
 	public function applyDURPV2(Quote &$quoteModel)
 	{
-		$isDURPSurgeApplicable	 = Config::get('Surge.DURP');
-		$flag					 = 0;
+		$isDURPSurgeApplicable = Config::get('Surge.DURP');
+		$flag				   = 0;
 		if ($isDURPSurgeApplicable)
 		{
 			$row = DynamicUncommonRoute::getDURP($quoteModel);
 			if ($row && $row['dur_surge_factor'] != 1)
 			{
-				$rockBaseAmount			 = $quoteModel->routeRates->rockBaseAmount;
-				$factor					 = $row['dur_surge_factor'];
-				$amount					 = round($rockBaseAmount * $factor);
-				$this->rockBaseAmount	 = $amount;
-				$this->surgeAmount		 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-				$this->refId			 = $row['dur_id'];
-				$this->factor			 = $factor;
-				$this->isApplied		 = true;
-				$this->isApplicable		 = true;
-				$flag					 = 1;
+				$rockBaseAmount		  = $quoteModel->routeRates->rockBaseAmount;
+				$factor				  = $row['dur_surge_factor'];
+				$amount				  = round($rockBaseAmount * $factor);
+				$this->rockBaseAmount = $amount;
+				$this->surgeAmount	  = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+				$this->refId		  = $row['dur_id'];
+				$this->factor		  = $factor;
+				$this->isApplied	  = true;
+				$this->isApplicable	  = true;
+				$flag				  = 1;
 
 				$this->desc = "DU2";
 			}
 		}
 		if ($flag == 0)
 		{
-			$this->surgeAmount	 = 0;
-			$this->factor		 = 1.0;
-			$this->isApplied	 = false;
-			$this->isApplicable	 = false;
+			$this->surgeAmount	= 0;
+			$this->factor		= 1.0;
+			$this->isApplied	= false;
+			$this->isApplicable = false;
 		}
 	}
 
@@ -3707,53 +3714,53 @@ class Surge
 			$totalSurge = DynamicSurge::getDDBPV2($quoteModel);
 			if ($totalSurge > 1)
 			{
-				$rockBaseAmount							 = $quoteModel->routeRates->rockBaseAmount;
-				$factor									 = $totalSurge;
-				$amount									 = round($rockBaseAmount * $factor);
-				$this->rockBaseAmount					 = $amount;
-				$this->surgeAmount						 = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
-				$this->refId							 = 1;
-				$this->factor							 = $factor;
-				$this->isApplied						 = true;
-				$this->isApplicable						 = true;
-				$flag									 = 1;
-				$this->DDBPV2lastUpdateDay				 = $quoteModel->DDBPV2lastUpdateDay;
-				$this->DDBPV2vndCostPerDistance			 = $quoteModel->DDBPV2vndCostPerDistance;
-				$this->DDBPV2cityIdentifier				 = $quoteModel->DDBPV2cityIdentifier;
-				$this->DDBPV2upperGuardRail				 = $quoteModel->DDBPV2upperGuardRail;
-				$this->DDBPV2vndAskingPerKm				 = $quoteModel->DDBPV2vndAskingPerKm;
-				$this->DDBPV2rowIdentifier				 = $quoteModel->DDBPV2rowIdentifier;
-				$this->DDBPV2quotedDistance				 = $quoteModel->DDBPV2quotedDistance;
-				$this->DDBPV2vndGoingRate				 = $quoteModel->DDBPV2vndGoingRate;
-				$this->DDBPV2vndAskingRate				 = $quoteModel->DDBPV2vndAskingRate;
-				$this->DDBPV2pickupCount				 = $quoteModel->DDBPV2pickupCount;
-				$this->DDBPV2initcapacity				 = $quoteModel->DDBPV2initcapacity;
-				$this->DDBPV2OriginalCapacity			 = $quoteModel->DDBPV2OriginalCapacity;
-				$this->DDBPV2rockBaseAmount				 = $quoteModel->DDBPV2rockBaseAmount;
-				$this->DDBPV2goingRegularRatio			 = $quoteModel->DDBPV2goingRegularRatio;
-				$this->DDBPV2askingGoingRatio			 = $quoteModel->DDBPV2askingGoingRatio;
-				$this->DDBPV2minTargetSurge				 = $quoteModel->DDBPV2minTargetSurge;
-				$this->DDBPV2finalCapSurge				 = $quoteModel->DDBPV2finalCapSurge;
-				$this->DDBPV2finalcapacity				 = $quoteModel->DDBPV2finalcapacity;
-				$this->DDBPV2extraSurge					 = $quoteModel->DDBPV2extraSurge;
-				$this->DDBPV2normalized_count_increase	 = $quoteModel->DDBPV2normalized_count_increase;
-				$this->DDBPV2normalized_increase_per	 = $quoteModel->DDBPV2normalized_increase_per;
-				$this->DDBPV2surge_basis_count			 = $quoteModel->DDBPV2surge_basis_count;
-				$this->DDBPV2surge_basis_5_Per_steps	 = $quoteModel->DDBPV2surge_basis_5_Per_steps;
-				$this->DDBPV2surge_basis_25_Per_steps	 = $quoteModel->DDBPV2surge_basis_25_Per_steps;
-				$this->DDBPV2surge_basis_50_Per_steps	 = $quoteModel->DDBPV2surge_basis_50_Per_steps;
-				$this->DDBPV2surge_basis_100_Per_steps	 = $quoteModel->DDBPV2surge_basis_100_Per_steps;
-				$this->DDBPV2totalSurge					 = $quoteModel->DDBPV2totalSurge;
+				$rockBaseAmount						   = $quoteModel->routeRates->rockBaseAmount;
+				$factor								   = $totalSurge;
+				$amount								   = round($rockBaseAmount * $factor);
+				$this->rockBaseAmount				   = $amount;
+				$this->surgeAmount					   = $this->rockBaseAmount - $quoteModel->routeRates->rockBaseAmount;
+				$this->refId						   = 1;
+				$this->factor						   = $factor;
+				$this->isApplied					   = true;
+				$this->isApplicable					   = true;
+				$flag								   = 1;
+				$this->DDBPV2lastUpdateDay			   = $quoteModel->DDBPV2lastUpdateDay;
+				$this->DDBPV2vndCostPerDistance		   = $quoteModel->DDBPV2vndCostPerDistance;
+				$this->DDBPV2cityIdentifier			   = $quoteModel->DDBPV2cityIdentifier;
+				$this->DDBPV2upperGuardRail			   = $quoteModel->DDBPV2upperGuardRail;
+				$this->DDBPV2vndAskingPerKm			   = $quoteModel->DDBPV2vndAskingPerKm;
+				$this->DDBPV2rowIdentifier			   = $quoteModel->DDBPV2rowIdentifier;
+				$this->DDBPV2quotedDistance			   = $quoteModel->DDBPV2quotedDistance;
+				$this->DDBPV2vndGoingRate			   = $quoteModel->DDBPV2vndGoingRate;
+				$this->DDBPV2vndAskingRate			   = $quoteModel->DDBPV2vndAskingRate;
+				$this->DDBPV2pickupCount			   = $quoteModel->DDBPV2pickupCount;
+				$this->DDBPV2initcapacity			   = $quoteModel->DDBPV2initcapacity;
+				$this->DDBPV2OriginalCapacity		   = $quoteModel->DDBPV2OriginalCapacity;
+				$this->DDBPV2rockBaseAmount			   = $quoteModel->DDBPV2rockBaseAmount;
+				$this->DDBPV2goingRegularRatio		   = $quoteModel->DDBPV2goingRegularRatio;
+				$this->DDBPV2askingGoingRatio		   = $quoteModel->DDBPV2askingGoingRatio;
+				$this->DDBPV2minTargetSurge			   = $quoteModel->DDBPV2minTargetSurge;
+				$this->DDBPV2finalCapSurge			   = $quoteModel->DDBPV2finalCapSurge;
+				$this->DDBPV2finalcapacity			   = $quoteModel->DDBPV2finalcapacity;
+				$this->DDBPV2extraSurge				   = $quoteModel->DDBPV2extraSurge;
+				$this->DDBPV2normalized_count_increase = $quoteModel->DDBPV2normalized_count_increase;
+				$this->DDBPV2normalized_increase_per   = $quoteModel->DDBPV2normalized_increase_per;
+				$this->DDBPV2surge_basis_count		   = $quoteModel->DDBPV2surge_basis_count;
+				$this->DDBPV2surge_basis_5_Per_steps   = $quoteModel->DDBPV2surge_basis_5_Per_steps;
+				$this->DDBPV2surge_basis_25_Per_steps  = $quoteModel->DDBPV2surge_basis_25_Per_steps;
+				$this->DDBPV2surge_basis_50_Per_steps  = $quoteModel->DDBPV2surge_basis_50_Per_steps;
+				$this->DDBPV2surge_basis_100_Per_steps = $quoteModel->DDBPV2surge_basis_100_Per_steps;
+				$this->DDBPV2totalSurge				   = $quoteModel->DDBPV2totalSurge;
 
 				$this->desc = "DD2";
 			}
 		}
 		if ($flag == 0)
 		{
-			$this->surgeAmount	 = 0;
-			$this->factor		 = 1.0;
-			$this->isApplied	 = false;
-			$this->isApplicable	 = false;
+			$this->surgeAmount	= 0;
+			$this->factor		= 1.0;
+			$this->isApplied	= false;
+			$this->isApplicable = false;
 		}
 	}
 
@@ -3762,24 +3769,24 @@ class Surge
 		/**
 		 * RouteRates $routeRates
 		 */
-		$routeRates	 = $quoteModel->routeRates;
-		$baseFare	 = $routeRates->rockBaseAmount;
-		$pickupDate	 = $quoteModel->pickupDate;
-		$cabType	 = $quoteModel->cabType;
-		$bkgType	 = $quoteModel->processedTripType;
-		$fromCityId	 = $quoteModel->sourceCity;
-		$toCityId	 = $quoteModel->destinationCity;
-		$vhcCatId	 = SvcClassVhcCat::model()->findByPk($cabType)->scv_vct_id;
+		$routeRates = $quoteModel->routeRates;
+		$baseFare	= $routeRates->rockBaseAmount;
+		$pickupDate = $quoteModel->pickupDate;
+		$cabType	= $quoteModel->cabType;
+		$bkgType	= $quoteModel->processedTripType;
+		$fromCityId = $quoteModel->sourceCity;
+		$toCityId	= $quoteModel->destinationCity;
+		$vhcCatId	= SvcClassVhcCat::model()->findByPk($cabType)->scv_vct_id;
 
 		$objDDSBP = DynamicDemandSupplySurge::model()->calculate($baseFare, $pickupDate, $fromCityId, $toCityId, $vhcCatId, $bkgType);
 		if ($objDDSBP)
 		{
-			$this->rockBaseAmount	 = $objDDSBP->baseFare;
-			$this->surgeAmount		 = $objDDSBP->surgeValue;
-			$this->refId			 = $objDDSBP->refId;
-			$this->factor			 = $objDDSBP->factor;
-			$this->isApplied		 = ($this->factor > 0 && $this->factor != 1);
-			$this->desc				 = "DS";
+			$this->rockBaseAmount = $objDDSBP->baseFare;
+			$this->surgeAmount	  = $objDDSBP->surgeValue;
+			$this->refId		  = $objDDSBP->refId;
+			$this->factor		  = $objDDSBP->factor;
+			$this->isApplied	  = ($this->factor > 0 && $this->factor != 1);
+			$this->desc			  = "DS";
 		}
 	}
 
@@ -3792,13 +3799,13 @@ class Surge
 			goto end;
 		}
 
-		$desc			 = $this->desc;
-		$operator		 = ($this->surgeAmount > 0) ? "+" : "-";
-		$amount			 = $this->surgeAmount;
-		$factor			 = $this->factor;
-		$isOverride		 = $this->isOverRide;
-		$overrideDesc	 = ($isOverride) ? " (O)" : "";
-		$fullDesc		 = "[$desc: {$operator}₹{$amount} - {$factor}{$overrideDesc}]";
+		$desc		  = $this->desc;
+		$operator	  = ($this->surgeAmount > 0) ? "+" : "-";
+		$amount		  = $this->surgeAmount;
+		$factor		  = $this->factor;
+		$isOverride	  = $this->isOverRide;
+		$overrideDesc = ($isOverride) ? " (O)" : "";
+		$fullDesc	  = "[$desc: {$operator}₹{$amount} - {$factor}{$overrideDesc}]";
 
 		end:
 		return $fullDesc;

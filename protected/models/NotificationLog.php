@@ -317,6 +317,7 @@ class NotificationLog extends CActiveRecord
 			case 4:
 				$type	 = UserInfo::TYPE_AGENT;
 				break;
+			case 3:
 			case 5:
 				$type	 = UserInfo::TYPE_DRIVER;
 				break;
@@ -536,7 +537,7 @@ class NotificationLog extends CActiveRecord
 		return $result;
 	}
 
-	public static function getList($entityId, $type, $id, $isNew)
+	public static function getList($entityIds, $type, $id, $isNew)
 	{
 		$order = '';
 		if ($id == 0 && $isNew == 1)
@@ -554,10 +555,11 @@ class NotificationLog extends CActiveRecord
 		$qry = "SELECT ntl.ntl_id, ntl.ntl_event_code, ntl.ntl_payload, ntl.ntl_title, ntl.ntl_message, ntl.ntl_created_on, ntl.ntl_is_read, 
                 ntl_action_value, ntl_action_at, ntl_read_at
                 FROM notification_log ntl  
-                WHERE ntl.ntl_entity_id = :entId AND ntl_show_vendor = 0 AND ntl.ntl_entity_type = :type $where
+                WHERE ntl.ntl_entity_id IN (:entId) AND ntl_show_vendor = 0 
+				AND ntl.ntl_entity_type = :type $where
 				$order limit 60";
 
-		$result = DBUtil::query($qry, DBUtil::SDB(), ["entId" => $entityId, "type" => $type]);
+		$result = DBUtil::query($qry, DBUtil::SDB(), ["entId" => $entityIds, "type" => $type]);
 		return $result;
 	}
 
@@ -1130,5 +1132,19 @@ class NotificationLog extends CActiveRecord
 		$cnt	 = DBUtil::command($sql, DBUtil::SDB())->queryScalar($params);
 		return $cnt;
 	}
-
+	/**
+	 * function used to check read vendor according to trip id
+	 * @param type $bcbId
+	 * @return type
+	 */
+	public static function getReadVendor($bcbId)
+	{
+		$params	 = ['bcbId' => $bcbId, 'isread' => 1, 'eventCode' => 550, 'reftype' =>3];
+		$sql	 = "SELECT  GROUP_CONCAT(DISTINCT ntl_entity_id) vndIds
+					FROM notification_log
+					WHERE ntl_ref_id =:bcbId AND ntl_is_read =:isread AND ntl_event_code =:eventCode AND ntl_ref_type =:reftype
+					GROUP BY ntl_ref_id";
+		$rows	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+		return $rows;
+	}
 }

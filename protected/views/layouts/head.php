@@ -1,7 +1,7 @@
 <?php
 Yii::app()->clientScript->registerPackage("web");
 Yii::app()->clientScript->registerPackage("webEnd");
-//Yii::app()->clientScript->registerCSSFile(ASSETS_URL . 'css/site.css?v1');
+//Yii::app()->clientScript->registerCSSFile(ASSETS_URL . '/css/site.css?v1');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +137,7 @@ Yii::app()->clientScript->registerPackage("webEnd");
         <link rel="shortcut icon" href="<?= IMAGE_URL ?>/fav-icon.png">
         <!-- site css -->
         <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.css" async/>
-        <link rel="stylesheet" href="<?= ASSETS_URL . 'css/site.css?v1.07' ?>" async/>
+        <link rel="stylesheet" href="<?= ASSETS_URL . '/css/site.css?v1.07' ?>" async/>
         <link rel="icon" type="image/x-icon" href="<?= IMAGE_URL ?>/favicon/favicon.ico"/>
         <script type="text/javascript">
             jQuery(function ()

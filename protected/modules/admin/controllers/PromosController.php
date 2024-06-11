@@ -74,7 +74,14 @@ class PromosController extends Controller
 			$dateModel->attributes			= $arr;
 			$entityModel->attributes		= $arr2;
 			$calModel->attributes			= $arr3;
-			
+			if($arr1['prm_allow_negative_addon'][0]==1)
+			{
+			   $model->prm_allow_negative_addon = 1;
+			}
+			else
+			{
+				$model->prm_allow_negative_addon = 0;
+			}
 			if($arr2['pef_area_from_id'] == '')
 			{
 				$entityModel->pef_area_type_from = null;
@@ -330,6 +337,7 @@ class PromosController extends Controller
 		$carType		 = $request->getParam('carType');
 		$bookingType	 = $request->getParam('bookingType');
 		$contactId       = $request->getParam('contactId');
+		$cpAddon        = $request->getParam('cpAddon');
 		$date			 = DateTimeFormat::DatePickerToDate($pdate);
 		$time			 = date('H:i:00', strtotime($ptime));
 		$returnSet = new ReturnSet();
@@ -373,6 +381,10 @@ class PromosController extends Controller
 						$bookingModel->bkgUserInfo->bkg_user_id = $userId;
 					}
 				}
+				if($cpAddon!='')
+				{
+					$bookingModel->bkgInvoice->bkg_addon_details = json_encode([0=>$cpAddon]);
+				}
 				BookingInvoice::evaluatePromoCoins($bookingModel, $obj->eventType, '', $obj->promo->code, false);
 
 				$response	 = new Stub\common\Promotions();
@@ -386,8 +398,9 @@ class PromosController extends Controller
 		}
 		catch (Exception $e)
 		{
-			ReturnSet::setException($e);
-			$returnSet->setStatus(false);
+			$returnSet = ReturnSet::setException($e);
+			echo CJSON::encode(['success'=>false,'errors'=>$returnSet->getErrors()]);
+			Yii::app()->end();
 		}
 		echo CJSON::encode($returnSet);
 	}

@@ -7,14 +7,14 @@ class VendorCommand extends BaseCommand
 	{
 		Logger::create("command.vendor.activeVendorMsg start", CLogger::LEVEL_PROFILE);
 		$data = Vendors::model()->getMissingPaperList();
-		if(count($data) > 0)
+		if (count($data) > 0)
 		{
 			$ctr = 1;
-			foreach($data as $row)
+			foreach ($data as $row)
 			{
 
 				$vndId = $row['vnd_id'];
-				if($row['ctt_user_type'] == 1)
+				if ($row['ctt_user_type'] == 1)
 				{
 					$userName = $row['contact_name'];
 				}
@@ -24,7 +24,7 @@ class VendorCommand extends BaseCommand
 				}
 				$email	 = $row['vnd_email'];
 				$subject = 'Complete your Car and Driver paperwork today';
-				if(($row['total_vehicle'] > $row['total_vehicle_approved']) || ($row['total_driver'] > $row['total_driver_approved']))
+				if (($row['total_vehicle'] > $row['total_vehicle_approved']) || ($row['total_driver'] > $row['total_driver_approved']))
 				{
 					$incompleteVehicle	 = ($row['total_vehicle'] - $row['total_vehicle_approved']);
 					$incompleteDriver	 = ($row['total_driver'] - $row['total_driver_approved']);
@@ -74,10 +74,10 @@ class VendorCommand extends BaseCommand
 	public function actionSetEffectiveCreditLimitOld()
 	{
 		Logger::create("command.vendor.setEffectiveCreditLimit start", CLogger::LEVEL_PROFILE);
-		$data			 = Vendors::model()->getCollectionList();
+		$data			 = Vendors::getCollectionList();
 		$vendorGraceDays = Yii::app()->params['vendorGraceDays'];
 		$ctr			 = 0;
-		foreach($data as $d)
+		foreach ($data as $d)
 		{
 			$model			 = Vendors::model()->resetScope()->findByPk($d['vnd_id']);
 			$modelVendStats	 = $model->vendorStats;
@@ -90,7 +90,7 @@ class VendorCommand extends BaseCommand
 			$paymentDueDays				 = Vendors::model()->getOverdueDayByDateRange($d['vnd_id']);
 			$vendorDue					 = Vendors::model()->getDueByPickupDate($d['vnd_id']);
 			$modelVendStats->vrs_vnd_id	 = $d['vnd_id'];
-			if($paymentDueDays <= $vendorGraceDays)
+			if ($paymentDueDays <= $vendorGraceDays)
 			{
 				$effective_credit_limit						 = $d['creditLimit'];
 				//$model->vnd_effective_credit_limit = max([0, $effective_credit_limit]);
@@ -105,12 +105,12 @@ class VendorCommand extends BaseCommand
 				$modelVendStats->vrs_effective_credit_limit	 = max([($d['vrs_security_amount'] + $vendorDue), min([$effective_credit_limit, $d['creditLimit']])]);
 				$modelVendStats->vrs_effective_overdue_days	 = $overdueDays;
 			}
-			if($modelVendStats->save())
+			if ($modelVendStats->save())
 			{
 				//echo "Vendor Id -->" . $model->vnd_id . " - Old Effective Credit Limit -->" . $old_credit_limit . " - Effective Credit Limit -->" . $modelVendStats->vrs_effective_credit_limit . "\n";
 				$log = $model->vnd_id . " - Old Effective Credit Limit -->" . $old_credit_limit . " - Effective Credit Limit -->" . $modelVendStats->vrs_effective_credit_limit;
 				Logger::create($log, CLogger::LEVEL_TRACE);
-				if($old_credit_limit != $modelVendStats->vrs_effective_credit_limit)
+				if ($old_credit_limit != $modelVendStats->vrs_effective_credit_limit)
 				{
 					//echo "\n::";
 					//echo $credit_desc = 'Effective credit limit (Old Value : ' . $old_credit_limit . ', New Value : ' . $modelVendStats->vrs_effective_credit_limit . ')';
@@ -121,13 +121,13 @@ class VendorCommand extends BaseCommand
 			}
 
 
-			if($modelVendStats->vrs_effective_credit_limit > $d['totTrans'] && $model->vnd_active != 2 && $modelVendPref->vnp_is_freeze == 1 && $modelVendPref->vnp_credit_limit_freeze == 1)
+			if ($modelVendStats->vrs_effective_credit_limit > $d['totTrans'] && $model->vnd_active != 2 && $modelVendPref->vnp_is_freeze == 1 && $modelVendPref->vnp_credit_limit_freeze == 1)
 			{
 				$modelVendPref->vnp_credit_limit_freeze = 0;
-				if($modelVendPref->save())
+				if ($modelVendPref->save())
 				{
 					$success = Vendors::model()->updateFreeze($d['vnd_id']);
-					if($success)
+					if ($success)
 					{
 						$event_id	 = VendorsLog::VENDOR_UNFREEZE;
 						$desc		 = "Vendor Unfreezed (Credit Limit restored)";
@@ -147,10 +147,10 @@ class VendorCommand extends BaseCommand
 	{
 		Logger::create("command.vendor.freezeHalfLife start", CLogger::LEVEL_PROFILE);
 		$data = Vendors::model()->getHalfLifeList();
-		if($data > 0)
+		if ($data > 0)
 		{
 			$ctr = 0;
-			foreach($data as $d)
+			foreach ($data as $d)
 			{
 				$amt					 = $d['totTrans'];
 				$effectiveCreditLimit	 = $d['effectiveCreditLimit'];
@@ -158,7 +158,7 @@ class VendorCommand extends BaseCommand
 
 				$result = Vendors::model()->freezeVendor($d['vnd_id'], Vendors::FR_CREDIT_LIMIT_FREEZE, $freeze);
 
-				if($freeze == 1)
+				if ($freeze == 1)
 				{
 					$amtTxt		 = 'Rs ' . $amt;
 					$message	 = "Payment overdue. Pay $amtTxt to Gozo. Send your payments every week.";
@@ -175,10 +175,10 @@ class VendorCommand extends BaseCommand
 	{
 		Logger::create("command.vendor.freezeOnRating start", CLogger::LEVEL_PROFILE);
 		$data = Vendors::model()->getLowRatingList();
-		if($data > 0)
+		if ($data > 0)
 		{
 			$ctr = 0;
-			foreach($data as $d)
+			foreach ($data as $d)
 			{
 				$result = Vendors::model()->freezeVendor($d['vnd_id'], Vendors::FR_LOW_RATING_FREEZE);
 			}
@@ -196,15 +196,15 @@ class VendorCommand extends BaseCommand
 		Logger::create("command.vendor.lastActiveSms start", CLogger::LEVEL_PROFILE);
 		$day	 = 14;
 		$rows	 = Vendors::model()->getListOfLastActive($day);
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			for($i = 0; $i < count($rows); $i++)
+			for ($i = 0; $i < count($rows); $i++)
 			{
 				$vendorId	 = $rows[$i]['vnd_id'];
 				$message	 = 'You have not logged into Gozo Partner app in ' . $day . ' days. You are missing business opportunities.';
 				$smsLog		 = new smsWrapper();
 				$return		 = $smsLog->sendAlertMessageVendor(91, $vendorId, $message, SmsLog::SMS_VENDOR_LAST_ACTIVE);
-				if($return == true)
+				if ($return == true)
 				{
 					$desc = "Sms sent for not logged in " . $day . " days";
 					VendorsLog::model()->createLog($vendorId, $desc, UserInfo::getInstance(), VendorsLog::SMS, false, false);
@@ -234,10 +234,10 @@ class VendorCommand extends BaseCommand
 	{
 		$rows		 = Vendors::model()->getAllWoAgreementFile();
 		$userInfo	 = UserInfo::getInstance();
-		if($rows > 0)
+		if ($rows > 0)
 		{
 			$ctr = 0;
-			foreach($rows as $d)
+			foreach ($rows as $d)
 			{
 				$result = Vendors::model()->freezeVendor($d['vnd_id'], Vendors::FR_DOC_PENDING_FREEZE);
 				Logger::create($d['vnd_name'] . "==> Vendor is Administrative Freezed due to incomplete documentation or agreement", CLogger::LEVEL_INFO);
@@ -258,9 +258,9 @@ class VendorCommand extends BaseCommand
 		Logger::create("command.vendor.completeRegistration start", CLogger::LEVEL_PROFILE);
 		$model	 = new Vendors();
 		$data	 = $model->fetchRegistrationProcessByInterval();
-		if(count($data) > 0)
+		if (count($data) > 0)
 		{
-			foreach($data as $d)
+			foreach ($data as $d)
 			{
 				/* @var $emailObj emailWrapper */
 				$emailObj = new emailWrapper();
@@ -281,9 +281,9 @@ class VendorCommand extends BaseCommand
 		Logger::create("command.vendor.updateVendorSummary start", CLogger::LEVEL_PROFILE);
 		$vmodels = Vendors::model()->getAll();
 		$ctr	 = 0;
-		if(count($vmodels) > 0)
+		if (count($vmodels) > 0)
 		{
-			foreach($vmodels as $model)
+			foreach ($vmodels as $model)
 			{
 				$data						 = Vendors::model()->getAvgBalanceByVendorId($model['vnd_id']);
 				$avg30Days					 = ($data['avg30Days'] != '') ? $data['avg30Days'] : 0;
@@ -291,7 +291,7 @@ class VendorCommand extends BaseCommand
 				$new_vrs_model				 = VendorStats::model()->getbyVendorId($model['vnd_id']);
 				$new_vrs_model->vrs_avg10	 = $avg30Days;
 				$new_vrs_model->vrs_avg30	 = $avg10Days;
-				if($new_vrs_model->save())
+				if ($new_vrs_model->save())
 				{
 					echo "\n" . ($model['vnd_id']) . " -> Vendor -> " . $model['vnd_name'] . "-> AVG 30 Days -> [" . $avg30Days . "] AVG 10 Days -> [" . $avg10Days . "]\n";
 				}
@@ -310,18 +310,18 @@ class VendorCommand extends BaseCommand
 	public function actionSendDigitalAgreement()
 	{
 		$check = Filter::checkProcess("vendor sendDigitalAgreement");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		Logger::info(":: Vendor-sendDigitalAgreement Started");
 		$agmtRows = VendorAgreement::model()->findAllDigitalAgreementCopy();
-		if(count($agmtRows) > 0)
+		if (count($agmtRows) > 0)
 		{
-			foreach($agmtRows as $row)
+			foreach ($agmtRows as $row)
 			{
 				$vendorId = $row['vag_vnd_id'];
-				if(Vendors::model()->saveForAgreementCopy($vendorId) == true)
+				if (Vendors::model()->saveForAgreementCopy($vendorId) == true)
 				{
 					$var = $row['vag_vnd_id'] . " - " . $row['vnd_name'] . " - Digital Agreemment Copy Saved.";
 					Logger::trace($var);
@@ -330,12 +330,12 @@ class VendorCommand extends BaseCommand
 		}
 
 		$emailRows = VendorAgreement::model()->findAllDigitalAgreementEmail();
-		if(count($emailRows) > 0)
+		if (count($emailRows) > 0)
 		{
-			foreach($emailRows as $erow)
+			foreach ($emailRows as $erow)
 			{
 				$vendorId = $erow['vag_vnd_id'];
-				if(Vendors::model()->emailForAgreementCopy($vendorId) == true)
+				if (Vendors::model()->emailForAgreementCopy($vendorId) == true)
 				{
 
 					$var = $erow['vag_vnd_id'] . " - " . $erow['vnd_name'] . " - Digital Agreemment Mail";
@@ -349,7 +349,7 @@ class VendorCommand extends BaseCommand
 	public function actionSaveAgreement()
 	{
 		$check = Filter::checkProcess("vendor saveAgreement");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -358,9 +358,9 @@ class VendorCommand extends BaseCommand
 		$host	 = Yii::app()->params['host'];
 		$baseURL = Yii::app()->params['fullBaseURL'];
 		$rows	 = VendorAgmtDocs::model()->findAllByDate();
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$vendorId	 = $row['vd_vnd_id'];
 				$reqId		 = $row['vd_agmt_req_id'];
@@ -395,26 +395,26 @@ class VendorCommand extends BaseCommand
 		$date1Inv	 = date('d/m/Y', strtotime("-9 days"));
 		$date2Inv	 = date('d/m/Y', strtotime("-1 day"));
 		$vendorData	 = Vendors::model()->getBySettleDate($date1, $date2);
-		if(count($vendorData) > 0)
+		if (count($vendorData) > 0)
 		{
-			foreach($vendorData as $vendor)
+			foreach ($vendorData as $vendor)
 			{
 				$vendorId	 = $vendor['vnd_id'];
 				$model		 = VendorPref::model()->getByVendorId($vendorId);
 				$ledgerLink	 = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateLedgerForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1Inv) . '&toDate=' . urlencode($date2Inv) . '&email=1');
 				$fileArray	 = [0 => ['URL' => $ledgerLink]];
-				if($invoice == 1)
+				if ($invoice == 1)
 				{
 					$invoiceLink = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateInvoiceForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1Inv) . '&toDate=' . urlencode($date2Inv) . '&email=1');
 					$fileArray	 = [0 => ['URL' => $ledgerLink], 1 => ['URL' => $invoiceLink]];
 				}
 				$attachments = json_encode($fileArray);
-				if(isset($vendor['eml_email_address']) && $vendor['eml_email_address'] != '')
+				if (isset($vendor['eml_email_address']) && $vendor['eml_email_address'] != '')
 				{
 					$vendorAmount	 = $vendor['vendor_amount'];
 					$body			 = 'Dear ' . $vendor['vnd_name'] . ',<br/><br/>
                                 Attached attached invoice statement from ' . $date1Inv . ' to ' . $date2Inv . '.<br>';
-					if(isset($vendorAmount) && $vendorAmount > 0)
+					if (isset($vendorAmount) && $vendorAmount > 0)
 					{
 						$body .= 'Your payment for Rs. ' . $vendorAmount . '  is due immediately.';
 					}
@@ -435,7 +435,7 @@ class VendorCommand extends BaseCommand
 					$model->vnp_invoice_date = date('Y-m-d');
 					$model->vnp_settle_date	 = date('Y-m-d', strtotime("7 day"));
 					echo $vendor['vnd_id'] . "-" . $subject . "\n";
-					if($model->save())
+					if ($model->save())
 					{
 						echo "Settle Date-" . $model->vnp_settle_date . "\n";
 					}
@@ -456,7 +456,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$message = "Please Visit:\n\nhttps://www.gozocabs.com/message";
 
 		$ids = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($ids as $id)
+		foreach ($ids as $id)
 		{
 			$payLoadData = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 			$success	 = AppTokens::model()->notifyVendor($id['vnd_id'], $payLoadData, $message, "Important Notification");
@@ -476,24 +476,24 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					) AND vendors.vnd_active > 0";
 		$vndIds	 = DBUtil::queryAll($sql);
 		Logger::create("Total Vendors : " . count($vndIds), CLogger::LEVEL_TRACE);
-		if(count($vndIds) > 0)
+		if (count($vndIds) > 0)
 		{
-			foreach($vndIds as $vnd)
+			foreach ($vndIds as $vnd)
 			{
 				try
 				{
 					$success	 = false;
 					$transaction = DBUtil::beginTransaction();
 					$arr		 = Filter::getCodeById($vnd['vnd_id'], $type		 = 'vendor');
-					if($arr['success'] == 1)
+					if ($arr['success'] == 1)
 					{
 						$model			 = Vendors::model()->resetScope()->findByPk($vnd['vnd_id']);
 						$model->vnd_code = $arr['code'];
 						$model->scenario = 'updateCode';
-						if($model->update())
+						if ($model->update())
 						{
 							$success = true;
-							if($success == true)
+							if ($success == true)
 							{
 								DBUtil::commitTransaction($transaction);
 								$updateData = $model->vnd_id . " - " . $model->vnd_code;
@@ -513,7 +513,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 						echo $errors . " Not Updated\n";
 					}
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					DBUtil::rollbackTransaction($transaction);
 					Logger::create('ERRORS =====> : ' . "Exception :" . $e->getMessage() . " Errors :" . $errors, CLogger::LEVEL_ERROR);
@@ -525,16 +525,16 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionUpdateDriverScore()
 	{
 		$rows = VendorStats::model()->getDriverAppUseScore();
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$errors = '';
-				if($row['vnd_id'] > 0)
+				if ($row['vnd_id'] > 0)
 				{
 					$vndID	 = $row['vnd_id'];
 					$model	 = VendorStats::model()->getbyVendorId($vndID);
-					if(!$model)
+					if (!$model)
 					{
 						$model				 = new VendorStats();
 						$model->vrs_vnd_id	 = $vndID;
@@ -543,11 +543,11 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					try
 					{
 						$transaction = DBUtil::beginTransaction();
-						if($model->save())
+						if ($model->save())
 						{
 							$statsRow						 = VendorStats::model()->getDriverAppUseLast10Score($model->vrs_vnd_id);
 							$model->vrs_drv_app_last10_trps	 = $statsRow['score_last_days'];
-							if($model->save())
+							if ($model->save())
 							{
 								DBUtil::commitTransaction($transaction);
 								echo "Vendor : " . $model->vrs_vnd_id . " Driver score : " . $model->vrs_use_drv_app . " Driver score for last 10 days : " . $model->vrs_drv_app_last10_trps . " \n";
@@ -564,7 +564,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 							throw new Exception($errors);
 						}
 					}
-					catch(Exception $ex)
+					catch (Exception $ex)
 					{
 						DBUtil::rollbackTransaction($transaction);
 						echo $errors . "\n";
@@ -577,22 +577,22 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionUpdateAvgCabUsed()
 	{
 		$rows = VendorStats::model()->getAvgCabsByTrips();
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$errors = '';
-				if($row['vnd_id'] > 0)
+				if ($row['vnd_id'] > 0)
 				{
 					$vndID	 = $row['vnd_id'];
 					$model	 = VendorStats::model()->getbyVendorId($vndID);
-					if(!$model)
+					if (!$model)
 					{
 						$model				 = new VendorStats();
 						$model->vrs_vnd_id	 = $vndID;
 					}
 					$model->vrs_avg_cab_used = $row['avgTrips'];
-					if($model->save())
+					if ($model->save())
 					{
 						echo "Cab avg score updated :: " . $model->vrs_vnd_id . " - " . $model->vrs_avg_cab_used . "\n";
 					}
@@ -618,7 +618,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$message = $image;
 		//	 $message = "To enhance our Customer Service, OTP Compliance is being made mandatory.  From now onwards Non-compliance with OTP before starting the trip will attract a Penalty of Rs.250";
 		$ids	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($ids as $id)
+		foreach ($ids as $id)
 		{
 			$payLoadData = ['EventCode' => Booking::CODE_BROADCAST_IMAGE];
 			$success	 = AppTokens::model()->notifyVendor($id['vnd_id'], $payLoadData, $message, "Gozo Diwali Dhamaka");
@@ -636,7 +636,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					AND ((atd.adt_amount>0 AND atd1.adt_amount<0) OR (atd1.adt_amount>0 AND atd.adt_amount<0)) 
 				WHERE 1 AND act.act_date >= DATE_SUB(NOW(), INTERVAL 75 MINUTE)";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vndId = $res['adt_trans_ref_id'];
 			Vendors::model()->updateDetails($vndId);
@@ -658,7 +658,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				(vendor_stats.vrs_last_logged_in BETWEEN '2019-02-01' AND '2019-02-19 02:00:00' AND vnd_user_id IS NOT NULL) AND eml_email_address IS NOT NULL AND phn_phone_no IS NOT NULL AND vnd_active > 0";
 		$res = Yii::app()->db->createCommand($sql)->queryAll();
 
-		foreach($res as $key => $val)
+		foreach ($res as $key => $val)
 		{
 			$emailModel	 = new emailWrapper();
 			$emailModel->SendLink($val['vnd_id'], $val['eml_email_address']);
@@ -676,7 +676,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionUpdateHomeZone()
 	{
 		$check = Filter::checkProcess("vendor updateHomeZone");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -686,17 +686,17 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionVerifyVendorStatus()
 	{
 		$vendors = Vendors::model()->getActiveVendor();
-		foreach($vendors as $key => $value)
+		foreach ($vendors as $key => $value)
 		{
 			$is_agreement	 = VendorStats::model()->statusCheckAgreement($value['vnd_id']);
 			$is_document	 = VendorStats::model()->statusCheckDocument($value['vnd_id']);
 			$is_car			 = VendorStats::model()->statusCheckVehicle($value['vnd_id']);
 			$is_driver		 = VendorStats::model()->statusCheckDriver($value['vnd_id']);
-			if($is_agreement == 0 || $is_document == 0 || $is_car == 0 || $is_driver == 0)
+			if ($is_agreement == 0 || $is_document == 0 || $is_car == 0 || $is_driver == 0)
 			{
 				$sql = "UPDATE vendors SET vnd_active = 3 WHERE vnd_id=" . $value['vnd_id'];
 				$res = Yii::app()->db->createCommand($sql)->execute();
-				if($res > 0)
+				if ($res > 0)
 				{
 					echo $value['vnd_id'] . " Updated Successfully";
 					$desc = "Changing status Active to pending due to mandatory document missing";
@@ -715,10 +715,10 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$userInfo	 = UserInfo::getInstance();
 		$rows		 = Document::getVendorDocListForR4A();
 		Logger::create("Total vendors ready for approval : " . count($rows), CLogger::LEVEL_TRACE);
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
 			$countDocs = 0;
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$arr = VendorStats::updateScoreR4A($row);
 				$var = "Vendor : " . $row['vnd_id'] . " - total " . $arr['score'] . " are updated. - R4A Flag :" . $arr['r4a'];
@@ -736,19 +736,19 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 		// set Golden tier if rating is > 4 after 25 trips
 		$rows = VendorStats::getGoldenTierList($trips, $rating, 0);
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			try
 			{
 				$returnSet = Vendors::updateVendorTire($row['vnd_id'], 1, $userInfo);
-				if($returnSet->getStatus())
+				if ($returnSet->getStatus())
 				{
 					$message = "Your vendor account is now upgraded to Gold Circle vendors group. Gold circle vendors get first priority on higher margin trips. To stay in Gold circle, focus on top quality service trip ratings and get customer ratings for all your trips. Great job! Welcome to Gold circle vendors group!";
 					$title	 = "You qualify for Golden tier";
 					Vendors::notificationForGoldenTier($row['vnd_id'], $message, $title);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Filter::writeToConsole("Set: " . $ex->getMessage());
 			}
@@ -756,19 +756,19 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 		// unset Golden tier if rating is <= 4 after 25 trips and vnd_rel_tier=1
 		$rows = VendorStats::getGoldenTierList($trips, $rating, 1);
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			try
 			{
 				$returnSet = Vendors::updateVendorTire($row['vnd_id'], 0, $userInfo);
-				if($returnSet->getStatus())
+				if ($returnSet->getStatus())
 				{
 					$message = "Your trip ratings have dropped. Your account is NOT IN the Gold Circle vendors group anymore.  To come back to the Gold circle, please request all customers to rate your trips and provide top quality service. Clean, well maintain car & family friendly driver is the way to get best ratings from customer";
 					$title	 = "You have been demoted from Golden tier ";
 					Vendors::notificationForGoldenTier($row['vnd_id'], $message, $title);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Filter::writeToConsole("Unset: " . $ex->getMessage());
 			}
@@ -779,15 +779,15 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	{
 		$rows = VendorPref::getListOrientationReq();
 		Logger::create("Total Orientation set : " . count($rows), CLogger::LEVEL_TRACE);
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
 			$ctr = 0;
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				/* @var $modelVndPref VendorPref */
 				$modelVndPref	 = new VendorPref();
 				$return			 = $modelVndPref->setOrientationFlag($row['vnd_id'], $row['ctt_id']);
-				if($return['success'] == true)
+				if ($return['success'] == true)
 				{
 					$var = 'Vendor ID : ' . $row['vnd_id'] . " Message : " . $return['message'];
 					Logger::create($var, CLogger::LEVEL_INFO);
@@ -826,10 +826,10 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	{
 		$returnSet	 = new ReturnSet();
 		$rows		 = Vendors::fetchApprovedList(true);
-		foreach($rows as $r)
+		foreach ($rows as $r)
 		{
 			$returnSet = Vendors::model()->updateVendorName($r['vnd_id']);
-			if($returnSet->isSuccess())
+			if ($returnSet->isSuccess())
 			{
 				$var = "Vendor Name updated : " . $r['vnd_id'] . " - " . json_encode($returnSet->getData());
 				Logger::create($var, CLogger::LEVEL_INFO);
@@ -851,20 +851,20 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$totalLimit		 = floor($totalCount / 500);
 		$toLimit		 = 500;
 		$fromLimit		 = 0;
-		for($i = 1; $i <= $totalLimit; $i++)
+		for ($i = 1; $i <= $totalLimit; $i++)
 		{
-			if($i == 1)
+			if ($i == 1)
 			{
 				$fromLimit	 = ($toLimit + 1);
 				$limit		 = "LIMIT 0,$toLimit";
 			}
-			else if($i == $totalLimit)
+			else if ($i == $totalLimit)
 			{
 
 				$limit		 = "LIMIT $fromLimit," . ($toLimit + $modeularLimit);
 				$fromLimit	 = (($toLimit * $i) + 1);
 			}
-			else if($i > 1)
+			else if ($i > 1)
 			{
 				$limit		 = "LIMIT $fromLimit,$toLimit";
 				$fromLimit	 = (($toLimit * $i) + 1);
@@ -872,17 +872,17 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			$sqlQuey[] = "SELECT vendors.vnd_id FROM `vendors` WHERE vendors.vnd_active>0 AND vendors.vnd_cat_type!=3 $limit";
 		}
 
-		foreach($sqlQuey as $sql)
+		foreach ($sqlQuey as $sql)
 		{
 			$varSql	 = "SQL executed : " . $sql;
 			Logger::create($varSql, CLogger::LEVEL_INFO);
 			echo "SQL executed : " . $sql . "\n";
 			$rows	 = DBUtil::queryAll($sql, DBUtil::SDB());
-			foreach($rows as $r)
+			foreach ($rows as $r)
 			{
 				$returnSet	 = new ReturnSet();
 				$returnSet	 = Vendors::model()->updateVendorCatType($r['vnd_id']);
-				if($returnSet->isSuccess())
+				if ($returnSet->isSuccess())
 				{
 					$var = "VendorType updated : " . $r['vnd_id'] . " - " . json_encode($returnSet->getData());
 					Logger::create($var, CLogger::LEVEL_INFO);
@@ -905,7 +905,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				AND booking_cab.bcb_trip_status = 5 AND booking.bkg_create_date >='2016-11-01'";
 
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($result as $value)
+		foreach ($result as $value)
 		{
 			echo $value['BookingId'] . "-" . $value['bcbvendamt'] . "-" . $value['bcb_id'] . "\n";
 
@@ -915,7 +915,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			$cabmodel->setScenario('updatePendingStatus');
 			$models		 = Booking::model()->getBookingModelsbyCab($cabmodel->bcb_id);
 			$bkgIds		 = [];
-			foreach($models as $val)
+			foreach ($models as $val)
 			{
 				$bkgIds[] = $val['bkg_id'];
 			}
@@ -929,13 +929,13 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			$bcbModel->scenario			 = 'updateTripAmount';
 
 			//$checkaccess = Yii::app()->user->checkAccess('changeVendorAmount');
-			if(($modelCab->bcb_vendor_amount > $bcbModel->bcb_vendor_amount) || ($modelCab->bcb_vendor_amount <= $bcbModel->bcb_vendor_amount))
+			if (($modelCab->bcb_vendor_amount > $bcbModel->bcb_vendor_amount) || ($modelCab->bcb_vendor_amount <= $bcbModel->bcb_vendor_amount))
 			{
 				$transaction = DBUtil::beginTransaction();
 				try
 				{
 					$bcbModel->updateTripAmount($modelCab->bcb_vendor_amount, $userInfo);
-					if($modelCab->bcb_vendor_amount != '')
+					if ($modelCab->bcb_vendor_amount != '')
 					{
 						$vndStatsModel	 = VendorStats::model()->getbyVendorId($bcbModel->bcb_vendor_id);
 						$message		 = "Gozo has released payment of " . $bcbModel->bcb_vendor_amount . " to you today. Your withdrwable balance at time of release of payment was " . $vndStatsModel->vrs_withdrawable_balance . ". It normally takes between 2-24hours for you to receive the amount in your bank account";
@@ -948,7 +948,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					$modelBookingCab->bcb_pending_status = 0;
 					$success							 = $modelBookingCab->save();
 					$lowestStatus						 = $modelBookingCab->getLowestBookingStatus();
-					if($modelBookingCab->bcbVendor && ($lowestStatus == 7 || $lowestStatus == 6))
+					if ($modelBookingCab->bcbVendor && ($lowestStatus == 7 || $lowestStatus == 6))
 					{
 
 						$bkgamt	 = $model->bkgInvoice->bkg_total_amount;
@@ -957,7 +957,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 						$model->bkgInvoice->bkg_due_amount	 = $amtdue;
 						$vndamt								 = $modelBookingCab->bcb_vendor_amount;
 						$gzamount							 = $model->bkgInvoice->bkg_gozo_amount;
-						if($gzamount == '')
+						if ($gzamount == '')
 						{
 							$gzamount							 = $bkgamt - $vndamt;
 							$model->bkgInvoice->bkg_gozo_amount	 = $gzamount;
@@ -969,11 +969,11 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 						$duration			 = $model->bkg_trip_duration | 120;
 						$date->add(new DateInterval('PT' . $duration . 'M'));
 						$findmatchBooking	 = Booking::model()->getMatchBookingIdbyTripId($modelBookingCab->bcb_id);
-						foreach($findmatchBooking as $valBookingID)
+						foreach ($findmatchBooking as $valBookingID)
 						{
-							if(AccountTransDetails::model()->revertVenTransOnEditAcc($modelBookingCab->bcb_id, $valBookingID['bkg_id'], Accounting::LI_TRIP, Accounting::LI_OPERATOR))
+							if (AccountTransDetails::model()->revertVenTransOnEditAcc($modelBookingCab->bcb_id, $valBookingID['bkg_id'], Accounting::LI_TRIP, Accounting::LI_OPERATOR))
 							{
-								if($valBookingID['bkg_vendor_collected'] > 0)
+								if ($valBookingID['bkg_vendor_collected'] > 0)
 								{
 									AccountTransactions::model()->AddVendorCollection($modelBookingCab->bcb_vendor_amount, $valBookingID['bkg_vendor_collected'], $modelBookingCab->bcb_id, $valBookingID['bkg_id'], $modelBookingCab->bcb_vendor_id, $date->format('Y-m-d H:i:s'), $userInfo, $modelBookingCab->bcb_trip_status);
 								}
@@ -993,7 +993,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					}
 					DBUtil::commitTransaction($transaction);
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					DBUtil::rollbackTransaction($transaction);
 				}
@@ -1009,7 +1009,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId = $res['vrs_vnd_id'];
 
@@ -1021,7 +1021,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 			$startDate = DBUtil::queryScalar($sql1);
 
-			if($startDate != "")
+			if ($startDate != "")
 			{
 				VendorStats::updateStickyScore($vendorId, $startDate);
 			}
@@ -1033,7 +1033,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 		$sccData = ServiceClass::getAll();
 		$result	 = Vendors::model()->updateIsAllowedTier();
-		foreach($sccData as $scc)
+		foreach ($sccData as $scc)
 		{
 			Vendors::updateTier($scc['scc_odometer'], $scc['scc_id'], $scc['scc_model_year']);
 			echo "=====Completed Class: {$scc['scc_id']}=========<br>";
@@ -1046,7 +1046,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		#$date =date('2020-02-24 00:00:00');
 		$sql	 = "SELECT vrs_vnd_id FROM `vendor_stats` WHERE vrs_last_bkg_cmpleted > DATE_SUB('" . $date . "', INTERVAL 1 DAY)";
 		$result	 = DBUtil::command($sql)->queryAll();
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId = $res['vrs_vnd_id'];
 
@@ -1084,7 +1084,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 		$sql	 = "SELECT vrs_vnd_id FROM `vendor_stats` WHERE vrs_last_bkg_cmpleted > DATE_SUB(now(), INTERVAL 1 DAY)";
 		$result	 = DBUtil::command($sql)->queryAll();
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId = $res['vrs_vnd_id'];
 
@@ -1096,7 +1096,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	{
 		$params	 = ["interval" => $interval];
 		$cond	 = "";
-		if($vndId != null)
+		if ($vndId != null)
 		{
 			$cond			 = " AND bvr_vendor_id=:vndId";
 			$params["vndId"] = $vndId;
@@ -1105,7 +1105,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$sql	 = "SELECT distinct(bvr_vendor_id) FROM `booking_vendor_request` WHERE  bvr_assigned_at > DATE_SUB(now(), INTERVAL :interval DAY) AND bvr_assigned=1 $cond";
 		$result	 = DBUtil::query($sql, DBUtil::SDB(), $params);
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			try
 			{
@@ -1113,7 +1113,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				VendorStats::updateDependency($vendorId);
 				VendorStats::updateTripCount($vendorId);
 			}
-			catch(Exception $exc)
+			catch (Exception $exc)
 			{
 				Logger::error($exc);
 			}
@@ -1129,7 +1129,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$sql	 = "SELECT distinct(bvr_vendor_id) FROM `booking_vendor_request` WHERE bvr_assigned_at > DATE_SUB(now(), INTERVAL 14 DAY)";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId = $res['bvr_vendor_id'];
 
@@ -1142,18 +1142,26 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		}
 	}
 
-	//* 
-
-	public function actionSetEffectiveCreditLimit()
+	public function actionSetEffectiveCreditLimit($vnd = null)
 	{
-		$data			 = Vendors::model()->getCollectionList();
+		Logger::writeToConsole("COMMAND VENDOR SetEffectiveCreditLimit STARTED");
+		$data		 = Vendors::getCollectionList(0, 0, $vnd);
+		$countData	 = $data->getRowCount();
+
+		Logger::writeToConsole("Count: " . $countData);
+
 		$vendorGraceDays = Yii::app()->params['vendorGraceDays'];
-		foreach($data as $d)
+
+		$str = "Total Vendor Count: " . $countData;
+		Logger::warning("CRON SetEffectiveCreditLimit STARTED: {$str}", true);
+
+		$i = 0;
+		foreach ($data as $d)
 		{
+			Logger::trace("Data - " . json_encode($d));
 			$transaction = DBUtil::beginTransaction();
 			try
 			{
-				Logger::writeToConsole("VndId: ".$d['vnd_id']);
 				$model					 = Vendors::model()->resetScope()->findByPk($d['vnd_id']);
 				$modelVendStats			 = $model->vendorStats;
 				$modelVendPref			 = $model->vendorPrefs;
@@ -1162,12 +1170,8 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				$defaultMinCreditLimit	 = Config::get('vendor.defaultMinCreditLimit');
 				$actualBalance			 = $d['totTrans'];
 				$modelVendStats->setLockedAmount();
-				
-				Logger::writeToConsole("ActualBalance: ".$actualBalance);
-				Logger::writeToConsole("vrs_withdrawable_balance: ".$modelVendStats->vrs_withdrawable_balance);
-				Logger::writeToConsole("vrs_locked_amount: ".$modelVendStats->vrs_locked_amount);
 
-				if($actualBalance <= 0)
+				if ($actualBalance <= 0)
 				{
 					$modelVendStats->vrs_effective_credit_limit	 = ($d['creditLimit'] <= 0) ? $defaultMinCreditLimit : $d['creditLimit'];
 					$modelVendStats->vrs_effective_overdue_days	 = 0;
@@ -1180,7 +1184,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					$modelVendStats->vrs_effective_overdue_days	 = $pastduedays;
 					$securityLimit								 = round($d['vrs_security_amount'] * 0.75);
 
-					if($pastduedays <= $vendorGraceDays)
+					if ($pastduedays <= $vendorGraceDays)
 					{
 						$defaultLimit								 = max(max($defaultMinCreditLimit, $d['creditLimit'], $securityLimit) - $actualBalance, 0);
 						$modelVendStats->vrs_effective_credit_limit	 = $defaultLimit;
@@ -1203,32 +1207,31 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 						$success	 = AppTokens::model()->notifyVendor($d['vnd_id'], $payLoadData, $message, "PAYMENT DUE");
 					}
 				}
-				
-				Logger::writeToConsole("vrs_effective_credit_limit: ".$modelVendStats->vrs_effective_credit_limit);
-				Logger::writeToConsole("vrs_credit_limit: ".$modelVendStats->vrs_credit_limit);
-				Logger::writeToConsole("vrs_effective_overdue_days: ".$modelVendStats->vrs_effective_overdue_days);
-				
-				if($modelVendStats->save())
+
+				if ($modelVendStats->save())
 				{
-					if($old_credit_limit != $modelVendStats->vrs_effective_credit_limit)
+					$i++;
+					if ($old_credit_limit != $modelVendStats->vrs_effective_credit_limit)
 					{
 						$credit_desc = 'Effective credit limit (Old Value : ' . $old_credit_limit . ', New Value : ' . $modelVendStats->vrs_effective_credit_limit . ')';
 						VendorsLog::model()->createLog($model->vnd_id, $credit_desc, UserInfo::getInstance(), VendorsLog::EFFECTIVE_CREDIT_LIMIT_UNSET, false, false);
 					}
-					if($d['creditLimit'] != $modelVendStats->vrs_credit_limit)
+					if ($d['creditLimit'] != $modelVendStats->vrs_credit_limit)
 					{
 						$credit_desc = 'Credit limit (Old Value : ' . $d['creditLimit'] . ', New Value : ' . $modelVendStats->vrs_credit_limit . ')';
 						VendorsLog::model()->createLog($model->vnd_id, $credit_desc, UserInfo::getInstance(), VendorsLog::CREDIT_LIMIT_UNSET, false, false);
 					}
 				}
+				Logger::trace(json_encode($modelVendStats->getAttributes()));
+				Logger::trace(json_encode($modelVendPref->getAttributes()));
 				#if vendor security and total transaction 0 then no freeze for vendor according to discution with AK sir
-				if($modelVendStats->vrs_effective_credit_limit < $actualBalance && $modelVendPref->vnp_credit_limit_freeze == 0)
+				if ($modelVendStats->vrs_effective_credit_limit < $actualBalance && $modelVendPref->vnp_credit_limit_freeze == 0)
 				{
 					$modelVendPref->vnp_credit_limit_freeze = 1;
-					if($modelVendPref->save())
+					if ($modelVendPref->save())
 					{
 						$success = Vendors::model()->updateFreeze($d['vnd_id']);
-						if($success)
+						if ($success)
 						{
 							// vendor log for vendor freeze for credit limit
 							$event_id	 = VendorsLog::VENDOR_FREEZE;
@@ -1243,13 +1246,13 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 						}
 					}
 				}
-				else if($modelVendStats->vrs_effective_credit_limit > $actualBalance && $model->vnd_active != 2 && $modelVendPref->vnp_is_freeze == 1 && $modelVendPref->vnp_credit_limit_freeze == 1)
+				else if ($modelVendStats->vrs_effective_credit_limit > $actualBalance && $model->vnd_active != 2 && $modelVendPref->vnp_credit_limit_freeze == 1)
 				{
 					$modelVendPref->vnp_credit_limit_freeze = 0;
-					if($modelVendPref->save())
+					if ($modelVendPref->save())
 					{
 						$success = Vendors::model()->updateFreeze($d['vnd_id']);
-						if($success)
+						if ($success)
 						{
 							$event_id	 = VendorsLog::VENDOR_UNFREEZE;
 							$desc		 = "Vendor Unfreezed. (Credit use is now below Eff. Cr limit)";
@@ -1263,25 +1266,29 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					}
 				}
 				DBUtil::commitTransaction($transaction);
-				Logger::writeToConsole("Done: ");
+
+				Logger::writeToConsole("DONE VND ID: " . $d['vnd_id']);
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
-				Logger::writeToConsole("Error: " . $e->getMessage());
 				DBUtil::rollbackTransaction($transaction);
 				Logger::exception($e);
+				Logger::writeToConsole("VND ID: " . $d['vnd_id'] . ", ERROR: " . $e->getMessage());
 			}
 		}
+		$str .= "Success Count: " . $i;
+
+		Logger::warning("CRON SetEffectiveCreditLimit COMPLETED: {$str}", true);
 	}
 
 	public function actionSetLouRequiredFlag()
 	{
 		$vendors = Vendors::model()->getAll();
-		foreach($vendors as $vndIds)
+		foreach ($vendors as $vndIds)
 		{
 			$vndId		 = $vndIds['vnd_id'];
 			$vvhcData	 = VendorVehicle::getcabForLouV1($vndId);
-			foreach($vvhcData as $vvhc)
+			foreach ($vvhcData as $vvhc)
 			{
 				$vvhcId						 = $vvhc['vvhc_id'];
 				$model						 = VendorVehicle::model()->findByPk($vvhcId);
@@ -1324,9 +1331,9 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
                     AND bkg_active = 1
                     AND bcb_lock_vendor_payment = 0";
 		$rows	 = DBUtil::query($sql, DBUtil::SDB());
-		foreach($rows as $data)
+		foreach ($rows as $data)
 		{
-			if($data['bcb_id'])
+			if ($data['bcb_id'])
 			{
 				BookingCab::stopVendorPayment($data['bcb_id']);
 			}
@@ -1340,22 +1347,22 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				INNER JOIN booking_trail ON booking_trail.btr_bkg_id = booking.bkg_id
 				WHERE booking.bkg_status = 3 AND booking.bkg_pickup_date > NOW()";
 		$rows	 = DBUtil::query($sql, DBUtil::SDB());
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$workingHours = Filter::CalcWorkingHour($row['bkg_assigned_at'], $row['bkg_pickup_date']);
-			if($workingHours > 12)
+			if ($workingHours > 12)
 			{
 				$timeLeft = "3 hrs";
 			}
-			else if($workingHour > 8 && $workingHours <= 12)
+			else if ($workingHour > 8 && $workingHours <= 12)
 			{
 				$timeLeft = "2 hrs";
 			}
-			else if($workingHour > 4 && $workingHours <= 8)
+			else if ($workingHour > 4 && $workingHours <= 8)
 			{
 				$timeLeft = "1 hr";
 			}
-			else if($workingHour <= 4)
+			else if ($workingHour <= 4)
 			{
 				$timeLeft = "30 minutes";
 			}
@@ -1368,7 +1375,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			$contactNo	 = $ext . $number;
 			$smsCount	 = SmsLog::getCountVendorAssignedSms($row['bkg_booking_id'], $contactNo, SmsLog::SMS_VENDOR_ASSIGNED);
 
-			if($smsCount == 0)
+			if ($smsCount == 0)
 			{
 				smsWrapper::vendorAssignment($ext, $number, $row['bkg_booking_id'], "Driver & Cab assignment pending for TRIP ID: " . $row['bcb_id'] . " If not allocated within " . $timeLeft . " - we will unassign this trip - Gozocabs", $row['bcb_vendor_id']);
 			}
@@ -1382,13 +1389,13 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				adt_status = 1 AND adt_active = 1 AND adt_ledger_id = 15 AND  adt_modified >= DATE_SUB(NOW(), INTERVAL 90 DAY) 
 				AND adt_modified >= '2020-04-01 00:00:00' AND adt_trans_ref_id NOT IN (18190,450,1249,3936,25723,34928)";
 		$values	 = DBUtil::query($sql, DBUtil::SDB());
-		foreach($values as $val)
+		foreach ($values as $val)
 		{
 			$id			 = $val['adt_trans_ref_id'];
 			$getBalance	 = PartnerStats::getBalance($id);
 			$agentModel	 = Agents::model()->findByPk($id);
 			$resultRow	 = PartnerSettings::getValueById($id);
-			If($resultRow['pts_is_stop_vendor_payment'] == 1)
+			If ($resultRow['pts_is_stop_vendor_payment'] == 1)
 			{
 				$agentModel->agt_effective_credit_limit = $agentModel->agt_credit_limit;
 			}
@@ -1397,7 +1404,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 
 			$bkg_id		 = $pickupDate	 = null;
 			$result		 = BookingCab::stopVendorPaymentForPartnerBooking($id, $balance);
-			if($result)
+			if ($result)
 			{
 				$bkg_id		 = $result['bkgId'];
 				$pickupDate	 = $result['pickupDate'];
@@ -1416,44 +1423,44 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$sql				 = "SELECT distinct(bvr_vendor_id) FROM `booking_vendor_request` WHERE  bvr_assigned_at > DATE_SUB(now(), INTERVAL 30 DAY)";
 		$result				 = DBUtil::query($sql, DBUtil::SDB());
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId			 = $res['bvr_vendor_id'];
 			$days				 = 30;
 			$oneMnthBookingCount = Vendors::getVendorBookingCount($vendorId, $days);
 			$oneMnthRatingCount	 = Ratings::getVendorRatingCount($vendorId, $days);
-			if($oneMnthBookingCount < 1)
+			if ($oneMnthBookingCount < 1)
 			{
 				goto next;
 			}
 			$bkgFiftyPercent = $oneMnthBookingCount / 2;
 			$noRatingBooking = $oneMnthBookingCount - $oneMnthRatingCount;
-			if($bkgFiftyPercent > $oneMnthRatingCount)
+			if ($bkgFiftyPercent > $oneMnthRatingCount)
 			{
 				$notificationFlag	 = 1;
 				$msg				 = "You have completed " . $oneMnthBookingCount . "bookings in last 30 days but not received any rating for " . $noRatingBooking . " bookings.";
 			}
 
 			next:
-			if($notificationFlag < 1)
+			if ($notificationFlag < 1)
 			{
 				$lifeTimeBookingCount	 = Vendors::getVendorBookingCount($vendorId);
 				$lifeTimeRatingCount	 = Ratings::getVendorRatingCount($vendorId);
 				$lifeTimebkgFiftyPercent = $lifeTimeBookingCount / 2;
 				$lifeTimenoRatingBooking = $lifeTimeBookingCount - $lifeTimeRatingCount;
-				if($lifeTimebkgFiftyPercent > $lifeTimeRatingCount)
+				if ($lifeTimebkgFiftyPercent > $lifeTimeRatingCount)
 				{
 					$notificationFlag	 = 1;
 					$msg				 = "You have completed " . $lifeTimeBookingCount . "bookings but" . $lifeTimenoRatingBooking . " bookings got no ratings.";
 				}
 			}
-			if($notificationFlag == 1)
+			if ($notificationFlag == 1)
 			{
 				$type	 = 15;
 				$day	 = 10;
 
 				$checkNotify = NotificationLog::getNotificationIntStatus($vendorId, $day, $type);
-				if($checkNotify < 1)
+				if ($checkNotify < 1)
 				{
 					$payLoadData = ['vendorId' => $vendorId, 'EventCode' => Ratings::NoRating];
 					$message	 = $msg . "
@@ -1483,7 +1490,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 		$sql	 = "SELECT distinct(bvr_vendor_id) FROM `booking_vendor_request` WHERE  bvr_assigned_at > DATE_SUB(now(), INTERVAL :interval DAY) AND bvr_assigned=1";
 		$result	 = DBUtil::query($sql, DBUtil::SDB(), $params);
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId = $res['bvr_vendor_id'];
 			VendorStats::blockListing($vendorId);
@@ -1499,14 +1506,14 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				WHERE vnp.vnp_credit_limit_freeze = 0 AND vnd.vnd_active = 1 
 				AND vrs.vrs_security_amount <= 0 AND vnd_create_date >= DATE_SUB(NOW(), INTERVAL 1 DAY)";
 		$vndIds	 = DBUtil::queryScalar($sql, DBUtil::SDB());
-		if($vndIds)
+		if ($vndIds)
 		{
 			$sqlUpd	 = "UPDATE vendor_pref SET vnp_is_freeze = 1, vnp_cod_freeze = 1 WHERE vnp_vnd_id IN ($vndIds)";
 			$result	 = DBUtil::execute($sqlUpd);
-			if($result)
+			if ($result)
 			{
 				$vendorIds = explode(',', $vndIds);
-				foreach($vendorIds as $vendorId)
+				foreach ($vendorIds as $vendorId)
 				{
 					$desc = "Vendor COD freezed. No Security deposit.";
 					VendorsLog::model()->createLog($vendorId, $desc, UserInfo::getInstance(), VendorsLog::VENDOR_FREEZE, false, false);
@@ -1523,7 +1530,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionlastWeekVedorCompletedTrip()
 	{
 		$result = BookingCab::getlastWeekVedorCompletedTrip();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
@@ -1533,7 +1540,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				$title				 = "Get more reviews & improve your ratings";
 				AppTokens::model()->notifyVendor($row['vnd_id'], ['EventCode' => Booking::CODE_VENDOR_TIER], $message, $title);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Filter::writeToConsole("Set: " . $ex->getMessage());
 			}
@@ -1547,7 +1554,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionNotifyGnowSnoozeVnd()
 	{
 		$bookingList = BookingVendorRequest::listSnoozeBooking();
-		foreach($bookingList as $booking)
+		foreach ($bookingList as $booking)
 		{
 
 			$model = Booking::model()->findByPk($booking['bvr_booking_id']);
@@ -1576,7 +1583,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionWeeklyGozoNowNotifyVendor()
 	{
 		$result = VendorPref::getGozoNowVendorList();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
@@ -1585,7 +1592,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				$title	 = "Turn on Gozo NOW on your vendor app";
 				AppTokens::model()->notifyVendor($vndId, ['EventCode' => BookingLog::ACTIVATE_GOZO_NOW], $message, $title);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -1599,11 +1606,11 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				WHERE bvr_created_at > DATE_SUB(CURDATE(), INTERVAL 2 DAY) AND bvr_accepted = 1
 				GROUP by bvr_vendor_id";
 		$records = DBUtil::query($sql, DBUtil::SDB());
-		foreach($records as $row)
+		foreach ($records as $row)
 		{
 			try
 			{
-				if($row['bvr_vendor_id'] > 0 && ($row['lastBidDate'] != NULL || $row['lastBidDate'] != ''))
+				if ($row['bvr_vendor_id'] > 0 && ($row['lastBidDate'] != NULL || $row['lastBidDate'] != ''))
 				{
 					$vnd_id		 = $row['bvr_vendor_id'];
 					$lastBidDate = $row['lastBidDate'];
@@ -1611,7 +1618,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 					DBUtil::execute($query);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -1628,9 +1635,9 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 				WHERE vnp_gnow_status =0 
                 AND DATE_SUB(CURDATE(),INTERVAL 7 DAY) >=vnp_gnow_modify_time;";
 		$records = DBUtil::query($sql, DBUtil::SDB());
-		foreach($records as $row)
+		foreach ($records as $row)
 		{
-			if($row['vnp_vnd_id'] > 0)
+			if ($row['vnp_vnd_id'] > 0)
 			{
 				$vndId	 = $row['vnp_vnd_id'];
 				$params	 = ['vndId' => $vndId];
@@ -1643,7 +1650,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 	public function actionGozoNowNotificationStats()
 	{
 		$records = VendorStats::gozoNowNotificationStats();
-		foreach($records as $row)
+		foreach ($records as $row)
 		{
 			VendorStats::updateGozoNowNotificationStats($row);
 		}
@@ -1656,7 +1663,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			$results = Vendors::updateVendorToDCO($vndId);
 			echo "Vendor To DCO: " . $results;
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 		}
@@ -1669,7 +1676,7 @@ where vnd_active = 1 ORDER BY apt_last_login DESC';
 			$results = Vendors::updateDCOToVendor($vndId);
 			echo "DCO To Vendor: " . $results;
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 		}

@@ -176,7 +176,8 @@ class BookingTrackLog extends CActiveRecord
 		$data['loc_desc']		 = (!empty(BookingTrack::getTripEventTitles($this->btl_event_type_id)) ? BookingTrack::getTripEventTitles($this->btl_event_type_id) : NULL);
 		$data['loc_device_uuid'] = (!empty($deviceInfo['uniqueId']) ? $deviceInfo['uniqueId'] : NULL);
 
-		Location::addLocation($data);
+		$drvId					 = $this->btlBkg->bkgBcb->bcb_driver_id;
+		Location::addLocation($data, null, $drvId);
 	}
 
 	/**
@@ -184,7 +185,7 @@ class BookingTrackLog extends CActiveRecord
 	 * @param Stub\booking\SyncRequest $obj
 	 * @return \Stub\booking\SyncResponse
 	 */
-	public function handleEvents($obj = null, $dco = null, $reqData =null)
+	public function handleEvents($obj = null, $dco = null, $reqData = null)
 	{
 		#\Logger::create("Sync Request handleEvents : ", CLogger::LEVEL_INFO);
 
@@ -289,9 +290,8 @@ class BookingTrackLog extends CActiveRecord
 				$returnSet	 = $this->voucherUpload();
 				break;
 			case BookingTrack::CAR_BREAKDOWN:
-				$returnSet = $this->carBreakDown($reqData);
+				$returnSet	 = $this->carBreakDown($reqData);
 				break;
-			
 		}
 
 		return $returnSet;
@@ -1309,12 +1309,12 @@ class BookingTrackLog extends CActiveRecord
 			//Response from booking track save
 			$bookingTrackModel				 = $this->btlBkg->bkgTrack;
 			$btResponse						 = $bookingTrackModel->setSos($this->btl_event_type_id, $this->btl_coordinates);
-			
-			$var							 = explode(',', $this->btl_coordinates);
+
+			$var = explode(',', $this->btl_coordinates);
 			if ($this->btl_event_type_id == 301)
 			{
 				//$desc = "S.O.S. activated  at Latitude:$var[0] Longitude:$var[1] on Date $this->btl_sync_time.";
-				$desc = "S.O.S. activated at ". $this->btl_sync_time;
+				$desc = "S.O.S. activated at " . $this->btl_sync_time;
 			}
 			else
 			{
@@ -1376,14 +1376,14 @@ class BookingTrackLog extends CActiveRecord
 					############################################################################################################################
 					if ($this->btl_event_type_id == 301)
 					{
-						$entityType = $userInfo->getUserType();
-						$userId      = $userInfo->getUserId();
+						$entityType	 = $userInfo->getUserType();
+						$userId		 = $userInfo->getUserId();
 						$entityId	 = $userInfo->getEntityId();
-						if($entityId=="" && $entityType ==1)
+						if ($entityId == "" && $entityType == 1)
 						{
 							$entityId = $userId;
 						}
-						
+
 						switch ($entityType)
 						{
 							case UserInfo::TYPE_DRIVER:
@@ -1510,31 +1510,29 @@ class BookingTrackLog extends CActiveRecord
 
 	public function carBreakDown($reqData)
 	{
-		
-	
+
+
 		try
 		{
 			$bookingTrackModel				 = $this->btlBkg->bkgTrack; //Taking the booking track
 			$eventId						 = BookingTrack::CAR_BREAKDOWN;
 			$params["blg_booking_status"]	 = $this->btlBkg->bkg_status;
 			$params['current_user_type']	 = (int) UserInfo::TYPE_DRIVER;
-			$remarks  = $this->btl_remarks;
-			$reqData->desc  = $remarks;
-			$returnSet = new ReturnSet();
-			$message		 = "Car breakdown event trigger";
+			$remarks						 = $this->btl_remarks;
+			$reqData->desc					 = $remarks;
+			$returnSet						 = new ReturnSet();
+			$message						 = "Car breakdown event trigger";
 			//$returnSet->setMessage($message);
-			$transaction = DBUtil::beginTransaction();
-			$this->scenario	 = 'syncBooking';
+			$transaction					 = DBUtil::beginTransaction();
+			$this->scenario					 = 'syncBooking';
 			if ($this->save()) //Booking track log save
 			{
 				$returnSet->setStatus(true);
-				BookingLog::model()->createLog($this->btl_bkg_id, $message. '('.$reqData->desc.') at ' . $this->btl_sync_time, null, $eventId, false, $params);
+				BookingLog::model()->createLog($this->btl_bkg_id, $message . '(' . $reqData->desc . ') at ' . $this->btl_sync_time, null, $eventId, false, $params);
 				//BookingTrack::updateLastStatus($this->btl_bkg_id, $this->btl_event_type_id, $this->btl_coordinates, $this->btl_sync_time);
-				
 				//create break down scq
 				$returnSet = self::breakdownscq($reqData);
 				DBUtil::commitTransaction($transaction);
-				
 			}
 			else
 			{
@@ -1546,7 +1544,6 @@ class BookingTrackLog extends CActiveRecord
 				}
 			}
 			return $returnSet;
-			
 		}
 		catch (Exception $ex)
 		{
@@ -1554,32 +1551,31 @@ class BookingTrackLog extends CActiveRecord
 			$returnSet->addError($ex->getMessage());
 			$returnSet->setErrorCode($ex->getCode());
 			Logger::exception($ex);
-		}	
-
-		
+		}
 	}
 
 	public function breakDownScq($reqData)
 	{
-		
+
 		//scq part
 		$scqType		 = ServiceCallQueue::TYPE_DRIVER_CAR_BREAKDOWN;
-		$bkgId           = $reqData->refId;
-		$userId	         = UserInfo::getUserId();
+		$bkgId			 = $reqData->refId;
+		$userId			 = UserInfo::getUserId();
 		$entityType		 = UserInfo::TYPE_DRIVER;
-		$cttId	         = ContactProfile::getByUserId($userId);
-		$contactPhone   = ContactPhone::getNumber($cttId);
-		
-		$reqData->phone->fullNumber = $contactPhone['contactNumber'];
+		$cttId			 = ContactProfile::getByUserId($userId);
+		$contactPhone	 = ContactPhone::getNumber($cttId);
+
+		$reqData->phone->fullNumber	 = $contactPhone['contactNumber'];
 		//phone
 		//desc
-		$queType           = ServiceCallQueue::TYPE_DRIVER_CAR_BREAKDOWN;
-		$reqData->queType = $queType;
-		$followupId		 = ServiceCallQueue::getIdByUserId($userId, $scqType, $bkgId);
-		$platform		 = ServiceCallQueue::PLATFORM_DCO_APP;
-		$returnSet		 = ServiceCallQueue::generateModel($reqData, $cttId, $entityType, $scqType, $followupId, $platform);
+		$queType					 = ServiceCallQueue::TYPE_DRIVER_CAR_BREAKDOWN;
+		$reqData->queType			 = $queType;
+		$followupId					 = ServiceCallQueue::getIdByUserId($userId, $scqType, $bkgId);
+		$platform					 = ServiceCallQueue::PLATFORM_DCO_APP;
+		$returnSet					 = ServiceCallQueue::generateModel($reqData, $cttId, $entityType, $scqType, $followupId, $platform);
 		return $returnSet;
 	}
+
 	public function syncCoordinates()
 	{
 		$returnSet	 = new ReturnSet();
@@ -1701,8 +1697,8 @@ class BookingTrackLog extends CActiveRecord
 		$ttgModel->btl_bkg_id		 = $bkg_id;
 		$ttgModel->btl_bcb_id		 = $bModel->bkg_bcb_id;
 		$ttgModel->btl_event_type_id = $event;
-		$ttgModel->btl_sync_time     = new CDbExpression('NOW()');
-		$ttgModel->btl_created     = new CDbExpression('NOW()');
+		$ttgModel->btl_sync_time	 = new CDbExpression('NOW()');
+		$ttgModel->btl_created		 = new CDbExpression('NOW()');
 		$ttgModel->scenario			 = 'syncBooking';
 		$ttgModel->save();
 		return $ttgModel;
@@ -2416,7 +2412,7 @@ class BookingTrackLog extends CActiveRecord
 			$params["blg_booking_status"]	 = $bkgModel->bkg_status;
 			$params['current_user_type']	 = (int) UserInfo::TYPE_DRIVER;
 			$this->scenario					 = 'syncBooking';
-			$userInfo		 = UserInfo::getInstance();
+			$userInfo						 = UserInfo::getInstance();
 			if ($this->save())
 			{
 				BookingTrack::updateLastStatus($this->btl_bkg_id, $this->btl_event_type_id, $this->btl_coordinates, $this->btl_sync_time);
@@ -2492,6 +2488,7 @@ class BookingTrackLog extends CActiveRecord
 		return $trackClass;
 	}
 
+	/** @return BookingTrackLog */
 	public static function getFileDocs($model, $data, $fileArr)
 	{
 		$fileType				 = $fileArr->refType;
@@ -2886,5 +2883,4 @@ class BookingTrackLog extends CActiveRecord
 		$data	 = DBUtil::queryScalar($sql, DBUtil:: SDB(), $params);
 		return $data;
 	}
-
 }

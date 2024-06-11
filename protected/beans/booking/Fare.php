@@ -167,7 +167,7 @@ class Fare
 	}
 
 	/** @var \BookingInvoice $invoiceModel */
-	public static function setByInvoiceModel($invoiceModel, $status, $bookingType = null)
+	public static function setByInvoiceModel($invoiceModel, $status, $bookingType = null, $tripvendorAmount = 0)
 	{
 		$obj			 = new Fare();
 		$obj->baseFare	 = (int) $invoiceModel->bkg_base_amount;
@@ -180,7 +180,7 @@ class Fare
 		$obj->dueAmount			 = (int) $invoiceModel->bkg_due_amount;
 		$obj->driverCollected	 = (int) $invoiceModel->bkg_vendor_actual_collected;
 		$obj->quotedVA			 = (int) $invoiceModel->bkg_due_amount; // According to AK sir (18/03/2024)for quick fix this amount is replaced with due amount need to modify after app issue resolved.
-		$obj->vendorAmount		 = (int) $invoiceModel->bkg_vendor_amount;
+		$obj->vendorAmount		 = (int) ($tripvendorAmount==0)?$invoiceModel->bkg_vendor_amount:$tripvendorAmount; // According to AK modify vendor amount to trip vendor amount
 		$obj->netAdvance		 = (int) $invoiceModel->bkg_net_advance_amount;
 		/** @var \Beans\booking\AdditionalCharge[] $additionalCharges */
 		$obj->additionalCharges	 = \Beans\booking\AdditionalCharge::setByInvoiceModel($invoiceModel, '', $bookingType);

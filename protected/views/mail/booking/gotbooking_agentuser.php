@@ -448,7 +448,7 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
                 //{?>
                 <tr>
                     <td align="left"><strong style="color:#7a7a7a">Return  Date Time</strong></td>
-                    <td align="left"><?= date('jS M Y (D) h:i A', strtotime($model->bkg_return_date)); ?></td>
+                    <td align="left"><?php ($model->bkg_return_date!='')? date('jS M Y (D) h:i A', strtotime($model->bkg_return_date)) : ""?></td>
                 </tr>
                 <?php
                 //}?> 

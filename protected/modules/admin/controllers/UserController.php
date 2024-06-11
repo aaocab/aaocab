@@ -74,7 +74,7 @@ class UserController extends Controller
 		$this->onRest('post.filter.req.auth.user', function ($validation) {
 			$pos = false;
 			$arr = $this->getURIAndHTTPVerb();
-			$ri	 = array('/signin', '/signin_new', '/signout', '/devicetokenfcm', '/onoffstatus', '/validate', '/validateversion', '/asyncResponse', '/asyncResponsePartnerStats', '/asyncMedianCapacityByRowIdentifier', '/asyncBidSense', '/asyncDeliveredTrend', '/asyncTravelStatsOW', '/asyncTravelStatsDR', '/asyncTravelStatsAP', '/checkOnOffStatus', '/entityList');
+			$ri	 = array('/signin', '/signin_new', '/signout', '/devicetokenfcm', '/onoffstatus', '/validate', '/validateversion', '/asyncResponse', '/asyncResponsePartnerStats', '/asyncMedianCapacityByRowIdentifier', '/asyncBidSense', '/asyncDeliveredTrend', '/asyncTravelStatsOW', '/asyncTravelStatsDR', '/asyncTravelStatsAP', '/asynUserVehicleClassLifeTime', '/asynUserServiceClassLifeTime', '/asynUserWeekLifeTime', '/asynUserMonthLifeTime', '/asynUserAirportCitiesLifeTime', '/asynUserCitiesLifeTime', '/checkOnOffStatus', '/entityList');
 			foreach ($ri as $value)
 			{
 				if (strpos($arr[0], $value))
@@ -475,7 +475,7 @@ class UserController extends Controller
 				$tripAmount			 = $data1['tripAmount'];
 				$remarks			 = $data1['remarks'];
 				$assignMode			 = 0;
-				$returnSet1				 = BookingCab::model()->assignVendor($tripId, $vendorId, $tripAmount, $remarks, $userInfo, $assignMode);
+				$returnSet1			 = BookingCab::model()->assignVendor($tripId, $vendorId, $tripAmount, $remarks, $userInfo, $assignMode);
 				if ($returnSet1->isSuccess())
 				{
 					$returnSet->setStatus(true);
@@ -776,6 +776,9 @@ class UserController extends Controller
 
 		/* Median Capacity By RowIdentifier Weekly  update */
 		$this->onRest('req.post.asyncMedianCapacityByRowIdentifier.render', function () {
+			Logger::warning('UserController asyncMedianCapacityByRowIdentifier', true);
+			return false;
+
 			$returnSet			 = new ReturnSet();
 			$process_sync_data	 = Yii::app()->request->rawBody;
 			$jsonObj			 = CJSON::decode($process_sync_data, false);
@@ -1220,6 +1223,313 @@ class UserController extends Controller
 				'data'	 => $returnSet,
 			]);
 		});
+
+		/* User Cities Lifetime Stats  */
+		$this->onRest('req.post.asynUserCitiesLifeTime.render', function () {
+			$returnSet			 = new ReturnSet();
+			$process_sync_data	 = Yii::app()->request->rawBody;
+			$jsonObj			 = CJSON::decode($process_sync_data, false);
+			if ($process_sync_data != null)
+			{
+				foreach ($jsonObj->data as $value)
+				{
+
+					try
+					{
+						$model = UserCitiesLifetime::model()->findByPk($value->ucf_id);
+						if (empty($model))
+						{
+							$model					 = new UserCitiesLifeTime();
+							$model->ucf_id			 = $value->ucf_id;
+							$model->ucf_city_count	 = $value->ucf_city_count;
+						}
+						else
+						{
+							$model->ucf_city_count = $value->ucf_city_count;
+						}
+						$model->ucf_user_id			 = $value->ucf_user_id;
+						$model->ucf_city_id			 = $value->ucf_city_id;
+						$model->ucf_create_date		 = $value->ucf_create_date;
+						$model->ucf_modified_date	 = $value->ucf_modified_date;
+						$model->ucf_active			 = $value->ucf_active;
+						if (!$model->save())
+						{
+							throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
+						}
+					}
+					catch (Exception $ex)
+					{
+						Logger::exception($ex);
+					}
+				}
+
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data updated successfully");
+			}
+			else
+			{
+				$returnSet->setErrors("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			return $this->renderJSON([
+				'type'	 => 'raw',
+				'data'	 => $returnSet,
+			]);
+		});
+
+		/* User Cities Lifetime Stats  */
+		$this->onRest('req.post.asynUserAirportCitiesLifeTime.render', function () {
+			$returnSet			 = new ReturnSet();
+			$process_sync_data	 = Yii::app()->request->rawBody;
+			$jsonObj			 = CJSON::decode($process_sync_data, false);
+			if ($process_sync_data != null)
+			{
+				foreach ($jsonObj->data as $value)
+				{
+					try
+					{
+						$model = UserAirportCitiesLifetime::model()->findByPk($value->uacf_id);
+						if (empty($model))
+						{
+							$model					 = new UserAirportCitiesLifetime();
+							$model->uacf_id			 = $value->uacf_id;
+							$model->uacf_city_count	 = $value->uacf_city_count;
+						}
+						else
+						{
+							$model->uacf_city_count =  $value->uacf_city_count;
+						}
+						$model->uacf_user_id		 = $value->uacf_user_id;
+						$model->uacf_city_id		 = $value->uacf_city_id;
+						$model->uacf_create_date	 = $value->uacf_create_date;
+						$model->uacf_modified_date	 = $value->uacf_modified_date;
+						$model->uacf_active			 = $value->uacf_active;
+						if (!$model->save())
+						{
+							throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
+						}
+					}
+					catch (Exception $ex)
+					{
+						Logger::exception($ex);
+					}
+				}
+
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data updated successfully");
+			}
+			else
+			{
+				$returnSet->setErrors("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			return $this->renderJSON([
+				'type'	 => 'raw',
+				'data'	 => $returnSet,
+			]);
+		});
+
+		/* User Month Life time Stats  */
+		$this->onRest('req.post.asynUserMonthLifeTime.render', function () {
+			$returnSet			 = new ReturnSet();
+			$process_sync_data	 = Yii::app()->request->rawBody;
+			$jsonObj			 = CJSON::decode($process_sync_data, false);
+			if ($process_sync_data != null)
+			{
+				foreach ($jsonObj->data as $value)
+				{
+					try
+					{
+						$model = UserMonthLifetime::model()->findByPk($value->uml_id);
+						if (empty($model))
+						{
+							$model					 = new UserMonthLifetime();
+							$model->uml_id			 = $value->uml_id;
+							$model->uml_month_count	 = $value->uml_month_count;
+						}
+						else
+						{
+							$model->uml_month_count = $value->uml_month_count;
+						}
+						$model->uml_user_id			 = $value->uml_user_id;
+						$model->uml_month_id		 = $value->uml_month_id;
+						$model->uml_create_date		 = $value->uml_create_date;
+						$model->uml_modified_date	 = $value->uml_modified_date;
+						$model->uml_active			 = $value->uml_active;
+						if (!$model->save())
+						{
+							throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
+						}
+					}
+					catch (Exception $ex)
+					{
+						Logger::exception($ex);
+					}
+				}
+
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data updated successfully");
+			}
+			else
+			{
+				$returnSet->setErrors("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			return $this->renderJSON([
+				'type'	 => 'raw',
+				'data'	 => $returnSet,
+			]);
+		});
+
+		/* User Week Life time Stats  */
+		$this->onRest('req.post.asynUserWeekLifeTime.render', function () {
+			$returnSet			 = new ReturnSet();
+			$process_sync_data	 = Yii::app()->request->rawBody;
+			$jsonObj			 = CJSON::decode($process_sync_data, false);
+			if ($process_sync_data != null)
+			{
+				foreach ($jsonObj->data as $value)
+				{
+					try
+					{
+						$model = UserWeekLifetime::model()->findByPk($value->uwl_id);
+						if (empty($model))
+						{
+							$model					 = new UserWeekLifetime();
+							$model->uwl_id			 = $value->uwl_id;
+							$model->uwl_week_count	 = $value->uwl_week_count;
+						}
+						else
+						{
+							$model->uwl_month_count =  $value->uwl_month_count;
+						}
+						$model->uwl_user_id			 = $value->uwl_user_id;
+						$model->uwl_week_id			 = $value->uwl_week_id;
+						$model->uwl_create_date		 = $value->uwl_create_date;
+						$model->uwl_modified_date	 = $value->uwl_modified_date;
+						$model->uwl_active			 = $value->uwl_active;
+						if (!$model->save())
+						{
+							throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
+						}
+					}
+					catch (Exception $ex)
+					{
+						Logger::exception($ex);
+					}
+				}
+
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data updated successfully");
+			}
+			else
+			{
+				$returnSet->setErrors("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			return $this->renderJSON([
+				'type'	 => 'raw',
+				'data'	 => $returnSet,
+			]);
+		});
+
+		/* User Service Class Life Time stats */
+		$this->onRest('req.post.asynUserServiceClassLifeTime.render', function () {
+			$returnSet			 = new ReturnSet();
+			$process_sync_data	 = Yii::app()->request->rawBody;
+			$jsonObj			 = CJSON::decode($process_sync_data, false);
+			if ($process_sync_data != null)
+			{
+				foreach ($jsonObj->data as $value)
+				{
+					try
+					{
+						$model = UserServiceClassLifetime::model()->findByPk($value->uscl_id);
+						if (empty($model))
+						{
+							$model							 = new UserServiceClassLifetime();
+							$model->uscl_id					 = $value->uscl_id;
+							$model->uscl_service_class_count = $value->uscl_service_class_count;
+						}
+						else
+						{
+							$model->uscl_service_class_count = $value->uscl_service_class_count;
+						}
+						$model->uscl_user_id			 = $value->uscl_user_id;
+						$model->uscl_service_class_id	 = $value->uscl_service_class_id;
+						$model->uscl_create_date		 = $value->uscl_create_date;
+						$model->uscl_modified_date		 = $value->uscl_modified_date;
+						$model->uscl_active				 = $value->uscl_active;
+						if (!$model->save())
+						{
+							throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
+						}
+					}
+					catch (Exception $ex)
+					{
+						Logger::exception($ex);
+					}
+				}
+
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data updated successfully");
+			}
+			else
+			{
+				$returnSet->setErrors("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			return $this->renderJSON([
+				'type'	 => 'raw',
+				'data'	 => $returnSet,
+			]);
+		});
+
+		/* User Vehicle Class Life Time Stats  */
+		$this->onRest('req.post.asynUserVehicleClassLifeTime.render', function () {
+			$returnSet			 = new ReturnSet();
+			$process_sync_data	 = Yii::app()->request->rawBody;
+			$jsonObj			 = CJSON::decode($process_sync_data, false);
+			if ($process_sync_data != null)
+			{
+				foreach ($jsonObj->data as $value)
+				{
+					try
+					{
+						$model = UserVehicleClassLifetime::model()->findByPk($value->uvcl_id);
+						if (empty($model))
+						{
+							$model							 = new UserVehicleClassLifetime();
+							$model->uvcl_id					 = $value->uvcl_id;
+							$model->uvcl_vehicle_class_count = $value->uvcl_vehicle_class_count;
+						}
+						else
+						{
+							$model->uvcl_vehicle_class_count =  $value->uvcl_vehicle_class_count;
+						}
+						$model->uvcl_user_id			 = $value->uvcl_user_id;
+						$model->uvcl_vehicle_class_id	 = $value->uvcl_vehicle_class_id;
+						$model->uvcl_create_date		 = $value->uvcl_create_date;
+						$model->uvcl_modified_date		 = $value->uvcl_modified_date;
+						$model->uvcl_active				 = $value->uvcl_active;
+						if (!$model->save())
+						{
+							throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
+						}
+					}
+					catch (Exception $ex)
+					{
+						Logger::exception($ex);
+					}
+				}
+
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data updated successfully");
+			}
+			else
+			{
+				$returnSet->setErrors("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			return $this->renderJSON([
+				'type'	 => 'raw',
+				'data'	 => $returnSet,
+			]);
+		});
 	}
 
 	// for showing csr total logintime and login/logoff option
@@ -1310,22 +1620,22 @@ class UserController extends Controller
 			{
 				$model->search_marked_bad = 1;
 			}
-			$model->search_email = trim($arr['search_email']);
-			$model->search_name	 = trim($arr['search_name']);
-			$model->search_phone = trim($arr['search_phone']);
-			$model->category = trim($arr['category']);
-			$model->last_booking_create_date1 = trim($arr['last_booking_create_date1']);
-			$model->last_booking_create_date2 = trim($arr['last_booking_create_date2']);
+			$model->search_email				 = trim($arr['search_email']);
+			$model->search_name					 = trim($arr['search_name']);
+			$model->search_phone				 = trim($arr['search_phone']);
+			$model->category					 = trim($arr['category']);
+			$model->last_booking_create_date1	 = trim($arr['last_booking_create_date1']);
+			$model->last_booking_create_date2	 = trim($arr['last_booking_create_date2']);
 		}
-		if($_POST['export1']==1)
+		if ($_POST['export1'] == 1)
 		{
 			header('Content-type: text/csv');
 			header("Content-Disposition: attachment; filename=\"UsersReport_" . date('Ymdhis') . ".csv\"");
 			header("Pragma: no-cache");
 			header("Expires: 0");
-			$filename				 = "UsersReport_" . date('Ymdhis') . ".csv";
-			$foldername				 = Yii::app()->params['uploadPath'];
-			$backup_file			 = $foldername . DIRECTORY_SEPARATOR . $filename;
+			$filename	 = "UsersReport_" . date('Ymdhis') . ".csv";
+			$foldername	 = Yii::app()->params['uploadPath'];
+			$backup_file = $foldername . DIRECTORY_SEPARATOR . $filename;
 			if (!is_dir($foldername))
 			{
 				mkdir($foldername);
@@ -1334,14 +1644,14 @@ class UserController extends Controller
 			{
 				unlink($backup_file);
 			}
-			$resDataArr = $model->search1($qry			 = '',true);
-			
-			$handle	 = fopen("php://output", 'w');
+			$resDataArr	 = $model->search1($qry		 = '', true);
+
+			$handle = fopen("php://output", 'w');
 			fputcsv($handle, ['Name', 'Phone', 'Email', 'Category', 'Phone Verified', 'Email Verified', 'SignUp Date', 'Last Booking Created', 'Account Verified']);
 			foreach ($resDataArr as $row)
 			{
-				$rowArray						 = array();
-				$usrName = $row["usr_name"] . ' ' . $row["usr_lname"];
+				$rowArray	 = array();
+				$usrName	 = $row["usr_name"] . ' ' . $row["usr_lname"];
 				if ($row["ctt_first_name"] != "" && $row["ctt_last_name"] != "")
 				{
 					$usrName = $row["ctt_first_name"] . ' ' . $row["ctt_last_name"];
@@ -1350,16 +1660,16 @@ class UserController extends Controller
 				{
 					$row["phn_phone_no"] = '+' . $row["phn_phone_country_code"] . $row["phn_phone_no"];
 				}
-				$rowArray['usr_name']			 = $usrName;
-				$rowArray['phn_phone_no']		 = $row['phn_phone_no'];
-				$rowArray['eml_email_address']	 = $row['eml_email_address'];
-				$rowArray['cpr_category']		 =  UserCategoryMaster::model()->findByPk([$row['cpr_category']])->ucm_label;
-				$rowArray['phn_is_verified']	 = ($row["phn_is_verified"] == 1)?"Yes":"No";
-				$rowArray['eml_is_verified']	 = ($row["eml_is_verified"] == 1)?"Yes":"No";
-				$rowArray['usr_created_at']		 = DateTimeFormat::DateTimeToLocale($row["usr_created_at"]);
-				$rowArray['urs_last_trip_created']	 = ($row['urs_last_trip_created']!='')?DateTimeFormat::DateTimeToLocale($row['urs_last_trip_created']):"";
-				$rowArray['usr_acct_verify']			 = ($row['usr_acct_verify'] == 1) ? 'Verified' : 'Not Verified';
-				$row1							  = array_values($rowArray);
+				$rowArray['usr_name']				 = $usrName;
+				$rowArray['phn_phone_no']			 = $row['phn_phone_no'];
+				$rowArray['eml_email_address']		 = $row['eml_email_address'];
+				$rowArray['cpr_category']			 = UserCategoryMaster::model()->findByPk([$row['cpr_category']])->ucm_label;
+				$rowArray['phn_is_verified']		 = ($row["phn_is_verified"] == 1) ? "Yes" : "No";
+				$rowArray['eml_is_verified']		 = ($row["eml_is_verified"] == 1) ? "Yes" : "No";
+				$rowArray['usr_created_at']			 = DateTimeFormat::DateTimeToLocale($row["usr_created_at"]);
+				$rowArray['urs_last_trip_created']	 = ($row['urs_last_trip_created'] != '') ? DateTimeFormat::DateTimeToLocale($row['urs_last_trip_created']) : "";
+				$rowArray['usr_acct_verify']		 = ($row['usr_acct_verify'] == 1) ? 'Verified' : 'Not Verified';
+				$row1								 = array_values($rowArray);
 				fputcsv($handle, $row1);
 			}
 			fclose($handle);
@@ -2151,27 +2461,43 @@ class UserController extends Controller
 		$model			 = Users::model()->resetScope()->findByPk($consumerId);
 		$totalBookings	 = (!empty($model)) ? $model->totBookingsWithStatus($consumerId) : '';
 		$creditModel	 = new UserCredits();
-
+		$homeCity						 = !empty($models) && $models->ctt_city != null ? $models->ctt_city : '';
+		$totalUserCitiesLifetime		 = UserCitiesLifetime::getTopCity($consumerId, $homeCity, 10);
+		$totalUserAirportCitiesLifetime	 = UserAirportCitiesLifetime::getTopCity($consumerId, $homeCity, 10);
+		$totalUserMonthLifetime			 = UserMonthLifetime::getTopUserMonth($consumerId);
+		$totalUserWeekLifetime			 = UserWeekLifetime::getTopUserWeek($consumerId,10);
+		$totalUserServiceClassLifetime	 = UserServiceClassLifetime::getTopServiceClass($consumerId,10);
+		$totalUserVehicleClassLifetime	 = UserVehicleClassLifetime::getTopVehicleClass($consumerId,10);
+//		$totalUserCitiesLifetime = UserCitiesLifetime::getTopCity($homeCity, 10);
+//		$totalUserCitiesLifetime = UserCitiesLifetime::getTopCity($homeCity, 10);
+//		$totalUserCitiesLifetime = UserCitiesLifetime::getTopCity($homeCity, 10);
+//		$totalUserCitiesLifetime = UserCitiesLifetime::getTopCity($homeCity, 10);
 		//Total Active Credits
-		$totalAmount	 = $creditModel->getTotalActiveCredits($consumerId);
-		$walletBalance	 = UserWallet::model()->getBalance($consumerId);
+		$totalAmount					 = $creditModel->getTotalActiveCredits($consumerId);
+		$walletBalance					 = UserWallet::model()->getBalance($consumerId);
 
 		//Getting the Social Details of Users
 		$userIdArr	 = Users::model()->getUserSocialDetails($consumerId);
 		$outputJs	 = Yii::app()->request->isAjaxRequest;
 		$method		 = "render" . ($outputJs ? "Partial" : "");
 		$this->$method($view, array(
-			'contact'			 => $contact,
-			'model'				 => $models['userModel'],
-			'bookingmodel'		 => $models['bookingModel'],
-			"ongoingbooking"	 => $models['ongoingbooking'],
-			'upcomingbooking'	 => $models['upcomingbooking'],
-			'totalGozoCoins'	 => $totalAmount,
-			'totalBookings'		 => $totalBookings,
-			'userModel'			 => $model,
-			'walletBalance'		 => $walletBalance,
-			'UserIdArr'			 => $userIdArr,
-			'isAjax'			 => $outputJs), false, $outputJs);
+			'contact'						 => $contact,
+			'model'							 => $models['userModel'],
+			'bookingmodel'					 => $models['bookingModel'],
+			"ongoingbooking"				 => $models['ongoingbooking'],
+			'upcomingbooking'				 => $models['upcomingbooking'],
+			'totalGozoCoins'				 => $totalAmount,
+			'totalBookings'					 => $totalBookings,
+			'userModel'						 => $model,
+			'walletBalance'					 => $walletBalance,
+			'UserIdArr'						 => $userIdArr,
+			'totalUserCitiesLifetime'		 => $totalUserCitiesLifetime,
+			'totalUserAirportCitiesLifetime' => $totalUserAirportCitiesLifetime,
+			'totalUserMonthLifetime'		 => $totalUserMonthLifetime,
+			'totalUserWeekLifetime'		 => $totalUserWeekLifetime,
+			'totalUserServiceClassLifetime'	 => $totalUserServiceClassLifetime,
+			'totalUserVehicleClassLifetime'	 => $totalUserVehicleClassLifetime,
+			'isAjax'						 => $outputJs), false, $outputJs);
 	}
 
 	public function actionDeviceHistory()

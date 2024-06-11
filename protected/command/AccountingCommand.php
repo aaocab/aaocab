@@ -37,7 +37,7 @@ class AccountingCommand extends BaseCommand
 			return;
 		}
 		
-		$data = Vendors::model()->getCollectionList(30);
+		$data = Vendors::getCollectionList(30);
 		foreach ($data as $d)
 		{
 			$transaction = DBUtil::beginTransaction();
@@ -82,31 +82,35 @@ class AccountingCommand extends BaseCommand
 		}
 	}
 	
-//	public function actionProcessReconciliationSheet()
-//	{
-//		$sqlSheet = "SELECT * FROM partner_reconciliation_sheet WHERE prs_status IN (1,2) ORDER BY prs_id ASC LIMIT 0,1";
-//		$rowSheet = DBUtil::queryRow($sqlSheet, DBUtil::SDB());
-//		if ($rowSheet)
-//		{
-//			$prsId		 = $rowSheet['prs_id'];
-//			$sheetType	 = $rowSheet['prs_sheet_type'];
-//			$status		 = $rowSheet['prs_status'];
-//			
-//			if($status == 1)
-//			{
-//				$sqlUpdSheet = "UPDATE partner_reconciliation_sheet SET prs_status = 2 WHERE prs_status = 1 AND prs_id = {$prsId}";
-//				DBUtil::execute($sqlUpdSheet);
-//				
-//				$sqlUpdBkgId = "UPDATE partner_reconciliation_data 
-//							INNER JOIN booking ON bkg_agent_ref_code = prd_order_reference_number 
-//							SET prd_bkg_id = bkg_id 
-//							WHERE prd_prs_id = {$prsId} AND bkg_status IN (2,3,5,6,7,9) AND bkg_agent_id = 18190 ";
-//				DBUtil::execute($sqlUpdBkgId);
-//			}
-//			
-//			
-//		}
-//	}
+	public function actionProcessReconciliationSheet()
+	{
+		$check = Filter::checkProcess("accounting processReconciliationSheet");
+		if (!$check)
+		{
+			return;
+		}
+		
+		$sqlSheet	 = "SELECT * FROM partner_reconciliation_sheet WHERE prs_status IN (1,2) ORDER BY prs_id ASC LIMIT 0,1";
+		$rowSheet	 = DBUtil::queryRow($sqlSheet, DBUtil::SDB());
+		if ($rowSheet)
+		{
+			$prsId		 = $rowSheet['prs_id'];
+			$sheetType	 = $rowSheet['prs_sheet_type'];
+			$status		 = $rowSheet['prs_status'];
 
+			if ($sheetType == 1)
+			{
+				PartnerReconciliationPayout::processData($prsId, $status);
+			}
+			else if ($sheetType == 2)
+			{
+				PartnerReconciliationPenalty::processData($prsId, $status);
+			}
+			else if ($sheetType == 3)
+			{
+				PartnerReconciliationCompensation::processData($prsId, $status);
+			}
+		}
+	}
 }
 	

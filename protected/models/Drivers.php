@@ -147,7 +147,7 @@ class Drivers extends CActiveRecord
 			2	 => 'Pending Approval',
 			3	 => 'Rejected',
 			4	 => 'Ready For Approval'];
-		if($approveStatus != '')
+		if ($approveStatus != '')
 		{
 			return $statusList[$approveStatus];
 		}
@@ -239,34 +239,34 @@ class Drivers extends CActiveRecord
 				LEFT JOIN vendor_driver vdrv ON d.drv_id = vdrv.vdrv_drv_id 
 				WHERE d.drv_active = 1 AND contact.ctt_active=1';
 
-		if($this->isNewRecord)
+		if ($this->isNewRecord)
 		{
-			if($this->drv_contact_id > 0)
+			if ($this->drv_contact_id > 0)
 			{
 				$contDetails = Contact::model()->getContactDetails($this->drv_contact_id);
-				if($contDetails['phn_phone_no'] != '')
+				if ($contDetails['phn_phone_no'] != '')
 				{
 					//$sql	 .= " AND phn_phone_no LIKE '%" . $contDetails['phn_phone_no'] . "%'";
 					$sqlPhone = $sql . "  AND contact_phone.phn_active=1 AND contact_phone.phn_phone_no LIKE '%" . $contDetails['phn_phone_no'] . "%' AND ctt_id<>" . $this->drv_contact_id;
 
 					$result = DBUtil::command($sqlPhone)->queryRow();
-					if($result)
+					if ($result)
 					{
 
 						$this->addError($attribute, "Driver with this phone already exist.");
 						return false;
 					}
 				}
-				if($this->drvContact->ctt_license_no == '')
+				if ($this->drvContact->ctt_license_no == '')
 				{
 					$this->addError($attribute, "Driver License no is mandatory.");
 					return false;
 				}
-				if($this->drvContact->ctt_license_no != '')
+				if ($this->drvContact->ctt_license_no != '')
 				{
 					$sqlLicense	 = $sql . " AND ctt_license_no = '" . $this->drvContact->ctt_license_no . "' AND ctt_id<>" . $this->drv_contact_id;
 					$result		 = DBUtil::command($sqlLicense)->queryRow();
-					if($result)
+					if ($result)
 					{
 						$this->addError($attribute, "Driver with this license already exist. Please verify your contact details to activate your account");
 						return false;
@@ -287,7 +287,7 @@ class Drivers extends CActiveRecord
 
 			$cdb	 = DBUtil::command($sqlCheck);
 			$check	 = $cdb->queryScalar();
-			if($check)
+			if ($check)
 			{
 				$this->addError($attribute, 'Driver with this license no already exists');
 				return false;
@@ -306,7 +306,7 @@ class Drivers extends CActiveRecord
 		$success = true;
 		$bool	 = self::isExistDetails($attribute, $this->$attribute, $this->drv_id);
 
-		if($bool)
+		if ($bool)
 		{
 			$label	 = $this->getAttributeLabel($attribute);
 			$this->addError($attribute, "$label already exists");
@@ -319,7 +319,7 @@ class Drivers extends CActiveRecord
 	public static function isExistDetails($field, $value, $id = null)
 	{
 		$success = false;
-		if($value == '')
+		if ($value == '')
 		{
 			goto end;
 		}
@@ -339,13 +339,13 @@ class Drivers extends CActiveRecord
 		//$sql1		 = $sql . ' AND ' . $whereAndQry . $whereOrQry;
 		$recordset	 = DBUtil::queryAll($sql);
 		$data		 = array_filter($recordset);
-		if(count($data) > 0)
+		if (count($data) > 0)
 		{
 			$ctr		 = 1;
 			$drvIdStr	 = '';
-			foreach($data as $d)
+			foreach ($data as $d)
 			{
-				if(count($data) == $ctr)
+				if (count($data) == $ctr)
 				{
 					$drvIdStr .= $d['drv_id'];
 				}
@@ -361,7 +361,7 @@ class Drivers extends CActiveRecord
 
 	public function validateDriverPhone($attribute, $params)
 	{
-		if(isset($this->drv_phone) && $this->drv_phone > 0)
+		if (isset($this->drv_phone) && $this->drv_phone > 0)
 		{
 			$sql = "SELECT
 						COUNT(DISTINCT vendor_driver.vdrv_id) AS cnt
@@ -374,7 +374,7 @@ class Drivers extends CActiveRecord
 					GROUP BY
 						drivers.drv_id";
 			$cnt = DBUtil::command($sql)->queryScalar();
-			if($cnt > 0)
+			if ($cnt > 0)
 			{
 				$this->addError($attribute, "Phone number already exists.");
 				return false;
@@ -386,9 +386,9 @@ class Drivers extends CActiveRecord
 	public function beforeValidate()
 	{
 		parent::beforeValidate();
-		if($this->drv_doj != null && $this->drv_doj != '')
+		if ($this->drv_doj != null && $this->drv_doj != '')
 		{
-			if((date('Y-m-d', strtotime($this->drv_doj)) != date($this->drv_doj)))
+			if ((date('Y-m-d', strtotime($this->drv_doj)) != date($this->drv_doj)))
 			{
 				$drvDoj			 = DateTimeFormat::DatePickerToDate($this->drv_doj);
 				$this->drv_doj	 = $drvDoj;
@@ -399,9 +399,9 @@ class Drivers extends CActiveRecord
 			unset($this->drv_doj);
 		}
 		//if ($this->drv_lic_exp_date != null && $this->drv_lic_exp_date != '')
-		if($this->drvContact->ctt_license_exp_date != null && $this->drvContact->ctt_license_exp_date != '')
+		if ($this->drvContact->ctt_license_exp_date != null && $this->drvContact->ctt_license_exp_date != '')
 		{
-			if((date('Y-m-d', strtotime($this->drvContact->ctt_license_exp_date)) != date($this->drvContact->ctt_license_exp_date)))
+			if ((date('Y-m-d', strtotime($this->drvContact->ctt_license_exp_date)) != date($this->drvContact->ctt_license_exp_date)))
 			{
 				$drvLicExpDate							 = DateTimeFormat::DatePickerToDate($this->drvContact->ctt_license_exp_date);
 				$this->drvContact->ctt_license_exp_date	 = $drvLicExpDate;
@@ -418,17 +418,17 @@ class Drivers extends CActiveRecord
 	{
 		$scenario	 = $this->scenario;
 		$check		 = self::model()->findByUsernamenEmail($this->$attribute);
-		if($scenario == 'signup')
+		if ($scenario == 'signup')
 		{
-			if($check)
+			if ($check)
 			{
 				$this->addError($attribute, 'Email already exists');
 				return false;
 			}
 		}
-		if($scenario == 'driverupdate')
+		if ($scenario == 'driverupdate')
 		{
-			if($check && $check->drv_id != $this->drv_id)
+			if ($check && $check->drv_id != $this->drv_id)
 			{
 				$this->addError($attribute, 'Email already exists');
 				return false;
@@ -554,7 +554,7 @@ class Drivers extends CActiveRecord
 	public function afterSave()
 	{
 		parent::afterSave();
-		if($this->drv_code == null && $this->drv_id > 0)
+		if ($this->drv_code == null && $this->drv_id > 0)
 		{
 			$codeArr		 = Filter::getCodeById($this->drv_id, "driver");
 			$this->drv_code	 = $codeArr['code'];
@@ -568,12 +568,12 @@ class Drivers extends CActiveRecord
 		$this->drv_ip		 = trim(\Filter::getUserIP());
 		$this->drv_device	 = $_SERVER['HTTP_USER_AGENT'];
 		$this->drv_modified	 = new CDbExpression('NOW()');
-		if($this->scenario != 'approve')
+		if ($this->scenario != 'approve')
 		{
 
-			if($this->drv_dob_date !== null && $this->drv_dob_date != '')
+			if ($this->drv_dob_date !== null && $this->drv_dob_date != '')
 			{
-				if((date('Y-m-d', strtotime($this->drv_dob_date)) != date($this->drv_dob_date)))
+				if ((date('Y-m-d', strtotime($this->drv_dob_date)) != date($this->drv_dob_date)))
 				{
 					$vhcTaxEexpDate		 = DateTimeFormat::DatePickerToDate($this->drv_dob_date);
 					$this->drv_dob_date	 = $vhcTaxEexpDate;
@@ -583,9 +583,9 @@ class Drivers extends CActiveRecord
 			{
 				$this->drv_dob_date = null;
 			}
-			if($this->drv_doj != null && $this->drv_doj != '')
+			if ($this->drv_doj != null && $this->drv_doj != '')
 			{
-				if((date('Y-m-d', strtotime($this->drv_doj)) != date($this->drv_doj)))
+				if ((date('Y-m-d', strtotime($this->drv_doj)) != date($this->drv_doj)))
 				{
 					$drvDoj			 = DateTimeFormat::DatePickerToDate($this->drv_doj);
 					$this->drv_doj	 = $drvDoj;
@@ -595,9 +595,9 @@ class Drivers extends CActiveRecord
 			{
 				unset($this->drv_doj);
 			}
-			if($this->drvContact->ctt_license_exp_date != null && $this->drvContact->ctt_license_exp_date != '')
+			if ($this->drvContact->ctt_license_exp_date != null && $this->drvContact->ctt_license_exp_date != '')
 			{
-				if((date('Y-m-d', strtotime($this->drvContact->ctt_license_exp_date)) != date($this->drvContact->ctt_license_exp_date)))
+				if ((date('Y-m-d', strtotime($this->drvContact->ctt_license_exp_date)) != date($this->drvContact->ctt_license_exp_date)))
 				{
 					$drvLicExpDate							 = DateTimeFormat::DatePickerToDate($this->drvContact->ctt_license_exp_date);
 					$this->drvContact->ctt_license_exp_date	 = $drvLicExpDate;
@@ -611,7 +611,7 @@ class Drivers extends CActiveRecord
 //			{
 //				//$this->drv_password = md5($this->drv_password1);
 //			}
-			if($this->drv_mark_driver_count == '')
+			if ($this->drv_mark_driver_count == '')
 			{
 				$this->drv_mark_driver_count = 0;
 			}
@@ -659,35 +659,35 @@ class Drivers extends CActiveRecord
 		$criteria->select	 = ["t.*,cty.cty_name, GROUP_CONCAT(vnd_name separator ', ') as agt
             "/* ",group_concat(concat(vht_model,'(' ,vhc_number,')' ) separator ', ')  as vhc " */];
 		$criteria->compare('drv_active', 1);
-		if($qry['searchname'] != '')
+		if ($qry['searchname'] != '')
 		{
 			$criteria->addSearchCondition('drv_name', $qry['searchname'], true);
 		}
-		if($qry['searchemail'] != '')
+		if ($qry['searchemail'] != '')
 		{
 			$criteria->addSearchCondition('drv_email', $qry['searchemail'], true);
 		}
-		if($qry['searchphone'] != '')
+		if ($qry['searchphone'] != '')
 		{
 			$criteria->addSearchCondition('drv_phone', $qry['searchphone'], true);
 		}
-		if($qry['vnd_id'] != '')
+		if ($qry['vnd_id'] != '')
 		{
 			$criteria->addCondition('vdrv_vnd_id = ' . $qry['vnd_id']);
 		}
-		if($qry['drv_approved'] != '')
+		if ($qry['drv_approved'] != '')
 		{
 			$criteria->addSearchCondition('drv_approved', $qry['drv_approved']);
 		}
-		if($qry['searchmarkdriver'] != '')
+		if ($qry['searchmarkdriver'] != '')
 		{
 			$criteria->addCondition("drv_mark_driver_count > '0'");
 		}
-		if($vendorId != '')
+		if ($vendorId != '')
 		{
 			$criteria->addCondition('vdrv_vnd_id =' . $vendorId);
 		}
-		if($active != '')
+		if ($active != '')
 		{
 			$criteria->compare('drv_active', $active);
 		}
@@ -812,7 +812,7 @@ class Drivers extends CActiveRecord
 				  INNER JOIN vendors ON vendors.vnd_id = v1.vnd_ref_code
 				  WHERE d1.drv_is_freeze <> 1 and d1.drv_active = 1";
 
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_txt	 = str_replace(' ', '%', $search_txt);
 			$qry		 .= " AND (d1.drv_code LIKE '%$search_txt%' OR cttphone.phn_phone_no LIKE '%$search_txt%'
@@ -822,7 +822,7 @@ class Drivers extends CActiveRecord
 		$qry .= ($drv_ids != '') ? " AND d1.drv_id IN ($drv_ids)" : "";
 		$qry .= ($total_count == 0) ? " GROUP BY d1.drv_id LIMIT 20 OFFSET $offset" : "";
 		$sql = ($total_count == 0) ? $qry1 . $qry : $qry2 . $qry;
-		if($total_count == 0)
+		if ($total_count == 0)
 		{
 			return DBUtil::queryAll($sql, DBUtil::SDB());
 		}
@@ -844,11 +844,11 @@ class Drivers extends CActiveRecord
 
 	public function getJSONbyVendor($vendorId)
 	{
-		$models		 = VendorDriver::model()->getDriverListbyVendorid($vendorId);
+		$models		 = VendorDriver::getDriverListbyVendorid($vendorId, true);
 		$arrDriver	 = array();
 
 		/* @var $model Drivers */
-		foreach($models as $model)
+		foreach ($models as $model)
 		{
 			$isBlocked	 = ($model['drv_is_freeze'] == 1) ? '(Blocked)' : '';
 			$arrDriver[] = array("id"	 => $model['drv_id'],
@@ -879,28 +879,28 @@ class Drivers extends CActiveRecord
 		{
 			$transaction	 = DBUtil::beginTransaction();
 			$isPhoneExist	 = $modelContactPhone->findPhoneIdByPhoneNumber($data['drv_phone']);
-			if(!empty($isPhoneExist))
+			if (!empty($isPhoneExist))
 			{
 				$errors = "Phone Number already Exist.";
 				throw new Exception($errors);
 			}
 			$isEmailExist = $modelContactEmail->findEmailIdByEmail($data['drv_email']);
-			if(!empty($isEmailExist))
+			if (!empty($isEmailExist))
 			{
 				$errors = "Email Id already Exist.";
 				throw new Exception($errors);
 			}
 
-			if($model->validate())
+			if ($model->validate())
 			{
-				if($model->save())
+				if ($model->save())
 				{
 					//$modelContact->save();
 					$modelContact->addType		 = 1;
 					$modelContact->contactEmails = $modelContact->convertToContactEmailObjects($data['drv_email']);
 					$modelContact->contactPhones = $modelContact->convertToContactPhoneObjects($data['drv_phone']);
 					$modelContact->save();
-					if($data['drv_email'] != NULL)
+					if ($data['drv_email'] != NULL)
 					{
 						$modelContact->saveEmails();
 						ContactEmail::setPrimaryEmail($modelContact->ctt_id);
@@ -917,18 +917,18 @@ class Drivers extends CActiveRecord
 					// Logger::create('DRIVER ID : ' . $model->drv_id, CLogger::LEVEL_TRACE);
 					$codeArr = Filter::getCodeById($model->drv_id, "driver");
 					//$codeArr = Filter::getCodeById($model->drv_id, "driver");
-					if($codeArr['success'] == 1)
+					if ($codeArr['success'] == 1)
 					{
 						$model->drv_code = $codeArr['code'];
 						//$model->drv_is_attached	 = 0;
-						if($model->save())
+						if ($model->save())
 						{
 
 							$arr = ['driver' => $model->drv_id, 'vendor' => $vendorId];
 
 							$return = VendorDriver::model()->checkAndSave($arr);
 							Logger::create('VENDOR DRIVER : ' . $return, CLogger::LEVEL_TRACE);
-							if($return == true)
+							if ($return == true)
 							{
 								$desc = "Driver is Created.";
 
@@ -937,7 +937,7 @@ class Drivers extends CActiveRecord
 								 */
 								$userData	 = Users::model()->findByPhone($data['drv_phone']);
 								$msgBody	 = "";
-								if(count($userData) > 1)
+								if (count($userData) > 1)
 								{
 									$model->drv_user_id = $userData['user_id'];
 									$model->save();
@@ -997,7 +997,7 @@ class Drivers extends CActiveRecord
 				throw new Exception(json_encode($errors));
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$errors = $e->getMessage();
 			DBUtil::rollbackTransaction($transaction);
@@ -1017,13 +1017,13 @@ class Drivers extends CActiveRecord
 		$model->drv_vendor_id	 = $vendorId;
 		$model->attributes		 = $data;
 		$success				 = false;
-		if($model->validate())
+		if ($model->validate())
 		{
 			try
 			{
 				$success = $model->save();
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				$success = false;
 				$model->addError('drv_id', $e->getMessage());
@@ -1039,14 +1039,14 @@ class Drivers extends CActiveRecord
 	 */
 	public function getDriverId($driverUserId)
 	{
-		if(empty($driverUserId))
+		if (empty($driverUserId))
 		{
 			return null;
 		}
 		$findDriverId	 = "SELECT drv_id FROM `drivers` WHERE `drv_user_id`= $driverUserId LIMIT 0,1";
 		$arrDriverId	 = DBUtil::queryRow($findDriverId, DBUtil::SDB());
 		//Returns if no data is found
-		if(empty($arrDriverId))
+		if (empty($arrDriverId))
 		{
 			return null;
 		}
@@ -1068,7 +1068,7 @@ class Drivers extends CActiveRecord
 
 		$models		 = $this->getDriverByVendor($vnd_id);
 		$arrDrivers	 = array();
-		foreach($models as $model)
+		foreach ($models as $model)
 		{
 			$arrDrivers[] = array("id" => $model->drv_id, "text" => $model->drv_name);
 		}
@@ -1105,7 +1105,7 @@ class Drivers extends CActiveRecord
 		// zone wise update
 		$results = self::getStatsByZone();
 		$ctr	 = 0;
-		foreach($results as $val)
+		foreach ($results as $val)
 		{
 			$areaType	 = 1;
 			$areaId		 = $val['zon_id'];
@@ -1206,7 +1206,7 @@ class Drivers extends CActiveRecord
 
 	public function resetMarkBadByDrvId($drvId)
 	{
-		if($drvId != '')
+		if ($drvId != '')
 		{
 			$model							 = new Drivers();
 			$drvModel						 = $model->findByPk($drvId);
@@ -1253,7 +1253,7 @@ class Drivers extends CActiveRecord
 								WHERE 1 AND ds.drs_drv_overall_rating > 0 AND ds.drs_modified_date > DATE_SUB(NOW(),INTERVAL 5 DAY) $whereQry1";
 				DBUtil::execute($updateqry1);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::writeToConsole($ex->getMessage());
 			}
@@ -1272,14 +1272,14 @@ class Drivers extends CActiveRecord
 							GROUP BY code) a
 							WHERE total_km>0";
 			$resultqry2	 = DBUtil::query($selectqry2, DBUtil::SDB());
-			foreach($resultqry2 as $val)
+			foreach ($resultqry2 as $val)
 			{
 				try
 				{
 					$updateqry2 = "UPDATE drivers SET drivers.drv_gozo_kms ={$val['total_km']} WHERE drv_id ={$val['code']} $whereQry2";
 					DBUtil::execute($updateqry2);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -1294,14 +1294,14 @@ class Drivers extends CActiveRecord
 							WHERE bkg_active=1 AND bkg_status IN (6,7) AND (bkg_pickup_date)>='2015-10-25 00:00:00'  AND bcb_driver_id is not null
 							GROUP BY code";
 			$resultqry3	 = DBUtil::query($selectqry3, DBUtil::SDB());
-			foreach($resultqry3 as $val)
+			foreach ($resultqry3 as $val)
 			{
 				try
 				{
 					$updateqry3 = "UPDATE drivers SET drv_total_trips={$val['total']} WHERE drv_id ={$val['code']} $whereQry3";
 					DBUtil::execute($updateqry3);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -1316,14 +1316,14 @@ class Drivers extends CActiveRecord
 							WHERE bkg_active=1 AND bkg_status IN (6,7)  AND bkg_pickup_date>DATE_ADD(NOW(), INTERVAL -30 DAY)
 							GROUP BY code";
 			$resultqry4	 = DBUtil::query($selectqry4, DBUtil::SDB());
-			foreach($resultqry4 as $val)
+			foreach ($resultqry4 as $val)
 			{
 				try
 				{
 					$updateqry4 = "UPDATE drivers SET drv_last_thirtyday_trips ={$val['total']} WHERE drv_id={$val['code']} $whereQry4";
 					DBUtil::execute($updateqry4);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -1355,7 +1355,7 @@ class Drivers extends CActiveRecord
 							WHERE bkg_pickup_date>='2015-10-25'
 							GROUP BY code";
 			$resultqry5	 = DBUtil::query($selectqry5, DBUtil::SDB());
-			foreach($resultqry5 as $val)
+			foreach ($resultqry5 as $val)
 			{
 				try
 				{
@@ -1376,7 +1376,7 @@ class Drivers extends CActiveRecord
                                                         ,driver_stats.drs_AP_Count ='{$val['AP_Count']}' WHERE driver_stats.drs_drv_id= {$val['code']} $whereQry51";
 					DBUtil::execute($updateqry5);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -1390,7 +1390,7 @@ class Drivers extends CActiveRecord
 							FROM`app_tokens` INNER JOIN drivers ON drv_id=app_tokens.apt_entity_id AND app_tokens.apt_user_type = 5 $whereQry6
 							WHERE app_tokens.apt_entity_id IS NOT NULL AND app_tokens.apt_status = 1 GROUP BY driver_id";
 			$resultqry6	 = DBUtil::query($selectqry6, DBUtil::SDB());
-			foreach($resultqry6 as $val)
+			foreach ($resultqry6 as $val)
 			{
 				try
 				{
@@ -1399,7 +1399,7 @@ class Drivers extends CActiveRecord
 								   WHERE 1 AND driver_stats.drs_drv_id = {$val['driver_id']}  $whereQry61";
 					DBUtil::execute($updateqry6);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -1427,7 +1427,7 @@ class Drivers extends CActiveRecord
 								AND booking.bkg_pickup_date>='2015-10-25' 
 							) temp WHERE 1 GROUP BY temp.driverIds;";
 			$resultqry7	 = DBUtil::query($selectqry7, DBUtil::SDB());
-			foreach($resultqry7 as $val)
+			foreach ($resultqry7 as $val)
 			{
 				try
 				{
@@ -1437,7 +1437,7 @@ class Drivers extends CActiveRecord
 								   WHERE 1 AND driver_stats.drs_drv_id = {$val['driverIds']}";
 					DBUtil::execute($updateqry7);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -1446,7 +1446,7 @@ class Drivers extends CActiveRecord
 			$returnset->setStatus(true);
 			$returnset->setMessage("Driver Statistical Data Update Successfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			$returnset->setStatus(false);
@@ -1457,28 +1457,28 @@ class Drivers extends CActiveRecord
 
 	public function addLog($oldData, $newData)
 	{
-		if($oldData)
+		if ($oldData)
 		{
 			$getDifference	 = array_diff_assoc($oldData, $newData);
 			$remark			 = $this->drv_log;
 			$dt				 = date('Y-m-d H:i:s');
 			$user			 = Yii::app()->user->getId();
 			//if ($remark) {
-			if(is_string($remark))
+			if (is_string($remark))
 			{
 				$newcomm = CJSON::decode($remark);
 			}
-			else if(is_array($remark))
+			else if (is_array($remark))
 			{
 				$newcomm = $remark;
 			}
-			if($newcomm == false)
+			if ($newcomm == false)
 			{
 				$newcomm = array();
 			}
-			if(count($getDifference) > 0)
+			if (count($getDifference) > 0)
 			{
-				while(count($newcomm) >= 50)
+				while (count($newcomm) >= 50)
 				{
 					array_pop($newcomm);
 				}
@@ -1500,7 +1500,7 @@ class Drivers extends CActiveRecord
 	public function checkVerifiedByvendor($id)
 	{
 		$model = DriversInfo::model()->find('drv_driver_id=:id', ['id' => $id]);
-		if($model != '')
+		if ($model != '')
 		{
 			return true;
 		}
@@ -1517,23 +1517,23 @@ class Drivers extends CActiveRecord
 		$criteria->select	 = ["t.*,cty.cty_name,vnd_id as drv_vendor_id1,vnd_name as agt,group_concat(concat(vht_model,'(' ,vhc_number,')' ) separator ',')  as vhc"];
 		$criteria->compare('drv_active', 1);
 
-		if($vendorId != '')
+		if ($vendorId != '')
 		{
 			$criteria->compare('vdrv_vnd_id', $vendorId);
 		}
-		if($active != '')
+		if ($active != '')
 		{
 			$criteria->compare('drv_active', $active);
 		}
-		if($this->drv_name != '')
+		if ($this->drv_name != '')
 		{
 			$criteria->compare('LOWER(drv_name)', strtolower($this->drv_name), true);
 		}
-		if($this->drv_email != '')
+		if ($this->drv_email != '')
 		{
 			$criteria->compare('LOWER(drv_email)', strtolower($this->drv_email), true);
 		}
-		if($this->drv_phone != '')
+		if ($this->drv_phone != '')
 		{
 			$criteria->compare('drv_phone', $this->drv_phone, true);
 		}
@@ -1567,7 +1567,7 @@ class Drivers extends CActiveRecord
 
 		$whereAnd	 = [];
 		$whereOr	 = [];
-		if(count($qry) == 0)
+		if (count($qry) == 0)
 		{
 			$returnSet->addError("No parameters found", 1);
 			goto end;
@@ -1576,40 +1576,40 @@ class Drivers extends CActiveRecord
 		$whereAnd[]	 = "LOWER(drv_name) LIKE '%" . strtolower($qry['drv_name']) . "%'";
 		$whereAnd[]	 = "phn_phone_no LIKE '%" . $qry['drv_phone'] . "%'";
 
-		if($qry['drv_lic_number'] != '')
+		if ($qry['drv_lic_number'] != '')
 		{
 			$whereAnd[] = "ctt_license_no = '" . trim($qry['drv_lic_number']) . "'";
 		}
-		if($qry['drv_aadhaar_number'] != '')
+		if ($qry['drv_aadhaar_number'] != '')
 		{
 			$whereOr[] = "ctt_aadhaar_no = '" . trim($qry['drv_aadhaar_number']) . "'";
 		}
-		if($qry['drv_pan_no'] != '')
+		if ($qry['drv_pan_no'] != '')
 		{
 			$whereOr[] = "ctt_pan_no = '" . trim($qry['drv_pan_no']) . "'";
 		}
-		if($qry['drv_voter_id'] != '')
+		if ($qry['drv_voter_id'] != '')
 		{
 			$whereOr[] = "ctt_voter_no = '" . trim($qry['drv_voter_id']) . "'";
 		}
 
 		$whereAndQry = implode(' AND ', array_filter($whereAnd));
 		$whereOrQry	 = '';
-		if(sizeof($whereOr) > 0)
+		if (sizeof($whereOr) > 0)
 		{
 			$whereOrQry = ' OR (' . implode(' OR ', $whereOr) . ')';
 		}
 
 		$sql1		 = $sql . ' AND ' . $whereAndQry . $whereOrQry;
 		$recordset	 = DBUtil::query($sql1);
-		if($recordset->getRowCount() == 0)
+		if ($recordset->getRowCount() == 0)
 		{
 			$returnSet->setStatus(true);
 			goto end;
 		}
 
 		$drvIds = [];
-		foreach($recordset as $d)
+		foreach ($recordset as $d)
 		{
 			$drvIds[] = $d['drv_id'];
 		}
@@ -1624,7 +1624,7 @@ class Drivers extends CActiveRecord
 	public function checkExisting($qry1 = [])
 	{
 		$qry = array_filter($qry1);
-		if(sizeof($qry) > 0)
+		if (sizeof($qry) > 0)
 		{
 			$where	 = 'WHERE ';
 			$where1	 = '';
@@ -1632,56 +1632,56 @@ class Drivers extends CActiveRecord
 			$sql1	 = '';
 			$sql2	 = '';
 			$drvName = '';
-			if($qry['drv_name'] != '')
+			if ($qry['drv_name'] != '')
 			{
 				$drvName = " LOWER(drv_name) = '" . strtolower($qry['drv_name']) . "'";
 			}
 			$contDetails = Contact:: model()->getContactDetails($qry['drv_contact_id']);
 
 			$drvPhone = '';
-			if($contDetails['phn_phone_no'] != '')
+			if ($contDetails['phn_phone_no'] != '')
 			{
 				$drvPhone = " phn_phone_no = '" . $contDetails['phn_phone_no'] . "'";
 			}
 
 			$drvLicNumber = '';
-			if($contDetails['ctt_license_no'] != '')
+			if ($contDetails['ctt_license_no'] != '')
 			{
 				$drvLicNumber = "LOWER(ctt_license_no) = '" . strtolower($contDetails['ctt_license_no']) . "'";
 			}
-			if($qry['drv_name'] != '')
+			if ($qry['drv_name'] != '')
 			{
 				$sql1 = ' (' . $drvName . ' ) ';
 			}
-			if($qry['drv_name'] != '' && $contDetails['phn_phone_no'] != '')
+			if ($qry['drv_name'] != '' && $contDetails['phn_phone_no'] != '')
 			{
 				$sql1 = ' (' . $drvName . ' AND ' . $drvPhone . ') ';
 			}
-			if($contDetails['ctt_license_no'] != '')
+			if ($contDetails['ctt_license_no'] != '')
 			{
 				$sql2 = ' (' . $drvLicNumber . ') ';
 			}
 			$where5	 = ($sql1 != '' && $sql2 != '') ? $sql1 . ' OR ' . $sql2 : $sql1 . $sql2;
 			$where4	 = (trim($where5) != '') ? $where5 : '';
 
-			if($qry['drv_vendor_id1'] != '')
+			if ($qry['drv_vendor_id1'] != '')
 			{
 				$where1 .= "vdrv_vnd_id = " . $qry['drv_vendor_id1'] . ' AND ';
 			}
-			if($contDetails['ctt_aadhaar_no'] != '')
+			if ($contDetails['ctt_aadhaar_no'] != '')
 			{
 				$where2[] = "LOWER(ctt_aadhaar_no) = '" . strtolower($contDetails['ctt_aadhaar_no']) . "'";
 			}
-			if($contDetails['ctt_pan_no'] != '')
+			if ($contDetails['ctt_pan_no'] != '')
 			{
 				$where2[] = "ctt_pan_no = '" . $contDetails['ctt_pan_no'] . "'";
 			}
-			if($contDetails['ctt_voter_no'] != '')
+			if ($contDetails['ctt_voter_no'] != '')
 			{
 				$where2[] = "LOWER(ctt_voter_no) = '" . strtolower($contDetails['ctt_voter_no']) . "'";
 			}
 			$where3 = '';
-			if(sizeof($where2) > 0)
+			if (sizeof($where2) > 0)
 			{
 				$where3	 = ' OR (' . implode(' OR ', $where2) . ')';
 				$where3	 = ($where4 != '') ? $where3 . ' OR ' . $where4 : $where3;
@@ -1755,19 +1755,19 @@ class Drivers extends CActiveRecord
 	{
 		$where	 = '';
 		$where0	 = '';
-		if($arr['drv_name'])
+		if ($arr['drv_name'])
 		{
 			$drvname = $arr['drv_name'];
 			$where	 .= " AND drv.drv_name LIKE '%$drvname%'";
 			$where0	 .= " AND t.drv_name LIKE '%$drvname%'";
 		}
-		if($arr['drv_phone'])
+		if ($arr['drv_phone'])
 		{
 			$drvph	 = $arr['drv_phone'];
 			$where0	 .= " AND cntp.phn_phone_no LIKE '%$drvph%'";
 		}
 
-		if($arr['drv_email'])
+		if ($arr['drv_email'])
 		{
 			$drveml	 = $arr['drv_email'];
 			$where0	 .= " AND cnte.eml_email_address LIKE '%$drveml%'";
@@ -1894,10 +1894,10 @@ class Drivers extends CActiveRecord
 		return DBUtil::queryRow($sql);
 	}
 
-	public function getDetailsById($id = 0)
+	public static function getDetailsById($id = 0)
 	{
 
-		if($id > 0)
+		if ($id > 0)
 		{
 			$qry = " AND vendor_driver.vdrv_drv_id =$id";
 		}
@@ -1921,6 +1921,7 @@ class Drivers extends CActiveRecord
 				contact.ctt_license_exp_date,
 				contact.ctt_dl_issue_authority,
 				contact.ctt_vaccine_status,
+				contact.ctt_profile_path,
                 drivers.drv_id,
 				drivers.drv_created,
                 drivers.drv_approved,
@@ -1995,7 +1996,7 @@ class Drivers extends CActiveRecord
 				  INNER JOIN drivers d2 ON d2.drv_id=d1.drv_ref_code
 				  INNER JOIN drivers d3 ON d3.drv_ref_code=d2.drv_id
 				  WHERE d1.drv_id=$id) AND drivers.drv_id = drivers.drv_ref_code";
-		if($id == 0)
+		if ($id == 0)
 		{
 			return DBUtil::queryAll($sql);
 		}
@@ -2090,7 +2091,7 @@ class Drivers extends CActiveRecord
 	{
 		$dlMismatch			 = "";
 		$licenceCondition	 = "";
-		if($qry['searchLicense'] != '')
+		if ($qry['searchLicense'] != '')
 		{
 			$licenseNo			 = $qry['searchLicense'];
 			$licenceCondition	 = " AND contact.ctt_license_no LIKE '%$licenseNo%'";
@@ -2139,69 +2140,69 @@ class Drivers extends CActiveRecord
 						INNER JOIN contact ON contact.ctt_id = contact_profile.cr_contact_id AND ctt_active = 1 {$licenceCondition} ";
 
 		$sqlCondition = " WHERE 1 AND d1.drv_active = 1 ";
-		if($this->drv_name != '')
+		if ($this->drv_name != '')
 		{
 			$sqlCondition .= " AND (d1.drv_name LIKE '%$this->drv_name%' OR d1.drv_code='$this->drv_name' OR contact.ctt_first_name LIKE '%$this->drv_name%' OR contact.ctt_last_name LIKE '%$this->drv_name%' OR contact.ctt_business_name LIKE '%$this->drv_name%')";
 			#$sql			 .= " AND (d1.drv_name LIKE '%$this->drv_name%' OR d1.drv_code='$this->drv_name' OR contact.ctt_first_name LIKE '%$this->drv_name%' OR contact.ctt_last_name LIKE '%$this->drv_name%' OR contact.ctt_business_name LIKE '%$this->drv_name%')";
 		}
-		if($this->drv_code != '')
+		if ($this->drv_code != '')
 		{
 			$sqlCondition .= " AND ( d1.drv_code='$this->drv_code')";
 			#$sql			 .= " AND ( d1.drv_code='$this->drv_code')";
 		}
-		if($this->drv_email != '')
+		if ($this->drv_email != '')
 		{
 			$sqlCount		 .= " LEFT JOIN contact_email  ON contact_email.eml_contact_id = contact.ctt_id  AND contact_email.eml_active = 1 ";
 			$sqlCondition	 .= " AND contact_email.eml_email_address LIKE '%$this->drv_email%'";
 			#$sql			 .= " AND contact_email.eml_email_address LIKE '%$this->drv_email%'";
 		}
-		if($this->drv_phone != '')
+		if ($this->drv_phone != '')
 		{
 			$sqlCount		 .= " LEFT JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id  AND contact_phone.phn_active = 1 ";
 			$sqlCondition	 .= " AND (contact_phone.phn_phone_no LIKE '%$this->drv_phone%')";
 			#$sql			 .= " AND (contact_phone.phn_phone_no LIKE '%$this->drv_phone%')";
 		}
-		if($this->vndlist != 1)
+		if ($this->vndlist != 1)
 		{
 			$sqlCondition .= " AND d1.drv_active=1";
 			#$sql			 .= " AND d1.drv_active=1";
 		}
-		if($this->drv_approved != '' && $this->drv_approved > 0)
+		if ($this->drv_approved != '' && $this->drv_approved > 0)
 		{
 			$sqlCondition .= " AND d1.drv_approved=$this->drv_approved";
 			#$sql			 .= " AND d1.drv_approved=$this->drv_approved";
 		}
-		if($qry['searchmarkdriver'] != '')
+		if ($qry['searchmarkdriver'] != '')
 		{
 			$sqlCondition .= "  AND d1.drv_mark_driver_count > 0";
 			#$sql			 .= "  AND d1.drv_mark_driver_count > 0";
 		}
-		if($qry['searchdlmismatch'] != '')
+		if ($qry['searchdlmismatch'] != '')
 		{
 			$dlMismatchedVal = $qry['searchdlmismatch'];
 			$sqlCondition	 .= "  AND contact.ctt_is_name_dl_matched  = $dlMismatchedVal";
 			#$sql			 .= "  AND contact.ctt_is_name_dl_matched  = $dlMismatchedVal";
 		}
-		if($qry['searchpanmismatch'] != '')
+		if ($qry['searchpanmismatch'] != '')
 		{
 			$panMismatchedVal	 = $qry['searchpanmismatch'];
 			$sqlCondition		 .= "  AND contact.ctt_is_name_pan_matched  = $panMismatchedVal";
 			#$sql				 .= "  AND contact.ctt_is_name_pan_matched  = $panMismatchedVal";
 		}
 
-		if($this->drv_vendor_id != '')
+		if ($this->drv_vendor_id != '')
 		{
 			$sqlCondition .= " AND d1.drv_id IN (SELECT vdrv_drv_id FROM vendor_driver WHERE vdrv_vnd_id={$this->drv_vendor_id} AND vdrv_active=1)";
 			#$sql			 .= " AND d1.drv_id IN (SELECT vdrv_drv_id FROM vendor_driver WHERE vdrv_vnd_id={$this->drv_vendor_id} AND vdrv_active=1)";
 		}
-		if(isset($this->drv_trip_type) && $this->drv_trip_type != '')
+		if (isset($this->drv_trip_type) && $this->drv_trip_type != '')
 		{
 			$sqlCondition .= " AND d1.drv_trip_type LIKE '%$this->drv_trip_type%'";
 			#$sql			 .= " AND d1.drv_trip_type LIKE '%$this->drv_trip_type%'";
 		}
-		if($this->drv_source != '')
+		if ($this->drv_source != '')
 		{
-			switch($this->drv_source)
+			switch ($this->drv_source)
 			{
 				case 222:
 					/* $sql .= " AND (d1.drv_name IS NOT NULL AND d1.drv_name <> '') AND
@@ -2219,7 +2220,7 @@ class Drivers extends CActiveRecord
 		$groupby	 = " GROUP BY d1.drv_id ";
 		$query		 = $select . $sql . $sqlCondition . $groupby;
 		$queryCount	 = "SELECT COUNT(*) FROM (SELECT drv_id " . $sqlCount . $sqlCondition . $groupby . ") a";
-		if($command == false)
+		if ($command == false)
 		{
 			$count			 = DBUtil::command($queryCount)->queryScalar();
 			$dataprovider	 = new CSqlDataProvider($query, [
@@ -2241,70 +2242,70 @@ class Drivers extends CActiveRecord
 	public function getModificationMSG($diff, $user = false)
 	{
 		$msg = '';
-		if(count($diff) > 0)
+		if (count($diff) > 0)
 		{
-			if($diff['drv_contact_id'])
+			if ($diff['drv_contact_id'])
 			{
 				$msg .= ' Driver Contact ID: ' . $diff['drv_contact_id'] . ',';
 			}
-			if($diff ['drv_name'])
+			if ($diff ['drv_name'])
 			{
 				$msg .= ' Driver name: ' . $diff['drv_name'] . ',';
 			}
 
-			if($diff ['drv_phone'])
+			if ($diff ['drv_phone'])
 			{
 				$msg .= ' Driver Phone: ' . $diff['drv_phone'] . ',';
 			}
-			if($diff ['drv_lic_number'])
+			if ($diff ['drv_lic_number'])
 			{
 				$msg .= ' Licence Number: ' . $diff['drv_lic_number'] . ',';
 			}
-			if($diff['drv_lic_exp_date'])
+			if ($diff['drv_lic_exp_date'])
 			{
 				$msg .= ' Licence Exp Date: ' . $diff['drv_lic_exp_date'] . ',';
 			}
-			if($diff['drv_voter_id'])
+			if ($diff['drv_voter_id'])
 			{
 				$msg .= ' VoterId: ' . $diff['drv_voter_id'] . ',';
 			}
-			if($diff['drv_aadhaar_no'])
+			if ($diff['drv_aadhaar_no'])
 			{
 				$msg .= ' Aadhaar No: ' . $diff['drv_aadhaar_no'] . ',';
 			}
-			if($diff ['drv_pan_no'])
+			if ($diff ['drv_pan_no'])
 			{
 				$msg .= ' Pan No: ' . $diff['drv_pan_no'] . ',';
 			}
-			if($diff['drv_issue_auth'])
+			if ($diff['drv_issue_auth'])
 			{
 				$msg .= 'Driver License is issued by : ' . $diff['drv_issue_auth'] . ',';
 			}
-			if($diff['drv_address'])
+			if ($diff['drv_address'])
 			{
 				$msg .= ' Address: ' . $diff['drv_address'] . ',';
 			}
-			if($diff['drv_email'])
+			if ($diff['drv_email'])
 			{
 				$msg .= ' Email: ' . $diff['drv_email'] . ',';
 			}
-			if($diff['drv_state'])
+			if ($diff['drv_state'])
 			{
 				$smodel	 = States::model()->findByPk($diff['drv_state']);
 				$msg	 .= ' State: ' . $smodel->stt_name . ',';
 			}
-			if($diff['drv_city'])
+			if ($diff['drv_city'])
 			{
 				$cmodel	 = Cities::model()->findByPk($diff['drv_city']);
 				$msg	 .= ' City: ' . $cmodel->cty_name . ',';
 			}
-			if($diff['drv_zip'])
+			if ($diff['drv_zip'])
 			{
 				$msg .= ' Zip: ' . $diff['drv_zip'] . ',';
 			}
-			if($diff['drv_approved'] != '')
+			if ($diff['drv_approved'] != '')
 			{
-				switch($diff['drv_approved'])
+				switch ($diff['drv_approved'])
 				{
 					case 0;
 						$approveStatus	 = 'Not Verified';
@@ -2324,27 +2325,27 @@ class Drivers extends CActiveRecord
 			}
 
 
-			if($diff['photoFile'] != '')
+			if ($diff['photoFile'] != '')
 			{
 				$msg .= ' Driver Selfie: ' . $diff['photoFile'] . ',';
 			}
-			if($diff['voterCardFile'] != '')
+			if ($diff['voterCardFile'] != '')
 			{
 				$msg .= ' Voter ID: ' . $diff['voterCardFile'] . ',';
 			}
-			if($diff['panCardFile'] != '')
+			if ($diff['panCardFile'] != '')
 			{
 				$msg .= ' PAN: ' . $diff['panCardFile'] . ',';
 			}
-			if($diff['aadhaarCardFile'] != '')
+			if ($diff['aadhaarCardFile'] != '')
 			{
 				$msg .= ' Aadhaar: ' . $diff['aadhaarCardFile'] . ',';
 			}
-			if($diff['licenseFile'] != '')
+			if ($diff['licenseFile'] != '')
 			{
 				$msg .= ' Driver License: ' . $diff['licenseFile'] . ',';
 			}
-			if($diff['policeFile'] != '')
+			if ($diff['policeFile'] != '')
 			{
 				$msg .= ' Police verification: ' . $diff['policeFile'] . ',';
 			}
@@ -2356,7 +2357,7 @@ class Drivers extends CActiveRecord
 	public function saveDocument($driverId, $path, UserInfo $userInfo = null, $doc_type = null)
 	{
 		$success = false;
-		if($path != '' && $driverId != '')
+		if ($path != '' && $driverId != '')
 		{
 			$success	 = true;
 			$event_id	 = DriversLog::DRIVER_FILE_UPLOAD;
@@ -2425,7 +2426,7 @@ class Drivers extends CActiveRecord
 
 	public function getDriverIdByTripId($tripId, $phNo, $otp = '')
 	{
-		if($otp != '')
+		if ($otp != '')
 		{
 			$otp = " AND drivers.drv_verification_code = '" . $otp . "'";
 		}
@@ -2446,10 +2447,10 @@ class Drivers extends CActiveRecord
 		try
 		{
 			$model = Drivers::model()->resetScope()->findByPk($drvId);
-			if($model->drv_is_freeze == 0)
+			if ($model->drv_is_freeze == 0)
 			{
 				$model->drv_is_freeze = 1;
-				if($model->validate() && $model->save())
+				if ($model->validate() && $model->save())
 				{
 					DriversLog::model()->createLog($model->drv_id, $desc, $userInfo, DriversLog::DRIVER_FREEZE, false, false);
 					$success = true;
@@ -2461,7 +2462,7 @@ class Drivers extends CActiveRecord
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$messsage = $ex->getMessage();
 		}
@@ -2476,7 +2477,7 @@ class Drivers extends CActiveRecord
 		{
 			$model				 = Drivers::model()->findByPk($drv_id);
 			$model->drv_approved = 1;
-			if($model->save())
+			if ($model->save())
 			{
 				$desc		 = "Driver Auto Approved";
 				$event_id	 = DriversLog::DRIVER_APPROVED;
@@ -2492,7 +2493,7 @@ class Drivers extends CActiveRecord
 				throw new Exception($errors);
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$this->addError("drv_id", $e->getMessage());
 			Logger::create("Not Approve.\n\t\t" . $e->getMessage(), CLogger::LEVEL_ERROR);
@@ -2509,7 +2510,7 @@ class Drivers extends CActiveRecord
 		{
 			$model				 = Drivers::model()->findByPk($drv_id);
 			$model->drv_approved = 3;
-			if($model->save())
+			if ($model->save())
 			{
 				$desc		 = "Driver modified." . " Driver disapproved(rejected docs).";
 				$event_id	 = DriversLog::DRIVER_MODIFIED;
@@ -2525,7 +2526,7 @@ class Drivers extends CActiveRecord
 				throw new Exception($errors);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::create("Not Disapprove.\n\t\t" . $ex->getMessage(), CLogger::LEVEL_ERROR);
 			DBUtil::rollbackTransaction($transaction);
@@ -2536,7 +2537,7 @@ class Drivers extends CActiveRecord
 	public function getDriverApproveStatus()
 	{
 		$success = false;
-		if($this->drv_active == 1 && $this->drv_approved == 1 && $this->drv_is_freeze == 0)
+		if ($this->drv_active == 1 && $this->drv_approved == 1 && $this->drv_is_freeze == 0)
 		{
 			$success = true;
 		}
@@ -2546,7 +2547,7 @@ class Drivers extends CActiveRecord
 	public function getDriverApproveStatusForUber()
 	{
 		$success = true;
-		if($this->drv_is_uber_approved == 0)
+		if ($this->drv_is_uber_approved == 0)
 		{
 			$success = false;
 		}
@@ -2556,7 +2557,7 @@ class Drivers extends CActiveRecord
 	public function isApproved()
 	{
 		$success = true;
-		if($this->drv_approved == 0)
+		if ($this->drv_approved == 0)
 		{
 			$success = false;
 		}
@@ -2572,11 +2573,11 @@ class Drivers extends CActiveRecord
 	public function checkSocialLinking($drv_id)
 	{
 		$result = false;
-		if($drv_id > 0)
+		if ($drv_id > 0)
 		{
 			$row	 = Drivers::getUserContact($drv_id);
 			$userId	 = $row['userId'];
-			if($userId > 0)
+			if ($userId > 0)
 			{
 				$result = Users::model()->checkSocialLinking($userId);
 			}
@@ -2594,7 +2595,7 @@ class Drivers extends CActiveRecord
 	public static function freezeLowRatingByRtgId($rtgId, $userInfo, $params)
 	{
 		$success = false;
-		if($params['drv_id'] > 0 && $params['bkg_booking_id'] != '')
+		if ($params['drv_id'] > 0 && $params['bkg_booking_id'] != '')
 		{
 			$desc	 = "Driver is Freezed due of Low Rating (" . $params['rtg_customer_car'] . ") in booking id " . $params['bkg_booking_id'];
 			$result	 = Drivers::model()->isFreeze($params['drv_id'], $userInfo, $desc);
@@ -2606,25 +2607,25 @@ class Drivers extends CActiveRecord
 	public function forgotPassword($phone, $code, $newPassword, $arr, $status)
 	{
 		$user_model = Users::model()->findByPhoneorEmail($phone);
-		if(count($user_model) > 1)
+		if (count($user_model) > 1)
 		{
 			$driver_user_id	 = $user_model['user_id'];
 			$email			 = $user_model['usr_email'];
 			$phone			 = $user_model['usr_mobile'];
 
-			if(preg_match('/^[0-9]{10}+$/', $phone))
+			if (preg_match('/^[0-9]{10}+$/', $phone))
 			{
 
 				$dri_vers	 = Drivers::model()->findByUserid($driver_user_id);
 				$driver		 = $dri_vers->drv_id;
 				$arr		 = ['driver' => $driver];
-				if($dri_vers)
+				if ($dri_vers)
 				{
-					if($code != "")
+					if ($code != "")
 					{
-						if($dri_vers->drv_verification_code == $code)
+						if ($dri_vers->drv_verification_code == $code)
 						{
-							if($newPassword != "")
+							if ($newPassword != "")
 							{
 								$dri_vers->drv_verification_code = '';
 								$dri_vers->update();
@@ -2651,7 +2652,7 @@ class Drivers extends CActiveRecord
 					{
 						$code							 = ($dri_vers->drv_verification_code == "") ? rand(999, 9999) : $dri_vers->drv_verification_code;
 						$dri_vers->drv_verification_code = $code;
-						if($dri_vers->update())
+						if ($dri_vers->update())
 						{
 							$smsWrapper		 = new smsWrapper();
 							//$countrycode = $dri_vers->drv_country_code;
@@ -2695,7 +2696,7 @@ class Drivers extends CActiveRecord
 	{
 		$appToken1 = AppTokens::model()->find('apt_token_id = :token and apt_status = 1', array('token' => $token));
 
-		if(empty($appToken1))
+		if (empty($appToken1))
 		{
 			return false;
 		}
@@ -2724,7 +2725,7 @@ class Drivers extends CActiveRecord
 		$deviceInfo		 = $deviceData['device_info'];
 		$appDeviceToken	 = $deviceData['apt_device_token'];
 
-		if($provider == 'Google' || $provider == 'Facebook')
+		if ($provider == 'Google' || $provider == 'Facebook')
 		{
 			$identifier	 = $userData['id'];
 			//$email	     = $userData['email'];				
@@ -2732,17 +2733,17 @@ class Drivers extends CActiveRecord
 			$oauthtable	 = $tablePrefix . 'user_oauth';
 			$sql		 = "select * from $oauthtable where  identifier='$identifier' AND provider = '$provider'";
 			$val		 = DBUtil::queryRow($sql);
-			if(count($val) > 1)
+			if (count($val) > 1)
 			{
 				$userID	 = $val['user_id'];
 				$sql	 = "SELECT count(drv_id) as cnt,drv_id  FROM  drivers WHERE  drv_approved < 3 AND drv_user_id=$userID";
 				$cdb	 = DBUtil::queryRow($sql);
-				if($cdb['cnt'] == 1)
+				if ($cdb['cnt'] == 1)
 				{
 					$driverID	 = $cdb['drv_id'];
 					$sql		 = "SELECT usr_password,usr_name,usr_lname,usr_mobile,usr_email  FROM  users WHERE user_id=$userID  AND usr_active = 1";
 					$usrd		 = DBUtil::queryRow($sql);
-					if(count($usrd) > 0)
+					if (count($usrd) > 0)
 					{
 						$passWord		 = $usrd['usr_password'];
 						$userName		 = $usrd['usr_name'] . ' ' . $usrd['usr_lname'];
@@ -2768,19 +2769,19 @@ class Drivers extends CActiveRecord
 			/* 			
 			 * Authenticating user
 			 */
-			if($userAuthentic == 1)
+			if ($userAuthentic == 1)
 			{
 				$identity = new UserIdentity($email, $passWord);
 
-				if($identity->authenticate())
+				if ($identity->authenticate())
 				{
 					$userID			 = $identity->getId();
 					$userModel		 = Drivers::model()->findByUserid($userID);
 					$resultSet		 = Drivers::model()->findByUserid($userID);
 					$drvSosStatus	 = DriverStats::model()->getDriverSosStatus($resultSet['drv_id']);
-					if($drvSosStatus < 1)
+					if ($drvSosStatus < 1)
 					{
-						if(count($userModel) > 0)
+						if (count($userModel) > 0)
 						{
 							$identity->setEntityID($userModel->drv_id);
 							$driver_id = $identity->entityId;
@@ -2805,16 +2806,16 @@ class Drivers extends CActiveRecord
 							$userData	 = Users::model()->findByPk($userId);
 							$multi		 = false;
 
-							if(is_numeric($data['username']))
+							if (is_numeric($data['username']))
 							{
 
 								$countPhoneNo	 = Drivers::model()->getCountByPhoneNo($driver_id);
 								$count			 = $countPhoneNo['count'];
-								if($count > 1)
+								if ($count > 1)
 								{
 									$multi = true;
 								}
-								if($data['tripId'] != '')
+								if ($data['tripId'] != '')
 								{
 									$multi = false;
 								}
@@ -2866,7 +2867,7 @@ class Drivers extends CActiveRecord
 	public function sendAndVerifyOTP($driver_id, $otp)
 	{
 		$drvModel = Drivers::model()->findByPk($driver_id);
-		if($otp == $drvModel->drv_verification_code)
+		if ($otp == $drvModel->drv_verification_code)
 		{
 			$drvModel->drv_verification_code = '';
 			$drvModel->save();
@@ -2903,7 +2904,7 @@ class Drivers extends CActiveRecord
 	{
 		$rows	 = $this->getAllDriversbyQuery($query, $drv, $showInactive, $vnd);
 		$arrDrv	 = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrDrv[] = $showInactive != '0' ? array("id" => $row['drv_id'], "text" => $row['drv_name'] . ' (' . $row['phn_phone_no'] . ')') : array("id" => $row['drv_id'], "text" => $row['drv_name'] . ' (' . $row['drv_code'] . ')');
 		}
@@ -2913,22 +2914,29 @@ class Drivers extends CActiveRecord
 
 	public function getAllDriversbyQuery($query = '', $drv = '', $onlyActive, $vnd)
 	{
-		$qry = '';
-		if($drv != '')
+//		$relVndIds	 = Vendors::getPrimaryId($vnd);
+		$relVndIds	 = Vendors::getRelatedIds($vnd);
+		$qry		 = '';
+		if ($drv != '')
 		{
-			$qry1 = " AND 1 OR drivers.drv_id IN (SELECT d3.drv_id FROM drivers d1 INNER JOIN drivers d2 ON d2.drv_id=d1.drv_ref_code
-					INNER JOIN drivers d3 ON d3.drv_ref_code=d2.drv_id WHERE d1.drv_id=$drv) AND drivers.drv_id = drivers.drv_ref_code";
+			$qry1 = " AND 1 OR drivers.drv_id IN (SELECT d3.drv_id FROM drivers d1 
+					INNER JOIN drivers d2 ON d2.drv_id=d1.drv_ref_code
+					INNER JOIN drivers d3 ON d3.drv_ref_code=d2.drv_id WHERE d1.drv_id=$drv) 
+					AND drivers.drv_id = drivers.drv_ref_code";
 		}
-		if($query == '')
+		if ($query == '')
 		{
-			$qry .= " AND drivers.drv_id IN (SELECT bcb_driver_id FROM (SELECT bcb_driver_id, COUNT(*) as cnt FROM booking_cab  WHERE   bcb_active = 1 AND bcb_created > DATE_SUB(NOW(), INTERVAL 4 MONTH) GROUP BY bcb_driver_id ORDER BY cnt DESC LIMIT 0, 30) a)";
+			$qry .= " AND drivers.drv_id IN (SELECT bcb_driver_id FROM (SELECT bcb_driver_id, COUNT(*) as cnt  
+											FROM booking_cab  
+										WHERE   bcb_active = 1 AND bcb_created > DATE_SUB(NOW(), INTERVAL 4 MONTH) 
+									GROUP BY bcb_driver_id ORDER BY cnt DESC LIMIT 0, 30) a)";
 		}
 		else
 		{
 			$qry .= " AND drivers.drv_name LIKE '%{$query}%'";
 		}
 
-		if($onlyActive == '0')
+		if ($onlyActive == '0')
 		{
 			$qry .= " AND drivers.drv_active = 1";
 			$sql = "SELECT distinct(drivers.drv_id),drivers.drv_name,drivers.drv_code
@@ -2936,36 +2944,45 @@ class Drivers extends CActiveRecord
 				WHERE drivers.drv_name IS NOT NULL  $qry $qry1 ORDER BY drivers.drv_name LIMIT 0,30 ";
 			return DBUtil::query($sql, DBUtil::SDB());
 		}
-		else if($onlyActive == '2')
+		else if ($onlyActive == '2')
 		{
-			$qry3		 = " inner JOIN vendor_driver vdrv ON vdrv.vdrv_drv_id = d2.drv_id AND vdrv.vdrv_vnd_id = $vnd  AND vdrv_active = 1";
+			$qry3		 = " inner JOIN vendor_driver vdrv ON vdrv.vdrv_drv_id = d2.drv_id  
+						AND vdrv.vdrv_vnd_id IN ({$relVndIds})  AND vdrv_active = 1";
 			$qry4		 = " AND (d2.drv_active = 1 AND d2.drv_is_freeze = 0) ";
-			$qry2		 = " left JOIN contact_phone cntp ON d2.drv_contact_id = cntp.phn_contact_id and  cntp.phn_is_primary=1 ";
-			$qryBooking	 = "((d2.drv_name IS NOT NULL  AND d2.drv_name!='' AND d2.drv_contact_id > 0) AND (d2.drv_name LIKE '%{$query}%' or cntp.phn_phone_no LIKE '%{$query}%'))";
+			$qry2		 = " left JOIN contact_phone cntp ON d2.drv_contact_id = cntp.phn_contact_id 
+							and  cntp.phn_is_primary=1 ";
+			$qryBooking	 = "((d2.drv_name IS NOT NULL  AND d2.drv_name!='' AND d2.drv_contact_id > 0)			
+								AND (d2.drv_name LIKE '%{$query}%' or cntp.phn_phone_no LIKE '%{$query}%'))";
 			$sql		 = "SELECT distinct(d2.drv_id), d2.drv_code,  d2.drv_name,cntp.phn_phone_no
 					FROM drivers d1 INNER JOIN drivers d2 ON d2.drv_id = d1.drv_ref_code $qry2 $qry3
 					WHERE $qryBooking $qry4  ORDER BY d2.drv_name LIMIT 0,30 ";
 
 			return DBUtil::query($sql, DBUtil::SDB());
 		}
-		else if($onlyActive == '3')
+		else if ($onlyActive == '3')
 		{
-			$qryBooking	 = "((d2.drv_name IS NOT NULL  AND d2.drv_name!='' AND d2.drv_contact_id > 0))";
-			$qry3		 = " inner JOIN vendor_driver vdrv ON vdrv.vdrv_drv_id = d2.drv_id  AND vdrv_active = 1 and vdrv_vnd_id=$vnd";
-			$qry4		 = "  AND ( d2.drv_active = 1  AND d2.drv_is_freeze = 0)";
-			$qry2		 = " left JOIN contact_phone cntp ON d2.drv_contact_id = cntp.phn_contact_id and  cntp.phn_is_primary=1";
-			$sql		 = "SELECT distinct(d2.drv_id), d2.drv_code, d2.drv_name,cntp.phn_phone_no
-				FROM drivers d1 INNER JOIN drivers d2 ON d2.drv_id = d1.drv_ref_code  $qry2 $qry3
+			$qryBooking = "((d2.drv_name IS NOT NULL  AND d2.drv_name!='' AND d2.drv_contact_id > 0))";
+
+			$qry3	 = " inner JOIN vendor_driver vdrv ON vdrv.vdrv_drv_id = d2.drv_id 
+				AND vdrv_active = 1 and vdrv_vnd_id IN ({$relVndIds})";
+			$qry4	 = "  AND ( d2.drv_active = 1  AND d2.drv_is_freeze = 0)";
+			$qry2	 = " LEFT JOIN contact_phone cntp ON d2.drv_contact_id = cntp.phn_contact_id 
+				AND cntp.phn_is_primary=1";
+			$sql	 = "SELECT distinct(d2.drv_id), d2.drv_code, d2.drv_name,cntp.phn_phone_no
+				FROM drivers d1 
+				INNER JOIN drivers d2 ON d2.drv_id = d1.drv_ref_code  $qry2 $qry3
 				WHERE $qryBooking $qry4  ORDER BY d2.drv_name LIMIT 0,30 ";
 
 			return DBUtil::query($sql, DBUtil::SDB());
 		}
-		else if($onlyActive == '4')
+		else if ($onlyActive == '4')
 		{
 			$qryBooking	 = "((d2.drv_name IS NOT NULL  AND d2.drv_name!=''  AND d2.drv_contact_id > 0 ))";
-			$qry3		 = " inner JOIN vendor_driver vdrv ON vdrv.vdrv_drv_id = d2.drv_id  AND vdrv_active = 1 and vdrv_vnd_id=$vnd";
+			$qry3		 = " inner JOIN vendor_driver vdrv ON vdrv.vdrv_drv_id = d2.drv_id  AND vdrv_active = 1 
+							and vdrv_vnd_id IN ({$relVndIds})";
 			$qry4		 = "  AND ( d2.drv_active = 1  AND d2.drv_is_freeze = 0)";
-			$qry2		 = " left JOIN contact_phone cntp ON d2.drv_contact_id = cntp.phn_contact_id and  cntp.phn_is_primary=1";
+			$qry2		 = " left JOIN contact_phone cntp ON d2.drv_contact_id = cntp.phn_contact_id 
+							and  cntp.phn_is_primary=1";
 			$sql		 = "SELECT distinct(d2.drv_id), d2.drv_code, d2.drv_name,cntp.phn_phone_no
 				FROM drivers d1 INNER JOIN drivers d2 ON d2.drv_id = d1.drv_ref_code $qry2 $qry3
 				WHERE $qryBooking $qry4  ORDER BY d2.drv_name";
@@ -3124,9 +3141,9 @@ class Drivers extends CActiveRecord
 		$tripTypes	 = '';
 		$ids		 = explode(',', $ids);
 		$ctr		 = 1;
-		if(count($ids) > 0)
+		if (count($ids) > 0)
 		{
-			foreach($ids as $id)
+			foreach ($ids as $id)
 			{
 				$tripTypes	 .= Drivers::getSingleTripType($id);
 				$tripTypes	 .= (count($ids) != $ctr) ? ', ' : ' ';
@@ -3146,7 +3163,7 @@ class Drivers extends CActiveRecord
 					  AND ('$endTime' BETWEEN bcb_start_time AND bcb_end_time)
 				WHERE (bcb_id IS NULL)";
 		$res = DBUtil::command($sql)->queryScalar();
-		if($res > 0)
+		if ($res > 0)
 		{
 			return true;
 		}
@@ -3166,10 +3183,10 @@ class Drivers extends CActiveRecord
 				AND (booking_cab.bcb_start_time BETWEEN :startTime AND :endTime)
 				AND (booking_cab.bcb_end_time BETWEEN :startTime AND :endTime)";
 		$res = DBUtil::queryScalar($sql, DBUtil::SDB(), ["vnd_id" => trim($vendorId), "startTime" => $startTime, "endTime" => $endTime]);
-		if($res > 0)
+		if ($res > 0)
 		{
 			$driverCount = VendorDriver::getDriverCountbyVendorid($vndId);
-			if($driverCount > $res)
+			if ($driverCount > $res)
 			{
 				return true;
 			}
@@ -3210,39 +3227,39 @@ class Drivers extends CActiveRecord
 	{
 		$uploadDocuments = '';
 		$resDriverDocs	 = Document::model()->getAllDocsbyContact($drvCntId, 'driver');
-		if($resDriverDocs[0]['doc_file_front_path3'] != '')
+		if ($resDriverDocs[0]['doc_file_front_path3'] != '')
 		{
 			$uploadDocuments .= ucfirst('aadhaar Card') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_back_path3'] != '')
+		if ($resDriverDocs[0]['doc_file_back_path3'] != '')
 		{
 			$uploadDocuments .= ucfirst('aadhaar Back Card') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_front_path4'] != '')
+		if ($resDriverDocs[0]['doc_file_front_path4'] != '')
 		{
 			$uploadDocuments .= ucfirst('pan Card') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_back_path4'] != '')
+		if ($resDriverDocs[0]['doc_file_back_path4'] != '')
 		{
 			$uploadDocuments .= ucfirst('pan Back Card') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_front_path2'] != '')
+		if ($resDriverDocs[0]['doc_file_front_path2'] != '')
 		{
 			$uploadDocuments .= ucfirst('voter Id Card') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_back_path2'] != '')
+		if ($resDriverDocs[0]['doc_file_back_path2'] != '')
 		{
 			$uploadDocuments .= ucfirst('voter Back Id Card') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_front_path5'] != '')
+		if ($resDriverDocs[0]['doc_file_front_path5'] != '')
 		{
 			$uploadDocuments .= ucfirst('front License') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_back_path5'] != '')
+		if ($resDriverDocs[0]['doc_file_back_path5'] != '')
 		{
 			$uploadDocuments .= ucfirst('back License') . " ,";
 		}
-		if($resDriverDocs[0]['doc_file_front_path7'] != '')
+		if ($resDriverDocs[0]['doc_file_front_path7'] != '')
 		{
 			$uploadDocuments .= ucfirst('police Verification') . " ,";
 		}
@@ -3258,19 +3275,19 @@ class Drivers extends CActiveRecord
 		$contactId	 = ($contactId == '') ? $drvArray["drv_contact_id"] : $contactId;
 
 		//$contactId = ($drvArray["drv_contact_id"] == "") ? 0 : $drvArray["drv_contact_id"];
-		if($contactId > 0)
+		if ($contactId > 0)
 		{
 			$model = self::model()->findByDriverContactID($contactId);
-			if($model)
+			if ($model)
 			{
 				$this->drv_id = $model->drv_id;
 			}
 		}
 
-		if($this->isApp)
+		if ($this->isApp)
 		{
 			$result = Drivers::model()->checkExistingDriver($drvArray);
-			if(!$result->getStatus())
+			if (!$result->getStatus())
 			{
 				$returnSet->setStatus(false);
 				$returnSet->addError($result->getError('msg'), 'errkey');
@@ -3295,10 +3312,10 @@ class Drivers extends CActiveRecord
 			$contactModel->addType	 = 1;
 			$returnSet				 = $contactModel->add();
 
-			if(!$returnSet->getStatus())
+			if (!$returnSet->getStatus())
 			{
 				$i = 0;
-				foreach($returnSet->getErrors() as $key => $error)
+				foreach ($returnSet->getErrors() as $key => $error)
 				{
 
 					$decodeError = json_decode($error[$i], true);
@@ -3316,7 +3333,7 @@ class Drivers extends CActiveRecord
 			$this->drv_zip			 = $drvArray['drv_zip'];
 			$this->drv_is_attached	 = 0;
 		}
-		if($this->drv_id != '')
+		if ($this->drv_id != '')
 		{
 			$isNew		 = false;
 			$oldModel	 = Drivers::model()->findByPk($this->drv_id);
@@ -3331,18 +3348,18 @@ class Drivers extends CActiveRecord
 		$this->drv_approved_by		 = ($this->isNewRecord) ? Yii::app()->user->getId() : $this->drv_approved_by;
 		$this->drv_dob_date			 = $drvArray['drv_dob_date'];
 		$this->drv_active			 = 1;
-		if(isset($this->drv_trip_type) && $this->drv_trip_type != '')
+		if (isset($this->drv_trip_type) && $this->drv_trip_type != '')
 		{
 			$this->drv_trip_type = implode(',', $this->drv_trip_type);
 		}
 
 		try
 		{
-			if(!$this->save())
+			if (!$this->save())
 			{
 				$returnSet->setStatus(false);
 				$strErr = "";
-				foreach($this->getErrors() as $key => $value)
+				foreach ($this->getErrors() as $key => $value)
 				{
 					$strErr .= $value . " ";
 				}
@@ -3351,7 +3368,7 @@ class Drivers extends CActiveRecord
 				return $returnSet;
 			}
 			$this->refresh();
-			if($this->drv_code == null)
+			if ($this->drv_code == null)
 			{
 				$codeArr			 = Filter::getCodeById($this->drv_id, "driver");
 				$this->drv_code		 = $codeArr['code'];
@@ -3360,11 +3377,11 @@ class Drivers extends CActiveRecord
 			}
 			Logger::trace("<==***Driver Id***==>" . $this->drv_id . "<==***Contact Id***==>" . $this->drv_contact_id);
 			skipAdd:
-			if($drvArray['drv_vendor_id1'] > 0)
+			if ($drvArray['drv_vendor_id1'] > 0)
 			{
 				$data		 = ['vendor' => $drvArray['drv_vendor_id1'], 'driver' => $this->drv_id];
 				$resLinked	 = VendorDriver::model()->checkAndSave($data);
-				if(!$resLinked)
+				if (!$resLinked)
 				{
 					$returnSet->setStatus(false);
 					DBUtil::rollbackTransaction($transaction);
@@ -3374,14 +3391,14 @@ class Drivers extends CActiveRecord
 			}
 			BookingCab::model()->updateVendorPayment($flag		 = 1, $this->drv_id);
 			$verifyCode	 = rand(10000, 99999);
-			if($isNew)
+			if ($isNew)
 			{
 				$this->drvContact->contactPhones[0]->phn_otp = $verifyCode;
 				$this->drvContact->contactPhones[0]->save();
 				$phoneNumber								 = ContactPhone::model()->getContactPhoneById($this->drv_contact_id);
 				$emailAddress								 = ContactEmail::model()->getContactEmailById($this->drv_contact_id);
 				$userData									 = Users::model()->findByPhone($phoneNumber);
-				if(count($userData) > 1)
+				if (count($userData) > 1)
 				{
 					self::notifyToAlreadyRegistered($this->drv_id);
 				}
@@ -3426,14 +3443,14 @@ class Drivers extends CActiveRecord
 			$returnSet->setStatus(true);
 			DBUtil::commitTransaction($transaction);
 			Logger::trace("<==Driver Id==>" . $this->drv_id . "<==Contact Id==>" . $this->drv_contact_id);
-			if($contactId)
+			if ($contactId)
 			{
 				ContactProfile::updateEntity($contactId, $this->drv_id, UserInfo::TYPE_DRIVER);
 			}
 
 			//ContactProfile::setProfile($this->drv_contact_id, UserInfo::TYPE_DRIVER);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
 			$returnSet->addError($e->getMessage());
@@ -3460,9 +3477,9 @@ class Drivers extends CActiveRecord
 		$userName		 = $UserModel->usr_name . '' . $UserModel->usr_lname;
 		$driverName		 = $DriverModel->drv_name;
 		$sosContactList	 = Users::model()->getSosContactList($userId);
-		if($location['lat'] != 0.0 && $location['lon'] != 0.0)
+		if ($location['lat'] != 0.0 && $location['lon'] != 0.0)
 		{
-			foreach($sosContactList As $value)
+			foreach ($sosContactList As $value)
 			{
 				$emergencyUserName	 = $value['name'];
 				$phone				 = str_replace('-', '', str_replace(' ', '', $value['phon_no']));
@@ -3472,12 +3489,12 @@ class Drivers extends CActiveRecord
 				$url				 = Yii::app()->params['fullBaseURL'] . "/e?v=" . $urlHash;
 				$msg				 = "$driverName has pressed panic button and wants to notify you of the emergency. Track their location at $url urgently contact them. Gozo is also taking action.";
 				$type				 = 1;
-				if(strlen($phoneNumber) >= 10)
+				if (strlen($phoneNumber) >= 10)
 				{
 					$msgCom		 = new smsWrapper();
 					$sendSmsFlag = $msgCom->sendSmsToEmergencyContact($bkgId, $phoneNumber, $msg, $type);
 				}
-				if($emailAddress != '')
+				if ($emailAddress != '')
 				{
 					$emailModel		 = new emailWrapper();
 					$sendEmailFlag	 = $emailModel->sendEmailToEmergencyContact($bkgId, $userName, $emergencyUserName, $emailAddress, $msg, $type);
@@ -3568,7 +3585,7 @@ class Drivers extends CActiveRecord
 		{
 			$path	 = "";
 			$DS		 = DIRECTORY_SEPARATOR;
-			if($image != '')
+			if ($image != '')
 			{
 				$path		 = Yii::app()->basePath;
 				$image		 = $cttid . "-" . $type . "-" . date('YmdHis') . "-" . $image;
@@ -3576,18 +3593,18 @@ class Drivers extends CActiveRecord
 				$file_path	 = $dir . $DS . $image;
 				$folder_path = $dir . $DS;
 				$file_name	 = basename($image);
-				if(file_exists($file_path))
+				if (file_exists($file_path))
 				{
 					goto skipResize;
 				}
-				if(!is_dir($dir))
+				if (!is_dir($dir))
 				{
 					mkdir($dir);
 				}
 				$reSize = Vehicles::model()->img_resize($imagetmp, 1200, $folder_path, $file_name);
-				if($reSize)
+				if ($reSize)
 				{
-					if($type == 'agreement' || $type == 'digital_sign')
+					if ($type == 'agreement' || $type == 'digital_sign')
 					{
 						$path = substr($file_path, strlen(PUBLIC_PATH));
 					}
@@ -3599,7 +3616,7 @@ class Drivers extends CActiveRecord
 				}
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Yii::log("Exception thrown: \n\t" . $e->getTraceAsString(), CLogger::LEVEL_ERROR, "system.api.images");
 			Yii::log("Data Received: \n\t" . serialize(filter_input_array(INPUT_POST)), CLogger::LEVEL_ERROR, "system.api.images");
@@ -3615,15 +3632,15 @@ class Drivers extends CActiveRecord
 		try
 		{
 			$driverDetails = Drivers::model()->findBySql("SELECT * from drivers where drv_id=$drvId and drv_active=1 ");
-			if($driverDetails == null)
+			if ($driverDetails == null)
 			{
 
 				return array("status" => 0, 'message' => "Driver not found");
 			}
-			else if($driverDetails->drv_user_id != null && $driverDetails->drv_user_id != "")
+			else if ($driverDetails->drv_user_id != null && $driverDetails->drv_user_id != "")
 			{
 				$DriverCount = Drivers::model()->getAllDriverIdsByUserId($driverDetails->drv_user_id);
-				if(count($DriverCount) > 1)
+				if (count($DriverCount) > 1)
 				{
 					return array("status" => 0, 'message' => "The email is already connected to another driver account.");
 				}
@@ -3644,7 +3661,7 @@ class Drivers extends CActiveRecord
 				return array("status" => 1, 'UserId' => $userId, 'message' => "");
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			//DBUtil::rollbackTransaction($transaction);
 			return array("status" => 0, 'message' => "Please try again later");
@@ -3698,7 +3715,7 @@ class Drivers extends CActiveRecord
 		$where	 = '';
 		$where1	 = '';
 		$param	 = ['vndId' => $vndid, 'isFreeze' => $is_freeze, 'approved' => $approved];
-		if($search_txt != '' && strlen($search_txt) >= 4)
+		if ($search_txt != '' && strlen($search_txt) >= 4)
 		{
 			$search_txt = trim($search_txt);
 
@@ -3726,7 +3743,7 @@ class Drivers extends CActiveRecord
 						AND d.drv_is_freeze = :isFreeze AND 
 						d.drv_approved = :approved $where  GROUP BY d.drv_id,vdrv_vnd_id   ORDER BY d.drv_id DESC LIMIT 0,30";
 
-		if($flag == 1)
+		if ($flag == 1)
 		{
 			$recordSet = DBUtil::query($sql, DBUtil::SDB(), $param);
 			return $recordSet;
@@ -3744,11 +3761,11 @@ class Drivers extends CActiveRecord
 	 * @param [string] $search_txt
 	 * @return [array]
 	 */
-	public static function getLstByVendor($vndid, $search_txt = '', $is_freeze = 0, $approved = 1, $flag = 0)
+	public static function getLstByVendor($vndIds, $search_txt = '')
 	{
 		$where = '';
 
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_txt = trim($search_txt);
 
@@ -3758,32 +3775,38 @@ class Drivers extends CActiveRecord
 							)";
 		}
 
-		$param	 = ['vndId' => $vndid, 'isFreeze' => $is_freeze, 'approved' => $approved];
-		$sql	 = "SELECT GROUP_CONCAT(DISTINCT IF(d1.drv_id<>d.drv_id, CONCAT(d1.drv_id, ', ', d.drv_id), d1.drv_id) SEPARATOR ', ') as drvIds
+		$sql = "SELECT GROUP_CONCAT(DISTINCT d1.drv_ref_code) as drvIds
 				FROM vendor_driver vd
-				INNER JOIN drivers d ON vd.vdrv_drv_id=d.drv_id AND vd.vdrv_vnd_id=:vndId 
+				INNER JOIN drivers d ON vd.vdrv_drv_id=d.drv_id 
+					AND vd.vdrv_vnd_id IN ({$vndIds}) 
 				INNER JOIN drivers d1 ON d.drv_ref_code=d1.drv_id AND d1.drv_ref_code=d1.drv_id   
-				WHERE d.drv_is_freeze = :isFreeze AND d.drv_approved = :approved AND vd.vdrv_active=1 ";
+				WHERE 1 AND vd.vdrv_active=1 AND d.drv_active=1";
 
-		$driverIds = DBUtil::command($sql, DBUtil::SDB())->queryScalar($param);
+		$driverIds = DBUtil::queryScalar($sql, DBUtil::SDB());
 
-		if($driverIds != "")
+		if ($driverIds != "")
 		{
 			#echo $driverIds;
-			$sql1 = "SELECT d1.drv_id, d.drv_name,d.drv_approved, c1.*, contact_phone.phn_phone_no AS drv_phone,d.drv_code,contact_phone.phn_is_verified AS isPhVerified,vd.vdrv_id   
-					FROM contact_profile cp
-					INNER JOIN drivers d ON cp.cr_is_driver=d.drv_id AND d.drv_id IN ($driverIds)
-					INNER JOIN drivers d1 ON d1.drv_id=d.drv_ref_code
-					INNER JOIN vendor_driver vd ON vd.vdrv_drv_id=d.drv_id 
-					INNER JOIN contact c ON c.ctt_id=cp.cr_contact_id
-					INNER JOIN contact c1 ON c.ctt_ref_code=c1.ctt_id
-					LEFT JOIN contact_phone ON contact_phone.phn_Contact_id = c.ctt_id 
-					AND contact_phone.phn_is_primary = 1 AND contact_phone.phn_active = 1
-					WHERE 1 
-					$where
-					GROUP BY d1.drv_id";
+			$sql1 = "SELECT d1.drv_id, d1.drv_name,d1.drv_approved,
+			d1.drv_is_freeze, c1.*, contact_phone.phn_phone_no AS drv_phone,
+			d1.drv_code,contact_phone.phn_is_verified AS isPhVerified,
+			vdrv_vnd_id,vnd.vnd_code, vd.vdrv_id   ,
+			IF(d1.drv_approved=1,1,0) isApproved,
+			IF(vnd.vnd_id=vnd.vnd_ref_code,1,0) isPrimaryVnd
+			FROM drivers d 
+            INNER JOIN drivers d1 ON d1.drv_id=d.drv_ref_code 
+			INNER JOIN contact_profile cp ON cp.cr_is_driver=d1.drv_id 			
+			INNER JOIN vendor_driver vd ON vd.vdrv_drv_id=d1.drv_id 
+			INNER JOIN contact c ON c.ctt_id=cp.cr_contact_id
+			INNER JOIN contact c1 ON c.ctt_ref_code=c1.ctt_id
+			INNER JOIN vendors vnd ON vnd.vnd_id = vd.vdrv_vnd_id
+			LEFT JOIN contact_phone ON contact_phone.phn_Contact_id = c.ctt_id 
+			AND contact_phone.phn_is_primary = 1 AND contact_phone.phn_active = 1
+			WHERE 1 AND d.drv_id IN ($driverIds)			
+			GROUP BY d1.drv_ref_code 
+			ORDER BY isApproved DESC,isPrimaryVnd DESC;";
 
-			$recordSet = DBUtil::query($sql1, DBUtil::SDB(), $param);
+			$recordSet = DBUtil::query($sql1, DBUtil::SDB());
 		}
 		return $recordSet;
 	}
@@ -3825,7 +3848,7 @@ class Drivers extends CActiveRecord
 				WHERE
 					bkg_status IN(5) AND bkg_pickup_date > NOW() + INTERVAL 1 DAY";
 		$result	 = DBUtil::queryAll($sql, DBUtil::SDB());
-		foreach($result as $key => $value)
+		foreach ($result as $key => $value)
 		{
 			$reason = 'Driver has been freezed.';
 			Booking::model()->unassignCabDriver($value['bkg_id'], $reason);
@@ -3836,7 +3859,7 @@ class Drivers extends CActiveRecord
 	{
 		$dateCond = " bkg.bkg_pickup_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59'";
 
-		if($appnotused == 1)
+		if ($appnotused == 1)
 		{
 			$usageCond = ' AND (btk.bkg_ride_start = 0 OR btk.bkg_ride_complete = 0)';
 		}
@@ -3870,7 +3893,7 @@ class Drivers extends CActiveRecord
             INNER JOIN booking_track btk ON btk.btk_bkg_id = bkg.bkg_id 
 		    WHERE 1 $usageCond  ";
 
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			$recordSet = DBUtil::query($sql, DBUtil::SDB());
 			return $recordSet;
@@ -3899,12 +3922,12 @@ class Drivers extends CActiveRecord
 
 	public function getDriverAppNotUsedSummary($date1, $date2, $appnotused = '')
 	{
-		if($date1 != null && $date2 != null)
+		if ($date1 != null && $date2 != null)
 		{
 			$param = " bkg.bkg_pickup_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59'";
 		}
 
-		if($appnotused == 1)
+		if ($appnotused == 1)
 		{
 			$usageCond = ' AND (btk.bkg_ride_complete = 0 OR btk.bkg_ride_start = 0)';
 		}
@@ -3933,7 +3956,7 @@ class Drivers extends CActiveRecord
 
 	public function getDriverAppUsage($date1, $date2, $filters, $vndID = '', $zoneID = '', $region = '')
 	{
-		if($date1 == '' && $date2 == '')
+		if ($date1 == '' && $date2 == '')
 		{
 			$param = ' bkg.bkg_pickup_date BETWEEN(NOW() - INTERVAL 30 DAY) AND NOW()';
 		}
@@ -3941,7 +3964,7 @@ class Drivers extends CActiveRecord
 		{
 			$param = " bkg.bkg_pickup_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59'";
 		}
-		if($vndID != '')
+		if ($vndID != '')
 		{
 			$vndCond = ' bcb.bcb_vendor_id =' . $vndID;
 		}
@@ -3950,7 +3973,7 @@ class Drivers extends CActiveRecord
 			$vndCond = '1';
 		}
 
-		switch($filters)
+		switch ($filters)
 		{
 			case '1':
 				$cond	 = ' AND a.app_used_count = 0';
@@ -3963,7 +3986,7 @@ class Drivers extends CActiveRecord
 				break;
 		}
 
-		if($zoneID != '')
+		if ($zoneID != '')
 		{
 			$zonCond = ' AND zon.zon_id IN(' . $zoneID . ')';
 		}
@@ -3971,7 +3994,7 @@ class Drivers extends CActiveRecord
 		{
 			$zonCond = '';
 		}
-		if($region != '')
+		if ($region != '')
 		{
 			$regCond = ' AND stt.stt_zone IN(' . $region . ')';
 		}
@@ -4086,7 +4109,7 @@ class Drivers extends CActiveRecord
 
 	public function driverAppUsage($date1, $date2, $filter, $vndID = '', $zoneID = '', $region = '')
 	{
-		if($date1 != null && $date2 != null)
+		if ($date1 != null && $date2 != null)
 		{
 			$param = " bkg.bkg_pickup_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59'";
 		}
@@ -4094,7 +4117,7 @@ class Drivers extends CActiveRecord
 		{
 			$param = ' bkg.bkg_pickup_date BETWEEN(NOW() - INTERVAL 30 DAY) AND NOW()';
 		}
-		if($vndID != '')
+		if ($vndID != '')
 		{
 			$vndCond = ' bcb.bcb_vendor_id =' . $vndID;
 		}
@@ -4102,7 +4125,7 @@ class Drivers extends CActiveRecord
 		{
 			$vndCond = '1';
 		}
-		switch($filter)
+		switch ($filter)
 		{
 			case '1':
 				$cond	 = 'AND a.app_used_count = 0';
@@ -4114,7 +4137,7 @@ class Drivers extends CActiveRecord
 				$cond	 = '';
 				break;
 		}
-		if($zoneID != '')
+		if ($zoneID != '')
 		{
 			$zonCond = ' AND zon.zon_id IN(' . $zoneID . ')';
 		}
@@ -4122,7 +4145,7 @@ class Drivers extends CActiveRecord
 		{
 			$zonCond = '';
 		}
-		if($region != '')
+		if ($region != '')
 		{
 			$regCond = ' AND stt.stt_zone IN(' . $region . ')';
 		}
@@ -4199,19 +4222,19 @@ class Drivers extends CActiveRecord
 	public function addDriverDetails($newContactId, $driverName, $loggedInId = 0, $source = 0)
 	{
 		$returnset = new ReturnSet();
-		if(empty($entityId))
+		if (empty($entityId))
 		{
 			$entityId = UserInfo::getEntityId();
 		}
 		try
 		{
-			if(empty($newContactId) || empty($driverName))
+			if (empty($newContactId) || empty($driverName))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$driverModel				 = new Drivers();
 			$driverModel->drv_user_id	 = "";
-			if($source)
+			if ($source)
 			{
 				$driverModel->drv_user_id = empty(UserInfo::getUserId()) ? $loggedInId : UserInfo::getUserId();
 			}
@@ -4219,14 +4242,14 @@ class Drivers extends CActiveRecord
 			$driverModel->drv_name		 = $driverName;
 			$driverModel->drv_active	 = 1;
 
-			if($entityId == Config::get('hornok.operator.id'))
+			if ($entityId == Config::get('hornok.operator.id'))
 			{
 				$driverModel->scenario = "skipLicesnse";
 			}
 			$result = CActiveForm::validate($driverModel, null, false);
-			if($result == '[]')
+			if ($result == '[]')
 			{
-				if(!$driverModel->save())
+				if (!$driverModel->save())
 				{
 					throw new Exception(json_encode($driverModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
@@ -4248,7 +4271,7 @@ class Drivers extends CActiveRecord
 			$updateModel->drv_code		 = $codeArray["code"];
 			$updateModel->drv_ref_code	 = $updateModel->drv_id;
 
-			if(!$updateModel->save())
+			if (!$updateModel->save())
 			{
 				throw new Exception(json_encode($updateModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -4257,7 +4280,7 @@ class Drivers extends CActiveRecord
 			$returnset->setMessage("Driver created");
 			$returnset->setData($updateModel->drv_id);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::exception($e);
 			$returnset->setException($e);
@@ -4275,7 +4298,7 @@ class Drivers extends CActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($vndId))
+			if (empty($vndId))
 			{
 				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -4289,9 +4312,9 @@ class Drivers extends CActiveRecord
 			$model->drv_created		 = new \CDbExpression('now()');
 
 			$result = CActiveForm::validate($model, null, false);
-			if($result == "[]")
+			if ($result == "[]")
 			{
-				if(!$model->save())
+				if (!$model->save())
 				{
 					$returnset->setMessage("Failed to save in the system");
 					throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
@@ -4314,7 +4337,7 @@ class Drivers extends CActiveRecord
 			$updateModel->drv_code		 = $codeArray["code"];
 			$updateModel->drv_ref_code	 = $updateModel->drv_id;
 
-			if(!$updateModel->save())
+			if (!$updateModel->save())
 			{
 				throw new Exception(json_encode($updateModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -4329,7 +4352,7 @@ class Drivers extends CActiveRecord
 			$isEmailSend = Contact::sendVerification($emailId, Contact::TYPE_EMAIL, $contactId, Contact::NEW_CON_TEMPLATE, Contact::MODE_LINK, UserInfo::TYPE_DRIVER, 0, 0, 0, $vndId);
 
 			$returnset->setMessage("Failed to create driver");
-			if($isEmailSend || $isOtpSend)
+			if ($isEmailSend || $isOtpSend)
 			{
 				$response		 = new stdClass();
 				$response->id	 = $model->drv_id;
@@ -4338,7 +4361,7 @@ class Drivers extends CActiveRecord
 				$returnset->setMessage("Successfully added !. We have sent verification link on the contact details. Please verify the contact details to activate the account");
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::exception($e);
 			$returnset->setException($e);
@@ -4360,17 +4383,17 @@ class Drivers extends CActiveRecord
 		$driverAmount	 = AccountTransDetails::model()->calBonusAmountByDriverId($mgrDrvId, '', '', '');
 		$amount			 = $driverAmount['bonus_amount'] != NULL ? $driverAmount['bonus_amount'] : 0;
 		$amount1		 = $amount;
-		if($amount != 0)
+		if ($amount != 0)
 		{
 			$crRefId		 = $drvdid;
 			$crRemarks		 = "Adjusting accounts due to merging of driver as $mgrDrvId is merged with $drvdid";
 			$drRemarks		 = "Adjusting accounts due to merging of driver as $drvdid is merged with $mgrDrvId";
 			$accTransModel	 = new AccountTransactions();
-			if($amount < 0)
+			if ($amount < 0)
 			{
 				$accTransModel->act_amount = -1 * $amount1;
 			}
-			if($amount > 0)
+			if ($amount > 0)
 			{
 				$accTransModel->act_amount = $amount1;
 			}
@@ -4398,12 +4421,12 @@ class Drivers extends CActiveRecord
 		$trans = Yii::app()->db->beginTransaction();
 		try
 		{
-			if(empty($primaryId) || empty($duplicateId))
+			if (empty($primaryId) || empty($duplicateId))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
 
-			if($primaryId != "")
+			if ($primaryId != "")
 			{
 				$model = Drivers::model()->resetScope()->findByPk($primaryId);
 			}
@@ -4411,9 +4434,9 @@ class Drivers extends CActiveRecord
 			$vendors = VendorDriver::model()->getVendorListbyDriverid($duplicateId);
 
 			//	Drivers::mergeAccountDetails($duplicateId, $primaryId);
-			if(sizeof($vendors) > 0)
+			if (sizeof($vendors) > 0)
 			{
-				foreach($vendors as $ven)
+				foreach ($vendors as $ven)
 				{
 					$arr = ['driver' => $model->drv_id, 'vendor' => $ven['vdrv_vnd_id']];
 					VendorDriver::model()->checkAndSave($arr);
@@ -4424,25 +4447,25 @@ class Drivers extends CActiveRecord
 			$oldDriver	 = $duplicateId;
 			///		Drivers::model()->replaceDriverDetailsFromBooking($oldDriver, $newDriver);
 
-			if(Drivers::model()->deactivatebyId($duplicateId))
+			if (Drivers::model()->deactivatebyId($duplicateId))
 			{
 				$remark	 = $model->drv_log;
 				$newLog	 = ['drv_id_merge' => 'Driver id ' . $duplicateId . ' merged and deactivated'];
 				$dt		 = new CDbExpression('NOW()');
 				$user	 = 0; //For system auto
-				if(is_string($remark))
+				if (is_string($remark))
 				{
 					$newcomm = CJSON::decode($remark);
 				}
-				else if(is_array($remark))
+				else if (is_array($remark))
 				{
 					$newcomm = $remark;
 				}
-				if($newcomm == false)
+				if ($newcomm == false)
 				{
 					$newcomm = array();
 				}
-				while(count($newcomm) >= 50)
+				while (count($newcomm) >= 50)
 				{
 					array_pop($newcomm);
 				}
@@ -4454,7 +4477,7 @@ class Drivers extends CActiveRecord
 			DriverMerged::model()->addMergedData($newDriver, $oldDriver, $user);
 
 			$success = $model->save();
-			if(!$success)
+			if (!$success)
 			{
 				throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -4464,10 +4487,10 @@ class Drivers extends CActiveRecord
 
 			$trans->commit();
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::error($e->getTraceAsString());
-			if(Yii::app() instanceof CConsoleCommand)
+			if (Yii::app() instanceof CConsoleCommand)
 			{
 				echo $e->getTraceAsString();
 			}
@@ -4484,7 +4507,7 @@ class Drivers extends CActiveRecord
 	 */
 	public static function mergeConIds($primaryContactId, $duplicateContactId, $source = null)
 	{
-		if(empty($primaryContactId) || empty($duplicateContactId))
+		if (empty($primaryContactId) || empty($duplicateContactId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4492,9 +4515,9 @@ class Drivers extends CActiveRecord
 		$sql			 = "SELECT * FROM `drivers` WHERE `drv_contact_id` =:id";
 		$arrDupDrvData	 = DBUtil::command($sql, DBUtil::MDB())->query(['id' => $duplicateContactId]);
 
-		if(!empty($arrDupDrvData))
+		if (!empty($arrDupDrvData))
 		{
-			foreach($arrDupDrvData as $drvData)
+			foreach ($arrDupDrvData as $drvData)
 			{
 				$drvId = $drvData["drv_id"];
 
@@ -4507,7 +4530,7 @@ class Drivers extends CActiveRecord
 				ContactMerged::updateReferenceIds($primaryContactId, $duplicateContactId, ContactMerged::TYPE_DRIVER, $drvId);
 
 				$docType = "";
-				if($source == Document::Document_Licence)
+				if ($source == Document::Document_Licence)
 				{
 					$docType = "(Driving License matched)";
 				}
@@ -4535,7 +4558,7 @@ class Drivers extends CActiveRecord
 
 	public function mergedDriverId($driverId = "")
 	{
-		if($driverId != "")
+		if ($driverId != "")
 		{
 			$sql			 = "WITH RECURSIVE tree (drv_ref_code,drv_id,level) AS 
 					(
@@ -4562,14 +4585,14 @@ class Drivers extends CActiveRecord
 		//$custMaskedPhone = explode("/", $custMaskedPhone, 2)[0];
 		$driverToCustomer	 = CJSON::decode(Config::get('mask.customer.driver.number'), true);
 		$custMaskedPhone	 = $driverToCustomer['driverToCustomer'];
-		if($bookingId != null)
+		if ($bookingId != null)
 		{
 			$condition = "AND bkg_id = $bookingId";
 		}
 
 		$lastStartTime = BookingCab::showLastStartTime($driverId);
 
-		if($lastStartTime != null || $lastStartTime != "")
+		if ($lastStartTime != null || $lastStartTime != "")
 		{
 			$con = " AND bkg_pickup_date >= '$lastStartTime'";
 		}
@@ -4634,21 +4657,21 @@ class Drivers extends CActiveRecord
 		$resultSet	 = [];
 		$i			 = 0;
 
-		foreach($recordset as $val)
+		foreach ($recordset as $val)
 		{
 			$resultSet[$i] = $val;
-			foreach($val as $k => $v)
+			foreach ($val as $k => $v)
 			{
-				if($k == 'bkg_id')
+				if ($k == 'bkg_id')
 				{
 					$eventType							 = BookingTrackLog::model()->getEventTypeByBkg($v);
 					$resultSet[$i]['ttg_event_type']	 = ($eventType > 0) ? $eventType : '0';
 					$resultSet[$i]['bkg_start_odometer'] = BookingTrack::model()->getOdometerReading($v);
 					$resultSet[$i]['bkg_route_name']	 = BookingRoute::model()->getRouteName($v);
 				}
-				if($k == 'bkg_agent_id')
+				if ($k == 'bkg_agent_id')
 				{
-					if(($v != null || $v != '') && $v == $uberAgentId)
+					if (($v != null || $v != '') && $v == $uberAgentId)
 					{
 						$resultSet[$i]['bkg_pickup_date'] = BookingCab::model()->getPickupDateTime("Y-m-d H:i:s", $val['bkg_pickup_date'], $v);
 					}
@@ -4672,7 +4695,7 @@ class Drivers extends CActiveRecord
 	public static function processData($contactId, $entityType, $entityId = null)
 	{
 		$returnSet = new ReturnSet();
-		if(empty($entityId))
+		if (empty($entityId))
 		{
 			$entityId = UserInfo::getEntityId();
 		}
@@ -4686,11 +4709,11 @@ class Drivers extends CActiveRecord
 
 		$profileId	 = ContactProfile::getEntityById($contactId, $entityType);
 		$isExists	 = 0;
-		if($profileId > 0)
+		if ($profileId > 0)
 		{
 			$isExists	 = 1;
 			$returnSet	 = ContactTemp::processData($contactModel, UserInfo::TYPE_DRIVER, $entityId);
-			if($returnSet->getStatus())
+			if ($returnSet->getStatus())
 			{
 				$response			 = new stdClass();
 				$response->isExists	 = $isExists;
@@ -4707,13 +4730,13 @@ class Drivers extends CActiveRecord
 			$model->drv_name		 = $contactModel->ctt_first_name . $contactModel->ctt_last_name;
 			$model->drv_active		 = 1;
 			$model->drv_created		 = new \CDbExpression('now()');
-			if($entityId == Config::get('hornok.operator.id'))
+			if ($entityId == Config::get('hornok.operator.id'))
 			{
 				$model->scenario = "skipLicesnse";
 			}
 			$result = CActiveForm::validate($model, null, false);
 
-			if($result != "[]")
+			if ($result != "[]")
 			{
 
 				//$returnSet->setMessage(CJSON::decode($result),ReturnSet::ERROR_FAILED);
@@ -4721,7 +4744,7 @@ class Drivers extends CActiveRecord
 				$returnSet->setStatus(false);
 				goto skipAll;
 			}
-			if(!$model->save())
+			if (!$model->save())
 			{
 				$returnSet->setErrors($model->getErrors());
 				$returnSet->setStatus(false);
@@ -4736,14 +4759,14 @@ class Drivers extends CActiveRecord
 			$codeArray					 = Filter::getCodeById($updateModel->drv_id, 'driver');
 			$updateModel->drv_code		 = $codeArray["code"];
 			$updateModel->drv_ref_code	 = $updateModel->drv_id;
-			if(!$updateModel->save())
+			if (!$updateModel->save())
 			{
 				throw new Exception(json_encode($updateModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
 			ContactProfile::setProfile($model->drv_contact_id, UserInfo::TYPE_DRIVER);
 
-			if(Config::get('hornok.operator.id') == $entityId)
+			if (Config::get('hornok.operator.id') == $entityId)
 			{
 				$isOtpSend	 = true;
 				$isEmailSend = false;
@@ -4755,7 +4778,7 @@ class Drivers extends CActiveRecord
 			}
 
 
-			if($isEmailSend || $isOtpSend)
+			if ($isEmailSend || $isOtpSend)
 			{
 				$response			 = new stdClass();
 				$response->isExists	 = $isExists;
@@ -4774,7 +4797,7 @@ class Drivers extends CActiveRecord
 		$contactId	 = $data->ctt_id;
 		$model		 = Contact::model()->findByPk($contactId);
 
-		if($model == null)
+		if ($model == null)
 		{
 			throw new Exception("Contact not found", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4790,7 +4813,7 @@ class Drivers extends CActiveRecord
 		$model->ctt_license_no			 = str_replace(' ', '', $data->ctt_license_no);
 		$model->ctt_license_exp_date	 = trim($data->ctt_license_exp_date);
 		$model->ctt_license_issue_date	 = trim($data->ctt_license_issue_date);
-		if(!$model->update())
+		if (!$model->update())
 		{
 			throw new Exception('Invalid data', ReturnSet::ERROR_VALIDATION);
 		}
@@ -4800,7 +4823,7 @@ class Drivers extends CActiveRecord
 
 		$drvmodel->drv_zip	 = $data->zip;
 		$drvmodel->drv_dob	 = $data->dob;
-		if(!$drvmodel->update())
+		if (!$drvmodel->update())
 		{
 			throw new Exception('Invalid data', ReturnSet::ERROR_VALIDATION);
 		}
@@ -4829,7 +4852,7 @@ class Drivers extends CActiveRecord
 	{
 
 		$model = self::getByUserId($userModel->user_id);
-		if(empty($model))
+		if (empty($model))
 		{
 			throw new Exception("Driver account not signed up with this user", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
@@ -4838,7 +4861,7 @@ class Drivers extends CActiveRecord
 		$identity->setEntityID($model->drv_id);
 		$identity->setUserType(5);
 		$drvSosStatus		 = DriverStats::model()->getDriverSosStatus($model->drv_id);
-		if($drvSosStatus > 0)
+		if ($drvSosStatus > 0)
 		{
 			throw new Exception("SOS is active", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
@@ -4850,7 +4873,7 @@ class Drivers extends CActiveRecord
 		$multiplelogin = AppTokens::model()->getAppMultiLoginStatus($model->drv_id);
 
 		$aptModel = AppTokens::Add($webUser->getId(), 5, Yii::app()->user->getEntityID(), $deviceData);
-		if(!$aptModel)
+		if (!$aptModel)
 		{
 			throw new Exception("Failed to create token", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
@@ -4904,7 +4927,7 @@ class Drivers extends CActiveRecord
 							WHERE (cp.cr_is_consumer=:userId)
 					) a ORDER BY rank DESC";
 		$row	 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
-		if($row)
+		if ($row)
 		{
 			$driverId	 = $row['drv_id'];
 			$model		 = self::model()->findByPk($driverId);
@@ -4924,18 +4947,18 @@ class Drivers extends CActiveRecord
 
 		VendorDriver::unlinkDriver($model->drv_id);
 		$linked = VendorDriver::model()->checkAndSave(['driver' => $model->drv_id, 'vendor' => $vndId]);
-		if(!$linked)
+		if (!$linked)
 		{
 			$returnSet->setStatus(false);
 			$returnSet->setErrors("Failed to link driver with vendor.");
 		}
 		else
 		{
-			if($drvModel['ctt_license_issue_date'] == NULL || $model->drvContact->ctt_license_issue_date > $drvModel['ctt_license_issue_date'])
+			if ($drvModel['ctt_license_issue_date'] == NULL || $model->drvContact->ctt_license_issue_date > $drvModel['ctt_license_issue_date'])
 			{
 				Contact::updateDlIssueDate($drvModel['drv_contact_id'], $model->drvContact->ctt_license_issue_date);
 			}
-			if($drvModel['ctt_license_exp_date'] == NULL || $model->drvContact->ctt_license_exp_date > $drvModel['ctt_license_exp_date'])
+			if ($drvModel['ctt_license_exp_date'] == NULL || $model->drvContact->ctt_license_exp_date > $drvModel['ctt_license_exp_date'])
 			{
 				Contact::updateDlExpiryDate($drvModel['drv_contact_id'], $model->drvContact->ctt_license_exp_date);
 			}
@@ -4959,7 +4982,7 @@ class Drivers extends CActiveRecord
 	public static function sendLoginVerificationOtp($phn_phone_no, $phn_country_code)
 	{
 		$status = false;
-		if(!empty($phn_phone_no) && !empty($phn_country_code))
+		if (!empty($phn_phone_no) && !empty($phn_country_code))
 		{
 			$verifyCode	 = rand(10000, 99999);
 			$isDelay	 = 0;
@@ -4981,18 +5004,18 @@ class Drivers extends CActiveRecord
 	public static function getDriverAppusageDetails($arr = [], $command = DBUtil::ReturnType_Provider)
 	{
 		$where = '';
-		if($arr['bkg_pickup_date1'] != '' && $arr['bkg_pickup_date2'] != '')
+		if ($arr['bkg_pickup_date1'] != '' && $arr['bkg_pickup_date2'] != '')
 		{
 			$fromDate	 = $arr['bkg_pickup_date1'];
 			$toDate		 = $arr['bkg_pickup_date2'];
 			$where		 .= " AND bkg_pickup_date>= '" . $fromDate . "' AND bkg_pickup_date < '" . $toDate . "'";
 		}
-		if($arr['bkg_agent_id'] != '' && $arr['bkg_agent_id'] != '0')
+		if ($arr['bkg_agent_id'] != '' && $arr['bkg_agent_id'] != '0')
 		{
 			$where		 .= "  AND bkg_agent_id=" . $arr['bkg_agent_id'];
 			$agtwhere	 = "  AND bkg_agent_id=" . $arr['bkg_agent_id'];
 		}
-		else if($arr['bkg_agent_id'] == '0')
+		else if ($arr['bkg_agent_id'] == '0')
 		{
 			$where		 .= "  AND bkg_agent_id IS NULL";
 			$agtwhere	 = "  AND bkg_agent_id IS NULL";
@@ -5032,7 +5055,7 @@ class Drivers extends CActiveRecord
 							WHERE bkg_status IN (5,6,7)  AND bkg_vehicle_type_id NOT IN (5,6,75) " . $where . "
 							GROUP BY date 
 							";
-		if($command == DBUtil::ReturnType_Provider)
+		if ($command == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB());
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -5071,7 +5094,7 @@ class Drivers extends CActiveRecord
 				WHERE (ctt.ctt_license_exp_date BETWEEN $beforeTenDays AND $afterOneMonth) AND drv.drv_approved = 1";
 
 		$results = DBUtil::query($sql, DBUtil::SDB());
-		if($results)
+		if ($results)
 		{
 			self::expiredDocNotification($results, 30);
 		}
@@ -5089,7 +5112,7 @@ class Drivers extends CActiveRecord
 				WHERE (ctt.ctt_license_exp_date BETWEEN $today AND $afterTenDay) AND drv.drv_approved = 1";
 
 		$results = DBUtil::query($sql, DBUtil::SDB());
-		if($results)
+		if ($results)
 		{
 			self::expiredDocNotification($results, 10);
 		}
@@ -5097,7 +5120,7 @@ class Drivers extends CActiveRecord
 
 	public static function expiredDocNotification($driverData, $days = 0)
 	{
-		foreach($driverData as $driver)
+		foreach ($driverData as $driver)
 		{
 			$currentDate		 = date("Y-m-d", strtotime(date('Y-m-d')));
 			$licenseDate		 = date("Y-m-d", strtotime($driver['ctt_license_exp_date']));
@@ -5184,58 +5207,58 @@ class Drivers extends CActiveRecord
 
 			$phone	 = null;
 			$email	 = '';
-			if($contactModel->contactPhones && count($contactModel->contactPhones) > 0)
+			if ($contactModel->contactPhones && count($contactModel->contactPhones) > 0)
 			{
 				$phone = $contactModel->contactPhones[0]->phn_phone_no;
 			}
-			if($contactModel->contactEmails && count($contactModel->contactEmails) > 0)
+			if ($contactModel->contactEmails && count($contactModel->contactEmails) > 0)
 			{
 				$email = $contactModel->contactEmails[0]->eml_email_address;
 			}
 
 			$contactId	 = Contact::getByLicenseAndPhone($contactModel->ctt_license_no, $phone);
 			$arrCnt		 = [];
-			if(!$contactId)
+			if (!$contactId)
 			{
 				$licCttId	 = Contact::getContactIdByLicense($contactModel->ctt_license_no);
 				$phCttIds	 = null;
-				if($phone)
+				if ($phone)
 				{
 					$phCttIds = ContactPhone::getData($phone, false);
 				}
 
 				$emlCttIds = null;
-				if($email)
+				if ($email)
 				{
 					$emlCttIds = ContactEmail::getData($email, false);
 				}
-				if($phCttIds && (!$licCttId || !in_array($licCttId, explode(',', $phCttIds))))
+				if ($phCttIds && (!$licCttId || !in_array($licCttId, explode(',', $phCttIds))))
 				{
 					$contactModel->addError("ctt_id", "This phone number is already registered with other account");
 				}
 
-				if($emlCttIds && (!$licCttId || !in_array($licCttId, explode(',', $emlCttIds))))
+				if ($emlCttIds && (!$licCttId || !in_array($licCttId, explode(',', $emlCttIds))))
 				{
 					$contactModel->addError("ctt_id", "This email is already registered with other account");
 				}
 
-				if(strlen($contactModel->ctt_license_no) < 12)
+				if (strlen($contactModel->ctt_license_no) < 12)
 				{
 					$contactModel->addError("ctt_id", "Your license was not valid");
 				}
 
-				if($contactModel->hasErrors())
+				if ($contactModel->hasErrors())
 				{
 					throw new Exception(json_encode($contactModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
 
 				$transaction = DBUtil::beginTransaction();
-				if(!$licCttId)
+				if (!$licCttId)
 				{
 					$contModel				 = new Contact();
 					$arrCnt					 = $contactModel->attributes;
 					$contModel->attributes	 = array_filter((array) $arrCnt);
-					if(!$contModel->save())
+					if (!$contModel->save())
 					{
 						throw new Exception(json_encode($contModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 					}
@@ -5251,7 +5274,7 @@ class Drivers extends CActiveRecord
 					$model	 = Contact::model()->findByPk($licCttId);
 					$oldName = $model->ctt_first_name . $model->ctt_last_name;
 					$newName = $contactModel->ctt_first_name . $contactModel->ctt_last_name;
-					if($oldName != $newName)
+					if ($oldName != $newName)
 					{
 						$contactModel->addError("ctt_id", "Name entered does not match with our records. Please enter name properly or contact Gozo support.");
 						throw new Exception(json_encode($contactModel->getErrors()), ReturnSet::ERROR_VALIDATION);
@@ -5269,7 +5292,7 @@ class Drivers extends CActiveRecord
 			}
 			$rsEmail = ContactEmail::saveEmails($contactModel->contactEmails, $contactId);
 			$rsPhone = ContactPhone::savePhones($contactModel->contactPhones, $contactId);
-			if(!$rsPhone->getStatus())
+			if (!$rsPhone->getStatus())
 			{
 				$contactModel->addError("ctt_id", "This phone number is already registered with this account or number is not valid");
 				throw new Exception(json_encode($contactModel->getErrors()), ReturnSet::ERROR_VALIDATION);
@@ -5278,7 +5301,7 @@ class Drivers extends CActiveRecord
 
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			throw $exc;
@@ -5291,7 +5314,7 @@ class Drivers extends CActiveRecord
 	{
 		$params	 = [];
 		$where	 = '';
-		if($includeDrivers != '')
+		if ($includeDrivers != '')
 		{
 			$where		 = " AND drv2.drv_id IN($includeDrivers)";
 			$whereAPt	 = " AND apt.apt_entity_id IN($includeDrivers)";
@@ -5333,7 +5356,7 @@ class Drivers extends CActiveRecord
 	{
 		$params	 = ['zoneList' => $zoneList];
 		$where	 = '';
-		if($excludeDriver != '')
+		if ($excludeDriver != '')
 		{
 			$params['excludeDriver'] = $excludeDriver;
 
@@ -5351,7 +5374,9 @@ class Drivers extends CActiveRecord
 
 	public static function getDefaultByContact($cttId)
 	{
-		$cttdata = \ContactProfile::getCodeByCttId($cttId);
+		//	$cttdata = \ContactProfile::getCodeByCttId($cttId);
+
+		$cttdata = \ContactProfile::getPrimaryEntitiesByContact($cttId);
 		$drvId	 = $cttdata['cr_is_driver'];
 		$data	 = ($drvId > 0) ? \Drivers::getDetailsById($drvId) : false;
 //		$data	 = \Drivers::getDetailsById($drvId);
@@ -5410,30 +5435,30 @@ class Drivers extends CActiveRecord
 		/* check operator refid exist or not */
 		$returnSet			 = new ReturnSet();
 		$checkOperatorRefId	 = self::checkOperatorRefId($jsonObj->data->driver->id);
-		if($checkOperatorRefId['drvCount'] > 0)
+		if ($checkOperatorRefId['drvCount'] > 0)
 		{
 			$drvData = ['driverId' => $checkOperatorRefId['drv_id']];
 		}
 		else
 		{
 			$contactRecord = ContactPhone::getByPhone($jsonObj->data->driver->phone[0]['isdCode'] . $jsonObj->data->driver->phone[0]['number'], '', '', '', 'limit 1');
-			if($contactRecord->getRowCount() > 0)  // && isset($contactRecord['driverId']
+			if ($contactRecord->getRowCount() > 0)  // && isset($contactRecord['driverId']
 			{
 				/**
 				 * existing phone linked with driver id
 				 */
-				foreach($contactRecord as $contactPhone)
+				foreach ($contactRecord as $contactPhone)
 				{
 					$drvContact = $contactPhone;
 				}
 				$driverId							 = $drvContact['driverId'];
 				$driverModel						 = Drivers::model()->findByPk($driverId);
 				$driverModel->drv_operator_ref_id	 = $jsonObj->data->driver->id;
-				if($driverModel->save())
+				if ($driverModel->save())
 				{
 					$vndDrvData	 = ['vendor' => $operatorId, 'driver' => $driverId];
 					$resLinked	 = VendorDriver::model()->checkAndSave($vndDrvData);
-					if($resLinked == true)
+					if ($resLinked == true)
 					{
 						$drvData = ['driverId' => $driverId];
 					}
@@ -5450,16 +5475,16 @@ class Drivers extends CActiveRecord
 				$contactModel	 = $obj->init();
 				$returnSet		 = Drivers::addByContact($contactModel, null);
 				$getData		 = $returnSet->getData();
-				if($getData->isExists == 0)
+				if ($getData->isExists == 0)
 				{
 					$driverId							 = $getData->id;
 					$driverModel						 = Drivers::model()->findByPk($getData->id);
 					$driverModel->drv_operator_ref_id	 = $chauffeurData->operatorDrvId;
-					if($driverModel->save())
+					if ($driverModel->save())
 					{
 						$vndDrvData	 = ['vendor' => $operatorId, 'driver' => $driverId];
 						$resLinked	 = VendorDriver::model()->checkAndSave($vndDrvData);
-						if($resLinked == true)
+						if ($resLinked == true)
 						{
 							$drvData = ['driverId' => $driverId];
 						}
@@ -5494,7 +5519,7 @@ class Drivers extends CActiveRecord
 		$jsonMapper			 = new JsonMapper();
 		/** @var OperatorDriver $checkOperatorRefId */
 		$checkOperatorRefId	 = OperatorDriver::checkOperatorRefId($jsonObj->driver->id);
-		if($checkOperatorRefId['drvCount'] > 0)
+		if ($checkOperatorRefId['drvCount'] > 0)
 		{
 			$drvData = ['driverId' => $checkOperatorRefId['ord_drv_id']];
 			goto skipNewDriver;
@@ -5505,7 +5530,7 @@ class Drivers extends CActiveRecord
 		$phoneNo = "+" . $objReg->phone[0]->isdCode . $objReg->phone[0]->number;
 
 		$cttId = Contact::getByEmailPhone($objReg->email[0]->address, $phoneNo);
-		if(!$cttId)
+		if (!$cttId)
 		{
 			/** @var \Beans\contact\Register $objReg */
 			$cttModel	 = $objReg->getContactModel();
@@ -5513,13 +5538,13 @@ class Drivers extends CActiveRecord
 
 			$returnSet	 = $cttModel->create(true, UserInfo::TYPE_DRIVER);
 			$cttId		 = $cttModel->ctt_id;
-			if(!$returnSet->isSuccess())
+			if (!$returnSet->isSuccess())
 			{
 				throw new Exception("Sorry, unable to create your accounts", ReturnSet::ERROR_FAILED);
 			}
 		}
 		$contactData = \ContactProfile::getCodeByCttId($cttId);
-		if($contactData && $contactData['cr_is_driver'] > 0)
+		if ($contactData && $contactData['cr_is_driver'] > 0)
 		{
 			$drvId	 = $contactData['cr_is_driver'];
 			$drvData = ['driverId' => $drvId];
@@ -5530,7 +5555,7 @@ class Drivers extends CActiveRecord
 
 		$driverName	 = $jsonObj->driver->firstName . " " . $jsonObj->driver->lastName;
 		$returnSet	 = Drivers::addDriverDetails($cttId, $driverName);
-		if($returnSet->getStatus())
+		if ($returnSet->getStatus())
 		{
 
 			$drvId = $returnSet->getData();
@@ -5546,7 +5571,7 @@ class Drivers extends CActiveRecord
 		}
 		else
 		{
-			if($returnSet->getMessage() != '')
+			if ($returnSet->getMessage() != '')
 			{
 				throw new Exception($returnSet->getMessage(), ReturnSet::ERROR_VALIDATION);
 			}
@@ -5561,7 +5586,7 @@ class Drivers extends CActiveRecord
 	 */
 	public function skipLicesnse()
 	{
-		if($this->drvContact->ctt_license_no == '')
+		if ($this->drvContact->ctt_license_no == '')
 		{
 			return true;
 		}
@@ -5582,7 +5607,7 @@ class Drivers extends CActiveRecord
 		//$endTime = date('Y-m-d h:i:s', $endTime);
 		$currentDate = strtotime(date('Y-m-d H:i:s'));
 		//echo $cTime = date('Y-m-d H:i:s', $currentDate);
-		if($currentDate > $startTime && $currentDate < $endTime)
+		if ($currentDate > $startTime && $currentDate < $endTime)
 		{
 			$showNumber = 1;
 		}
@@ -5599,7 +5624,7 @@ class Drivers extends CActiveRecord
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		Logger::trace("notifyDriverDetailsToCustomer bkgId: $bkgId");
 		$bkgModel = Booking::model()->findByPk($bkgId);
-		if($bkgId == '' || !$bkgModel->bkgBcb->bcb_driver_id)
+		if ($bkgId == '' || !$bkgModel->bkgBcb->bcb_driver_id)
 		{
 			goto skipAll;
 		}
@@ -5614,25 +5639,25 @@ class Drivers extends CActiveRecord
 		$createTimeDiff	 = Filter::getTimeDiff($bkgModel->bkg_pickup_date, date('Y-m-d H:i:s'));
 		$link			 = 'https://www.gozocabs.com' . BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id);
 		$phoneNo		 = $bkgModel->bkgUserInfo->bkg_country_code . $bkgModel->bkgUserInfo->bkg_contact_no;
-		if($phoneNo == '' || !$phoneNo)
+		if ($phoneNo == '' || !$phoneNo)
 		{
 			goto skipAll;
 		}
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
-		if(!Filter::processPhoneNumber($number, $code) && $userType == null)
+		if (!Filter::processPhoneNumber($number, $code) && $userType == null)
 		{
 			goto skipAll;
 		}
 		$username = trim($bkgModel->bkgUserInfo->bkg_user_fname) != "" && $bkgModel->bkgUserInfo->bkg_user_fname != null ? $bkgModel->bkgUserInfo->bkg_user_fname : " Customer ";
-		if($userType == UserInfo::TYPE_CONSUMER && !empty($data))
+		if ($userType == UserInfo::TYPE_CONSUMER && !empty($data))
 		{
 			$username = trim($bkgModel->bkgUserInfo->bkg_user_fname) != "" && $bkgModel->bkgUserInfo->bkg_user_fname != null ? $bkgModel->bkgUserInfo->bkg_user_fname : " Customer ";
 		}
-		else if($userType == UserInfo::TYPE_AGENT && !empty($data))
+		else if ($userType == UserInfo::TYPE_AGENT && !empty($data))
 		{
 			$username = "Agent";
 		}
-		else if($userType == UserInfo::TYPE_ADMIN && !empty($data))
+		else if ($userType == UserInfo::TYPE_ADMIN && !empty($data))
 		{
 			$username = "Admin";
 		}
@@ -5650,14 +5675,15 @@ class Drivers extends CActiveRecord
 			'inHour'		 => floor($createTimeDiff / 60) . ' ' . 'hours',
 			'primaryId'		 => $bkgId,
 			'extraData'		 => $data,
+			'eventId'		 => "2",
 			'skipPermission' => ($bkgModel->bkg_agent_id == Config::get('transferz.partner.id')) ? true : false
 		);
 		$senderUserId	 = $bkgModel->bkgUserInfo->bkg_user_id;
-		if($userType == UserInfo::TYPE_CONSUMER && $userType != null)
+		if ($userType == UserInfo::TYPE_CONSUMER && $userType != null)
 		{
 			$senderUserId = $bkgModel->bkgUserInfo->bkg_user_id;
 		}
-		else if($userType != null)
+		else if ($userType != null)
 		{
 			$senderUserId = null;
 		}
@@ -5680,29 +5706,29 @@ class Drivers extends CActiveRecord
 	{
 		$success	 = false;
 		$drvModel	 = Drivers::model()->findById($drvId);
-		if(!$drvModel)
+		if (!$drvModel)
 		{
 			goto skipAll;
 		}
 		$driverName	 = $drvModel->drv_name;
 		$contactId	 = ContactProfile::getByEntityId($drvId, UserInfo::TYPE_DRIVER);
 		$row		 = ContactPhone::getNumber($contactId);
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
-		if($driverName == "" && $driverName == null)
+		if ($driverName == "" && $driverName == null)
 		{
 			$contactModel	 = Contact::model()->findByPk($contactId);
 			$driverName		 = $contactModel->getName();
 		}
-		$contentParams		 = array('name' => $driverName);
+		$contentParams		 = array('name' => $driverName, 'eventId' => "6");
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_DRIVER, $drvId, null, null, null, $row['code'], $row['number'], null, 0, null, SmsLog::Driver);
 		$eventScheduleParams = EventSchedule::setData($drvId, ScheduleEvent::DRIVER_REF_TYPE, ScheduleEvent::DRIVER_ALREADY_REGISTRED, "Already registered", $isSchedule, CJSON::encode(array('drvId' => $drvId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(6, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 2)
+			if ($response['success'] && $response['type'] == 2)
 			{
 				$success = true;
 				DriversLog::model()->createLog($drvId, "Driver is Created.", UserInfo::getInstance(), DriversLog::DRIVER_CREATED);
@@ -5722,29 +5748,29 @@ class Drivers extends CActiveRecord
 	{
 		$success	 = false;
 		$drvModel	 = Drivers::model()->findById($drvId);
-		if(!$drvModel)
+		if (!$drvModel)
 		{
 			goto skipAll;
 		}
 		$driverName	 = $drvModel->drv_name;
 		$contactId	 = ContactProfile::getByEntityId($drvId, UserInfo::TYPE_DRIVER);
 		$row		 = ContactPhone::getNumber($contactId);
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
-		if($driverName == "" && $driverName == null)
+		if ($driverName == "" && $driverName == null)
 		{
 			$contactModel	 = Contact::model()->findByPk($contactId);
 			$driverName		 = $contactModel->getName();
 		}
-		$contentParams		 = array('name' => $driverName);
+		$contentParams		 = array('name' => $driverName, 'eventId' => "7");
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_DRIVER, $drvId, null, null, null, $row['code'], $row['number'], null, 0, null, SmsLog::Driver);
 		$eventScheduleParams = EventSchedule::setData($drvId, ScheduleEvent::DRIVER_REF_TYPE, ScheduleEvent::DRIVER_COMPLETE_REGISTRATION_REMINDER, "complete registration reminder for driver", $isSchedule, CJSON::encode(array('drvId' => $drvId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(7, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 2)
+			if ($response['success'] && $response['type'] == 2)
 			{
 				$success = true;
 			}
@@ -5765,40 +5791,40 @@ class Drivers extends CActiveRecord
 	{
 		$success	 = false;
 		$drvModel	 = Drivers::model()->findById($drvId);
-		if(!$drvModel)
+		if (!$drvModel)
 		{
 			goto skipAll;
 		}
 		$modelBkg = Booking::model()->findByPk($bkgId);
-		if(!$modelBkg)
+		if (!$modelBkg)
 		{
 			goto skipAll;
 		}
 		$driverName	 = $drvModel->drv_name;
 		$contactId	 = ContactProfile::getByEntityId($drvId, UserInfo::TYPE_DRIVER);
 		$row		 = ContactPhone::getNumber($contactId);
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
-		if($driverName == "" && $driverName == null)
+		if ($driverName == "" && $driverName == null)
 		{
 			$contactModel	 = Contact::model()->findByPk($contactId);
 			$driverName		 = $contactModel->getName();
 		}
-		$contentParams		 = array('userName' => $driverName, 'bonus' => Filter::moneyFormatter($bonusAmount));
+		$contentParams		 = array('eventId' => "10", 'userName' => $driverName, 'bonus' => Filter::moneyFormatter($bonusAmount));
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_DRIVER, $drvId, SmsLog::REF_DRIVER_ID, $drvId, $modelBkg->bkg_booking_id, $row['code'], $row['number'], null, 0, null, SmsLog::SMS_DRIVER_BONUS);
 		$eventScheduleParams = EventSchedule::setData($drvId, ScheduleEvent::DRIVER_REF_TYPE, ScheduleEvent::REVIEW_BONUS_DRIVER, "Review bonus to driver", $isSchedule, CJSON::encode(array('drvId' => $drvId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(10, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success				 = true;
 				$params['blg_ref_id']	 = $response['id'];
 				BookingLog::model()->createLog($modelBkg->bkg_id, "Sms sent to driver,Bonus Added Rs. $bonusAmount", null, BookingLog::SMS_SENT, false, $params);
 			}
-			if($response['success'] && $response['type'] == 2)
+			if ($response['success'] && $response['type'] == 2)
 			{
 				$success				 = true;
 				$params['blg_ref_id']	 = $response['id'];
@@ -5814,21 +5840,21 @@ class Drivers extends CActiveRecord
 		$success		 = false;
 		$model->scenario = 'updateDriverApp';
 		$success		 = false;
-		if($model->validate())
+		if ($model->validate())
 		{
 			#$contactModel = $model->drvContact;
 			$model->save();
 			$model->drvContact->isApp	 = true;
 			$model->drvContact->addType	 = -1;
-			if($model->drvContact->save())
+			if ($model->drvContact->save())
 			{
 				//$model->drvContact->contactEmails->save();
-				if($model->save())
+				if ($model->save())
 				{
 					$contactId	 = $model->drvContact->ctt_id;
 					//checkemailexist or not
 					$emailModel	 = ContactEmail::model()->findContactEmail($contactId);
-					if(empty($emailModel))
+					if (empty($emailModel))
 					{
 						$returnSet = ContactEmail::saveEmails($model->drvContact->contactEmails, $contactId);
 					}
@@ -5839,7 +5865,7 @@ class Drivers extends CActiveRecord
 					}
 					//$phoneModel=ContactPhone::model()->findContactPhone($contactId);
 					$phone = ContactPhone::getByVerifiedContactId($contactId);
-					if(!$phone)
+					if (!$phone)
 					{
 						$returnSet = ContactPhone::savePhones($model->drvContact->contactPhones, $contactId);
 					}
@@ -5856,12 +5882,12 @@ class Drivers extends CActiveRecord
 		$model			 = \Drivers::model()->findByPk($driverId);
 		$model->scenario = 'updateDriverApp';
 
-		if($model->validate())
+		if ($model->validate())
 		{
 			$model->drvContact			 = contact;
 			$model->drvContact->isApp	 = true;
 			$model->drvContact->addType	 = -1;
-			if($model->drvContact->update())
+			if ($model->drvContact->update())
 			{
 				$success = true;
 			}
@@ -5885,23 +5911,23 @@ class Drivers extends CActiveRecord
 				 INNER JOIN booking_cab bcb ON bcb.bcb_id = bkg.bkg_bcb_id AND bcb.bcb_driver_id = :drvId
 				 WHERE bkg.bkg_status IN (3,5) AND bkg.bkg_pickup_date < date_add(now(),interval +30 minute) AND DATE_ADD(bkg.bkg_pickup_date,interval IFNULL(bkg_trip_duration,300)+60 minute) > NOW()";
 			$dataCount	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $param);
-			if($dataCount < 1)
+			if ($dataCount < 1)
 			{
 				$forceDco = 1;
 			}
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			$forceDco = 0;
 		}
 		return $forceDco;
 	}
 
-	public static function getAllLstByVendor($vndid, $search_txt = '', $is_freeze = 0, $approved = 1, $flag = 0)
+	public static function getAllLstByVendor($vndId, $search_txt = '', $is_freeze = 0, $approved = 1, $flag = 0)
 	{
 		$where = '';
 
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_txt = trim($search_txt);
 
@@ -5910,36 +5936,38 @@ class Drivers extends CActiveRecord
 								d.drv_code LIKE '%$search_txt%' 
 							)";
 		}
+		$relVndIds = \Vendors::getRelatedIds($vndId);
 
-		$param	 = ['vndId' => $vndid, 'isFreeze' => $is_freeze];
-		$sql	 = "SELECT GROUP_CONCAT(DISTINCT IF(d1.drv_id<>d.drv_id, CONCAT(d1.drv_id, ', ', d.drv_id), d1.drv_id) SEPARATOR ', ') as drvIds
+		$sql = "SELECT GROUP_CONCAT(DISTINCT d1.drv_ref_code) as drvIds
 				FROM vendor_driver vd
-				INNER JOIN drivers d ON vd.vdrv_drv_id=d.drv_id AND vd.vdrv_vnd_id=:vndId 
-				INNER JOIN drivers d1 ON d.drv_ref_code=d1.drv_id AND d1.drv_ref_code=d1.drv_id   
-				WHERE d.drv_is_freeze = :isFreeze  AND vd.vdrv_active=1 ";
+				INNER JOIN drivers d ON vd.vdrv_drv_id=d.drv_id 
+				INNER JOIN drivers d1 ON d.drv_ref_code=d1.drv_id 
+				AND d1.drv_ref_code=d1.drv_id AND d1.drv_active=1
+				WHERE  vd.vdrv_active=1 AND vd.vdrv_vnd_id IN ({$relVndIds})";
 
-		$driverIds = DBUtil::command($sql, DBUtil::SDB())->queryScalar($param);
+		$driverIds = DBUtil::queryScalar($sql, DBUtil::SDB());
 
-		if($driverIds != "")
+		if ($driverIds != "")
 		{
 			#echo $driverIds;
-			$sql1 = "SELECT d1.drv_id, d.drv_name,d.drv_approved, c1.*, contact_phone.phn_phone_no AS drv_phone,d.drv_code,contact_phone.phn_is_verified AS isPhVerified,
+			$sql1 = "SELECT DISTINCT d1.drv_id, d.drv_name,d.drv_approved, c1.*, contact_phone.phn_phone_no AS drv_phone,d.drv_code,contact_phone.phn_is_verified AS isPhVerified,
 				    vd.vdrv_id,contact_email.eml_email_address AS drv_email,c.ctt_id 
 					FROM contact_profile cp
-					INNER JOIN drivers d ON cp.cr_is_driver=d.drv_id AND d.drv_id IN ($driverIds)
-					INNER JOIN drivers d1 ON d1.drv_id=d.drv_ref_code
+					INNER JOIN drivers d ON cp.cr_is_driver=d.drv_id 						
+					INNER JOIN drivers d1 ON d1.drv_id=d.drv_ref_code AND d1.drv_active=1
 					INNER JOIN vendor_driver vd ON vd.vdrv_drv_id=d.drv_id 
+						AND vd.vdrv_active=1
 					INNER JOIN contact c ON c.ctt_id=cp.cr_contact_id
 					INNER JOIN contact c1 ON c.ctt_ref_code=c1.ctt_id
 					LEFT JOIN contact_phone ON contact_phone.phn_Contact_id = c.ctt_id 
 					AND contact_phone.phn_is_primary = 1 AND contact_phone.phn_active = 1
 					LEFT JOIN contact_email ON contact_email.eml_contact_id = c.ctt_id 
 					AND contact_email.eml_is_primary = 1 AND contact_email.eml_active = 1
-					WHERE 1 
+					WHERE 1 AND d.drv_id IN ({$driverIds})
 					$where
-					GROUP BY d1.drv_id";
+					GROUP BY d1.drv_ref_code";
 
-			$recordSet = DBUtil::query($sql1, DBUtil::SDB(), $param);
+			$recordSet = DBUtil::query($sql1, DBUtil::SDB());
 		}
 		return $recordSet;
 	}
@@ -5947,14 +5975,12 @@ class Drivers extends CActiveRecord
 	public static function updateDcoDriversdata($data, $cttId)
 	{
 
-		$success	 = false;
-		$driverId	 = $data->drv_id;
+		$success					 = false;
+		$driverId					 = $data->drv_id;
+		$contactModel				 = contact::model()->findByPk($cttId);
+		$contactModel->attributes	 = $data->drvContact;
 
-		$contactModel = contact::model()->findByPk($cttId);
-
-		$contactModel->attributes = $data->drvContact;
-
-		if($contactModel->save())
+		if ($contactModel->save())
 		{
 			$success = true;
 		}
@@ -5966,24 +5992,38 @@ class Drivers extends CActiveRecord
 
 	public static function getRelatedByCttIds($relCttIds)
 	{
-
-		$sql		 = "SELECT GROUP_CONCAT(DISTINCT CONCAT(drv.drv_id,',',drv.drv_ref_code))
+		$sql2 = "SELECT GROUP_CONCAT(DISTINCT CONCAT_WS(',',drv.drv_id,drv.drv_ref_code))
 				FROM contact_profile cp 
 				INNER JOIN drivers drv ON drv.drv_id = cp.cr_is_driver  
 				WHERE cp.cr_contact_id IN ({$relCttIds}) 
 					AND cp.cr_status = 1 
 					AND cp.cr_is_driver IS NOT NULL";
-		$relDrvIds	 = DBUtil::queryScalar($sql, DBUtil::SDB());
 
-		return $relDrvIds;
+		$sql = "SELECT GROUP_CONCAT(CONCAT_WS(',',drv.drv_id,drv.drv_ref_code  )) 
+				FROM contact_profile cp 
+				INNER JOIN drivers drv1 ON drv1.drv_id = cp.cr_is_driver 
+				INNER JOIN drivers drv ON drv.drv_ref_code = drv1.drv_ref_code
+				WHERE cp.cr_contact_id IN ({$relCttIds}) 
+				AND cp.cr_status = 1 
+				AND cp.cr_is_driver IS NOT NULL";
+
+		$relDrvIds		 = DBUtil::queryScalar($sql, DBUtil::SDB());
+		$relIdArr		 = explode(',', $relDrvIds);
+		$distinctRelIds	 = implode(',', array_unique($relIdArr));
+		return $distinctRelIds;
 	}
 
-	public static function getPrimaryByIds($drvIds)
-	{ 
-		$sql = "SELECT drv.drv_id,drv.drv_ref_code,ctt.ctt_id,ctt.ctt_ref_code, 
+	public static function getPrimaryByIds($drvIds, $onlyPrimary = true)
+	{
+		$where = '';
+		if ($onlyPrimary)
+		{
+			$where = ' AND drv.drv_active IN (1,2)';
+		}
+		$sql = "SELECT DISTINCT drv.drv_id,drv.drv_ref_code,ctt.ctt_id,ctt.ctt_ref_code, 
 					IF(ctt.ctt_id =ctt.ctt_ref_code,1,0) contactWeight	,
 					IF(drv.drv_id =drv.drv_ref_code,1,0) selfWeight	,
-					IF(drv.drv_approved = 1,1,0) isApproved,
+					IF(drv.drv_approved = 1,1,0) isApproved,drv.drv_approved,
 					IF((ctt.ctt_aadhaar_no <> ''  AND ctt.ctt_aadhaar_no IS NOT NULL 
 						AND LENGTH(ctt.ctt_aadhaar_no) >=12 ),2,0) hasAdhaar,
 					IF((ctt.ctt_voter_no <> ''  AND ctt.ctt_voter_no IS NOT NULL 
@@ -6000,23 +6040,27 @@ class Drivers extends CActiveRecord
 					IF(docpan.doc_status =1 AND docpan.doc_id IS NOT NULL ,1,0) hasValidPan,
 					IF(docpolicever.doc_status =1 AND docpolicever.doc_id IS NOT NULL ,1,0) hasValidPV,					
 						
-					IF(TRIM(ctt.ctt_bank_account_no)<> '' AND ctt.ctt_bank_account_no IS NOT NULL,1,0) hasBankRef,
-					drv_active,
+					IF(TRIM(ctt.ctt_bank_account_no)<> '' AND ctt.ctt_bank_account_no IS NOT NULL,1,0) hasBankRef,  						drv_active,
+                    CASE
+						WHEN  drv_active =1 THEN 6
+						WHEN  drv_active =2 THEN 4						 
+						ELSE 0
+					END as activeRank,
 					CASE
-						WHEN MAX(phn.phn_is_primary)=1 AND MAX(phn.phn_is_verified)=1 
-							AND MAX(phn.phn_verified_date)= phn.phn_verified_date THEN 6
-						WHEN MAX(phn.phn_is_primary)=1 AND MAX(phn.phn_is_verified)=1 THEN 4
-						WHEN MAX(phn.phn_is_verified)=1 THEN 3
-						WHEN MAX(phn.phn_is_primary)=1 THEN 2
+						WHEN  phn.phn_is_primary =1 AND  phn.phn_is_verified =1 
+							AND  phn.phn_verified_date= max(phn.phn_verified_date) THEN 6
+						WHEN  phn.phn_is_primary =1 AND  phn.phn_is_verified =1 THEN 4
+						WHEN  phn.phn_is_verified =1 THEN 3
+						WHEN  phn.phn_is_primary =1 THEN 2
 						WHEN phn.phn_id IS NOT NULL THEN 1
 						ELSE 0
 					END as phoneRank,
 					CASE
-						WHEN MAX(eml.eml_is_primary)=1 AND MAX(eml.eml_is_verified)=1 
-							AND MAX(eml.eml_verified_date)= eml.eml_verified_date THEN 6
-						WHEN MAX(eml.eml_is_primary)=1 AND MAX(eml.eml_is_verified)=1 THEN 4
-						WHEN MAX(eml.eml_is_verified)=1 THEN 3
-						WHEN MAX(eml.eml_is_primary)=1 THEN 2
+						WHEN  eml.eml_is_primary=1 AND eml.eml_is_verified=1 
+							AND  eml.eml_verified_date= max(eml.eml_verified_date) THEN 6
+						WHEN  eml.eml_is_primary=1 AND eml.eml_is_verified=1 THEN 4
+						WHEN  eml.eml_is_verified=1 THEN 3
+						WHEN  eml.eml_is_primary=1 THEN 2
 						WHEN eml_id IS NOT NULL THEN 1
 						ELSE 0
 					END as emailRank 
@@ -6041,13 +6085,102 @@ class Drivers extends CActiveRecord
 				LEFT JOIN document as docpolicever ON ctt.ctt_police_doc_id = docpolicever.doc_id 
 					AND  docpolicever.doc_type = 7 AND docpolicever.doc_active = 1 				
 				
-				WHERE drv.drv_ref_code IN ({$drvIds}) AND drv.drv_active IN (1,2)
-				GROUP BY ctt.ctt_id
-				ORDER BY selfWeight DESC, contactWeight DESC,isApproved DESC,hasValidLicense DESC,					 
+				WHERE drv.drv_ref_code IN ({$drvIds}) $where
+				  GROUP BY ctt.ctt_id,drv.drv_ref_code,drv.drv_id
+				ORDER BY selfWeight DESC, contactWeight DESC,isApproved DESC,activeRank DESC,hasValidLicense DESC,					 
 					(hasLicense+hasAdhaar+hasPan+hasVoter+hasBankRef) DESC, 
 					(hasValidLicense +hasValidVoter+hasValidAdhaar+hasValidPan+hasValidPV) DESC";
-
-		$relData = DBUtil::queryRow($sql, DBUtil::SDB());
+		if ($onlyPrimary)
+		{
+			$relData = DBUtil::queryRow($sql, DBUtil::SDB());
+		}
+		else
+		{
+			$relData = DBUtil::query($sql, DBUtil::SDB());
+		}
 		return $relData;
+	}
+
+	public static function getCttIdsById($drvIds)
+	{
+		if (trim($drvIds) == '')
+		{
+			throw new \Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
+		}
+		$sql = "SELECT GROUP_CONCAT(cr_contact_id) FROM contact_profile 
+					WHERE cr_is_driver IN ({$drvIds}) AND cr_status =1";
+		return \DBUtil::queryScalar($sql, DBUtil::MDB());
+	}
+
+	public static function checkDrvStat($drvId)
+	{
+		$block		 = 0;
+		$drvModel	 = Drivers::model()->findByPk($drvId);
+		if (!$drvModel || $drvModel->drv_approved != 1)
+		{
+
+			$block = 1;
+		}
+		return $block;
+	}
+
+	public static function getByRefIds($drvIds)
+	{
+		if ($drvIds == '')
+		{
+			throw new \Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
+		}
+		$sql = "SELECT GROUP_CONCAT(DISTINCT drv_id)
+                FROM drivers
+                WHERE drv_active>0 AND drv_ref_code IN (
+                    SELECT drv_ref_code FROM drivers
+                        WHERE drv_id IN ({$drvIds}) AND drv_active>0)";
+
+		return \DBUtil::queryScalar($sql, DBUtil::MDB());
+	}
+
+	public static function getRelatedIds($drvId)
+	{
+		if (empty($drvId))
+		{
+			return false;
+		}
+		$vndIds	 = \Drivers::getByRefIds($drvId);
+		$cttIds	 = \Drivers::getCttIdsById($vndIds);
+
+		if (empty($cttIds))
+		{
+			return 0;
+		}
+		$relCttIds	 = \Contact::getRelatedIds($cttIds);
+		$relDrvList	 = \Drivers::getRelatedByCttIds($relCttIds);
+		return $relDrvList;
+	}
+
+	public static function getPrimaryId($drvId)
+	{
+		$relDriverList = \Drivers::getRelatedIds($drvId);
+		if ($relDriverList)
+		{
+			$primaryDrv = \Drivers::getPrimaryByIds($relDriverList);
+		}
+		return $primaryDrv['drv_id'];
+	}
+
+	public static function checkUpcomingOngoigTrip($drvID)
+	{
+		$param	 = ['drvID' => $drvID];
+		// $validity  = date('Y-m-d H:i:s', strtotime('+2 hour'));
+		$sql	 = " SELECT bkg.bkg_id,bkg.bkg_pickup_date,bkgtrack.btk_last_event as lastEvent
+				FROM booking bkg
+				INNER JOIN booking_cab  bcb ON bcb.bcb_id = bkg.bkg_bcb_id 
+				INNER JOIN booking_track bkgtrack ON bkgtrack.btk_bkg_id= bkg.bkg_id
+				WHERE  bcb_driver_id=:drvID AND  bkg.bkg_status IN (5)  
+					 AND bcb.bcb_active=1 AND bkg.bkg_active=1 
+                     AND ((bkgtrack.btk_last_event IS NOT NULL OR bkg_pickup_date<DATE_ADD(NOW(), INTERVAL 120 MINUTE))
+						 AND (bkgtrack.btk_last_event NOT IN (104)  OR bkgtrack.btk_last_event IS NULL ))";
+
+		$row = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
+		return $row;
 	}
 }

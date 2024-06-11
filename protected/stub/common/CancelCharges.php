@@ -21,16 +21,7 @@ class CancelCharges
 		$cancelCharge	 = self::getCharges($slabs, $cancelDate);
 		$bkgModel		 = \Booking::model()->findByPk($bkgId);
 		\Logger::trace("CancelCharges stub::getCharges cancelCharge: {$cancelCharge}");
-		if($cancelId > 0)
-		{
-			$cusPenalizedRule	 = \CancelReasons::getCustomerPenalizeRuleById($cancelId);
-			$venPenalizedRule	 = \CancelReasons::getVendorPenalizeRuleById($cancelId);
-			$cancelCharge		 = ($cusPenalizedRule <= 1) ? 0 : $cancelCharge;
-		}
-		\Logger::trace("CancelCharges stub:: cancel id condition cancelId:{$cancelId} cancelCharge: {$cancelCharge}");
-		$refund	 = $advance - $cancelCharge;
-		$refund	 = ($refund < 0) ? 0 : $refund;
-
+		
 		$detailsViewedDiffMinutes = \Filter::getTimeDiff($bkgModel->bkg_pickup_date, $bkgModel->bkgTrack->btk_drv_details_viewed_datetime);
 		if($bkgModel->bkgTrack->btk_drv_details_viewed == 1 && $bkgModel->bkg_agent_id == null && $detailsViewedDiffMinutes > 120)
 		{
@@ -46,6 +37,17 @@ class CancelCharges
 			$refund = $advance - $cancelCharge;
 			\Logger::trace("btk_drv_details_viewed cancelCharge: {$cancelCharge}");
 		}
+		
+		if($cancelId > 0)
+		{
+			$cusPenalizedRule	 = \CancelReasons::getCustomerPenalizeRuleById($cancelId);
+			$venPenalizedRule	 = \CancelReasons::getVendorPenalizeRuleById($cancelId);
+			$cancelCharge		 = ($cusPenalizedRule <= 1) ? 0 : $cancelCharge;
+		}
+		\Logger::trace("CancelCharges stub:: cancel id condition cancelId:{$cancelId} cancelCharge: {$cancelCharge}");
+		$refund	 = $advance - $cancelCharge;
+		$refund	 = ($refund < 0) ? 0 : $refund;
+		
 		$obj			 = new CancelCharges();
 		$obj->slabs		 = $slabs;
 		$obj->charges	 = $cancelCharge;

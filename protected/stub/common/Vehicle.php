@@ -204,6 +204,23 @@ class Vehicle extends Vendor
 		return $this;
 	}
 
+	/** 
+	 * 
+	 * @param Array $data
+	 * @return boolean|\Stub\common\Vehicle
+	 */
+	public static function setModelDataV1($data)
+	{
+		if (count($data) == 0)
+		{
+			return false;
+		}
+		$obj		 = new Vehicle();
+		$obj->number = $data['vhc_number'];
+		$obj->model	 = $data['vht_make'];
+		return $obj;
+	}
+
 	/**
 	 * 
 	 * @param $model, $result
@@ -528,4 +545,5 @@ class Vehicle extends Vendor
 			$this->hasCNG = -1;
 		}
 	}
+
 }

@@ -2253,7 +2253,7 @@ class AgentController extends Controller
 			///Then download the zipped file.
 			header('Content-Type: application/zip');
 			header('Content-disposition: attachment; filename=' . $zipname);
-			header('Content-Length: ' . filesize($zipname));
+			//header('Content-Length: ' . filesize($zipname));
 			readfile($zipname);
 			unlink($zipname);
 			foreach ($pdfPath as $doc)
@@ -2318,7 +2318,7 @@ class AgentController extends Controller
 		if ($req->getParam('PartnerRuleCommission'))
 		{
 			$arr = $req->getParam('PartnerRuleCommission');
-			if ($arr['prc_commission_value'] > 0)
+			if ($arr['prc_commission_value'] >= 0)
 			{
 				$model->prc_booking_type	 = $arr['prc_booking_type'];
 				$model->prc_commission_type	 = $arr['prc_commission_type'];
@@ -2351,7 +2351,7 @@ class AgentController extends Controller
 			else
 			{
 				$result				 = [];
-				$result['massage']	 = 'Commission value should be greater than 0';
+				$result['massage']	 = 'Commission value should be positive';
 			}
 
 

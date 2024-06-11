@@ -242,7 +242,7 @@ class SyncCommand extends BaseCommand
         {
             return;
         }
-        Users::uploadAllToS3(10);
+        Users::uploadAllToS3(5000);
     }
 	
 	public function actionUploadGPXFile()

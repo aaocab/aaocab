@@ -22,6 +22,8 @@ class CacheDependency extends CCacheDependency
 	const Type_DashBoard			 = "dashboard";
 	const Type_AdminAccess		 = "checkAdminAccess";
 	const Type_Report_DashBoard	 = "reportDashboard";
+	const Type_PartnerRule     = "partnerRule";
+
 
 	private static $prefix	 = 'cacheDependency-';
 

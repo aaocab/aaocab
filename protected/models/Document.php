@@ -4417,5 +4417,35 @@ class Document extends CActiveRecord
 		]);
 		return $dataprovider;
 	}
+	/**
+	 * function used to check vendor ready to approve or not
+	 * @param type $vendorId
+	 * @return type
+	 */
+	public static function checkReadyToApproveDocument($vendorId)
+	{
+		$vndIds = Vendors::getRelatedIds($vendorId);
+		$sql = "SELECT IF(
+						(COUNT(distinct pandoc.doc_id)>=1) and
+                        (
+                            COUNT(voterdoc.doc_id) + COUNT(aadhardoc.doc_id)+COUNT(licensedoc.doc_id) 
+                        ) >=1,
+                        1,
+                        0
+                    ) AS is_doc
+            FROM
+             `vendors`
+            INNER JOIN contact_profile cp ON cp.cr_is_vendor = vendors.vnd_id AND cp.cr_status =1
+			INNER JOIN contact ctt ON ctt.ctt_id = cp.cr_contact_id AND ctt.ctt_active =1 AND ctt.ctt_id = ctt.ctt_ref_code 
+            LEFT JOIN `document` AS voterdoc ON voterdoc.doc_id = `ctt_voter_doc_id` AND voterdoc.doc_type = 2 AND voterdoc.doc_status IN (0,1) AND voterdoc.doc_active = 1
+            LEFT JOIN `document` AS aadhardoc ON  aadhardoc.doc_id = `ctt_aadhar_doc_id` AND aadhardoc.doc_type = 3 AND aadhardoc.doc_status IN  (0,1) AND aadhardoc.doc_active = 1 
+			LEFT JOIN `document` AS licensedoc ON  licensedoc.doc_id = `ctt_license_doc_id` AND licensedoc.doc_type = 5 AND licensedoc.doc_status IN (0,1) AND licensedoc.doc_active = 1 
+            LEFT JOIN `document` AS pandoc ON  pandoc.doc_id = `ctt_pan_doc_id` AND pandoc.doc_type = 4 AND pandoc.doc_status IN (0,1) AND pandoc.doc_active = 1
+            WHERE vendors.vnd_id IN ($vndIds) AND vendors.vnd_active>0 group by vendors.vnd_ref_code";
+		
+		$status =  DBUtil::queryScalar($sql, DBUtil::SDB());
+		return $status;
+	
+	}
 
 }

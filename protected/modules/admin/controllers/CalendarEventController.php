@@ -178,6 +178,7 @@ class CalendarEventController extends Controller
 			{
 				EventGeo::InactiveByEventId($eventId);
 				EventGeo::add($data);
+				CalendarEvent::revertEventById($eventId);
 				CalendarEvent::MapEventWithRule($eventId);
 				echo CJSON::encode(array('success' => true, 'message' => "Event Geo added sucessfully"));
 			}

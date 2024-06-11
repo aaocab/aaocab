@@ -42,37 +42,47 @@ class Location
 		$objCity = \Beans\common\City::getData($data);
 		return $objCity;
 	}
-	
-	public static function setByRouteData($data,$bkgId=null)
+
+	public static function setByRouteData($data, $bkgId = null)
 	{
-		
-		$objData		 = (is_array($data)) ? \Filter::convertToObject($data) : $data;
-		$obj			 = new Location();
-		
-		if($bkgId!=null)
+
+		$objData = (is_array($data)) ? \Filter::convertToObject($data) : $data;
+		$obj	 = new Location();
+
+		if ($bkgId != null)
 		{
 			$bkgModel	 = \Booking::model()->findByPk($bkgId);
 			$status		 = $bkgModel->bkg_status;
 		}
-		if(!$bkgModel || $status>3)
+		if (!$bkgModel || $status > 3)
 		{
-			$obj->address	 = $objData->location;
+			$obj->address		 = $objData->location;
 			$objLatLong			 = Coordinates::setData($objData);
 			$obj->coordinates	 = $objLatLong;
 		}
 		else
 		{
-				$obj->address	               = 'xxxxxxx' . ', ' . $objData->city_name;
-				$objShortLatLong			   = Coordinates::setShortData($objData);
-				$obj->coordinates	           = $objShortLatLong;
+
+			$location = $objData->location;
+
+			$arr	 = explode(',', $location);
+			$count	 = count($arr);
+			$limit	 = ($count >= 4) ? 2 : 1;
+			$address = substr($location, strpos($location, ",", $limit));
+			if ($count > $limit)
+			{
+				$address = "xxxx{$address}";
+			}
+
+			$obj->address		 = $address;
+			$objShortLatLong	 = Coordinates::setShortData($objData);
+			$obj->coordinates	 = $objShortLatLong;
 		}
 
-		$city	 = City::getData(['id' => $objData->city_id, 'name' => $objData->city_name]);
+		$city		 = City::getData(['id' => $objData->city_id, 'name' => $objData->city_name]);
 		$obj->city	 = $city;
 		return $obj;
 	}
-
-	
 
 	public static function setAddress($data)
 	{
@@ -80,37 +90,38 @@ class Location
 		$obj->address	 = $data['ctt_address'];
 		if ($data['ctt_city'] > 0)
 		{
-			$objCity	 =\Beans\common\City::setDetail($data);
+			$objCity	 = \Beans\common\City::setDetail($data);
 			$obj->city	 = $objCity;
 		}
 		return $obj;
 	}
- public static function setAddressByCity($data,$addressObj)
-    {
-       $obj = new Location();
 
-        $objCity          = \Beans\common\City::getData($data);
-        $obj->city        = $objCity;
-       // $obj              = new Location();
-        $obj->address     = $addressObj->address;
-        $objLatLong       = Coordinates::setData($addressObj->coordinates);
-        $obj->coordinates = $objLatLong;
-        return $obj;
-    }
-	
-	public static function setLocationModel($model,$addressObj)
+	public static function setAddressByCity($data, $addressObj)
 	{
-		$model->drvContact->ctt_address      = $addressObj->address;
-		$model->drvContact->ctt_city = $addressObj->city->id;
-		$model->drvContact->ctt_state = $addressObj->city->state->id;
+		$obj = new Location();
+
+		$objCity			 = \Beans\common\City::getData($data);
+		$obj->city			 = $objCity;
+		// $obj              = new Location();
+		$obj->address		 = $addressObj->address;
+		$objLatLong			 = Coordinates::setData($addressObj->coordinates);
+		$obj->coordinates	 = $objLatLong;
+		return $obj;
 	}
-	public static function setLocation ($model,$addressObj)
+
+	public static function setLocationModel($model, $addressObj)
 	{
-		$model->ctt_address  = $addressObj->address;
-		$model->ctt_city = $addressObj->city->id;
-		$model->ctt_state = $addressObj->city->state->id;
+		$model->drvContact->ctt_address	 = $addressObj->address;
+		$model->drvContact->ctt_city	 = $addressObj->city->id;
+		$model->drvContact->ctt_state	 = $addressObj->city->state->id;
+	}
+
+	public static function setLocation($model, $addressObj)
+	{
+		$model->ctt_address	 = $addressObj->address;
+		$model->ctt_city	 = $addressObj->city->id;
+		$model->ctt_state	 = $addressObj->city->state->id;
 		return $model;
-		
 	}
-	
+
 }

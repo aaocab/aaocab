@@ -72,6 +72,7 @@ $form		 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 <input type="hidden" id="bkgPricefactor" name="bkgPricefactor">
 <input type="hidden" id="rePaymentOpt" name="rePaymentOpt" value="<?= $rePaymentOpt ?>">
 <input type="hidden" name="multicityjsondata" class='box-multicityjson' value="">
+ <input type="hidden" id="allowNegativeAddon" value="1">
 <?= CHtml::hiddenField("jsonData_payment", $data, ['id' => 'jsonData_payment']) ?>
 
 <?
@@ -918,14 +919,26 @@ if ($data != "")
 		admBooking.showAddOn(sccId, 1);
 	}
 
-	$('#Booking_bkg_addon_ids').change(function () { //debugger;
+	$('#Booking_bkg_addon_ids').change(function () { debugger;
 		var element = $(this).find('option:selected');
-		var cost = element.attr("cost");
+		var cost = parseInt(element.attr("cost"));
 		var details = element.attr("details");
+		
+		let allowNegativeAddon = $('#allowNegativeAddon').val();
+		let promocode = $('#oldPromoCode').val();
+		if(allowNegativeAddon!=1 && notEmpty(promocode) && cost < 0)
+		{
+			alert("Negative addon is not allowed with the given promo");
+			$("#Booking_bkg_addon_ids").select2("val", 0).trigger('change');
+			return false;
+		}
+		
 		admBooking.showPaymentDetails($('#Booking_bkg_addon_ids').val(), cost, 1);
 		$('#addonDetailsDiv').html("<b>Addon Details: </b><br>" + details);
 	});
-
+	function notEmpty(value) {
+		 return value !== null && value !== undefined && value.trim().length > 0;
+	}
 	$('#Booking_bkg_addon_cab').change(function () { //debugger;
 		var element = $(this).find('option:selected');
 		var cost = element.attr("cost");

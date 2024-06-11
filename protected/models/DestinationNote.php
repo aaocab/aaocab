@@ -502,12 +502,13 @@ class DestinationNote extends CActiveRecord
 		}
 		else if ($areaType == 'city')
 		{
-			if ($areaType == 'city')
+			if ($searchTxt != '')
 			{
 				$qry = " AND cty_display_name LIKE '%{$searchTxt}%'";
+				$query	 = "SELECT city.`cty_id` as areaID, city.cty_display_name as areaName FROM `cities` city	WHERE city.cty_active=1 AND cty_service_active=1 " . $qry . " ORDER BY cty_name";
+				$result	 = DBUtil::query($query);
 			}
-			$query	 = "SELECT city.`cty_id` as areaID, city.cty_display_name as areaName FROM `cities` city	WHERE city.cty_active=1 AND cty_service_active=1 " . $qry . " ORDER BY cty_name";
-			$result	 = DBUtil::query($query);
+			
 		}
 		return $result;
 	}

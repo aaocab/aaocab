@@ -149,7 +149,7 @@ if ($model["scq_id"] != '')
 						<div class="tab-content p0" id="details_2">
 							<div id="<?php echo 'sec3' ?>" tabid="3" class="tab-pane active">	 
 								<?php
-								$vndId			 = $model['scq_to_be_followed_up_with_entity_id'];
+								$vndId			 = $vendorId;
 								$vndmodel		 = Vendors::model()->findByPk($vndId);
 								$contactId		 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 								$data			 = Vendors::model()->getViewDetailbyId($vndId);

@@ -125,13 +125,16 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 								},
 								'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1 text-center'), 'htmlOptions'		 => array('class' => 'text-center'), 'header'			 => ucfirst($orderby)),
 							//array('name' => 'date', 'value' => '$data["date"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Date'),
-							array('name' => 'totalPenalty', 'value' => '$data["totalPenalty"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Total Penalty'),
-							array('name' => 'app', 'value' => '$data["app"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'App'),
-							array('name' => 'noShow', 'value' => '$data["noShow"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'No Show'),
-							array('name' => 'notAllocated', 'value' => '$data["notAllocated"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Not Allocated'),
-							array('name' => 'late', 'value' => '$data["late"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Late'),
-							array('name' => 'unassign', 'value' => '$data["unassign"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Unassign'),
-							array('name' => 'unregisteredcab', 'value' => '$data["unregisteredcab"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1 text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Unregistered Cab'),
+							array('name' => 'totalPenalty', 'value' => '$data["totalPenalty"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Total Penalty'),
+							array('name' => 'appNotUsed', 'value' => '$data["appNotUsed"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'App (Not Used)'),
+							array('name' => 'appNotArrived', 'value' => '$data["appNotArrived"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'App (Not Arrived)'),
+							array('name' => 'appNotStarted', 'value' => '$data["appNotStarted"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'App (Not Started)'),
+							array('name' => 'appNotCompleted', 'value' => '$data["appNotCompleted"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'App (Not Completed)'),
+							array('name' => 'noShow', 'value' => '$data["noShow"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'No Show'),
+							array('name' => 'notAllocated', 'value' => '$data["notAllocated"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Not Allocated'),
+							array('name' => 'late', 'value' => '$data["late"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Late'),
+							array('name' => 'unassign', 'value' => '$data["unassign"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Unassign'),
+							array('name' => 'unregisteredcab', 'value' => '$data["unregisteredcab"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-right'), 'header' => 'Unregistered Cab'),
 					)));
 				}
 				?>

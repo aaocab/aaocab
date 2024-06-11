@@ -72,9 +72,9 @@ class TripController extends BaseController
 			$arr = $this->getURIAndHTTPVerb();
 			$ri	 = array();
 
-			foreach($ri as $value)
+			foreach ($ri as $value)
 			{
-				if(strpos($arr[0], $value))
+				if (strpos($arr[0], $value))
 				{
 					$pos = true;
 				}
@@ -106,14 +106,14 @@ class TripController extends BaseController
 		Logger::trace("<===Requset===>" . $data);
 		try
 		{
-			if($data == "")
+			if ($data == "")
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$vendorId	 = UserInfo::getEntityId();
 			$userInfo	 = UserInfo::getInstance();
 
-			if(!$vendorId)
+			if (!$vendorId)
 			{
 				throw new Exception("Unauthorized Vendor", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -125,13 +125,13 @@ class TripController extends BaseController
 
 			$snoozeTime = $convertedTime;
 
-			if(BookingVendorRequest::addSnoozeTime($tripId, $snoozeTime, $vendorId))
+			if (BookingVendorRequest::addSnoozeTime($tripId, $snoozeTime, $vendorId))
 			{
 				$returnSet->setStatus(true);
 				$returnSet->setMessage('Request processed successfully');
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -144,19 +144,19 @@ class TripController extends BaseController
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$reqObj = CJSON::decode($requestData, false);
 
 			$vendorId = $this->getVendorId(false);
-			if(!$vendorId)
+			if (!$vendorId)
 			{
 				throw new Exception("No vendor id found.", ReturnSet::ERROR_UNAUTHORISED);
 			}
 			$vndModel = Vendors::model()->findByPk($vendorId);
-			if($vndModel->vnd_active != 1)
+			if ($vndModel->vnd_active != 1)
 			{
 				$statusList	 = Vendors::model()->getStatusList();
 				$status		 = $statusList[$vndModel->vnd_active];
@@ -174,7 +174,7 @@ class TripController extends BaseController
 			$result = BookingVendorRequest::getPendingRequestV2($vendorId, $pageCount, $filter, $offSetCount);
 
 			$dependencyMsg = \VendorStats::getDependencyMessage($vendorId);
-			if($result->getRowCount() > 0)
+			if ($result->getRowCount() > 0)
 			{
 
 				$response	 = new \Beans\vendor\TripDetailResponse();
@@ -190,7 +190,7 @@ class TripController extends BaseController
 				\Sentry\captureMessage(json_encode($returnSet), null);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -200,34 +200,35 @@ class TripController extends BaseController
 
 	public function jobList()
 	{
- 		$returnSet = new ReturnSet();
+		$returnSet = new ReturnSet();
 		try
 		{
 			$requestData = Yii::app()->request->rawBody;
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$reqObj = CJSON::decode($requestData, false);
 
 			$vendorId = $this->getVendorId(false);
-			if(!$vendorId)
+			if (!$vendorId)
 			{
 				throw new Exception("No vendor id found.", ReturnSet::ERROR_UNAUTHORISED);
 			}
 			$vndModel = Vendors::model()->findByPk($vendorId);
-			if(!$vndModel || $vndModel->vnd_active != 1)
+
+			if (!$vndModel || in_array($vndModel->vnd_active, [2, 3]))
 			{
-				if(!$vndModel)
+				if (!$vndModel)
 				{
-					$status = 'blocked';
+					$status = 'Blocked';
 				}
 				else
 				{
-					$statusList	 = Vendors::model()->getStatusList();
-					$status		 = $statusList[$vndModel->vnd_active];
+					$activeList	 = Vendors::model()->vendorStatus;
+					$status		 = $activeList[$vndModel->vnd_active];
 				}
-				throw new Exception("Your account is $status.", ReturnSet::ERROR_UNAUTHORISED);
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
 			}
 
 			$jsonMapper	 = new JsonMapper();
@@ -241,7 +242,7 @@ class TripController extends BaseController
 //			$result		 = BookingVendorRequest::getPendingBookingRequest($vendorId, $pageCount, $filter, $offSetCount);
 			$result = BookingVendorRequest::getPendingRequestV2($vendorId, $pageCount, $filter, $offSetCount);
 
-			if($result->getRowCount() > 0)
+			if ($result->getRowCount() > 0)
 			{
 				$dependencyMsg	 = \VendorStats::getDependencyMessage($vendorId);
 				$response		 = new \Beans\vendor\TripDetailResponse();
@@ -257,7 +258,7 @@ class TripController extends BaseController
 				\Sentry\captureMessage(json_encode($returnSet), null);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}

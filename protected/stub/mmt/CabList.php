@@ -36,8 +36,10 @@ class CabList
     public static $cabTypes = [1 => 'hatchback', 2 => 'suv', 3 => 'sedan', 5=> 'sedan', 6=> 'suv'];
 	public static $cancellationTypes = ['4' => 'FLEXI', '5' => 'SUPER_FLEXI', '9' => 'NON_REFUNDABLE'];
     public static $cabModel = [61, 63, 64, 66];
-    
-    /** @var \Stub\mmt\Fare $fare */
+	public $zero_payment;
+
+
+	/** @var \Stub\mmt\Fare $fare */
     public $fare;
 
     /** @var \Stub\mmt\Amenities $amenities */
@@ -47,6 +49,7 @@ class CabList
     {
         $svcModel    = \SvcClassVhcCat::model()->findByPk($quote->skuId);
         $vhcCategory = $svcModel->scv_vct_id;
+
         if (array_key_exists($vhcCategory, self::$cabTypes))
         {
             $svcModelCat = \SvcClassVhcCat::model()->getVctSvcList('object', 0, 0, $quote->skuId);
@@ -72,7 +75,7 @@ class CabList
             
             if ($svcModelCat->scc_id == 6)
             {
-                    $this->combustion_type = 'Unknown';
+                    $this->combustion_type = 'CNG';
             }
             else
             {
@@ -111,7 +114,11 @@ class CabList
                 $this->make_year_type = "Newer";
                 $this->make_year      = date("Y") - ($svcModelCat->scc_model_year);
             }
-            if (in_array($quote->tripType, [4, 12]))
+			
+			$isCashBooking = \GoMmt::isCashBookingAllowed($quote->routes[0]->brt_from_city_id, $quote->tripType, $quote->skuId, $quote->routes[0]->brt_to_city_id, $quote->partnerId, null, null, null);
+			$this->zero_payment = $isCashBooking;
+			
+			if (in_array($quote->tripType, [4, 12]))
             {
                 $this->trip_tags[] = "AT";
             }

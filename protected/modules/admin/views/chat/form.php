@@ -41,7 +41,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/cha
 									$("#ChatLog_chl_driver_visible").attr("checked", false);
 									$("#ChatLog_chl_customer_visible").attr("checked", false);
 
-									$chat.getChatLogs();
+									$chat.getChatLogs(0);
 								}
 								else
 								{

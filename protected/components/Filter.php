@@ -106,8 +106,8 @@ class Filter
 
 	public static function checkForMobileTheme()
 	{
-		$detect			 = Yii::app()->mobileDetect;
-		$isMobileDetect	 = $detect->isMobile();
+		$detect			= Yii::app()->mobileDetect;
+		$isMobileDetect = $detect->isMobile();
 
 		if ($isMobileDetect == 1)
 		{
@@ -117,8 +117,8 @@ class Filter
 			{
 				define("IS_MOBILE", 1);
 			}
-			$app->clientScript->scriptMap	 = Yii::app()->params['script']['mobileB2C'];
-			Yii::app()->theme				 = "mobile/B2C";
+			$app->clientScript->scriptMap = Yii::app()->params['script']['mobileB2C'];
+			Yii::app()->theme			  = "mobile/B2C";
 		}
 	}
 
@@ -215,8 +215,8 @@ class Filter
 			{
 				if (is_object($value) || is_array($value))
 				{
-					$data	 = Filter::getNestedValues($value);
-					$obj	 = array_merge($obj, $data);
+					$data = Filter::getNestedValues($value);
+					$obj  = array_merge($obj, $data);
 				}
 				else
 				{
@@ -238,13 +238,13 @@ class Filter
 			return false;
 		}
 
-		$latNE	 = $bounds->northeast->latitude;
-		$lngNE	 = $bounds->northeast->longitude;
-		$latSW	 = $bounds->southwest->latitude;
-		$lngSW	 = $bounds->southwest->longitude;
+		$latNE = $bounds->northeast->latitude;
+		$lngNE = $bounds->northeast->longitude;
+		$latSW = $bounds->southwest->latitude;
+		$lngSW = $bounds->southwest->longitude;
 
-		$length	 = $this->calculateDistance($latNE, $lngNE, $latSW, $lngNE);
-		$width	 = $this->calculateDistance($latSW, $lngSW, $latSW, $lngNE);
+		$length = $this->calculateDistance($latNE, $lngNE, $latSW, $lngNE);
+		$width	= $this->calculateDistance($latSW, $lngSW, $latSW, $lngNE);
 
 		$area = $length * $width;
 		return $area;
@@ -304,28 +304,28 @@ class Filter
 		{
 			return false;
 		}
-		$num		 = (int) $num;
-		$words		 = array();
-		$list1		 = array('', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
+		$num		= (int) $num;
+		$words		= array();
+		$list1		= array('', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
 			'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
 		);
-		$list2		 = array('', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'hundred');
-		$list3		 = array('', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion', 'sextillion', 'septillion',
+		$list2		= array('', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'hundred');
+		$list3		= array('', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion', 'sextillion', 'septillion',
 			'octillion', 'nonillion', 'decillion', 'undecillion', 'duodecillion', 'tredecillion', 'quattuordecillion',
 			'quindecillion', 'sexdecillion', 'septendecillion', 'octodecillion', 'novemdecillion', 'vigintillion'
 		);
-		$num_length	 = strlen($num);
-		$levels		 = (int) (($num_length + 2) / 3);
-		$max_length	 = $levels * 3;
-		$num		 = substr('00' . $num, -$max_length);
-		$num_levels	 = str_split($num, 3);
+		$num_length = strlen($num);
+		$levels		= (int) (($num_length + 2) / 3);
+		$max_length = $levels * 3;
+		$num		= substr('00' . $num, -$max_length);
+		$num_levels = str_split($num, 3);
 		for ($i = 0; $i < count($num_levels); $i++)
 		{
 			$levels--;
-			$hundreds	 = (int) ($num_levels[$i] / 100);
-			$hundreds	 = ($hundreds ? ' ' . $list1[$hundreds] . ' hundred' . ( $hundreds == 1 ? '' : ' ' ) . ' ' : '');
-			$tens		 = (int) ($num_levels[$i] % 100);
-			$singles	 = '';
+			$hundreds = (int) ($num_levels[$i] / 100);
+			$hundreds = ($hundreds ? ' ' . $list1[$hundreds] . ' hundred' . ( $hundreds == 1 ? '' : ' ' ) . ' ' : '');
+			$tens	  = (int) ($num_levels[$i] % 100);
+			$singles  = '';
 			if ($tens < 20)
 			{
 				$tens = ($tens ? ' ' . $list1[$tens] . ' ' : '' );
@@ -349,43 +349,43 @@ class Filter
 
 	public function dateCount($fromDate, $toDate)
 	{
-		$startTimeStamp	 = strtotime($fromDate);
-		$endTimeStamp	 = strtotime($toDate);
-		$timeDiff		 = abs($endTimeStamp - $startTimeStamp);
-		$numberDays		 = $timeDiff / 86400;  // 86400 seconds in one day
+		$startTimeStamp = strtotime($fromDate);
+		$endTimeStamp	= strtotime($toDate);
+		$timeDiff		= abs($endTimeStamp - $startTimeStamp);
+		$numberDays		= $timeDiff / 86400;  // 86400 seconds in one day
 		// and you might want to convert to integer
-		$numberDays		 = intval($numberDays);
+		$numberDays		= intval($numberDays);
 		return $numberDays;
 	}
 
 	public function utf8_to_unicode($str)
 	{
-		$unicode	 = array();
-		$values		 = array();
-		$lookingFor	 = 1;
+		$unicode	= array();
+		$values		= array();
+		$lookingFor = 1;
 		for ($i = 0; $i < strlen($str); $i++)
 		{
 			$thisValue = ord($str[$i]);
 			if ($thisValue < 128)
 			{
-				$number		 = dechex($thisValue);
-				$unicode[]	 = (strlen($number) == 1) ? '%u000' . $number : "%u00" . $number;
+				$number	   = dechex($thisValue);
+				$unicode[] = (strlen($number) == 1) ? '%u000' . $number : "%u00" . $number;
 			}
 			else
 			{
 				if (count($values) == 0)
-					$lookingFor	 = ( $thisValue < 224 ) ? 2 : 3;
-				$values[]	 = $thisValue;
+					$lookingFor = ( $thisValue < 224 ) ? 2 : 3;
+				$values[]	= $thisValue;
 				if (count($values) == $lookingFor)
 				{
-					$number		 = ( $lookingFor == 3 ) ?
+					$number		= ( $lookingFor == 3 ) ?
 							( ( $values[0] % 16 ) * 4096 ) + ( ( $values[1] % 64 ) * 64 ) + ( $values[2] % 64 ) :
 							( ( $values[0] % 32 ) * 64 ) + ( $values[1] % 64
 							);
-					$number		 = dechex($number);
-					$unicode[]	 = (strlen($number) == 3) ? "%u0" . $number : "%u" . $number;
-					$values		 = array();
-					$lookingFor	 = 1;
+					$number		= dechex($number);
+					$unicode[]	= (strlen($number) == 3) ? "%u0" . $number : "%u" . $number;
+					$values		= array();
+					$lookingFor = 1;
 				} // if
 			} // if
 		}
@@ -401,23 +401,23 @@ class Filter
 		switch ($num)
 		{
 			case '1':
-				$year	 = date('Y', strtotime(date("Y-m-01", strtotime("-1 Months"))));
-				$month	 = date('n', strtotime(date("Y-m-01", strtotime("-1 Months"))));
+				$year  = date('Y', strtotime(date("Y-m-01", strtotime("-1 Months"))));
+				$month = date('n', strtotime(date("Y-m-01", strtotime("-1 Months"))));
 				return ($year == $y && $month == $m) ? 'Month -1' : '';
 				break;
 			case '2':
-				$year	 = date('Y', strtotime(date("Y-m-01", strtotime("-2 Months"))));
-				$month	 = date('n', strtotime(date("Y-m-01", strtotime("-2 Months"))));
+				$year  = date('Y', strtotime(date("Y-m-01", strtotime("-2 Months"))));
+				$month = date('n', strtotime(date("Y-m-01", strtotime("-2 Months"))));
 				return ($year == $y && $month == $m) ? 'Month -2' : '';
 				break;
 			case '3':
-				$year	 = date('Y', strtotime(date("Y-m-01", strtotime("-3 Months"))));
-				$month	 = date('n', strtotime(date("Y-m-01", strtotime("-3 Months"))));
+				$year  = date('Y', strtotime(date("Y-m-01", strtotime("-3 Months"))));
+				$month = date('n', strtotime(date("Y-m-01", strtotime("-3 Months"))));
 				return ($year == $y && $month == $m) ? 'Month -3' : '';
 				break;
 			case '0':
-				$year	 = date('Y', strtotime(date("Y-m-d")));
-				$month	 = date('n', strtotime(date("Y-m-d")));
+				$year  = date('Y', strtotime(date("Y-m-d")));
+				$month = date('n', strtotime(date("Y-m-d")));
 				return ($year == $y && $month == $m) ? 'MTD' : '';
 				break;
 		}
@@ -426,8 +426,8 @@ class Filter
 	public static function getServiceTax($amount, $partnerId, $tripType)
 	{
 		//$tax_rate	 = Filter::getServiceTaxRate();
-		$tax_rate	 = BookingInvoice::getGstTaxRate($partnerId, $tripType);
-		$tax		 = round($amount * $tax_rate * 0.01);
+		$tax_rate = BookingInvoice::getGstTaxRate($partnerId, $tripType);
+		$tax	  = round($amount * $tax_rate * 0.01);
 		return $tax;
 	}
 
@@ -469,8 +469,8 @@ class Filter
 
 	public static function getTimeDurationbyMinute($minutes)
 	{
-		$hours	 = intdiv($minutes, 60);
-		$min	 = ($minutes % 60);
+		$hours = intdiv($minutes, 60);
+		$min   = ($minutes % 60);
 		if ($hours > 0)
 		{
 			$dur .= ($hours > 1) ? $hours . " hrs " : $hours . " hr ";
@@ -484,12 +484,12 @@ class Filter
 
 	public static function getTripDayByRoute($bookingID)
 	{
-		$bookingRouteModel	 = BookingRoute::model()->findAll('brt_bkg_id=:id', ['id' => $bookingID]);
-		$cntRut				 = count($bookingRouteModel);
+		$bookingRouteModel = BookingRoute::model()->findAll('brt_bkg_id=:id', ['id' => $bookingID]);
+		$cntRut			   = count($bookingRouteModel);
 		if ($cntRut > 0)
 		{
-			$rutInfo	 = [];
-			$diffdays	 = 0;
+			$rutInfo  = [];
+			$diffdays = 0;
 			foreach ($bookingRouteModel as $key => $bookingRoute)
 			{
 				if ($key == 0)
@@ -498,10 +498,10 @@ class Filter
 				}
 				else
 				{
-					$date1		 = new DateTime(date('Y-m-d', strtotime($bookingRouteModel[0]->brt_pickup_datetime)));
-					$date2		 = new DateTime(date('Y-m-d', strtotime($bookingRoute->brt_pickup_datetime)));
-					$difference	 = $date1->diff($date2);
-					$diffdays	 = ($difference->d + 1);
+					$date1		= new DateTime(date('Y-m-d', strtotime($bookingRouteModel[0]->brt_pickup_datetime)));
+					$date2		= new DateTime(date('Y-m-d', strtotime($bookingRoute->brt_pickup_datetime)));
+					$difference = $date1->diff($date2);
+					$diffdays	= ($difference->d + 1);
 				}
 				$rutInfo[] = ['diffdays' => $diffdays];
 			}
@@ -512,16 +512,16 @@ class Filter
 	public static function getExecutionTime()
 	{
 		list($usec, $sec) = explode(" ", microtime());
-		$time1	 = ((float) $usec + (float) $sec);
-		$time	 = round(($time1 - TIME) * 1000, 3);
+		$time1 = ((float) $usec + (float) $sec);
+		$time  = round(($time1 - TIME) * 1000, 3);
 		return $time;
 	}
 
 	public static function getExecutionTimeDiff($desc = 'time')
 	{
 		list($usec, $sec) = explode(" ", microtime());
-		$time1	 = ((float) $usec + (float) $sec);
-		$time	 = round(($time1 - TIME) * 1000, 3);
+		$time1 = ((float) $usec + (float) $sec);
+		$time  = round(($time1 - TIME) * 1000, 3);
 		if (otime == 'otime')
 		{
 			define('otime', $time);
@@ -565,17 +565,17 @@ class Filter
 
 	public static function getTimeDropArr($startTime = '00:00', $allowNight = true)
 	{
-		$arrTime	 = array();
-		$endTime	 = 24 * 60;
-		$endTime	 = ($allowNight) ? $endTime : 15 * 60;
-		$interval	 = 30;
-		$d			 = date('H:i', strtotime($startTime));
+		$arrTime  = array();
+		$endTime  = 24 * 60;
+		$endTime  = ($allowNight) ? $endTime : 15 * 60;
+		$interval = 30;
+		$d		  = date('H:i', strtotime($startTime));
 		for ($i = 0; $i < $endTime; $i += $interval)
 		{
 			//$dateID			 = date('H:i:s', strtotime($d . ' +' . $i . 'MINUTE'));
-			$dateID				 = date('h:iA', strtotime($d . ' +' . $i . 'MINUTE'));
-			$dateVal			 = date('h:i A', strtotime($d . ' +' . $i . 'MINUTE'));
-			$arrTime[$dateID]	 = $dateVal;
+			$dateID			  = date('h:iA', strtotime($d . ' +' . $i . 'MINUTE'));
+			$dateVal		  = date('h:i A', strtotime($d . ' +' . $i . 'MINUTE'));
+			$arrTime[$dateID] = $dateVal;
 		}
 		return $arrTime;
 	}
@@ -593,21 +593,21 @@ class Filter
 
 	public function file_get_contents_curl($url)
 	{
-		$ch		 = curl_init();
+		$ch	  = curl_init();
 		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-		$data	 = curl_exec($ch);
+		$data = curl_exec($ch);
 		curl_close($ch);
 		return $data;
 	}
 
 	public static function beginTransaction()
 	{
-		$trans		 = null;
-		$isActive	 = Yii::app()->db->getCurrentTransaction();
+		$trans	  = null;
+		$isActive = Yii::app()->db->getCurrentTransaction();
 		if (!$isActive)
 		{
 			$trans = Yii::app()->db->beginTransaction();
@@ -643,38 +643,38 @@ class Filter
 		switch ($ptpId)
 		{
 			case PaymentType::TYPE_PAYTM:
-				$obj		 = Yii::app()->paytm;
+				$obj		= Yii::app()->paytm;
 				break;
 			case PaymentType::TYPE_PAYUMONEY:
-				$obj		 = Yii::app()->payu;
+				$obj		= Yii::app()->payu;
 				break;
 			case PaymentType::TYPE_EBS:
-				$RETURN_URL	 = Yii::app()->createAbsoluteUrl("/ebs/response");
-				$obj		 = new EbsPayment($RETURN_URL);
+				$RETURN_URL = Yii::app()->createAbsoluteUrl("/ebs/response");
+				$obj		= new EbsPayment($RETURN_URL);
 				break;
 			case PaymentType::TYPE_FREECHARGE:
-				$obj		 = Yii::app()->freecharge;
+				$obj		= Yii::app()->freecharge;
 				break;
 			case PaymentType::TYPE_MOBIKWIK:
-				$obj		 = Yii::app()->mobikwik;
+				$obj		= Yii::app()->mobikwik;
 				break;
 			case PaymentType::TYPE_LAZYPAY:
-				$obj		 = Yii::app()->lazypay;
+				$obj		= Yii::app()->lazypay;
 				break;
 			case PaymentType::TYPE_EPAYLATER:
-				$obj		 = Yii::app()->epaylater;
+				$obj		= Yii::app()->epaylater;
 				break;
 			case PaymentType::TYPE_PAYNIMO;
-				$obj		 = new Paynimo();
+				$obj		= new Paynimo();
 				break;
 			case PaymentType::TYPE_INTERNATIONAL_CARD://BTREE
-				$obj		 = 'bTree';
+				$obj		= 'bTree';
 				break;
 			case PaymentType::TYPE_RAZORPAY:
-				$obj		 = Yii::app()->razorpay;
+				$obj		= Yii::app()->razorpay;
 				break;
 			case PaymentType::TYPE_EASEBUZZ:
-				$obj		 = Yii::app()->easebuzz;
+				$obj		= Yii::app()->easebuzz;
 				break;
 			default:
 				break;
@@ -708,13 +708,13 @@ class Filter
 	public static function checkAssignmentAccess($regionId)
 	{
 		$arr = [
-			1	 => "assignUnapprovedNorth",
-			4	 => "assignUnapprovedSouth",
-			2	 => "assignUnapprovedWest",
-			5	 => "assignUnapprovedEast",
-			3	 => "assignUnapprovedCentral",
-			6	 => "assignUnapprovedNorthEast",
-			7	 => "assignUnapprovedSouth",
+			1 => "assignUnapprovedNorth",
+			4 => "assignUnapprovedSouth",
+			2 => "assignUnapprovedWest",
+			5 => "assignUnapprovedEast",
+			3 => "assignUnapprovedCentral",
+			6 => "assignUnapprovedNorthEast",
+			7 => "assignUnapprovedSouth",
 		];
 
 		$operation = $arr[$regionId];
@@ -744,11 +744,11 @@ class Filter
 				$toDateTime = Yii::app()->db->createCommand()->select(new CDbExpression("now()"))->queryScalar();
 			}
 
-			$sql				 = "SELECT TIMESTAMPDIFF(MINUTE, :toDate , :fromDate) as diff";
-			$cdb				 = Yii::app()->db->createCommand($sql);
-			$arr[":fromDate"]	 = $fromDateTime;
-			$arr[":toDate"]		 = $toDateTime;
-			$diff				 = $cdb->queryScalar($arr);
+			$sql			  = "SELECT TIMESTAMPDIFF(MINUTE, :toDate , :fromDate) as diff";
+			$cdb			  = Yii::app()->db->createCommand($sql);
+			$arr[":fromDate"] = $fromDateTime;
+			$arr[":toDate"]	  = $toDateTime;
+			$diff			  = $cdb->queryScalar($arr);
 		}
 		catch (Exception $e)
 		{
@@ -766,11 +766,11 @@ class Filter
 				$toDateTime = Yii::app()->db->createCommand()->select(new CDbExpression("now()"))->queryScalar();
 			}
 
-			$sql				 = "SELECT TIMESTAMPDIFF(SECOND, :toDate , :fromDate) as diff";
-			$cdb				 = Yii::app()->db->createCommand($sql);
-			$arr[":fromDate"]	 = $fromDateTime;
-			$arr[":toDate"]		 = $toDateTime;
-			$diff				 = $cdb->queryScalar($arr);
+			$sql			  = "SELECT TIMESTAMPDIFF(SECOND, :toDate , :fromDate) as diff";
+			$cdb			  = Yii::app()->db->createCommand($sql);
+			$arr[":fromDate"] = $fromDateTime;
+			$arr[":toDate"]	  = $toDateTime;
+			$diff			  = $cdb->queryScalar($arr);
 		}
 		catch (Exception $e)
 		{
@@ -781,10 +781,10 @@ class Filter
 
 	public static function getDaysCount($fromDate, $toDate)
 	{
-		$date1		 = new DateTime(date('Y-m-d', strtotime($fromDate)));
-		$date2		 = new DateTime(date('Y-m-d', strtotime($toDate)));
-		$difference	 = $date1->diff($date2);
-		$diffdays	 = ($difference->d + 1);
+		$date1		= new DateTime(date('Y-m-d', strtotime($fromDate)));
+		$date2		= new DateTime(date('Y-m-d', strtotime($toDate)));
+		$difference = $date1->diff($date2);
+		$diffdays	= ($difference->d + 1);
 		return $diffdays;
 	}
 
@@ -792,16 +792,16 @@ class Filter
 	{
 		$success	 = false;
 		$arr		 = [
-			'0'	 => 'Q',
-			'1'	 => 'C',
-			'2'	 => 'F',
-			'3'	 => 'M',
-			'4'	 => 'U',
-			'5'	 => 'H',
-			'6'	 => 'B',
-			'7'	 => 'L',
-			'8'	 => 'A',
-			'9'	 => 'R'];
+			'0' => 'Q',
+			'1' => 'C',
+			'2' => 'F',
+			'3' => 'M',
+			'4' => 'U',
+			'5' => 'H',
+			'6' => 'B',
+			'7' => 'L',
+			'8' => 'A',
+			'9' => 'R'];
 		$returnArray = ['success' => $success, 'code' => $code];
 		if ($Id > 0 && $type != '')
 		{
@@ -910,14 +910,14 @@ class Filter
 		{
 			$date = time();
 		}
-		$year	 = date('Y', $date);
-		$month	 = date('m', $date);
-		$today	 = date('d', $date);
-		$hour	 = date('H', $date);
+		$year  = date('Y', $date);
+		$month = date('m', $date);
+		$today = date('d', $date);
+		$hour  = date('H', $date);
 
-		$subFolderYear	 = $year;
-		$subFolderMonth	 = $subFolderYear . DIRECTORY_SEPARATOR . $month;
-		$subFolderDay	 = $subFolderMonth . DIRECTORY_SEPARATOR . $today;
+		$subFolderYear	= $year;
+		$subFolderMonth = $subFolderYear . DIRECTORY_SEPARATOR . $month;
+		$subFolderDay	= $subFolderMonth . DIRECTORY_SEPARATOR . $today;
 		if ($includeHour)
 		{
 			$subFolderDay = $subFolderDay . DIRECTORY_SEPARATOR . $hour;
@@ -944,8 +944,8 @@ class Filter
 
 	public static function calculateMedian($arr)
 	{
-		$count	 = count($arr); //total numbers in array
-		$median	 = 0;
+		$count	= count($arr); //total numbers in array
+		$median = 0;
 		if ($count == 0)
 		{
 			goto result;
@@ -955,15 +955,15 @@ class Filter
 		// find the middle value, or the lowest middle value
 		if ($count % 2)
 		{
-			$middleval	 = floor(($count + 1) / 2);
-			$median		 = $arr[$middleval - 1];
+			$middleval = floor(($count + 1) / 2);
+			$median	   = $arr[$middleval - 1];
 		}
 		else
 		{
-			$middleval	 = floor(($count) / 2);
-			$low		 = $arr[$middleval - 1];
-			$high		 = $arr[$middleval];
-			$median		 = (($low + $high) / 2);
+			$middleval = floor(($count) / 2);
+			$low	   = $arr[$middleval - 1];
+			$high	   = $arr[$middleval];
+			$median	   = (($low + $high) / 2);
 		}
 		result:
 		return $median;
@@ -1005,9 +1005,9 @@ class Filter
 
 	public static function getGstin($date)
 	{
-		$date		 = date("Y/m/d", strtotime($date));
-		$dateCheck	 = date("Y/m/d", strtotime("2019/03/31"));
-		$gstin		 = ($date > $dateCheck) ? "06AAFCG0222J1Z0" : "04AAFCG0222J1Z4";
+		$date	   = date("Y/m/d", strtotime($date));
+		$dateCheck = date("Y/m/d", strtotime("2019/03/31"));
+		$gstin	   = ($date > $dateCheck) ? "06AAFCG0222J1Z0" : "04AAFCG0222J1Z4";
 		return $gstin;
 	}
 
@@ -1019,37 +1019,37 @@ class Filter
 
 	public static function resizeImage($sourceFilePath, $maxWidth, $destinationFilePath, $maxHeight = 0)
 	{
-		$gis	 = getimagesize($sourceFilePath);
-		$type	 = $gis[2];
+		$gis  = getimagesize($sourceFilePath);
+		$type = $gis[2];
 		switch ($type)
 		{
-			case "1": $imorig	 = imagecreatefromgif($sourceFilePath);
+			case "1": $imorig = imagecreatefromgif($sourceFilePath);
 				break;
-			case "2": $imorig	 = imagecreatefromjpeg($sourceFilePath);
+			case "2": $imorig = imagecreatefromjpeg($sourceFilePath);
 				break;
-			case "3": $imorig	 = imagecreatefrompng($sourceFilePath);
+			case "3": $imorig = imagecreatefrompng($sourceFilePath);
 				break;
-			default: $imorig	 = imagecreatefromjpeg($sourceFilePath);
+			default: $imorig = imagecreatefromjpeg($sourceFilePath);
 		}
 		$x	 = imagesx($imorig);
 		$y	 = imagesy($imorig);
 		$woh = (!$maxHeight) ? $gis[0] : $gis[1];
 		if ($woh <= $maxWidth)
 		{
-			$aw	 = $x;
-			$ah	 = $y;
+			$aw = $x;
+			$ah = $y;
 		}
 		else
 		{
 			if (!$maxHeight)
 			{
-				$aw	 = $maxWidth;
-				$ah	 = $maxWidth * $y / $x;
+				$aw = $maxWidth;
+				$ah = $maxWidth * $y / $x;
 			}
 			else
 			{
-				$aw	 = $maxWidth * $x / $y;
-				$ah	 = $maxWidth;
+				$aw = $maxWidth * $x / $y;
+				$ah = $maxWidth;
 			}
 		}
 		$im = imagecreatetruecolor($aw, $ah);
@@ -1108,8 +1108,8 @@ class Filter
 
 	public static function CalcWorkingHour($fromDate, $toDate)
 	{
-		$fromTime	 = "'$fromDate'";
-		$toTime		 = "'$toDate'";
+		$fromTime = "'$fromDate'";
+		$toTime	  = "'$toDate'";
 		if ($fromDate instanceof CDbExpression)
 		{
 			$fromTime = $fromDate->expression;
@@ -1125,8 +1125,8 @@ class Filter
 
 	public static function CalcWorkingMinutes($fromDate, $toDate)
 	{
-		$fromTime	 = "'$fromDate'";
-		$toTime		 = "'$toDate'";
+		$fromTime = "'$fromDate'";
+		$toTime	  = "'$toDate'";
 		if ($fromDate instanceof CDbExpression)
 		{
 			$fromTime = $fromDate->expression;
@@ -1197,8 +1197,8 @@ class Filter
 
 	public static function strReplace($found)
 	{
-		$found	 = str_replace(" ", '', $found);
-		$found	 = str_replace(".", '', $found);
+		$found = str_replace(" ", '', $found);
+		$found = str_replace(".", '', $found);
 		return $found;
 	}
 
@@ -1220,10 +1220,10 @@ class Filter
 	 */
 	public static function maskEmalAddress($email)
 	{
-		$em			 = explode("@", $email);
-		$name		 = implode(array_slice($em, 0, count($em) - 1), '@');
-		$len		 = floor(strlen($name) / 2);
-		$mask_email	 = substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+		$em			= explode("@", $email);
+		$name		= implode(array_slice($em, 0, count($em) - 1), '@');
+		$len		= floor(strlen($name) / 2);
+		$mask_email = substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
 		return $mask_email;
 	}
 
@@ -1267,30 +1267,30 @@ class Filter
 			return false;
 		}
 
-		$objLargeBounds	 = json_decode($largeBounds);
-		$neLat			 = $objLargeBounds->northeast->lat;
-		$neLong			 = $objLargeBounds->northeast->lng;
-		$swLat			 = $objLargeBounds->southwest->lat;
-		$swLong			 = $objLargeBounds->southwest->lng;
+		$objLargeBounds = json_decode($largeBounds);
+		$neLat			= $objLargeBounds->northeast->lat;
+		$neLong			= $objLargeBounds->northeast->lng;
+		$swLat			= $objLargeBounds->southwest->lat;
+		$swLong			= $objLargeBounds->southwest->lng;
 
 		$objSmallBounds = json_decode($smallBounds);
 
-		$northEastLat	 = $objSmallBounds->northeast->lat;
-		$northEastLong	 = $objSmallBounds->northeast->lng;
+		$northEastLat  = $objSmallBounds->northeast->lat;
+		$northEastLong = $objSmallBounds->northeast->lng;
 
-		$southEastLat	 = $objSmallBounds->southwest->lat;
-		$southEastLong	 = $objSmallBounds->northeast->lng;
+		$southEastLat  = $objSmallBounds->southwest->lat;
+		$southEastLong = $objSmallBounds->northeast->lng;
 
-		$northWestLat	 = $objSmallBounds->northeast->lat;
-		$northWestLong	 = $objSmallBounds->southwest->lng;
+		$northWestLat  = $objSmallBounds->northeast->lat;
+		$northWestLong = $objSmallBounds->southwest->lng;
 
-		$southWestLat	 = $objSmallBounds->southwest->lat;
-		$southWestLong	 = $objSmallBounds->southwest->lng;
+		$southWestLat  = $objSmallBounds->southwest->lat;
+		$southWestLong = $objSmallBounds->southwest->lng;
 
-		$check	 = self::checkLatLongBound($northEastLat, $northEastLong, $neLat, $neLong, $swLat, $swLong, $precession);
-		$check	 = $check && self::checkLatLongBound($southEastLat, $southEastLong, $neLat, $neLong, $swLat, $swLong, $precession);
-		$check	 = $check && self::checkLatLongBound($northWestLat, $northWestLong, $neLat, $neLong, $swLat, $swLong, $precession);
-		$check	 = $check && self::checkLatLongBound($southWestLat, $southWestLong, $neLat, $neLong, $swLat, $swLong, $precession);
+		$check = self::checkLatLongBound($northEastLat, $northEastLong, $neLat, $neLong, $swLat, $swLong, $precession);
+		$check = $check && self::checkLatLongBound($southEastLat, $southEastLong, $neLat, $neLong, $swLat, $swLong, $precession);
+		$check = $check && self::checkLatLongBound($northWestLat, $northWestLong, $neLat, $neLong, $swLat, $swLong, $precession);
+		$check = $check && self::checkLatLongBound($southWestLat, $southWestLong, $neLat, $neLong, $swLat, $swLong, $precession);
 
 		return $check;
 	}
@@ -1302,26 +1302,26 @@ class Filter
 		{
 			$pickupDateTime = $model->bookingRoutes[0]->brt_pickup_datetime;
 		}
-		$dboApplicable	 = false;
-		$sdoSettings	 = Config::get('dbo.b2c.settings');
+		$dboApplicable = false;
+		$sdoSettings   = Config::get('dbo.b2c.settings');
 		if (!empty($sdoSettings))
 		{
 			$vehicleTypeId = $model->bkg_vehicle_type_id;
 			if (!empty($pickupDateTime) && !empty($vehicleTypeId))
 			{
-				$result			 = CJSON::decode($sdoSettings);
-				$currentCabType	 = SvcClassVhcCat::getClassById($vehicleTypeId);
-				$settingsData	 = $result[$currentCabType];
+				$result			= CJSON::decode($sdoSettings);
+				$currentCabType = SvcClassVhcCat::getClassById($vehicleTypeId);
+				$settingsData	= $result[$currentCabType];
 				if (!empty($settingsData))
 				{
 					$dboEnabled = $settingsData['enabled'];
 					if ($dboEnabled == 1)
 					{
-						$dboStartDate		 = strtotime($settingsData['startDate']);
-						$dboEndDate			 = strtotime($settingsData['endDate']);
-						$dboPickupDateTime	 = strtotime($pickupDateTime);
-						$currDateTime		 = self::getDBDateTime();
-						$workingHRDiff		 = self::CalcWorkingHour($currDateTime, $pickupDateTime);
+						$dboStartDate	   = strtotime($settingsData['startDate']);
+						$dboEndDate		   = strtotime($settingsData['endDate']);
+						$dboPickupDateTime = strtotime($pickupDateTime);
+						$currDateTime	   = self::getDBDateTime();
+						$workingHRDiff	   = self::CalcWorkingHour($currDateTime, $pickupDateTime);
 						if ($workingHRDiff >= 42 && $dboEndDate >= $dboPickupDateTime && $dboStartDate <= $dboPickupDateTime)
 						{
 							$dboApplicable = true;
@@ -1445,12 +1445,12 @@ class Filter
 	public static function getCountryList()
 	{
 
-		$sql	 = "SELECT `id`,`country_code`,`country_name`,`country_phonecode` FROM `countries`
+		$sql   = "SELECT `id`,`country_code`,`country_name`,`country_phonecode` FROM `countries`
 			WHERE 1 GROUP BY country_code ORDER BY country_order DESC, country_name ASC";
-		$model	 = DBUtil::query($sql);
+		$model = DBUtil::query($sql);
 
-		$arrService	 = array();
-		$i			 = 1;
+		$arrService = array();
+		$i			= 1;
 
 		/* @var  Services  */
 		/* @var  Services  */
@@ -1500,14 +1500,14 @@ class Filter
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL				 => "http://192.168.1.5/agc/api.php?source=test&user=100&pass=100&agent_user=100&function=external_dial&value=&phone_code=91&search=YES&preview=NO&focus=YES",
-			CURLOPT_RETURNTRANSFER	 => true,
-			CURLOPT_ENCODING		 => "",
-			CURLOPT_MAXREDIRS		 => 10,
-			CURLOPT_TIMEOUT			 => 0,
-			CURLOPT_FOLLOWLOCATION	 => true,
-			CURLOPT_HTTP_VERSION	 => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST	 => "GET",
+			CURLOPT_URL			   => "http://192.168.1.5/agc/api.php?source=test&user=100&pass=100&agent_user=100&function=external_dial&value=&phone_code=91&search=YES&preview=NO&focus=YES",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING	   => "",
+			CURLOPT_MAXREDIRS	   => 10,
+			CURLOPT_TIMEOUT		   => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST  => "GET",
 		));
 		$response = curl_exec($curl);
 		curl_close($curl);
@@ -1520,12 +1520,12 @@ class Filter
 	 */
 	public static function getOrderNumber()
 	{
-		$length_of_string	 = 8;
+		$length_of_string = 8;
 		// String of all alphanumeric character
-		$str_result			 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$str_result		  = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		// Shufle the $str_result and returns substring
 		// of specified length
-		$orderNumber		 = substr(str_shuffle($str_result), 0, $length_of_string);
+		$orderNumber	  = substr(str_shuffle($str_result), 0, $length_of_string);
 		return $orderNumber;
 	}
 
@@ -1537,10 +1537,10 @@ class Filter
 	public static function getRandomCode($lengthOfString = 12)
 	{
 		// String of all alphanumeric character
-		$str_result	 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		// Shufle the $str_result and returns substring
 		// of specified length
-		$code		 = substr(str_shuffle($str_result), 0, $lengthOfString);
+		$code		= substr(str_shuffle($str_result), 0, $lengthOfString);
 		return $code;
 	}
 
@@ -1554,11 +1554,11 @@ class Filter
 	 */
 	public static function parsePhoneNumber($phone, &$code, &$number)
 	{
-		$phoneUtil		 = libphonenumber\PhoneNumberUtil::getInstance();
-		$objPhoneNumber	 = $phoneUtil->parse($phone, "IN");
-		$isValid		 = $phoneUtil->isValidNumber($objPhoneNumber);
-		$code			 = $objPhoneNumber->getCountryCode();
-		$number			 = str_replace(" ", "", $objPhoneNumber->getNationalNumber());
+		$phoneUtil		= libphonenumber\PhoneNumberUtil::getInstance();
+		$objPhoneNumber = $phoneUtil->parse($phone, "IN");
+		$isValid		= $phoneUtil->isValidNumber($objPhoneNumber);
+		$code			= $objPhoneNumber->getCountryCode();
+		$number			= str_replace(" ", "", $objPhoneNumber->getNationalNumber());
 		return $objPhoneNumber;
 	}
 
@@ -1574,9 +1574,9 @@ class Filter
 		$isValid = false;
 		try
 		{
-			$phoneUtil		 = libphonenumber\PhoneNumberUtil::getInstance();
-			$objPhoneNumber	 = $phoneUtil->parse($phone, "IN");
-			$isValid		 = $phoneUtil->isValidNumber($objPhoneNumber);
+			$phoneUtil		= libphonenumber\PhoneNumberUtil::getInstance();
+			$objPhoneNumber = $phoneUtil->parse($phone, "IN");
+			$isValid		= $phoneUtil->isValidNumber($objPhoneNumber);
 		}
 		catch (Exception $exc)
 		{
@@ -1594,12 +1594,12 @@ class Filter
 	 */
 	public static function processPhoneNumber($number, $code = '')
 	{
-		$number		 = trim($number);
-		$code		 = trim($code);
-		$isPlus		 = (substr($number, 0, 1) == "+" || substr($number, 0, 2) == "00");
-		$isCodePlus	 = (strlen($code) >= 1 && substr($code, 0, 1) == "+");
-		$number		 = ltrim(ltrim($number, "+"), "0");
-		$code		 = ltrim(ltrim($code, "+"), "0");
+		$number		= trim($number);
+		$code		= trim($code);
+		$isPlus		= (substr($number, 0, 1) == "+" || substr($number, 0, 2) == "00");
+		$isCodePlus = (strlen($code) >= 1 && substr($code, 0, 1) == "+");
+		$number		= ltrim(ltrim($number, "+"), "0");
+		$code		= ltrim(ltrim($code, "+"), "0");
 
 		if ($isPlus)
 		{
@@ -1657,8 +1657,8 @@ class Filter
 			else
 			{
 				require_once(Yii::getPathOfAlias('system.vendors.Net_IDNA2.Net') . DIRECTORY_SEPARATOR . 'IDNA2.php');
-				$idna	 = new Net_IDNA2();
-				$value	 = $matches[1][0] . '@' . @$idna->encode($matches[2][0]);
+				$idna  = new Net_IDNA2();
+				$value = $matches[1][0] . '@' . @$idna->encode($matches[2][0]);
 			}
 		}
 		return $value;
@@ -1744,23 +1744,23 @@ class Filter
 		}
 		else
 		{
-			$apiUrl		 = "http://c.gozo.cab/yourls-api.php?signature=e881178cb0&action=shorturl&format=json&url=";
-			$apiUrl		 .= $url;
-			$ch			 = curl_init();
+			$apiUrl	  = "http://c.gozo.cab/yourls-api.php?signature=e881178cb0&action=shorturl&format=json&url=";
+			$apiUrl	  .= $url;
+			$ch		  = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $apiUrl);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_TIMEOUT_MS, $timeOut);
-			$output		 = curl_exec($ch);
-			$httpcode	 = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			$err		 = curl_error($ch);
+			$output	  = curl_exec($ch);
+			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			$err	  = curl_error($ch);
 			if (!$output)
 			{
 				$shortUrl = $url;
 			}
 			else
 			{
-				$data		 = json_decode($output);
-				$shortUrl	 = $data->shorturl;
+				$data	  = json_decode($output);
+				$shortUrl = $data->shorturl;
 			}
 			curl_close($ch);
 			return $shortUrl;
@@ -1779,9 +1779,9 @@ class Filter
 		{
 			return false;
 		}
-		$expectedStr	 = str_pad($id, $needChar, "0", STR_PAD_LEFT);
-		$arr			 = str_split($expectedStr, 2);
-		$extendedPath	 = implode(DIRECTORY_SEPARATOR, $arr);
+		$expectedStr  = str_pad($id, $needChar, "0", STR_PAD_LEFT);
+		$arr		  = str_split($expectedStr, 2);
+		$extendedPath = implode(DIRECTORY_SEPARATOR, $arr);
 		return $extendedPath;
 	}
 
@@ -1794,8 +1794,8 @@ class Filter
 	 */
 	public static function getBookingFilePath($server, $baseFolder, $ID, $bkgCrtDate)
 	{
-		$dateDirectory	 = date('Y', strtotime($bkgCrtDate)) . DIRECTORY_SEPARATOR . date('m', strtotime($bkgCrtDate)) . DIRECTORY_SEPARATOR . date('d', strtotime($bkgCrtDate));
-		$dirFinal		 = DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . $server . DIRECTORY_SEPARATOR . $baseFolder . DIRECTORY_SEPARATOR . $dateDirectory . DIRECTORY_SEPARATOR . $ID . DIRECTORY_SEPARATOR;
+		$dateDirectory = date('Y', strtotime($bkgCrtDate)) . DIRECTORY_SEPARATOR . date('m', strtotime($bkgCrtDate)) . DIRECTORY_SEPARATOR . date('d', strtotime($bkgCrtDate));
+		$dirFinal	   = DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . $server . DIRECTORY_SEPARATOR . $baseFolder . DIRECTORY_SEPARATOR . $dateDirectory . DIRECTORY_SEPARATOR . $ID . DIRECTORY_SEPARATOR;
 		return $dirFinal;
 	}
 
@@ -1816,13 +1816,13 @@ class Filter
 		switch ($userId)
 		{
 			case Config::get('spicejet.partner.id'):
-				$platform	 = Booking::Platform_Spicejet;
+				$platform = Booking::Platform_Spicejet;
 				break;
 			case 18190:
-				$platform	 = Booking::Platform_GOMMT;
+				$platform = Booking::Platform_GOMMT;
 				break;
 			default:
-				$platform	 = Booking::Platform_CPAPI;
+				$platform = Booking::Platform_CPAPI;
 				break;
 		}
 		return $platform;
@@ -1835,9 +1835,9 @@ class Filter
 	 */
 	public static function checkSpam($dataToCheck)
 	{
-		$spam				 = false;
-		$arrBlockedSpamData	 = array();
-		$blockedSpamData	 = Config::get("blocked.spam.data");
+		$spam				= false;
+		$arrBlockedSpamData = array();
+		$blockedSpamData	= Config::get("blocked.spam.data");
 		if (trim($blockedSpamData) != '')
 		{
 			$arrBlockedSpamData = explode(',', $blockedSpamData);
@@ -1863,9 +1863,9 @@ class Filter
 						{
 							$headers = apache_request_headers();
 						}
-						$arr['SERVER']	 = $ser;
-						$arr['HEADERS']	 = $headers;
-						$req			 = json_encode($arr);
+						$arr['SERVER']	= $ser;
+						$arr['HEADERS'] = $headers;
+						$req			= json_encode($arr);
 						Logger::error($req);
 
 						break;
@@ -1883,11 +1883,11 @@ class Filter
 	public static function checkGozoNowEnabled()
 	{
 		return Config::checkGozoNowEnabled();
-		$isGozoNowEnabled		 = Config::get("booking.gozoNow.isEnabled");
-		$isMobileViewEnabled	 = Config::get("booking.gozoNow.isMobileViewEnabled");
-		$isDesktopViewEnabled	 = Config::get("booking.gozoNow.isDesktopViewEnabled");
-		$isMobileDetect			 = Yii::app()->mobileDetect->isMobile();
-		$checkGozoNowEnabled	 = ($isGozoNowEnabled && (($isMobileDetect && $isMobileViewEnabled) || (!$isMobileDetect && $isDesktopViewEnabled ) ) ) ? true : false;
+		$isGozoNowEnabled	  = Config::get("booking.gozoNow.isEnabled");
+		$isMobileViewEnabled  = Config::get("booking.gozoNow.isMobileViewEnabled");
+		$isDesktopViewEnabled = Config::get("booking.gozoNow.isDesktopViewEnabled");
+		$isMobileDetect		  = Yii::app()->mobileDetect->isMobile();
+		$checkGozoNowEnabled  = ($isGozoNowEnabled && (($isMobileDetect && $isMobileViewEnabled) || (!$isMobileDetect && $isDesktopViewEnabled ) ) ) ? true : false;
 		return $checkGozoNowEnabled;
 	}
 
@@ -1896,10 +1896,10 @@ class Filter
 		$explrestunits = "";
 		if (strlen($number) > 3)
 		{
-			$lastthree	 = substr($number, strlen($number) - 3, strlen($number));
-			$restunits	 = substr($number, 0, strlen($number) - 3); // extracts the last three digits
-			$restunits	 = (strlen($restunits) % 2 == 1) ? "0" . $restunits : $restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
-			$expunit	 = str_split($restunits, 2);
+			$lastthree = substr($number, strlen($number) - 3, strlen($number));
+			$restunits = substr($number, 0, strlen($number) - 3); // extracts the last three digits
+			$restunits = (strlen($restunits) % 2 == 1) ? "0" . $restunits : $restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+			$expunit   = str_split($restunits, 2);
 			for ($i = 0; $i < sizeof($expunit); $i++)
 			{
 				// creates each of the 2's group and adds a comma to the end
@@ -1944,8 +1944,8 @@ class Filter
 		{
 			$key = Config::getSecurityKey();
 		}
-		$nonceSize	 = openssl_cipher_iv_length('aes-256-ctr');
-		$nonce		 = openssl_random_pseudo_bytes($nonceSize);
+		$nonceSize = openssl_cipher_iv_length('aes-256-ctr');
+		$nonce	   = openssl_random_pseudo_bytes($nonceSize);
 
 		$ciphertext = openssl_encrypt($message, 'aes-256-ctr', $key, OPENSSL_RAW_DATA, $nonce);
 
@@ -1981,9 +1981,9 @@ class Filter
 			}
 		}
 
-		$nonceSize	 = openssl_cipher_iv_length('aes-256-ctr');
-		$nonce		 = mb_substr($message, 0, $nonceSize, '8bit');
-		$ciphertext	 = mb_substr($message, $nonceSize, null, '8bit');
+		$nonceSize	= openssl_cipher_iv_length('aes-256-ctr');
+		$nonce		= mb_substr($message, 0, $nonceSize, '8bit');
+		$ciphertext = mb_substr($message, $nonceSize, null, '8bit');
 
 		$plaintext = openssl_decrypt($ciphertext, 'aes-256-ctr', $key, OPENSSL_RAW_DATA, $nonce);
 
@@ -2002,23 +2002,23 @@ class Filter
 		return $dateTime->setTime(
 						$dateTime->format('H'),
 						ceil($dateTime->format('i') / $minuteInterval) * $minuteInterval,
-							 0
+						0
 		);
 	}
 
 	public function getTravelDays($fromDate, $toDate)
 	{
-		$night			 = 0;
-		$fromData2		 = strtotime($fromDate);
-		$toDate2		 = strtotime($toDate);
-		$startTime		 = date('H', $fromData2);
-		$endTime		 = date('H', $toDate2);
-		$startDate		 = new DateTime(date('Y-m-d', $fromData2));
-		$endDate		 = new DateTime(date('Y-m-d', $toDate2));
-		$interval		 = $startDate->diff($endDate);
-		$calendarDays	 = $interval->format('%a');
+		$night		  = 0;
+		$fromData2	  = strtotime($fromDate);
+		$toDate2	  = strtotime($toDate);
+		$startTime	  = date('H', $fromData2);
+		$endTime	  = date('H', $toDate2);
+		$startDate	  = new DateTime(date('Y-m-d', $fromData2));
+		$endDate	  = new DateTime(date('Y-m-d', $toDate2));
+		$interval	  = $startDate->diff($endDate);
+		$calendarDays = $interval->format('%a');
 		$calendarDays++;
-		$night			 += $calendarDays;
+		$night		  += $calendarDays;
 		if ($endTime <= 22)
 		{
 			$night--;
@@ -2055,10 +2055,10 @@ class Filter
 
 	public static function getRowsAndColumns($rows, $columns, $valOfField = null)
 	{
-		$objDB		 = DBUtil::MDB();
-		$arrIDs		 = [];
-		$fields		 = [];
-		$sqlValues	 = [];
+		$objDB	   = DBUtil::MDB();
+		$arrIDs	   = [];
+		$fields	   = [];
+		$sqlValues = [];
 
 		foreach ($rows as $row)
 		{
@@ -2066,8 +2066,8 @@ class Filter
 			foreach ($columns as $col)
 			{
 				/** @var CDbColumnSchema $col */
-				$fields[$col->rawName]	 = $col->rawName;
-				$value					 = $row[$col->name];
+				$fields[$col->rawName] = $col->rawName;
+				$value				   = $row[$col->name];
 
 				if ($value === null)
 				{
@@ -2091,9 +2091,9 @@ class Filter
 
 	public static function customerDataShow($pickuptime)
 	{
-		$showCustomer			 = 0;
-		$minutesToPickup		 = Filter::getTimeDiff($pickuptime);
-		$workingMinutesToPickup	 = Filter::CalcWorkingMinutes(Filter::getDBDateTime(), $pickuptime);
+		$showCustomer			= 0;
+		$minutesToPickup		= Filter::getTimeDiff($pickuptime);
+		$workingMinutesToPickup = Filter::CalcWorkingMinutes(Filter::getDBDateTime(), $pickuptime);
 
 		if ($minutesToPickup < 60 || $workingMinutesToPickup < 120)
 		{
@@ -2102,14 +2102,19 @@ class Filter
 		return $showCustomer;
 	}
 
+	public static function showCustomerNumber($model)
+	{
+		
+	}
+
 	public static function getUserIP()
 	{
 		// Get real visitor IP behind CloudFlare network
 		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
 		{
-			$_SERVER['REMOTE_ADDR']		 = $_SERVER["HTTP_CF_CONNECTING_IP"];
-			$_SERVER['HTTP_CLIENT_IP']	 = $_SERVER["HTTP_CF_CONNECTING_IP"];
-			$_SERVER['HTTP_X_REAL_IP']	 = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['REMOTE_ADDR']	   = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['HTTP_X_REAL_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
 		}
 		$realIP	 = @$_SERVER['HTTP_X_REAL_IP'];
 		$client	 = @$_SERVER['HTTP_CLIENT_IP'];
@@ -2142,10 +2147,10 @@ class Filter
 
 	public static function utf8_uri_encode($utf8_string, $length = 0)
 	{
-		$unicode		 = '';
-		$values			 = array();
-		$num_octets		 = 1;
-		$unicode_length	 = 0;
+		$unicode		= '';
+		$values			= array();
+		$num_octets		= 1;
+		$unicode_length = 0;
 
 		$string_length = strlen($utf8_string);
 		for ($i = 0; $i < $string_length; $i++)
@@ -2173,17 +2178,17 @@ class Filter
 				{
 					if ($num_octets == 3)
 					{
-						$unicode		 .= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
-						$unicode_length	 += 9;
+						$unicode		.= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
+						$unicode_length += 9;
 					}
 					else
 					{
-						$unicode		 .= '%' . dechex($values[0]) . '%' . dechex($values[1]);
-						$unicode_length	 += 6;
+						$unicode		.= '%' . dechex($values[0]) . '%' . dechex($values[1]);
+						$unicode_length += 6;
 					}
 
-					$values		 = array();
-					$num_octets	 = 1;
+					$values		= array();
+					$num_octets = 1;
 				}
 			}
 		}
@@ -2196,19 +2201,19 @@ class Filter
 		$length = strlen($str);
 		for ($i = 0; $i < $length; $i++)
 		{
-			$c	 = ord($str[$i]);
+			$c = ord($str[$i]);
 			if ($c < 0x80)
-				$n	 = 0;# 0bbbbbbb
+				$n = 0;# 0bbbbbbb
 			elseif (($c & 0xE0) == 0xC0)
-				$n	 = 1;# 110bbbbb
+				$n = 1;# 110bbbbb
 			elseif (($c & 0xF0) == 0xE0)
-				$n	 = 2;# 1110bbbb
+				$n = 2;# 1110bbbb
 			elseif (($c & 0xF8) == 0xF0)
-				$n	 = 3;# 11110bbb
+				$n = 3;# 11110bbb
 			elseif (($c & 0xFC) == 0xF8)
-				$n	 = 4;# 111110bb
+				$n = 4;# 111110bb
 			elseif (($c & 0xFE) == 0xFC)
-				$n	 = 5;# 1111110b
+				$n = 5;# 1111110b
 			else
 				return false;# Does not match any model
 			for ($j = 0; $j < $n; $j++)
@@ -2222,13 +2227,13 @@ class Filter
 
 	public static function sanitize($title)
 	{
-		$title	 = strip_tags($title);
+		$title = strip_tags($title);
 		// Preserve escaped octets.
-		$title	 = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $title);
+		$title = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $title);
 		// Remove percent signs that are not part of an octet.
-		$title	 = str_replace('%', '', $title);
+		$title = str_replace('%', '', $title);
 		// Restore octets.
-		$title	 = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $title);
+		$title = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $title);
 
 		if (Filter::seems_utf8($title))
 		{
@@ -2239,13 +2244,13 @@ class Filter
 			$title = Filter::utf8_uri_encode($title, 200);
 		}
 
-		$title	 = strtolower($title);
-		$title	 = preg_replace('/&.+?;/', '', $title); // kill entities
-		$title	 = str_replace('.', '-', $title);
-		$title	 = preg_replace('/[^%a-z0-9 _-]/', '', $title);
-		$title	 = preg_replace('/\s+/', '-', $title);
-		$title	 = preg_replace('|-+|', '-', $title);
-		$title	 = trim($title, '-');
+		$title = strtolower($title);
+		$title = preg_replace('/&.+?;/', '', $title); // kill entities
+		$title = str_replace('.', '-', $title);
+		$title = preg_replace('/[^%a-z0-9 _-]/', '', $title);
+		$title = preg_replace('/\s+/', '-', $title);
+		$title = preg_replace('|-+|', '-', $title);
+		$title = trim($title, '-');
 		return $title;
 	}
 
@@ -2275,10 +2280,10 @@ class Filter
 	public static function getAdvanceRuleArr($rule = 0)
 	{
 		$arr = [
-			1	 => ["type" => 1, "value" => 30, "min" => 0, "max" => 0], //non-refundable cancel+noshow
-			2	 => ["type" => 1, "value" => 30, "min" => 0, "max" => 0], //standard cancel+noshow
-			3	 => ["type" => 1, "value" => 50, "min" => 0, "max" => 1000], //flexi cancel+noshow
-			4	 => ["type" => 1, "value" => 50, "min" => 0, "max" => 0], //super flexi cancel+noshow
+			1 => ["type" => 1, "value" => 30, "min" => 0, "max" => 0], //non-refundable cancel+noshow
+			2 => ["type" => 1, "value" => 30, "min" => 0, "max" => 0], //standard cancel+noshow
+			3 => ["type" => 1, "value" => 50, "min" => 0, "max" => 1000], //flexi cancel+noshow
+			4 => ["type" => 1, "value" => 50, "min" => 0, "max" => 0], //super flexi cancel+noshow
 		];
 		if ($rule > 0)
 		{
@@ -2305,13 +2310,13 @@ class Filter
 
 	public static function getStartAndEndDate($date)
 	{
-		$year					 = date('Y', strtotime($date));
-		$week					 = date("W", strtotime($date));
-		$dateTime				 = new DateTime();
+		$year				  = date('Y', strtotime($date));
+		$week				  = date("W", strtotime($date));
+		$dateTime			  = new DateTime();
 		$dateTime->setISODate($year, $week);
-		$result['start_date']	 = $dateTime->format('Y-m-d');
+		$result['start_date'] = $dateTime->format('Y-m-d');
 		$dateTime->modify('+6 days');
-		$result['end_date']		 = $dateTime->format('Y-m-d');
+		$result['end_date']	  = $dateTime->format('Y-m-d');
 		return $result;
 	}
 
@@ -2336,10 +2341,10 @@ class Filter
 
 			$bits = 32;
 		}
-		$ip		 = ip2long($ip);
-		$subnet	 = ip2long($subnet);
-		$mask	 = -1 << (32 - $bits);
-		$subnet	 &= $mask; # nb: in case the supplied subnet wasn't correctly aligned
+		$ip		= ip2long($ip);
+		$subnet = ip2long($subnet);
+		$mask	= -1 << (32 - $bits);
+		$subnet &= $mask; # nb: in case the supplied subnet wasn't correctly aligned
 		return ($ip & $mask) == $subnet;
 	}
 
@@ -2378,17 +2383,17 @@ class Filter
 	{
 		$jsonData = \Filter::decrypt($data);
 
-		$jsonMapper	 = new \JsonMapper();
-		$jsonObj	 = \CJSON::decode($jsonData, false);
-		$jsonObj	 = \Filter::removeNull($jsonObj);
+		$jsonMapper = new \JsonMapper();
+		$jsonObj	= \CJSON::decode($jsonData, false);
+		$jsonObj	= \Filter::removeNull($jsonObj);
 
 		return $jsonObj;
 	}
 
 	public static function checkACL($accessSpecifier)
 	{
-		$success		 = false;
-		$roleSpecifier	 = explode(",", $accessSpecifier);
+		$success	   = false;
+		$roleSpecifier = explode(",", $accessSpecifier);
 		foreach ($roleSpecifier as $role)
 		{
 			$checkAccess = Yii::app()->user->checkAccess($role);
@@ -2419,9 +2424,9 @@ class Filter
 
 	public static function setVisitorCookie()
 	{
-		$sessionid	 = Yii::app()->getSession()->getSessionId();
-		$date		 = date('Y-m-d H:i:s');
-		$vistorId	 = md5($sessionid . $date . SERVER_ID);
+		$sessionid = Yii::app()->getSession()->getSessionId();
+		$date	   = date('Y-m-d H:i:s');
+		$vistorId  = md5($sessionid . $date . SERVER_ID);
 
 		$visitorCookie			 = new CHttpCookie('gvid', $vistorId);
 		//$visitorCookie->domain	 = Yii::app()->params['domain'];
@@ -2493,8 +2498,8 @@ class Filter
 	{
 		if ($bkgId > 0)
 		{
-			$hashBkgId	 = Yii::app()->shortHash->hash($bkgId);
-			$bkpnUrl	 = Yii::app()->params['fullBaseURL'] . '/bkpn/' . $bkgId . '/' . $hashBkgId;
+			$hashBkgId = Yii::app()->shortHash->hash($bkgId);
+			$bkpnUrl   = Yii::app()->params['fullBaseURL'] . '/bkpn/' . $bkgId . '/' . $hashBkgId;
 			return $bkpnUrl;
 		}
 		return false;
@@ -2507,9 +2512,9 @@ class Filter
 	public static function getExtraChargeDetails($id)
 	{
 		$arr = [
-			1	 => ['id' => 1, 'desc' => 'reschedule charge', 'value' => 50], //take 50% of cancel charge
-			2	 => ['id' => 2, 'desc' => 'reschedule charge within 1 hour of pickup', 'value' => 100],
-			3	 => ['id' => 3, 'desc' => 'other charges', 'value' => 30]
+			1 => ['id' => 1, 'desc' => 'reschedule charge', 'value' => 50], //take 50% of cancel charge
+			2 => ['id' => 2, 'desc' => 'reschedule charge within 1 hour of pickup', 'value' => 100],
+			3 => ['id' => 3, 'desc' => 'other charges', 'value' => 30]
 		];
 		if ($id > 0)
 		{
@@ -2525,9 +2530,9 @@ class Filter
 	 */
 	public static function formatBookingId($bookingId)
 	{
-		$isTFR		 = strpos($bookingId, 'TFR');
-		$pos		 = ($isTFR === false ? 4 : 5);
-		$bookingId	 = substr($bookingId, 0, $pos) . '-' . substr($bookingId, $pos, strlen($bookingId));
+		$isTFR	   = strpos($bookingId, 'TFR');
+		$pos	   = ($isTFR === false ? 4 : 5);
+		$bookingId = substr($bookingId, 0, $pos) . '-' . substr($bookingId, $pos, strlen($bookingId));
 		return $bookingId;
 	}
 
@@ -2535,15 +2540,15 @@ class Filter
 	{
 		if ($refSource == 'wa')
 		{
-			$objCookie									 = new CHttpCookie('bkgSource', 'whatsapp');
-			$objCookie->expire							 = time() + 86400;
-			Yii::app()->request->cookies['bkgSource']	 = $objCookie;
+			$objCookie								  = new CHttpCookie('bkgSource', 'whatsapp');
+			$objCookie->expire						  = time() + 86400;
+			Yii::app()->request->cookies['bkgSource'] = $objCookie;
 		}
 		if ($refSource == 'wah')
 		{
-			$objCookie									 = new CHttpCookie('bkgSource', 'whatsapp-hawaii');
-			$objCookie->expire							 = time() + 86400;
-			Yii::app()->request->cookies['bkgSource']	 = $objCookie;
+			$objCookie								  = new CHttpCookie('bkgSource', 'whatsapp-hawaii');
+			$objCookie->expire						  = time() + 86400;
+			Yii::app()->request->cookies['bkgSource'] = $objCookie;
 		}
 //		else
 //		{
@@ -2606,9 +2611,9 @@ class Filter
 	 */
 	public static function getDboConfirmEndTime($pickTime, $bkgModel = null)
 	{
-		$dboconfirmEndTime	 = '';
-		$dboSettings		 = Config::get('dbo.settings');
-		$data				 = CJSON::decode($dboSettings);
+		$dboconfirmEndTime = '';
+		$dboSettings	   = Config::get('dbo.settings');
+		$data			   = CJSON::decode($dboSettings);
 		if ($pickTime >= $data['dboStartDate'] && $pickTime <= $data['dboEndDate'])
 		{
 			$checkDboApplicable = Booking::checkDboApplicable($pickTime, $bkgModel);
@@ -2627,13 +2632,13 @@ class Filter
 
 	public static function buildOriginHostURL($s, $use_forwarded_host = false)
 	{
-		$ssl		 = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on' );
-		$sp			 = strtolower($s['SERVER_PROTOCOL']);
-		$protocol	 = substr($sp, 0, strpos($sp, '/')) . ( ( $ssl ) ? 's' : '' );
-		$port		 = $s['SERVER_PORT'];
-		$port		 = ( (!$ssl && $port == '80' ) || ( $ssl && $port == '443' ) ) ? '' : ':' . $port;
-		$host		 = ( $use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST']) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null );
-		$host		 = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+		$ssl	  = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on' );
+		$sp		  = strtolower($s['SERVER_PROTOCOL']);
+		$protocol = substr($sp, 0, strpos($sp, '/')) . ( ( $ssl ) ? 's' : '' );
+		$port	  = $s['SERVER_PORT'];
+		$port	  = ( (!$ssl && $port == '80' ) || ( $ssl && $port == '443' ) ) ? '' : ':' . $port;
+		$host	  = ( $use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST']) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null );
+		$host	  = isset($host) ? $host : $s['SERVER_NAME'] . $port;
 		return $protocol . '://' . $host;
 	}
 
@@ -2648,16 +2653,16 @@ class Filter
 
 	public static function parseTrackingParams()
 	{
-		$hosts		 = ["gozocabs", "gozo.cab"];
-		$trkParam	 = [];
-		$url		 = self::getOriginURL();
-		$pUrl		 = parse_url($url);
-		$hosts[]	 = $pUrl["host"];
+		$hosts	  = ["gozocabs.in", "gozo.cab", "gozocabs.com", "gozo.taxi", "gozocab.com"];
+		$trkParam = [];
+		$url	  = self::getOriginURL();
+		$pUrl	  = parse_url($url);
+		$hosts[]  = $pUrl["host"];
 
-		$referrer	 = $_SERVER['HTTP_REFERER'];
-		$pReferrer	 = parse_url($referrer);
-		$refHost	 = $pReferrer["host"];
-		$isSelf		 = false;
+		$referrer  = $_SERVER['HTTP_REFERER'];
+		$pReferrer = parse_url($referrer);
+		$refHost   = $pReferrer["host"];
+		$isSelf	   = false;
 
 		foreach ($hosts as $host)
 		{
@@ -2696,7 +2701,10 @@ class Filter
 		{
 			$trkParam["term"] = $pQuery["utm_term"];
 		}
-
+		if ($pQuery["url"] != '')
+		{
+			$trkParam["url"] = $pQuery["url"];
+		}
 		if ($trkParam["source"] != '')
 		{
 			goto result;
@@ -2706,5 +2714,25 @@ class Filter
 		result:
 
 		return $trkParam;
+	}
+
+	public static function getDecryptData($data)
+	{
+		$objMCrypt = new MCrypt('');
+		return $objMCrypt->decrypt($data);
+	}
+
+	public static function checkIOSDevice()
+	{
+		$userAgent	= $_SERVER['HTTP_USER_AGENT'];
+		$arrDevices = ['iPod', 'iPhone', 'iPad', 'iOS'];
+		foreach ($arrDevices as $device)
+		{
+			if (strpos($userAgent, $device) !== false)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -463,7 +463,7 @@ class AgentMessages extends CActiveRecord
 				$partnerRequest->stateTaxCharges	 = $model->bkgInvoice->bkg_extra_state_tax | 0;
 				$partnerRequest->parkingCharges		 = 0;
 				$partnerRequest->airportEntryFee	 = 0;
-				$partnerRequest->extra_charge		 = ($model->bkgInvoice->bkg_extra_toll_tax | 0) + ($model->bkgInvoice->bkg_extra_state_tax | 0);
+				$partnerRequest->extra_charge		 = ($model->bkgInvoice->bkg_extra_toll_tax | 0) + ($model->bkgInvoice->bkg_extra_state_tax | 0) + ($model->bkgInvoice->bkg_extra_km_charge | 0);
 
 				$partnerRequest->baseFare		 = $model->bkgInvoice->bkg_base_amount | 0;
 				$partnerRequest->extrakm		 = $model->bkgInvoice->bkg_extra_km | 0;
@@ -534,10 +534,16 @@ class AgentMessages extends CActiveRecord
 				$partnerRequest->bookingStatus				 = "updateLastLocation";
 				$partnerRequest->transferzStatus			 = "driver-position";
 				$partnerRequest->booking_id					 = $model->bkg_id;
-				$lastCoordinate								 = explode(",", $model->bkgTrack->btk_last_coordinates);
-				$partnerRequest->lattitude					 = $lastCoordinate[0];
-				$partnerRequest->longitude					 = $lastCoordinate[1];
-				$partnerRequest->timestamp					 = $model->bkgTrack->btk_last_coordinates_time;
+				
+//				$lastCoordinate								 = explode(",", $model->bkgTrack->btk_last_coordinates);
+//				$partnerRequest->lattitude					 = $lastCoordinate[0];
+//				$partnerRequest->longitude					 = $lastCoordinate[1];
+//				$partnerRequest->timestamp					 = $model->bkgTrack->btk_last_coordinates_time;
+
+				$partnerRequest->lattitude					 = $model->bkgBcb->bcbDriver->driverStats->drv_last_loc_lat;
+				$partnerRequest->longitude					 = $model->bkgBcb->bcbDriver->driverStats->drv_last_loc_long;
+				$partnerRequest->timestamp					 = $model->bkgBcb->bcbDriver->driverStats->drv_last_loc_date;
+
 				break;
 			case AgentApiTracking::TYPE_REVERSE_BOOKING_ACCEPT:
 				$partnerRequest->type						 = "bookingAccepted";

@@ -2271,7 +2271,18 @@ if ($pgmodel)
 
 	<div class="row booking-log col-12">
 		<div class="col-xs-12 col-lg-6 text-center">
-			<label class = "control-label h3">Booking Progress Tracker </label>
+            <label class = "control-label h3">Booking Progress Tracker</label>
+            <?php
+			$gpxLink = '';
+			$gpxFile = $bkgTrack->btk_gpx_file;
+			$gpxFileS3 = $bkgTrack->btk_gpx_s3_data;
+			if($gpxFile != NULL || $gpxFileS3 != NULL)
+			{
+				$gpxFileUrl = Yii::app()->createUrl('admin/booking/gpx', ['bkgId' => $model->bkg_id]);
+            ?>
+			<b>( <a target="_blank" href="<?= $gpxFileUrl ?>">GPX</a> )</b>
+			<?php }?>
+            
 			<?php
 			Yii::app()->runController('admin/booking/track/booking_id/' . $model->bkg_id);
 			?>

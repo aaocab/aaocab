@@ -267,7 +267,7 @@ echo $form->hiddenField($model, 'dayRange');
 				<div class="  table table-bordered">
 					<?php
 					if (!empty($dataProvider))
-					{
+					{	
 
 						$params									 = array_filter($_REQUEST);
 						$dataProvider->getPagination()->params	 = $params;

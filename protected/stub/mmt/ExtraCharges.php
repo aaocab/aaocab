@@ -48,6 +48,11 @@ class ExtraCharges
 		
 		$isNightChargeIncluded =				$this->night_charges->is_included_in_grand_total;
 
+		if(in_array($quote->tripType, [2,3]))
+		{
+			$isNightChargeIncluded =				true;
+		}
+
         $this->night_charges->is_applicable  = ($quote->tripType == 12) ? true: $isNightChargeIncluded;
 		$this->state_tax					 = ExtraCharge::setCharges($rates->isStateTaxIncluded, $rates->stateTax, $quote->tripType);
 		$this->state_tax->is_applicable		 = true;

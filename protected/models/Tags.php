@@ -433,6 +433,7 @@ class Tags extends CActiveRecord
 				return true;
 			}
 			$contentParams		 = array(
+				'eventId'	 => "29",
 				'tags'		 => $tags,
 				'bookingId'	 => Filter::formatBookingId($model->bkg_booking_id)
 			);

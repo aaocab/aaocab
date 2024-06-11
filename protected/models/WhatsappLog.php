@@ -694,9 +694,16 @@ class WhatsappLog extends CActiveRecord
 
 		$arrBody	 = Whatsapp::buildComponentBody($arrWhatsAppData);
 		$arrButton	 = Whatsapp::buildComponentButton([$buttonUrl]);
-
-		$response = WhatsappLog::send($phoneNo, $templateName, $arrDBData, $arrBody, $arrButton, $lang, true);
-
+		$response	 = WhatsappLog::send($phoneNo, $templateName, $arrDBData, $arrBody, $arrButton, $lang, true);
+		$success	 = ($response['status'] == 2 && $response['wamId'] != null) ? true : false;
+		if ($success)
+		{
+			$isPolicyReminderCnt = self::isPolicyReimderSend($phoneNo, UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId);
+			if ($isPolicyReminderCnt == 0)
+			{
+				self::policyReminderForUser($phoneNo, UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $lang);
+			}
+		}
 		return $response;
 	}
 
@@ -1392,6 +1399,11 @@ class WhatsappLog extends CActiveRecord
 		$success		 = ($response['status'] == 2 && $response['wamId'] != null) ? true : false;
 		if ($success)
 		{
+			$isPolicyReminderCnt = self::isPolicyReimderSend($phoneNo, UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId);
+			if ($isPolicyReminderCnt == 0)
+			{
+				self::policyReminderForUser($phoneNo, UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $lang);
+			}
 			$templateId	 = WhatsappLog::findByTemplateNameLang($templateName, $lang, 'wht_id');
 			$row		 = ["initiateBy" => WhatsappInitiateTrack::INITIATE_BY_GOZO, "initiateType" => WhatsappInitiateTrack::INITIATE_TYPE_USER, "templateId" => $templateId, "phoneNumber" => $phoneNo];
 			WhatsappInitiateTrack::add($row);
@@ -1608,6 +1620,20 @@ class WhatsappLog extends CActiveRecord
 				Whatsapp::processTextMsg($arrData['replyingToMessageId'], $arrData['phone_number'], 'Your callback request has been registered sucessfully.Our team will contact you as soon as possible.');
 			}
 		}
+		else if ($whatsappId > 0 && in_array($arrData['templateId'], [74]))
+		{
+			MarketingMessageTracker::updateStatus($arrData['refType'], $arrData['refId'], 48, ($arrData['message'] == "Yes ,Send me quote" ? 0 : 1));
+
+		}
+		else if ($whatsappId > 0 && in_array($arrData['templateId'], [75]))
+		{
+			$linkId = ($arrData['message'] == "I need a price-match" ? 0 : ($arrData['message'] == "Create a new quote" ? 1 : 2));
+			MarketingMessageTracker::updateStatus($arrData['refType'], $arrData['refId'], 49, $linkId);
+		}
+//		else if ($whatsappId > 0 && in_array($arrData['templateId'], [76]))
+//		{
+//			MarketingMessageTracker::updateStatus($arrData['refType'], $arrData['refId'], 50, ($arrData['message'] == "Find a quick trip" ? 0 : 1));
+//		}
 		else if ($whatsappId > 0 && in_array($arrData['templateId'], [51]) && ($arrData['message'] == "New Boooking" || $arrData['message'] == "Existing Boooking" || $arrData['message'] == "Vendor Helpline" || $arrData['message'] == "Attach Your taxi"))
 		{
 			$queueType = "";
@@ -2383,7 +2409,7 @@ class WhatsappLog extends CActiveRecord
 	{
 		$arrDBData	 = ['ref_replying_id' => $arrData['wamId'], 'ref_payload' => 51];
 		$arrBody	 = Whatsapp::buildComponentBody([]);
-		$arrButton	 = Whatsapp::buildComponentButton([51, 51, 51, 51], 'button', 'quick_reply', "payload");
+		$arrButton	 = Whatsapp::buildComponentButton([51, 51, 51, 51], 'button', 'quick_reply,quick_reply,quick_reply,quick_reply', "payload,payload,payload,payload");
 		return WhatsappLog::send($arrData['phone_number'], 'welecome_message', $arrDBData, $arrBody, $arrButton, 'en_US');
 	}
 
@@ -2556,6 +2582,7 @@ class WhatsappLog extends CActiveRecord
 			//$lang			 = $obj->language;
 			$whatAppParams	 = WhatsappLog::setWhatsappParams(($receiverParams->ext . $receiverParams->number), $receiverParams->entity_type, $receiverParams->entity_id, $receiverParams->ref_type, $receiverParams->ref_id, $receiverParams->is_button, $receiverParams->button_url);
 			$arrBody		 = Whatsapp::buildComponentBody($whatArr);
+			$btnCnt			 = 0;
 			if ($whatAppParams['is_button'] == 0)
 			{
 				$arrButton = Whatsapp::buildComponentButton([]);
@@ -2563,16 +2590,27 @@ class WhatsappLog extends CActiveRecord
 			else if ($whatAppParams['is_button'] == 1 && is_array($whatAppParams['button_url']))
 			{
 				$whatsAppData	 = $whatAppParams['button_url'];
-				$arrButton		 = Whatsapp::buildComponentButton([$whatsAppData['data']], $whatsAppData['type'], $whatsAppData['subType'], $whatsAppData['text']);
+				$btnCnt			 = sizeof(explode(",", $whatsAppData['data']));
+				$arrButton		 = Whatsapp::buildComponentButton(explode(",", $whatsAppData['data']), $whatsAppData['type'], $whatsAppData['subType'], $whatsAppData['text']);
 			}
 			else
 			{
-				$arrButton = Whatsapp::buildComponentButton([$whatAppParams['button_url']]);
+				$btnCnt		 = 1;
+				$arrButton	 = Whatsapp::buildComponentButton([$whatAppParams['button_url']]);
 			}
-			$skipPermission	 = $contentParams['skipPermission'] ? true : false;
-			$whatResponse	 = WhatsappLog::send($whatAppParams['phoneNumber'], $templateName, $whatAppParams, $arrBody, $arrButton, $lang, false, $skipPermission);
+			$skipPermission		 = $contentParams['skipPermission'] ? true : false;
+			$whatResponse		 = WhatsappLog::send($whatAppParams['phoneNumber'], $templateName, $whatAppParams, $arrBody, $arrButton, $lang, false, $skipPermission);
+			$isPolicyReminderCnt = self::isPolicyReimderSend(($receiverParams->ext . $receiverParams->number), $receiverParams->entity_type, $receiverParams->entity_id, $receiverParams->ref_type, $receiverParams->ref_id);
+			if ($obj->policy_reminder == 1 && $whatResponse['status'] == 2 && $whatResponse['wamId'] != null && $isPolicyReminderCnt == 0)
+			{
+				self::policyReminderForUser(($receiverParams->ext . $receiverParams->number), $receiverParams->entity_type, $receiverParams->entity_id, $receiverParams->ref_type, $receiverParams->ref_id, $lang);
+			}
 			Logger::trace("WhatResponse: " . json_encode($whatResponse));
-			$whlId			 = ($whatResponse['status'] == 2 && $whatResponse['wamId'] != null) ? $whatResponse['whlId'] : 0;
+			$whlId = ($whatResponse['status'] == 2 && $whatResponse['wamId'] != null) ? $whatResponse['whlId'] : 0;
+			if ($whlId > 0 && $eventScheduleParams->ref_id != null && $eventScheduleParams->ref_id > 0)
+			{
+				MarketingMessageTracker::add($eventScheduleParams->ref_type, $eventScheduleParams->ref_id, $contentParams['eventId'], TemplateMaster::SEQ_WHATSAPP_CODE, $btnCnt);
+			}
 			$returnSet->setStatus($whlId > 0 ? true : false);
 			$returnSet->setData(['type' => TemplateMaster::SEQ_WHATSAPP_CODE, 'id' => $whlId]);
 			Logger::trace("returnSet :" . json_encode($returnSet));
@@ -2599,8 +2637,7 @@ class WhatsappLog extends CActiveRecord
 				LEFT JOIN whatsapp_templates wht ON
 					wht.wht_id = whl.whl_wht_id 						
 				WHERE whl.whl_status = 1 $condition
-				AND whl_created_date BETWEEN DATE_SUB(NOW(),INTERVAL 15 MINUTE) AND DATE_SUB(NOW(),INTERVAL 10 SECOND)  
-				";
+				AND (whl_created_date BETWEEN DATE_SUB(NOW(),INTERVAL 240 MINUTE) AND DATE_SUB(NOW(),INTERVAL 60 MINUTE))";
 		$result	 = DBUtil::query($sql);
 		return $result;
 	}
@@ -2626,6 +2663,7 @@ class WhatsappLog extends CActiveRecord
 			}
 			catch (Exception $e)
 			{
+				Filter::writeToConsole($e->getMessage());
 				Logger::error($e);
 			}
 		}
@@ -2662,42 +2700,54 @@ class WhatsappLog extends CActiveRecord
 	 */
 	public function archiveData($archiveDB, $upperLimit = 100000, $lowerlimit = 1000)
 	{
+		Logger::writeToConsole("archiveData");
 		$i			 = 0;
 		$chk		 = true;
 		$totRecords	 = $upperLimit;
 		$limit		 = $lowerlimit;
 		while ($chk)
 		{
+			Logger::writeToConsole("While");
 			$transaction = DBUtil::beginTransaction();
 			try
 			{
-				$sql	 = "SELECT GROUP_CONCAT(whl_id) AS whl_id FROM (SELECT whl_id FROM whatsapp_log 
-							WHERE 1 AND whl_wht_id IN (1,2,3,4,5,6,7,9,15) AND whl_created_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), ' 00:00:00') 
-							ORDER BY whl_id LIMIT 0, $limit) as temp";
+				$sql	 = "SELECT GROUP_CONCAT(whl_id) AS whl_id FROM (
+							SELECT whl_id FROM whatsapp_log 
+							WHERE 1 AND (
+							(whl_wht_id IN (1,2,3,4,5,6,7,9,14,15,17,24,26,31,32,34,46,49) AND whl_created_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), ' 00:00:00')) OR 
+							(whl_wht_id IN (19,20,21,22,23,25,28,29,35,40,41,44,45,47,48,56,58,61,68) AND whl_created_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 18 MONTH), ' 00:00:00')) OR 
+							(whl_created_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 24 MONTH), ' 00:00:00')))
+							ORDER BY whl_id LIMIT 0, $limit
+							) as temp";
 				$resQ	 = DBUtil::queryScalar($sql);
 				if (!is_null($resQ) && $resQ != '')
 				{
+					Logger::writeToConsole("INSERT");
 					$sql	 = "INSERT INTO " . $archiveDB . ".whatsapp_log (SELECT * FROM whatsapp_log WHERE whl_id IN ($resQ))";
 					$rows	 = DBUtil::execute($sql);
 					if ($rows > 0)
 					{
+						Logger::writeToConsole("DELETE");
 						$sql = "DELETE FROM `whatsapp_log` WHERE whl_id IN ($resQ)";
 						DBUtil::execute($sql);
 					}
 				}
 
+				Logger::writeToConsole("COMMITTED");
 				DBUtil::commitTransaction($transaction);
 				$i += $limit;
 
 				if (($resQ <= 0) || $totRecords <= $i)
 				{
+					Logger::writeToConsole("BREAK");
 					break;
 				}
 			}
 			catch (Exception $e)
 			{
-				echo $e->getMessage() . "\n\n";
 				DBUtil::rollbackTransaction($transaction);
+				Logger::writeToConsole("ERROR: " . $e->getMessage());
+				echo $e->getMessage() . "\n\n";
 			}
 		}
 	}
@@ -2790,6 +2840,55 @@ class WhatsappLog extends CActiveRecord
 			return true;
 		}
 		return false;
+	}
+
+	public static function policyReminderForUser($phone, $entityType, $entityId, $refType, $refId, $lang)
+	{
+		if ($refType != 1)
+		{
+			goto skipCheck;
+		}
+		$model			 = Booking::model()->findByPk($refId);
+		$cancelRuleId	 = $model->bkgPref->bkg_cancel_rule_id;
+		if ($cancelRuleId == null)
+		{
+			goto skipCheck;
+		}
+		$rule = CancellationPolicy::getRule($cancelRuleId);
+		if (!$rule["timeRules"]['workingMinuteBeforePickup'])
+		{
+			$hrs = ($rule["timeRules"]['minutesBeforePickup']) / 60;
+		}
+		else
+		{
+			$hrs = ($rule["timeRules"]['workingMinuteBeforePickup']) / 60;
+		}
+		if ($hrs == null)
+		{
+			goto skipCheck;
+		}
+		$bookingPerAmt	 = Booking::minBookingPercentageAmount($refId);
+		$arrDBData		 = ['entity_type' => $entityType, 'entity_id' => $entityId, 'ref_type' => $refType, 'ref_id' => $refId];
+		$arrBody		 = Whatsapp::buildComponentBody([$hrs . " hour", $hrs . " hours", $bookingPerAmt . '%']);
+		$arrButton		 = Whatsapp::buildComponentButton([]);
+		WhatsappLog::send($phone, 'v2_policy_reminder', $arrDBData, $arrBody, $arrButton, $lang);
+		skipCheck:
+	}
+
+	public static function isPolicyReimderSend($phone, $entityType, $entityId, $refType, $refId)
+	{
+		$sql = "SELECT 
+					COUNT(whl_id) 
+				FROM `whatsapp_log` 
+				WHERE 1
+					AND `whl_ref_type`=:refType 
+					AND `whl_ref_id` = :refId
+					AND `whl_entity_type`=:entityType 
+					AND `whl_entity_id` = :entityId
+					AND `whl_phone_number`=:phone 
+					AND whl_wht_id=70";
+
+		return DBUtil::queryScalar($sql, DBUtil::SDB(), ['phone' => $phone, 'entityType' => $entityType, 'entityId' => $entityId, 'refType' => $refType, 'refId' => $refId]);
 	}
 
 }

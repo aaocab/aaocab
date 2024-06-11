@@ -37,7 +37,7 @@ class Events
 	 * @param array $langCode
 	 * @return Object class
 	 */
-	public function getEventData($eventId, $platform = null, $langCode = [\TemplateMaster::LANG_EN_US_CODE,\TemplateMaster::LANG_EN_GB_CODE])
+	public function getEventData($eventId, $platform = null, $langCode = [\TemplateMaster::LANG_EN_US_CODE, \TemplateMaster::LANG_EN_GB_CODE])
 	{
 		$platformCode = \MessageEventMaster::getPlatformCode($eventId, $platform);
 		return self::populatePlatformData($eventId, $platformCode, $langCode);
@@ -50,7 +50,7 @@ class Events
 	 * @param array $langCode
 	 * @return Object class
 	 */
-	public static function populatePlatformData($eventId, $platformCode, $langCode = [\TemplateMaster::LANG_EN_US_CODE,\TemplateMaster::LANG_EN_GB_CODE])
+	public static function populatePlatformData($eventId, $platformCode, $langCode = [\TemplateMaster::LANG_EN_US_CODE, \TemplateMaster::LANG_EN_GB_CODE])
 	{
 		$obj = [];
 		foreach ($platformCode as $code)
@@ -70,6 +70,7 @@ class Events
 					$object->title						 = $details['tpm_title'];
 					$object->dtlId						 = $details['tpm_provider_code'];
 					$object->provider_type				 = $details['tpm_provider_type'];
+					$object->policy_reminder			 = $details['tpm_policy_reminder'];
 					$object->language					 = \TemplateMaster::getLangCodeById($details['tpm_language']);
 					$objMaster[$details['tpm_language']] = $object;
 				}

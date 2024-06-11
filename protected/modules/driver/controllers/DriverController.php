@@ -121,7 +121,7 @@ class DriverController extends BaseController
 		try
 		{
 			$drvId		 = UserInfo::getEntityId();
-			$usetType	 = UserInfo::getUserType();
+			$userType	 = UserInfo::getUserType();
 
 			if (!$drvId)
 			{

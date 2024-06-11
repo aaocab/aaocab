@@ -87,8 +87,8 @@ class TrackController extends BaseController
 
 	public function syncRideData()
 	{
-		$returnSet = new ReturnSet();
-		$transaction =null;
+		$returnSet	 = new ReturnSet();
+		$transaction = null;
 		$responseSet = [];
 		try
 		{
@@ -101,46 +101,47 @@ class TrackController extends BaseController
 			$reqObj = CJSON::decode($requestData, false);
 			foreach ($reqObj as $eventData)
 			{
-				
+
 				$result		 = \Beans\booking\TrackEvent::setTrackModel($eventData);
 				$jsonMapper	 = new JsonMapper();
-				
-				$model			 = $result[0];
-				$trackObj		 = $result[1];
-				if($eventData->eventType == 303)
+
+				/** @var BookingTrackLog $model */
+				$model		 = $result[0];
+				$trackObj	 = $result[1];
+				if ($eventData->eventType == 303)
 				{
-				$reqData = $jsonMapper->map($eventData, new \Beans\contact\Scq());
+					$reqData = $jsonMapper->map($eventData, new \Beans\contact\Scq());
 				}
 				$checkLog		 = DrvUnsyncLog::model()->checkExist($eventData->refId, $eventData->eventType);
 				$dco			 = 1;
-				$eventResponse	 = $model->handleEvents($trackObj, $dco,$reqData);
+				$eventResponse	 = $model->handleEvents($trackObj, $dco, $reqData);
 				$bookingModel	 = Booking::model()->findByPk($eventData->refId);
-				
-				 if ($bookingModel->bkg_agent_id != '' || $bookingModel->bkg_agent_ref_code != '')
-                {
-                    $reff_id = $bookingModel->bkg_agent_ref_code;
-                }
+
+				if ($bookingModel->bkg_agent_id != '' || $bookingModel->bkg_agent_ref_code != '')
+				{
+					$reff_id = $bookingModel->bkg_agent_ref_code;
+				}
 				$res = Beans\booking\TrackEvent::setResponse($eventResponse, $model, $refId);
 				if ($eventResponse->getStatus())
 				{
 					$model->addLocation();
 				}
 				$responseSet[] = $res;
-				
+
 				BookingTrackLog::checkApiDiscrepancy($model->btl_bkg_id, $requestData);
 			}
 			$data = Filter::removeNull($responseSet);
-			Logger::trace("response".$data);
+			Logger::trace("response" . $data);
 			$returnSet->setStatus(true);
 			$returnSet->setData($data);
 		}
 		catch (Exception $ex)
 		{
-			
+
 			$returnSet = ReturnSet::setException($ex);
 			
 		}
-		
+
 		return $returnSet;
 	}
 
@@ -150,12 +151,12 @@ class TrackController extends BaseController
 		$response		 = [];
 		$uploadedFile	 = null;
 		$allFiles		 = $_FILES;
-		$rawData = Yii::app()->request->getParam('data');
-		Logger::trace("Request:".Yii::app()->request->getParam('data'));
-	
+		$rawData		 = Yii::app()->request->getParam('data');
+		Logger::trace("Request:" . Yii::app()->request->getParam('data'));
+
 		
 		$data = CJSON::decode(Yii::app()->request->getParam('data'), false);
-		
+
 		//$data        = CJSON::decode($data,false);
 		try
 		{
@@ -169,10 +170,10 @@ class TrackController extends BaseController
 				$result			 = Beans\booking\TrackEvent::setTrackModel($eventData);
 				$model			 = $result[0];
 				$eventResponse	 = $model->handleEvents();
-				$errors		 = $eventResponse->getErrors();
-				$responseId = $model->btl_appsync_id;
-			
-				if(!empty($errors))
+				$errors			 = $eventResponse->getErrors();
+				$responseId		 = $model->btl_appsync_id;
+
+				if (!empty($errors))
 				{
 					throw new Exception(json_encode($errors[0]), ReturnSet::ERROR_VALIDATION);
 				}
@@ -182,7 +183,7 @@ class TrackController extends BaseController
 				$deviceUniqueID	 = $deviceArr->uuid;
 				$discrepancies	 = $data->discrepancies;
 				$eventVal		 = $model->payDocModel->bpay_type;
-				$payDocsId       = $model->payDocModel->bpay_id;
+				$payDocsId		 = $model->payDocModel->bpay_id;
 
 				if (empty($allFiles))
 				{
@@ -192,11 +193,11 @@ class TrackController extends BaseController
 				{
 
 					$uploadedFile	 = CUploadedFile::getInstanceByName($key);
-					$returnSet		 = BookingPayDocs::uploadDocs($uploadedFile, $bkgId, $deviceUniqueID, $event, $discrepancies, $checksum, $eventVal,$payDocsId);
-					$response[]		 = Beans\booking\TrackEvent::setFileResponse($returnSet,$responseId);
+					$returnSet		 = BookingPayDocs::uploadDocs($uploadedFile, $bkgId, $deviceUniqueID, $event, $discrepancies, $checksum, $eventVal, $payDocsId);
+					$response[]		 = Beans\booking\TrackEvent::setFileResponse($returnSet, $responseId);
 				}
 			}
-			Logger::trace("Response===============:".json_encode($response));
+			Logger::trace("Response===============:" . json_encode($response));
 			$resultSet->setStatus(true);
 			$resultSet->setData($response);
 		}

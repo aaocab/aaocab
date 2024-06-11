@@ -101,13 +101,17 @@ class Consumer
 		$this->profile->country			 = $model->usr_country;
 		$this->profile->state			 = $model->usr_state;
 		$this->profile->gender			 = $model->usr_gender;
-		$this->profile->userProfilePic	 = \Users::getImageUrl($model->usr_profile_pic);
+		//$this->profile->userProfilePic	 = \Users::getImageUrl($model->usr_profile_pic);
+
+
 		/* @var $cttModel \Contact */
 		$cttModel	 = \Contact::model()->findByPk($contactId);
 		if (!$cttModel)
 		{
 			return false;
 		}
+		$path = ($cttModel->ctt_profile_path!='') ? $cttModel->ctt_profile_path : $model->usr_profile_pic;
+		$this->profile->userProfilePic = \Yii::app()->params['fullAPPBaseURL'] . \AttachmentProcessing::ImagePath($path);
 
 		$this->profile->firstName	 = $cttModel->ctt_first_name;
 		$this->profile->lastName	 = $cttModel->ctt_last_name;

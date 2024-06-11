@@ -5,7 +5,7 @@ if (!$model)
 	if ((trim($params['arr']->bkgId)) != '')
 	{
 		
-		$model		 = Booking::model()->findBypk($params['arr']->bkgId);
+		$model		 = Booking::model()->findByPk($params['arr']->bkgId);
 	}
 }
 if ($params['otp'] != '')
@@ -268,7 +268,7 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 															$locAddress	 .= ($brt->brt_to_latitude > 0) ? '' : ', ' . $brt->brtToCity->cty_name;
 															?>
 															<td style="width: 35%;">
-																<div style="font-size: 11px;"><b><? //= DateTimeFormat::DateTimeToDatePicker($brt->brt_pickup_datetime);             ?></b> &nbsp;<? //= DateTimeFormat::DateTimeToTimePicker($brt->brt_pickup_datetime);             ?><br>
+																<div style="font-size: 11px;"><b></b> &nbsp;<br>
 																	<span style="margin-right: 10px;"><b></b></span> <b></b>
 																</div>
 															</td>
@@ -512,9 +512,9 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 						{
 							$pickupCity[]	 = $bookingRoute->brt_from_city_id;
 							$dropCity[]		 = $bookingRoute->brt_to_city_id;
-							$pickup_date[]	 = '2023-06-22 21:45:00'; //$bookingRoute->brt_pickup_datetime;
+							$pickup_date[]	 = $bookingRoute->brt_pickup_datetime;
 							$temp_last_date	 = strtotime($bookingRoute->brt_pickup_datetime) + $bookingRoute->brt_trip_duration;
-							$drop_date_time	 = '2023-06-22 23:59:00'; //date('Y-m-d H:i:s', $temp_last_date);
+							$drop_date_time	 = date('Y-m-d H:i:s', $temp_last_date);
 						}
 						$pickup_date_time	 = $pickup_date[0];
 						$locationArr		 = array_unique(array_merge($pickupCity, $dropCity));
@@ -555,6 +555,12 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 													<?= ($note[$i]['dnt_state_name']) ?>
 													<?php
 												}
+												else if ($note[$i]['dnt_area_type'] == 1)
+												{
+													?>
+													<?= ($note[$i]['dnt_zone_name']) ?>
+													<?php
+												}
 												else if ($note[$i]['dnt_area_type'] == 0)
 												{
 													?>
@@ -575,7 +581,7 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 							</div>
 						<?php } ?>
 						<div style="width: 100%; float: left; margin-top: 10px;">
-<!--                            Your auto-generated invoice can be viewed <a href="#" style="color:#0279E8;"><b><? // $file; ?></b></a> after the trip is completed-->
+<!--                            Your auto-generated invoice can be viewed <a href="#" style="color:#0279E8;"><b></b></a> after the trip is completed-->
                              <a href="#" style="color:#0279E8;"><b><?= $file; ?></b></a> once your trip is completed.
                         </div>
 						<div style="width: 100%; float: left; margin-top: 10px;">
@@ -667,11 +673,11 @@ $baseURL = Yii::app()->params['fullBaseURL'];
 										{
 											?>
 											<p>--</p>
-										<? }
+										<?php }
 										else
 										{ ?>
 											<p style="margin-bottom: 0;"><?= date('d M Y H:i a', strtotime(($model->bkgTrail->bkg_confirm_datetime != '') ? $model->bkgTrail->bkg_confirm_datetime : $model->bkg_create_date)); ?>&nbsp;<span><img src="<?= $baseURL ?>/images/email/transfer.png" alt="img" style="margin: 0 10px;"></span>&nbsp;<?= date('d M Y h:i a', strtotime(array_keys($cancelTimes_new->slabs)[0])) ?></p>
-<? } ?>
+<?php } ?>
 									</td>
 								</tr>
 								<tr>

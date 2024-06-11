@@ -690,7 +690,7 @@ else
 	function userAppusage() {
 		var userId = '<?= $model->drv_id ?>';
 		console.log(userId);
-		var type = '5';
+		var type = '3';
 		var href = '<?= Yii::app()->createUrl("admpnl/user/appUsage"); ?>';
 		$.ajax
 				({

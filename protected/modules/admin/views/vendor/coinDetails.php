@@ -2,7 +2,8 @@
     <div class="row">
 		<div class="col-xs-4">
 			<p class="mb0 color-gray">Total Coins Available</p>
-			<p class="font-16"><b><?php echo VendorCoins::totalCoin($vndId); ?></b></p>
+			<p class="font-16"><b><?php 
+			echo VendorCoins::totalCoin($vndIds); ?></b></p>
 		</div>
         <div class="col-md-12">            
             <div class="panel" >

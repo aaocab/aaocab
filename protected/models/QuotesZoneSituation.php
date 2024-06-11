@@ -218,6 +218,9 @@ class QuotesZoneSituation extends CActiveRecord
 
 	public static function updateDemandIdentifierMedainCapacity($demandIdentifier, $capacity)
 	{
+		Logger::warning('Model QuotesZoneSituation updateDemandIdentifierMedainCapacity', true);
+		return false;
+		
 		$sql = "UPDATE quotes_zone_situation SET qzs_capacity=qzs_capacity+:capacity WHERE 1 AND qzs_demand_identifier=:demandIdentifier AND qzs_status=1";
 		DBUtil::execute($sql, ['demandIdentifier' => $demandIdentifier, 'capacity' => $capacity]);
 	}

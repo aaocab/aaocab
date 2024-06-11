@@ -469,7 +469,7 @@ class BookingCommand extends BaseCommand
 		{
 			return;
 		}
-		
+
 		$result = BookingSub::getUnverifiedForAutoCancel();
 
 		foreach ($result as $row)
@@ -2274,7 +2274,7 @@ class BookingCommand extends BaseCommand
 				$reasonId	 = $value['cnr_id'];
 				if ($model->bkgPref->bkg_is_fbg_type == 1)
 				{
-					$reasonText	 = "Operators did not accept booking";
+					$reasonText		 = "Operators did not accept booking";
 					$cancelReason	 = CancelReasons::getTFRCancelReason();
 					$reasonText		 = $cancelReason['cnr_reason'];
 					$reasonId		 = $cancelReason['cnr_id'];
@@ -2305,7 +2305,7 @@ class BookingCommand extends BaseCommand
 		{
 			return;
 		}
-// As per discussion with deepesh sir vendor will unassined only in booking hour
+		// As per discussion with deepesh sir vendor will unassined only in booking hour
 		if (Filter::isWorkingHour())
 		{
 			$bookingArr = Booking::getListToUnassignVendor();
@@ -3354,7 +3354,6 @@ class BookingCommand extends BaseCommand
 				continue;
 			}
 			Booking::sendQuoteExpiryReminderToCustomer($bkgId);
-
 		}
 	}
 
@@ -3372,28 +3371,28 @@ class BookingCommand extends BaseCommand
 				if ($val['bkg_id'] > 0)
 				{
 					$driverCustomPushEventDuration	 = Config::get('driver.customPushEvents.duration');
-					$data					 = CJSON::decode($driverCustomPushEventDuration);
-					$model					 = Booking::model()->findByPk($val['bkg_id']);
-					$lastEvent				 = $model->bkgTrack->btk_last_event;
-					$pickupDate				 = $model->bkg_pickup_date;
-					$tripEndTime		     = (new DateTime(date('Y-m-d H:i:s', strtotime($model->bkg_pickup_date . ' + ' . $model->bkg_trip_duration . ' MINUTE'))))->format('Y-m-d H:i:s');
-					$leftForPickupMinutes	 = $data['leftforpickupminutes'];
-					$driverArrivedMinutes	 = $data['driverarrivedminutes'];
-					$tripStartMinutes		 = $data['tripstartminutes'];
-					$tripStopMinutes		 = $data['tripStopMinutes'];
-					$currDateTime			 = Filter::getDBDateTime();
-					$timeDiffMinutes		 = Filter::getTimeDiff($pickupDate, $currDateTime);
-					$dateInterval	         = DateTimeFormat::SQLDateTimeToDateTime($pickupDate)->add(new DateInterval('PT' . $tripStartMinutes . 'M'));
-				    $afterPickupTime	     = DateTimeFormat::DateTimeToSQLDateTime($dateInterval);
-					$dateIntervalForTripEnd	 = DateTimeFormat::SQLDateTimeToDateTime($tripEndTime)->add(new DateInterval('PT' . $tripStopMinutes . 'M'));
-				    $afterEndTime	     = DateTimeFormat::DateTimeToSQLDateTime($dateIntervalForTripEnd);
-					$userInfo				 = UserInfo::getInstance();
-					$driverId				 = $model->bkgBcb->bcb_driver_id;
-					$entityType				 = UserInfo::TYPE_DRIVER;
-					$code                    = '91';
-					$getPhoneNo				 = ContactPhone::getPhoneNo($driverId, $entityType);
-					$phone					 = $code . $getPhoneNo;
-					$contactId				 = ContactProfile::getByEntityId($driverId, $entityType);
+					$data							 = CJSON::decode($driverCustomPushEventDuration);
+					$model							 = Booking::model()->findByPk($val['bkg_id']);
+					$lastEvent						 = $model->bkgTrack->btk_last_event;
+					$pickupDate						 = $model->bkg_pickup_date;
+					$tripEndTime					 = (new DateTime(date('Y-m-d H:i:s', strtotime($model->bkg_pickup_date . ' + ' . $model->bkg_trip_duration . ' MINUTE'))))->format('Y-m-d H:i:s');
+					$leftForPickupMinutes			 = $data['leftforpickupminutes'];
+					$driverArrivedMinutes			 = $data['driverarrivedminutes'];
+					$tripStartMinutes				 = $data['tripstartminutes'];
+					$tripStopMinutes				 = $data['tripStopMinutes'];
+					$currDateTime					 = Filter::getDBDateTime();
+					$timeDiffMinutes				 = Filter::getTimeDiff($pickupDate, $currDateTime);
+					$dateInterval					 = DateTimeFormat::SQLDateTimeToDateTime($pickupDate)->add(new DateInterval('PT' . $tripStartMinutes . 'M'));
+					$afterPickupTime				 = DateTimeFormat::DateTimeToSQLDateTime($dateInterval);
+					$dateIntervalForTripEnd			 = DateTimeFormat::SQLDateTimeToDateTime($tripEndTime)->add(new DateInterval('PT' . $tripStopMinutes . 'M'));
+					$afterEndTime					 = DateTimeFormat::DateTimeToSQLDateTime($dateIntervalForTripEnd);
+					$userInfo						 = UserInfo::getInstance();
+					$driverId						 = $model->bkgBcb->bcb_driver_id;
+					$entityType						 = UserInfo::TYPE_DRIVER;
+					$code							 = '91';
+					$getPhoneNo						 = ContactPhone::getPhoneNo($driverId, $entityType);
+					$phone							 = $code . $getPhoneNo;
+					$contactId						 = ContactProfile::getByEntityId($driverId, $entityType);
 					if ($lastEvent > 0)
 					{
 						switch ($lastEvent)
@@ -3458,6 +3457,201 @@ class BookingCommand extends BaseCommand
 				ReturnSet::exception($ex);
 			}
 		}
+	}
+
+	public function actionUserCheckRate()
+	{
+		$check = Filter::checkProcess("booking userCheckRate");
+		if (!$check)
+		{
+			return;
+		}
+		$sql		 = 'SELECT bkg_id
+						FROM `booking_temp` 
+						WHERE 1 
+							AND NOT EXISTS
+							(
+								SELECT bkg_id 
+								FROM booking
+								INNER JOIN booking_user ON booking_user.bui_bkg_id=booking.bkg_id
+								WHERE 1
+								AND booking.bkg_agent_id IS NULL
+								AND booking.bkg_create_date BETWEEN DATE_SUB(NOW(),INTERVAL 4 HOUR) AND NOW() 
+								AND booking.bkg_status IN (15,2,3,4,5,6,7,9,10)
+								AND booking_user.bkg_user_id=booking_temp.bkg_user_id
+							)
+							AND booking_temp.bkg_pickup_date > DATE_ADD(NOW(),INTERVAL 1 HOUR)
+							AND bkg_is_gozonow=0
+							AND bkg_follow_up_status=0 AND bkg_user_id IS NOT NULL 
+							AND bkg_ref_booking_id IS NULL AND bkg_contact_no IS NOT NULL 
+							AND bkg_create_date BETWEEN DATE_SUB(NOW(),INTERVAL 4 HOUR) AND DATE_SUB(NOW(),INTERVAL 3 HOUR) 
+						GROUP BY bkg_contact_no, bkg_from_city_id ORDER BY bkg_id DESC';
+		$queryObject = DBUtil::query($sql, DBUtil::SDB());
+		foreach ($queryObject as $value)
+		{
+			try
+			{
+				$model	 = BookingTemp::model()->findByPk($value['bkg_id']);
+				$model->getRoutes();
+				$objPage = BookFormRequest::createInstance();
+				$objPage->setBookingModel($model);
+				$objPage->populateQuote($model);
+				$jsonObj = json_decode(json_encode($objPage->sortCategory()), true);
+				$cabType = null;
+				$fare	 = null;
+				foreach ($jsonObj as $row)
+				{
+					$fare	 = $row['fare']['totalAmount'];
+					$cabType = $row['cab']['type'];
+					break;
+				}
+				if ($cabType != null && $fare != null)
+				{
+					BookingTemp::notifyUserCheckRate($value['bkg_id'], $cabType, $fare);
+				}
+			}
+			catch (Exception $ex)
+			{
+				ReturnSet::setException($ex);
+			}
+		}
+	}
+
+	public function actionCancelBookingForDeepeshSir()
+	{
+		$check = Filter::checkProcess("booking CancelBookingForDeepeshSir");
+		if (!$check)
+		{
+			return;
+		}
+		$userInfo			 = UserInfo::getInstance();
+		$userId				 = 1081152;
+		$blockAutoBookikng	 = Booking::blockAutoAssignmentForDeepeshSir($userId);
+		foreach ($blockAutoBookikng as $value)
+		{
+			try
+			{
+
+				$bkgId			 = $value['bkg_id'];
+				$bkgBookingId	 = $value['bkg_booking_id'];
+				$count			 = Booking::updateBlockAutoAssignmentForDeepeshSir($value['bpr_id']);
+				if ($count > 0)
+				{
+					BookingLog::model()->createLog($bkgId, 'BookingID: ' . $bkgBookingId . ' is blocked for auto assignment', $userInfo, BookingLog:: BLOCK_AUTOASSIGNMENT, false, false);
+				}
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+			}
+		}
+		$autoCancelBookingArr = Booking::getBookingForCancelForDeepeshSir($userId);
+		foreach ($autoCancelBookingArr as $value)
+		{
+			try
+			{
+				if (Booking::model()->canBooking($value['bkg_id'], 'Autocancelled.On time allocation failed.', 35, $userInfo))
+				{
+					$model		 = Booking::model()->findByPk($value['bkg_id']);
+					BookingLog::model()->createLog($value['bkg_id'], "Booking auto cancel. Deepesh Sir testing booking", $userInfo, BookingLog::BOOKING_AUTOCANCEL, $model);
+					$emailObj	 = new emailWrapper();
+					$emailObj->bookingCancellationMail($value['bkg_id']);
+				}
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+			}
+		}
+	}
+
+	public function actionUpdateAddressReminder()
+	{
+		$check = Filter::checkProcess("booking updateAddressReminder");
+		if (!$check)
+		{
+			return;
+		}
+
+		/* $userId = "129215";
+		  $contactId = "166929";
+		  $bkgId = "4473112";
+		  $bookingId = "OW404473112";
+		  $eventId = "47";
+
+		  Users::remindToUpdateAddress($userId, $contactId, $bkgId, $bookingId, $eventId);
+		  #Users::remindToUpdateAddress($userId, $contactId, $bookingId, $eventId, 1, 2);
+		  #Users::remindToUpdateAddress($userId, $contactId, $bookingId, $eventId, 1, 3); */
+
+		$arr	 = [];
+		$arr[]	 = ['startHr' => 22, 'endHr' => 23, 'eventId' => 45];
+		$arr[]	 = ['startHr' => 11, 'endHr' => 12, 'eventId' => 46];
+		$arr[]	 = ['startHr' => 7, 'endHr' => 8, 'eventId' => 47];
+
+		foreach ($arr as $arrCond)
+		{
+			$startHr = $arrCond['startHr'];
+			$endHr	 = $arrCond['endHr'];
+			$eventId = $arrCond['eventId'];
+
+			$sql = "SELECT bkg_id, bkg_booking_id, bkg_user_id, cr_contact_id 
+					FROM booking 
+					INNER JOIN booking_user ON bui_bkg_id = bkg_id 
+					INNER JOIN contact_profile ON cr_is_consumer = bkg_user_id 
+					INNER JOIN cities fromCity ON bkg_from_city_id=fromCity.cty_id 
+					INNER JOIN cities toCity ON bkg_to_city_id=toCity.cty_id 
+					WHERE cr_status=1 AND bkg_status IN (2,3,5) AND (bkg_agent_id IS NULL OR bkg_agent_id = 1249) 
+					AND (bkg_pickup_date BETWEEN DATE_ADD(NOW(), INTERVAL {$startHr} HOUR) AND DATE_ADD(NOW(), INTERVAL {$endHr} HOUR)) 
+					AND (fromCity.cty_is_airport = 0 AND (bkg_pickup_address = '' OR bkg_pickup_address = fromCity.cty_name))";
+
+			$res = DBUtil::query($sql, DBUtil::SDB());
+
+			Logger::writeToConsole($sql);
+			Logger::writeToConsole("Count: " . count($res));
+
+			if ($res)
+			{
+				foreach ($res as $row)
+				{
+					$bkgId		 = $row['bkg_id'];
+					$bookingId	 = $row['bkg_booking_id'];
+					$userId		 = $row['bkg_user_id'];
+					$contactId	 = $row['cr_contact_id'];
+
+					Users::remindToUpdateAddress($userId, $contactId, $bkgId, $bookingId, $eventId);
+				}
+			}
+		}
+	}
+
+	public function actionInquiryLastTravelReminder()
+	{
+		$check = Filter::checkProcess("booking inquiryLastTravelReminder");
+		if (!$check)
+		{
+			return;
+		}
+		BookingTemp::NotificationInquiryLastTravelReminder();
+	}
+
+	public function actionQuoteExpiredReminder()
+	{
+		$check = Filter::checkProcess("booking quoteExpiredReminder");
+		if (!$check)
+		{
+			return;
+		}
+		Booking::NotificationQuoteExpired();
+	}
+
+	public function actionQuoteExpiringReminder()
+	{
+		$check = Filter::checkProcess("booking quoteExpiringReminder");
+		if (!$check)
+		{
+			return;
+		}
+		Booking::NotificationQuoteExpiring();
 	}
 
 }

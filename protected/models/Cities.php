@@ -2972,7 +2972,7 @@ class Cities extends CActiveRecord
 		return $city_list;
 	}
 
-	public function checkAirport($cityID)
+	public static function checkAirport($cityID)
 	{
 		if (!$cityID)
 		{

@@ -21,6 +21,7 @@ class ConfirmRequest
 	public $total_fare;
 	public $booking_gst;
 	public $amount_to_be_collected;
+	public $platform_fee;
 	
 	/** @var \Stub\mmt\Person $passenger */
 	public $passenger;

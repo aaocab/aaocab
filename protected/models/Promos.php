@@ -37,6 +37,7 @@
  * @property string $prm_modified
  * @property string $prm_log
  * @property integer $prm_usr_cat_type
+ * @property integer $prm_allow_negative_addon
  * 
  * @property PromoCalculation $prmCal
  */
@@ -105,7 +106,7 @@ class Promos extends CActiveRecord
 				. 'prm_pickuptime_before, prm_valid_upto, prm_pickupdate_from, prm_pickupdate_to, prm_createdate_from, '
 				. 'prm_createdate_to,prm_use_max,prm_applicable_type,prm_activate_on,prm_used_counter,prm_applicable_platform,'
 				. 'prm_applicable_user,prm_applicable_nexttrip, prm_active, prm_created, prm_modified, prm_log,prm_min_base_amount,prm_logged_in,prm_complete_max,'
-				. 'prm_complete_min,prm_booked_min,prm_booked_max,prm_not_travelled,prm_user_type', 'safe'),
+				. 'prm_complete_min,prm_booked_min,prm_booked_max,prm_not_travelled,prm_user_type,prm_allow_negative_addon', 'safe'),
 		);
 	}
 
@@ -627,9 +628,9 @@ class Promos extends CActiveRecord
 			}
 			if ($this->prm_validity[0] == "0")
 			{
-				$condition .= " AND prm_valid_upto >= NOW()";
-				$condition .= " AND (prm_pickupdate_to IS NULL OR prm_pickupdate_to >= NOW()) ";
-				$condition .= " AND (prm_createdate_to IS NULL OR prm_createdate_to >= NOW()) ";
+				$condition	 .= " AND prm_valid_upto >= NOW()";
+				$condition	 .= " AND (prm_pickupdate_to IS NULL OR prm_pickupdate_to >= NOW()) ";
+				$condition	 .= " AND (prm_createdate_to IS NULL OR prm_createdate_to >= NOW()) ";
 			}
 		}
 
@@ -1027,11 +1028,11 @@ class Promos extends CActiveRecord
 	 */
 	public static function allApplicableCodes(Booking $model, $promoCode = null)
 	{
-		$condUserCategory = "";
-		$row		 = Cities::getZonesAndState($model->bkg_from_city_id);
-		$fromState	 = $row['stt_id'];
-		$fromZones	 = "," . str_replace(",", "|", $row['zones']) . ",";
-		$fromRegion	 = $row['stt_zone'];
+		$condUserCategory	 = "";
+		$row				 = Cities::getZonesAndState($model->bkg_from_city_id);
+		$fromState			 = $row['stt_id'];
+		$fromZones			 = "," . str_replace(",", "|", $row['zones']) . ",";
+		$fromRegion			 = $row['stt_zone'];
 
 		$row		 = Cities::getZonesAndState($model->bkg_to_city_id);
 		$toState	 = $row['stt_id'];
@@ -1083,14 +1084,14 @@ class Promos extends CActiveRecord
 					bkg_user_id='{$model->bkgUserInfo->bkg_user_id}' AND bkg_active=1";
 			$bCRes			 = DBUtil::command($bCSql)->queryScalar();
 			$condMinBooking	 = " AND (prm_complete_min < $bCRes OR prm_complete_min IS NULL) ";
-			
+
 			$contactId = Users::getContactByUserId($model->bkgUserInfo->bkg_user_id);
-			if($contactId > 0)
+			if ($contactId > 0)
 			{
-				$category = ContactPref::model()->find('cpr_ctt_id=:id',['id'=>$contactId])->cpr_category;
-				if($category == '')
+				$category = ContactPref::model()->find('cpr_ctt_id=:id', ['id' => $contactId])->cpr_category;
+				if ($category == '')
 				{
-				  $category = 1;
+					$category = 1;
 				}
 				$condUserCategory = " AND (FIND_IN_SET($category,prm_usr_cat_type) OR prm_usr_cat_type IS NULL) ";
 			}
@@ -1808,9 +1809,10 @@ class Promos extends CActiveRecord
 			$ctr		 = 0;
 			while ($val		 = $promoData->read())
 			{
-				$promoRes[$ctr]['prm_id']	 = $val['prm_id'];
-				$promoRes[$ctr]['prm_code']	 = $val['prm_code'];
-				$promoRes[$ctr]['prm_desc']	 = $val['prm_desc'];
+				$promoRes[$ctr]['prm_id']		 = $val['prm_id'];
+				$promoRes[$ctr]['prm_code']		 = $val['prm_code'];
+				$promoRes[$ctr]['prm_desc']		 = $val['prm_desc'];
+				$promoRes[$ctr]['cashAmount']	 = $val['cashAmount'];
 				$ctr++;
 			}
 		}
@@ -2079,29 +2081,29 @@ class Promos extends CActiveRecord
 	 */
 	public function validateUser(Booking $bkgModel)
 	{
-		if ($this->prm_logged_in == 1 && ((UserInfo::getUserType() != UserInfo::TYPE_CONSUMER && UserInfo::getUserType() != UserInfo::TYPE_ADMIN) || UserInfo::getUserId() == 0  ))
+		if ($this->prm_logged_in == 1 && ((UserInfo::getUserType() != UserInfo::TYPE_CONSUMER && UserInfo::getUserType() != UserInfo::TYPE_ADMIN) || UserInfo::getUserId() == 0 ))
 		{
 			$this->addError("prm_logged_in", "User not logged in");
 		}
-		if($this->prm_usr_cat_type!='')
+		if ($this->prm_usr_cat_type != '')
 		{
-			$arrAllowedUsrCat = explode(",", $this->prm_usr_cat_type);
-			$contactId = Users::getContactByUserId($bkgModel->bkgUserInfo->bkg_user_id);
-			if($contactId>0)
+			$arrAllowedUsrCat	 = explode(",", $this->prm_usr_cat_type);
+			$contactId			 = Users::getContactByUserId($bkgModel->bkgUserInfo->bkg_user_id);
+			if ($contactId > 0)
 			{
-				$contactUsrCategory = ContactPref::model()->find('cpr_ctt_id=:ctt_id',['ctt_id'=>$contactId])->cpr_category;
-				$label = "";
-				if($contactUsrCategory=='')
+				$contactUsrCategory	 = ContactPref::model()->find('cpr_ctt_id=:ctt_id', ['ctt_id' => $contactId])->cpr_category;
+				$label				 = "";
+				if ($contactUsrCategory == '')
 				{
 					$contactUsrCategory = 1;
 				}
-				if(!in_array($contactUsrCategory, $arrAllowedUsrCat))
+				if (!in_array($contactUsrCategory, $arrAllowedUsrCat))
 				{
-					foreach ($arrAllowedUsrCat as $key=>$value)
+					foreach ($arrAllowedUsrCat as $key => $value)
 					{
-						if($key > 0)
+						if ($key > 0)
 						{
-							$label.="/";
+							$label .= "/";
 						}
 						$label .= UserCategoryMaster::model()->findByPk(trim($value))->ucm_label;
 					}
@@ -2204,5 +2206,5 @@ class Promos extends CActiveRecord
 				break;
 		}
 		return $message;
-	}	
+	}
 }

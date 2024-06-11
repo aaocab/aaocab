@@ -14,6 +14,8 @@ class PromoDetails
 	public $promoUserType;  // prm_user_type  1 =>Booking, 2=> GiftCard
 	public $isActiveStatus; // prm_active
 	public $promoCodes;
+	public $promos;
+	public $allowNegativeAddon;
 
 	/** @var \Stub\common\Fare $credit */
 	public $credit;
@@ -32,6 +34,7 @@ class PromoDetails
 		$this->description		 = $model->prm_desc;
 		$this->promoUserType	 = (int) $model->prm_user_type;
 		$this->isActiveStatus	 = (int) $model->prm_active;
+		$this->allowNegativeAddon  = (int) $model->prm_allow_negative_addon;
 	}
 
 	/**
@@ -53,6 +56,43 @@ class PromoDetails
 				$this->promoCodes[]	 = $obj;
 			}
 		}
+	}
+
+	/**
+	 * @param array $promos
+	 * @param integer $credits
+	 * @param integer $walletBalance
+	 * @return $object
+	 */
+	public static function setDataSet($promos, $credits, $walletBalance)
+	{
+		$obj				 = new \Stub\common\PromoDetails();
+		$obj->credit		 = ($credits > 0) ? (int) $credits : null;
+		$obj->wallet->amount = ($walletBalance > 0) ? (int) $walletBalance : null;
+		if (!empty($promos))
+		{
+			foreach ($promos as $v)
+			{
+				$promoObj		 = \Stub\common\PromoDetails::setPromoDetails($v);
+				$obj->promos[]	 = $promoObj;
+			}
+		}
+		return $obj;
+	}
+
+	/**
+	 * 
+	 * @param Array $promo
+	 * @return \Stub\common\PromoDetails
+	 */
+	public static function setPromoDetails($promo)
+	{
+		$obj				 = new \Stub\common\PromoDetails();
+		$obj->id			 = (int) $promo['prm_id'];
+		$obj->code			 = $promo['prm_code'];
+		$obj->description	 = $promo['prm_desc'];
+		$obj->amount		 = (float) $promo['cashAmount'];
+		return $obj;
 	}
 
 	public function setDetails($promo)

@@ -182,18 +182,19 @@ class Fare
 		$obj->stateTax				 = (int) $bkgInvoice->bkg_state_tax;
 		$obj->nightPickupIncluded	 = (int) $bkgInvoice->bkg_night_pickup_included;
 		$obj->nightDropIncluded		 = (int) $bkgInvoice->bkg_night_drop_included;
-		$obj->gozoCoins				 = (int) $bkgInvoice->bkg_credits_used;
-		$obj->extraPerKmRate		 = (float) $bkgInvoice->bkg_rate_per_km_extra;
-		$obj->extraPerMinCharge		 = (int) $bkgInvoice->bkg_extra_per_min_charge;
-		$obj->discount				 = (int) $bkgInvoice->bkg_discount_amount;
-		$obj->totalAmount			 = (int) $bkgInvoice->bkg_total_amount;
-		$obj->addOnCharge			 = (int) $bkgInvoice->bkg_addon_charges;
-		$obj->parkingCharge			 = (int) $bkgInvoice->bkg_parking_charge;
-		$obj->parkingIncluded		 = (int) $bkgInvoice->bkg_is_parking_included;
+
+		$obj->gozoCoins			 = ($model->bkg_status == 15) ? (int) $bkgInvoice->bkg_temp_credits : (int) $bkgInvoice->bkg_credits_used;
+		$obj->extraPerKmRate	 = (float) $bkgInvoice->bkg_rate_per_km_extra;
+		$obj->extraPerMinCharge	 = (int) $bkgInvoice->bkg_extra_per_min_charge;
+		$obj->discount			 = (int) $bkgInvoice->bkg_discount_amount;
+		$obj->totalAmount		 = (int) $bkgInvoice->bkg_total_amount;
+		$obj->addOnCharge		 = (int) $bkgInvoice->bkg_addon_charges;
+		$obj->parkingCharge		 = (int) $bkgInvoice->bkg_parking_charge;
+		$obj->parkingIncluded	 = (int) $bkgInvoice->bkg_is_parking_included;
 		//$minimunPay				 =  round(($bkgInvoice->bkg_total_amount * 15) / 100);
-		$minimunPay					 = $bkgInvoice->calculateMinPayment();
-		$obj->minPay				 = (int) $minimunPay;
-		$obj->minPayPercent			 = \Config::getMinAdvancePercent($bkgInvoice->bivBkg->bkg_agent_id, $bkgInvoice->bivBkg->bkg_booking_type, $bkgInvoice->bivBkg->bkgSvcClassVhcCat->scc_ServiceClass->scc_id, $bkgInvoice->bivBkg->bkgPref->bkg_is_gozonow);
+		$minimunPay				 = $bkgInvoice->calculateMinPayment();
+		$obj->minPay			 = (int) $minimunPay;
+		$obj->minPayPercent		 = \Config::getMinAdvancePercent($bkgInvoice->bivBkg->bkg_agent_id, $bkgInvoice->bivBkg->bkg_booking_type, $bkgInvoice->bivBkg->bkgSvcClassVhcCat->scc_ServiceClass->scc_id, $bkgInvoice->bivBkg->bkgPref->bkg_is_gozonow);
 
 		$dueAmount		 = in_array($model->bkg_status, [2, 3, 5, 6, 7]) ? $bkgInvoice->bkg_due_amount : ($bkgInvoice->bkg_total_amount - $bkgInvoice->bkg_net_advance_amount);
 		$obj->dueAmount	 = (int) $dueAmount;
@@ -219,10 +220,33 @@ class Fare
 		$obj->customerPaid	 = (int) ($bkgInvoice->bkg_advance_amount - ($bkgInvoice->bkg_refund_amount > 0 ? $bkgInvoice->bkg_refund_amount : 0));
 		$obj->promoCoins	 = (int) $bkgInvoice->bkg_promo1_coins;
 
-		$promoObj = new \Stub\common\PromoDetails();
+		$promoArr = \Promos::allApplicableCodes($bkgInvoice->bivBkg);
+		if ($promoArr->getRowCount() > 0)
+		{
+			$applyPromo	 = null;
+			$ctr		 = 0;
+			while ($val		 = $promoArr->read())
+			{
+				$availPromoObj = new \Stub\common\PromoDetails();
+				$availPromoObj->setDetails($val);
+				if ($ctr == 0)
+				{
+					$applyPromo = $availPromoObj;
+				}
+				$ctr++;
+			}
+		}
 
-		$promoObj->setModelData($bkgInvoice->bivPromos);
-		$this->promos[] = $promoObj;
+		if ($bkgInvoice->bivPromos->prm_code == null && $bkgInvoice->bivBkg->bkg_status == 15)
+		{
+			$this->promos[] = $applyPromo;
+		}
+		else
+		{
+			$promoObj		 = new \Stub\common\PromoDetails();
+			$promoObj->setModelData($bkgInvoice->bivPromos);
+			$this->promos[]	 = $promoObj;
+		}
 
 		if ($obj->advanceSlab == null)
 		{

@@ -25,6 +25,12 @@ class BaseController extends Controller
 		}
 		return true;
 	}
+	
+	public function afterAction($action)
+	{
+		Yii::app()->session->destroy();
+		parent::afterAction($action);
+	}
 
 	protected function getDriverId($strictValidate = true)
 	{

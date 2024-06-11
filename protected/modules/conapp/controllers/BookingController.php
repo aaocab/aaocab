@@ -380,23 +380,9 @@ class BookingController extends BaseController
 		return $returnSet;
 	}
 
-	public function checkIOSDevice()
-	{
-		$userAgent	 = $_SERVER['HTTP_USER_AGENT'];
-		$arrDevices	 = ['iPod', 'iPhone', 'iPad', 'iOS'];
-		foreach ($arrDevices as $device)
-		{
-			if (strpos($userAgent, $device) !== false)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function getQuoteV1()
 	{
-		if ($this->checkIOSDevice())
+		if (Filter::checkIOSDevice())
 		{
 			$data = Yii::app()->request->rawBody;
 			return $this->getQuote($data);
@@ -1931,7 +1917,7 @@ class BookingController extends BaseController
 			$bkgModel	 = Booking::model()->findByPk($bookingId);
 			if ($bkgModel != "")
 			{
-				$bkgModel->bkgInvoice->applyAddon($addonId);
+				$bkgModel->bkgInvoice->useAddon($addonId, 1);
 				BookingInvoice::evaluatePromoCoins($bkgModel, $eventType, $gozoCoins, $promoCode, true);
 				$message	 = $obj->getMessage($bkgModel->bkgInvoice, $addonId);
 				$response	 = new Stub\common\Addons();

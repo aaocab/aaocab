@@ -1572,6 +1572,7 @@ class BookingController extends BaseController
 			$returnSet = new ReturnSet();
 
 			$process_sync_data	 = Yii::app()->request->getParam('data');
+			throw new CHttpException(400, "This app has been discontinued. Please install & use Gozo Partner+ app from Google play store.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			Logger::create("driver::booking::drvBookingValidation request: " . $process_sync_data);
 			$data				 = CJSON::decode($process_sync_data, true);
 			$driverModel		 = Drivers::model()->getDetailsByBkgId($data['bkg_id']);
@@ -2125,6 +2126,7 @@ class BookingController extends BaseController
 		{
 			$returnSet			 = new ReturnSet();
 			$process_sync_data	 = Yii::app()->request->getParam('data');
+			throw new CHttpException(400, "This app has been discontinued. Please install & use Gozo Partner+ app from Google play store.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			if (!$process_sync_data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);

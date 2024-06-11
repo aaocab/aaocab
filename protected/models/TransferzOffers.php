@@ -20,6 +20,7 @@
  * @property string $trb_status_remarks
  * @property integer $trb_request_status
  * @property string $trb_create_date
+ * @property string $trb_data_last_pull_date
  */
 class TransferzOffers extends CActiveRecord
 {
@@ -43,10 +44,10 @@ class TransferzOffers extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			//array('trb_trz_id, trb_trz_journey_id, trb_bkg_id, trb_vehicle_type, trb_from_city_id, trb_to_city_id, trb_status, trb_request_status', 'numerical', 'integerOnly'=>true),
-			array('trb_id, trb_trz_id, trb_trz_journey_id, trb_trz_journey_code, trb_bkg_id, trb_pickup_date, trb_vehicle_type, trb_from_city_id, trb_to_city_id, trb_expiry_date, trb_quote_data, trb_hash, trb_status, trb_status_remarks, trb_request_status, trb_create_date', 'safe'),
+			array('trb_id, trb_trz_id, trb_trz_journey_id, trb_trz_journey_code, trb_bkg_id, trb_pickup_date, trb_vehicle_type, trb_from_city_id, trb_to_city_id, trb_expiry_date, trb_quote_data, trb_hash, trb_status, trb_status_remarks, trb_request_status, trb_create_date, trb_data_last_pull_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('trb_id, trb_trz_id, trb_trz_journey_id, trb_trz_journey_code, trb_bkg_id, trb_pickup_date, trb_vehicle_type, trb_from_city_id, trb_to_city_id, trb_expiry_date, trb_quote_data, trb_hash, trb_status, trb_status_remarks, trb_request_status, trb_create_date', 'safe', 'on' => 'search'),
+			array('trb_id, trb_trz_id, trb_trz_journey_id, trb_trz_journey_code, trb_bkg_id, trb_pickup_date, trb_vehicle_type, trb_from_city_id, trb_to_city_id, trb_expiry_date, trb_quote_data, trb_hash, trb_status, trb_status_remarks, trb_request_status, trb_create_date, trb_data_last_pull_date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -83,6 +84,7 @@ class TransferzOffers extends CActiveRecord
 			'trb_status_remarks'	 => 'Trb Status Remarks',
 			'trb_request_status'	 => '0=>Pending, 1=>created, 2=>accept, 3=>declined',
 			'trb_create_date'		 => 'Trb Create Date',
+			'trb_data_last_pull_date' => 'Trb Data Last Pull Date',
 		);
 	}
 
@@ -120,6 +122,7 @@ class TransferzOffers extends CActiveRecord
 		$criteria->compare('trb_status_remarks', $this->trb_status_remarks, true);
 		$criteria->compare('trb_request_status', $this->trb_request_status);
 		$criteria->compare('trb_create_date', $this->trb_create_date, true);
+		$criteria->compare('trb_data_last_pull_date', $this->trb_data_last_pull_date, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
@@ -261,16 +264,21 @@ class TransferzOffers extends CActiveRecord
 
 	public function process()
 	{
+		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		$returnSet				 = new ReturnSet();
 		$arrData				 = array();
 		$arrData['apiUrl']		 = '/offers/available/all';
 		$arrData['methodType']	 = 'GET';
+		Logger::info("Booking request received");
 
 		$objTransferz	 = new Transferz();
 		$request		 = $objTransferz->callApi($arrData);
+		Logger::trace("request".json_encode($request));
+
 		$partnerId		 = Config::get('transferz.partner.id');
 		foreach ($request as $data)
 		{
+			Logger::info("Booking request received in loop");
 			try
 			{
 				$patModel	 = null;
@@ -321,6 +329,7 @@ class TransferzOffers extends CActiveRecord
 			catch (Exception $e)
 			{
 				$returnSet = ReturnSet::setException($e);
+				Logger::Error('Error in proccess booking:' . $e->getMessage());
 				if ($patModel)
 				{
 					$time = Filter::getExecutionTime();
@@ -331,6 +340,7 @@ class TransferzOffers extends CActiveRecord
 				}
 			}
 		}
+		Logger::unsetModelCategory(__CLASS__, __FUNCTION__);
 	}
 
 	public function create()
@@ -380,6 +390,7 @@ class TransferzOffers extends CActiveRecord
 			catch (Exception $e)
 			{
 				Logger::writeToConsole('E: ' . $e->getMessage());
+				Logger::Error('Error in create booking:' . $e->getMessage());
 				$returnSet		 = ReturnSet::setException($e);
 				$time			 = Filter::getExecutionTime();
 				$statusUpdate	 = TransferzOffers::updateStatus($model, $row['trb_id'], $returnSet, $jsonObj);
@@ -398,24 +409,39 @@ class TransferzOffers extends CActiveRecord
 		{
 			try
 			{
+				$journeyDetails = false;
 				$model = Booking::model()->findByPk($row['bkg_id']);
-				if ($model->bkg_agent_id == Config::get('transferz.partner.id') && is_numeric($model->bkg_agent_ref_code))
+				
+				Logger::writeToConsole("bkg_id: " . $row['bkg_id'] . " - " . $model->bkg_agent_ref_code);
+				
+				if (is_numeric($model->bkg_agent_ref_code))
 				{
 					$journeyDetails = self::getOffer($model->bkg_agent_ref_code);
 				}
+				if(!$journeyDetails)
+				{
+					throw new Exception("No transfers offer found: " . $model->bkg_agent_ref_code);
+				}
+				
+				Logger::writeToConsole("trb_trz_journey_id: " . $journeyDetails['trb_trz_journey_id']);
 
 				/* @var $data ClassName */
 				$data = Transferz::getJourneyDetailsById($journeyDetails['trb_trz_journey_id'], null);
 				if ($data)
 				{
+					Logger::writeToConsole("data");
 					$jsonMapper	 = new JsonMapper();
 					$jsonObj	 = CJSON::decode(CJSON::encode($data, true), false);
 					$addOn		 = count($jsonObj->addOns);
 
 					if ($jsonObj->hash != $journeyDetails['trb_hash'])
 					{
+						Logger::writeToConsole("hash");
+						
 						if (($jsonObj->assignmentStatus == "ASSIGNED" && $jsonObj->status == "CONFIRMED") || ($addOn > 0))
 						{
+							Logger::writeToConsole("ASSIGNED");
+							
 							$typeAction		 = AgentApiTracking::TYPE_UPDATE_BOOKING;
 							$patModel		 = PartnerApiTracking::add($typeAction, $model->bkg_id, $model->bkg_agent_id, $model, $model->bkg_pickup_date);
 							$updateUserInfo	 = BookingUser::updateTransferzData($model, $jsonObj);
@@ -436,6 +462,8 @@ class TransferzOffers extends CActiveRecord
 						 */
 						if (($jsonObj->assignmentStatus == "ASSIGNED" && $jsonObj->status == "CANCELLED_FREE") || ($jsonObj->assignmentStatus == "ASSIGNED" && $jsonObj->status == "CANCELLED_WITH_COSTS") || ($jsonObj->assignmentStatus == "REASSIGNED"))
 						{
+							Logger::writeToConsole("CANCELLED_FREE");
+							
 							$typeAction	 = AgentApiTracking::TYPE_CANCEL_BOOKING;
 							$patModel	 = PartnerApiTracking::add($typeAction, $model->bkg_id, $model->bkg_agent_id, $model, $model->bkg_pickup_date);
 
@@ -467,6 +495,8 @@ class TransferzOffers extends CActiveRecord
 
 						if (($timeDiff > 0 && $jsonObj->status == "PENDING") || ($newCityId != $model->bkg_from_city_id && $jsonObj->status == "PENDING"))
 						{
+							Logger::writeToConsole("PENDING");
+							
 							$typeAction		 = AgentApiTracking::TYPE_CANCEL_BOOKING;
 							$patModel		 = PartnerApiTracking::add($typeAction, $model->bkg_id, $model->bkg_agent_id, $model, $model->bkg_pickup_date);
 							$cancelReason	 = CancelReasons::getTransferzCancelWithNoCost();
@@ -487,18 +517,30 @@ class TransferzOffers extends CActiveRecord
 							$statusUpdate	 = TransferzOffers::updateStatus($model, $journeyDetails['trb_id'], $returnSet, $jsonObj);
 						}
 					}
+					
+					$sql = "UPDATE transferz_offers SET trb_data_last_pull_date = NOW() WHERE trb_id = {$journeyDetails['trb_id']}";
+						
+					Logger::writeToConsole("SQL: " . $sql);
+
+					DBUtil::execute($sql);
 				}
 				else
 				{
+					Logger::writeToConsole("no data found");
+					
 					$returnSet->setMessage("no data found");
 					$returnSet->setStatus(false);
 				}
 			}
 			catch (Exception $e)
 			{
+				Logger::writeToConsole("Error: " . $e->getMessage());
+				
 				$returnSet = ReturnSet::setException($e);
 				if ($patModel)
 				{
+					Logger::writeToConsole("UpdateData");
+					
 					$time = Filter::getExecutionTime();
 					$patModel->updateData($returnSet, 2, null, $e->getCode(), $e->getMessage(), $time);
 				}

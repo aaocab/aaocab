@@ -282,8 +282,8 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
                         <table width="100%" border="1" style="border-collapse: collapse;" cellpadding="5" bordercolor="#CCCCCC">
                             <tr>
                                 <td width="40%"><strong style="color:#7a7a7a">Booking id</strong></td>
-                                <td><a href="<?= $payurl ?>" target="_blank"><?= Filter::formatBookingId($model->bkg_booking_id); ?> <p style="font-size:12px;">Check driver, car info and other details</p></a></td>
-                                
+                                <td><a href="#" target="_blank"><?= Filter::formatBookingId($model->bkg_booking_id); ?></a></td>
+                                <?//$payurl ?>
                             </tr>
                             <tr>
                                 <td><strong style="color:#7a7a7a">Name:</strong></td>
@@ -429,7 +429,7 @@ $returnInfoPerKm = '<ol type="1" style="font-size:10px; line-height:15px;padding
                 //{?>
                 <tr>
                     <td align="left"><strong style="color:#7a7a7a">Return  Date Time</strong></td>
-                    <td align="left"><?= date('jS M Y (D) h:i A', strtotime($model->bkg_return_date)); ?></td>
+                    <td align="left"><?php ($model->bkg_return_date!='')? date('jS M Y (D) h:i A', strtotime($model->bkg_return_date)): "";?></td>
                 </tr>
                 <?php
                 //}?> 

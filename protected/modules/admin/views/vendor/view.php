@@ -30,7 +30,7 @@
 $merged = '';
 $mergedId = Yii::app()->request->getParam('id');
 $mergedCode = Yii::app()->request->getParam('code');
-if(($mergedId != '' && $mergedId != $model->vnd_id) || ($mergedCode != '' && $mergedCode != $model->vnd_code))
+if(($mergedId != '' && $mergedId != $model->vnd_id) || ($mergedCode != '' && strtoupper($mergedCode) != strtoupper($model->vnd_code)))
 {
 	$merged = ' <span class="label label-info font-10" title="Merged">Merged</span>';
 }
@@ -153,12 +153,42 @@ if ($model != null)
 													<?php
 													if ($data['vnd_is_freeze'] == 1)
 													{
-														echo ' <span class="btn-4 mr15">Frozen</span>';
+														//echo ' <span class="btn-4 mr15">Frozen</span>';
+														
+														if($data['vnp_credit_limit_freeze']==1)
+														{
+															$freezeType ="Credit limit Frozen";
+														}
+														if($data['vnp_low_rating_freeze']==1)
+														{
+															$freezeType ="Low rating Frozen";
+														}	
+														if($data['vnp_doc_pending_freeze']==1)
+														{
+															$freezeType ="Document pending Frozen";
+														}
+														if($data['vnp_manual_freeze']==1)
+														{
+															$freezeType ="Manual Frozen";
+														}
+														echo ' <span class="btn-4 mr15">'.$freezeType.'</span>';
 													}
 													if ($data['vnd_active'] == 1)
 													{
 														echo ' <span class="btn-5 mr15">Active</span>';
 													}
+													elseif ($data['vnd_active'] == 2) 
+													{
+													    echo '<span class="btn-5 mr15">Deactive</span>';
+												    }
+													elseif ($data['vnd_active'] == 3) 
+													{
+													    echo '<span class="btn-5 mr15">Pending Approval</span>';
+												    }
+													elseif ($data['vnd_active'] == 4) 
+													{
+													    echo '<span class="btn-5 mr15">Ready for Approval</span>';
+												    }
 													else
 													{
 														echo ' <span class="btn-4 mr15">Inactive</span>';
@@ -463,6 +493,16 @@ if ($model != null)
 																			}
 																			?>
 																			<li class="mb5"><a  href="/admpnl/vendor/Getlockamount?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Locked Amount</a></li>
+                                                                           
+																			<?php
+																			
+																			if($data['vrs_dependency']<0 && Yii::app()->user->checkAccess("vendorUnBlockStatus"))
+																			{
+																			?>
+																			<li class="mb5"><a  onclick="addTmpDependency(this);return false;" href="/admpnl/vendor/boostDependency?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Boost Dependency</a></li>
+																			<?php
+																			}
+																			?>
 																		</ul>    
 																	</div>
 																</div>
@@ -1218,6 +1258,41 @@ else
             }
         });
     }
+	
+	function addTmpDependency()
+	{
+		bootbox.confirm({
+            message: "Are you sure want to give temporary dependency?",
+            buttons: {
+                confirm: {
+                    label: 'OK',
+                    className: 'btn-info'
+                },
+                cancel: {
+                    label: 'CANCEL',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    var href = '<?= Yii::app()->createUrl("admin/vendor/boostDependency"); ?>';
+                    var vendorId = '<?= $model->vnd_id ?>';
+                    jQuery.ajax({type: 'GET',
+                        url: href,
+                        data: {"vnd_id": vendorId},
+                        success: function (data)
+                        {
+                            console.log(data);
+                            data = JSON.parse(data);
+                            bootbox.alert(data.message);
+
+                        }
+                    });
+                }
+            }
+        });
+	}
+	
 	$("#vendorCollectionli").on("click", function () {
         getAccountDetails();
     });

@@ -1501,12 +1501,12 @@ class Vehicles extends CActiveRecord
 
 	public function getJSONbyTypeNVendor($typeID = 0, $vendor = '')
 	{
-		$sql	 = "SELECT vvhc_vhc_id, vhc_id, vht1.vht_make, vht1.vht_model, upper(vhc_number) vhc_number,vhc_is_freeze,vhc_total_trips,vhc_approved
+		$sql	 = "SELECT distinct vvhc_vhc_id, vhc_id, vht1.vht_make, vht1.vht_model, upper(vhc_number) vhc_number,vhc_is_freeze,vhc_total_trips,vhc_approved
                 FROM vendor_vehicle
-						JOIN vehicles vhc on vvhc_vhc_id = vhc_id AND vhc.vhc_active = 1
-						JOIN vehicle_types vht1 on vht1.vht_id = vhc_type_id AND vht1.vht_active = 1
-                WHERE vvhc_vnd_id  ='$vendor'";
-		$cars	 = DBUtil::queryAll($sql);
+					JOIN vehicles vhc on vvhc_vhc_id = vhc_id AND vhc.vhc_active = 1
+					JOIN vehicle_types vht1 on vht1.vht_id = vhc_type_id AND vht1.vht_active = 1
+                WHERE vvhc_vnd_id  IN ({$vendor})";
+		$cars	 = DBUtil::query($sql);
 		$arr	 = [];
 		foreach ($cars as $val)
 		{
@@ -2802,8 +2802,11 @@ class Vehicles extends CActiveRecord
 		return $success;
 	}
 
-	public function getJSONAllCabsbyQuery($query = '', $cabs = '', $onlyActive = '0', $vnd = 0)
+	public static function getJSONAllCabsbyQuery($query = '', $cabs = '', $onlyActive = '0', $vndId = '')
 	{
+		 
+		$vnd	 = Vendors::getRelatedIds($vndId);
+//		$vnd	 = Vendors::getPrimaryId($vndId);
 		$qry		 = '';
 		$qry2		 = '';
 		$limitNum	 = "LIMIT 0,30 ";
@@ -2816,18 +2819,19 @@ class Vehicles extends CActiveRecord
 			DBUtil::getLikeStatement($query, $bindString, $params);
 			$qry .= " AND (vhc.vhc_number LIKE $bindString or vht1.vht_make LIKE $bindString or vhc.vhc_number LIKE $bindString ) ";
 		}
-		if ($onlyActive == '1' && $vnd != 0)
+		if ($onlyActive == '1' && $vnd != '')
 		{
 			$qry	 .= " AND vhc.vhc_active = 1  AND  vhc.vhc_is_freeze =0 AND vhc.vhc_approved !=3";
-			$qry2	 .= " AND  vendor_vehicle.vvhc_vnd_id=$vnd AND vendor_vehicle.vvhc_active = 1";
+			$qry2	 .= " AND  vendor_vehicle.vvhc_vnd_id IN ($vnd) 
+			AND vendor_vehicle.vvhc_active = 1";
 		}
-		if ($onlyActive == '2' && $vnd != 0)
+		if ($onlyActive == '2' && $vnd != '')
 		{
 			$qry		 .= " AND vhc.vhc_active = 1  AND  vhc.vhc_is_freeze =0 AND vhc.vhc_approved !=3";
-			$qry2		 .= " AND  vendor_vehicle.vvhc_vnd_id=$vnd";
+			$qry2		 .= " AND  vendor_vehicle.vvhc_vnd_id IN ($vnd) AND vendor_vehicle.vvhc_active = 1";
 			$limitNum	 = "";
 		}
-		$sql	 = "SELECT vvhc_vhc_id, vhc.vhc_id, vht1.vht_make, vht1.vht_model, upper(vhc.vhc_number) vhc_number
+		$sql	 = "SELECT DISTINCT vvhc_vhc_id, vhc.vhc_id, vht1.vht_make, vht1.vht_model, upper(vhc.vhc_number) vhc_number
 			    FROM vendor_vehicle
 				INNER JOIN vehicles vhc on vvhc_vhc_id = vhc.vhc_id AND vhc.vhc_active = 1  $qry2 
                 LEFT JOIN vehicle_types vht1 on vht1.vht_id = vhc_type_id AND vht1.vht_active = 1
@@ -4180,7 +4184,10 @@ class Vehicles extends CActiveRecord
 				if(bkg.bkg_vehicle_type_id = :vehicleTypeId,1,0) vhcRank 
 			from  booking_cab bcb 
 			INNER JOIN booking bkg ON bkg.bkg_bcb_id = bcb.bcb_id AND bkg.bkg_status IN (5,6,7)
-			WHERE bcb.bcb_vendor_id =:vndId AND bcb.bcb_cab_id > 0
+			INNER JOIN vendor_vehicle vvhc ON vvhc.vvhc_vnd_id = bcb.bcb_vendor_id 
+            	AND vvhc.vvhc_vhc_id=bcb.bcb_cab_id AND vvhc.vvhc_active = 1
+			WHERE bcb.bcb_vendor_id =:vndId AND bcb.bcb_cab_id > 0 
+				AND bkg.bkg_vehicle_type_id = :vehicleTypeId
 			GROUP BY bcb.bcb_cab_id
 			ORDER BY vhcRank DESC, max_pickup_date DESC";
 		$prefCab = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
@@ -4345,56 +4352,29 @@ class Vehicles extends CActiveRecord
 						vct.vct_label LIKE $bindString ) ";
 		}
 
-		$sql		 = "SELECT
-					vhc.vhc_id,
-					vhc.vhc_type_id,
-					vhc.vhc_number,
-					vhc.vhc_mark_car_count,
-					vhc.vhc_is_freeze,
-					vhc.vhc_color,
-					vhc.vhc_year,
-					vhc.vhc_has_cng,
-                    vhc.vhc_has_rooftop_carrier,
-                    vht.vht_make,
-                    vht.vht_model,
-					vhc.vhc_approved,
-					IF(vhc.vhc_dop = NULL,'',vhc.vhc_dop) AS vhc_dop,
-					vvhc.vvhc_id,
-					vvhc.vvhc_digital_is_agree,
-					vvhc.vvhc_vnd_id AS vhc_vendor_id,					 
-					vct.vct_label AS vht_car_type,
-					vct.vct_id,vct.vct_label,
-					IF((vhc.vhc_owned_or_rented = 1 OR vvhc.vvhc_digital_flag = 1),1,0) AS vvhc_digital_flag,					 
-					IF(vehicleDoc = 3, 0, 1) AS documentUpload
-					FROM
-						`vehicles` vhc
-					INNER JOIN `vendor_vehicle` vvhc ON vhc.vhc_id = vvhc.vvhc_vhc_id 
-						AND vhc.vhc_active = 1 AND vhc.vhc_is_freeze <> 1					
-					INNER JOIN `vehicle_types` vht ON vht.vht_id = vhc.vhc_type_id
-					INNER JOIN vcv_cat_vhc_type vcvt ON vcvt.vcv_vht_id = vht.vht_id
-					INNER JOIN vehicle_category vct ON vct.vct_id = vcvt.vcv_vct_id
-					LEFT JOIN
-					(
-						SELECT
-							vhd.vhd_vhc_id,
-							SUM(vhd.vhd_active) AS vehicleDoc
-						FROM
-							`vehicle_docs` vhd
-						WHERE
-							vhd.vhd_active = 1 
-							AND vhd.vhd_status IN (0,1) 
-							AND vhd.vhd_type IN (1, 5, 6)
-						GROUP BY
-							vhd.vhd_vhc_id
-					) vehicledoc
-					ON
-						vehicledoc.vhd_vhc_id = vhc.vhc_id
-					WHERE
-						vvhc.vvhc_vnd_id = :vendorId 
-						$where
-						AND vvhc.vvhc_active = 1
-					GROUP BY vhc.vhc_id
-					ORDER BY vhc.vhc_id DESC";
+		$sql		 = "SELECT 
+							vhc.vhc_id, vhc.vhc_type_id, vhc.vhc_number, vhc.vhc_mark_car_count,
+							vhc.vhc_is_freeze, vhc.vhc_color, vhc.vhc_year, vhc.vhc_has_cng, vhc.vhc_has_rooftop_carrier,
+							vht.vht_make, vht.vht_model, vhc.vhc_approved, IF(vhc.vhc_dop = NULL,'',vhc.vhc_dop) AS vhc_dop,
+							vvhc.vvhc_id, vvhc.vvhc_digital_is_agree, vvhc.vvhc_vnd_id AS vhc_vendor_id,					 
+							vct.vct_label AS vht_car_type, vct.vct_id,vct.vct_label, IF((vhc.vhc_owned_or_rented = 1 OR vvhc.vvhc_digital_flag = 1),1,0) AS vvhc_digital_flag,					 
+							IF(vehicleDoc = 3, 0, 1) AS documentUpload
+						FROM `vehicles` vhc
+						INNER JOIN `vendor_vehicle` vvhc ON vhc.vhc_id = vvhc.vvhc_vhc_id 
+							AND vhc.vhc_active = 1 AND vhc.vhc_is_freeze <> 1					
+						INNER JOIN `vehicle_types` vht ON vht.vht_id = vhc.vhc_type_id
+						INNER JOIN vcv_cat_vhc_type vcvt ON vcvt.vcv_vht_id = vht.vht_id
+						INNER JOIN vehicle_category vct ON vct.vct_id = vcvt.vcv_vct_id
+						LEFT JOIN
+						(
+							SELECT vhd.vhd_vhc_id, SUM(vhd.vhd_active) AS vehicleDoc
+							FROM `vehicle_docs` vhd
+							WHERE vhd.vhd_active = 1  AND vhd.vhd_status IN (0,1)  AND vhd.vhd_type IN (1, 5, 6)
+							GROUP BY vhd.vhd_vhc_id
+						) vehicledoc ON vehicledoc.vhd_vhc_id = vhc.vhc_id
+						WHERE vvhc.vvhc_vnd_id = :vendorId  $where AND vvhc.vvhc_active = 1 
+						GROUP BY vhc.vhc_id
+						ORDER BY vhc.vhc_id DESC";
 		$recordset	 = DBUtil::query($sql, DBUtil::SDB(), $param);
 		return $recordset;
 	}

@@ -504,7 +504,7 @@ class RatingController extends BaseController
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
-		header('Content-Length: ' . filesize($newTempImg));
+//		header('Content-Length: ' . filesize($newTempImg));
 		flush(); // Flush system output buffer
 		readfile($newTempImg);
 		unlink($newTempImg);

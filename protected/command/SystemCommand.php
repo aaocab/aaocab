@@ -17,7 +17,7 @@ class SystemCommand extends BaseCommand
 		$result	 = DBUtil::query($sql);
 		$mem1	 = 21;
 		exit;
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
@@ -25,7 +25,7 @@ class SystemCommand extends BaseCommand
 				$rModel	 = $result['model'];
 				Logger::writeToConsole("\n{$row["rut_id"]} : {$rModel->rut_id} [{$rModel->rut_name}] - {$row["distance"]} : {$rModel->rut_actual_distance}\n");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -39,7 +39,7 @@ class SystemCommand extends BaseCommand
 			";
 		$res = DBUtil::query($sql);
 		Logger::writeToConsole("Total: " . $res->getRowCount());
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			$placeObj			 = Stub\common\Place::init($row["cty_lat"], $row["cty_long"]);
 			$placeObj->place_id	 = $row["cty_place_id"];
@@ -47,7 +47,7 @@ class SystemCommand extends BaseCommand
 			$googleObjects		 = $objects->results;
 			$models				 = [];
 			$model				 = null;
-			foreach($googleObjects as $obj)
+			foreach ($googleObjects as $obj)
 			{
 				$placeObj1	 = \Stub\common\Place::initGoogePlace($obj);
 				$obj		 = LatLong::addPlace($placeObj1, null, $row["cty_id"]);
@@ -63,13 +63,13 @@ class SystemCommand extends BaseCommand
 		$longName	 = strtolower(trim($obj->address_components[0]->long_name));
 		$name		 = strtolower(trim($model->cty_name));
 		$aliasName	 = strtolower(trim($model->cty_alias_name));
-		if($longName == "Unnamed Road")
+		if ($longName == "Unnamed Road")
 		{
 			$shortName	 = strtolower(trim($obj->address_components[1]->short_name));
 			$longName	 = strtolower(trim($obj->address_components[1]->long_name));
 		}
 
-		if($shortName == $name || $longName == $name || (($longName == $aliasName || $shortName == $aliasName) && $aliasName != ''))
+		if ($shortName == $name || $longName == $name || (($longName == $aliasName || $shortName == $aliasName) && $aliasName != ''))
 		{
 			return true;
 		}
@@ -86,30 +86,30 @@ class SystemCommand extends BaseCommand
 				INNER JOIN geo_data gd3 ON gd3.gdt_geo_id=gd2.gdt_parent_geo_id
 				WHERE gd1.gdt_city_id IS NULL AND gd2.gdt_city_id IS NULL ";
 		$res						 = DBUtil::query($sql, DBUtil::SDB());
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			echo "\nName: {$row["gdtName"]} - ";
 			$data = GoogleMapAPI::getObjectByAddress($row["gdtName"]);
 
 			$placeObj	 = Stub\common\Place::initGoogePlace($data->results[0]);
 			$objs		 = GoogleMapAPI::getLocalities($data);
-			if(count($objs) == 0)
+			if (count($objs) == 0)
 			{
 				$data	 = GoogleMapAPI::getObjectByLatLong($placeObj->coordinates->latitude, $placeObj->coordinates->longitude);
 				$objs	 = GoogleMapAPI::getLocalities($data);
 			}
 
-			if(count($objs) == 0)
+			if (count($objs) == 0)
 			{
 				continue;
 			}
 
 			$stateModel = States::getByGeoCoordinates($placeObj->coordinates->latitude, $placeObj->coordinates->longitude);
-			foreach($objs as $obj)
+			foreach ($objs as $obj)
 			{
 				$placeObj	 = \Stub\common\Place::initGoogePlace($obj);
 				$model		 = Cities::create($placeObj, $stateModel->stt_id);
-				if($model)
+				if ($model)
 				{
 					echo "\n\t" . json_encode($model->getAttributes());
 				}
@@ -129,15 +129,15 @@ class SystemCommand extends BaseCommand
 		echo "Records Retrieved...\n";
 
 		$i = 0;
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			$i++;
 			$ltgModel	 = LatLong::model()->findByPk($row['ltg_id']);
 			$placeObj	 = Stub\common\Place::init($ltgModel->ltg_lat, $ltgModel->ltg_long);
 			$ctyModel	 = Cities::getByGeoBounds($placeObj);
-			if($ctyModel)
+			if ($ctyModel)
 			{
-				if($ctyModel->cty_id != $ltgModel->ltg_city_id)
+				if ($ctyModel->cty_id != $ltgModel->ltg_city_id)
 				{
 					echo "{$ltgModel->ltg_id}::{$ltgModel->ltg_city_id}={$ctyModel->cty_id}\t";
 				}
@@ -156,11 +156,11 @@ class SystemCommand extends BaseCommand
 				WHERE route.rut_active=1 AND rut_estm_distance=0 AND fc.cty_id<>tc.cty_id AND CalcDistance(fc.cty_lat, fc.cty_long, tc.cty_lat, tc.cty_long)>1";
 
 		$res = DBUtil::query($sql, DBUtil::SDB());
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			$row1 = DistanceMatrix::findNearest($row["fcLat"], $row["fcLong"], $row["tcLat"], $row["tcLong"]);
 
-			if($row1)
+			if ($row1)
 			{
 				$dModel			 = DistanceMatrix::model()->findByPk($row1['dmx_id']);
 				$srcLtLngModel	 = LatLong::model()->findByPk($dModel->dmx_source_ltg_id);
@@ -176,7 +176,7 @@ class SystemCommand extends BaseCommand
 			try
 			{
 				$result = GoogleMapAPI::getInstance()->getDrivingDistancebyLatLong($srcLtLngModel->ltg_lat, $srcLtLngModel->ltg_long, $dstLtLngModel->ltg_lat, $dstLtLngModel->ltg_long);
-				if($result["success"])
+				if ($result["success"])
 				{
 					Logger::info("Distance matrix fetched via Google API");
 
@@ -184,7 +184,7 @@ class SystemCommand extends BaseCommand
 					$dModel->dmx_destination_ltg_id	 = $dstLtLngModel->ltg_id;
 					$dModel->dmx_distance			 = $result['distance'][0]['dist'];
 					$dModel->dmx_duration			 = $result['distance'][0]['time'];
-					if(!$dModel->save())
+					if (!$dModel->save())
 					{
 						echo "\nFailed: {$model->dmx_id}::{$row["rut_name"]} == " . json_encode($model->getErrors());
 
@@ -192,7 +192,7 @@ class SystemCommand extends BaseCommand
 					}
 				}
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				echo "\nFailed: {$dModel->dmx_id}::{$row["rut_name"]} == {$e->getMessage()}";
 				$dModel->dmx_active = 2;
@@ -206,12 +206,12 @@ class SystemCommand extends BaseCommand
 		$sql = "SELECT ll.*, CalcDistance(ll.ltg_lat, ll.ltg_long, c.cty_lat, c.cty_long) as distance FROM lat_long ll
 				INNER JOIN cities c ON ll.ltg_city_id=c.cty_id AND c.cty_service_active=0 ";
 		$res = DBUtil::query($sql);
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			$placeObj			 = \Stub\common\Place::init($row["ltg_lat"], $row["ltg_long"]);
 			$placeObj->address	 = $row["ltg_locality_address"];
 			$ctyModel			 = Cities::getByNearestBound($placeObj);
-			if($ctyModel && $ctyModel->cty_id != $row["ltg_city_id"] && $ctyModel->is_partial === 0)
+			if ($ctyModel && $ctyModel->cty_id != $row["ltg_city_id"] && $ctyModel->is_partial === 0)
 			{
 				$ltgModel				 = LatLong::model()->findByPk($row["ltg_id"]);
 				$ltgModel->ltg_city_id	 = $ctyModel->cty_id;
@@ -221,7 +221,7 @@ class SystemCommand extends BaseCommand
 				Logger::info("\n\nctyId: {$ctyModel->cty_id}, type: {$ctyModel->cty_types}, Name: {$ctyModel->cty_display_name}, Distance {$ctyModel->distance} | {$row["distance"]}");
 				Logger::info("\n*********************************************************************************\n");
 			}
-			else if($ctyModel->cty_id != $row["ltg_city_id"])
+			else if ($ctyModel->cty_id != $row["ltg_city_id"])
 			{
 //				Logger::info("\n--------------------------------------------------------------------------------\n");
 //				Logger::info(json_encode($row));
@@ -245,7 +245,7 @@ class SystemCommand extends BaseCommand
 				. " JOIN states d ON b.cty_state_id= d.stt_id "
 				. "WHERE `bkg_booking_type`=1 AND (`bkg_trip_distance` LIKE '%km%' OR `bkg_trip_distance`='' OR  `bkg_trip_distance` IS NULL)";
 		$result	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($result as $value)
+		foreach ($result as $value)
 		{
 
 			$fromcity		 = $value['fromcity'];
@@ -303,7 +303,7 @@ class SystemCommand extends BaseCommand
 						WHERE apt_user_type = 2 AND (apt_date >= DATE_SUB(NOW(), INTERVAL :interval DAY) OR apt_last_login >= DATE_SUB(NOW(), INTERVAL :interval DAY) OR apt_logout >= DATE_SUB(NOW(), INTERVAL :interval DAY))
 					) a";
 		$result	 = DBUtil::query($sql, DBUtil::SDB(), $params);
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vndId = $res['vnd_id'];
 			Vendors::model()->updateDetails($vndId);
@@ -344,7 +344,7 @@ class SystemCommand extends BaseCommand
 						WHERE apt_user_type = 5 AND (apt_date >= DATE_SUB(NOW(), INTERVAL :interval DAY) OR apt_last_login >= DATE_SUB(NOW(), INTERVAL :interval DAY) OR apt_logout >= DATE_SUB(NOW(), INTERVAL :interval DAY)) 
 					) a";
 		$result	 = DBUtil::query($sql, DBUtil::SDB(), $params);
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$drvId = $res['drv_id'];
 			Drivers::model()->updateDetails($drvId);
@@ -378,16 +378,16 @@ class SystemCommand extends BaseCommand
 
 		$model	 = Users::model()->findAll(['condition' => "usr_email NOT LIKE '%gozocabs.in%' AND usr_refer_code IS NULL"]);
 		$sum	 = 0;
-		foreach($model as $modelUser)
+		foreach ($model as $modelUser)
 		{
 			$modelUser->scenario = 'refcode';
-			if($modelUser->usr_refer_code != '')
+			if ($modelUser->usr_refer_code != '')
 			{
 				$refCode = $modelUser->usr_refer_code;
 			}
 			else
 			{
-				if($modelUser->usr_name != null)
+				if ($modelUser->usr_name != null)
 				{
 					$fname	 = preg_replace('/[^a-zA-Z0-9]/', '', $modelUser->usr_name);
 					$refCode = strtoupper($fname . rand(100, 999)); //Yii::app()->shortHash->hash($userId, 6);        
@@ -397,9 +397,9 @@ class SystemCommand extends BaseCommand
 					$refCode = strtoupper(Yii::app()->shortHash->hash($modelUser->user_id, 6));
 				}
 				$modelUser->usr_refer_code = $refCode;
-				if($modelUser->validate())
+				if ($modelUser->validate())
 				{
-					if(!$modelUser->update())
+					if (!$modelUser->update())
 					{
 						$errors = $modelUser->getErrors();
 						echo 'error_update';
@@ -422,10 +422,10 @@ class SystemCommand extends BaseCommand
 	{
 		$query			 = "SELECT ntf_id, ntf_type from notification WHERE ntf_status = 0";
 		$notifications	 = Yii::app()->db->createCommand($query)->queryAll();
-		foreach($notifications as $notification)
+		foreach ($notifications as $notification)
 		{
 			$users = Users::model()->getUsers($notification['ntf_type']);
-			foreach($users as $user)
+			foreach ($users as $user)
 			{
 				$unfModel				 = new UserNotification();
 				$unfModel->unf_user_id	 = $user['user_id'];
@@ -439,12 +439,12 @@ class SystemCommand extends BaseCommand
 			        user_notification  LEFT JOIN notification ON ntf_id = unf_ntf_id
                     WHERE unf_status = 0";
 		$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$notificationId	 = substr(round(microtime(true) * 1000), -5);
 			$payLoadData	 = ['UserId' => $row['user_id'], 'NtfId' => $row['nft_id'], 'MsgType' => $row['ntf_message_type'], 'EventCode' => Booking::CODE_CONSUMER_NOTIFICATION];
 			$success		 = AppTokens::model()->notifyConsumer($row['user_id'], $payLoadData, $notificationId, $row['message'], $row['title']);
-			if($success)
+			if ($success)
 			{
 				$model				 = UserNotification::model()->findByPk($row['unf_id']);
 				$model->unf_status	 = 1;
@@ -456,7 +456,7 @@ class SystemCommand extends BaseCommand
 	public function actionProcessMails()
 	{
 		$check = Filter::checkProcess("system processMails");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -477,7 +477,7 @@ class SystemCommand extends BaseCommand
 	public function actionProcessSms()
 	{
 		$check = Filter::checkProcess("system processSms");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -520,13 +520,13 @@ class SystemCommand extends BaseCommand
 		$count	 = count($list);
 		//die();
 		$length	 = 45000; // real data
-		for($i = 1; $i <= ceil($count / $length); $i++)
+		for ($i = 1; $i <= ceil($count / $length); $i++)
 		{
 			$offset	 = ($i - 1) * $length;
 			$list1	 = array_slice($list, $offset, $length);
 			$str	 = '<?xml version="1.0" encoding="UTF-8"?>';
 			$str	 .= "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'  xsi:schemaLocation='http://www.sitemaps.org/schemas/sitemap/0.9  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'>";
-			for($k = 0; $k < count($list1); $k++)
+			for ($k = 0; $k < count($list1); $k++)
 			{
 				$str .= "<url><loc>" . $list1[$k]['loc'] . "</loc><changefreq>" . $list1[$k]['frequency'] . "</changefreq> <priority>" . $list1[$k]['priority'] . "</priority></url>";
 			}
@@ -550,7 +550,7 @@ class SystemCommand extends BaseCommand
 		fclose($myfile);
 		$list			 = [];
 		$packages		 = Package::model()->fetchActivePackageList();
-		foreach($packages as $row)
+		foreach ($packages as $row)
 		{
 			$list[] = $this->createSitemapEntry('packages/' . $row['pck_url'], '', 'daily', '0.9');
 		}
@@ -578,23 +578,23 @@ class SystemCommand extends BaseCommand
 		$list[]			 = $this->createSitemapEntry('blog', [], 'daily', '0.7');
 		$new_text		 = array();
 		$new_text_sec	 = array();
-		for($i = 0; $i < count($routes); $i++)
+		for ($i = 0; $i < count($routes); $i++)
 		{
 			$text		 = strtolower(str_replace(' ', '_', $routes[$i]['text']));
 			$text_split	 = explode("-", $text);
 
 			$list[] = $this->createSitemapEntry('book-taxi/' . $text, '', 'weekly', '0.9');
 			//remove duplicate link and add tempo traveller and outstation link
-			if(in_array($text_split[0], $new_text))
+			if (in_array($text_split[0], $new_text))
 			{
 				goto end;
 			}
 			$check_city = Cities::model()->getIdByCityCron($text_split[0]);
-			if($check_city == '')
+			if ($check_city == '')
 			{
 				$modify_city		 = strtolower(str_replace('_', '-', $text_split[0]));
 				$check_modified_city = Cities::model()->getIdByCityCron($modify_city);
-				if($check_modified_city != "")
+				if ($check_modified_city != "")
 				{
 					$list[]	 = $this->createSitemapEntry('outstation-cabs/' . $modify_city, '', 'weekly', '0.9');
 					$list[]	 = $this->createSitemapEntry('tempo-traveller-rental/' . $modify_city, '', 'weekly', '0.9');
@@ -608,16 +608,16 @@ class SystemCommand extends BaseCommand
 			}
 
 
-			if(in_array($text_split[1], $new_text))
+			if (in_array($text_split[1], $new_text))
 			{
 				goto end;
 			}
 			$check_city = Cities::model()->getIdByCityCron($text_split[1]);
-			if($check_city == '')
+			if ($check_city == '')
 			{
 				$modify_city		 = strtolower(str_replace('_', '-', $text_split[1]));
 				$check_modified_city = Cities::model()->getIdByCityCron($modify_city);
-				if($check_modified_city != "")
+				if ($check_modified_city != "")
 				{
 					$list[]	 = $this->createSitemapEntry('outstation-cabs/' . $modify_city, '', 'weekly', '0.9');
 					$list[]	 = $this->createSitemapEntry('tempo-traveller-rental/' . $modify_city, '', 'weekly', '0.9');
@@ -651,31 +651,31 @@ class SystemCommand extends BaseCommand
 		$cityList	 = Cities::model()->getStateCityNameCron();
 		$routeCount	 = Route::model()->cityRouteCountCron();
 
-		if(count($state_list) > 0)
+		if (count($state_list) > 0)
 		{
-			for($j = 0; $j < count($state_list); $j++)
+			for ($j = 0; $j < count($state_list); $j++)
 			{
 				$strXML		 = '';
 				$stateId	 = $state_list[$j] ['stt_id'];
 				$urlCount	 = 0;
 				$countCity	 = count($cityList[$state_list[$j] ['stt_id']]);
-				if($countCity > 0)
+				if ($countCity > 0)
 				{
-					for($i = 0; $i < $countCity; $i++)
+					for ($i = 0; $i < $countCity; $i++)
 					{
 						$city = $cityList[$state_list[$j] ['stt_id']][$i];
-						if($city != "")
+						if ($city != "")
 						{
 							//$strXML	 .= $this->getSitemapXMLString($urlCount, array('loc' => 'car-rental/' . $city, 'frequency' => 'monthly', 'priority' => '0.7'));
 							$strXML	 .= $this->getSitemapXMLString($urlCount, array('loc' => 'tempo-traveller-rental/' . $city, 'frequency' => 'monthly', 'priority' => '0.7'));
 							$strXML	 .= $this->getSitemapXMLString($urlCount, array('loc' => 'outstation-cabs/' . $city, 'frequency' => 'monthly', 'priority' => '0.7'));
 							$cmodel	 = Cities::model()->getCityhasairportCron($city);
-							if($cmodel == 1)
+							if ($cmodel == 1)
 							{
 								$strXML .= $this->getSitemapXMLString($urlCount, array('loc' => 'airport-transfer/' . $city, 'frequency' => 'monthly', 'priority' => '0.7'));
 							}
 							$luxary_cities_arr = array('delhi', 'mumbai', 'hyderabad', 'chennai', 'bangalore', 'pune', 'goa', 'jaipur');
-							if(in_array($city, $luxary_cities_arr))
+							if (in_array($city, $luxary_cities_arr))
 							{
 								$strXML .= $this->getSitemapXMLString($urlCount, array('loc' => 'Luxury-car-rental/' . $city, 'frequency' => 'monthly', 'priority' => '0.7'));
 							}
@@ -688,17 +688,17 @@ class SystemCommand extends BaseCommand
 				$dataLimit	 = 1000;
 				$xmlLimit	 = 45000;
 
-				if($routeCount[$j]['cnt'] > 0)
+				if ($routeCount[$j]['cnt'] > 0)
 				{
-					while($zz < $routeCount[$j]['cnt'])
+					while ($zz < $routeCount[$j]['cnt'])
 					{
 						$routeData = Route::model()->allCityRouteListCron($stateId, $zz, $dataLimit);
-						for($xx = 0; $xx < count($routeData); $xx++)
+						for ($xx = 0; $xx < count($routeData); $xx++)
 						{
 							$totUrl++;
 							$route	 = $routeData[$xx]['rut_name'];
 							$strXML	 .= $this->getSitemapXMLString($urlCount, array('loc' => 'book-taxi/' . $route, 'frequency' => 'monthly', 'priority' => '0.7'));
-							if($urlCount >= $xmlLimit || $totUrl == $routeCount[$j]['cnt'])
+							if ($urlCount >= $xmlLimit || $totUrl == $routeCount[$j]['cnt'])
 							{
 								$sitemapXmlData		 = $this->getSitemapXMLString($urlCount, array(), true, false);
 								$sitemapXmlData		 .= $strXML;
@@ -735,7 +735,7 @@ class SystemCommand extends BaseCommand
 		$txt			 = '';
 
 		// Create Robot.txt
-		if($newFile)
+		if ($newFile)
 		{
 			$myfile = fopen('robots.txt', 'w') or die("Unable to open file!");
 
@@ -749,7 +749,7 @@ class SystemCommand extends BaseCommand
 		}
 
 		// Write Robot.txt Content
-		if(trim($fileName) != '')
+		if (trim($fileName) != '')
 		{
 			$myfile	 = fopen("robots.txt", "a") or die("Unable to open file!");
 			$txt	 = "SITEMAP: " . $site_url . $sitemap_folder . "/" . $fileName . PHP_EOL;
@@ -763,13 +763,13 @@ class SystemCommand extends BaseCommand
 		$strXML	 = '';
 		$siteUrl = 'https://www.gozocabs.com/';
 
-		if($fileBegin)
+		if ($fileBegin)
 		{
 			$strXML	 = '<?xml version="1.0" encoding="UTF-8"?>';
 			$strXML	 .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
 		}
 
-		if(count($data) > 0)
+		if (count($data) > 0)
 		{
 			$strXML	 .= '<url>';
 			$strXML	 .= '<loc>' . CHtml::encode($siteUrl . $data['loc']) . '</loc>';
@@ -778,7 +778,7 @@ class SystemCommand extends BaseCommand
 			$strXML	 .= '</url>';
 			$urlCount++;
 		}
-		if($fileEnd)
+		if ($fileEnd)
 		{
 			$strXML .= '</urlset>';
 		}
@@ -789,41 +789,41 @@ class SystemCommand extends BaseCommand
 	public function actionCarRentalSiteMapXml()
 	{
 		$arrCtyCat = [1, 2, 0];
-		foreach($arrCtyCat as $cat)
+		foreach ($arrCtyCat as $cat)
 		{
 
 			$sql	 = "SELECT cty_id,cty_alias_path FROM `cities_stats` INNER JOIN cities ON cty_id = cts_cty_id WHERE cts_category = {$cat} AND cty_service_active = 1 AND cty_active=1;";
 			$rows	 = DBUtil::queryAll($sql);
 			$list	 = [];
-			if($cat == 1)
+			if ($cat == 1)
 			{
 				$frequency	 = 'weekly';
 				$priority	 = '0.8';
 			}
-			if($cat == 2)
+			if ($cat == 2)
 			{
 				$frequency	 = 'weekly';
 				$priority	 = '0.9';
 			}
-			if($cat == 0)
+			if ($cat == 0)
 			{
 				$frequency	 = 'monthly';
 				$priority	 = '0.7';
 			}
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$list[] = $this->createSitemapEntry("car-rental/" . strtolower($row['cty_alias_path']), [], $frequency, $priority);
 			}
 
 			$count	 = count($list);
 			$length	 = 45000; // real data
-			for($i = 1; $i <= ceil($count / $length); $i++)
+			for ($i = 1; $i <= ceil($count / $length); $i++)
 			{
 				$offset	 = ($i - 1) * $length;
 				$list1	 = array_slice($list, $offset, $length);
 				$str	 = '<?xml version="1.0" encoding="UTF-8"?>';
 				$str	 .= "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'  xsi:schemaLocation='http://www.sitemaps.org/schemas/sitemap/0.9  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'>";
-				for($k = 0; $k < count($list1); $k++)
+				for ($k = 0; $k < count($list1); $k++)
 				{
 					$str .= "<url><loc>" . $list1[$k]['loc'] . "</loc><changefreq>" . $list1[$k]['frequency'] . "</changefreq> <priority>" . $list1[$k]['priority'] . "</priority></url>";
 				}
@@ -862,7 +862,7 @@ class SystemCommand extends BaseCommand
 
 		#echo "\n state_list == " . count($state_list);
 
-		foreach($state_list as $state)
+		foreach ($state_list as $state)
 		{
 			$list_map	 = array();
 			//city related map
@@ -872,26 +872,26 @@ class SystemCommand extends BaseCommand
 
 			#echo "\n countCity == " . $countCity;
 
-			if($countCity > 0)
+			if ($countCity > 0)
 			{
-				for($i = 0; $i < count($cityList); $i++)
+				for ($i = 0; $i < count($cityList); $i++)
 				{
 					$city = $cityList[$i];
-					if($city != "")
+					if ($city != "")
 					{
 						$list_map[]	 = $this->createSitemapEntry('car-rental/' . $city, '', 'monthly', '0.7');
 						$list_map[]	 = $this->createSitemapEntry('tempo-traveller-rental/' . $city, '', 'monthly', '0.7');
 						$list_map[]	 = $this->createSitemapEntry('outstation-cabs/' . $city, '', 'monthly', '0.7');
 						//show airport page 
 						$cmodel		 = Cities::model()->getCityhasairport($city);
-						if($cmodel == 1)
+						if ($cmodel == 1)
 						{
 							$list_map[] = $this->createSitemapEntry('airport-transfer/' . $city, '', 'monthly', '0.7');
 						}
 						//show luxary page
 						$luxary_cities_arr = array('delhi', 'mumbai', 'hyderabad', 'chennai', 'bangalore', 'pune', 'goa', 'jaipur');
 
-						if(in_array($city, $luxary_cities_arr))
+						if (in_array($city, $luxary_cities_arr))
 						{
 
 							$list_map[] = $this->createSitemapEntry('Luxury-car-rental/' . $city, '', 'monthly', '0.7');
@@ -906,11 +906,11 @@ class SystemCommand extends BaseCommand
 			$j				 = 0;
 			$lowerlimit		 = 0;
 			$number_of_data	 = 45000;
-			while(1)
+			while (1)
 			{
 				$rute_list_arr = array();
 				$j++;
-				if($j == 1)
+				if ($j == 1)
 				{
 					$number_of_data = $number_of_data - count($list_map);
 				}
@@ -926,11 +926,11 @@ class SystemCommand extends BaseCommand
 				$internalLowerLimit = $lowerlimit;
 
 				$arrData = array();
-				for($zz = $internalLowerLimit; $zz < $number_of_data; $zz += 1000)
+				for ($zz = $internalLowerLimit; $zz < $number_of_data; $zz += 1000)
 				{
 					$internalRouteData = Route::model()->allCityRouteList($state->stt_id, $zz, 1000);
 
-					if(count($internalRouteData) == 0)
+					if (count($internalRouteData) == 0)
 					{
 						break;
 					}
@@ -951,13 +951,13 @@ class SystemCommand extends BaseCommand
 				#die();
 				#echo "\n COUNT rute_list_arr == " . count($rute_list_arr);
 
-				if(count($rute_list_arr) == 0)
+				if (count($rute_list_arr) == 0)
 				{
 					break;
 				}
 
 				// add xml
-				for($i = 0; $i < count($rute_list_arr); $i++)
+				for ($i = 0; $i < count($rute_list_arr); $i++)
 				{
 					$route		 = $rute_list_arr[$i]['rut_name'];
 					$list_map[]	 = $this->createSitemapEntry('book-taxi/' . $route, '', 'monthly', '0.7');
@@ -997,13 +997,13 @@ class SystemCommand extends BaseCommand
 	{
 		$sql		 = 'select aat_id, aat_request, aat_response from agent_api_tracking where aat_type = 2 and aat_from_mmt_code IS NULL order by aat_id DESC limit 0, 10000';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$array			 = json_decode($result['aat_request'], true);
 			$response		 = json_decode($result['aat_response'], true);
 			$fromCityCode	 = MmtCity::model()->getCityId($array['fromCityCode']);
 			$toCityCode		 = MmtCity::model()->getCityId($array['toCityCode']);
-			if($fromCityCode != '' && $toCityCode != '')
+			if ($fromCityCode != '' && $toCityCode != '')
 			{
 				$fromToCityQuery = ", aat_from_city = " . $fromCityCode . ", aat_to_city = " . $toCityCode;
 			}
@@ -1014,7 +1014,7 @@ class SystemCommand extends BaseCommand
 			$mmtFromCityCode = $array['fromCityCode'];
 			$mmtToCityCode	 = $array['toCityCode'];
 			$bookingType	 = $array['tripType'];
-			if($bookingType == 'OW')
+			if ($bookingType == 'OW')
 			{
 				$tripType = 1;
 			}
@@ -1023,18 +1023,18 @@ class SystemCommand extends BaseCommand
 				$tripType = 2;
 			}
 			$error = $response['errors'];
-			if($error != '')
+			if ($error != '')
 			{
 				$errorType = 4;
-				foreach($error as $key => $value)
+				foreach ($error as $key => $value)
 				{
 					$errorMsg = $value[0];
 				}
-				if($errorMsg == 'Route not supported')
+				if ($errorMsg == 'Route not supported')
 				{
 					$errorType = 2;
 				}
-				if($errorMsg == 'City not found')
+				if ($errorMsg == 'City not found')
 				{
 					$errorType = 1;
 				}
@@ -1045,7 +1045,7 @@ class SystemCommand extends BaseCommand
 				$errorQuery = "'";
 			}
 			$pickupDate = DateTimeFormat::DatePickerToDate($array['departureDate']);
-			if($array['pickupTime'] != '')
+			if ($array['pickupTime'] != '')
 			{
 				$pickupTime = $array['pickupTime'] . ':00';
 			}
@@ -1068,13 +1068,13 @@ class SystemCommand extends BaseCommand
 						and biv.bkg_cgst = 0 and biv.bkg_sgst = 0 and biv.bkg_service_tax_rate = 5 
 						order by bkg_id DESC limit 0, 25000';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$model = Booking::model()->findByPk($result['bkg_id']);
-			if($model->bkg_agent_id != '')
+			if ($model->bkg_agent_id != '')
 			{
 				$agtModel = Agents::model()->findByPk($model->bkg_agent_id);
-				if($agtModel->agt_city == 30706)
+				if ($agtModel->agt_city == 30706)
 				{
 					$model->bkgInvoice->bkg_cgst = Yii::app()->params['cgst'];
 					$model->bkgInvoice->bkg_sgst = Yii::app()->params['sgst'];
@@ -1089,7 +1089,7 @@ class SystemCommand extends BaseCommand
 			}
 			else
 			{
-				if($model->bkg_from_city_id == 30706)
+				if ($model->bkg_from_city_id == 30706)
 				{
 					$model->bkgInvoice->bkg_cgst = Yii::app()->params['cgst'];
 					$model->bkgInvoice->bkg_sgst = Yii::app()->params['sgst'];
@@ -1110,14 +1110,14 @@ class SystemCommand extends BaseCommand
 	{
 		$sql		 = 'select id, from_city_id, to_city_id from top_routes where suv_inclusive IS NULL';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$route							 = [];
 			$routeModel						 = new BookingRoute();
 			$routeModel->brt_from_city_id	 = $result['from_city_id'];
 			$routeModel->brt_to_city_id		 = $result['to_city_id'];
 			$routeModel->brt_pickup_datetime = '2018-01-03 06:00:00';
-			if(DateTimeFormat::parseDateTime($routeModel->brt_pickup_datetime, $date, $time))
+			if (DateTimeFormat::parseDateTime($routeModel->brt_pickup_datetime, $date, $time))
 			{
 				$routeModel->brt_pickup_date_date	 = $date;
 				$routeModel->brt_pickup_date_time	 = $time;
@@ -1152,7 +1152,7 @@ class SystemCommand extends BaseCommand
 		$sql		 = 'select sr.rut_id, r.rut_from_city_id, r.rut_to_city_id from savaari_routes sr
                 left join route r on r.rut_id = sr.rut_id where sr.sedan_total_amount is null';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$route								 = [];
 			$routeModel							 = new BookingRoute();
@@ -1215,7 +1215,7 @@ class SystemCommand extends BaseCommand
 	{
 		$sql		 = 'select id, from_city_id, to_city_id from top_routes_return where suv_inclusive_1 IS NULL';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$pickupCity		 = $result['from_city_id'];
 			$dropCity		 = $result['to_city_id'];
@@ -1231,7 +1231,7 @@ class SystemCommand extends BaseCommand
 			$routes			 = json_encode($routes);
 			$routes			 = json_decode($routes);
 			$route			 = [];
-			foreach($routes as $key => $value)
+			foreach ($routes as $key => $value)
 			{
 				$routeModel							 = new BookingRoute();
 				$routeModel->brt_from_city_id		 = $value->pickupCity;
@@ -1275,11 +1275,11 @@ class SystemCommand extends BaseCommand
 	{
 		$sql		 = 'select cty_id, cty_name from cities where cty_is_airport = 1 and cty_active = 1';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$sql1		 = "SELECT rut_to_city_id, cty_name from route join cities on cty_id = rut_to_city_id where rut_from_city_id = " . $result['cty_id'] . " AND rut_estm_distance < 40 AND rut_to_city_id <> " . $result['cty_id'];
 			$resultset1	 = Yii::app()->db->createCommand($sql1)->queryAll();
-			foreach($resultset1 as $result1)
+			foreach ($resultset1 as $result1)
 			{
 				$route1								 = [];
 				$route2								 = [];
@@ -1341,13 +1341,13 @@ class SystemCommand extends BaseCommand
 	public function actionAgentMessage()
 	{
 		$arrAgents = Yii::app()->db->createCommand("SELECT agt_id,agt_copybooking_ismail,agt_copybooking_issms,agt_trvl_isemail,agt_trvl_issms,agt_trvl_isapp,agt_copybooking_admin_ismail,agt_copybooking_admin_issms,agt_copybooking_admin_isapp FROM `agents` WHERE agt_active=1")->queryAll();
-		foreach($arrAgents as $agents)
+		foreach ($arrAgents as $agents)
 		{
 			$arrEvents = AgentMessages::getEvents();
-			foreach($arrEvents as $key => $value)
+			foreach ($arrEvents as $key => $value)
 			{
 				$agentMessages = AgentMessages::model()->getByEventAndAgent($agents['agt_id'], $key);
-				if($agentMessages == '')
+				if ($agentMessages == '')
 				{
 					$agentMessages					 = new AgentMessages();
 					$agentMessages->agt_agent_id	 = $agents['agt_id'];
@@ -1376,20 +1376,20 @@ class SystemCommand extends BaseCommand
 	public function actionBookingMessage()
 	{
 		$arrBooking = Yii::app()->db->createCommand("SELECT bkg_id,bkg_agent_id,bpr.bpr_id,bpr.bkg_crp_send_email,bpr.bkg_crp_send_sms,bpr.bkg_crp_send_app,bpr.bkg_trv_send_email,bpr.bkg_trv_send_sms,bpr.bkg_trv_send_app FROM `booking` LEFT JOIN booking_pref bpr ON bpr.bpr_bkg_id = bkg_id WHERE bkg_agent_id>0 AND bkg_status IN(2,3,5,6,7,8,9) AND bkg_active=1 order by bkg_pickup_date DESC")->queryAll();
-		foreach($arrBooking as $booking)
+		foreach ($arrBooking as $booking)
 		{
 			$arrEvents = AgentMessages::getEvents();
-			foreach($arrEvents as $key => $value)
+			foreach ($arrEvents as $key => $value)
 			{
 
 				$agentMessages = BookingMessages::model()->getByEventAndBookingId($booking['bkg_id'], $key);
-				if($agentMessages == '')
+				if ($agentMessages == '')
 				{
 					$bookingMessages				 = new BookingMessages();
 					$bookingMessages->bkg_booking_id = $booking['bkg_id'];
 					$bookingMessages->bkg_event_id	 = $key;
 					$bookingMessages->bkg_active	 = 1;
-					if($booking['bpr_id'] == '')
+					if ($booking['bpr_id'] == '')
 					{
 						$bookingMessages->getMessageDefaults($booking['bkg_agent_id'], $key);
 					}
@@ -1529,7 +1529,7 @@ class SystemCommand extends BaseCommand
 	public function actionArchiveSingle()
 	{
 		$check = Filter::checkProcess("system archiveSingle");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -1537,10 +1537,14 @@ class SystemCommand extends BaseCommand
 		Logger::create("command.system.archivesingle end Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
 		$archiveDB = 'gozo_archive';
 
-		// Archive Booking Vendor Request Data
-		Logger::create("BookingLog Start Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
-		BookingLog::model()->archiveData($archiveDB);
-		Logger::create("BookingLog Ends Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+		Logger::create("App Token Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+		AppTokens::model()->archiveData($archiveDB, 1000000, 1000);
+		Logger::create("App Token Ends Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+
+		// Archive WhatsappLog
+		#Logger::create("WhatsappLog Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+		#WhatsappLog::model()->archiveData($archiveDB, 1000000, 1000);
+		#Logger::create("WhatsappLog Ends Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
 
 		Logger::create("command.system.archivesingle end Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
 	}
@@ -1552,15 +1556,15 @@ class SystemCommand extends BaseCommand
 		WHERE bkg_status = 5 and bkg_agent_id = 450 
 		and date(bkg_pickup_date) = curdate()';
 		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($resultset as $result)
+		foreach ($resultset as $result)
 		{
 			$model = Booking::model()->findByPk($result['bkg_id']);
-			if($model->bkg_agent_id == 450 || $model->bkg_agent_id == 18190)
+			if ($model->bkg_agent_id == 450 || $model->bkg_agent_id == 18190)
 			{
 				$typeAction = AgentApiTracking::TYPE_CAB_DRIVER_UPDATE;
 			}
 			$partnerResponse = AgentMessages::model()->pushApiCall($model, $typeAction);
-			if($partnerResponse->status == 1)
+			if ($partnerResponse->status == 1)
 			{
 				echo $description = 'Updated Successfully';
 			}
@@ -1577,17 +1581,17 @@ class SystemCommand extends BaseCommand
 	public function actionagentApiDetailsMove()
 	{
 		echo "==========Start===========";
-		while(true)
+		while (true)
 		{
 
 			$range_sql	 = "SELECT aad_id, aad_aat_id, aad_request, aad_response, aat_agent_id, aat_type, aat_booking_type, aat_created_at FROM `agent_api_details` LEFT JOIN agent_api_tracking ON aad_aat_id = aat_id where aad_status>=0 ORDER BY aad_id DESC LIMIT 0, 50";
 			$rows		 = Yii::app()->db->createCommand($range_sql)->queryAll();
-			if(count($rows) == 0)
+			if (count($rows) == 0)
 			{
 				print_r($rows);
 				break;
 			}
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				try
 				{
@@ -1611,7 +1615,7 @@ class SystemCommand extends BaseCommand
 					$sql = "UPDATE `agent_api_details` SET aad_status=-1 WHERE aad_id={$row['aad_id']}";
 					Yii::app()->db->createCommand($sql)->execute();
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					echo "Error: {$e->getMessage()}";
 				}
@@ -1625,18 +1629,18 @@ class SystemCommand extends BaseCommand
 	public function actionpartnerApiDetailsMove()
 	{
 		echo "==========Start===========";
-		while(true)
+		while (true)
 		{
 
 			$range_sql	 = "SELECT pad_id, pad_pat_id, pad_request, pad_response, pat_agent_id, pat_type, pat_booking_type, pat_created_at FROM `partner_api_details` LEFT JOIN partner_api_tracking ON pad_pat_id = pat_id where pad_status >=0 ORDER BY pad_id DESC LIMIT 0, 50";
 			$rows		 = Yii::app()->db->createCommand($range_sql)->queryAll();
-			if(count($rows) == 0)
+			if (count($rows) == 0)
 			{
 				print_r($rows);
 				break;
 			}
 			echo $row['pad_pat_id'] . "start==============";
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				try
 				{
@@ -1662,7 +1666,7 @@ class SystemCommand extends BaseCommand
 					//$sql = "Delete FROM `agent_api_details` WHERE aad_id = {$row['aad_id']}";
 					Yii::app()->db->createCommand($sql)->execute();
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					echo "Error: {$e->getMessage()}";
 				}
@@ -1677,16 +1681,16 @@ class SystemCommand extends BaseCommand
 	public function actionagentApiTrackingMove()
 	{
 		echo "==========Start===========";
-		while(true)
+		while (true)
 		{
 			$range_sql	 = "SELECT aat_id, aat_request, aat_response, aat_agent_id, aat_type, aat_booking_type, aat_created_at FROM `agent_api_tracking1` WHERE aat_request != '' AND aat_response != '' ORDER BY aat_id DESC LIMIT 0, 50";
 			$rows		 = Yii::app()->db->createCommand($range_sql)->queryAll();
-			if(count($rows) == 0)
+			if (count($rows) == 0)
 			{
 				print_r($rows);
 				break;
 			}
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				try
 				{
@@ -1710,7 +1714,7 @@ class SystemCommand extends BaseCommand
 					$sql = "UPDATE `agent_api_tracking1` SET aat_request='', aat_response='' WHERE aat_id={$row['aat_id']}";
 					Yii::app()->db->createCommand($sql)->execute();
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					echo "Error: {$e->getMessage()}";
 				}
@@ -1729,7 +1733,7 @@ class SystemCommand extends BaseCommand
 				WHERE vhc.vhc_active=1 AND vhd.vhd_type IS NOT NULL AND vhd.vhd_file IS NOT NULL AND vhc.vhc_approved=1 AND vhc.vhc_id 
 				IN (SELECT cabid FROM table162 WHERE cabid IS NOT NULL)";
 		$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$vhcNo		 = $row['vhc_number'];
 			$existPath	 = $row['vhd_file'];
@@ -1741,7 +1745,7 @@ class SystemCommand extends BaseCommand
 			$newfolderpath	 = $path . DIRECTORY_SEPARATOR . $vhcNo;
 
 			$mainfoldername = $path . DIRECTORY_SEPARATOR . 'export' . DIRECTORY_SEPARATOR . 'vehicles' . DIRECTORY_SEPARATOR . $vhcNo;
-			if(!file_exists($mainfoldername))
+			if (!file_exists($mainfoldername))
 			{
 				mkdir($mainfoldername, 777, true);
 			}
@@ -1750,9 +1754,9 @@ class SystemCommand extends BaseCommand
 			$newFileName = str_replace(DIRECTORY_SEPARATOR, '/', $newFileName);
 			$exitPathUrl = str_replace(DIRECTORY_SEPARATOR, '/', $exitPathUrl);
 
-			if(file_exists($exitPathUrl))
+			if (file_exists($exitPathUrl))
 			{
-				if(copy($exitPathUrl, $newFileName))
+				if (copy($exitPathUrl, $newFileName))
 				{
 					echo "<br>copied $exitPathUrl into $newFileName\n";
 				}
@@ -1776,7 +1780,7 @@ class SystemCommand extends BaseCommand
 				WHERE drv.drv_active=1 AND drd.drd_file IS NOT NULL AND drv.drv_approved=1 AND drv.drv_id 
 				IN (SELECT driverid FROM table162 WHERE driverid IS NOT NULL)";
 		$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$drv_name	 = $row['drv_name'];
 			$drv_phone	 = $row['drv_phone'];
@@ -1789,7 +1793,7 @@ class SystemCommand extends BaseCommand
 			$newfolderpath	 = $path . DIRECTORY_SEPARATOR . $drv_name . "_" . $drv_phone;
 
 			$mainfoldername = $path . DIRECTORY_SEPARATOR . 'export' . DIRECTORY_SEPARATOR . 'drivers' . DIRECTORY_SEPARATOR . $drv_name . "_" . $drv_phone;
-			if(!file_exists($mainfoldername))
+			if (!file_exists($mainfoldername))
 			{
 				mkdir($mainfoldername, 777, true);
 			}
@@ -1798,9 +1802,9 @@ class SystemCommand extends BaseCommand
 			$newFileName = str_replace(DIRECTORY_SEPARATOR, '/', $newFileName);
 			$exitPathUrl = str_replace(DIRECTORY_SEPARATOR, '/', $exitPathUrl);
 
-			if(file_exists($exitPathUrl))
+			if (file_exists($exitPathUrl))
 			{
-				if(copy($exitPathUrl, $newFileName))
+				if (copy($exitPathUrl, $newFileName))
 				{
 					echo "<br>copied $exitPathUrl into $newFileName\n";
 				}
@@ -1824,7 +1828,7 @@ class SystemCommand extends BaseCommand
 				WHERE vhc.vhc_active=1 AND vhd.vhd_type IS NOT NULL AND vhd.vhd_file IS NOT NULL AND vhc.vhc_approved=1 AND vhc.vhc_id 
 				IN (SELECT vhc_id FROM vwVehicleDriverList WHERE vhc_id IS NOT NULL)";
 		$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$vhcNo		 = $row['vhc_number'];
 			$existPath	 = $row['vhd_file'];
@@ -1836,7 +1840,7 @@ class SystemCommand extends BaseCommand
 			$newfolderpath	 = $path . DIRECTORY_SEPARATOR . $vhcNo;
 
 			$mainfoldername = $path . DIRECTORY_SEPARATOR . 'export' . DIRECTORY_SEPARATOR . 'vehiclesSouth' . DIRECTORY_SEPARATOR . $vhcNo;
-			if(!file_exists($mainfoldername))
+			if (!file_exists($mainfoldername))
 			{
 				mkdir($mainfoldername, 777, true);
 			}
@@ -1845,9 +1849,9 @@ class SystemCommand extends BaseCommand
 			$newFileName = str_replace(DIRECTORY_SEPARATOR, '/', $newFileName);
 			$exitPathUrl = str_replace(DIRECTORY_SEPARATOR, '/', $exitPathUrl);
 
-			if(file_exists($exitPathUrl))
+			if (file_exists($exitPathUrl))
 			{
-				if(copy($exitPathUrl, $newFileName))
+				if (copy($exitPathUrl, $newFileName))
 				{
 					echo "<br>copied $exitPathUrl into $newFileName\n";
 				}
@@ -1871,7 +1875,7 @@ class SystemCommand extends BaseCommand
 				WHERE drv.drv_active=1 AND drd.drd_file IS NOT NULL AND drv.drv_approved=1 AND drv.drv_id 
 				IN (SELECT drv_id FROM vwVehicleDriverList WHERE drv_id IS NOT NULL)";
 		$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$drv_name	 = $row['drv_name'];
 			$drv_phone	 = $row['drv_phone'];
@@ -1884,7 +1888,7 @@ class SystemCommand extends BaseCommand
 			$newfolderpath	 = $path . DIRECTORY_SEPARATOR . $drv_name . "_" . $drv_phone;
 
 			$mainfoldername = $path . DIRECTORY_SEPARATOR . 'export' . DIRECTORY_SEPARATOR . 'driversSouth' . DIRECTORY_SEPARATOR . $drv_name . "_" . $drv_phone;
-			if(!file_exists($mainfoldername))
+			if (!file_exists($mainfoldername))
 			{
 				mkdir($mainfoldername, 777, true);
 			}
@@ -1893,9 +1897,9 @@ class SystemCommand extends BaseCommand
 			$newFileName = str_replace(DIRECTORY_SEPARATOR, '/', $newFileName);
 			$exitPathUrl = str_replace(DIRECTORY_SEPARATOR, '/', $exitPathUrl);
 
-			if(file_exists($exitPathUrl))
+			if (file_exists($exitPathUrl))
 			{
-				if(copy($exitPathUrl, $newFileName))
+				if (copy($exitPathUrl, $newFileName))
 				{
 					echo "<br>copied $exitPathUrl into $newFileName\n";
 				}
@@ -1937,15 +1941,15 @@ class SystemCommand extends BaseCommand
 	{
 		try
 		{
-			if(trim($database) != '')
+			if (trim($database) != '')
 			{
 				$sql	 = "SELECT table_name FROM information_schema.tables WHERE table_schema='" . $database . "'";
 				$rows	 = DBUtil::queryAll($sql);
-				if($rows)
+				if ($rows)
 				{
-					foreach($rows as $row)
+					foreach ($rows as $row)
 					{
-						if(!in_array($row['table_name'], $arrIgnoreTable))
+						if (!in_array($row['table_name'], $arrIgnoreTable))
 						{
 							$tableName	 = $row['table_name'];
 							$sql		 = "OPTIMIZE TABLE " . $database . ".`" . $tableName . "`";
@@ -1955,7 +1959,7 @@ class SystemCommand extends BaseCommand
 				}
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			echo $e->getMessage();
 			echo "\r\n";
@@ -2004,14 +2008,14 @@ class SystemCommand extends BaseCommand
 			"6"	 => array()
 		);
 
-		if(count($arrTable[date('w')]) > 0)
+		if (count($arrTable[date('w')]) > 0)
 		{
 			$arrSelectedTable = $arrTable[date('w')];
-			foreach($arrSelectedTable as $tableName)
+			foreach ($arrSelectedTable as $tableName)
 			{
 				try
 				{
-					if(date('H') >= 6)
+					if (date('H') >= 6)
 					{
 						break;
 					}
@@ -2019,7 +2023,7 @@ class SystemCommand extends BaseCommand
 					Logger::info("OPTIMIZE TABLE " . $database . ".`" . $tableName . '`');
 					DBUtil::execute("OPTIMIZE TABLE " . $database . ".`" . $tableName . '`');
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -2027,18 +2031,18 @@ class SystemCommand extends BaseCommand
 		}
 
 		// Every Tuesday will be optimize the rest of the table
-		if(date('w') == 2)
+		if (date('w') == 2)
 		{
 			$mergedTable	 = array_merge($arrTable['2'], $arrTable['3'], $arrTable['4'], $arrTable['5'], $arrIgnoreTable);
 			$sql			 = "SELECT table_name FROM information_schema.tables WHERE table_schema  ='$database'";
 			$restTableList	 = DBUtil::query($sql, DBUtil::SDB());
-			foreach($restTableList as $tableName)
+			foreach ($restTableList as $tableName)
 			{
-				if(!in_array($tableName['table_name'], $mergedTable))
+				if (!in_array($tableName['table_name'], $mergedTable))
 				{
 					try
 					{
-						if(date('H') >= 6)
+						if (date('H') >= 6)
 						{
 							break;
 						}
@@ -2046,7 +2050,7 @@ class SystemCommand extends BaseCommand
 						Logger::info("OPTIMIZE TABLE " . $database . ".`" . $tableName['table_name'] . '`');
 						DBUtil::execute("OPTIMIZE TABLE " . $database . ".`" . $tableName['table_name'] . '`');
 					}
-					catch(Exception $ex)
+					catch (Exception $ex)
 					{
 						Logger::exception($ex);
 					}
@@ -2054,13 +2058,13 @@ class SystemCommand extends BaseCommand
 			}
 		}
 		// Every 1 day of the Month
-		if(date('Y-m-01') == date('Y-m-d'))
+		if (date('Y-m-01') == date('Y-m-d'))
 		{
-			foreach($arrIgnoreTable as $tableName)
+			foreach ($arrIgnoreTable as $tableName)
 			{
 				try
 				{
-					if(date('H') >= 6)
+					if (date('H') >= 6)
 					{
 						break;
 					}
@@ -2068,7 +2072,7 @@ class SystemCommand extends BaseCommand
 					Logger::info("OPTIMIZE TABLE " . $database . ".`" . $tableName . '`');
 					DBUtil::execute("OPTIMIZE TABLE " . $database . ".`" . $tableName . '`');
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -2088,7 +2092,7 @@ class SystemCommand extends BaseCommand
 	public function actionUpdateDDBPStatus()
 	{
 		$status = DynamicPriceSurge::model()->updateDDBPStatus();
-		if($status)
+		if ($status)
 		{
 			echo "Successfully updated";
 		}
@@ -2097,7 +2101,7 @@ class SystemCommand extends BaseCommand
 	public function actionUpdatePartnerStateData()
 	{
 		$record = PartnerApiTracking::model()->countPartnerAPIQuoteBooking();
-		if($record)
+		if ($record)
 		{
 			echo "Record added successfully";
 		}
@@ -2132,7 +2136,7 @@ class SystemCommand extends BaseCommand
 		$title		 = "Please get your drivers to use Driver app!";
 		$payLoadData = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 		$vendorModel = Vendors::model()->getNotificationForVendorUsingDriverApp();
-		foreach($vendorModel as $model)
+		foreach ($vendorModel as $model)
 		{
 			AppTokens::model()->notifyVendor($model['vnd_id'], $payLoadData, $message, $title);
 		}
@@ -2145,7 +2149,7 @@ class SystemCommand extends BaseCommand
 
 		$limit		 = 3000;
 		$maxLimit	 = 15000;
-		for($x = 12000; $x < $maxLimit; $x += $limit)
+		for ($x = 12000; $x < $maxLimit; $x += $limit)
 		{
 			echo $sql	 = "SELECT DISTINCT users.user_id 
 					FROM `app_tokens` 
@@ -2161,7 +2165,7 @@ class SystemCommand extends BaseCommand
 //AND app_tokens.apt_user_id = 129215 
 			$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
 
-			if(count($rows) <= 0)
+			if (count($rows) <= 0)
 			{
 				break;
 			}
@@ -2169,9 +2173,9 @@ class SystemCommand extends BaseCommand
 			echo "\nTotal Count == " . $rowCount = count($rows);
 
 			$i = 0;
-			if(count($rows) > 0)
+			if (count($rows) > 0)
 			{
-				foreach($rows as $row)
+				foreach ($rows as $row)
 				{
 					$i++;
 					$notificationId	 = substr(round(microtime(true) * 1000), -5);
@@ -2194,7 +2198,7 @@ class SystemCommand extends BaseCommand
 
 		$limit		 = 3000;
 		$maxLimit	 = 12000;
-		for($x = 9000; $x < $maxLimit; $x += $limit)
+		for ($x = 9000; $x < $maxLimit; $x += $limit)
 		{
 			echo $sql	 = "SELECT apt_id FROM `app_tokens` where 1 AND apt_id IN (
 							SELECT MAX(apt_id) apt_id FROM `app_tokens` where 1 
@@ -2211,7 +2215,7 @@ class SystemCommand extends BaseCommand
 //AND apt_device_uuid = 'a8b4051c5bc81f1c' 
 			$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
 
-			if(count($rows) <= 0)
+			if (count($rows) <= 0)
 			{
 				break;
 			}
@@ -2219,9 +2223,9 @@ class SystemCommand extends BaseCommand
 			echo "\nTotal Count == " . $rowCount = count($rows);
 
 			$i = 0;
-			if(count($rows) > 0)
+			if (count($rows) > 0)
 			{
-				foreach($rows as $row)
+				foreach ($rows as $row)
 				{
 					$i++;
 					$notificationId	 = substr(round(microtime(true) * 1000), -5);
@@ -2249,7 +2253,7 @@ class SystemCommand extends BaseCommand
 
 		$limit		 = 3000;
 		$maxLimit	 = 3000;
-		for($x = 0; $x < $maxLimit; $x += $limit)
+		for ($x = 0; $x < $maxLimit; $x += $limit)
 		{
 			$sql	 = "SELECT DISTINCT vnd_id FROM vendors vnd 
 					INNER JOIN app_tokens apt ON vnd.vnd_id = apt.apt_entity_id AND apt.apt_user_type=2 AND apt_status=1 
@@ -2259,7 +2263,7 @@ class SystemCommand extends BaseCommand
 //AND vnd.vnd_id = 43
 			$rows	 = Yii::app()->db->createCommand($sql)->queryAll();
 
-			if(count($rows) <= 0)
+			if (count($rows) <= 0)
 			{
 				break;
 			}
@@ -2267,9 +2271,9 @@ class SystemCommand extends BaseCommand
 			echo "\nTotal Count == " . $rowCount = count($rows);
 
 			$i = 0;
-			if(count($rows) > 0)
+			if (count($rows) > 0)
 			{
-				foreach($rows as $row)
+				foreach ($rows as $row)
 				{
 					$i++;
 					AppTokens::model()->notifyVendor($row['vnd_id'], $payLoadData, $message, $title);
@@ -2289,17 +2293,17 @@ class SystemCommand extends BaseCommand
 		$sourceDirectory		 = Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . "doc" . DIRECTORY_SEPARATOR . "mails" . DIRECTORY_SEPARATOR;
 		$removesourceDirectory	 = Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . "doc" . DIRECTORY_SEPARATOR . "mails" . DIRECTORY_SEPARATOR;
 		$destinationDirectory	 = Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . "doc2" . DIRECTORY_SEPARATOR . "mails" . DIRECTORY_SEPARATOR;
-		for($i = $currentYear; $i >= 2017; $i--)
+		for ($i = $currentYear; $i >= 2017; $i--)
 		{
-			if($i != $currentYear)
+			if ($i != $currentYear)
 			{
 				$currentMonth = 12;
 			}
-			for($j = $currentMonth; $j >= 1; $j--)
+			for ($j = $currentMonth; $j >= 1; $j--)
 			{
 				$source			 = $sourceDirectory . $i . DIRECTORY_SEPARATOR . str_pad($j, 2, '0', STR_PAD_LEFT);
 				$removesource	 = $removesourceDirectory . $i;
-				if(is_dir($source))
+				if (is_dir($source))
 				{
 					$destination = $destinationDirectory . $i;
 					@mkdir($destination);
@@ -2308,7 +2312,7 @@ class SystemCommand extends BaseCommand
 					$this->copyDirectory($source, $destination);
 				}
 			}
-			if(count(glob($removesource . DIRECTORY_SEPARATOR . "*", GLOB_BRACE)) == 0)
+			if (count(glob($removesource . DIRECTORY_SEPARATOR . "*", GLOB_BRACE)) == 0)
 			{
 				$this->removeDirectory($removesource);
 			}
@@ -2319,11 +2323,11 @@ class SystemCommand extends BaseCommand
 	{
 		$dir	 = opendir($src);
 		@mkdir($dst);
-		while($file	 = readdir($dir))
+		while ($file	 = readdir($dir))
 		{
-			if(( $file != '.' ) && ( $file != '..' ))
+			if (( $file != '.' ) && ( $file != '..' ))
 			{
-				if(is_dir($src . DIRECTORY_SEPARATOR . $file))
+				if (is_dir($src . DIRECTORY_SEPARATOR . $file))
 				{
 					$this->copyDirectory($src . DIRECTORY_SEPARATOR . $file, $dst . DIRECTORY_SEPARATOR . $file);
 				}
@@ -2341,7 +2345,7 @@ class SystemCommand extends BaseCommand
 	function removeDirectory($path)
 	{
 		$files = glob($path . '/*');
-		foreach($files as $file)
+		foreach ($files as $file)
 		{
 			is_dir($file) ? $this->removeDirectory($file) : unlink($file);
 		}
@@ -2392,7 +2396,7 @@ class SystemCommand extends BaseCommand
 
 		$payLoadData = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 
-		foreach($result as $value)
+		foreach ($result as $value)
 		{
 			$message = "TDS of ₹" . $value['tdspaid'] . " (Trip Purchased: ₹" . ($value['tdspaid'] * 100) . ") has been deducted for the month Apr'19 - Jun'19'";
 			$success = AppTokens::model()->notifyVendor($value['vnd_id'], $payLoadData, $message, "TDS Notification");
@@ -2429,7 +2433,7 @@ class SystemCommand extends BaseCommand
 
 		$res = DBUtil::query($sql);
 
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			$tripId			 = $row["bcb_id"];
 			$vendorId		 = $row["bcb_vendor_id"];
@@ -2441,7 +2445,7 @@ class SystemCommand extends BaseCommand
 			{
 				AccountTransactions::model()->removeTripPurchaseAmount($tripId, $vendorId);
 				$accountTrans = AccountTransactions::model()->find('act_type=5 AND act_ref_id=:trip AND act_status=1 AND act_active=1', ['trip' => $tripId]);
-				if($accountTrans == '')
+				if ($accountTrans == '')
 				{
 					$datetime			 = ($date != '') ? $date : new CDbExpression('NOW()');
 					$remarks			 = "Trip purchased";
@@ -2455,7 +2459,7 @@ class SystemCommand extends BaseCommand
 					Logger::info("{$tripId} : {$purchaseAmount} : {$date}");
 				}
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				Logger::create("Failed to add Trip Amount by operator ID: $vendorId ({$e->getMessage()})", CLogger::LEVEL_ERROR);
 				DBUtil::rollbackTransaction($trans);
@@ -2468,7 +2472,7 @@ class SystemCommand extends BaseCommand
 	public function actionUpdateCityStats()
 	{
 		$check = Filter::checkProcess("system updateCityStats");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -2500,18 +2504,18 @@ class SystemCommand extends BaseCommand
 	public function actionScqPriorityScore()
 	{
 		$check = Filter::checkProcess("system scqPriorityScore");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = ServiceCallQueue::ScqPriorityScore();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updatePriorityScore($row);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2521,25 +2525,25 @@ class SystemCommand extends BaseCommand
 	public function actionCloseAllPaymentFollowup()
 	{
 		$check = Filter::checkProcess("system CloseAllPaymentFollowup");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = ServiceCallQueue::getAllPaymentFollowup();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
-				if($row['scq_related_bkg_id'] == "" || $row['bkg_reconfirm_flag'] == 1 || $row['quoteExpired'] == 1 || $row['statusExpired'] == 1 || $row['paymentExpired'] == 1)
+				if ($row['scq_related_bkg_id'] == "" || $row['bkg_reconfirm_flag'] == 1 || $row['quoteExpired'] == 1 || $row['statusExpired'] == 1 || $row['paymentExpired'] == 1)
 				{
 					ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "Closed Payment followup because booking has been confirmed");
 				}
-				if(($row['scq_related_bkg_id'] != "" && $row['bkg_agent_id'] == null) && ($row['bkg_reconfirm_flag'] == 1 || $row['quoteExpired'] == 1 || $row['statusExpired'] == 1 || $row['paymentExpired'] == 1))
+				if (($row['scq_related_bkg_id'] != "" && $row['bkg_agent_id'] == null) && ($row['bkg_reconfirm_flag'] == 1 || $row['quoteExpired'] == 1 || $row['statusExpired'] == 1 || $row['paymentExpired'] == 1))
 				{
 					ServiceCallQueue::autoCloseRelatedLeadQuote($row['scq_related_bkg_id'], "7");
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2549,23 +2553,23 @@ class SystemCommand extends BaseCommand
 	public function actionAutoVendorApproval()
 	{
 		$check = Filter::checkProcess("system autoVendorApproval");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 
 		$result = Vendors::getAllVendorApproval();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				$count = ServiceCallQueue::checkDuplicateAutoApprovalForVendor($row['vnd_id'], ServiceCallQueue::TYPE_VENDOR_APPROVAl);
-				if($count == 0)
+				if ($count == 0)
 				{
 					ServiceCallQueue::autoVendorApproval($row);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2578,18 +2582,18 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseDispatchQueue()
 	{
 		$check = Filter::checkProcess("system autoCloseDispatchQueue");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = ServiceCallQueue::getAutoCloseDispatch(ServiceCallQueue::TYPE_DISPATCH, 10);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2602,19 +2606,19 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseUpSellQueue()
 	{
 		$check = Filter::checkProcess("system autoCloseUpSellQueue");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$queueId = ServiceCallQueue::TYPE_UPSELL . "," . ServiceCallQueue::TYPE_UPSELL_UPPERTIER;
 		$result	 = ServiceCallQueue::getAllDataByQueueId($queueId, 10);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2627,18 +2631,18 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseB2BPostPickupQueue()
 	{
 		$check = Filter::checkProcess("system autoCloseB2BPostPickupQueue");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = ServiceCallQueue::getAllDataByQueueId(ServiceCallQueue::TYPE_B2B_POST_PICKUP, 10);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2656,19 +2660,19 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseBARQueue()
 	{
 		$check = Filter::checkProcess("system autoCloseBARQueue");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$queueId = ServiceCallQueue::TYPE_BAR . "," . ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL;
 		$result	 = ServiceCallQueue::getAllDataByQueueId($queueId, 4);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2678,22 +2682,22 @@ class SystemCommand extends BaseCommand
 	public function actionAutoFURFbg()
 	{
 		$check = Filter::checkProcess("system autoFURFbg");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = BookingSub::getFbgBookings();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				$count = ServiceCallQueue::countQueueByBkgId($row['bkg_id'], ServiceCallQueue::TYPE_FBG);
-				if($count == 0)
+				if ($count == 0)
 				{
 					ServiceCallQueue::autoFURFBG($row['bkg_id']);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2706,28 +2710,28 @@ class SystemCommand extends BaseCommand
 	public function actiongetAllDocsImage()
 	{
 		$result = Ireaddocs::getAllDocsImage();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
-				if($row['type'] == 1)
+				if ($row['type'] == 1)
 				{
 					Ireaddocs::add($docId	 = $row['docId'], $docType = 1, $type	 = 1);
 				}
-				else if($row['type'] == 2 && $row['docType'] == 107)
+				else if ($row['type'] == 2 && $row['docType'] == 107)
 				{
 					Ireaddocs::add($docId	 = $row['docId'], $docType = 2, $type	 = 3);
 				}
-				else if($row['type'] == 2 && in_array($row['docType'], array(8, 9)))
+				else if ($row['type'] == 2 && in_array($row['docType'], array(8, 9)))
 				{
 					Ireaddocs::add($docId	 = $row['docId'], $docType = 2, $type	 = 2);
 				}
-				else if($row['type'] == 3)
+				else if ($row['type'] == 3)
 				{
 					Ireaddocs::add($docId	 = $row['docId'], $docType = 3, $type	 = 2);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2740,12 +2744,12 @@ class SystemCommand extends BaseCommand
 	public function actiongetAllImageForIread()
 	{
 		$check = Filter::checkProcess("system getAllImageForIread;");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result	 = Ireaddocs::getAllImage($status	 = 1);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
@@ -2755,9 +2759,9 @@ class SystemCommand extends BaseCommand
 				$imageUrl				 = $row['ird_gimage_url'];
 				$modelIread				 = Ireaddocs::model()->findByPk($irdId);
 				$modelIread->ird_status	 = 2;
-				if($modelIread->save())
+				if ($modelIread->save())
 				{
-					switch($irdType)
+					switch ($irdType)
 					{
 						case 1:
 							$response	 = IRead::readOCR($irdId, $imageUrl, 'doc');
@@ -2774,7 +2778,7 @@ class SystemCommand extends BaseCommand
 					}
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2787,21 +2791,21 @@ class SystemCommand extends BaseCommand
 	public function actiongetAllBookingForDemMisFire()
 	{
 		$check = Filter::checkProcess("system getAllBookingForDemMisFire");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = Booking::getAllBookingForDemMisFire();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				$bkgId			 = $row['bkg_id'];
 				$zoneId			 = $row['stt_zone'];
 				$serviceResult	 = ServiceCallQueue::countDemMisFireByBkgId($bkgId, 1);
-				if($serviceResult == 0)
+				if ($serviceResult == 0)
 				{
-					switch($zoneId)
+					switch ($zoneId)
 					{
 						case 1:
 							//assignNorth  30
@@ -2831,7 +2835,7 @@ class SystemCommand extends BaseCommand
 					}
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2844,18 +2848,18 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseDemMisFire()
 	{
 		$check = Filter::checkProcess("system autoCloseDemMisFire");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = ServiceCallQueue::getAllDataByDemMisFire();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2868,7 +2872,7 @@ class SystemCommand extends BaseCommand
 	public function actionAutoFurForRating()
 	{
 		$check = Filter::checkProcess("system autoFurForRating");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -2876,13 +2880,13 @@ class SystemCommand extends BaseCommand
 		$fromdate	 = $date . " 00:00:00";
 		$todate		 = $date . " 23:59:59";
 		$result		 = Ratings::getAutoFurRating($fromdate, $todate);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::autoFURRatingForBooking($row['bkg_id'], $row['bkg_user_id'], $row['bkg_country_code'], $row['bkg_contact_no']);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2895,18 +2899,18 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseAutoFurForRating()
 	{
 		$check = Filter::checkProcess("system autoCloseAutoFurForRating");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = ServiceCallQueue::getAllDataFORAutoFurForRating();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2919,21 +2923,21 @@ class SystemCommand extends BaseCommand
 	public function actionAdminAttendance()
 	{
 		$result = Admins::model()->findAllActive();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			$data		 = AdminOnoff::model()->getByAdmId($row['adm_id'], $condition	 = true);
-			if($data['ado_status'] == 1)
+			if ($data['ado_status'] == 1)
 			{
 				AdminOnoff::model()->addInOutEntry($row['adm_id'], $condition = true);
 			}
 		}
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				AttendanceStats::getAdminAttendance($row['adm_id']);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -2957,7 +2961,7 @@ class SystemCommand extends BaseCommand
 	public function actionAddLead()
 	{
 		$check = Filter::checkProcess("system AddLead");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -2967,7 +2971,7 @@ class SystemCommand extends BaseCommand
 			$configCount		 = (int) Config::get('SCQ.maxLeadAllowed');
 			$serviceCallCount	 = ServiceCallQueue::getLeadCount(true, $eligibleScore);
 			Logger::info("\n*********************************** ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
-			if(ServiceCallQueue::getLeadCount(true, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLeadCount(true, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				Logger::info("\n*********************************** Inside ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
 				ServiceCallQueue::updatePendingLeadsCron(true, $eligibleScore);
@@ -2975,13 +2979,13 @@ class SystemCommand extends BaseCommand
 
 			$serviceCallCount = ServiceCallQueue::getLeadCount(false, $eligibleScore);
 			Logger::info("\n*********************************** ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore FALSE PART *********************************************\n");
-			if(ServiceCallQueue::getLeadCount(false, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLeadCount(false, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				Logger::info("\n*********************************** Inside ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
 				ServiceCallQueue::updatePendingLeadsCron(false, $eligibleScore);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			Logger::info("\n*********************************** zone_surge_global Error Start *********************************************\n");
@@ -2994,7 +2998,7 @@ class SystemCommand extends BaseCommand
 			$eligibleScore		 = 100;
 			$serviceCallCount	 = ServiceCallQueue::getLeadCount(true, $eligibleScore);
 			Logger::info("\n*********************************** ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
-			if(ServiceCallQueue::getLeadCount(true, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLeadCount(true, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				Logger::info("\n*********************************** Inside ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
 				ServiceCallQueue::updatePendingLeadsCron(true, $eligibleScore);
@@ -3002,13 +3006,13 @@ class SystemCommand extends BaseCommand
 
 			$serviceCallCount = ServiceCallQueue::getLeadCount(false, $eligibleScore);
 			Logger::info("\n*********************************** ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore FALSE PART *********************************************\n");
-			if(ServiceCallQueue::getLeadCount(false, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLeadCount(false, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				Logger::info("\n*********************************** Inside ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
 				ServiceCallQueue::updatePendingLeadsCron(false, $eligibleScore);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			Logger::info("\n*********************************** zone_surge_global Error Start *********************************************\n");
@@ -3020,7 +3024,7 @@ class SystemCommand extends BaseCommand
 			$eligibleScore		 = 80;
 			$serviceCallCount	 = ServiceCallQueue::getLeadCount(true, $eligibleScore);
 			Logger::info("\n*********************************** ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
-			if(ServiceCallQueue::getLeadCount(true, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLeadCount(true, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				Logger::info("\n*********************************** Inside ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
 				ServiceCallQueue::updatePendingLeadsCron(true, $eligibleScore);
@@ -3028,13 +3032,13 @@ class SystemCommand extends BaseCommand
 
 			$serviceCallCount = ServiceCallQueue::getLeadCount(false, $eligibleScore);
 			Logger::info("\n*********************************** ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore FALSE PART *********************************************\n");
-			if(ServiceCallQueue::getLeadCount(false, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLeadCount(false, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				Logger::info("\n*********************************** Inside ServiceCallQueueCount=$serviceCallCount ConfigCount=$configCount For $eligibleScore  TRUE PART *********************************************\n");
 				ServiceCallQueue::updatePendingLeadsCron(false, $eligibleScore);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			Logger::info("\n*********************************** zone_surge_global Error Start *********************************************\n");
@@ -3069,26 +3073,26 @@ class SystemCommand extends BaseCommand
 	public function actionMarkLeadClose()
 	{
 		$result = ServiceCallQueue::getAllDataByLead();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
-				if($row['scqCreateHours'] < 2 && $row['scqCreateHours'] >= 1)
+				if ($row['scqCreateHours'] < 2 && $row['scqCreateHours'] >= 1)
 				{
 					$score = $row['scq_priority_score'] * 0.75;
 					ServiceCallQueue::updateScqPriorityScore($row['scq_id'], $score);
 				}
-				else if($row['scqCreateHours'] < 4 && $row['scqCreateHours'] >= 2)
+				else if ($row['scqCreateHours'] < 4 && $row['scqCreateHours'] >= 2)
 				{
 					$score = $row['scq_priority_score'] * 0.50;
 					ServiceCallQueue::updateScqPriorityScore($row['scq_id'], $score);
 				}
-				else if($row['scqCreateHours'] >= 6)
+				else if ($row['scqCreateHours'] >= 6)
 				{
 					ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3102,13 +3106,13 @@ class SystemCommand extends BaseCommand
 	{
 		// 1=>Location Zone,2=>Location Home Zone,3=>Zone With Vendor logged into app ,4=> Zone With Vendor approved but not logged into app
 		$locationStatsDetails = LocationStats::getVendorList(1);
-		foreach($locationStatsDetails as $value)
+		foreach ($locationStatsDetails as $value)
 		{
 			try
 			{
 				LocationStats::add($value);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3116,13 +3120,13 @@ class SystemCommand extends BaseCommand
 
 		// By Location vendor home zone
 		$locationStatsDetails = LocationStats::getVendorList(2);
-		foreach($locationStatsDetails as $value)
+		foreach ($locationStatsDetails as $value)
 		{
 			try
 			{
 				LocationStats::add($value);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3136,13 +3140,13 @@ class SystemCommand extends BaseCommand
 	{
 		//3=>Zone With Vendor logged into app,4=> Zone With Vendor approved
 		$locationStatsDetails = Zones::getVendorListByApp();
-		foreach($locationStatsDetails as $value)
+		foreach ($locationStatsDetails as $value)
 		{
 			try
 			{
 				LocationStats::add($value);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3150,13 +3154,13 @@ class SystemCommand extends BaseCommand
 
 		// By Location vendor home zone
 		$locationStatsDetails = Zones::getVendorApprovedList();
-		foreach($locationStatsDetails as $value)
+		foreach ($locationStatsDetails as $value)
 		{
 			try
 			{
 				LocationStats::add($value);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3169,17 +3173,19 @@ class SystemCommand extends BaseCommand
 	public function actionAutoFURDocumentApproval()
 	{
 		$result = Vendors::getAllVendorForDocumentApproval();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
+				//modify vendor status:
+				Vendors::modifyReadytoApprove($row['vnd_id']);
 				$count = ServiceCallQueue::checkDuplicateDocumetApprovalForVendor($row['vnd_id'], ServiceCallQueue::TYPE_DOCUMENT_APPROVAL);
-				if($count == 0)
+				if ($count == 0)
 				{
 					ServiceCallQueue::autoFURDocumentApproval($row);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3192,31 +3198,31 @@ class SystemCommand extends BaseCommand
 	public function actionAutoVendorApprovalOnInventoryShortage()
 	{
 		$check = Filter::checkProcess("system AutoVendorApprovalOnInventoryShortage");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = Zones::getInventoryShortageZone();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			/*			 * ********* On the based of From Zone ID ************* */
 			$results = Vendors::getAllVendorApprovalOnInventoryShortage($row['fromZoneId']);
-			foreach($results as $rows)
+			foreach ($results as $rows)
 			{
 				try
 				{
 					$count = ServiceCallQueue::checkDuplicateAutoApprovalForVendor($rows['vnd_id'], ServiceCallQueue::TYPE_VENDOR_APPROVAl);
-					if($count == 0)
+					if ($count == 0)
 					{
 						$returnSet = ServiceCallQueue::autoVendorApproval($rows);
-						if($returnSet->isSuccess())
+						if ($returnSet->isSuccess())
 						{
 							$desc = "Service Request has been generated for " . $rows['vnd_id'];
 							VendorsLog::model()->createLog($rows['vnd_id'], $desc, UserInfo::getInstance(), VendorsLog::VENDOR_SR, false, false);
 						}
 					}
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -3224,22 +3230,22 @@ class SystemCommand extends BaseCommand
 
 			/*			 * ***************** On the based of To Zone ID ************* */
 			$results = Vendors::getAllVendorApprovalOnInventoryShortage($row['toZoneId']);
-			foreach($results as $rows)
+			foreach ($results as $rows)
 			{
 				try
 				{
 					$count = ServiceCallQueue::checkDuplicateAutoApprovalForVendor($rows['vnd_id'], ServiceCallQueue::TYPE_VENDOR_APPROVAL_ZONE_BASED_INVENTORY);
-					if($count == 0)
+					if ($count == 0)
 					{
 						$returnSet = ServiceCallQueue::autoVendorApproval($rows);
-						if($returnSet->isSuccess())
+						if ($returnSet->isSuccess())
 						{
 							$desc = "Service Request has been generated for " . $rows['vnd_id'];
 							VendorsLog::model()->createLog($rows['vnd_id'], $desc, UserInfo::getInstance(), VendorsLog::VENDOR_SR, false, false);
 						}
 					}
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -3253,11 +3259,11 @@ class SystemCommand extends BaseCommand
 	public function actionSendNotification()
 	{
 		$res = BookingScheduleEvent::getEventList(107);
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			try
 			{
-				switch($row['bse_event_id'])
+				switch ($row['bse_event_id'])
 				{
 					case BookingScheduleEvent::SEND_NOTIFICATION_DATA;
 						$bseModel	 = BookingScheduleEvent::model()->findByPk($row['bse_id']);
@@ -3265,7 +3271,7 @@ class SystemCommand extends BaseCommand
 						$model		 = Booking::model()->findByPk($row['bse_bkg_id']);
 						$tripId		 = $model->bkg_bcb_id;
 						$success	 = BookingCab::gnowNotify($tripId, $entityIds);
-						if($success)
+						if ($success)
 						{
 							$bseModel->bse_event_status = 1;
 							$bseModel->save();
@@ -3275,7 +3281,7 @@ class SystemCommand extends BaseCommand
 						break;
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$bseModel->bse_event_status	 = 2;
 				$bseModel->bse_last_error	 = $ex->getMessage();
@@ -3289,13 +3295,13 @@ class SystemCommand extends BaseCommand
 	public function actionMarkZoneType()
 	{
 		$check = Filter::checkProcess("system MarkZoneType");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 
 		$result = BookingPref::getBookingZoneType();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
@@ -3310,16 +3316,16 @@ class SystemCommand extends BaseCommand
 				$model->bpr_zone_type		 = $rowIdentifierByDemandZone > 0 ? 0 : ($res['dzs_zone_type'] != null ? $res['dzs_zone_type'] : 3);
 				$model->bpr_row_identifier	 = DynamicZoneSurge::getRowIdentifier($fromCity, $toCity, $scv_id, $tripType);
 				$model->bpr_zone_identifier	 = DynamicZoneSurge::getZoneIdentifier($fromCity, $toCity);
-				if(!$model->save())
+				if (!$model->save())
 				{
 					Logger::writeToConsole(json_encode($model->errors));
 				}
-				if($row['ddbpv2SurgeFactor'] > 1 && ($row['goingRegularRatio'] > 1.2 || $row['askingGoingRatio'] > 1.30))
+				if ($row['ddbpv2SurgeFactor'] > 1 && ($row['goingRegularRatio'] > 1.2 || $row['askingGoingRatio'] > 1.30))
 				{
 					IRead::setRowIdentifierRequest(array('rowIdentifier' => $row['rowIdentifier']));
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3329,7 +3335,7 @@ class SystemCommand extends BaseCommand
 	public function actionALLMarkZoneType()
 	{
 		$result = BookingPref::allgetBookingZoneType();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
@@ -3340,12 +3346,12 @@ class SystemCommand extends BaseCommand
 				$res					 = DynamicZoneSurge::getDZPPZoneType($fromCity, $toCity, $scv_id, $tripType);
 				$model					 = BookingPref::model()->getByBooking($row['bkg_id']);
 				$model->bpr_zone_type	 = ($res['dzs_zone_type'] != null) ? $res['dzs_zone_type'] : 3;
-				if(!$model->save())
+				if (!$model->save())
 				{
 					Logger::writeToConsole(json_encode($model->errors));
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3355,25 +3361,25 @@ class SystemCommand extends BaseCommand
 	public function actionSendCabDriverDetailsToCustomer()
 	{
 		$result = Booking::model()->getDetailsOfCabDriverForCustomer();
-		if(count($result) > 0)
+		if (count($result) > 0)
 		{
-			foreach($result as $row)
+			foreach ($result as $row)
 			{
-				if($row['bkg_agent_id'] > 0 && $row['bkg_agent_id'] != 1249)
+				if ($row['bkg_agent_id'] > 0 && $row['bkg_agent_id'] != 1249)
 				{
 					$messageDetails	 = BookingMessages::messageCommunicationAgentSettings($row['bkg_id'], AgentMessages::CAB_DRIVER_DETAIL);
 					$consumerArr	 = $messageDetails[UserInfo::TYPE_CONSUMER];
 					$adminArr		 = $messageDetails[UserInfo::TYPE_ADMIN];
 					$agentArr		 = $messageDetails[UserInfo::TYPE_AGENT];
-					if(!empty($consumerArr))
+					if (!empty($consumerArr))
 					{
 						Drivers::notifyDriverDetailsToCustomer($row['bkg_id'], 0, null, $consumerArr, UserInfo::TYPE_CONSUMER);
 					}
-					if(!empty($adminArr))
+					if (!empty($adminArr))
 					{
 						Drivers::notifyDriverDetailsToCustomer($row['bkg_id'], 0, null, $adminArr, UserInfo::TYPE_ADMIN);
 					}
-					if(!empty($agentArr))
+					if (!empty($agentArr))
 					{
 						Drivers::notifyDriverDetailsToCustomer($row['bkg_id'], 0, null, $agentArr, UserInfo::TYPE_AGENT);
 					}
@@ -3390,12 +3396,12 @@ class SystemCommand extends BaseCommand
 	{
 		$begin	 = new DateTime("2019-01-01");
 		$end	 = new DateTime("2022-04-25");
-		for($j = $begin; $j <= $end; $j->modify('+1 day'))
+		for ($j = $begin; $j <= $end; $j->modify('+1 day'))
 		{
 			$date		 = $j->format("Y-m-d");
 			$fromDate	 = $date . " 00:00:00";
 			$result		 = BookingPref::getBookingRowIdentifierDateWise($date);
-			foreach($result as $row)
+			foreach ($result as $row)
 			{
 				try
 				{
@@ -3406,12 +3412,12 @@ class SystemCommand extends BaseCommand
 					$rowIdentifier				 = DynamicZoneSurge::getRowIdentifier($fromCity, $toCity, $scv_id, $tripType);
 					$model						 = BookingPref::model()->getByBooking($row['bkg_id']);
 					$model->bpr_row_identifier	 = $rowIdentifier;
-					if(!$model->save())
+					if (!$model->save())
 					{
 						Logger::writeToConsole(json_encode($model->errors));
 					}
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -3425,11 +3431,11 @@ class SystemCommand extends BaseCommand
 	public function actionAutoTripStartUpperTier()
 	{
 		$result = Booking::getAllTripStartBooking();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
-				if($row['bkg_agent_id'] != null && $row['bkg_agent_id'] > 0)
+				if ($row['bkg_agent_id'] != null && $row['bkg_agent_id'] > 0)
 				{
 					ServiceCallQueue::autoFURTripStartedForB2BHour($row['bkg_id']);
 				}
@@ -3438,7 +3444,7 @@ class SystemCommand extends BaseCommand
 					ServiceCallQueue::autoFURTripStartedHour($row['bkg_id']);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3453,14 +3459,14 @@ class SystemCommand extends BaseCommand
 	{
 		$data = Vendors::getAllVendorCarCount();
 
-		if($data->getRowCount() > 0)
+		if ($data->getRowCount() > 0)
 		{
-			foreach($data as $row)
+			foreach ($data as $row)
 			{
 				$vndId		 = $row['vnd_id'];
 				$carCount	 = $row['totalNoOfCars'];
 				$type		 = 0;
-				if($carCount > 0)
+				if ($carCount > 0)
 				{
 					$type = ($carCount > 1) ? 2 : 1;
 				}
@@ -3475,18 +3481,18 @@ class SystemCommand extends BaseCommand
 	public function actionRatePerKilomter()
 	{
 		$details = BookingInvoice::getQuoteRateKm();
-		foreach($details as $row)
+		foreach ($details as $row)
 		{
 			try
 			{
 				$model							 = BookingInvoice::model()->getByBookingID($row['bkg_id']);
 				$model->biv_quote_base_rate_km	 = $row['RatePerKilometer'];
-				if(!$model->save())
+				if (!$model->save())
 				{
 					Filter::writeToConsole(json_encode($model->errors));
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3499,27 +3505,27 @@ class SystemCommand extends BaseCommand
 	public function actionAutoFurCSA()
 	{
 		$check = Filter::checkProcess("system autoFurCSA");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$fromdate	 = date('Y-m-d') . " 00:00:00";
 		$todate		 = date('Y-m-d', strtotime(date('Y-m-d') . '+5 day')) . " 23:59:59";
 		$result		 = ServiceCallQueue::getDataForCSAQueue($fromdate, $todate);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				$count = ServiceCallQueue::countQueueByBkgId($row['bkg_id'], ServiceCallQueue::TYPE_CSA);
-				if($count == 0)
+				if ($count == 0)
 				{
 					$scqId = ServiceCallQueue::getScqIdForCSA($row['bkg_id']);
-					if($scqId)
+					if ($scqId)
 					{
 						ServiceCallQueue::updateStatus($scqId, 10, 0, "CBR expired. No action taken. As because  Critcal assisgnemnt are assigned to some other team");
 					}
 
-					switch($row['stt_zone'])
+					switch ($row['stt_zone'])
 					{
 						case 1:
 							//assignNorth  30
@@ -3555,7 +3561,7 @@ class SystemCommand extends BaseCommand
 					}
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3568,19 +3574,19 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseCSA()
 	{
 		$check = Filter::checkProcess("system autoCloseCSA");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$queueIds	 = ServiceCallQueue::TYPE_CSA . "," . ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL;
 		$result		 = ServiceCallQueue::getAllDataByQueueId($queueIds, 4);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3592,14 +3598,14 @@ class SystemCommand extends BaseCommand
 //        Logger::info("\n*********************************** UpdateDynamicZoneSurge Start *********************************************\n");
 		$begin	 = new DateTime("2021-12-31 00:00:00");
 		$end	 = new DateTime("2021-12-03 00:00:00");
-		for($j = $begin; $j >= $end; $j->modify('-1 day'))
+		for ($j = $begin; $j >= $end; $j->modify('-1 day'))
 		{
 			$date		 = $j->format("Y-m-d");
 //            Logger::info("\n*********************************** Date For = $date loop start *********************************************\n");
 			$fromDate	 = $date . " 00:00:00";
 			$toDate		 = $date . " 23:59:59";
 			$resultDzpp	 = DynamicZoneSurge::getDZPPROWIdentifier($date);
-			foreach($resultDzpp as $row)
+			foreach ($resultDzpp as $row)
 			{
 //                Logger::info("\n****************** dzs_id= " . $row['dzs_id'] . " *****************dzs_row_identifier= " . $row['dzs_row_identifier'] . " loop start *********************************************\n");
 				try
@@ -3613,7 +3619,7 @@ class SystemCommand extends BaseCommand
 					$sql				 = "UPDATE `dynamic_zone_surge_1day` SET `dzs_cntLead` =:cntLead, `dzs_cntInquiry` =:cntInquiry, `dzs_cntCreated` = :cntCreated WHERE `dynamic_zone_surge_1day`.`dzs_id` =:dzs_id";
 					DBUtil::execute($sql, $param);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -3624,7 +3630,7 @@ class SystemCommand extends BaseCommand
 	public function actionGenerateLedgerCsv()
 	{
 		$check = Filter::checkProcess("system generateLedgerCsv");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -3633,7 +3639,7 @@ class SystemCommand extends BaseCommand
 		$columnNames = ["Month/Date", "From Ledger Name", "To Ledger Name", "Opening", "Debit", "Credit", "Balance"];
 
 		$ledgerData = LedgerDataRequests::getPendingLedger();
-		if(!$ledgerData)
+		if (!$ledgerData)
 		{
 			$success = false;
 			goto skip;
@@ -3642,7 +3648,7 @@ class SystemCommand extends BaseCommand
 		$ldrId				 = $ledgerData['ldr_id'];
 		$model				 = LedgerDataRequests::model()->findByPk($ldrId);
 		$model->ldr_status	 = 2;
-		if(!$model->save())
+		if (!$model->save())
 		{
 			$success = false;
 			goto skip;
@@ -3656,19 +3662,19 @@ class SystemCommand extends BaseCommand
 		$periodFieldName = (($grpPeriod == '' || $grpPeriod == 'month') ? 'month' : ($grpPeriod == 'all' ? 'date' : $grpPeriod));
 
 		$columnNames = ["Month/Date", "From Ledger Name", "To Ledger Name", "Period Amount"];
-		if($grpType != '')
+		if ($grpType != '')
 		{
 			$columnNames = ["Id", "Name", "Month/Date", "From Ledger Name", "To Ledger Name", "Opening", "Debit", "Credit", "Balance"];
 		}
 
 		$arrData[]	 = $columnNames;
 		$rows		 = AccountTransDetails::processLedgerData($arrFilters);
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$rowArray = array();
-				if($grpType != '')
+				if ($grpType != '')
 				{
 					$rowArray['entityId']		 = $row['adt_trans_ref_id'];
 					$rowArray['entityName']		 = $row['entityName'];
@@ -3697,7 +3703,7 @@ class SystemCommand extends BaseCommand
 		#$path		 = DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR;
 		$publicDir	 = PUBLIC_PATH . $path;
 
-		if(!is_dir($publicDir))
+		if (!is_dir($publicDir))
 		{
 			mkdir($publicDir);
 		}
@@ -3706,16 +3712,16 @@ class SystemCommand extends BaseCommand
 		$filePath	 = $publicDir . $fileName;
 		$path		 = $path . $fileName;
 
-		if(!file_exists($filePath))
+		if (!file_exists($filePath))
 		{
 			$handle = fopen($filePath, 'w');
-			if(!$handle)
+			if (!$handle)
 			{
 				$success = false;
 				goto skip;
 			}
 
-			foreach($arrData as $line)
+			foreach ($arrData as $line)
 			{
 				fputcsv($handle, $line);
 			}
@@ -3724,7 +3730,7 @@ class SystemCommand extends BaseCommand
 			$model->refresh();
 			$model->ldr_data_filepath	 = $path;
 			$model->ldr_status			 = 3;
-			if(!$model->save())
+			if (!$model->save())
 			{
 				$success = false;
 				goto skip;
@@ -3732,7 +3738,7 @@ class SystemCommand extends BaseCommand
 		}
 
 		skip:
-		if(!$success)
+		if (!$success)
 		{
 			echo "Failed";
 		}
@@ -3759,18 +3765,18 @@ class SystemCommand extends BaseCommand
 	public function actionLastMinBooking()
 	{
 		$check = Filter::checkProcess("system LastMinBooking");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		try
 		{
-			if(ServiceCallQueue::getLastMinLeadCount() < (int) Config::get('SCQ.maxLeadAllowed'))
+			if (ServiceCallQueue::getLastMinLeadCount() < (int) Config::get('SCQ.maxLeadAllowed'))
 			{
 				ServiceCallQueue::updateLastMinPendingLeadsCron();
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 		}
@@ -3782,18 +3788,18 @@ class SystemCommand extends BaseCommand
 	public function actionAutoFURForBookingCancellation()
 	{
 		$check = Filter::checkProcess("system autoFURForBookingCancellation");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$result = Booking::getAutoFurBookingCancellationByHighPrice();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::autoFURForBookingCancellation($row);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3806,19 +3812,19 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseManaualAssignment()
 	{
 		$result = ServiceCallQueue::autoCloseManaualAssignment();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 				$modelBooking = Booking::model()->findByPk($row['bkg_id']);
-				if($modelBooking->bkgPref->bpr_askmanual_assignment == 1)
+				if ($modelBooking->bkgPref->bpr_askmanual_assignment == 1)
 				{
 					$modelBooking->bkgPref->bpr_askmanual_assignment = 0;
 					$modelBooking->bkgPref->save();
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3831,13 +3837,13 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseDispatchFollowUp()
 	{
 		$result = ServiceCallQueue::autoCloseDispatchFollowUp();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3847,7 +3853,7 @@ class SystemCommand extends BaseCommand
 	public function actionUpdateDDSBP($minutes = 60)
 	{
 		$check = Filter::checkProcess("onetime updateDDSBP");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -3859,20 +3865,20 @@ class SystemCommand extends BaseCommand
 	public function actionAutoFURDriverLate()
 	{
 		$check = Filter::checkProcess("system autoFURDriverLate");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
-		if(ServiceCallQueue::getFollowupDispatchCount() < (int) Config::get('SCQ.maxDisPatchAllowed'))
+		if (ServiceCallQueue::getFollowupDispatchCount() < (int) Config::get('SCQ.maxDisPatchAllowed'))
 		{
 			$result = ServiceCallQueue::getFollowupDispatch((int) Config::get('SCQ.maxDisPatchAllowed'));
-			foreach($result as $row)
+			foreach ($result as $row)
 			{
 				try
 				{
 					ServiceCallQueue::autoFURDriverLate($row['bkg_id']);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex);
 				}
@@ -3883,23 +3889,23 @@ class SystemCommand extends BaseCommand
 	public function actionAutoVendorAssignedFollowup()
 	{
 		$check = Filter::checkProcess("system autoVendorAssignedFollowup");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 
 		$result = Booking::getListToUnassignVendor(true);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				$count = ServiceCallQueue::countQueueByBkgId($row['bkg_id'], ServiceCallQueue::TYPE_VENDOR_ASSIGN);
-				if($count == 0)
+				if ($count == 0)
 				{
 					ServiceCallQueue::autoFURVendorAssign($row['bkg_id']);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3912,13 +3918,13 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseVendorAssignedFollowup()
 	{
 		$result = ServiceCallQueue::autoCloseVendorAssignedFollowup();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3928,13 +3934,13 @@ class SystemCommand extends BaseCommand
 	public function actionAutoCloseGozoNow()
 	{
 		$result = ServiceCallQueue::getAutoCloseGozoNow();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "CBR expired. No action taken");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3944,13 +3950,13 @@ class SystemCommand extends BaseCommand
 	public function actionReportExport()
 	{
 		$result = ReportExport::getExportData();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				ReportExport::createCsv($row);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3960,23 +3966,23 @@ class SystemCommand extends BaseCommand
 	public function actionReportExpiryExport()
 	{
 		$result = ReportExport::getExpiryExportData();
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				$model				 = ReportExport::model()->findByPk($row['id']);
 				$model->rpe_status	 = 0;
-				if($model->save())
+				if ($model->save())
 				{
 					$filename = $row['rpe_file_name'];
-					if($filename != "" && $filename != null)
+					if ($filename != "" && $filename != null)
 					{
 						$path = PUBLIC_PATH . DIRECTORY_SEPARATOR . "ReportExported" . DIRECTORY_SEPARATOR . $filename;
 						unlink($path);
 					}
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -3989,26 +3995,26 @@ class SystemCommand extends BaseCommand
 	public function actionAddSpiceLead()
 	{
 		$check = Filter::checkProcess("system AddSpiceLead");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		$agentId			 = 34928;
 		$eligibleScoreArr	 = [105, 100, 80];
-		foreach($eligibleScoreArr as $eligibleScore)
+		foreach ($eligibleScoreArr as $eligibleScore)
 		{
 			try
 			{
-				if(ServiceCallQueue::getLeadCount(true, $eligibleScore, $agentId) < (int) Config::get('SCQ.maxLeadAllowed'))
+				if (ServiceCallQueue::getLeadCount(true, $eligibleScore, $agentId) < (int) Config::get('SCQ.maxLeadAllowed'))
 				{
 					ServiceCallQueue::updatePendingLeadsCron(true, $eligibleScore, $agentId);
 				}
-				if(ServiceCallQueue::getLeadCount(false, $eligibleScore, $agentId) < (int) Config::get('SCQ.maxLeadAllowed'))
+				if (ServiceCallQueue::getLeadCount(false, $eligibleScore, $agentId) < (int) Config::get('SCQ.maxLeadAllowed'))
 				{
 					ServiceCallQueue::updatePendingLeadsCron(false, $eligibleScore, $agentId);
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -4029,7 +4035,7 @@ class SystemCommand extends BaseCommand
 	public function actionReferAFriend()
 	{
 		$details = WhatsappLog::sendReferLink();
-		foreach($details as $val)
+		foreach ($details as $val)
 		{
 			try
 			{
@@ -4038,7 +4044,7 @@ class SystemCommand extends BaseCommand
 				$contactId	 = $val['ctt_id'];
 				Users::CustomerReferrals($userId, $contactId, $url, "10%");
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				ReturnSet::setException($ex);
 			}
@@ -4050,25 +4056,82 @@ class SystemCommand extends BaseCommand
 	 */
 	public function actionEventNotification()
 	{
-		$res = ScheduleEvent::getEventList([ScheduleEvent::VENDOR_PAYMENT_RELEASE, ScheduleEvent::BOOKING_DRIVER_TO_CUSTOMER, ScheduleEvent::BOOKING_CAB_DRIVER_ASSIGNMNET, ScheduleEvent::BOOKING_REVIEW], [ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::TRIP_REF_TYPE, ScheduleEvent::VENDOR_REF_TYPE]);
-		foreach($res as $row)
+		$check = Filter::checkProcess("system EventNotification");
+        if (!$check)
+        {
+            return;
+        }
+		
+		$res = ScheduleEvent::getEventList([ScheduleEvent::USER_COIN_RECHARGE,ScheduleEvent::USER_COIN_EXPIRE, ScheduleEvent::VENDOR_PAYMENT_RELEASE, ScheduleEvent::BOOKING_DRIVER_TO_CUSTOMER, ScheduleEvent::BOOKING_CAB_DRIVER_ASSIGNMNET, ScheduleEvent::BOOKING_REVIEW], [ScheduleEvent::CUSTOMER_REF_TYPE,ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::TRIP_REF_TYPE, ScheduleEvent::VENDOR_REF_TYPE]);
+		foreach ($res as $row)
 		{
+			Logger::writeToConsole("Sde_id: ". $row['sde_id'] . " - " . $row['sde_event_id']);
 			$model = ScheduleEvent::model()->findByPk($row['sde_id']);
 			try
 			{
-				switch($row['sde_event_id'])
+				switch ($row['sde_event_id'])
 				{
 					case ScheduleEvent::BOOKING_CAB_DRIVER_ASSIGNMNET;
 						$success = Vendors::notifyAssignVendor($row['sde_ref_id'], 0, $row['sde_event_sequence']);
-						if($success)
+						if ($success)
 						{
 							$model->sde_event_status = 1;
+							$model->save();
+						}
+                        else
+						{
+							$model->sde_event_status = 2;
+							$model->sde_last_error	 = "Fail";
+							$model->sde_err_count	 = $model->sde_err_count == 0 ? 1 : $model->sde_err_count + 1;
+							$model->save();
+						}
+						break;
+                   case ScheduleEvent::USER_COIN_RECHARGE;
+						$jsonData	 = json_decode($row['sde_addtional_data']);
+						$coin		 = $jsonData->coin;
+						$contactID	 = $jsonData->contactID;
+						
+						Logger::writeToConsole($row['sde_ref_id'] ." - ". $contactID  ." - ".  $coin  ." - ". $row['sde_event_sequence']);
+						
+						$success	 = Users::notifyCoinRecharge($row['sde_ref_id'], $contactID, $coin, 0, $row['sde_event_sequence']);
+						if ($success)
+						{
+							Logger::writeToConsole("UPDATED");
+							$model->sde_event_status = 1;
+							$model->save();
+						}
+                        else
+						{
+							$model->sde_event_status = 2;
+							$model->sde_last_error	 = "Fail";
+							$model->sde_err_count	 = $model->sde_err_count == 0 ? 1 : $model->sde_err_count + 1;
+							$model->save();
+						}
+						break;
+					case ScheduleEvent::USER_COIN_EXPIRE;
+						Logger::writeToConsole("USER_COIN_EXPIRE - ". $row['sde_addtional_data']);
+						$jsonData	 = json_decode($row['sde_addtional_data']);
+						$expiryDate	 = $jsonData->expiryDate;
+						$coin		 = $jsonData->coin;
+						$contactID	 = $jsonData->contactID;
+						$success	 = Users::notifyCoinExpiry($row['sde_ref_id'], $expiryDate, $coin, $contactID, 0, $row['sde_event_sequence']);
+						if ($success)
+						{
+							Logger::writeToConsole("UPDATED");
+							$model->sde_event_status = 1;
+							$model->save();
+						}
+                         else
+						{
+							$model->sde_event_status = 2;
+							$model->sde_last_error	 = "Fail";
+							$model->sde_err_count	 = $model->sde_err_count == 0 ? 1 : $model->sde_err_count + 1;
 							$model->save();
 						}
 						break;
 					case ScheduleEvent::BOOKING_DRIVER_TO_CUSTOMER;
 						$success = Drivers::notifyDriverDetailsToCustomer($row['sde_ref_id'], 0, $row['sde_event_sequence']);
-						if($success)
+						if ($success)
 						{
 							$model->sde_event_status = 1;
 							$model->save();
@@ -4076,7 +4139,7 @@ class SystemCommand extends BaseCommand
 						break;
 					case ScheduleEvent::BOOKING_REVIEW;
 						$success = Booking::bookingReview($row['sde_ref_id'], 0, $row['sde_event_sequence']);
-						if($success)
+						if ($success)
 						{
 							$model->sde_event_status = 1;
 							$model->save();
@@ -4086,7 +4149,7 @@ class SystemCommand extends BaseCommand
 						$jsonData	 = json_decode($row['sde_addtional_data']);
 						$amount		 = $jsonData->amount;
 						$success	 = Vendors::notifyVendorPaymentRelease($row['sde_ref_id'], $amount, 0, $row['sde_event_sequence']);
-						if($success)
+						if ($success)
 						{
 							$model->sde_event_status = 1;
 							$model->save();
@@ -4101,7 +4164,7 @@ class SystemCommand extends BaseCommand
 						break;
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$model->sde_event_status = 2;
 				$model->sde_last_error	 = $ex->getMessage();
@@ -4115,7 +4178,7 @@ class SystemCommand extends BaseCommand
 	public function actionProcessQrCode()
 	{
 		$check = Filter::checkProcess("system ProcessQrCode");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -4131,13 +4194,13 @@ class SystemCommand extends BaseCommand
 						AND qr_code.qrc_id IS NULL
 					GROUP BY booking_user.bkg_user_id LIMIT 0,100";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			try
 			{
 				QrCode::processData($row['userId']);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::exception($ex);
 			}
@@ -4154,7 +4217,7 @@ class SystemCommand extends BaseCommand
 				AND dmx.dmx_distance>1 AND CalcDistance(sl.ltg_lat, sl.ltg_long, dl.ltg_lat, dl.ltg_long)>dmx_distance";
 
 		$res = DBUtil::query($sql, DBUtil::SDB());
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			DistanceMatrix::refreshGoogleAPI($row['dmx_id']);
 		}
@@ -4163,7 +4226,7 @@ class SystemCommand extends BaseCommand
 	public function actionUpdateCustomerStats()
 	{
 		$check = Filter::checkProcess("system updateCustomerStats");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
@@ -4173,13 +4236,111 @@ class SystemCommand extends BaseCommand
 		Logger::create("command.system.UpdateCustomerStats end", CLogger::LEVEL_PROFILE);
 	}
 
-	public function actionGetDuplicateContacts($start=0)
+	public function actionGetDuplicateContacts($start = 0)
 	{
 		$check = Filter::checkProcess("system getDuplicateContacts");
-		if(!$check)
+		if (!$check)
 		{
 			return;
 		}
 		Contact::getDuplicateContacts($start);
 	}
+
+	public function actionVendorExpiryDocs()
+	{
+		$check = Filter::checkProcess("system vendorExpiryDocs");
+		if (!$check)
+		{
+			return;
+		}
+		$getAllExpiryDocs = Vendors::getAllExpiryDocs();
+		foreach ($getAllExpiryDocs as $value)
+		{
+			try
+			{
+				if ($value['license_status'] == 0)
+				{
+					Vendors::notifyExpiryDocs($value['vendorIds'], "License Certifcate");
+				}
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+			}
+		}
+	}
+
+	public function actionVendorRejectedDocs()
+	{
+		$check = Filter::checkProcess("system vendorRejectedDocs");
+		if (!$check)
+		{
+			return;
+		}
+		$getAllRejectedDocs = Vendors::getAllRejectedDocs();
+		foreach ($getAllRejectedDocs as $value)
+		{
+			$fileType	 = "";
+			$flag		 = 0;
+			try
+			{
+				if ($value['voterId'] == 0)
+				{
+					$flag		 = 1;
+					$fileType	 .= "Voter Card, ";
+				}
+				if ($value['aadharId'] == 0)
+				{
+					$flag		 = 1;
+					$fileType	 .= "Aadhar Card, ";
+				}
+				if ($value['panId'] == 0)
+				{
+					$flag		 = 1;
+					$fileType	 .= "Pan Card, ";
+				}
+
+				if ($value['licenceId'] == 0)
+				{
+					$flag		 = 1;
+					$fileType	 .= "Licence Card, ";
+				}
+				if ($value['policeverId'] == 0)
+				{
+					$flag		 = 1;
+					$fileType	 .= "Police Verification Certifcate,";
+				}
+				if ($flag == 1)
+				{
+					Vendors::notifyRejectedDocs($value['vendorIds'], trim(trim($fileType), ","));
+				}
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+			}
+		}
+	}
+
+	public function actionNotWorkingVendor()
+	{
+		$check = Filter::checkProcess("system notWorkingVendor");
+		if (!$check)
+		{
+			return;
+		}
+		$notWorkingVendor = Vendors::getNotWorkingVendor();
+		foreach ($notWorkingVendor as $value)
+		{
+			try
+			{
+				Vendors::notifyNotWorkingVendor($value['vnd_id']);
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+			}
+		}
+	}
+
 }

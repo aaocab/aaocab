@@ -47,7 +47,7 @@ class Notification
 
 		$eventCode = \Booking::CODE_DCO_NEW_CHAT_NOTIFIED;
 
-		$payload = \Beans\common\Payload::setChatData($chatObjData, $eventCode);		
+		$payload = \Beans\common\Payload::setChatData($chatObjData, $eventCode);
 
 		$this->EventCode = $eventCode;
 		$this->title	 = $title;
@@ -57,12 +57,41 @@ class Notification
 
 	public function setNotificationBody()
 	{
-
 		$notification = [
 			'title'		 => $this->title,
 			'EventCode'	 => $this->EventCode,
 			'body'		 => $this->message,
 		];
 		return $notification;
+	}
+
+	public function fillData($row)
+	{
+		$this->id			 = (int) $row['ntl_id'];
+		$this->eventCode	 = (int) $row['ntl_event_code'];
+		$payloadData		 = json_decode($row['ntl_payload']);
+		$this->payload		 = (isset($payloadData->notifications) ) ? $payloadData->notifications : $payloadData;
+		$this->title		 = $row['ntl_title'];
+		$this->message		 = $row['ntl_message'];
+		$this->createDate	 = $row['ntl_created_on'];
+		$this->isRead		 = (int) $row['ntl_is_read'];
+		$this->readAt		 = $row['ntl_read_at'];
+		if ($row['ntl_action_value'] != NULL)
+		{
+			$this->actionValue	 = $row['ntl_action_value'];
+			$this->actionAt		 = $row['ntl_action_at'];
+		}
+	}
+
+	public static function getLogList($dataArr)
+	{
+		$dataList = [];
+		foreach ($dataArr as $row)
+		{
+			$obj		 = new \Beans\common\Notification();
+			$obj->fillData($row);
+			$dataList[]	 = $obj;
+		}
+		return $dataList;
 	}
 }

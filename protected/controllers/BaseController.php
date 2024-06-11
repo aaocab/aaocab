@@ -52,12 +52,19 @@ class BaseController extends Controller
 			UserLog::model()->updateLastActive($sess);
 		}
 		if (!Yii::app()->user->isGuest && Yii::app()->request->getParam('personalize') != null && Yii::app()->request->getParam('personalize') != '')
-		{
-			Yii::app()->user->setPersonalization(Yii::app()->request->getParam('personalize'));
-		}
-		$this->checkTheme();
-		return true;
-	}
+        {
+            Yii::app()->user->setPersonalization(Yii::app()->request->getParam('personalize'));
+        }
+        $this->checkTheme();
+  //  Yii::app()->request->cookies->clear();
+    
+
+        if (!Yii::app()->request->cookies['tkrid']->value)
+        {
+            $this->ustToken();
+        }
+        return true;
+    }
 
 	public function afterAction($action)
 	{
@@ -159,5 +166,13 @@ JS
 					, CClientScript::POS_HEAD);
 		}
 	}
+    protected function ustToken()
+    {
+        $trackID                              = md5(Yii::app()->getSession()->getSessionId() . Filter::getDBDateTime());
+        $utsCookie                            = new CHttpCookie('tkrid', $trackID);
+        $utsCookie->expire                    = time() + 60 * 60 * 24 *10;
+        //$utsCookie->httpOnly = true;
+        Yii::app()->request->cookies['tkrid'] = $utsCookie;
+    }
 
 }

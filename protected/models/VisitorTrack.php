@@ -110,7 +110,30 @@ class VisitorTrack extends CActiveRecord
 	{
 		try
 		{
-			$visitorCookie = Yii::app()->request->cookies['gvid'];
+          
+
+                $param = Filter::parseTrackingParams();
+                if($param['source'])
+                {
+                 $model = new UsersSourceTracking();
+                 $model->add();
+                }
+ 
+//            $referrer  = $_SERVER['HTTP_REFERER'];
+//            $pReferrer = parse_url($referrer);
+//            $refHost   = $pReferrer["host"];
+//            if ($refHost)
+//            {
+//
+//                $hostArray = array("gozocabs", "gozo.cab");
+//
+//                if (!in_array($refHost, $hostArray))
+//                {
+//                    $model = new UsersSourceTracking();
+//                    $model->add();
+//                }
+//            }
+            $visitorCookie = Yii::app()->request->cookies['gvid'];
 			if ($visitorCookie)
 			{
 				$visitorId	 = $visitorCookie->value;
@@ -202,10 +225,8 @@ class VisitorTrack extends CActiveRecord
 			4 => 'vistara.bookairportcab.com',
 			5 => 'cleartrip.bookairportcab.com'
 		];
-
 		return $refdomain;
 	}
-
 	public function listByVisitor($paramArray)
 	{
 		$where = '';
@@ -233,5 +254,6 @@ class VisitorTrack extends CActiveRecord
 		return $dataprovider;
 
 	}
+    
 
 }

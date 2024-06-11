@@ -1,4 +1,5 @@
 <?php
+
 try
 {
 	$bkgId	 = trim($id);
@@ -78,11 +79,13 @@ try
 
 		$templateName = null;
 
-		$params	 = [
-			'userName'	 => $firstName,
-			'bookingId'	 => $bookingId,
-			'amountStr'	 => $amountStr,
-			'link'		 => $url];
+		$params = [
+			'userName'			 => $firstName,
+			'bookingId'			 => $bookingId,
+			'amountStr'			 => $amountStr,
+			'email_receipient'	 => $email,
+			'userId'			 => $model->bkgUserInfo->bkg_user_id,
+			'link'				 => $url];
 
 		echo json_encode(array('type' => TemplateMaster::SEQ_EMAIL_CODE, 'templateName' => $templateName, 'subject' => $subject, 'body' => $msgBody, 'data' => $params, 'status' => true));
 	}

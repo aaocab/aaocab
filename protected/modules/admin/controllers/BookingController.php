@@ -106,7 +106,7 @@ class BookingController extends Controller
 					'autoAssignment', 'assignOm', 'assigncsrbyOM', 'assignDispatchCsr', 'selfAssignOm', 'autoAssignmentByBid', 'autoCancel', 'sendVendorDriver', 'oneminutelog', 'deloneminutelog', 'ApproveDutySlip', 'ApproveDoc', 'SetdutyReceived', 'changeDutySlipStatus', 'smartMatchList', 'modifiedPaymentStatus', 'skipCsrAllocation',
 					'getEscalationDesc', 'addnmi', 'changeRefundApprovalStatus', 'checkFollowupTiming', 'getPaymentStatus', 'showPaymentStatus', 'gnowNotificationList',
 					'customerInfo', 'customerType', 'partnerInfo', 'carVerify', 'bookingType', 'route', 'payment', 'travellerInfo', 'additionalInfo', 'airportTransfer', 'autoMarkerAddress', 'Pricelock', 'voucherView', 'duplicateBooking', 'track', 'currentlyAssignedDetails', 'getDrvCurrentLocation', 'showAllBidRank',
-					'display', 'dtlscq', 'vendorNotAssigned', 'breakSmartMatch', 'quotebooking', 'manuallytriggerassignment', 'reallocateCsr', 'checkDispatchCsr', 'selfAllocatCBR', 'dispatchcsr', 'AddNoShowCBR', 'getBlokedLocationData', 'viewVendorCompensation', 'railwayBusTransfer', 'blockUnassign', 'cngAllowed', 'pushDriverCustomEvents','confirmpartnerbooking'),
+					'display', 'dtlscq', 'vendorNotAssigned', 'breakSmartMatch', 'quotebooking', 'manuallytriggerassignment', 'reallocateCsr', 'checkDispatchCsr', 'selfAllocatCBR', 'dispatchcsr', 'AddNoShowCBR', 'getBlokedLocationData', 'viewVendorCompensation', 'railwayBusTransfer', 'blockUnassign', 'cngAllowed', 'pushDriverCustomEvents', 'confirmpartnerbooking','gpx'),
 				'users'		 => array('@'),
 			),
 			['allow', 'actions' => ['mffreport', 'generateInvoiceForBooking', 'requestlist', 'startchat'], 'users' => ['*']],
@@ -1516,10 +1516,10 @@ class BookingController extends Controller
 					$bkgTrail['bkg_tags'] = [];
 				}
 				$userTagList = [];
-				if (trim($userTags) != '' )
-					{
-						$userTagList = array_merge($userTagList,explode(',', trim($userTags)));
-					}
+				if (trim($userTags) != '')
+				{
+					$userTagList = array_merge($userTagList, explode(',', trim($userTags)));
+				}
 
 				$model->bkgTrail->bkg_tags = implode(',', array_unique(array_merge($userTagList, $bkgTrail['bkg_tags'])));
 			}
@@ -1651,9 +1651,9 @@ class BookingController extends Controller
 						$bkgTrail['bkg_tags'] = [];
 					}
 					$userTagList = [];
-					if (trim($userTags) != '' )
+					if (trim($userTags) != '')
 					{
-						$userTagList = array_merge($userTagList,explode(',', trim($userTags)));
+						$userTagList = array_merge($userTagList, explode(',', trim($userTags)));
 					}
 
 					$model->bkgTrail->bkg_tags = implode(',', array_unique(array_merge($userTagList, $bkgTrail['bkg_tags'])));
@@ -2394,8 +2394,8 @@ class BookingController extends Controller
 		$prevjsondata['bkg_surge_differentiate_amount']	 = Yii::app()->request->getParam('bkg_surge_differentiate_amount');
 		$prevjsondata['bkgPricefactor']					 = CJSON::decode(Yii::app()->request->getParam('bkgPricefactor'));
 		$pickupDateTime									 = $prevjsondata['multicityjsondata'][0]['date'];
-		$prevjsondata['agtBkgCategory']                  = Yii::app()->request->getParam('agtBkgCategory');
-		$pricerad = Yii::app()->request->getParam('pricerad');
+		$prevjsondata['agtBkgCategory']					 = Yii::app()->request->getParam('agtBkgCategory');
+		$pricerad										 = Yii::app()->request->getParam('pricerad');
 		if ($pricerad == 'custom')
 		{
 			$prevjsondata['bkg_booking_type'] = 8;
@@ -2594,15 +2594,15 @@ class BookingController extends Controller
 				$model->bkgAddInfo->attributes			 = $jsonDataArr;
 				$model->routeProcessed					 = $jsonDataArr['routeProcessed'];
 				$model->agentCreditAmount				 = $jsonDataArr['agentCreditAmount'];
-				if($jsonDataArr['agtBkgCategory'] == 2)
+				if ($jsonDataArr['agtBkgCategory'] == 2)
 				{
-					$model->agentCreditAmount = 0;
-					$model->createQuotePartner = 2;
+					$model->agentCreditAmount	 = 0;
+					$model->createQuotePartner	 = 2;
 				}
-				$acmSvcId								 = ($jsonDataArr['bkg_addon_details']['type2']['adn_id'] != null) ? AddonCabModels::model()->findByPk($jsonDataArr['bkg_addon_details']['type2']['adn_id'])->acm_svc_id_to : null;
-				$model->bkg_vht_id						 = ($acmSvcId) ? SvcClassVhcCat::model()->findByPk($acmSvcId)->scv_model : $jsonDataArr['modelId'];
-				$model->bkg_pickup_date					 = $pickupDate . " " . $time;
-				$model->paymentChangesData				 = $jsonDataArr['paymentChangesData'];
+				$acmSvcId					 = ($jsonDataArr['bkg_addon_details']['type2']['adn_id'] != null) ? AddonCabModels::model()->findByPk($jsonDataArr['bkg_addon_details']['type2']['adn_id'])->acm_svc_id_to : null;
+				$model->bkg_vht_id			 = ($acmSvcId) ? SvcClassVhcCat::model()->findByPk($acmSvcId)->scv_model : $jsonDataArr['modelId'];
+				$model->bkg_pickup_date		 = $pickupDate . " " . $time;
+				$model->paymentChangesData	 = $jsonDataArr['paymentChangesData'];
 
 				$paymentChangeArr = explode(',', $model->paymentChangesData);
 				if (in_array("FBG", $paymentChangeArr))
@@ -2656,9 +2656,9 @@ class BookingController extends Controller
 						$jsonDataArr['bkg_tags'] = [];
 					}
 					$userTagList = [];
-					if (trim($userTags) != '' )
+					if (trim($userTags) != '')
 					{
-						$userTagList = array_merge($userTagList,explode(',', trim($userTags)));
+						$userTagList = array_merge($userTagList, explode(',', trim($userTags)));
 					}
 					$model->bkgTrail->bkg_tags = implode(',', array_unique(array_merge($userTagList, $jsonDataArr['bkg_tags'])));
 				}
@@ -2721,10 +2721,28 @@ class BookingController extends Controller
 						$fromAdditionalAddress	 = ltrim(trim($brtArr[$k]['brt_additional_from_address'] . $brtArr[$k]['brt_additional_to_address']) . ', ', ', ');
 						$toAdditionalAddress	 = ltrim(trim($brtArr[$k + 1]['brt_additional_to_address']) . ', ', ', ');
 
-						$bookingRoute						 = new BookingRoute();
-						$bookingRoute->attributes			 = $v;
-						$bookingRoute->brt_from_location	 = $fromAdditionalAddress . $brtArr[$k]['brt_from_location'] . $brtArr[$k]['brt_to_location'];
-						$bookingRoute->brt_to_location		 = $toAdditionalAddress . $brtArr[$k + 1]['brt_to_location'];
+						$bookingRoute					 = new BookingRoute();
+						$bookingRoute->attributes		 = $v;
+						$bookingRoute->brt_from_location = $fromAdditionalAddress . $brtArr[$k]['brt_from_location'] . $brtArr[$k]['brt_to_location'];
+						$bookingRoute->brt_to_location	 = $toAdditionalAddress . $brtArr[$k + 1]['brt_to_location'];
+
+						if ($bookingRoute->brt_from_location == '' && $brtArr[$k]['brt_from_formatted_address'] != '')
+						{
+							$bookingRoute->brt_from_location = $brtArr[$k]['brt_from_formatted_address'];
+						}
+						if ($bookingRoute->brt_from_location == '' && $brtArr[$k]['brt_from_city_is_airport'] == 1 && $v['pickup_city'] > 0)
+						{
+							$bookingRoute->brt_from_location = Cities::getDisplayName($v['pickup_city']);
+						}
+						if ($bookingRoute->brt_to_location == '' && $brtArr[$k + 1]['brt_to_formatted_address'] != '')
+						{
+							$bookingRoute->brt_to_location = $brtArr[$k + 1]['brt_to_formatted_address'];
+						}
+
+						if ($bookingRoute->brt_to_location == '' && $brtArr[$k + 1]['brt_to_city_is_airport'] == 1 && $v['drop_city'] > 0)
+						{
+							$bookingRoute->brt_to_location = Cities::getDisplayName($v['drop_city']);
+						}
 						$bookingRoute->brt_from_latitude	 = round($brtArr[$k]['brt_from_latitude'] . $brtArr[$k]['brt_to_latitude'], 6);
 						$bookingRoute->brt_from_longitude	 = round($brtArr[$k]['brt_from_longitude'] . $brtArr[$k]['brt_to_longitude'], 6);
 						$bookingRoute->brt_to_latitude		 = round($brtArr[$k + 1]['brt_to_latitude'], 6);
@@ -2965,6 +2983,7 @@ class BookingController extends Controller
 		{
 			$remark = $booking['bkg_user_message'];
 		}
+
 		$SearchMark = Booking::model()->usermarkbadByBookingId($bkid);
 		if ($SearchMark['usr_mark_customer_count'] > 0 && $remark == '')
 		{
@@ -3215,8 +3234,14 @@ class BookingController extends Controller
 				$this->redirect(array('list', 'tab' => $tab));
 			}
 		}
-		$driverJSON			 = Drivers::model()->getJSONbyVendor($bcabModel->bcb_vendor_id);
-		$vehicleList		 = Vehicles::model()->getJSONbyTypeNVendor(0, $bcabModel->bcb_vendor_id);
+		$vndId = $bcabModel->bcb_vendor_id;
+//		$relVndIds	 = Vendors::getPrimaryId($vndId);
+
+		$relVndIds = Vendors::getRelatedIds($vndId);
+
+		$driverJSON	 = Drivers::model()->getJSONbyVendor($relVndIds);
+		$vehicleList = Vehicles::model()->getJSONbyTypeNVendor(0, $relVndIds);
+
 		$bcabModel->scenario = 'assigncabdriver';
 
 		$this->renderPartial('assigncabdriver', array('model' => $bcabModel, 'bmodel' => $bmodel, 'vehicleList' => $vehicleList, 'driverJSON' => $driverJSON, 'remainingSeats' => $remainingSeats), false, true);
@@ -4963,7 +4988,7 @@ FROM booking LEFT JOIN cities c1 ON c1.cty_id=bkg_from_city_id LEFT JOIN cities 
 			$pickup_time		 = Yii::app()->request->getParam('pickupTime');
 			$routeDataArr		 = Yii::app()->request->getParam('routeDataArr');
 			$sccId				 = Yii::app()->request->getParam('sccId', 0);
-			$isAirportPickup				 = Yii::app()->request->getParam('isAirportPickup', 0);
+			$isAirportPickup	 = Yii::app()->request->getParam('isAirportPickup', 0);
 			/* package */
 			$pckageID			 = Yii::app()->request->getParam('pckageID');
 			$suggestPrice		 = Yii::app()->request->getParam('isCalculate');
@@ -5224,7 +5249,7 @@ FROM booking LEFT JOIN cities c1 ON c1.cty_id=bkg_from_city_id LEFT JOIN cities 
 				{
 					$success = true;
 				}
-				$processedRoute		 = BookingLog::model()->logRouteProcessed($quoteData,'',$isAirportPickup);
+				$processedRoute		 = BookingLog::model()->logRouteProcessed($quoteData, '', $isAirportPickup);
 				$vehicleInfo		 = SvcClassVhcCat::model()->getVctSvcList($returnType			 = 'selectize', '', $vctId);
 				$cabName			 = $vehicleInfo['vct_label'];
 				$vhtModel			 = $vehicleInfo['vct_desc'];
@@ -7033,14 +7058,13 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 				if ($model->bkg_agent_id == Config::get('transferz.partner.id'))
 				{
 					$isAccept = TransferzOffers::isAccept($model);
-					if($isAccept->success == false)
+					if ($isAccept->success == false)
 					{
 						throw new Exception(json_encode("booking no longer available"), 1);
 					}
-					if($model->bkg_agent_id == Config::get('transferz.partner.id') && $model->bkgPref->bkg_is_gozonow == 0)
-					{ 
+					if ($model->bkg_agent_id == Config::get('transferz.partner.id') && $model->bkgPref->bkg_is_gozonow == 0)
+					{
 						Booking::model()->confirm(true, true, $model->bkg_id);
-
 					}
 				}
 				Booking::model()->setReconfirm($model->bkg_id);
@@ -9561,7 +9585,7 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 					throw new Exception('Amount ecxceeding permissible. Data: ' . json_encode($refundArr) . ':: refund requested : ' . $postArr['apg_amount']);
 				}
 				$refundAmount	 = $postArr['apg_amount'];
-				$userInfo        = UserInfo::getInstance();
+				$userInfo		 = UserInfo::getInstance();
 				//$userInfo		 = UserInfo::model(UserInfo:: TYPE_CONSUMER, $model->bkgUserInfo->bkg_user_id);
 				$result			 = PaymentGateway::model()->refundByRefId($refundAmount, $bkgId, Accounting:: AT_BOOKING, $userInfo, $isDBOApplicable);
 
@@ -9620,8 +9644,9 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 		{
 			return false;
 		}
-		$userId		 = $model->bkgUserInfo->bkg_user_id;
-		$cttid		 = $model->bkgUserInfo->bkg_contact_id;
+		$userId	 = $model->bkgUserInfo->bkg_user_id;
+		$cttid	 = $model->bkgUserInfo->bkg_contact_id;
+
 		$transArr	 = AccountTransDetails::getWalletTransactionByBooking($bkgId);
 		$bankArr	 = AccountTransDetails::getBankTransactionByBooking($bkgId);
 		$bankPaid	 = -1 * $bankArr['paidThroughBank'];
@@ -9630,7 +9655,12 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 		{
 			$onlineRefundable = PaymentGateway::getTotalOnlinePaymentByBooking($bkgId, $model->bkg_status);
 		}
-
+		$expirePaymentMonthDuration	 = 4;
+		$onlineExpiredBalance		 = PaymentGateway::getTotalOnlineExpiredBalanceByBooking($bkgId, $expirePaymentMonthDuration);
+		if ($onlineExpiredBalance > 0)
+		{
+			$onlineRefundable['balance'] -= $onlineExpiredBalance;
+		}
 		$walletBalance						 = UserWallet::getBalance($userId);
 		$amountRefundableFromWalletToUser	 = min([$walletBalance, ($transArr['refundedToWallet'] | 0), ($onlineRefundable['balance'] + $bankPaid)]);
 		$amount								 = $amountRefundableFromWalletToUser;
@@ -9647,7 +9677,6 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 		}
 		else
 		{
-
 			if ($amount > 0)
 			{
 				if (!Yii::app()->icici->api_live)
@@ -9661,6 +9690,10 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 			{
 				$pagetitle	 = 'Insufficient Balance';
 				$str		 = 'You have no sufficient balance to transfer';
+				if ($onlineExpiredBalance > 0)
+				{
+					$str .= "<br><span class='text-danger'>Balance expired as payment duration is more than {$expirePaymentMonthDuration} months</span>";
+				}
 //				if ($totPendingRefunds > 0)
 //				{
 //					$str .= ". Refunds in queue=$totPendingRefunds.";
@@ -9671,7 +9704,7 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 		}
 		$outputJs	 = Yii::app()->request->isAjaxRequest;
 		$method		 = "render" . ($outputJs ? "Partial" : "");
-		$this->$method($view, array('model' => $data, 'amount' => $amount, 'onlineRefundable' => $onlineRefundable, 'walletBalance' => $walletBalance, 'bank' => $bank, 'pagetitle' => $pagetitle, 'bkgId' => $bkgId), false, $outputJs);
+		$this->$method($view, array('model' => $data, 'amount' => $amount, 'onlineRefundable' => $onlineRefundable, 'walletBalance' => $walletBalance, 'onlineExpiredBalance' => $onlineExpiredBalance, 'bank' => $bank, 'pagetitle' => $pagetitle, 'bkgId' => $bkgId), false, $outputJs);
 	}
 
 	public function actionSavecustbankdetails()
@@ -9728,7 +9761,6 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 
 	public function actionWalletrefund()
 	{
-
 		$bkgId	 = Yii::app()->request->getParam('bkg_id');
 		/* @var $model Booking */
 		$model	 = Booking::model()->findByPk($bkgId);
@@ -9751,8 +9783,7 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 			{
 				return false;
 			}
-			$uniqueId = round(microtime(true) * 1000) . '';
-
+			$uniqueId					 = round(microtime(true) * 1000) . '';
 			$entityArr['entity_type']	 = 1;
 			$entityArr['entity_id']		 = $userId;
 			$userInfo					 = UserInfo::getInstance();
@@ -11015,8 +11046,6 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 				}
 
 				//Booking::notifyQuoteBookingB2C($bkgId);
-
-			
 			}
 			else
 			{
@@ -11124,31 +11153,31 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 
 		if (isset($_POST['Booking']))
 		{
-			$data = $_POST['Booking'];
-			$bkgId = $data['bkg_id'];
-			$bkgBookingId = $data['bkg_booking_id'];
-			$bkgModel = Booking::model()->findByPk($bkgId);
+			$data			 = $_POST['Booking'];
+			$bkgId			 = $data['bkg_id'];
+			$bkgBookingId	 = $data['bkg_booking_id'];
+			$bkgModel		 = Booking::model()->findByPk($bkgId);
 
 			$arrayList = [];
-			if($data['bkg_left_For_Pickup'] == 1)
+			if ($data['bkg_left_For_Pickup'] == 1)
 			{
 				$arrayList[] = BookingTrack::GOING_FOR_PICKUP;
 			}
-			if($data['bkg_arrived'] == 1)
+			if ($data['bkg_arrived'] == 1)
 			{
 				$arrayList[] = BookingTrack::DRIVER_ARRIVED;
 			}
-			if($data['bkg_trip_start'] == 1)
+			if ($data['bkg_trip_start'] == 1)
 			{
 				$arrayList[] = BookingTrack::TRIP_START;
 			}
-			if($data['bkg_trip_end'] == 1)
+			if ($data['bkg_trip_end'] == 1)
 			{
 				$arrayList[] = BookingTrack::TRIP_STOP;
 			}
 
-			foreach($arrayList as $eventList)
-			{	
+			foreach ($arrayList as $eventList)
+			{
 				switch ($eventList)
 				{
 					case $eventList == BookingTrack::GOING_FOR_PICKUP:
@@ -11165,36 +11194,46 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 						break;
 				}
 
-				$data = booking::setEventSyncData($data, $eventType, $bkgModel->bkgInvoice->bkg_vendor_amount, $bkgModel);
+				$data		 = booking::setEventSyncData($data, $eventType, $bkgModel->bkgInvoice->bkg_vendor_amount, $bkgModel);
 				$jsonValue	 = CJSON::decode($data, false);
 				$jsonObj	 = $jsonValue->data;
-			
 
-				$result	 = \Beans\booking\TrackEvent::setTrackModel($jsonObj, $isDCO	 = false);
+				$result		 = \Beans\booking\TrackEvent::setTrackModel($jsonObj, $isDCO		 = false);
 				$model		 = $result[0];
 				$trackObj	 = $result[1];
 
-				$checkLog		 = DrvUnsyncLog::model()->checkExist($model->btl_bkg_id, $model->btl_event_type_id);
-				
+				$checkLog = DrvUnsyncLog::model()->checkExist($model->btl_bkg_id, $model->btl_event_type_id);
+
 				/* @var $eventResponse booking */
-				$eventResponse	 = $model->handleEvents($trackObj, 1);
+				$eventResponse = $model->handleEvents($trackObj, 1);
 			}
+
+			if (count($arrayList) < 1)
+			{
+				$msg	 = "Please choose atleast one checkbox";
+				$data	 = ['success' => false, 'message' => $msg];
+				echo json_encode($data);
+				Yii::app()->end();
+			}
+
+			end;
 
 			if ($eventResponse->getStatus())
 			{
 				$userInfo	 = UserInfo::getInstance();
-				$desc = 'Driver Custom Event triggered manually';
+				$desc		 = 'Driver Custom Event triggered manually';
 				BookingLog::model()->createLog($data['bkg_id'], $desc, $userInfo, BookingLog:: DRIVER_CUSTOM_EVENT_TRIGGERED_MANNUALY, false, false);
 				if (Yii::app()->request->isAjaxRequest)
 				{
+					end:
 					$url	 = Yii::app()->createUrl('admin/booking/view', ['id' => $bkgId]);
-					$data	 = ['success' => $eventResponse->getStatus(),  'message' => $eventResponse->getMessage() . $bkgBookingId, 'url' => $url];
+					$data	 = ['success' => $eventResponse->getStatus(), 'message' => $eventResponse->getMessage() . $bkgBookingId, 'url' => $url];
 					echo json_encode($data);
 					Yii::app()->end();
 				}
 			}
 		}
-		
+
 		$errors = Yii::app()->request->getParam('errors');
 		if ($errors != '')
 		{
@@ -11207,38 +11246,75 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 
 	public function actionConfirmpartnerbooking()
 	{
-		$bkgId = Yii::app()->request->getParam('bkgid');
-		$model = Booking::model()->findByPk($bkgId);
-		if(isset($_POST['Booking']) && $bkgId > 0)
+		$bkgId	 = Yii::app()->request->getParam('bkgid');
+		$model	 = Booking::model()->findByPk($bkgId);
+		if (isset($_POST['Booking']) && $bkgId > 0)
 		{
-				$corpamount = $_POST['Booking']['agentCreditAmount'];
-				try
+			$corpamount = $_POST['Booking']['agentCreditAmount'];
+			try
+			{
+				if ($corpamount > 0)
 				{
-					if($corpamount > 0)
+					$isUpdateAdvance = $model->updateAdvance($corpamount, $model->bkg_pickup_date, PaymentType:: TYPE_AGENT_CORP_CREDIT, UserInfo:: getInstance(), null, "Partner Wallet Used On partner confirm booking from admin");
+					if (!$isUpdateAdvance)
 					{
-						$isUpdateAdvance = $model->updateAdvance($corpamount, $model->bkg_pickup_date, PaymentType:: TYPE_AGENT_CORP_CREDIT, UserInfo:: getInstance(), null, "Partner Wallet Used On partner confirm booking from admin");
-						if(!$isUpdateAdvance)
-						{
-							throw new Exception("Booking failed as partner wallet balance exceeded.");
-						}
+						throw new Exception("Booking failed as partner wallet balance exceeded.");
 					}
-					$model->refresh();
-					Booking::model()->confirm(true, false, $bkgId);
-					$createDate							 = Filter::getDBDateTime();
-					$pickupDate							 = $model->bkg_pickup_date;
-					$expireTime							 = BookingTrail::calculateQuoteExpiryTime($createDate, $pickupDate);
-					$model->bkgTrail->bkg_quote_expire_date	 = $expireTime;
-					$model->bkgTrail->save();
 				}
-				catch(Exception $ex)
-				{
-					echo json_encode(['success'=>false]);
-				}
-		
-			echo json_encode(['success'=>true]);
+				$model->refresh();
+				Booking::model()->confirm(true, false, $bkgId);
+				$createDate								 = Filter::getDBDateTime();
+				$pickupDate								 = $model->bkg_pickup_date;
+				$expireTime								 = BookingTrail::calculateQuoteExpiryTime($createDate, $pickupDate);
+				$model->bkgTrail->bkg_quote_expire_date	 = $expireTime;
+				$model->bkgTrail->save();
+			}
+			catch (Exception $ex)
+			{
+				echo json_encode(['success' => false]);
+			}
+
+			echo json_encode(['success' => true]);
 			Yii::app()->end();
 		}
-		$this->renderPartial('confirmpartnerbooking', array('model'=>$model), false, true);
+		$this->renderPartial('confirmpartnerbooking', array('model' => $model), false, true);
+	}
+    
+    public function actionGpx()
+	{
+		$bkgId = trim(Yii::app()->request->getParam('bkgId'));
+
+		if (!$bkgId)
+		{
+			throw new CHttpException(400, 'Invalid Data');
+		}
+
+		$bkgModel = Booking::model()->findByPk($bkgId);
+		if (!$bkgModel)
+		{
+			throw new CHttpException(400, 'Invalid Booking');
+		}
+
+		$bkgTrack	 = $bkgModel->bkgTrack;
+		$imgPath	 = $bkgTrack->btk_gpx_file;
+		$s3data		 = $bkgTrack->btk_gpx_s3_data;
+
+		$filePath = (Yii::app()->basePath . $imgPath);
+
+		if (file_exists($filePath))
+		{
+			Yii::app()->request->downloadFile($filePath);
+		}
+		else if ($s3data != '')
+		{
+			$spaceFile	 = Stub\common\SpaceFile::populate($s3data);
+			$url		 = $spaceFile->getURL();
+			Yii::app()->request->redirect($url);
+		}
+		else
+		{
+			throw new CHttpException(400, 'No File Found');
+		}
 	}
 
 }

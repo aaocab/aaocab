@@ -92,7 +92,7 @@ class ContactPref extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function updateCategory($userId = 0)
+	public static function updateCategory($userId = 0, $totZeroCashCancelled=null, $totZeroCashCancelledMonth12=null)
 	{
 		$userCond = "";
 		if ($userId > 0)
@@ -100,7 +100,7 @@ class ContactPref extends CActiveRecord
 			$userCond = " AND user_id = " . $userId;
 		}
 
-		$sql = "SELECT ctt_id, IFNULL(urs_total_trips,0) urs_total_trips 
+		$sql = "SELECT ctt_id, IFNULL(urs_total_trips,0) urs_total_trips, IFNULL(urs_trips_12months, 0) urs_trips_12months  
 				FROM users 
 				INNER JOIN user_stats ON urs_user_id = user_id 
 				INNER JOIN contact_profile ON cr_is_consumer = user_id AND cr_status = 1 
@@ -116,20 +116,31 @@ class ContactPref extends CActiveRecord
 				$model				 = new ContactPref();
 				$model->cpr_ctt_id	 = $result['ctt_id'];
 			}
+			
+			$totalTrips = $result['urs_total_trips'];
+			$totalTrips12Months = $result['urs_trips_12months'];
+			
+			$netTotalTrips = ($totalTrips - $totZeroCashCancelled);
+			$netTotalTrips12Months = ($totalTrips12Months - $totZeroCashCancelledMonth12);
+			
+			Logger::writeToConsole("OLD cpr_category: ". $model->cpr_category);
+			Logger::writeToConsole($userId . " - " . $model->cpr_ctt_id . " - " .$totalTrips . " - " .$totalTrips12Months . " - " .$totZeroCashCancelled . " - " .$totZeroCashCancelledMonth12 . " - " .$netTotalTrips . " - " .$netTotalTrips12Months);
 
 			$model->cpr_category = 1;
-			if ($result['urs_total_trips'] >= 10)
+			if ($netTotalTrips >= 30 || $netTotalTrips12Months >= 6)
 			{
 				$model->cpr_category = 4;
 			}
-			else if ($result['urs_total_trips'] >= 7)
+			else if ($netTotalTrips >= 20 || $netTotalTrips12Months >= 4)
 			{
 				$model->cpr_category = 3;
 			}
-			else if ($result['urs_total_trips'] >= 3)
+			else if ($netTotalTrips >= 10 || $netTotalTrips12Months >= 2)
 			{
 				$model->cpr_category = 2;
 			}
+			
+			Logger::writeToConsole("New cpr_category: ". $model->cpr_category);
 
 			$model->save();
 		}

@@ -2638,7 +2638,7 @@ class UsersController extends BaseController
 	{
 		$returnSet = new ReturnSet();
 		//    $jsonMapper    = new JsonMapper();
-
+		throw new CHttpException(400, "This app has been discontinued. Please install & use Gozo Partner+ app from Google play store.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 		$sessionId		 = Yii::app()->getSession()->getSessionID();
 		$isLoggedIn		 = !Yii::app()->user->isGuest;
 //		$token			 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
@@ -2793,10 +2793,10 @@ class UsersController extends BaseController
 		$data			 = Yii::app()->request->rawBody;
 		$multi			 = false;
 		$msgUloadFirst	 = "";
+		throw new CHttpException(400, "This app has been discontinued. Please install & use Gozo Partner+ app from Google play store.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 		$transaction	 = DBUtil::beginTransaction();
 		try
 		{
-			throw new Exception("This app has been discontinued. Please install & use Gozo Partner+ app from Google play store.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			if(!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
@@ -2885,8 +2885,8 @@ class UsersController extends BaseController
 		}
 		catch(Exception $ex)
 		{
-			$returnSet = ReturnSet::setException($ex);
 			DBUtil::rollbackTransaction($transaction);
+			$returnSet = ReturnSet::setException($ex);
 		}
 		skipAll:
 		return $returnSet;

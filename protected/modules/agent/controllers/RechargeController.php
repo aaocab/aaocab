@@ -67,13 +67,11 @@ class RechargeController extends BaseController
 
 	public function restEvents()
 	{
-		$this->onRest('req.cors.access.control.allow.methods', function()
-		{
+		$this->onRest('req.cors.access.control.allow.methods', function () {
 			return ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']; //List of allowed http methods (verbs)
 		});
 
-		$this->onRest('post.filter.req.auth.user', function($validation)
-		{
+		$this->onRest('post.filter.req.auth.user', function ($validation) {
 			$pos = false;
 			$arr = $this->getURIAndHTTPVerb();
 			$ri	 = array('');
@@ -125,7 +123,7 @@ class RechargeController extends BaseController
 			'name'				 => $partnerModel->agt_fname . " " . $partnerModel->agt_lname,
 			'billing_address'	 => $partnerModel->agt_address
 		];
-		$getBalance		 = PartnerStats::getBalance($partnerId);
+		$getBalance	 = PartnerStats::getBalance($partnerId);
 		$this->render("recharge", ['transinfo' => $transinfo, 'paymentData' => $paymentData, 'infoDesc' => $infoDesc, 'getBalance' => $getBalance]);
 	}
 
@@ -134,7 +132,10 @@ class RechargeController extends BaseController
 		$userInfo	 = UserInfo::getInstance();
 		$partnerId	 = $userInfo->getUser()->getAgentId();
 
-		$paymentType = PaymentType::TYPE_PAYUMONEY;
+//		$paymentType = PaymentType::TYPE_PAYUMONEY;
+//		$paymentType = PaymentType::TYPE_EASEBUZZ;
+//		$paymentType = PaymentType::TYPE_RAZORPAY;
+		$paymentType = Yii::app()->request->getParam('paymentType');
 
 		$accTransType	 = Accounting::AT_PARTNER;
 		$amount			 = Yii::app()->request->getParam('amount');
@@ -150,15 +151,15 @@ class RechargeController extends BaseController
 			$payubolt		 = Yii::app()->request->getParam('payubolt');
 			$return['url']	 = $url;
 
-			if ($payubolt == 1 && Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				$apg_id		 = $paymentGateway->apg_id;
 				$payRequest	 = PaymentGateway::model()->getPGRequest($apg_id);
 				$pgObject	 = Filter::GetPGObject($payRequest->payment_type);
 
-				$return = $pgObject->initiateRequest($payRequest);
+				$return		 = $pgObject->initiateRequest($payRequest);
 
-				$return['success'] = true;
+//				$return['success'] = true;
 				echo CJSON::encode($return);
 				DBUtil::commitTransaction($transaction);
 				Yii::app()->end();
@@ -171,5 +172,4 @@ class RechargeController extends BaseController
 
 		Yii::app()->end();
 	}
-
 }

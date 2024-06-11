@@ -69,7 +69,7 @@ class VendorController extends Controller
 			['allow', 'actions' => ['del'], 'roles' => ['vendorDelete']],
 			['allow', 'actions' => ['BroadcastMessage', 'showverifylink', 'listtoapprove', 'reject', 'revert', 'unregvendorlist', 'UvrVendorDetails', 'Uvrdelete', 'UvrVendorApprove', 'updateRelationshipManager', 'vendorDetails', 'exportTierCount'], 'users' => ['@']],
 			['allow', 'actions'	 => ['generateAgreementForVendor', 'generateSoftCopyForVendor', 'generateInvoiceForVendor', 'unsetOrientation',
-					'generateLedgerForVendor', 'changecod', 'updateStats', 'regProgress', 'relationshipTier', 'operatorAgreement', 'uploadDoc', 'showDuplicateUser', 'getlockamount', 'ViewMetrics', 'refreshVendorAccount'], 'users'		 => ['*']],
+					'generateLedgerForVendor', 'changecod', 'updateStats', 'regProgress', 'relationshipTier', 'operatorAgreement', 'uploadDoc', 'showDuplicateUser', 'getlockamount', 'ViewMetrics', 'refreshVendorAccount', 'boostDependency'], 'users'		 => ['*']],
 			array('deny', // deny all users
 				'users' => array('*'),
 			),
@@ -87,9 +87,9 @@ class VendorController extends Controller
 			$arr = $this->getURIAndHTTPVerb();
 			#$ri  = array('/list', '/listDropDown', '/edit', '/editinfo', '/editdoc', "/conAdd");
 			$ri	 = array();
-			foreach($ri as $value)
+			foreach ($ri as $value)
 			{
-				if(strpos($arr[0], $value))
+				if (strpos($arr[0], $value))
 				{
 					$pos = true;
 				}
@@ -100,14 +100,14 @@ class VendorController extends Controller
 		$this->onRest('req.get.list.render', function () {
 			$token	 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
 			$result	 = Admins::model()->authorizeAdmin($token);
-			if($result)
+			if ($result)
 			{
 				$search_txt	 = Yii::app()->request->getParam('search_txt');
 				$page_no	 = (int) Yii::app()->request->getParam('page_no');
 				$page_number = ($page_no > 0) ? $page_no : 0;
 				$vendorModel = Vendors::model()->getDetailsAdmin($page_number, $total_count = 0, $search_txt);
 				$count		 = count(Vendors::model()->getDetailsAdmin($page_number, 0, $search_txt));
-				if($vendorModel != [])
+				if ($vendorModel != [])
 				{
 					$success = true;
 					$error	 = null;
@@ -117,7 +117,7 @@ class VendorController extends Controller
 					$success = false;
 					$error	 = "Error occured while fetching list";
 				}
-				if($count != 0)
+				if ($count != 0)
 				{
 					$pageCount = ceil($count / 20);
 				}
@@ -144,7 +144,7 @@ class VendorController extends Controller
 			#$vendorModel = Vendors::model()->getDetailsAdminDropDown($search_txt);
 			$vendorModel = Vendors::model()->getDetailsAdmin(0, 0, $search_txt);
 			$count		 = count($vendorModel);
-			if($vendorModel != [])
+			if ($vendorModel != [])
 			{
 				$success = true;
 				$error	 = null;
@@ -170,12 +170,12 @@ class VendorController extends Controller
 			$errors	 = 'data not found';
 			$token	 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
 			$result	 = Admins::model()->authorizeAdmin($token);
-			if($result == true)
+			if ($result == true)
 			{
 				$vendorId				 = Yii::app()->request->getParam('vnd_id');
 				$data					 = Vendors::model()->getViewDetailbyId($vendorId);
 				$alternateContactList	 = Vendors::model()->getContactByVndId($vendorId);
-				foreach($alternateContactList AS $value)
+				foreach ($alternateContactList AS $value)
 				{
 					$alternateContact[] = $value['vnd_contact_number'];
 				}
@@ -206,14 +206,14 @@ class VendorController extends Controller
 
 				$venDocs = Document::model()->findAllByVndId($vendorId);
 
-				if(count($venDocs) > 0)
+				if (count($venDocs) > 0)
 				{
 
 					$agreement_file					 = ($venDocs[0]['vag_soft_path'] != '') ? $venDocs[0]['vag_soft_path'] : $venDocs[0]['vag_digital_agreement'];
 					$data['vnd_agreement_file_link'] = $agreement_file;
 					$data['vnd_agreement_status']	 = (int) $venDocs[0]['vd_agmt_status'];
 					$data['vnd_voter_id_path']		 = $venDocs[0]['votfile_front'];
-					if(substr_count($venDocs[0]['votfile_front'], "contact") > 0)
+					if (substr_count($venDocs[0]['votfile_front'], "contact") > 0)
 					{
 						$data['vnd_voter_id_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['votfile_front']), PHP_URL_PATH);
 					}
@@ -221,7 +221,7 @@ class VendorController extends Controller
 					$data['vnd_voter_id_status'] = ($venDocs[0]['votfile_front'] == null) ? '' : $venDocs[0]['votfile_status'];
 
 					$data['vnd_voter_id_back_path'] = $venDocs[0]['votfile_back'];
-					if(substr_count($venDocs[0]['votfile_back'], "contact") > 0)
+					if (substr_count($venDocs[0]['votfile_back'], "contact") > 0)
 					{
 						$data['vnd_voter_id_back_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['votfile_back']), PHP_URL_PATH);
 					}
@@ -229,7 +229,7 @@ class VendorController extends Controller
 					$data['voter_remarks']				 = $venDocs[0]['voter_remarks'];
 
 					$data['vnd_aadhaar_path'] = $venDocs[0]['adhfile_front'];
-					if(substr_count($venDocs[0]['adhfile_front'], "contact") > 0)
+					if (substr_count($venDocs[0]['adhfile_front'], "contact") > 0)
 					{
 						$data['vnd_aadhaar_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['adhfile_front']), PHP_URL_PATH);
 					}
@@ -238,7 +238,7 @@ class VendorController extends Controller
 					$data['vnd_aadhaar_status'] = ($venDocs[0]['adhfile_front'] == null) ? '' : $venDocs[0]['adhfile_status'];
 
 					$data['vnd_aadhaar_back_path'] = $venDocs[0]['adhfile_back'];
-					if(substr_count($venDocs[0]['adhfile_back'], "contact") > 0)
+					if (substr_count($venDocs[0]['adhfile_back'], "contact") > 0)
 					{
 						$data['vnd_aadhaar_back_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['adhfile_back']), PHP_URL_PATH);
 					}
@@ -247,7 +247,7 @@ class VendorController extends Controller
 					$data['aadhar_remarks']			 = $venDocs[0]['aadhar_remarks'];
 
 					$data['vnd_pan_path'] = $venDocs[0]['panfile_front'];
-					if(substr_count($venDocs[0]['panfile_front'], "contact") > 0)
+					if (substr_count($venDocs[0]['panfile_front'], "contact") > 0)
 					{
 						$data['vnd_pan_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['panfile_front']), PHP_URL_PATH);
 					}
@@ -255,7 +255,7 @@ class VendorController extends Controller
 					$data['vnd_pan_status'] = ($venDocs[0]['panfile_front'] == null) ? '' : $venDocs[0]['panfile_status'];
 
 					$data['vnd_pan_back_path'] = $venDocs[0]['panfile_back'];
-					if(substr_count($venDocs[0]['panfile_back'], "contact") > 0)
+					if (substr_count($venDocs[0]['panfile_back'], "contact") > 0)
 					{
 						$data['vnd_pan_back_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['panfile_back']), PHP_URL_PATH);
 					}
@@ -263,14 +263,14 @@ class VendorController extends Controller
 					$data['pan_remarks']		 = $venDocs[0]['pan_remarks'];
 
 					$data['vnd_licence_path'] = $venDocs[0]['licfile_front'];
-					if(substr_count($venDocs[0]['licfile_front'], "contact") > 0)
+					if (substr_count($venDocs[0]['licfile_front'], "contact") > 0)
 					{
 						$data['vnd_licence_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['licfile_front']), PHP_URL_PATH);
 					}
 					$data['vnd_licence_status'] = ($venDocs[0]['licfile_front'] == null) ? '' : $venDocs[0]['licfile_status'];
 
 					$data['vnd_licence_back_path'] = $venDocs[0]['licfile_back'];
-					if(substr_count($venDocs[0]['licfile_back'], "contact") > 0)
+					if (substr_count($venDocs[0]['licfile_back'], "contact") > 0)
 					{
 						$data['vnd_licence_back_path'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['licfile_back']), PHP_URL_PATH);
 					}
@@ -278,7 +278,7 @@ class VendorController extends Controller
 					$data['license_remarks']		 = $venDocs[0]['license_remarks'];
 
 					$data['vnd_firm_attach'] = $venDocs[0]['memofile_front'];
-					if(substr_count($venDocs[0]['memofile_front'], "contact") > 0)
+					if (substr_count($venDocs[0]['memofile_front'], "contact") > 0)
 					{
 						$data['vnd_firm_attach'] = parse_url(AttachmentProcessing::ImagePath($venDocs[0]['memofile_front']), PHP_URL_PATH);
 					}
@@ -290,9 +290,9 @@ class VendorController extends Controller
 				// ['0'=> 'Rejected or Upload','1'=> 'Approved','2'=> 'Pending Approval']
 
 				$is_on_file = 0;
-				if($data['vnd_agreement_file_link'] != '' || $data['vnd_agreement_status'] != '')
+				if ($data['vnd_agreement_file_link'] != '' || $data['vnd_agreement_status'] != '')
 				{
-					switch($data['vnd_agreement_status'])
+					switch ($data['vnd_agreement_status'])
 					{
 						case 0:
 							$is_on_file	 = 2;
@@ -306,29 +306,29 @@ class VendorController extends Controller
 					}
 				}
 				$data['is_on_file'] = (int) $is_on_file;
-				if($vendorId > 0)
+				if ($vendorId > 0)
 				{
 					$data['rating'] = VendorStats::fetchRating($vendorId);
 				}
 				$data['vnd_photo_path'] = $venDocs[0]['vnd_photo_path'];
-				if(substr_count($data['vnd_photo_path'], "contact") > 0)
+				if (substr_count($data['vnd_photo_path'], "contact") > 0)
 				{
 					$data['vnd_photo_path'] = parse_url(AttachmentProcessing::ImagePath($data['vnd_photo_path']), PHP_URL_PATH);
 				}
 				$data['is_bussiness'] = ($data['ctt_user_type'] == '1' ? 0 : 1);
-				if($data['business_type'] == 1)
+				if ($data['business_type'] == 1)
 				{
 					$btype = "Sole Propitership";
 				}
-				else if($data['business_type'] == 2)
+				else if ($data['business_type'] == 2)
 				{
 					$btype = "Partner";
 				}
-				else if($data['business_type'] == 3)
+				else if ($data['business_type'] == 3)
 				{
 					$btype = "Private Limited";
 				}
-				else if($data['business_type'] == 4)
+				else if ($data['business_type'] == 4)
 				{
 					$btype = "Limited";
 				}
@@ -359,7 +359,7 @@ class VendorController extends Controller
 		$this->onRest('req.post.edit.render', function () {
 			$token	 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
 			$result	 = Admins::model()->authorizeAdmin($token);
-			if($result)
+			if ($result)
 			{
 				$success			 = false;
 				$errors				 = '';
@@ -369,12 +369,12 @@ class VendorController extends Controller
 				$vndId				 = $data['vnd_id'];
 				$oldData			 = false;
 				$checkAccess		 = Yii::app()->user->checkAccess('vendorAdd');
-				if($checkAccess)
+				if ($checkAccess)
 				{
 					/* @var $model Vendors */
 					$model	 = Vendors::model()->findByPk($vndId);
 					$oldData = $model->attributes;
-					if($model == '')
+					if ($model == '')
 					{
 						$transaction = DBUtil::beginTransaction();
 						try
@@ -396,12 +396,12 @@ class VendorController extends Controller
 							$phones						 = array(array('phn_phone_no' => $data['data']['vnd_phone'], 'phn_is_primary' => 1));
 							$modelContact->ctt_city		 = $data['data']['vnd_city'];
 							$modelContact->ctt_user_type = $data['data']['user_type'];
-							if($data['data']['user_type'] == 1)
+							if ($data['data']['user_type'] == 1)
 							{
 								$modelContact->ctt_first_name	 = $data['data']['vnd_fname'];
 								$modelContact->ctt_last_name	 = $data['data']['vnd_lname'];
 							}
-							else if($data['data']['user_type'] == 2)
+							else if ($data['data']['user_type'] == 2)
 							{
 								$modelContact->ctt_business_type = $data['data']['business_type'];
 								$modelContact->ctt_business_name = $data['data']['vnd_company'];
@@ -415,7 +415,7 @@ class VendorController extends Controller
 							$modelContact->contactEmails	 = $modelContact->convertToEmailObjects($emails);
 							$modelContact->contactPhones	 = $modelContact->convertToPhoneObjects($phones);
 							$returnSet						 = $modelContact->add();
-							if($modelContact->save())
+							if ($modelContact->save())
 							{
 								//vnd_is_dco(from app side) is equals to vnd_cat_type (service side): need to be updated later
 								$model->vnd_cat_type	 = $data['data']['vnd_is_dco'];
@@ -426,7 +426,7 @@ class VendorController extends Controller
 
 								$contEmailPhone	 = Contact::model()->getContactDetails($model->vnd_contact_id);
 								$usersId		 = Users::model()->linkUserid($contEmailPhone['eml_email_address'], $contEmailPhone['phn_phone_no']);
-								if($usersId != "")
+								if ($usersId != "")
 								{
 									$model->vnd_user_id = $usersId;
 								}
@@ -435,9 +435,9 @@ class VendorController extends Controller
 									Vendors::model()->createUserByVendor($model->vnd_id, $contEmailPhone, $data['vnd_password'], 2);
 								}
 
-								if($model->validate())
+								if ($model->validate())
 								{
-									if($model->save())
+									if ($model->save())
 									{
 										$vendorId			 = $model->vnd_id;
 										$codeArray			 = Filter::getCodeById($vendorId, 'vendor');
@@ -445,7 +445,7 @@ class VendorController extends Controller
 										$model->vnd_code	 = $codeArray['code'];
 										$model->vnd_name	 = $model->vnd_name . "-" . $codeArray['code'] . "-" . $cityName;
 										$model->scenario	 = 'unregUpdateVendorJoin';
-										if($model->save())
+										if ($model->save())
 										{
 											$modelStats->vrs_vnd_id	 = $model->vnd_id;
 											$modelPref->vnp_vnd_id	 = $model->vnd_id;
@@ -481,7 +481,7 @@ class VendorController extends Controller
 								throw new Exception(json_encode($modelContact->getErrors()), 102);
 							}
 						}
-						catch(Exception $ex)
+						catch (Exception $ex)
 						{
 							$errors = $ex->getMessage();
 							DBUtil::rollbackTransaction($transaction);
@@ -524,14 +524,14 @@ class VendorController extends Controller
 			$returnSet	 = new ReturnSet();
 			$token		 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
 			$result		 = Admins::model()->authorizeAdmin($token);
-			if(!$result)
+			if (!$result)
 			{
 				$returnSet->setStatus(false);
 				$returnSet->setErrors('You do not have access for this action.');
 				goto resultResponse;
 			}
 			$checkAccess = Yii::app()->user->checkAccess('vendorAdd');
-			if(!$checkAccess)
+			if (!$checkAccess)
 			{
 				$returnSet->setStatus(false);
 				$returnSet->setErrors('You do not have privilage to add vendor.');
@@ -549,13 +549,13 @@ class VendorController extends Controller
 				$result		 = $this->editVendorDetails($process_sync_data, $processFile1, $processFile2, $returnSet);
 				$returnSet	 = $result['returnSet'];
 				$model		 = $result['model'];
-				if($returnSet->isSuccess())
+				if ($returnSet->isSuccess())
 				{
 					//DBUtil::commitTransaction($transaction);
 					goto resultResponse;
 				}
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				Filter::createLog("Vendor details or document not saved.\n\t\t" . $e->getMessage(), CLogger::LEVEL_ERROR);
 				//DBUtil::rollbackTransaction($transaction);
@@ -599,7 +599,7 @@ class VendorController extends Controller
 			$data = Yii::app()->request->rawBody;
 
 			$receivedData = CJSON::decode($data, false);
-			if(empty($receivedData))
+			if (empty($receivedData))
 			{
 				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 			};
@@ -612,7 +612,7 @@ class VendorController extends Controller
 			/** @var Contact $contactMediumModel */
 			$returnSet			 = $contactMediumModel->addContacts();
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$errors = $ex->getMessage();
 			Logger::create("Contact Details not saved. -->" . $errors, CLogger::LEVEL_ERROR);
@@ -638,7 +638,7 @@ class VendorController extends Controller
 		try
 		{
 
-			if($type == 'unreg')
+			if ($type == 'unreg')
 			{
 				$this->pageTitle = "Add Unregister Vendor";
 				$uvrmodel		 = UnregVendorRequest::model()->findByPk($newvendor);
@@ -650,7 +650,7 @@ class VendorController extends Controller
 //                                {
 //                                    $contactID ;
 //                                }
-				if($arrContacts != NULL)
+				if ($arrContacts != NULL)
 				{
 					$model->vnd_contact_id	 = $arrContacts[0]['ctt_id'];
 					$model->vnd_contact_name = $uvrmodel->uvr_vnd_name . ' ' . $uvrmodel->uvr_vnd_lname;
@@ -660,15 +660,15 @@ class VendorController extends Controller
 				$model->vnd_uvr_id	 = $uvrmodel->uvr_id;
 				$model->vnd_active	 = 3;
 			}
-			if($vndId > 0)
+			if ($vndId > 0)
 			{
 				$this->pageTitle = "Edit Vendor";
 				$model			 = Vendors::model()->findByPk($vndId);
-				if(empty($model))
+				if (empty($model))
 				{
 					$model = Vendors::model()->resetScope()->findByPk($vndId);
 				}
-				if($model == null)
+				if ($model == null)
 				{
 					$this->redirect('/admpnl/vendor/list');
 				}
@@ -684,12 +684,12 @@ class VendorController extends Controller
 				$oldData['stats']		 = $model->vendorStats->attributes;
 				$oldData['pref']		 = $model->vendorPrefs->attributes;
 
-				if($model->vendorPrefs->vnp_accepted_zone == "" || $model->vendorPrefs->vnp_accepted_zone == NULL)
+				if ($model->vendorPrefs->vnp_accepted_zone == "" || $model->vendorPrefs->vnp_accepted_zone == NULL)
 				{
 					$model->vendorPrefs->vnp_accepted_zone = implode(', ', array_column(Zones::getZoneByHomeZone($vndId), 'id'));
 				}
 			}
-			if($type == "approve")
+			if ($type == "approve")
 			{
 				$this->pageTitle	 = "Approve Vendor";
 				$model->vnd_active	 = 1;
@@ -698,41 +698,41 @@ class VendorController extends Controller
 			$modifyOrApprove = ($type == 'approve') ? "Approve" : "Modify";
 			$isNew			 = ($model->isNewRecord) ? "Add" : $modifyOrApprove;
 
-			if(isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorStats']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['vnp_accepted_zone']))
+			if (isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorStats']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['vnp_accepted_zone']))
 			{
 				$model->attributes				 = Yii::app()->request->getParam('Vendors');
 				$model->vendorPrefs->attributes	 = Yii::app()->request->getParam('VendorPref');
-				if(($model->vendorPrefs->vnp_oneway == 0 && $oldData['pref']['vnp_oneway'] == -1) || ($model->vendorPrefs->vnp_oneway == 0 && $oldData['pref']['vnp_oneway'] == 1) || ($model->vendorPrefs->vnp_oneway == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_oneway == 0 && $oldData['pref']['vnp_oneway'] == -1) || ($model->vendorPrefs->vnp_oneway == 0 && $oldData['pref']['vnp_oneway'] == 1) || ($model->vendorPrefs->vnp_oneway == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_oneway = -1;
 				}
-				if(($model->vendorPrefs->vnp_round_trip == 0 && $oldData['pref']['vnp_round_trip'] == -1) || ($model->vendorPrefs->vnp_round_trip == 0 && $oldData['pref']['vnp_round_trip'] == 1) || ($model->vendorPrefs->vnp_round_trip == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_round_trip == 0 && $oldData['pref']['vnp_round_trip'] == -1) || ($model->vendorPrefs->vnp_round_trip == 0 && $oldData['pref']['vnp_round_trip'] == 1) || ($model->vendorPrefs->vnp_round_trip == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_round_trip	 = -1;
 					$model->vendorPrefs->vnp_multi_trip	 = -1;
 				}
 				$model->vendorPrefs->vnp_multi_trip = $model->vendorPrefs->vnp_round_trip;
-				if(($model->vendorPrefs->vnp_airport == 0 && $oldData['pref']['vnp_airport'] == -1) || ($model->vendorPrefs->vnp_airport == 0 && $oldData['pref']['vnp_airport'] == 1) || ($model->vendorPrefs->vnp_airport == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_airport == 0 && $oldData['pref']['vnp_airport'] == -1) || ($model->vendorPrefs->vnp_airport == 0 && $oldData['pref']['vnp_airport'] == 1) || ($model->vendorPrefs->vnp_airport == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_airport = -1;
 				}
-				if(($model->vendorPrefs->vnp_package == 0 && $oldData['pref']['vnp_package'] == -1) || ($model->vendorPrefs->vnp_package == 0 && $oldData['pref']['vnp_package'] == 1) || ($model->vendorPrefs->vnp_package == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_package == 0 && $oldData['pref']['vnp_package'] == -1) || ($model->vendorPrefs->vnp_package == 0 && $oldData['pref']['vnp_package'] == 1) || ($model->vendorPrefs->vnp_package == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_package = -1;
 				}
-				if(($model->vendorPrefs->vnp_flexxi == 0 && $oldData['pref']['vnp_flexxi'] == -1) || ($model->vendorPrefs->vnp_flexxi == 0 && $oldData['pref']['vnp_flexxi'] == 1) || ($model->vendorPrefs->vnp_flexxi == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_flexxi == 0 && $oldData['pref']['vnp_flexxi'] == -1) || ($model->vendorPrefs->vnp_flexxi == 0 && $oldData['pref']['vnp_flexxi'] == 1) || ($model->vendorPrefs->vnp_flexxi == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_flexxi = -1;
 				}
-				if(($model->vendorPrefs->vnp_daily_rental == 0 && $oldData['pref']['vnp_daily_rental'] == -1) || ($model->vendorPrefs->vnp_daily_rental == 0 && $oldData['pref']['vnp_daily_rental'] == 1) || ($model->vendorPrefs->vnp_daily_rental == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_daily_rental == 0 && $oldData['pref']['vnp_daily_rental'] == -1) || ($model->vendorPrefs->vnp_daily_rental == 0 && $oldData['pref']['vnp_daily_rental'] == 1) || ($model->vendorPrefs->vnp_daily_rental == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_daily_rental = -1;
 				}
-				if(($model->vendorPrefs->vnp_lastmin_booking == 0 && $oldData['pref']['vnp_lastmin_booking'] == -1) || ($model->vendorPrefs->vnp_lastmin_booking == 0 && $oldData['pref']['vnp_lastmin_booking'] == 1) || ($model->vendorPrefs->vnp_lastmin_booking == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_lastmin_booking == 0 && $oldData['pref']['vnp_lastmin_booking'] == -1) || ($model->vendorPrefs->vnp_lastmin_booking == 0 && $oldData['pref']['vnp_lastmin_booking'] == 1) || ($model->vendorPrefs->vnp_lastmin_booking == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_lastmin_booking = -1;
 				}
-				if(($model->vendorPrefs->vnp_tempo_traveller == 0 && $oldData['pref']['vnp_tempo_traveller'] == -1) || ($model->vendorPrefs->vnp_tempo_traveller == 0 && $oldData['pref']['vnp_tempo_traveller'] == 1) || ($model->vendorPrefs->vnp_tempo_traveller == 0 && $vndId == null))
+				if (($model->vendorPrefs->vnp_tempo_traveller == 0 && $oldData['pref']['vnp_tempo_traveller'] == -1) || ($model->vendorPrefs->vnp_tempo_traveller == 0 && $oldData['pref']['vnp_tempo_traveller'] == 1) || ($model->vendorPrefs->vnp_tempo_traveller == 0 && $vndId == null))
 				{
 					$model->vendorPrefs->vnp_tempo_traveller = -1;
 				}
@@ -740,18 +740,19 @@ class VendorController extends Controller
 
 				$model->vendorStats->attributes	 = Yii::app()->request->getParam('VendorStats');
 				$vendorStatArr					 = Yii::app()->request->getParam('VendorStats');
-				if($vendorStatArr['vrs_security_receive_date1'] == "")
+				if ($vendorStatArr['vrs_security_receive_date1'] == "")
 				{
 					$model->vendorStats->vrs_security_receive_date = NULL;
 				}
-				if($model->isNewRecord)
+				if ($model->isNewRecord)
 				{
-					$model->vendorStats->vrs_dependency = 65;
+					$model->vendorStats->vrs_dependency	 = 65;
+					$model->vnd_active					 = 3;
 				}
-				if($type == 'approve')
+				if ($type == 'approve')
 				{
 					$model->vendorStats->vrs_dependency = 65;
-					if($model->vendorStats->vrs_first_approve_date == null)
+					if ($model->vendorStats->vrs_first_approve_date == null)
 					{
 						$model->vendorStats->vrs_first_approve_date = date("Y-m-d H:i:s");
 					}
@@ -767,14 +768,14 @@ class VendorController extends Controller
 				$vnp_home_zone = ($model->vendorPrefs->vnp_home_zone != '') ? $model->vendorPrefs->vnp_home_zone : '';
 
 				$returnSet = $model->saveData($oldData, $agreement_file, $agreement_file_tmp, $type);
-				if(Yii::app()->request->isAjaxRequest)
+				if (Yii::app()->request->isAjaxRequest)
 				{
 					echo CJSON::encode(array('success' => $returnSet->getStatus(), 'errors' => $returnSet->getErrors()));
 					Yii::app()->end();
 				}
-				if($returnSet->getStatus())
+				if ($returnSet->getStatus())
 				{
-					if($type == 'unreg')
+					if ($type == 'unreg')
 					{
 						$this->redirect(array('vendor/listtoapprove'));
 					}
@@ -785,7 +786,7 @@ class VendorController extends Controller
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$message = $ex->getMessage();
 			$model->addError('vnd_name', $message);
@@ -811,22 +812,22 @@ class VendorController extends Controller
 		$dataProvider->getSort()->params		 = array_filter($_REQUEST);
 		$success								 = false;
 		$msg									 = "";
-		if($_REQUEST['user_id'] != "" && $_REQUEST['user_id'] != null)
+		if ($_REQUEST['user_id'] != "" && $_REQUEST['user_id'] != null)
 		{
 			$userModel = Users::model()->findByPk($_REQUEST['user_id']);
-			if($userModel != '' && $vndId != '')
+			if ($userModel != '' && $vndId != '')
 			{
 				$vendorUserModel = Vendors::model()->find('vnd_user_id=:user AND vnd_id=:agent', ['user' => $userModel->user_id, 'agent' => $vndId]);
-				if($vendorUserModel == '')
+				if ($vendorUserModel == '')
 				{
 					$msg = "Error Occurred.";
 				}
-				else if($vendorUserModel != '')
+				else if ($vendorUserModel != '')
 				{
 					$updateVendorModel				 = Vendors::model()->findByPk($vndId);
 					$updateVendorModel->vnd_user_id	 = $userModel->user_id;
 
-					if($updateVendorModel->save())
+					if ($updateVendorModel->save())
 					{
 						$success = true;
 						$msg	 = "User unlinked successfully.";
@@ -851,7 +852,7 @@ class VendorController extends Controller
 		$vndId		 = Yii::app()->request->getParam('vndId');
 		$vendorModel = Vendors::model()->findByPk($vndId);
 		$model		 = new Users();
-		if(isset($_REQUEST['Users']))
+		if (isset($_REQUEST['Users']))
 		{
 			$model->search_name = $_REQUEST['Users']['search_name'];
 		}
@@ -859,19 +860,19 @@ class VendorController extends Controller
 		$dataProvider->getPagination()->params	 = array_filter($_REQUEST);
 		$dataProvider->getSort()->params		 = array_filter($_REQUEST);
 
-		if($_REQUEST['user_id'] != "" && $_REQUEST['user_id'] != null)
+		if ($_REQUEST['user_id'] != "" && $_REQUEST['user_id'] != null)
 		{
 			$msg		 = "Error Occurred.";
 			$userModel	 = Users::model()->findByPk($_REQUEST['user_id']);
-			if($userModel != '' && $vndId != '')
+			if ($userModel != '' && $vndId != '')
 			{
 				$vendorUserModel = Vendors::model()->find('vnd_user_id=:user AND vnd_id=:agent', ['user' => $userModel->user_id, 'agent' => $vndId]);
-				if($vendorUserModel == '')
+				if ($vendorUserModel == '')
 				{
 					$updateVendorModel				 = Vendors::model()->findByPk($vndId);
 					$updateVendorModel->vnd_user_id	 = $userModel->user_id;
 
-					if($updateVendorModel->save())
+					if ($updateVendorModel->save())
 					{
 						Yii::app()->user->setFlash('success', 'User linked successfully.');
 						echo json_encode(['success' => true, 'msg' => '']);
@@ -899,24 +900,24 @@ class VendorController extends Controller
 		$res			 = false;
 		$error			 = 0;
 
-		if($_POST)
+		if ($_POST)
 		{
 			$oldRmId = Yii::app()->request->getParam('relationshipManager');
 			$newRmId = Yii::app()->request->getParam('newRelationshipManager');
 
-			if($oldRmId == "" || $newRmId == "")
+			if ($oldRmId == "" || $newRmId == "")
 			{
 				$error = 1;
 				goto skipUpdate;
 			}
-			if(!Yii::app()->user->checkAccess('updateVendorManager'))
+			if (!Yii::app()->user->checkAccess('updateVendorManager'))
 			{
 				$error = 2;
 				goto skipAccess;
 			}
 			$res = $model->updateRelationshipManager($oldRmId, $newRmId);
 
-			if($res == false)
+			if ($res == false)
 			{
 				$message = '<div class="alert alert-danger">Sorry there was an error sending your message. Please try again later</div>';
 			}
@@ -926,12 +927,12 @@ class VendorController extends Controller
 			}
 
 			skipUpdate:
-			if($res == false && $error == 1)
+			if ($res == false && $error == 1)
 			{
 				$message = '<div class="alert alert-danger">Select relationship manager.</div>';
 			}
 			skipAccess:
-			if($res == false && $error == 2)
+			if ($res == false && $error == 2)
 			{
 				$message = '<div class="alert alert-danger">Unauthorised Access.</div>';
 			}
@@ -968,18 +969,18 @@ class VendorController extends Controller
 		$vhtModel	 = new VehicleTypes();
 		$bkgModel	 = new Booking();
 
-		if($model->vnd_source == 221)
+		if ($model->vnd_source == 221)
 		{
 			$this->pageTitle = "Vendor List ( Vendors ready for approval )";
 		}
-		if($model->vnd_source == 232)
+		if ($model->vnd_source == 232)
 		{
 
 			$this->pageTitle = "Vendor List ( Payment Locked Vendors )";
 		}
 		$pageNum = Yii::app()->request->getParam('page_no');
 		$qry	 = [];
-		if(isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['VendorStats']) || isset($_REQUEST['Contact']))
+		if (isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['VendorStats']) || isset($_REQUEST['Contact']))
 		{
 			$model->attributes								 = Yii::app()->request->getParam('Vendors');
 			$model->vendorPrefs->attributes					 = Yii::app()->request->getParam('VendorPref');
@@ -1003,26 +1004,25 @@ class VendorController extends Controller
 			$model->vnd_status = ($model->vnd_source != 221) ? 1 : '';
 		}
 		$qry['vendorSource'] = ($model->vnd_source != '') ? $model->vnd_source : '';
-		if(trim(Yii::app()->request->getParam('searchdlmismatch')))
+		if (trim(Yii::app()->request->getParam('searchdlmismatch')))
 		{
 			$qry['searchdlmismatch'] = 2;
 		}
-		if(trim(Yii::app()->request->getParam('searchpanmismatch')))
+		if (trim(Yii::app()->request->getParam('searchpanmismatch')))
 		{
 			$qry['searchpanmismatch'] = 2;
 		}
 
-		if((trim(Yii::app()->request->getParam('searchvndpaymentlock'))) || ($model->vnd_source == 232))
+		if ((trim(Yii::app()->request->getParam('searchvndpaymentlock'))) || ($model->vnd_source == 232))
 		{
 			$qry['searchvndpaymentlock'] = 1;
 		}
 		$hideMycall = false;
-		if($source == 'mycall')
+		if ($source == 'mycall')
 		{
 			$model->vndContact->ctt_id	 = $cttid;
 			$hideMycall					 = true;
 		}
-
 
 		$dataProvider = $model->getList(false, $qry);
 		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
@@ -1036,10 +1036,10 @@ class VendorController extends Controller
 
 		$vModels = Vendors::model()->findAll();
 		/* @var $vModels Vendors  */
-		foreach($vModels as $model)
+		foreach ($vModels as $model)
 		{
 			$log = json_decode($model->vnd_log);
-			if($log != '')
+			if ($log != '')
 			{
 				echo "<pre>";
 				echo $model->vnd_id . " - " . $model->vnd_name;
@@ -1061,7 +1061,7 @@ class VendorController extends Controller
 		$this->pageTitle = 'Vendor Search List';
 		$pageSize		 = Yii::app()->params['listPerPage'];
 		$model			 = new Vendors('search');
-		if(isset($_REQUEST['Vendors']))
+		if (isset($_REQUEST['Vendors']))
 		{
 			$model->attributes = Yii::app()->request->getParam('Vendors');
 		}
@@ -1077,7 +1077,7 @@ class VendorController extends Controller
 		$pageSize		 = Yii::app()->params['listPerPage'];
 		$model			 = new VendorJoining('search');
 
-		if(isset($_REQUEST['VendorsJoining']))
+		if (isset($_REQUEST['VendorsJoining']))
 		{
 			$model->attributes = Yii::app()->request->getParam('VendorJoining');
 		}
@@ -1107,14 +1107,14 @@ class VendorController extends Controller
 			$message = '';
 			$vndId	 = Yii::app()->request->getParam('vndid');
 			$vndRow	 = VendorStats::model()->getBookingByVendorID($vndId);
-			if($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
+			if ($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
 			{
 
 				throw new Exception("can not delete this vendor!");
 			}
 			$model				 = Vendors::model()->findByPk($vndId);
 			$model->vnd_active	 = 0;
-			if($model->save())
+			if ($model->save())
 			{
 				$userInfo	 = UserInfo::getInstance();
 				$event_id	 = VendorsLog::VENDOR_DELETED;
@@ -1127,11 +1127,11 @@ class VendorController extends Controller
 			}
 			$success = true;
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$message = $ex->getMessage();
 		}
-		if(Yii::app()->request->isAjaxRequest)
+		if (Yii::app()->request->isAjaxRequest)
 		{
 			echo $message;
 			Yii::app()->end();
@@ -1147,11 +1147,11 @@ class VendorController extends Controller
 
 		$checkVendorBlockAccess		 = Yii::app()->user->checkAccess('vendorBlockStatus');
 		$checkVendorUnBlockAccess	 = Yii::app()->user->checkAccess('vendorUnBlockStatus');
-		if($vnd_active == 1 && $checkVendorBlockAccess)
+		if ($vnd_active == 1 && $checkVendorBlockAccess)
 		{
 			$model				 = Vendors::model()->resetScope()->findByPk($agtid);
 			$model->vnd_active	 = 2;
-			if($model->update())
+			if ($model->update())
 			{
 				$event_id	 = VendorsLog::VENDOR_INACTIVE;
 				$desc		 = " Vendor is Blocked.";
@@ -1163,11 +1163,11 @@ class VendorController extends Controller
 				$success = false;
 			}
 		}
-		else if($vnd_active == 2 && $checkVendorUnBlockAccess)
+		else if ($vnd_active == 2 && $checkVendorUnBlockAccess)
 		{
 			$model				 = Vendors::model()->resetScope()->findByPk($agtid);
 			$model->vnd_active	 = 1;
-			if($model->update())
+			if ($model->update())
 			{
 				$event_id	 = VendorsLog::VENDOR_ACTIVE;
 				$desc		 = "Vendor is Active/Unblocked.";
@@ -1189,11 +1189,11 @@ class VendorController extends Controller
 		$agtAssign	 = Yii::app()->request->getParam('vnd_is_freeze');
 		$success	 = false;
 		$userInfo	 = UserInfo::getInstance();
-		if($agtAssign == 1)
+		if ($agtAssign == 1)
 		{
 			$model					 = Vendors::model()->resetScope()->findByPk($agtid);
 			$model->vnd_is_freeze	 = 0;
-			if($model->save())
+			if ($model->save())
 			{
 				$event_id	 = VendorsLog::VENDOR_UNFREEZE;
 				$desc		 = "Vendor is Unfreeze.";
@@ -1206,11 +1206,11 @@ class VendorController extends Controller
 				$success = false;
 			}
 		}
-		else if($agtAssign == 0)
+		else if ($agtAssign == 0)
 		{
 			$model					 = Vendors::model()->resetScope()->findByPk($agtid);
 			$model->vnd_is_freeze	 = 1;
-			if($model->save())
+			if ($model->save())
 			{
 				$event_id	 = VendorsLog::VENDOR_FREEZE;
 				$desc		 = "Vendor is Freeze.";
@@ -1240,11 +1240,11 @@ class VendorController extends Controller
 		$logModel			 = new VendorsLog();
 		$logModel->scenario	 = 'updateFreeze';
 		$success			 = false;
-		if(isset($_POST['VendorsLog']))
+		if (isset($_POST['VendorsLog']))
 		{
 			$logModel->attributes	 = Yii::app()->request->getParam('VendorsLog');
 			$arr					 = $logModel->attributes;
-			switch($vndIsFreeze)
+			switch ($vndIsFreeze)
 			{
 				case 0:
 					$modelPref->vnp_is_freeze	 = 1;
@@ -1256,7 +1256,7 @@ class VendorController extends Controller
 					$eventId					 = VendorsLog::VENDOR_UNFREEZE;
 					break;
 			}
-			if($modelPref->save())
+			if ($modelPref->save())
 			{
 				VendorsLog::model()->createLog($arr['vlg_vnd_id'], $arr['vlg_desc'], $userInfo, $eventId, false, false);
 				$success = true;
@@ -1265,7 +1265,7 @@ class VendorController extends Controller
 			{
 				$success = false;
 			}
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				$data = ['success' => true];
 				echo json_encode($data);
@@ -1282,7 +1282,7 @@ class VendorController extends Controller
 	public function actionApprove()
 	{
 		$id = Yii::app()->request->getParam('id');
-		if($id != '')
+		if ($id != '')
 		{
 			$model						 = VendorJoining::model()->findByPk($id);
 			$model1						 = new Vendors();
@@ -1297,7 +1297,7 @@ class VendorController extends Controller
 			$model1->save();
 			$model->delete();
 		}
-		if(Yii::app()->request->isAjaxRequest)
+		if (Yii::app()->request->isAjaxRequest)
 		{
 			echo "true";
 			Yii::app()->end();
@@ -1310,10 +1310,10 @@ class VendorController extends Controller
 		$cttId = Yii::app()->request->getParam('cttid');
 
 		$vndId = Yii::app()->request->getParam('vndid');
-		if($vndId != '')
+		if ($vndId != '')
 		{
 			$vndModel = Vendors::model()->findByPk($vndId);
-			if($vndModel->vnd_contact_id == $cttId)
+			if ($vndModel->vnd_contact_id == $cttId)
 			{
 				$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 				$contactId	 = ($contactId == '') ? $vndModel->vnd_contact_id : $contactId;
@@ -1341,7 +1341,7 @@ class VendorController extends Controller
 		});
 		$cityList	 = ZoneCities::model()->getCityByZone(implode(',', $arrZones));
 		$arrJSON	 = [];
-		foreach($cityList as $clist)
+		foreach ($cityList as $clist)
 		{
 			$arrJSON[] = array("id" => $clist["cty_id"], "text" => $clist["cty_name"]);
 		}
@@ -1409,17 +1409,17 @@ class VendorController extends Controller
 		$venModel->ven_from_date = DateTimeFormat::DateToLocale($dateFromDate);
 		$venModel->ven_to_date	 = DateTimeFormat::DateToLocale($dateTodate);
 		$venModel->scenario		 = 'transaction_search';
-		if(isset($_REQUEST['PaymentGateway']))
+		if (isset($_REQUEST['PaymentGateway']))
 		{
 			$venModel->attributes = $_REQUEST['PaymentGateway'];
-			if($venModel->validate())
+			if ($venModel->validate())
 			{
 				$submit = trim($_POST['submit']);
-				if($submit == "1")
+				if ($submit == "1")
 				{
 					$this->forward('vendor/ledgerpdf');
 				}
-				if($submit == "2")
+				if ($submit == "2")
 				{
 					$this->forward('vendor/listvendoraccount');
 				}
@@ -1440,19 +1440,19 @@ class VendorController extends Controller
 
 	public function actionVendoraccount()
 	{
-		if(isset($_REQUEST['PaymentGateway']) && $_REQUEST['PaymentGateway']['apg_trans_ref_id'] != null)
+		if (isset($_REQUEST['PaymentGateway']) && $_REQUEST['PaymentGateway']['apg_trans_ref_id'] != null)
 		{
-			$operatorId		 = $_REQUEST['PaymentGateway']['apg_trans_ref_id'];
+			$vndId			 = $_REQUEST['PaymentGateway']['apg_trans_ref_id'];
 			$ven_from_date	 = trim($_REQUEST['PaymentGateway']['ven_from_date']);
 			$ven_to_date	 = trim($_REQUEST['PaymentGateway']['ven_to_date']);
 		}
 		else
 		{
-			$operatorId		 = Yii::app()->request->getParam('vnd_id');
+			$vndId			 = Yii::app()->request->getParam('vnd_id');
 			$ven_from_date	 = Yii::app()->request->getParam('ven_from_date');
 			$ven_to_date	 = Yii::app()->request->getParam('ven_to_date');
 		}
-		if($ven_from_date != '' || $ven_to_date != '')
+		if ($ven_from_date != '' || $ven_to_date != '')
 		{
 			$dateFromDate	 = date('Y-m-d', strtotime(str_replace('/', '-', $ven_from_date)));
 			$dateTodate		 = date('Y-m-d', strtotime(str_replace('/', '-', $ven_to_date)));
@@ -1465,16 +1465,20 @@ class VendorController extends Controller
 		$this->pageTitle = "Accounts Panel :: Vendor Drill Down";
 		try
 		{
-			if(!is_numeric($operatorId))
+			if (!is_numeric($vndId))
 			{
 				throw new CHttpException(400, 'Provide correct vendor id');
 			}
+
+
+			$operatorId = Vendors::getPrimaryId($vndId);
+
 			$record = Vendors::model()->getDrillDownInfo($operatorId);
 
 			/* var $model PaymentGateway */
 			$model			 = new PaymentGateway();
 			$dateDiffDays	 = round(abs(strtotime($dateFromDate) - strtotime($dateTodate)) / 86400);
-			if($dateDiffDays == '7')
+			if ($dateDiffDays == '7')
 			{
 				$model->ven_date_type = '1';
 			}
@@ -1488,16 +1492,16 @@ class VendorController extends Controller
 			$model->scenario			 = 'vendor_notes';
 			$model1						 = clone $model;
 
-			if(isset($_POST['PaymentGateway']))
+			if (isset($_POST['PaymentGateway']))
 			{
 				$model->attributes	 = Yii::app()->request->getParam('PaymentGateway');
 				$tripid				 = Yii::app()->request->getParam('PaymentGateway')['trip_id'];
-				if($tripid == null)
+				if ($tripid == null)
 				{
 					$tripid = $operatorId;
 				}
 				$model->apg_ledger_id = ($_POST['PaymentGateway']['apg_ledger_id_1'] != '') ? $_POST['PaymentGateway']['apg_ledger_id_1'] : $_POST['PaymentGateway']['apg_ledger_id_2'];
-				if($model->apg_date != '')
+				if ($model->apg_date != '')
 				{
 					$date			 = DateTimeFormat::DatePickerToDate($model->apg_date);
 					$time			 = date('H:i:s');
@@ -1507,7 +1511,7 @@ class VendorController extends Controller
 				{
 					$model->apg_date = date('Y-m-d H:i:s');
 				}
-				if($model->validate())
+				if ($model->validate())
 				{
 					$data			 = ['success' => true];
 					$model->apg_id	 = 0;
@@ -1516,7 +1520,7 @@ class VendorController extends Controller
 					$ledgerType		 = Accounting::LI_OPERATOR;
 					$accType		 = Accounting::AT_OPERATOR;
 					$paymentTypeId	 = PaymentType::model()->payentTypeFromLedger($model->apg_ledger_id);
-					if(in_array($model->apg_ledger_id, Accounting::getOnlineLedgers(false)))
+					if (in_array($model->apg_ledger_id, Accounting::getOnlineLedgers(false)))
 					{
 						$paymentGateway	 = PaymentGateway::model()->addAmountForOnlineLedger($model, $operatorId, $paymentTypeId, $bankLedgerId, $accType, UserInfo::getInstance());
 						$bankRefId		 = $paymentGateway->apg_id;
@@ -1524,11 +1528,11 @@ class VendorController extends Controller
 						$remarks		 = $model->apg_remarks;
 					}
 					$remarks = $model->apg_remarks;
-					if($_POST['PaymentGateway']['apg_ledger_id_1'] != '' && $_POST['PaymentGateway']['apg_type'] == 1)
+					if ($_POST['PaymentGateway']['apg_ledger_id_1'] != '' && $_POST['PaymentGateway']['apg_type'] == 1)
 					{
 						$addVendorAmount = AccountTransactions::model()->addAmountGozoPaid($model, $operatorId, $bankRefId, $remarks, $refType, $accType, $ledgerType, $date);
 					}
-					if($_POST['PaymentGateway']['apg_ledger_id_2'] != '' && $_POST['PaymentGateway']['apg_type'] == 2)
+					if ($_POST['PaymentGateway']['apg_ledger_id_2'] != '' && $_POST['PaymentGateway']['apg_type'] == 2)
 					{
 						$addVendorAmount = AccountTransactions::model()->addAmountGozoReceiver($model, $operatorId, $bankRefId, $remarks, $refType, $accType, $ledgerType, $date, $tripid);
 					}
@@ -1546,14 +1550,13 @@ class VendorController extends Controller
 			$vendorAmount				 = AccountTransDetails::model()->calAmountByVendorId($operatorId, '', $ven_to_date);
 			$model1->apg_trans_ref_id	 = $operatorId;
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$errors = $ex->getMessage();
 		}
 		$outputJs	 = Yii::app()->request->isAjaxRequest;
 		$method		 = "render" . ($outputJs ? "Partial" : "");
 		$this->$method('report_account', array('vendorModels'	 => $vendorModels,
-			'vendorList'	 => $vendorList,
 			'vendorAmount'	 => $vendorAmount,
 			'record'		 => $record,
 			'model'			 => $model1,
@@ -1573,14 +1576,14 @@ class VendorController extends Controller
 		$value		 = Yii::app()->request->getParam("value");
 		$model		 = Vendors::model()->resetScope()->findByPk($id);
 		$statModel	 = VendorStats::model()->findByPk($model->vendorStats->vrs_id);
-		if($model)
+		if ($model)
 		{
 			$oldData					 = $statModel->attributes;
 			$oldCreditLimit				 = $statModel->$name;
 			$statModel->vrs_credit_limit = $value;
-			if($value != $oldCreditLimit)
+			if ($value != $oldCreditLimit)
 			{
-				if($statModel->update())
+				if ($statModel->update())
 				{
 					$newData			 = $statModel->attributes;
 					$userInfo			 = UserInfo::getInstance();
@@ -1607,18 +1610,18 @@ class VendorController extends Controller
 		$this->pageTitle = "GOZO Invoices";
 		$vendorId		 = Yii::app()->request->getParam('vnd_id');
 
-		if($vendorId > 0)
+		if ($vendorId > 0)
 		{
 			$model				 = Vendors::model()->findByPk($vendorId);
 			$model->scenario	 = 'invoice';
 			$model->from_date	 = date("d/m/Y", strtotime(date('Y-m-1')));
 			$model->to_date		 = date("d/m/Y", strtotime("NOW"));
-			if($_REQUEST['Vendors'])
+			if ($_REQUEST['Vendors'])
 			{
 				$model->attributes	 = $_REQUEST['Vendors'];
 				$vendorId			 = ($model->vnd_id != '') ? $model->vnd_id : $vendorId;
 				$submit				 = trim($_POST['submit']);
-				if($submit == "2")
+				if ($submit == "2")
 				{
 					$this->forward('vendor/invoicepdf');
 				}
@@ -1643,7 +1646,7 @@ class VendorController extends Controller
 	public function actionInvoicepdf($email = 0)
 	{
 		/* var $model Vendors */
-		if(isset($_REQUEST['Vendors']))
+		if (isset($_REQUEST['Vendors']))
 		{
 			$vendorId			 = Yii::app()->request->getParam('vnd_id');
 			$model				 = Vendors::model()->findByPk($vendorId);
@@ -1656,7 +1659,7 @@ class VendorController extends Controller
 	{
 		/* var $model VendorTransactions */
 		$model = new PaymentGateway();
-		if(isset($_REQUEST['PaymentGateway']))
+		if (isset($_REQUEST['PaymentGateway']))
 		{
 			$model->attributes	 = Yii::app()->request->getParam('PaymentGateway');
 			$vendorId			 = $_REQUEST['PaymentGateway']['apg_trans_ref_id'];
@@ -1672,11 +1675,11 @@ class VendorController extends Controller
 		$ds			 = Yii::app()->request->getParam('ds');
 		$model		 = Vendors::model()->findByPk($vendorId);
 		$address	 = Config::getGozoAddress(Config::Corporate_address, true);
-		if($model->vnd_id != '')
+		if ($model->vnd_id != '')
 		{
 			$agmtModel	 = VendorAgreement::model()->findByVndId($model->vnd_id);
 			$ctymodel	 = '';
-			if($model->vnd_contact_id != '')
+			if ($model->vnd_contact_id != '')
 			{
 				$contactId		 = ContactProfile::getByEntityId($model->vnd_id, UserInfo::TYPE_VENDOR);
 				$contactId		 = ($contactId == '') ? $model->vnd_contact_id : $contactId;
@@ -1687,17 +1690,17 @@ class VendorController extends Controller
 			}
 
 
-			if($model != "" && $agmtModel != "" && $contactModel != "")
+			if ($model != "" && $agmtModel != "" && $contactModel != "")
 			{
 				$data				 = array_merge($model->getAttributes(), $agmtModel->getAttributes(), $contactModel->getAttributes());
 				$data['name']		 = $name;
 				$data['vnd_email']	 = $vndEmail;
 				$data['vnd_phone']	 = $vndPhone;
-				if($model->vnd_rel_tier == 1)
+				if ($model->vnd_rel_tier == 1)
 				{
 					$data['vnd_relation_tier'] = 'Tier 1 (Gold Level)';
 				}
-				else if($model->vnd_rel_tier == 0)
+				else if ($model->vnd_rel_tier == 0)
 				{
 					$data['vnd_relation_tier'] = 'Tier 2 (Silver Level)';
 				}
@@ -1708,7 +1711,7 @@ class VendorController extends Controller
 				$data['host']				 = Yii::app()->params['host'];
 				$data['ctt_user_type']		 = $contactModel->ctt_user_type;
 				$data['ctt_business_name']	 = $contactModel->ctt_business_name;
-				switch($contactModel->ctt_user_type)
+				switch ($contactModel->ctt_user_type)
 				{
 					case 1:
 						$data['vnd_firm_txt']	 = 'OWNER';
@@ -1736,9 +1739,9 @@ class VendorController extends Controller
 		$ds			 = urldecode(Yii::app()->request->getParam('ds'));
 		$email		 = Yii::app()->request->getParam('email');
 		$model		 = Vendors::model()->findByPk($vendorId);
-		if($model->vnd_id != '')
+		if ($model->vnd_id != '')
 		{
-			if($model->vnd_contact_id != '')
+			if ($model->vnd_contact_id != '')
 			{
 				$contactId		 = ContactProfile::getByEntityId($model->vnd_id, UserInfo::TYPE_VENDOR);
 				$contactId		 = ($contactId == '') ? $model->vnd_contact_id : $contactId;
@@ -1753,11 +1756,11 @@ class VendorController extends Controller
 			$data['name']		 = $name;
 			$data['vnd_email']	 = $vndEmail;
 			$data['vnd_phone']	 = $vndPhone;
-			if($model->vnd_rel_tier == 1)
+			if ($model->vnd_rel_tier == 1)
 			{
 				$data['vnd_relation_tier'] = 'Tier 1 (Gold Level)';
 			}
-			else if($model->vnd_rel_tier == 2)
+			else if ($model->vnd_rel_tier == 2)
 			{
 				$data['vnd_relation_tier'] = 'Tier 2 (Silver Level)';
 			}
@@ -1768,7 +1771,7 @@ class VendorController extends Controller
 			$data['host']				 = Yii::app()->params['host'];
 			$data['ctt_user_type']		 = $contactModel->ctt_user_type;
 			$data['ctt_business_name']	 = $contactModel->ctt_business_name;
-			switch($contactModel->ctt_user_type)
+			switch ($contactModel->ctt_user_type)
 			{
 				case 1:
 					$data['vnd_firm_txt']	 = 'OWNER';
@@ -1800,16 +1803,16 @@ class VendorController extends Controller
 					'model'	 => $model,
 					'data'	 => $data,
 						), true));
-		if($email == 1)
+		if ($email == 1)
 		{
 			$filename		 = $vendorId . '-agreement-' . date('Y-m-d') . '.pdf';
 			$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors';
-			if(!is_dir($fileBasePath))
+			if (!is_dir($fileBasePath))
 			{
 				mkdir($fileBasePath);
 			}
 			$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-			if(!is_dir($filePath))
+			if (!is_dir($filePath))
 			{
 				mkdir($filePath);
 			}
@@ -1851,18 +1854,18 @@ class VendorController extends Controller
 
 		$filename		 = $vendorId . '-agreement-' . $reqId . '-' . date('Y-m-d') . '.pdf';
 		$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'vendors';
-		if(!is_dir($fileBasePath))
+		if (!is_dir($fileBasePath))
 		{
 			mkdir($fileBasePath);
 		}
 		$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-		if(!is_dir($filePath))
+		if (!is_dir($filePath))
 		{
 			mkdir($filePath);
 		}
 		$file		 = $filePath . DIRECTORY_SEPARATOR . $filename;
 		$softCopy	 = DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId . DIRECTORY_SEPARATOR . $filename;
-		if($softCopy != '')
+		if ($softCopy != '')
 		{
 			//VendorDocs::model()->updateExistingByIdType($model->vnd_id, 1);
 			//Document::model()->updateExistingByIdType($model->vnd_id, $contactId,  1);
@@ -1878,7 +1881,7 @@ class VendorController extends Controller
 //			{
 			/* @var $modelAgmt VendorAgreement */
 			$modelAgmt = VendorAgreement::model()->findByVndId($model->vnd_id);
-			if(!$modelAgmt)
+			if (!$modelAgmt)
 			{
 				$modelAgmt2					 = new VendorAgreement();
 				$modelAgmt2->vag_vnd_id		 = $model->vnd_id;
@@ -1902,7 +1905,7 @@ class VendorController extends Controller
 			VendorsLog::model()->createLog($model->vnd_id, $logDesc, UserInfo::getInstance(), VendorsLog::VENDOR_FILE_UPLOAD, false, false);
 //			}
 			$model->vnd_agreement_date	 = date('Y-m-d H:i:s');
-			if($model->save())
+			if ($model->save())
 			{
 				echo 1;
 			}
@@ -1952,16 +1955,16 @@ class VendorController extends Controller
 					'toDate'		 => $toDate
 						), true));
 
-		if($email == 1)
+		if ($email == 1)
 		{
 			$filename		 = $vendorId . '-invoice-' . date('Y-m-d') . '.pdf';
 			$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors';
-			if(!is_dir($fileBasePath))
+			if (!is_dir($fileBasePath))
 			{
 				mkdir($fileBasePath);
 			}
 			$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-			if(!is_dir($filePath))
+			if (!is_dir($filePath))
 			{
 				mkdir($filePath);
 			}
@@ -2012,16 +2015,16 @@ class VendorController extends Controller
 					'fromDate'		 => $fromDate,
 					'toDate'		 => $toDate
 						), true));
-		if($email == 1)
+		if ($email == 1)
 		{
 			$filename		 = $vendorId . '-ledger-' . date('Y-m-d') . '.pdf';
 			$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors';
-			if(!is_dir($fileBasePath))
+			if (!is_dir($fileBasePath))
 			{
 				mkdir($fileBasePath);
 			}
 			$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-			if(!is_dir($filePath))
+			if (!is_dir($filePath))
 			{
 				mkdir($filePath);
 			}
@@ -2070,16 +2073,16 @@ class VendorController extends Controller
 					'toDate'		 => $toDate
 						), true));
 
-		if($email == 1)
+		if ($email == 1)
 		{
 			$filename		 = $vendorId . '-invoice-' . date('Y-m-d') . '.pdf';
 			$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors';
-			if(!is_dir($fileBasePath))
+			if (!is_dir($fileBasePath))
 			{
 				mkdir($fileBasePath);
 			}
 			$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-			if(!is_dir($filePath))
+			if (!is_dir($filePath))
 			{
 				mkdir($filePath);
 			}
@@ -2127,16 +2130,16 @@ class VendorController extends Controller
 					'fromDate'		 => $fromDate,
 					'toDate'		 => $toDate
 						), true));
-		if($email == 1)
+		if ($email == 1)
 		{
 			$filename		 = $vendorId . '-ledger-' . date('Y-m-d') . '.pdf';
 			$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors';
-			if(!is_dir($fileBasePath))
+			if (!is_dir($fileBasePath))
 			{
 				mkdir($fileBasePath);
 			}
 			$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-			if(!is_dir($filePath))
+			if (!is_dir($filePath))
 			{
 				mkdir($filePath);
 			}
@@ -2181,14 +2184,14 @@ class VendorController extends Controller
 		$deliveredSent		 = 0;
 		$deliveredNotSent	 = 0;
 
-		if(count($records) > 0)
+		if (count($records) > 0)
 		{
-			foreach($records as $rec)
+			foreach ($records as $rec)
 			{
 				$vendorId	 = $rec['vnd_id'];
 				$ledgerLink	 = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateLedgerForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1) . '&toDate=' . urlencode($date2) . '&email=1');
 				$fileArray	 = [0 => ['URL' => $ledgerLink]];
-				if($invoice == 1)
+				if ($invoice == 1)
 				{
 					$invoiceLink = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateInvoiceForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1) . '&toDate=' . urlencode($date2) . '&email=1');
 					$fileArray	 = [0 => ['URL' => $ledgerLink], 1 => ['URL' => $invoiceLink]];
@@ -2197,7 +2200,7 @@ class VendorController extends Controller
 				$vendorAmount	 = $rec['current_payable'];
 				$body			 = 'Dear ' . $rec['vnd_name'] . ',<br/><br/>
                                 Attached attached invoice statement from ' . $date1 . ' to ' . $date2 . '.<br>';
-				if(isset($vendorAmount) && $vendorAmount > 0)
+				if (isset($vendorAmount) && $vendorAmount > 0)
 				{
 					$body .= 'Your payment for Rs. ' . $vendorAmount . '  is due immediately.';
 				}
@@ -2219,7 +2222,7 @@ class VendorController extends Controller
 		}
 
 		$vndIdsArr = explode(',', $vndIds);
-		if(count($vndIdsArr) > 0)
+		if (count($vndIdsArr) > 0)
 		{
 			$data = ['success' => true];
 			echo json_encode($data);
@@ -2237,7 +2240,7 @@ class VendorController extends Controller
 	{
 		/* var $model VendorTransactions */
 		$model = new VendorTransactions();
-		if(isset($_REQUEST['VendorTransactions']))
+		if (isset($_REQUEST['VendorTransactions']))
 		{
 			$model->attributes	 = Yii::app()->request->getParam('VendorTransactions');
 			$arr				 = $model->attributes;
@@ -2285,7 +2288,7 @@ class VendorController extends Controller
 		$this->pageTitle = "Accounts Panel :: Vendor Accounts";
 
 		$model = new PaymentGateway();
-		if(isset($_REQUEST['PaymentGateway']))
+		if (isset($_REQUEST['PaymentGateway']))
 		{
 			$model->attributes	 = Yii::app()->request->getParam('PaymentGateway');
 			$fromDate			 = trim($_REQUEST['PaymentGateway']['ven_from_date']);
@@ -2317,7 +2320,7 @@ class VendorController extends Controller
 		//$peices	 = explode(',', $ids);
 		$vndlists	 = Vendors::getVendorsByIds($ids);
 		$ext		 = '91';
-		foreach($vndlists as $val)
+		foreach ($vndlists as $val)
 		{
 			//$model3	 = Vendors::model()->findByPk($id);
 			$number	 = $val['phn_phone_no'];
@@ -2326,17 +2329,17 @@ class VendorController extends Controller
 			//$name = ($val['vnd_firm_type']== 1)?$val['ctt_first_name'].' '.$val['ctt_last_name']:(($val['vnd_firm_type']== 2)?$val['ctt_business_name']:$val['ctt_first_name'].' '.$val['ctt_last_name']);
 			$name	 = $val['vnd_name'];
 			$msgCom	 = new smsWrapper();
-			if((Yii::app()->getRequest()->getParam('sms')) == 'true')
+			if ((Yii::app()->getRequest()->getParam('sms')) == 'true')
 			{
 				$msgCom->informUpdateToVendor($ext, $number, $messageType, $message, $name);
 			}
-			if((Yii::app()->getRequest()->getParam('email')) == 'true')
+			if ((Yii::app()->getRequest()->getParam('email')) == 'true')
 			{
 				$emailCom = new emailWrapper();
 				//$emailCom->vendorUpdate($id, $message, $messageType);
 				$emailCom->vendorUpdate($val['vnd_id'], $message, $messageType);
 			}
-			if((Yii::app()->getRequest()->getParam('app')) == 'true')
+			if ((Yii::app()->getRequest()->getParam('app')) == 'true')
 			{
 				$payLoadData = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 				//$success	 = AppTokens::model()->notifyVendor($id, $payLoadData, $message, "Important Notification");
@@ -2364,19 +2367,19 @@ class VendorController extends Controller
 		$old_markbad_count	 = $agtModel->vendorStats->vrs_mark_vend_count;
 		//$remark				 = $agtModel->vnd_log;
 		//$agtModel->scenario	 = 'reset';
-		if(isset($_POST['Vendors']))
+		if (isset($_POST['Vendors']))
 		{
 			$arr		 = Yii::app()->request->getParam('Vendors');
 			$agtModel->resetScope();
 			$new_remark	 = $arr['vnd_reset_desc'];
 			$userInfo	 = UserInfo::getInstance();
 			$success	 = false;
-			if($new_remark != '')
+			if ($new_remark != '')
 			{
 				try
 				{
 					$agtModel->vendorStats->vrs_mark_vend_count = 0;
-					if($agtModel->vendorStats->save())
+					if ($agtModel->vendorStats->save())
 					{
 						VendorsLog::model()->createLog($agtModel->vnd_id, $new_remark, $userInfo, VendorsLog::VENDOR_REMARK_ADDED, false, false);
 						$success = true;
@@ -2388,7 +2391,7 @@ class VendorController extends Controller
 						echo $errors;
 					}
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					echo $e;
 				}
@@ -2397,7 +2400,7 @@ class VendorController extends Controller
 			{
 				$errors = "Please write some descriptions";
 			}
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				$data = ['success' => $success];
 				echo json_encode($data);
@@ -2411,7 +2414,7 @@ class VendorController extends Controller
 	public function actionBookingRequest()
 	{
 		$model = new Vendors('search');
-		if(isset($_REQUEST['Vendors']))
+		if (isset($_REQUEST['Vendors']))
 		{
 			$model->attributes = Yii::app()->request->getParam('Vendors');
 		}
@@ -2429,7 +2432,7 @@ class VendorController extends Controller
 		/* var $model  VendorRoutesRate */
 		$model2 = new VendorRoutesRate();
 
-		if(isset($_POST['VendorRoutesRate']))
+		if (isset($_POST['VendorRoutesRate']))
 		{
 			$model2->attributes	 = Yii::app()->request->getParam('VendorRoutesRate');
 			$arr				 = $model2->attributes;
@@ -2442,26 +2445,26 @@ class VendorController extends Controller
 			$agtId		 = $_REQUEST['vnrr_vendor_id'];
 			$routeRate	 = array();
 			$ctr		 = 0;
-			foreach($route['route_name'] as $name)
+			foreach ($route['route_name'] as $name)
 			{
 				$routeRate[$ctr]['vnrr_name']		 = $name;
 				$routeRate[$ctr]['vnrr_vendor_id']	 = $agtId;
 				$ctr								 = ($ctr + 1);
 			}
 			$ctr = 0;
-			foreach($route['route_rate'] as $rate)
+			foreach ($route['route_rate'] as $rate)
 			{
 				$routeRate[$ctr]['vnrr_rate']	 = $rate;
 				$ctr							 = ($ctr + 1);
 			}
 			$ctr = 0;
-			foreach($route['route_id'] as $routeId)
+			foreach ($route['route_id'] as $routeId)
 			{
 				$routeRate[$ctr]['vnrr_route_id']	 = $routeId;
 				$ctr								 = ($ctr + 1);
 			}
 
-			foreach($routeRate as $rate)
+			foreach ($routeRate as $rate)
 			{
 
 
@@ -2506,11 +2509,11 @@ class VendorController extends Controller
 		$model->vnd_active					 = 3;
 
 		$request = Yii::app()->request;
-		if($request->getParam('Vendors'))
+		if ($request->getParam('Vendors'))
 		{
 			$model->vnd_is_nmi	 = $request->getParam('Vendors')['vnd_is_nmi'] == 1 ? 1 : 0;
 			$model->vnd_active	 = $request->getParam('vnd_active') == 2 ? 2 : 3;
-			if($request->getParam('Vendors')['vnd_is_nmi'] == null)
+			if ($request->getParam('Vendors')['vnd_is_nmi'] == null)
 			{
 				$model->vnd_is_nmi = Yii::app()->session['vnd_is_nmi'];
 			}
@@ -2523,7 +2526,7 @@ class VendorController extends Controller
 			$model->vnd_vehicle_type = Yii::app()->request->getParam('VehicleTypes')['vht_id'];
 		}
 		$showListOnly = false;
-		if($source == 'mycall')
+		if ($source == 'mycall')
 		{
 			$model->vndContact->ctt_id	 = $cttid;
 			$showListOnly				 = true;
@@ -2539,7 +2542,7 @@ class VendorController extends Controller
 		$this->pageTitle			 = "3rd Party Vendors List";
 		$model						 = new UnregVendorRequest('search');
 		$model->uvr_vnd_is_driver	 = ['0'];
-		if(isset($_REQUEST['UnregVendorRequest']))
+		if (isset($_REQUEST['UnregVendorRequest']))
 		{
 			$model->attributes = Yii::app()->request->getParam('UnregVendorRequest');
 		}
@@ -2550,11 +2553,11 @@ class VendorController extends Controller
 	public function actionSafedelete()
 	{
 		$vndId = Yii::app()->request->getParam('agtid');
-		if($vndId != '')
+		if ($vndId != '')
 		{
 			$model				 = Vendors::model()->findByPk($vndId);
 			$model->vnd_active	 = 0;
-			if($model->save())
+			if ($model->save())
 			{
 				$userInfo = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor deleted manually.", $userInfo, VendorsLog::VENDOR_DELETED, false, false);
@@ -2594,10 +2597,10 @@ class VendorController extends Controller
 	{
 
 		$id = Yii::app()->request->getParam('uvr_id');
-		if($id != '')
+		if ($id != '')
 		{
 			$model = UnregVendorRequest::model()->findByPk($id);
-			if(count($model) == 1)
+			if (count($model) == 1)
 			{
 
 				$model->uvr_active = 0;
@@ -2611,19 +2614,19 @@ class VendorController extends Controller
 	{
 		$fileName	 = $vendor_id . "-" . $type . "-" . date('YmdHis') . "." . pathinfo($uploadedFile, PATHINFO_EXTENSION);
 		$dir		 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'attachments';
-		if(!is_dir($dir))
+		if (!is_dir($dir))
 		{
 			mkdir($dir);
 		}
 		$dirByVendorId = $dir . DIRECTORY_SEPARATOR . $vendor_id;
-		if(!is_dir($dirByVendorId))
+		if (!is_dir($dirByVendorId))
 		{
 			mkdir($dirByVendorId);
 		}
 
 		$foldertoupload	 = $dirByVendorId . DIRECTORY_SEPARATOR . $fileName;
 		$extention		 = pathinfo($uploadedFile, PATHINFO_EXTENSION);
-		if(strtolower($extention) == 'png' || strtolower($extention) == 'jpg' || strtolower($extention) == 'jpeg' || strtolower($extention) == 'gif')
+		if (strtolower($extention) == 'png' || strtolower($extention) == 'jpg' || strtolower($extention) == 'jpeg' || strtolower($extention) == 'gif')
 		{
 			Vehicles::model()->img_resize($uploadedFile->tempName, 1200, $dirByVendorId . DIRECTORY_SEPARATOR, $fileName);
 		}
@@ -2657,7 +2660,7 @@ class VendorController extends Controller
 		$outputJs		 = Yii::app()->request->isAjaxRequest;
 		$method			 = "render" . (($outputJs) ? "Partial" : "");
 		$methodUrl		 = '';
-		switch($eventId):
+		switch ($eventId):
 			case '8':
 				$methodUrl	 = 'logdetailsSms';
 				break;
@@ -2673,19 +2676,23 @@ class VendorController extends Controller
 	public function actionView()
 	{
 		$this->pageTitle = 'Vendor Details';
-		$vndId			 = Yii::app()->request->getParam('id');
+		$vnd_id			 = Yii::app()->request->getParam('id');
 		$vndCode		 = Yii::app()->request->getParam('code');
 		$view			 = Yii::app()->request->getParam('view', 'view');
-		if($vndCode != '')
+		if ($vndCode != '')
 		{
 			$vnd	 = Vendors::model()->getIdByCode($vndCode);
-			$vndId	 = $vnd['vnd_id'];
+			$vnd_id	 = $vnd['vnd_id'];
 		}
-		$models = Vendors::model()->findByPk($vndId);
-		if($models != null)
+
+		$relVendorList	 = Vendors::getRelatedIds($vnd_id);
+		$primaryVnd		 = Vendors::getPrimaryByIds($relVendorList);
+		$vndId			 = $primaryVnd['vnd_id'];
+		$models			 = Vendors::model()->findByPk($vndId);
+		if ($models != null)
 		{
 			// Incase when vendor is merged and current vendor id is not primary vendor
-			if($models->vnd_ref_code != $vndId)
+			if ($models->vnd_ref_code != $vndId)
 			{
 				$vndId	 = $models->vnd_ref_code;
 				$models	 = Vendors::model()->findByPk($vndId);
@@ -2697,9 +2704,10 @@ class VendorController extends Controller
 		$outputJs	 = Yii::app()->request->isAjaxRequest;
 		$method		 = "render" . ($outputJs ? "Partial" : "");
 		$this->$method($view, array(
-			'model'	 => $models,
-			'data'	 => $data,
-			'isAjax' => $outputJs
+			'relVendorList'	 => $relVendorList,
+			'model'			 => $models,
+			'data'			 => $data,
+			'isAjax'		 => $outputJs
 				), false, $outputJs);
 	}
 
@@ -2714,7 +2722,7 @@ class VendorController extends Controller
 		$vndCode		 = Yii::app()->request->getParam('code');
 		$view			 = Yii::app()->request->getParam('view', 'view');
 
-		if($vndCode != '')
+		if ($vndCode != '')
 		{
 			$vnd	 = Vendors::model()->getIdByCode($vndCode);
 			$vndid	 = $vnd['vnd_id'];
@@ -2723,7 +2731,7 @@ class VendorController extends Controller
 
 
 		$models = Vendors::model()->findByPk($vndid);
-		if($models != null)
+		if ($models != null)
 		{
 			$data			 = Vendors::model()->getViewDetailbyId($vndid);
 			$vndCode		 = Vendors::model()->getCodebyid($vndid);
@@ -2731,7 +2739,7 @@ class VendorController extends Controller
 			//$data['vnd_pan_path']			 = $data['vnd_pan_back_path']		 = $data['vnd_licence_path']		 = $data['vnd_licence_back_path']	 = $data['vnd_firm_attach']		 = '';
 			$data['vndCode'] = $vndCode;
 			$qry['vndid']	 = $vndid;
-			$dataProvider	 = Vendors::model()->getCollectionReport($qry);
+			$dataProvider	 = Vendors::getCollectionReport($qry);
 		}
 		$outputJs	 = Yii::app()->request->isAjaxRequest;
 		$method		 = "render" . ($outputJs ? "Partial" : "");
@@ -2747,25 +2755,25 @@ class VendorController extends Controller
 	{
 		$fileName	 = $vndid . "-" . $vdType . "-" . date('YmdHis') . "." . pathinfo($uploadedPhoto, PATHINFO_EXTENSION);
 		$dir		 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'attachments';
-		if(!is_dir($dir))
+		if (!is_dir($dir))
 		{
 			mkdir($dir);
 		}
 
 		$dirByVendorId = $dir . DIRECTORY_SEPARATOR . 'vendors';
-		if(!is_dir($dirByVendorId))
+		if (!is_dir($dirByVendorId))
 		{
 			mkdir($dirByVendorId);
 		}
 
 		$vendorId = $dirByVendorId . DIRECTORY_SEPARATOR . $vndid;
-		if(!is_dir($vendorId))
+		if (!is_dir($vendorId))
 		{
 			mkdir($vendorId);
 		}
 		$foldertoupload	 = $vendorId . DIRECTORY_SEPARATOR . $fileName;
 		$extention		 = pathinfo($uploadedPhoto, PATHINFO_EXTENSION);
-		if(strtolower($extention) == 'png' || strtolower($extention) == 'jpg' || strtolower($extention) == 'jpeg' || strtolower($extention) == 'gif')
+		if (strtolower($extention) == 'png' || strtolower($extention) == 'jpg' || strtolower($extention) == 'jpeg' || strtolower($extention) == 'gif')
 		{
 			Vehicles::model()->img_resize($uploadedPhoto->tempName, 1200, $vendorId . DIRECTORY_SEPARATOR, $fileName);
 		}
@@ -2783,7 +2791,7 @@ class VendorController extends Controller
 
 		$vd_status = Yii::app()->request->getParam('vd_status');
 
-		if($vd_status == 1 || $vd_status == 2)
+		if ($vd_status == 1 || $vd_status == 2)
 		{
 			/* @var $modeld VendorDocs */
 			$modeld					 = VendorDocs::model()->findByPk($vd_id);
@@ -2792,47 +2800,47 @@ class VendorController extends Controller
 			$modeld->vd_approved_at	 = ($vd_status == 1) ? date("Y-m-d H:i:s") : NULL;
 			$retrunVal				 = '';
 			$event_id				 = 0;
-			if($modeld->save())
+			if ($modeld->save())
 			{
-				switch($modeld->vd_type)
+				switch ($modeld->vd_type)
 				{
 					case 1:
 						$fileType = "#agreement";
-						if($modeld->vd_status == 1)
+						if ($modeld->vd_status == 1)
 						{
 							$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 							$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AGREEMENT_APPROVE);
 						}
-						else if($modeld->vd_status == 2)
+						else if ($modeld->vd_status == 2)
 						{
 							$event_id	 = VendorsLog::VENDOR_AGREEMENT_REJECT;
 							$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AGREEMENT_REJECT);
 						}
 						break;
 					case 2:
-						if($modeld->vd_sub_type == 1)
+						if ($modeld->vd_sub_type == 1)
 						{
 							$fileType = "#voterid";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_VOTERID_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_VOTERID_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_VOTERID_REJECT);
 							}
 						}
-						else if($modeld->vd_sub_type == 2)
+						else if ($modeld->vd_sub_type == 2)
 						{
 							$fileType = "#voterbackid";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_VOTERID_BACK_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_VOTERID_BACK_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_VOTERID_BACK_APPROVE);
@@ -2840,29 +2848,29 @@ class VendorController extends Controller
 						}
 						break;
 					case 3:
-						if($modeld->vd_sub_type == 1)
+						if ($modeld->vd_sub_type == 1)
 						{
 							$fileType = "#aadhaarid";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AADHAAR_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_AADHAAR_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AADHAAR_REJECT);
 							}
 						}
-						else if($modeld->vd_sub_type == 2)
+						else if ($modeld->vd_sub_type == 2)
 						{
 							$fileType = "#aadhaarbackid";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AADHAAR_BACK_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_AADHAAR_BACK_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AADHAAR_BACK_REJECT);
@@ -2870,29 +2878,29 @@ class VendorController extends Controller
 						}
 						break;
 					case 4:
-						if($modeld->vd_sub_type == 1)
+						if ($modeld->vd_sub_type == 1)
 						{
 							$fileType = "#panid";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_PAN_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_PAN_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_PAN_REJECT);
 							}
 						}
-						else if($modeld->vd_sub_type == 2)
+						else if ($modeld->vd_sub_type == 2)
 						{
 							$fileType = "#panbackid";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_PAN_BACK_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_PAN_BACK_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_PAN_BACK_REJECT);
@@ -2900,29 +2908,29 @@ class VendorController extends Controller
 						}
 						break;
 					case 5:
-						if($modeld->vd_sub_type == 1)
+						if ($modeld->vd_sub_type == 1)
 						{
 							$fileType = "#licence";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_LICENSE_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_LICENSE_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_LICENSE_REJECT);
 							}
 						}
-						else if($modeld->vd_sub_type == 2)
+						else if ($modeld->vd_sub_type == 2)
 						{
 							$fileType = "#licenceback";
-							if($modeld->vd_status == 1)
+							if ($modeld->vd_status == 1)
 							{
 								$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_LICENSE_BACK_APPROVE);
 							}
-							else if($modeld->vd_status == 2)
+							else if ($modeld->vd_status == 2)
 							{
 								$event_id	 = VendorsLog::VENDOR_LICENSE_BACK_REJECT;
 								$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_LICENSE_BACK_REJECT);
@@ -2931,12 +2939,12 @@ class VendorController extends Controller
 						break;
 					case 6:
 						$fileType = "#memorandum";
-						if($modeld->vd_status == 1)
+						if ($modeld->vd_status == 1)
 						{
 							$event_id	 = VendorsLog::VENDOR_DOC_APPROVE;
 							$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AGREEMENT_APPROVE);
 						}
-						else if($modeld->vd_status == 2)
+						else if ($modeld->vd_status == 2)
 						{
 							$event_id	 = VendorsLog::VENDOR_AGREEMENT_REJECT;
 							$desc		 = VendorsLog::model()->getEventByEventId(VendorsLog::VENDOR_AGREEMENT_REJECT);
@@ -2952,47 +2960,47 @@ class VendorController extends Controller
 		{
 			/* @var $modeld VendorDocs */
 			$modeld = VendorDocs::model()->findByPk($vd_id);
-			switch($modeld->vd_type)
+			switch ($modeld->vd_type)
 			{
 				case 1:
 					$fileType = "#agreement";
 					break;
 				case 2:
-					if($modeld->vd_sub_type == 1)
+					if ($modeld->vd_sub_type == 1)
 					{
 						$fileType = "#voterid";
 					}
-					else if($modeld->vd_sub_type == 2)
+					else if ($modeld->vd_sub_type == 2)
 					{
 						$fileType = "#voterbackid";
 					}
 					break;
 				case 3:
-					if($modeld->vd_sub_type == 1)
+					if ($modeld->vd_sub_type == 1)
 					{
 						$fileType = "#aadhaarid";
 					}
-					else if($modeld->vd_sub_type == 2)
+					else if ($modeld->vd_sub_type == 2)
 					{
 						$fileType = "#aadhaarbackid";
 					}
 					break;
 				case 4:
-					if($modeld->vd_sub_type == 1)
+					if ($modeld->vd_sub_type == 1)
 					{
 						$fileType = "#panid";
 					}
-					else if($modeld->vd_sub_type == 2)
+					else if ($modeld->vd_sub_type == 2)
 					{
 						$fileType = "#panbackid";
 					}
 					break;
 				case 5:
-					if($modeld->vd_sub_type == 1)
+					if ($modeld->vd_sub_type == 1)
 					{
 						$fileType = "#licence";
 					}
-					else if($modeld->vd_sub_type == 2)
+					else if ($modeld->vd_sub_type == 2)
 					{
 						$fileType = "#licenceback";
 					}
@@ -3014,14 +3022,14 @@ class VendorController extends Controller
 		$dmodel			 = VendorDocs::model()->findByPk($vd_id);
 		$model			 = new VendorDocs();
 		$model->scenario = 'reject';
-		if(isset($_POST['VendorDocs']))
+		if (isset($_POST['VendorDocs']))
 		{
 			$model->attributes	 = Yii::app()->request->getParam('VendorDocs');
 			$arr				 = $model->attributes;
 			$user_id			 = Yii::app()->user->getId();
 			$user_info			 = UserInfo::getInstance();
 			$returnData			 = $model->rejectDocument($vd_id, $arr['vd_remarks'], $user_info);
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				$remarks = '<i>' . $arr['vd_remarks'] . '</i>';
 				$data	 = ['success' => $returnData['success'], 'file_type' => $returnData['fileType'], 'status' => $vd_status, 'remarks' => $arr['vd_remarks']];
@@ -3041,11 +3049,11 @@ class VendorController extends Controller
 		$reason			 = Yii::app()->request->getParam('reason');
 		$reason_other	 = Yii::app()->request->getParam('reason_other');
 
-		if(isset($_REQUEST['vnd_delete_other']))
+		if (isset($_REQUEST['vnd_delete_other']))
 		{
 			$result = Vendors::revertVendor($vndId, $_REQUEST['vnd_delete_other']);
 
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				echo json_encode($result);
 				Yii::app()->end();
@@ -3063,15 +3071,15 @@ class VendorController extends Controller
 		$success = false;
 		$model	 = Vendors::model()->resetScope()->findByPk($vnd_id);
 
-		if(isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id && $model->vnd_active == 1)
+		if (isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id && $model->vnd_active == 1)
 		{
-			if(isset($_POST['vnd_reason']) && trim($reason) != '')
+			if (isset($_POST['vnd_reason']) && trim($reason) != '')
 			{
 				$chkopt				 = Yii::app()->request->getParam('chkopt');
 				$ven_id				 = $model->vnd_id;
 				$model->vnd_active	 = 2;
 				// $success = true;
-				if($model->update())
+				if ($model->update())
 				{
 					Vendors::model()->unAssignBlockVendor($ven_id);
 					$event_id	 = VendorsLog::VENDOR_INACTIVE;
@@ -3080,7 +3088,7 @@ class VendorController extends Controller
 					VendorsLog::model()->createLog($ven_id, $desc, $userInfo, $event_id);
 					$success	 = true;
 
-					if($chkopt && $chkopt[0] == 1)
+					if ($chkopt && $chkopt[0] == 1)
 					{
 						$ext	 = '91';
 						$number	 = ContactPhone::getContactPhoneById($model->vnd_contact_id);
@@ -3118,7 +3126,7 @@ class VendorController extends Controller
 				$result['error']	 = 'Please give the reason to block this vendor';
 				$result['success']	 = $success;
 			}
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				echo json_encode($result);
 				Yii::app()->end();
@@ -3139,12 +3147,12 @@ class VendorController extends Controller
 		$success = false;
 		$model	 = Vendors::model()->resetScope()->findByPk($vnd_id);
 
-		if(isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id)
+		if (isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id)
 		{
-			if(isset($_POST['vnd_remark']) && trim($reason) != '')
+			if (isset($_POST['vnd_remark']) && trim($reason) != '')
 			{
 				// $success = true;
-				if($model->update())
+				if ($model->update())
 				{
 					$event_id	 = VendorsLog::VENDOR_REMARK_ADDED;
 					$desc		 = "Remarks : " . trim($reason);
@@ -3165,7 +3173,7 @@ class VendorController extends Controller
 				$result['error']	 = 'Remarks is blank';
 				$result['success']	 = $success;
 			}
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				echo json_encode($result);
 				Yii::app()->end();
@@ -3183,17 +3191,17 @@ class VendorController extends Controller
 		$model	 = Vendors::model()->findByPk($vnd_id);
 		$success = false;
 
-		if(isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id)
+		if (isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id)
 		{
 			$arrVend		 = Yii::app()->request->getParam('Vendors');
 			$contactId		 = ContactProfile::getByEntityId($model->vnd_id, UserInfo::TYPE_VENDOR);
 			$objPhoneNumber	 = ContactPhone::getPrimaryNumber($contactId);
 			$email			 = ContactEmail::getPrimaryEmail($contactId);
-			if($arrVend['vnd_email'] > 0 || $arrVend['vnd_notification'] > 0 || $arrVend['vnd_sms'] > 0)
+			if ($arrVend['vnd_email'] > 0 || $arrVend['vnd_notification'] > 0 || $arrVend['vnd_sms'] > 0)
 			{
-				if($arrVend['vnd_sms'] > 0)
+				if ($arrVend['vnd_sms'] > 0)
 				{
-					if($objPhoneNumber)
+					if ($objPhoneNumber)
 					{
 						$countryCode = $objPhoneNumber->getCountryCode();
 						$number		 = $objPhoneNumber->getNationalNumber();
@@ -3202,15 +3210,15 @@ class VendorController extends Controller
 					$smsModel->sendLinkVendor($model->vnd_id, $number, $countryCode, $arrVend['vnd_message']);
 					$result['success']	 = true;
 				}
-				if($arrVend['vnd_notification'] > 0)
+				if ($arrVend['vnd_notification'] > 0)
 				{
 					$payLoadData		 = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 					AppTokens::model()->notifyVendor($model->vnd_id, $payLoadData, $arrVend['vnd_message'], $arrVend['vnd_subject']);
 					$result['success']	 = true;
 				}
-				if($arrVend['vnd_email'] > 0)
+				if ($arrVend['vnd_email'] > 0)
 				{
-					if($email != '')
+					if ($email != '')
 					{
 						$emailwrapper		 = new emailWrapper();
 						$emailwrapper->sendCustomEmail($model->vnd_id, $email, $arrVend['vnd_message'], $arrVend['vnd_subject']);
@@ -3230,7 +3238,7 @@ class VendorController extends Controller
 				$result['error']	 = 'Please check atleast one checkbox';
 				$result['success']	 = $success;
 			}
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				echo json_encode($result);
 				Yii::app()->end();
@@ -3251,11 +3259,11 @@ class VendorController extends Controller
 		$model			 = Vendors::model()->resetScope()->findByPk($vndId);
 		$modelPref		 = VendorPref::model()->resetScope()->find('vnp_vnd_id=:id', ['id' => $vndId]);
 		$freezeStatus	 = ($modelPref->vnp_is_freeze == 0) ? 'freeze' : 'unfreeze';
-		if(isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id)
+		if (isset($_POST['vnd_id']) && $_POST['vnd_id'] == $model->vnd_id)
 		{
 			try
 			{
-				if(isset($_POST['vnd_reason']) && trim($reason) != '')
+				if (isset($_POST['vnd_reason']) && trim($reason) != '')
 				{
 					$chkopt = Yii::app()->request->getParam('chkopt');
 
@@ -3263,7 +3271,7 @@ class VendorController extends Controller
 					$result	 = [];
 					//\Sentry\captureMessage('check freeze update status - ' . $success, null);
 
-					if($success)
+					if ($success)
 					{
 						$result['success'] = $success;
 					}
@@ -3280,13 +3288,13 @@ class VendorController extends Controller
 					$result['error']	 = "Please give the reason to $freezeStatus this vendor";
 					$result['success']	 = $success;
 				}
-				if(Yii::app()->request->isAjaxRequest)
+				if (Yii::app()->request->isAjaxRequest)
 				{
 					echo json_encode($result);
 					Yii::app()->end();
 				}
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				$returnSet = ReturnSet::setException($e);
 			}
@@ -3314,12 +3322,12 @@ class VendorController extends Controller
 		$showListOnly	 = false;
 		$source			 = $request->getParam('source');
 		$vnd_id			 = $request->getParam('vnd_id');
-		if($source == 'mycall')
+		if ($source == 'mycall')
 		{
 			$model->vnd_id	 = $vnd_id;
 			$showListOnly	 = true;
 		}
-		if($request->getParam('Vendors'))
+		if ($request->getParam('Vendors'))
 		{
 			$arr = $request->getParam('Vendors');
 
@@ -3345,7 +3353,7 @@ class VendorController extends Controller
 			$model->vnd_active		 = ($arr['vnd_active'] != '') ? $arr['vnd_active'] : '';
 			$model->vnd_is_nmi		 = ($arr['vnd_is_nmi'] != '') ? $arr['vnd_is_nmi'] : '';
 		}
-		if(isset($_REQUEST['export1']) && $_REQUEST['export1'] == true)
+		if (isset($_REQUEST['export1']) && $_REQUEST['export1'] == true)
 		{
 			$region					 = ($_REQUEST['export_vnd_region'] != '') ? $_REQUEST['export_vnd_region'] : '';
 			$zone					 = ($_REQUEST['export_vnd_zone'] != '') ? $_REQUEST['export_vnd_zone'] : '';
@@ -3383,7 +3391,7 @@ class VendorController extends Controller
 		$pageSize		 = Yii::app()->params['listPerPage'];
 		$model			 = new Vendors();
 		$region			 = '';
-		if(isset($_REQUEST['Vendors']))
+		if (isset($_REQUEST['Vendors']))
 		{
 			$model->attributes	 = Yii::app()->request->getParam('Vendors');
 			$arr				 = $model->attributes;
@@ -3401,13 +3409,13 @@ class VendorController extends Controller
 		$model->vnd_region		 = $region;
 		$create_date1			 = DateTimeFormat::DatePickerToDate($create_date1);
 		$create_date2			 = DateTimeFormat::DatePickerToDate($create_date2);
-		if(isset($_REQUEST['export_from']) && isset($_REQUEST['export_to']))
+		if (isset($_REQUEST['export_from']) && isset($_REQUEST['export_to']))
 		{
 			$fromDate	 = DateTimeFormat::DatePickerToDate(Yii::app()->request->getParam('export_from'));
 			$toDate		 = DateTimeFormat::DatePickerToDate(Yii::app()->request->getParam('export_to'));
 			$region		 = Yii::app()->request->getParam('export_region');
 			$data		 = $model->getRegionPerfReport('command', $fromDate, $toDate, $region);
-			if(isset($_REQUEST['export1']) && $_REQUEST['export1'] == "true")
+			if (isset($_REQUEST['export1']) && $_REQUEST['export1'] == "true")
 			{
 				header("Content-type: application/csv");
 				header("Content-Disposition: attachment; filename=\"PerfReport_{$fromDate}_{$toDate}_" . date('Ymdhis') . ".csv\"");
@@ -3415,7 +3423,7 @@ class VendorController extends Controller
 				header("Expires: 0");
 				$handle = fopen("php://output", 'w');
 				fputcsv($handle, array("Region", "Vendor", "Rating", "Bookings Assigned", "Bookings Assigned(advance paid)", "Bookings Assigned(post-paid/COD)", "Bookings total cancellations", "Bookings cancellations(advance)", "Bookings cancellations(COD)", "Amount", "Vendor Amount"));
-				foreach($data as $d)
+				foreach ($data as $d)
 				{
 					$bookingAmt	 = $d['booking_amount'] > 0 ? $d['booking_amount'] : '0';
 					$vendorAmt	 = $d['vendor_amount'] > 0 ? $d['vendor_amount'] : '0';
@@ -3467,21 +3475,21 @@ class VendorController extends Controller
 		try
 		{
 			$path = "";
-			if($image != '')
+			if ($image != '')
 			{
 				$image	 = $vendorId . "-" . $type . "-" . date('YmdHis') . "." . $image;
 				$dir	 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'attachments';
-				if(!is_dir($dir))
+				if (!is_dir($dir))
 				{
 					mkdir($dir);
 				}
 				$dirFolderName = $dir . DIRECTORY_SEPARATOR . 'vendors';
-				if(!is_dir($dirFolderName))
+				if (!is_dir($dirFolderName))
 				{
 					mkdir($dirFolderName);
 				}
 				$dirByVendorId = $dirFolderName . DIRECTORY_SEPARATOR . $vendorId;
-				if(!is_dir($dirByVendorId))
+				if (!is_dir($dirByVendorId))
 				{
 					mkdir($dirByVendorId);
 				}
@@ -3491,14 +3499,14 @@ class VendorController extends Controller
 				$file_path	 = $file_path . DIRECTORY_SEPARATOR . $file_name;
 				file_put_contents(PUBLIC_PATH . '/testFile.txt', $f . ' ==== ' . $file_name);
 				Yii::log("Image Path: \n\t Temp: " . $imagetmp . "\n\t Path: " . $f, CLogger::LEVEL_INFO, 'system.api.images');
-				if(Vehicles::model()->img_resize($imagetmp, 1500, $f, $file_name))
+				if (Vehicles::model()->img_resize($imagetmp, 1500, $f, $file_name))
 				{
 					$path	 = substr($file_path, strlen(PUBLIC_PATH));
 					$result	 = ['path' => $path];
 				}
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Yii::log("Exception thrown: \n\t" . $e->getTraceAsString(), CLogger::LEVEL_ERROR, "system.api.images");
 			Yii::log("Data Received: \n\t" . serialize(filter_input_array(INPUT_POST)), CLogger::LEVEL_ERROR, "system.api.images");
@@ -3514,13 +3522,13 @@ class VendorController extends Controller
 		$this->pageTitle = "Vendor Pending Doc Approval";
 		$arr			 = [];
 		$contactId		 = Yii::app()->getRequest()->getParam('ctt_id');
-		if($contactId != "")
+		if ($contactId != "")
 		{
 			$Vendor				 = Vendors::model()->findByVendorContactID($contactId);
 			$modelVendor->vnd_id = $Vendor->vnd_id;
 			$arrVen['vnd_id']	 = $Vendor->vnd_id;
 		}
-		if(isset($_REQUEST['Document']))
+		if (isset($_REQUEST['Document']))
 		{
 			$arr				 = Yii::app()->request->getParam('Document');
 			$arrVen				 = Yii::app()->request->getParam('Vendors');
@@ -3570,18 +3578,18 @@ class VendorController extends Controller
 		$userInfo	 = UserInfo::getInstance();
 		$fileType	 = '';
 		$fileType1	 = [];
-		if($dmodel)
+		if ($dmodel)
 		{
 			$vndModel	 = Vendors::model()->resetScope()->findByPk($dmodel->vd_vnd_id);
 			$oldVndData	 = $vndModel->attributes;
 			$vnd		 = Yii::app()->request->getParam('Vendors');
-			if($btntype == 'approve')
+			if ($btntype == 'approve')
 			{
 				$dmodel->vd_status	 = 1;
 				$dmodel->scenario	 = 'approve';
 				$action				 = "approved";
 			}
-			else if($btntype == 'problem')
+			else if ($btntype == 'problem')
 			{
 				$dmodel->vd_status	 = 2;
 				$dmodel->scenario	 = 'reject';
@@ -3594,12 +3602,12 @@ class VendorController extends Controller
 			$vndChange = 0;
 
 			$fileType = '';
-			switch($dmodel->vd_type)
+			switch ($dmodel->vd_type)
 			{
 				case 1:
 					$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_AGREEMENT_APPROVE : VendorsLog::VENDOR_AGREEMENT_REJECT;
 					$fileType	 = "#agreement";
-					if($vnd['vnd_agreement_date'] != '' && $vndModel->vnd_agreement_date != DateTimeFormat::DatePickerToDate($vnd['vnd_agreement_date']))
+					if ($vnd['vnd_agreement_date'] != '' && $vndModel->vnd_agreement_date != DateTimeFormat::DatePickerToDate($vnd['vnd_agreement_date']))
 					{
 						$vndChange++;
 						$fileType						 = '#Agreement';
@@ -3607,34 +3615,34 @@ class VendorController extends Controller
 					}
 					break;
 				case 2:
-					if($dmodel->vd_sub_type == 1)
+					if ($dmodel->vd_sub_type == 1)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_VOTERID_APPROVE : VendorsLog::VENDOR_VOTERID_REJECT;
 						$fileType	 = "#Voter(Front)";
 					}
-					if($dmodel->vd_sub_type == 2)
+					if ($dmodel->vd_sub_type == 2)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_VOTERID_BACK_APPROVE : VendorsLog::VENDOR_VOTERID_BACK_REJECT;
 						$fileType	 = "#Voter(Back)";
 					}
-					if($vnd['vnd_voter_no'] != '' && ($vndModel->vnd_voter_no != $vnd['vnd_voter_no']))
+					if ($vnd['vnd_voter_no'] != '' && ($vndModel->vnd_voter_no != $vnd['vnd_voter_no']))
 					{
 						$vndChange++;
 						$vndModel->vnd_voter_no = $vnd['vnd_voter_no'];
 					}
 					break;
 				case 3:
-					if($dmodel->vd_sub_type == 1)
+					if ($dmodel->vd_sub_type == 1)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_AADHAAR_APPROVE : VendorsLog::VENDOR_AADHAAR_REJECT;
 						$fileType	 = "#Aadhaar(Front)";
 					}
-					if($dmodel->vd_sub_type == 2)
+					if ($dmodel->vd_sub_type == 2)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_AADHAAR_BACK_APPROVE : VendorsLog::VENDOR_AADHAAR_BACK_REJECT;
 						$fileType	 = "#Aadhaar(Back)";
 					}
-					if($vnd['vnd_aadhaar_no'] != '' && ($vndModel->vnd_aadhaar_no != $vnd['vnd_aadhaar_no']))
+					if ($vnd['vnd_aadhaar_no'] != '' && ($vndModel->vnd_aadhaar_no != $vnd['vnd_aadhaar_no']))
 					{
 						$vndChange++;
 						$vndModel->vnd_aadhaar_no = $vnd['vnd_aadhaar_no'];
@@ -3642,18 +3650,18 @@ class VendorController extends Controller
 					break;
 				case 4:
 
-					if($dmodel->vd_sub_type == 1)
+					if ($dmodel->vd_sub_type == 1)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_PAN_APPROVE : VendorsLog::VENDOR_PAN_REJECT;
 						$fileType	 = "#PAN(Front)";
 					}
-					if($dmodel->vd_sub_type == 2)
+					if ($dmodel->vd_sub_type == 2)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_PAN_BACK_APPROVE : VendorsLog::VENDOR_PAN_BACK_REJECT;
 						$fileType	 = "#PAN(Back)";
 					}
 
-					if($vnd['vnd_pan_no'] != '' && ($vndModel->vnd_pan_no != $vnd['vnd_pan_no']))
+					if ($vnd['vnd_pan_no'] != '' && ($vndModel->vnd_pan_no != $vnd['vnd_pan_no']))
 					{
 						$vndChange++;
 						$vndModel->vnd_pan_no = $vnd['vnd_pan_no'];
@@ -3661,28 +3669,28 @@ class VendorController extends Controller
 					break;
 				case 5:
 
-					if($vnd['vnd_license_no'] != '' && ($vndModel->vnd_license_no != $vnd['vnd_license_no']))
+					if ($vnd['vnd_license_no'] != '' && ($vndModel->vnd_license_no != $vnd['vnd_license_no']))
 					{
 						$vndChange++;
 						$vndModel->vnd_license_no = $vnd['vnd_license_no'];
 					}
-					if($dmodel->vd_sub_type == 1)
+					if ($dmodel->vd_sub_type == 1)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_LICENSE_APPROVE : VendorsLog::VENDOR_LICENSE_REJECT;
 						$fileType1[] = "#Licence(Front)";
 					}
-					if($dmodel->vd_sub_type == 2)
+					if ($dmodel->vd_sub_type == 2)
 					{
 						$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_LICENSE_BACK_APPROVE : VendorsLog::VENDOR_LICENSE_BACK_REJECT;
 						$fileType1[] = "#Licence(Back)";
 					}
-					if($vnd['vnd_license_exp_date'] != '' && $vndModel->vnd_license_exp_date != DateTimeFormat::DatePickerToDate($vnd['vnd_license_exp_date']))
+					if ($vnd['vnd_license_exp_date'] != '' && $vndModel->vnd_license_exp_date != DateTimeFormat::DatePickerToDate($vnd['vnd_license_exp_date']))
 					{
 						$vndChange++;
 						$fileType1[]					 = '#LicenceExpiryDate';
 						$vndModel->vnd_license_exp_date	 = DateTimeFormat::DatePickerToDate($vnd['vnd_license_exp_date']);
 					}
-					if(sizeof($fileType1) > 0)
+					if (sizeof($fileType1) > 0)
 					{
 						$fileType = implode(' and ', $fileType1);
 					}
@@ -3693,9 +3701,9 @@ class VendorController extends Controller
 					break;
 			}
 
-			if($vndChange > 0)
+			if ($vndChange > 0)
 			{
-				if($vndModel->save())
+				if ($vndModel->save())
 				{
 					$newVndData			 = $vndModel->attributes;
 					$descLog			 = "Modified $fileType of the vendor on $action";
@@ -3703,12 +3711,12 @@ class VendorController extends Controller
 					$getNewDifferenceVnd = array_diff_assoc($newVndData, $oldVndData);
 					$change				 = $vndModel->getModificationMSG($getOldDifferenceVnd, false);
 					$changeNew			 = $vndModel->getModificationMSG($getNewDifferenceVnd, false);
-					if($change != '')
+					if ($change != '')
 					{
 						$changesForVndLog	 = "<br> Old Values: " . $change;
 						$descLog			 .= $changesForVndLog;
 					}
-					else if($changeNew != '')
+					else if ($changeNew != '')
 					{
 						$changesForVndLog	 = "<br> New Values: " . $changeNew;
 						$descLog			 .= $changesForVndLog;
@@ -3730,7 +3738,7 @@ class VendorController extends Controller
 			$result1				 = CActiveForm::validate($dmodel);
 //$return = ['success' => false];
 			$success				 = false;
-			if($result1 == '[]')
+			if ($result1 == '[]')
 			{
 				$transaction = Yii::app()->db->beginTransaction();
 				try
@@ -3742,7 +3750,7 @@ class VendorController extends Controller
 					$desc				 = "The document for $fileType of the vendor is $action $remarkAdded";
 					$getOldDifferenceDoc = array_diff_assoc($oldDocData, $newDocData);
 					$changes			 = $vndModel->getModificationMSG($getOldDifferenceDoc, false);
-					if($changes != '')
+					if ($changes != '')
 					{
 						$changesForDocLog	 = "<br> Old Values: " . $changes;
 						$desc				 .= $changesForDocLog;
@@ -3750,14 +3758,14 @@ class VendorController extends Controller
 
 					VendorsLog::model()->createLog($vhc_id, $desc, $userInfo, $event_id, false, false);
 					$transaction->commit();
-					if(Yii::app()->request->isAjaxRequest)
+					if (Yii::app()->request->isAjaxRequest)
 					{
 						$data = ['success' => true];
 						echo json_encode($data);
 						Yii::app()->end();
 					}
 				}
-				catch(Exception $e)
+				catch (Exception $e)
 				{
 					$dmodel->addError("bkg_id", $e->getMessage());
 					$transaction->rollback();
@@ -3767,10 +3775,10 @@ class VendorController extends Controller
 			}
 			else
 			{
-				if(Yii::app()->request->isAjaxRequest)
+				if (Yii::app()->request->isAjaxRequest)
 				{
 					$result = [];
-					foreach($model->getErrors() as $attribute => $errors)
+					foreach ($model->getErrors() as $attribute => $errors)
 					{
 						$result[CHtml::activeId($model, $attribute)] = $errors;
 					}
@@ -3800,7 +3808,7 @@ class VendorController extends Controller
 		$model			 = new Contact();
 		$Vendor			 = Vendors::model()->findByVendorContactID($cttid);
 		$active			 = 11;
-		if(isset($_REQUEST['Contact']))
+		if (isset($_REQUEST['Contact']))
 		{
 			$active					 = 1;
 			$arr					 = array_filter(Yii::app()->request->getParam('Contact'));
@@ -3822,7 +3830,7 @@ class VendorController extends Controller
 		$oldData		 = false;
 		$type			 = '';
 		$type			 = Yii::app()->request->getParam('type');
-		if($mgrvndId == NULL)
+		if ($mgrvndId == NULL)
 		{
 			Yii::app()->user->setFlash('notice', "Please provide merged vendor id");
 			$this->redirect(array('vendor/list'));
@@ -3830,7 +3838,7 @@ class VendorController extends Controller
 		}
 
 		$duplicateIds = explode(",", $mgrvndId);
-		if(in_array($vndid, $duplicateIds))
+		if (in_array($vndid, $duplicateIds))
 		{
 			Yii::app()->user->setFlash('notice', "You cannot merged with same vendor id");
 			$this->redirect(array('vendor/list'));
@@ -3843,29 +3851,29 @@ class VendorController extends Controller
 			$modelVendStats		 = VendorStats::model()->find('vrs_vnd_id=:id', ['id' => $vndid]);
 			//$modelVendDevice	 = VendorDevice::model()->find('vdc_vnd_id=:id', ['id' => $vndid]);
 			$modelVendorMerge	 = Vendors::model()->findAllByAttributes(array("vnd_id" => $duplicateIds));
-			foreach($modelVendorMerge as $models)
+			foreach ($modelVendorMerge as $models)
 			{
 				$rowsVendorMerge[] = array_filter($models->attributes);
 			}
 			$modelVendPrefMerge = VendorPref::model()->findAllByAttributes(array("vnp_vnd_id" => $duplicateIds));
-			foreach($modelVendPrefMerge as $models)
+			foreach ($modelVendPrefMerge as $models)
 			{
 				$rowsVendPrefMerge[] = array_filter($models->attributes);
 			}
 			$modelVendStatsMerge = VendorStats::model()->findAllByAttributes(array("vrs_vnd_id" => $duplicateIds));
-			foreach($modelVendStatsMerge as $models)
+			foreach ($modelVendStatsMerge as $models)
 			{
 				$rowsVendStatsMerge[] = array_filter($models->attributes);
 			}
 			$modelVendArgMerge = VendorAgreement::model()->findAllByAttributes(array("vag_vnd_id" => $duplicateIds));
-			foreach($modelVendArgMerge as $models)
+			foreach ($modelVendArgMerge as $models)
 			{
 				$rowsVendArgMerge[] = array_filter($models->attributes);
 			}
 			$mgrcttid = "";
-			for($i = 0; $i < count($modelVendorMerge); $i++)
+			for ($i = 0; $i < count($modelVendorMerge); $i++)
 			{
-				if($i == 0)
+				if ($i == 0)
 				{
 					$mgrcttid .= $modelVendorMerge[$i]['attributes']['vnd_contact_id'];
 				}
@@ -3874,7 +3882,7 @@ class VendorController extends Controller
 					$mgrcttid .= "," . $modelVendorMerge[$i]['attributes']['vnd_contact_id'];
 				}
 			}
-			if($mgrcttid == "")
+			if ($mgrcttid == "")
 			{
 				Yii::app()->user->setFlash('notice', "Due to some problem with your contact.Vendor merge cannot be completed");
 				$this->redirect(array('vendor/list'));
@@ -3889,7 +3897,7 @@ class VendorController extends Controller
 			//$model->scenario			 = 'contactupdate';
 			$modelVendStats->scenario	 = 'update';
 			$ftype						 = 'Modify';
-			if($model->vndContact->ctt_user_type == 1)
+			if ($model->vndContact->ctt_user_type == 1)
 			{
 				$model->vnd_contact_name = $model->vndContact->ctt_first_name . ' ' . $model->vndContact->ctt_last_name;
 			}
@@ -3897,7 +3905,7 @@ class VendorController extends Controller
 			{
 				$model->vnd_contact_name = $model->vndContact->ctt_business_name;
 			}
-			if(isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorStats']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['vnp_accepted_zone']))
+			if (isset($_REQUEST['Vendors']) || isset($_REQUEST['VendorStats']) || isset($_REQUEST['VendorPref']) || isset($_REQUEST['vnp_accepted_zone']))
 			{
 				Logger::create("test Request data : ", CLogger::LEVEL_INFO);
 				$agreement_file		 = $_FILES['Vendors']['name']['vnd_agreement_file_link'];
@@ -3914,7 +3922,7 @@ class VendorController extends Controller
 				$model->vendorStats->vrs_security_receive_date	 = ($arrVendStats['vrs_security_receive_date1'] == '') ? null : DateTimeFormat::DatePickerToDate($arrVendStats['vrs_security_receive_date1']);
 
 				$success = $model->saveMergeData($oldData, $oldDataStats, $oldDataPref, $arr, $agreement_file, $agreement_file_tmp, $type);
-				if($success == true)
+				if ($success == true)
 				{
 					VendorsLog::model()->createLog($model->vnd_id, "Vendor	Merge :  $mgrvndId  is merged with $model->vnd_id", UserInfo::getInstance(), VendorsLog::VENDOR_MERGE, false, false);
 					Contact::model()->updateContactDetails($mgrcttid);
@@ -3926,14 +3934,14 @@ class VendorController extends Controller
 				}
 				else
 				{
-					if(Yii::app()->request->isAjaxRequest)
+					if (Yii::app()->request->isAjaxRequest)
 					{
 						Yii::app()->end();
 					}
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			$model	 = new Vendors();
@@ -4004,18 +4012,18 @@ class VendorController extends Controller
 		{
 			$event_id	 = ($btntype == 'approve') ? VendorsLog::VENDOR_AGREEMENT_APPROVE : VendorsLog::VENDOR_AGREEMENT_REJECT;
 			$fileType	 = "#agreement";
-			if($btntype == 'approve')
+			if ($btntype == 'approve')
 			{
 				$action = "approved";
 			}
-			else if($btntype == 'problem')
+			else if ($btntype == 'problem')
 			{
 				$action = "disapproved";
 			}
 			$descLog				 = "Modified $fileType of the vendor on $action";
 			VendorsLog::model()->createLog($vendorAgreement['vag_vnd_id'], $descLog, $userInfo, $event_id, false, false);
 			$modelvendorAgreement	 = VendorAgreement::model()->findByPk($vendorAgreement['vag_id']);
-			if(empty($vendorAgreement['vag_soft_date']))
+			if (empty($vendorAgreement['vag_soft_date']))
 			{
 				$vendorAgreement['vag_soft_date'] = $vendorAgreement['vag_soft_date'];
 			}
@@ -4024,7 +4032,7 @@ class VendorController extends Controller
 				$cls_date							 = DateTime::createFromFormat('d/m/Y', $vendorAgreement['vag_soft_date']);
 				$vendorAgreement['vag_soft_date']	 = $cls_date->format('Y-m-d');
 			}
-			if($btntype == 'approve')
+			if ($btntype == 'approve')
 			{
 				$modelvendorAgreement->vag_soft_flag	 = 1;
 				$modelvendorAgreement->vag_approved		 = 1;
@@ -4044,7 +4052,7 @@ class VendorController extends Controller
 				$modelvendorAgreement->vag_remarks		 = $vendorAgreement['vag_remarks'];
 				$modelvendorAgreement->vag_soft_date	 = $vendorAgreement['vag_soft_date'];
 				$status									 = true;
-				if($modelvendorAgreement->vag_digital_flag == 1)
+				if ($modelvendorAgreement->vag_digital_flag == 1)
 				{
 					$modelvendorAgreement->vag_digital_flag = 0;
 				}
@@ -4054,7 +4062,7 @@ class VendorController extends Controller
 			DBUtil::commitTransaction($transaction);
 			echo CJSON::encode(array('status' => $status, 'message' => $message));
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			echo CJSON::encode(array('status' => $status, 'message' => $ex));
 			DBUtil::rollbackTransaction($transaction);
@@ -4069,7 +4077,7 @@ class VendorController extends Controller
 		$model			 = new VendorVehicle();
 		$dataProvider	 = NULL;
 		$request		 = Yii::app()->request;
-		if($model)
+		if ($model)
 		{
 			$model->attributes				 = $request->getParam('VendorVehicle');
 			$approve						 = $request->getParam('VendorVehicle')['louStatusType'];
@@ -4081,7 +4089,7 @@ class VendorController extends Controller
 			$date1							 = $model->vvhc_lou_approve_date1;
 			$date2							 = $model->vvhc_lou_approve_date2;
 			$statusArr						 = ($model->vvhc_lou_approved);
-			foreach($statusArr as $key => $value)
+			foreach ($statusArr as $key => $value)
 			{
 				$arrValues[] = $value;
 				$louStatus	 = implode(', ', $arrValues);
@@ -4103,7 +4111,7 @@ class VendorController extends Controller
 		$dataProvider	 = NULL;
 		$request		 = Yii::app()->request;
 		$arr			 = [];
-		if($request->getParam('VendorAgreement'))
+		if ($request->getParam('VendorAgreement'))
 		{
 			$arr			 = $request->getParam('VendorAgreement');
 			$searchVndName	 = $arr['vag_vnd_id'];
@@ -4127,12 +4135,12 @@ class VendorController extends Controller
 		$vvhc_id			 = Yii::app()->request->getParam('vvhc_id');
 		$model				 = VendorVehicle::model()->findByPk($vvhc_id);
 		$vvhc_lou_approved	 = Yii::app()->request->getParam('vvhc_lou_approved');
-		if($vvhc_lou_approved != NULL)
+		if ($vvhc_lou_approved != NULL)
 		{
 			$userInfo			 = UserInfo::getInstance();
 			$userInfo->userId	 = UserInfo::getUserId();
 
-			if($model->vvhc_owner_license_id != '')
+			if ($model->vvhc_owner_license_id != '')
 			{
 				$documentModel = Document::model()->findByPk($model->vvhc_owner_license_id);
 			}
@@ -4140,15 +4148,15 @@ class VendorController extends Controller
 			{
 				$documentModel = Document::model()->findByPk($model->vvhc_owner_pan_id);
 			}
-			if($vvhc_lou_approved == 1)
+			if ($vvhc_lou_approved == 1)
 			{
 				$docStatus = Document::model()->isLouApproved($documentModel, $vvhc_lou_approved);
 			}
-			else if($vvhc_lou_approved == 2)
+			else if ($vvhc_lou_approved == 2)
 			{
 				$status = VendorVehicle::updateLouStatusByVndVhcId($model->vvhc_id, $vvhc_lou_approved, $userInfo->userId, $model->vvhc_vnd_id, $model->vvhc_vhc_id);
 			}
-			if($docStatus)
+			if ($docStatus)
 			{
 				$status = VendorVehicle::updateLouStatusByVndVhcId($model->vvhc_id, $vvhc_lou_approved, $userInfo->userId, $model->vvhc_vnd_id, $model->vvhc_vhc_id);
 			}
@@ -4156,17 +4164,17 @@ class VendorController extends Controller
 			{
 				$message = "You dont have DL or Pan.";
 				$data	 = ['success' => false, 'message' => $message];
-				if(Yii::app()->request->isAjaxRequest)
+				if (Yii::app()->request->isAjaxRequest)
 				{
 					echo $data;
 					Yii::app()->end();
 				}
 			}
-			if(!$status)
+			if (!$status)
 			{
 				$message = "Lou Status - not Updated successfully";
 				$data	 = ['success' => false, 'message' => $message];
-				if(Yii::app()->request->isAjaxRequest)
+				if (Yii::app()->request->isAjaxRequest)
 				{
 					echo $data;
 					Yii::app()->end();
@@ -4174,11 +4182,11 @@ class VendorController extends Controller
 			}
 			else
 			{
-				if($vvhc_lou_approved == 1)
+				if ($vvhc_lou_approved == 1)
 				{
 					$message = "Lou Status - Approved successfully";
 				}
-				else if($vvhc_lou_approved == 0)
+				else if ($vvhc_lou_approved == 0)
 				{
 					$message = "Lou Status - Pending successfully";
 				}
@@ -4188,7 +4196,7 @@ class VendorController extends Controller
 				}
 				$success = true;
 				$data	 = ['success' => true, 'message' => $message];
-				if(Yii::app()->request->isAjaxRequest)
+				if (Yii::app()->request->isAjaxRequest)
 				{
 					echo $data;
 					Yii::app()->end();
@@ -4210,27 +4218,27 @@ class VendorController extends Controller
 		$model			 = new Users();
 		$dataProvider	 = NULL;
 		$request		 = Yii::app()->request;
-		if($request->getParam('Users'))
+		if ($request->getParam('Users'))
 		{
 			$model->search	 = $request->getParam('Users')['search'];
 			$model->email	 = $request->getParam('Users')['email'];
 
-			if($model->search != NULL && $model->email != NULL)
+			if ($model->search != NULL && $model->email != NULL)
 			{
 				$modelUser = Users::model()->getUserIdBySocialEmail($model->email);
-				if($modelUser != NULL)
+				if ($modelUser != NULL)
 				{
 					$dataProvider = $model->getSocialList($modelUser);
 				}
 			}
-			else if($model->search != NULL)
+			else if ($model->search != NULL)
 			{
 				$dataProvider = $model->getSocialList();
 			}
-			else if($model->email != NULL)
+			else if ($model->email != NULL)
 			{
 				$modelUser = Users::model()->getUserIdBySocialEmail($model->email);
-				if($modelUser != NULL)
+				if ($modelUser != NULL)
 				{
 					$dataProvider = $model->getSocialList($modelUser);
 				}
@@ -4258,7 +4266,7 @@ class VendorController extends Controller
 		$vnd_id			 = Yii::app()->request->getParam('vnd_id');
 		$type			 = Yii::app()->request->getParam('type');
 		$contactId		 = ContactProfile::getByVendorId($vnd_id);
-		if($contactId != NULL)
+		if ($contactId != NULL)
 		{
 			$userId = ContactProfile::getUserId($contactId);
 
@@ -4269,7 +4277,7 @@ class VendorController extends Controller
 
 			$res = ContactEmail::model()->unlink($identifier, $contactId);
 
-			if($userId != NULL)
+			if ($userId != NULL)
 			{
 				$vendorPref = VendorPref::model()->updateVendorPrefByVendorId($vnd_id);
 
@@ -4284,13 +4292,13 @@ class VendorController extends Controller
 		}
 		//Yii::app()->user->setFlash('success', "Social account unlink successfully");
 		Yii::app()->user->setFlash('error', "Cannot unlink social account");
-		if($type == '1')
+		if ($type == '1')
 		{
 			echo json_encode(['success' => false, 'message' => "Social link unlinked successfully "]);
 		}
 		else
 		{
-			if($from == "users")
+			if ($from == "users")
 			{
 				$this->redirect(array('user/sociallist'));
 			}
@@ -4306,7 +4314,7 @@ class VendorController extends Controller
 		$cttid			 = NULL;
 		$vnd_id			 = "";
 		$type			 = "vendors";
-		if(isset($_REQUEST['Contact']))
+		if (isset($_REQUEST['Contact']))
 		{
 			$arr					 = array_filter(Yii::app()->request->getParam('Contact'));
 			$model->attributes		 = $arr;
@@ -4342,7 +4350,7 @@ class VendorController extends Controller
 		$phoneModel			 = ContactPhone::model()->findByContactID($cttid);
 		$arr				 = [];
 		$type				 = "vendors";
-		if(isset($_REQUEST['Contact']))
+		if (isset($_REQUEST['Contact']))
 		{
 			$arr					 = array_filter(Yii::app()->request->getParam('Contact'));
 			$model->attributes		 = $arr;
@@ -4431,15 +4439,15 @@ class VendorController extends Controller
 	 */
 	public function updateAccountDetails($mgrArr, $vndid)
 	{
-		if(count($mgrArr > 0))
+		if (count($mgrArr > 0))
 		{
 
-			for($i = 0; $i < count($mgrArr); $i++)
+			for ($i = 0; $i < count($mgrArr); $i++)
 			{
 				$vendorAmount	 = AccountTransDetails::model()->calAmountByVendorId($mgrArr[$i], '', '', '');
 				$amount			 = $vendorAmount['vendor_amount'] != NULL ? $vendorAmount['vendor_amount'] : 0;
 				$amount1		 = $amount;
-				if($amount != 0)
+				if ($amount != 0)
 				{
 
 					$crRefId		 = $vndid;
@@ -4447,11 +4455,11 @@ class VendorController extends Controller
 					$crRemarks		 = "Balance transferred as Vendor $mgrArr[$i] is merged with $vndid";
 					$drRemarks		 = "Balance transferred as Vendor $vndid is merged with $mgrArr[$i]";
 					$accTransModel	 = new AccountTransactions();
-					if($amount < 0)
+					if ($amount < 0)
 					{
 						$accTransModel->act_amount = -1 * $amount1;
 					}
-					if($amount > 0)
+					if ($amount > 0)
 					{
 						$accTransModel->act_amount = $amount1;
 					}
@@ -4486,7 +4494,7 @@ class VendorController extends Controller
 		/* @var $logModel VendorsLog */
 		$logModel			 = new VendorsLog();
 		$logModel->scenario	 = 'updateOrientation';
-		if(isset($_POST['VendorsLog']))
+		if (isset($_POST['VendorsLog']))
 		{
 			$success	 = false;
 			$transaction = DBUtil::beginTransaction();
@@ -4496,17 +4504,17 @@ class VendorController extends Controller
 				$logModel->vlg_vnd_id	 = $arr['vlg_vnd_id'];
 				$logModel->vlg_desc		 = $arr['vlg_desc'];
 				$orientation_type		 = $arr['vlg_orientation_type'];
-				if($orientation_type == 1)
+				if ($orientation_type == 1)
 				{
 					$return	 = VendorPref::model()->unsetOrientationFlag($logModel->vlg_vnd_id, $contactData['ownername'], $userInfo, $logModel->vlg_desc);
 					$success = $return['success'];
 					$message = $return['message'];
 				}
-				else if($orientation_type == 2)
+				else if ($orientation_type == 2)
 				{
 					$modelVendPref						 = VendorPref::model()->find('vnp_vnd_id=:id', ['id' => $logModel->vlg_vnd_id]);
 					$modelVendPref->vnp_orientation_type = 2;
-					if(!$modelVendPref->save())
+					if (!$modelVendPref->save())
 					{
 						$var = "Failed to save => " . json_encode($modelVendPref->getErrors());
 						throw new Exception($var);
@@ -4519,12 +4527,12 @@ class VendorController extends Controller
 				}
 				DBUtil::commitTransaction($transaction);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$message = $ex->getMessage();
 				DBUtil::rollbackTransaction($transaction);
 			}
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				$data = ['success' => $success, 'message' => $message];
 				echo json_encode($data);
@@ -4592,25 +4600,46 @@ class VendorController extends Controller
 		echo "<br><br>";
 		echo "Withdrawable Balance : $Withdrawable_Balance ";
 		echo "<br><br>";
-		if($tripAmount > 0)
+		if ($tripAmount > 0)
 		{
+			$relVndIds	 = Vendors::getRelatedIds($vendorId);
 			echo "Locked Booking Details :";
-			$bkgInfo = Yii::app()->db->createCommand("SELECT bkg_booking_id bkgid,drv_approved drvapproved,drv_name,vhc_approved vhcapproved,vhc_number,bcb_vendor_amount tripAmt,bcb_lock_vendor_payment,bcb_vendor_id,bkg_pickup_date  FROM booking_cab 
+			$bkgInfoSql	 = "SELECT bkg_booking_id bkgid,drv_approved drvapproved,drv_name,vhc_approved vhcapproved,vhc_number,bcb_vendor_amount tripAmt,bcb_lock_vendor_payment,bcb_vendor_id,bkg_pickup_date  FROM booking_cab 
 INNER JOIN booking ON booking.bkg_bcb_id = booking_cab.bcb_id AND booking.bkg_active = 1 AND bkg_status IN(6,7)
 LEFT JOIN drivers ON drivers.drv_id = booking_cab.bcb_driver_id AND drivers.drv_active = 1
 LEFT JOIN vehicles ON vehicles.vhc_id = booking_cab.bcb_cab_id AND vehicles.vhc_active = 1
-WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00:00:00') AND bcb_vendor_id = $vendorId")->queryAll();
+WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00:00:00') AND bcb_vendor_id IN ({$relVndIds}) ";
+			$bkgInfo	 = DBUtil::query($bkgInfoSql, DBUtil::SDB());
 			//echo(json_encode($bkgInfo));
 			echo "<table><th>Booking ID</th><th>Driver Name</th><th>Driver Status</th><th>Cab Number</th><th>Cab Status</th><th>Trip Amount</th><th>Pickup Date</th>";
-			foreach($bkgInfo as $val)
+			foreach ($bkgInfo as $val)
 			{
 				echo "<tr>";
-				echo "<td>" . $val['bkgid'] . "</td><td>" . $val['drv_name'] . "</td><td align='center'>" . $val['drvapproved'] . "</td><td>" . $val['vhc_number'] . "</td><td align='center'>" . $val['vhcapproved'] . "</td><td>" . $val['tripAmt'] . "</td><td>" . $val['bkg_pickup_date'] . "</td>";
+				echo "<td>" . $val['bkgid'] . "</td><td>" . $val['drv_name'] . "</td><td align='center'>" . $val['drvapproved'] . "</td><td>" . $val['vhc_number'] . "</td><td align='center'>" . $val['vhcapproved'] . "</td><td style='text-align:right;padding-right:10px'>" . $val['tripAmt'] . "</td><td>" . $val['bkg_pickup_date'] . "</td>";
 				echo "<tr>";
 			}
 			echo "</table>";
 		}
 		exit();
+	}
+
+	public function actionboostDependency()
+	{
+		$vendorId	 = Yii::app()->request->getParam('vnd_id');
+		$res		 = VendorStats::dependencyBoost($vendorId);
+		$success	 = false;
+		$msg		 = "Unable to boost dependency score";
+		if ($res)
+		{
+
+			$result = VendorStats::updateDependency($vendorId);
+			if ($result)
+			{
+				$msg	 = "Temporary dependency score added";
+				$success = true;
+			}
+		}
+		echo json_encode(['success' => $success, 'message' => $msg]);
 	}
 
 	public function actionViewMetrics()
@@ -4652,12 +4681,12 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$contactModel		 = Contact::model()->findByPk($contact_id);
 		$phone				 = ContactPhone::model()->getContactPhoneById($contact_id);
 		$email				 = ContactEmail::getPrimaryEmail($contact_id);
-		if($vendorPic == 0)
+		if ($vendorPic == 0)
 		{
 			$model->scenario	 = 'update';
 			$model->attributes	 = $data1;
 			$model->vnd_cat_type = $data1['data']['vnd_cat_type'];
-			if(!$model->validate())
+			if (!$model->validate())
 			{
 				$returnSet->setStatus(false);
 				$returnSet->setErrors("Vendor update failed.\n\t\t " . json_encode($errors));
@@ -4671,21 +4700,21 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			$contactModel->ctt_pan_no		 = $data1['data']['vnd_pan_no'];
 			$contactModel->ctt_aadhaar_no	 = $data1['data']['vnd_aadhaar_no'];
 			$contactModel->ctt_license_no	 = $data1['data']['vnd_license_no'];
-			if($email != $data1['data']['vnd_email'])
+			if ($email != $data1['data']['vnd_email'])
 			{
 				$emailUpdate = ContactEmail::model()->updateEmailByContactId($data1['data']['vnd_email'], $contact_id);
 			}
-			if($phone != $data1['data']['vnd_phone'])
+			if ($phone != $data1['data']['vnd_phone'])
 			{
 				$phoneUpdate = ContactPhone::model()->updatePhoneByContactId($data1['data']['vnd_phone'], $contact_id);
 			}
-			if(!$contactModel->save())
+			if (!$contactModel->save())
 			{
 				$returnSet->setStatus(false);
 				$returnSet->setErrors($contactModel->getErrors());
 				return ["returnSet" => $returnSet, 'model' => $model, 'vendorId' => $vendorId, 'agmt_file1_img_no' => $agmt_file1_img_no, 'agmt_file2_img_no' => $agmt_file2_img_no];
 			}
-			if(!$model->save())
+			if (!$model->save())
 			{
 				$returnSet->setStatus(false);
 				$returnSet->setErrors($model->getErrors());
@@ -4699,18 +4728,18 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			$desc				 = $logDesc . $changesForLog;
 			VendorsLog::model()->createLog($vendorId, $desc, $userInfo, $eventId, false, false);
 		}
-		else if($vendorPic == 1)
+		else if ($vendorPic == 1)
 		{
-			if($agmt1 != '' || $agmt2 != '')
+			if ($agmt1 != '' || $agmt2 != '')
 			{
 				$userType	 = 6;
 				$recordset	 = '';
 				$recordset	 = VendorAgmtDocs::model()->updateVendorAgreement($agmt1, $agmt1_tmp, $vendorId, $agmt_file1_img_no, $agmt_req_id, $agmt2, $agmt2_tmp, $agmt_file2_img_no, $total_agmt_img_no, $userType);
 
-				if($recordset)
+				if ($recordset)
 				{
 					$updateCount = VendorAgmtDocs::model()->updateStatusByVndReqId($vendorId, $agmt_req_id, $total_agmt_img_no);
-					if(!$updateCount > 0)
+					if (!$updateCount > 0)
 					{
 						$returnSet->setStatus(false);
 						$returnSet->setErrors("Document images( Agreement ) creation failed.\n\t\t");
@@ -4718,7 +4747,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 					}
 					$modelDigital				 = VendorAgreement::model()->findByVndId($vendorId);
 					$modelDigital->vag_soft_flag = 2;
-					if(!$modelDigital->save())
+					if (!$modelDigital->save())
 					{
 						$returnSet->setStatus(false);
 						$returnSet->setErrors($modelDigital->getErrors());
@@ -4726,13 +4755,13 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 					}
 				}
 			}
-			if($photo != '')
+			if ($photo != '')
 			{
 				$type							 = 'profile';
 				$result2						 = Document::model()->saveVendorImage($photo, $photo_tmp, $vendorId, $model->vnd_contact_id, $type);
 				$contactModel->scenario			 = 'update';
 				$contactModel->ctt_profile_path	 = $result2['path'];
-				if(!$contactModel->save())
+				if (!$contactModel->save())
 				{
 					$returnSet->setStatus(false);
 					$returnSet->setErrors($contactModel->getErrors());
@@ -4743,10 +4772,10 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 				$logDesc = $evtList[$eventid];
 				VendorsLog::model()->createLog($vendorId, $logDesc, UserInfo::getInstance(), $eventid, false, false);
 			}
-			if($doc_type != '')
+			if ($doc_type != '')
 			{
 				$success = Document::model()->updateVendorDoc($model, $photo, $photo_tmp, $doc_type, $doc_subtype);
-				if(!$success->getStatus())
+				if (!$success->getStatus())
 				{
 					$errors = $success->getErrors();
 					$returnSet->setStatus(false);
@@ -4763,11 +4792,11 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	{
 		$vndId = Yii::app()->request->getParam('vndid');
 
-		if(isset($_REQUEST['vnd_delete_reason']))
+		if (isset($_REQUEST['vnd_delete_reason']))
 		{
 			$result = Vendors::delVendor($vndId, $_REQUEST['vnd_delete_reason'], $_REQUEST['vnd_delete_other']);
 
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				echo json_encode($result);
 				Yii::app()->end();
@@ -4780,11 +4809,11 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	{
 		$vndId = Yii::app()->request->getParam('vndid');
 
-		if(isset($_REQUEST['vnd_delete_reason']))
+		if (isset($_REQUEST['vnd_delete_reason']))
 		{
 			$result = Vendors::rejectVendor($vndId, $_REQUEST['vnd_delete_reason'], $_REQUEST['vnd_delete_other']);
 
-			if(Yii::app()->request->isAjaxRequest)
+			if (Yii::app()->request->isAjaxRequest)
 			{
 				echo json_encode($result);
 				Yii::app()->end();
@@ -4801,7 +4830,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 
 		$vnpModel = new VendorPref('search');
 
-		if($vnp_home_zone_export !== false || $zonRegion_export !== false)
+		if ($vnp_home_zone_export !== false || $zonRegion_export !== false)
 		{
 			$vnpModel->zonRegion	 = $zonRegion_export;
 			$vnpModel->vnp_home_zone = $vnp_home_zone_export;
@@ -4814,18 +4843,18 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$filename	 = "VendorCountTierList_" . date('YmdHi') . ".csv";
 		$foldername	 = Yii::app()->params['uploadPath'];
 		$backup_file = $foldername . DIRECTORY_SEPARATOR . $filename;
-		if(!is_dir($foldername))
+		if (!is_dir($foldername))
 		{
 			mkdir($foldername);
 		}
-		if(file_exists($backup_file))
+		if (file_exists($backup_file))
 		{
 			unlink($backup_file);
 		}
 		$rows	 = $vnpModel->getVehicleTierCountByZone(DBUtil::ReturnType_Query);
 		$handle	 = fopen("php://output", 'w');
 		fputcsv($handle, ['Zone Name', 'Value(Vendor Count|Car Count)', 'Value+(Vendor Count|Car Count)', 'Plus(Vendor Count|Car Count)', 'Select(Vendor Count|Car Count)']);
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$rowArray					 = array();
 			$rowArray['zoneName']		 = $row['zon_name'];
@@ -4861,7 +4890,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$vndCode = Yii::app()->request->getParam('code');
 		$view	 = Yii::app()->request->getParam('view', 'profile');
 
-		if($vndCode != '')
+		if ($vndCode != '')
 		{
 			$vnd	 = Vendors::model()->getIdByCode($vndCode);
 			$vndid	 = $vnd['vnd_id'];
@@ -4876,7 +4905,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$data['vndCode'] = $vndCode;
 		$qry['vndid']	 = $vndid;
 
-		$dataProvider	 = Vendors::model()->getCollectionReport($qry);
+		$dataProvider	 = Vendors::getCollectionReport($qry);
 		$outputJs		 = Yii::app()->request->isAjaxRequest;
 		$method			 = "render" . ($outputJs ? "Partial" : "");
 		$this->$method($view, array(
@@ -4894,7 +4923,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$returnSet->setStatus(true);
 		$requestInstance = Yii::app()->request;
 		$reciveData		 = json_decode($requestInstance->rawBody);
-		if(empty($reciveData))
+		if (empty($reciveData))
 		{
 			$returnSet->setStatus(false);
 			$returnSet->setMessage("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
@@ -4910,7 +4939,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$returnSet		 = Vendors::addByContact($contactModel);
 
 		skipAll:
-		if($returnSet->getStatus() == false)
+		if ($returnSet->getStatus() == false)
 		{
 			DBUtil::rollbackTransaction($transaction);
 		}
@@ -4928,7 +4957,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$model			 = new VendorPackages();
 		$cityModel		 = new Cities();
 		$request		 = Yii::app()->request;
-		if($request->getParam('VendorPackages'))
+		if ($request->getParam('VendorPackages'))
 		{
 			$arr							 = $request->getParam('VendorPackages');
 			$model->search					 = $search							 = $arr['search'];
@@ -4955,23 +4984,23 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$status				 = Yii::app()->request->getParam('status');
 		$packagesSentCount	 = Yii::app()->request->getParam('packagesSentCount');
 		$trackingNumber		 = Yii::app()->request->getParam('trackingNumber');
-		if($id != '')
+		if ($id != '')
 		{
 			$model = VendorPackages::model()->findByPk($id);
-			if(count($model) > 0)
+			if (count($model) > 0)
 			{
 				$model->vpk_sent_date		 = date("Y-m-d H:i:s");
 				$model->vpk_received_status	 = $status;
 				$model->vpk_sent_count		 = $packagesSentCount;
 				$model->vpk_tracking_number	 = $trackingNumber;
 				$model->vpk_sent_by			 = UserInfo::getUserId();
-				if($model->update())
+				if ($model->update())
 				{
 					$success = true;
 				}
-				if($success == true)
+				if ($success == true)
 				{
-					if($model->vpk_type == 1)
+					if ($model->vpk_type == 1)
 					{
 						$packageType = "Sticker";
 					}
@@ -4987,7 +5016,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			}
 		}
 		$data = $success;
-		if(Yii::app()->request->isAjaxRequest)
+		if (Yii::app()->request->isAjaxRequest)
 		{
 			echo $data;
 			Yii::app()->end();
@@ -5000,10 +5029,10 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$success = false;
 		$id		 = Yii::app()->request->getParam('vpkId');
 		$status	 = Yii::app()->request->getParam('status');
-		if($id != '')
+		if ($id != '')
 		{
 			$model = VendorPackages::model()->findByPk($id);
-			if(count($model) > 0)
+			if (count($model) > 0)
 			{
 				$model->vpk_received_date	 = date("Y-m-d H:i:s");
 				$model->vpk_received_status	 = $status;
@@ -5012,7 +5041,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			}
 		}
 		$data = $success;
-		if(Yii::app()->request->isAjaxRequest)
+		if (Yii::app()->request->isAjaxRequest)
 		{
 			echo $data;
 			Yii::app()->end();
@@ -5028,7 +5057,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$request		 = Yii::app()->request;
 		$id				 = Yii::app()->request->getParam('packageId');
 		$model			 = VendorPackages::model()->findByPk($id);
-		if(isset($_REQUEST['VendorPackages']))
+		if (isset($_REQUEST['VendorPackages']))
 		{
 			$newData				 = Yii::app()->request->getParam('VendorPackages');
 			$success				 = false;
@@ -5037,7 +5066,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			$sendDateTime			 = $sendDate . ' ' . $sentTime;
 			$model->vpk_sent_date	 = $sendDateTime;
 
-			if($newData['packagesReceivedDate'] != '' && $newData['packagesReceivedTime'] != '')
+			if ($newData['packagesReceivedDate'] != '' && $newData['packagesReceivedTime'] != '')
 			{
 				$receiveDate				 = DateTimeFormat::DatePickerToDate($newData['packagesReceivedDate']);
 				$receiveTime				 = DateTime::createFromFormat('h:i A', $newData['packagesReceivedTime'])->format('H:i:00');
@@ -5045,11 +5074,11 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 				$model->vpk_received_date	 = $receiveDateTime;
 			}
 
-			if($newData['packagesSentDate'] != '' && $newData['packagesReceivedDate'] == '')
+			if ($newData['packagesSentDate'] != '' && $newData['packagesReceivedDate'] == '')
 			{
 				$model->vpk_received_status = 0;
 			}
-			else if($newData['packagesSentDate'] != '' && $newData['packagesReceivedDate'] != '')
+			else if ($newData['packagesSentDate'] != '' && $newData['packagesReceivedDate'] != '')
 			{
 				$model->vpk_received_status = 1;
 			}
@@ -5059,19 +5088,19 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			$trackingNumber					 = $model->vpk_tracking_number;
 			$model->scenario				 = 'updateBoost';
 			$result							 = CActiveForm::validate($model);
-			if($result != "[]")
+			if ($result != "[]")
 			{
 				$return = ['success' => false, 'errors' => CJSON::decode($result)];
 			}
 			else
 			{
-				if($model->update())
+				if ($model->update())
 				{
 					$success = true;
 				}
-				if($success == true && $model->vpk_sent_count > 0)
+				if ($success == true && $model->vpk_sent_count > 0)
 				{
-					if($model->vpk_type == 1)
+					if ($model->vpk_type == 1)
 					{
 						$packageType = "Sticker";
 					}
@@ -5085,7 +5114,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 					$result		 = AppTokens::model()->notifyVendor($model->vpk_vnd_id, $payLoadData, $message, $title);
 				}
 			}
-			if($success == true)
+			if ($success == true)
 			{
 				$this->redirect(array('PackagesList'));
 			}
@@ -5102,10 +5131,10 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	public function actiondelPackages()
 	{
 		$id = Yii::app()->request->getParam('vpk_id');
-		if($id != '')
+		if ($id != '')
 		{
 			$model = VendorPackages::model()->findByPk($id);
-			if(count($model) == 1)
+			if (count($model) == 1)
 			{
 				$model->vpk_active = 0;
 				$model->update();
@@ -5145,11 +5174,11 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	{
 		$vndid	 = Yii::app()->request->getParam('vnd_id');
 		$model	 = Vendors::model()->findByPk($vndid);
-		if($model->vnd_rel_tier == 1)
+		if ($model->vnd_rel_tier == 1)
 		{
 			$model->vnd_rel_tier = 0;
 		}
-		if($model->save())
+		if ($model->save())
 		{
 			echo "reduced";
 		}
@@ -5190,7 +5219,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$vndlists	 = Vendors::getPayDetailsByIds($ids);
 
 		$userInfo = UserInfo::getInstance();
-		foreach($vndlists as $val)
+		foreach ($vndlists as $val)
 		{
 			$transaction = DBUtil::beginTransaction();
 
@@ -5210,7 +5239,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			$amount						 = $vndStats->vrs_withdrawable_balance;
 
 			/* /Test data/ */
-			if(!Yii::app()->icici->api_live)
+			if (!Yii::app()->icici->api_live)
 			{
 				$bank = ICICIIB::getTestAccountDetails($bank);
 
@@ -5219,7 +5248,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 
 
 			$response = Yii::app()->icici->registerRequest($bank, $uniqueId, $amount, $entityArr, $vndremarks, $userInfo);
-			if($response)
+			if ($response)
 			{
 				DBUtil::commitTransaction($transaction);
 			}
@@ -5236,7 +5265,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	{
 		$vnd_id		 = Yii::app()->request->getParam('vnd_id');
 		$returnSet	 = new ReturnSet();
-		if($vnd_id > 0)
+		if ($vnd_id > 0)
 		{
 			$returnSet = Vendors::model()->updateDetails($vnd_id);
 			echo json_encode(['success' => $returnSet->getStatus(), 'message' => $returnSet->getMessage()]);
@@ -5259,7 +5288,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		/* @var $model Vendors */
 		$model		 = new Vendors('search');
 		$phoneModel	 = new ContactPhone('search');
-		if(isset($_REQUEST['Vendors']) || isset($_REQUEST['ContactPhone']))
+		if (isset($_REQUEST['Vendors']) || isset($_REQUEST['ContactPhone']))
 		{
 			$model->attributes		 = Yii::app()->request->getParam('Vendors');
 			$phoneModel->attributes	 = Yii::app()->request->getParam('ContactPhone');
@@ -5282,7 +5311,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		//$isNMIcheckedZone			 = InventoryRequest::model()->checkNMIzonebyBkg($bkid);
 		$assignBlocked				 = false;
 		$checkaccess				 = Yii::app()->user->checkAccess('CriticalAssignment');
-		if($checkaccess)
+		if ($checkaccess)
 		{
 			$assignBlocked = true;
 		}
@@ -5303,7 +5332,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$mycall			 = Yii::app()->request->getParam('mycall');
 		////////tripdetails tab data
 		$vndTripDetails	 = Vendors::getBookingHistoryById($vndId);
-		if($mycall == 1)
+		if ($mycall == 1)
 		{
 			$this->renderPartial('../vendor/tripDetails', ["dataProvider" => $vndTripDetails], false, true);
 		}
@@ -5321,7 +5350,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 
 		////////triplist tab data
 		$vndRateList = Vendors::getBookingHistoryById($vndId, $isRating);
-		if($mycall == 1)
+		if ($mycall == 1)
 		{
 			$this->renderPartial('../vendor/ratingList', ["dataProvider" => $vndRateList], false, true);
 		}
@@ -5337,7 +5366,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$userInfo	 = UserInfo::getInstance();
 		$vndtemp	 = VendorPref::model()->tempRatings($vndId, $userInfo);
 		$msg		 = "Temporary Ratings boost failed";
-		if($vndtemp == 1)
+		if ($vndtemp == 1)
 		{
 			$msg = "Temporary Ratings boost added";
 		}
@@ -5354,23 +5383,29 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	public function actionvendorVehicleDetails()
 	{
 		$vndId	 = Yii::app()->request->getParam('vndId');
-		$cabData = VendorVehicle::getVehicleListByVndId($vndId);
+		$vndIds	 = Vendors::getRelatedIds($vndId);
+		$cabData = VendorVehicle::getVehicleListByVndId($vndIds, true);
 		$this->renderPartial("vehicleDetails", ["cabData" => $cabData], false, true);
 	}
 
 	public function actionvendorDriverDetails()
 	{
 		$vndId		 = Yii::app()->request->getParam('vndId');
-		$driverData	 = Drivers::getLstByVendor($vndId);
+		$vndIds		 = Vendors::getRelatedIds($vndId);
+		$driverData	 = Drivers::getLstByVendor($vndIds);
 		$this->renderPartial("driverDetails", ["driverData" => $driverData], false, true);
 	}
 
 	public function actionvendorAccountDetails()
 	{
-		$vndId			 = Yii::app()->request->getParam('vndId');
+		$vndId = Yii::app()->request->getParam('vndId');
+
+		$vndIds			 = Vendors::getRelatedIds($vndId);
 		$data			 = Vendors::model()->getViewDetailbyId($vndId);
 		$vendorAmount	 = AccountTransDetails::model()->calAmountByVendorId($vndId);
-		$this->renderPartial("accountDetails", ["data" => $data, "calAmount" => $vendorAmount], false, true);
+		$acctData		 = AccountTransDetails::getLastPaymentReceived($vndIds, '2');
+
+		$this->renderPartial("accountDetails", ["data" => $data, 'acctData' => $acctData, "calAmount" => $vendorAmount], false, true);
 	}
 
 	public function actionvendorZoneDetails()
@@ -5386,7 +5421,11 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 		$mycall			 = Yii::app()->request->getParam('mycall');
 		$vndStats		 = VendorStats::model()->getbyVendorId($vndId);
 		$dependencyStat	 = VendorStats::calcDependency($vndId);
-		$this->renderPartial("profileStrength", ["vndStats" => $vndStats, 'mycall' => $mycall, 'dependency' => $dependencyStat], false, true);
+		$vendorAccount	 = AccountTransDetails::model()->calAmountByVendorId($vndId);
+
+		$this->renderPartial("profileStrength", ['vendorAccount'	 => $vendorAccount,
+			"vndStats"		 => $vndStats, 'mycall'		 => $mycall,
+			'dependency'	 => $dependencyStat], false, true);
 	}
 
 	public function actionvendorBiddingLog()
@@ -5401,7 +5440,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	{
 		$vndId	 = Yii::app()->request->getParam('vndId');
 		$mycall	 = Yii::app()->request->getParam('mycall');
-		$penalty = AccountTransDetails::model()->getbyVendorId($vndId);
+		$penalty = \AccountTransDetails::model()->getbyVendorId($vndId);
 		$this->renderPartial("vndPenalty", ["penalty" => $penalty, 'mycall' => $mycall], false, true);
 	}
 
@@ -5449,10 +5488,11 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	public function actiongetCoinDetails()
 	{
 		$vndId			 = Yii::app()->request->getParam('vndId');
-		$dataProvider	 = VendorCoins::getCoinList($vndId);
+		$vndIds			 = Vendors::getRelatedIds($vndId);
+		$dataProvider	 = VendorCoins::getCoinList($vndIds);
 		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
 		$dataProvider->setPagination(['params' => array_filter($_GET + $_POST)]);
-		$this->renderPartial('coinDetails', ['dataProvider' => $dataProvider, 'vndId' => $vndId], false, true);
+		$this->renderPartial('coinDetails', ['dataProvider' => $dataProvider, 'vndIds' => $vndIds], false, true);
 	}
 
 	public function actionPenaltyRules()

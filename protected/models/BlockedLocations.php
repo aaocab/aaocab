@@ -17,8 +17,9 @@
  */
 class BlockedLocations extends CActiveRecord
 {
+
 	public $distance;
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -36,13 +37,13 @@ class BlockedLocations extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('bll_created_at', 'required'),
-			array('bll_city_id, bll_active', 'numerical', 'integerOnly'=>true),
-			array('bll_desc', 'length', 'max'=>500),
-			array('bll_lat, bll_long', 'length', 'max'=>10),
+			array('bll_city_id, bll_active', 'numerical', 'integerOnly' => true),
+			array('bll_desc', 'length', 'max' => 500),
+			array('bll_lat, bll_long', 'length', 'max' => 10),
 			array('bll_from_date, bll_to_date, bll_bounds', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('bll_id, bll_desc, bll_city_id, bll_lat, bll_long, bll_from_date, bll_to_date, bll_bounds, bll_active, bll_created_at', 'safe', 'on'=>'search'),
+			array('bll_id, bll_desc, bll_city_id, bll_lat, bll_long, bll_from_date, bll_to_date, bll_bounds, bll_active, bll_created_at', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -63,15 +64,15 @@ class BlockedLocations extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'bll_id' => 'Bll',
-			'bll_desc' => 'Bll Desc',
-			'bll_city_id' => 'Bll City',
-			'bll_lat' => 'Bll Lat',
-			'bll_long' => 'Bll Long',
-			'bll_from_date' => 'Bll From Date',
-			'bll_to_date' => 'Bll To Date',
-			'bll_bounds' => 'Bll Bounds',
-			'bll_active' => 'Bll Active',
+			'bll_id'		 => 'Bll',
+			'bll_desc'		 => 'Bll Desc',
+			'bll_city_id'	 => 'Bll City',
+			'bll_lat'		 => 'Bll Lat',
+			'bll_long'		 => 'Bll Long',
+			'bll_from_date'	 => 'Bll From Date',
+			'bll_to_date'	 => 'Bll To Date',
+			'bll_bounds'	 => 'Bll Bounds',
+			'bll_active'	 => 'Bll Active',
 			'bll_created_at' => 'Bll Created At',
 		);
 	}
@@ -92,21 +93,21 @@ class BlockedLocations extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('bll_id',$this->bll_id);
-		$criteria->compare('bll_desc',$this->bll_desc,true);
-		$criteria->compare('bll_city_id',$this->bll_city_id);
-		$criteria->compare('bll_lat',$this->bll_lat,true);
-		$criteria->compare('bll_long',$this->bll_long,true);
-		$criteria->compare('bll_from_date',$this->bll_from_date,true);
-		$criteria->compare('bll_to_date',$this->bll_to_date,true);
-		$criteria->compare('bll_bounds',$this->bll_bounds,true);
-		$criteria->compare('bll_active',$this->bll_active);
-		$criteria->compare('bll_created_at',$this->bll_created_at,true);
+		$criteria->compare('bll_id', $this->bll_id);
+		$criteria->compare('bll_desc', $this->bll_desc, true);
+		$criteria->compare('bll_city_id', $this->bll_city_id);
+		$criteria->compare('bll_lat', $this->bll_lat, true);
+		$criteria->compare('bll_long', $this->bll_long, true);
+		$criteria->compare('bll_from_date', $this->bll_from_date, true);
+		$criteria->compare('bll_to_date', $this->bll_to_date, true);
+		$criteria->compare('bll_bounds', $this->bll_bounds, true);
+		$criteria->compare('bll_active', $this->bll_active);
+		$criteria->compare('bll_created_at', $this->bll_created_at, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -116,7 +117,7 @@ class BlockedLocations extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return BlockedLocations the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -135,14 +136,11 @@ class BlockedLocations extends CActiveRecord
 						AND bll_long BETWEEN (:long - 0.1) AND (:long + 0.1)
 						AND bll_active = 1 AND checkBounds(bll_bounds, :lat, :long, 0.01)";
 		$params	 = [
-			"lat"		 => $placeObj->coordinates->latitude,
-			"long"		 => $placeObj->coordinates->longitude,
+			"lat"	 => $placeObj->coordinates->latitude,
+			"long"	 => $placeObj->coordinates->longitude,
 		];
 
-		$locationId			 = DBUtil::queryScalar($sql, DBUtil::SDB2(), $params);
-		
+		$locationId = DBUtil::queryScalar($sql, DBUtil::SDB2(), $params);
 		return $locationId;
 	}
-		
-	 
 }

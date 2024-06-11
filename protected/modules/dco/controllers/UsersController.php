@@ -73,9 +73,9 @@ class UsersController extends BaseController
 				'/isExisting', 'validateOtp', 'validateOtpV1', 'processOTP', '/validateVersion', '/validateProvider'
 				, '/logout'
 			);
-			foreach($ri as $value)
+			foreach ($ri as $value)
 			{
-				if(strpos($arr[0], $value))
+				if (strpos($arr[0], $value))
 				{
 					$pos = true;
 				}
@@ -212,6 +212,15 @@ class UsersController extends BaseController
 		$this->onRest('req.get.penaltyRate.render', function () {
 			return $this->renderJSON($this->penaltyRate());
 		});
+		$this->onRest('req.post.notificationLog.render', function () {
+			return $this->renderJSON($this->notifyLog());
+		});
+		$this->onRest('req.post.updateNotificationLog.render', function () {
+			return $this->renderJSON($this->updateNotificationLog());
+		});
+		$this->onRest('req.post.processReadNotification.render', function () {
+			return $this->renderJSON($this->processReadNotification());
+		});
 	}
 
 	/**
@@ -225,7 +234,7 @@ class UsersController extends BaseController
 		try
 		{
 			$data = Yii::app()->request->rawBody;
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -244,7 +253,7 @@ class UsersController extends BaseController
 			$activeVersion	 = Config::get("Version.Android.dco");
 			$appTokenModel	 = AppTokens::registerDevice($obj->getAppToken(), $usr, $activeVersion, $platform);
 
-			if(!$appTokenModel)
+			if (!$appTokenModel)
 			{
 				throw new Exception(json_encode("Unable to register device ."), ReturnSet::ERROR_VALIDATION);
 			}
@@ -255,7 +264,7 @@ class UsersController extends BaseController
 			$returnSet->setData($resObj->setSessToken($appTokenModel));
 			$returnSet->setMessage('Device registered successfully.');
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -276,7 +285,7 @@ class UsersController extends BaseController
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -284,12 +293,12 @@ class UsersController extends BaseController
 			/* @var $obj \Beans\common\DeviceInfo() */
 			$jsonMapper	 = new JsonMapper();
 			$obj		 = $jsonMapper->map($jsonObj, new \Beans\common\DeviceInfo());
-			if(empty($authToken) || empty($obj->fcmToken))
+			if (empty($authToken) || empty($obj->fcmToken))
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$resultData = AppTokens::updateFcm($authToken, $obj->fcmToken);
-			if($resultData['success'] == false)
+			if ($resultData['success'] == false)
 			{
 				throw new Exception($resultData['message'], ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -297,7 +306,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setMessage("Token updated sucessfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 			DBUtil::rollbackTransaction($transaction);
@@ -306,7 +315,7 @@ class UsersController extends BaseController
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 * @return ReturnSet
 	 * @throws Exception
 	 */
@@ -317,7 +326,7 @@ class UsersController extends BaseController
 		$authToken	 = Yii::app()->request->getRestToken();
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -341,14 +350,14 @@ class UsersController extends BaseController
 			$obj->device = $deviceObj;
 			$loginType	 = $obj->type;
 
-			switch($loginType)
+			switch ($loginType)
 			{
 				case 1 : //password
 
 					$userModel = $obj->getUserLoginModel();
 
 					$result = CActiveForm::validate($userModel);
-					if($result != '[]')
+					if ($result != '[]')
 					{
 						$errors = $userModel->getErrors();
 						throw new Exception(CJSON::encode($errors), ReturnSet::ERROR_VALIDATION);
@@ -358,7 +367,7 @@ class UsersController extends BaseController
 					$passWord	 = $userModel->usr_password;
 					$email		 = $userModel->usr_email;
 					$identity	 = new UserIdentity($email, $passWord);
-					if(!$identity->authenticate())
+					if (!$identity->authenticate())
 					{
 						throw new Exception("Unable to authenticate", 400);
 					}
@@ -374,7 +383,7 @@ class UsersController extends BaseController
 
 					$authModel	 = $obj->socialResponse->getSocialModel();
 					$userModel	 = $authModel->getUserModel();
-					if(!$userModel)
+					if (!$userModel)
 					{
 						$userModel = Users::validateInstance($authModel, true);
 					}
@@ -384,17 +393,16 @@ class UsersController extends BaseController
 					break;
 			}
 
-			if(!$userModel)
+			if (!$userModel)
 			{
 				throw new Exception(json_encode(["Unable to login."]), ReturnSet::ERROR_VALIDATION);
 			}
 			$identity = $this->authenticateUser($userModel);
-			if(!$identity)
+			if (!$identity)
 			{
 				throw new Exception(json_encode(["Unable to get user identity."]), ReturnSet::ERROR_VALIDATION);
 			}
 			//Logger::trace("response : " . json_encode($userModel));
-
 //			$contactData	 = ContactProfile::getEntitybyUserId($userModel->user_id);
 
 			$refContactData	 = ContactProfile::getEntitybyUserId($userModel->user_id);
@@ -409,7 +417,7 @@ class UsersController extends BaseController
 
 			$vndModel = Vendors::model()->findByPk($vndId);
 
-			if($drvId > 0 && (!$vndModel || ($vndModel->vnd_active != 1)))
+			if ($drvId > 0 && (!$vndModel || ($vndModel->vnd_active != 1)))
 			{
 				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
 				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
@@ -421,13 +429,13 @@ class UsersController extends BaseController
 				goto registerUrl;
 			}
 
-			if(!$vndId || $vndId == '')
+			if (!$vndId || $vndId == '')
 			{
 				$userType		 = ($userType == UserInfo::TYPE_VENDOR) ? UserInfo::TYPE_CONSUMER : $userType;
 				$approvalStatus	 = 0;
 				goto registerUrl;
 			}
-			if(!$drvId || $drvId == '')
+			if (!$drvId || $drvId == '')
 			{
 				$userType		 = ($vndId > 0) ? $userType : UserInfo::TYPE_CONSUMER;
 				$approvalStatus	 = 0;
@@ -437,7 +445,7 @@ class UsersController extends BaseController
 //
 			$vndStatus = Vendors::model()->findByPk($vndId)->vnd_active;
 
-			if(!in_array($vndStatus, [1, 2]))
+			if (!in_array($vndStatus, [1, 2]))
 			{
 				$approvalStatus = 0;
 				goto registerUrl;
@@ -465,14 +473,14 @@ class UsersController extends BaseController
 			$resArr['type']				 = $loginType;
 			$resArr['profile']			 = $userSession;
 			$resArr['approvalStatus']	 = $approvalStatus;
-			if($approvalStatus == 0)
+			if ($approvalStatus == 0)
 			{
 				$resArr['url'] = $this->getUrlByJwt($JWToken);
 			}
 
 
 			$phoneData = \ContactPhone::getPrimaryNumber($contactData['cr_contact_id'], true);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$resArr['missingData'][] = 1;
 			}
@@ -485,7 +493,7 @@ class UsersController extends BaseController
 			end:
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -504,7 +512,7 @@ class UsersController extends BaseController
 		$authToken	 = Yii::app()->request->getRestToken();
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -524,14 +532,14 @@ class UsersController extends BaseController
 			$obj->device = $deviceObj;
 			$loginType	 = $obj->type;
 
-			switch($loginType)
+			switch ($loginType)
 			{
 				case 1 : //password
 
 					$userModel = $obj->getUserLoginModel();
 
 					$result = CActiveForm::validate($userModel);
-					if($result != '[]')
+					if ($result != '[]')
 					{
 						$errors = $userModel->getErrors();
 						throw new Exception(CJSON::encode($errors), ReturnSet::ERROR_VALIDATION);
@@ -541,7 +549,7 @@ class UsersController extends BaseController
 					$passWord	 = $userModel->usr_password;
 					$email		 = $userModel->usr_email;
 					$identity	 = new UserIdentity($email, $passWord);
-					if(!$identity->authenticate())
+					if (!$identity->authenticate())
 					{
 						throw new Exception("Unable to authenticate", 400);
 					}
@@ -557,7 +565,7 @@ class UsersController extends BaseController
 
 					$authModel	 = $obj->socialResponse->getSocialModel();
 					$userModel	 = $authModel->getUserModel();
-					if(!$userModel)
+					if (!$userModel)
 					{
 						$userModel = Users::validateInstance($authModel, true);
 					}
@@ -567,17 +575,16 @@ class UsersController extends BaseController
 					break;
 			}
 
-			if(!$userModel)
+			if (!$userModel)
 			{
 				throw new Exception(json_encode(["Unable to login."]), ReturnSet::ERROR_VALIDATION);
 			}
 			$identity = $this->authenticateUser($userModel);
-			if(!$identity)
+			if (!$identity)
 			{
 				throw new Exception(json_encode(["Unable to get user identity."]), ReturnSet::ERROR_VALIDATION);
 			}
 			//Logger::trace("response : " . json_encode($userModel));
-
 //			$contactData = ContactProfile::getEntitybyUserId($userModel->user_id);
 
 			$refContactData	 = ContactProfile::getEntitybyUserId($userModel->user_id);
@@ -588,14 +595,14 @@ class UsersController extends BaseController
 			$approvalStatus	 = 1;
 			// function used for approval status
 
-			if($vndId > 0)
+			if ($vndId > 0)
 			{
 				$userType		 = UserInfo::TYPE_VENDOR;
 				$approvalStatus	 = VendorDriver::checkApprovalStatus($vndId);
 				goto registerUrl;
 			}
 
-			if($drvId > 0)
+			if ($drvId > 0)
 			{
 				$userType = UserInfo::TYPE_DRIVER;
 
@@ -603,7 +610,7 @@ class UsersController extends BaseController
 				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
 				goto registerUrl;
 			}
-			if($vndId == '' && $drvId == '')
+			if ($vndId == '' && $drvId == '')
 			{
 				$userType		 = UserInfo::TYPE_CONSUMER;
 				$approvalStatus	 = 0;
@@ -625,14 +632,14 @@ class UsersController extends BaseController
 			$resArr['type']				 = $loginType;
 			$resArr['profile']			 = $userSession;
 			$resArr['approvalStatus']	 = $approvalStatus;
-			if($approvalStatus == 0)
+			if ($approvalStatus == 0)
 			{
 				$resArr['url'] = $this->getUrlByJwt($JWToken);
 			}
 
 
 			$phoneData = \ContactPhone::getPrimaryNumber($contactData['cr_contact_id'], true);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$resArr['missingData'][] = 1;
 			}
@@ -645,7 +652,7 @@ class UsersController extends BaseController
 			end:
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -664,7 +671,7 @@ class UsersController extends BaseController
 		$authToken	 = Yii::app()->request->getRestToken();
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -684,14 +691,14 @@ class UsersController extends BaseController
 			$obj->device = $deviceObj;
 			$loginType	 = $obj->type;
 
-			switch($loginType)
+			switch ($loginType)
 			{
 				case 1 : //password
 
 					$userModel = $obj->getUserLoginModel();
 
 					$result = CActiveForm::validate($userModel);
-					if($result != '[]')
+					if ($result != '[]')
 					{
 						$errors = $userModel->getErrors();
 						throw new Exception(CJSON::encode($errors), ReturnSet::ERROR_VALIDATION);
@@ -701,7 +708,7 @@ class UsersController extends BaseController
 					$passWord	 = $userModel->usr_password;
 					$email		 = $userModel->usr_email;
 					$identity	 = new UserIdentity($email, $passWord);
-					if(!$identity->authenticate())
+					if (!$identity->authenticate())
 					{
 						throw new Exception("Unable to authenticate", 400);
 					}
@@ -717,7 +724,7 @@ class UsersController extends BaseController
 
 					$authModel	 = $obj->socialResponse->getSocialModel();
 					$userModel	 = $authModel->getUserModel();
-					if(!$userModel)
+					if (!$userModel)
 					{
 						$userModel = Users::validateInstance($authModel, true);
 					}
@@ -727,12 +734,12 @@ class UsersController extends BaseController
 					break;
 			}
 
-			if(!$userModel)
+			if (!$userModel)
 			{
 				throw new Exception(json_encode(["Unable to login."]), ReturnSet::ERROR_VALIDATION);
 			}
 			$identity = $this->authenticateUser($userModel);
-			if(!$identity)
+			if (!$identity)
 			{
 				throw new Exception(json_encode(["Unable to get user identity."]), ReturnSet::ERROR_VALIDATION);
 			}
@@ -746,57 +753,54 @@ class UsersController extends BaseController
 			$drvId			 = $contactData['cr_is_driver'];
 			$approvalStatus	 = 1;
 			// function used for approval status
-			if($drvId > 0)
+			if ($drvId > 0)
 			{
-				$userType = UserInfo::TYPE_DRIVER;
-
-				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
-				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
-				$drvStat		 = Drivers::model()->findByPk($drvId)->drv_is_freeze;
-				if($drvStat == 1)
+				$userType	 = UserInfo::TYPE_DRIVER;
+				$drvActive	 = $contactData['drv_active'];
+//				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
+//				$approvalStatus	 = (in_array($drvStatus, [1, 2, 3, 4]) ) ? 1 : 0;
+				$drvFreeze	 = Drivers::model()->findByPk($drvId)->drv_is_freeze;
+				if ($drvFreeze == 1 || $drvActive != 1)
 				{
-					$driverBlock				 = 1;
-					$contactData['cr_is_driver'] = 0;
+					$driverBlock = 1;
+//					$contactData['cr_is_driver'] = 0;
 				}
 				//goto registerUrl;
 			}
-			if($vndId > 0)
+			if ($vndId > 0)
 			{
 				$userType	 = UserInfo::TYPE_VENDOR;
 				//$approvalStatus	 = VendorDriver::checkApprovalStatus($vndId);
 				$vndStatus	 = Vendors::model()->findByPk($vndId)->vnd_active;
-				if($vndStatus == 2)
+				if ($vndStatus == 2)
 				{
-					$vendorBlock				 = 1;
-					$contactData['cr_is_vendor'] = 0;
+					$vendorBlock = 1;
+					//	$contactData['cr_is_vendor'] = 0;
 				}
 				//goto registerUrl;
 			}
 
-
-			if($vndId == '' && $drvId == '')
+			if ($vndId == '' && $drvId == '')
 			{
 				$userType		 = UserInfo::TYPE_CONSUMER;
 				$approvalStatus	 = 0;
 				goto registerUrl;
 			}
-			if($vendorBlock == 1 && $driverBlock == 1)
+			if ($vendorBlock == 1 && $driverBlock == 1)
 			{
 				throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
 			}
-			if($vndId == '' && $driverBlock == 1)
+			if ($vndId == '' && $driverBlock == 1)
 			{
-				throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
+				//	throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
 			}
-			if($drvId == '' && $vendorBlock == 1)
+			if ($drvId == '' && $vendorBlock == 1)
 			{
-				throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
+				//	throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
 			}
 			registerUrl:
 
-
-
-			$JWToken = $this->getJWToken($userModel, $appModel, $userType,$identity);
+			$JWToken = $this->getJWToken($userModel, $appModel, $userType, $identity);
 
 			/* $userSession = new \Beans\common\UserSession();
 			  $userSession->setLoginResponse($contactData); */
@@ -808,14 +812,14 @@ class UsersController extends BaseController
 			$resArr['type']				 = $loginType;
 			$resArr['profile']			 = $userProfile;
 			$resArr['approvalStatus']	 = $approvalStatus;
-			if($approvalStatus == 0)
+			if ($approvalStatus == 0)
 			{
 				$resArr['url'] = $this->getUrlByJwt($JWToken);
 			}
 
 			$refCttId	 = $contactData['cr_contact_id'];
 			$phoneData	 = \ContactPhone::getPrimaryNumber($contactData['cr_contact_id'], true, $refCttId);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$resArr['missingData'][] = 1;
 			}
@@ -828,11 +832,10 @@ class UsersController extends BaseController
 			end:
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
-
 		return $returnSet;
 	}
 
@@ -849,11 +852,11 @@ class UsersController extends BaseController
 		try
 		{
 
-			if(!$authToken)
+			if (!$authToken)
 			{
 				throw new Exception("Invalid login ", ReturnSet::ERROR_UNAUTHORISED);
 			}
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -870,24 +873,24 @@ class UsersController extends BaseController
 			$isEmail	 = Filter::validateEmail($username);
 			$isPhone	 = false;
 
-			if(!$isEmail)
+			if (!$isEmail)
 			{
 				$isPhone = Filter::processPhoneNumber($username);
 			}
 
-			if(!$isEmail && !$isPhone)
+			if (!$isEmail && !$isPhone)
 			{
 				throw new Exception(json_encode(["Please enter valid email/phone number. Unable to authenticate."]), ReturnSet::ERROR_INVALID_DATA);
 			}
 			$userEmail	 = '';
 			$userPhone	 = $username;
-			if($isEmail)
+			if ($isEmail)
 			{
 				$userEmail	 = $username;
 				$userPhone	 = '';
 			}
 			$contactId = \Contact::getByEmailPhone($userEmail, $userPhone);
-			if($contactId == '')
+			if ($contactId == '')
 			{
 				throw new Exception(("Sorry, this contact is not registered with us"), ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
@@ -898,7 +901,7 @@ class UsersController extends BaseController
 
 			$ctVerify->getModel();
 			$isCerfAllowed = 0;
-			if(property_exists($jsonObj, 'isCerf'))
+			if (property_exists($jsonObj, 'isCerf'))
 			{
 				$isCerfAllowed = $jsonObj->isCerf;
 			}
@@ -908,7 +911,7 @@ class UsersController extends BaseController
 
 			$isSend = $this->dispatchOTP($otp, $otpType, $inputValue, $isCerfAllowed, Booking::Platform_App);
 
-			if(!$isSend)
+			if (!$isSend)
 			{
 				throw new Exception('Sorry, unable to send  OTP', ReturnSet::ERROR_FAILED);
 			}
@@ -923,7 +926,7 @@ class UsersController extends BaseController
 			$returnSet->setData($objResponse);
 			$returnSet->setMessage('OTP sent successfully');
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -942,7 +945,7 @@ class UsersController extends BaseController
 		$authToken	 = Yii::app()->request->getRestToken();
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -953,12 +956,12 @@ class UsersController extends BaseController
 			$isEmail	 = Filter::validateEmail($username);
 			$isPhone	 = false;
 
-			if(!$isEmail)
+			if (!$isEmail)
 			{
 				$isPhone = Filter::processPhoneNumber($username);
 			}
 
-			if(!$isEmail && !$isPhone)
+			if (!$isEmail && !$isPhone)
 			{
 				throw new Exception(json_encode(["Please enter valid email/phone number. Unable to validate the provider type."]), ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -977,7 +980,7 @@ class UsersController extends BaseController
 			$returnSet->setData($objResponse);
 			$returnSet->setMessage('Cerf data send successfully');
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -996,7 +999,7 @@ class UsersController extends BaseController
 		$authToken	 = Yii::app()->request->getRestToken();
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1018,13 +1021,13 @@ class UsersController extends BaseController
 
 			$ctVerify = new \Beans\common\ContactVerification($type, $value);
 
-			if(!$ctVerify->getModel())
+			if (!$ctVerify->getModel())
 			{
 				throw new Exception('Sorry, unable to send  OTP', ReturnSet::ERROR_FAILED);
 			}
 
 			$isCerfAllowed = 0;
-			if(property_exists($jsonObj, 'isCerf'))
+			if (property_exists($jsonObj, 'isCerf'))
 			{
 				$isCerfAllowed = $jsonObj->isCerf;
 			}
@@ -1035,7 +1038,7 @@ class UsersController extends BaseController
 
 			$isSend = $this->dispatchOTP($otp, $otpType, $inputValue, $isCerfAllowed, Booking::Platform_App);
 
-			if(!$isSend)
+			if (!$isSend)
 			{
 				throw new Exception('Sorry, unable to send  OTP', ReturnSet::ERROR_FAILED);
 			}
@@ -1050,7 +1053,7 @@ class UsersController extends BaseController
 			$returnSet->setData($objResponse);
 			$returnSet->setMessage('OTP sent successfully');
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1062,7 +1065,7 @@ class UsersController extends BaseController
 
 		$isSend = false;
 
-		switch($otpType)
+		switch ($otpType)
 		{
 			case 1: //sms
 				$isSend	 = emailWrapper::sendOtp($inputValue, $otp);
@@ -1084,7 +1087,7 @@ class UsersController extends BaseController
 
 		$userEmail	 = '';
 		$userPhone	 = $decryptArr->value;
-		if($decryptArr->type == 1)
+		if ($decryptArr->type == 1)
 		{
 			$userEmail	 = $decryptArr->value;
 			$userPhone	 = '';
@@ -1093,13 +1096,12 @@ class UsersController extends BaseController
 		$contactId = \Contact::getByEmailPhone($userEmail, $userPhone);
 
 		\Contact::markVerified($contactId, $decryptArr->type, $decryptArr->value);
- 
 
-		if(!$validate && !$contactId)
+		if (!$validate && !$contactId)
 		{
 			return false;
 		}
-		if(!$contactId)
+		if (!$contactId)
 		{
 			throw new Exception("Sorry, we couldn't find this data in our records", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -1116,7 +1118,7 @@ class UsersController extends BaseController
 		$otp			 = $obj->password; //otpSent
 		$decryptArr		 = json_decode($decryptData);
 		$decryptOtp		 = $decryptArr->otp;  //otpDecrypted
-		if($decryptOtp != $otp)
+		if ($decryptOtp != $otp)
 		{
 			throw new Exception("OTP Mistmached. Please try again", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -1125,7 +1127,8 @@ class UsersController extends BaseController
 
 	public function getJWToken($userModel, $deviceModel, $userType = UserInfo::TYPE_VENDOR, $identity = false)
 	{
-		if(!$identity){
+		if (!$identity)
+		{
 			$identity = $this->authenticateUser($userModel);
 		}
 		//	$contactData = ContactProfile::getEntitybyUserId($userModel->user_id);
@@ -1136,30 +1139,29 @@ class UsersController extends BaseController
 		$contactData	 = ContactProfile::getPrimaryEntitiesByContact($refContactData['ctt_id']);
 		Logger::trace("contactData: " . json_encode($contactData));
 
-		if(empty($contactData))
+		if (empty($contactData))
 		{
 			throw new Exception("Unable to link user", ReturnSet::ERROR_FAILED);
 		}
 		$entityId = null;
-		if($userType == UserInfo::TYPE_CONSUMER && $contactData['cr_is_consumer'] > 0)
+		if ($userType == UserInfo::TYPE_CONSUMER && $contactData['cr_is_consumer'] > 0)
 		{
 			$entityId = $contactData['cr_is_consumer'];
 		}
-		if($userType == UserInfo::TYPE_VENDOR && $contactData['cr_is_vendor'] > 0)
+		if ($userType == UserInfo::TYPE_VENDOR && $contactData['cr_is_vendor'] > 0)
 		{
 			$entityId = $contactData['cr_is_vendor'];
 		}
-
-		if($userType == UserInfo::TYPE_DRIVER && $contactData['cr_is_driver'] > 0)
+		if ($userType == UserInfo::TYPE_DRIVER && $contactData['cr_is_driver'] > 0)
 		{
 			$entityId = $contactData['cr_is_driver'];
 		}
-		if($entityId == null)
+		if ($entityId == null)
 		{
 			throw new Exception("Unable to link entity", ReturnSet::ERROR_FAILED);
 		}
 
-		if($entityId > 0)
+		if ($entityId > 0)
 		{
 			$identity->setEntityID($entityId);
 			$deviceModel->apt_entity_id = $entityId;
@@ -1187,7 +1189,7 @@ class UsersController extends BaseController
 		try
 		{
 			$userInfo = UserInfo::getInstance();
-			if($userInfo->userId > 0)
+			if ($userInfo->userId > 0)
 			{
 				$returnSet->setStatus(true);
 			}
@@ -1241,14 +1243,14 @@ class UsersController extends BaseController
 			  goto registerUrl;
 			  }
 			 */
-			if($vndId > 0)
+			if ($vndId > 0)
 			{
 				$userType		 = UserInfo::TYPE_VENDOR;
 				$approvalStatus	 = VendorDriver::checkApprovalStatus($vndId);
 				goto registerUrl;
 			}
 
-			if($drvId > 0)
+			if ($drvId > 0)
 			{
 				$userType		 = UserInfo::TYPE_DRIVER;
 				$drvId			 = $contactData['cr_is_driver'];
@@ -1256,7 +1258,7 @@ class UsersController extends BaseController
 				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
 				goto registerUrl;
 			}
-			if(!$drvId || $drvId == '')
+			if (!$drvId || $drvId == '')
 			{
 				$userType		 = ($vndId > 0) ? $userType : UserInfo::TYPE_CONSUMER;
 				$approvalStatus	 = 0;
@@ -1269,18 +1271,18 @@ class UsersController extends BaseController
 			$res = JWTokens::validateAppToken($JWToken);
 
 			$entityid = UserInfo::getEntityId();
-			if(!$entityid || !$res->aud)
+			if (!$entityid || !$res->aud)
 			{
 				$entityId = AppTokens::getEntity($res->token);
 
-				if($entityId > 0)
+				if ($entityId > 0)
 				{
 					$JWToken = JWTokens::generateToken($res->token);
 				}
 			}
 			$resArr['jwtoken'] = $JWToken;
 
-			if($contactData)
+			if ($contactData)
 			{
 				$userSession		 = new \Beans\common\UserSession();
 				$userSession->setLoginResponse($contactData);
@@ -1288,12 +1290,12 @@ class UsersController extends BaseController
 			}
 
 			$resArr['approvalStatus'] = $approvalStatus;
-			if($approvalStatus == 0)
+			if ($approvalStatus == 0)
 			{
 				$resArr['url'] = $this->getUrlByJwt($JWToken);
 			}
 			$phoneData = \ContactPhone::getPrimaryNumber($contactData['cr_contact_id'], true);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$resArr['missingData'][] = 1;
 			}
@@ -1303,7 +1305,7 @@ class UsersController extends BaseController
 
 			$returnSet->setData($authResponse);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet->setStatus(false);
 			$returnSet = ReturnSet::setException($ex);
@@ -1318,7 +1320,7 @@ class UsersController extends BaseController
 		try
 		{
 			$userInfo = UserInfo::getInstance();
-			if($userInfo->userId > 0)
+			if ($userInfo->userId > 0)
 			{
 				$returnSet->setStatus(true);
 			}
@@ -1340,14 +1342,19 @@ class UsersController extends BaseController
 
 			$vndModel = Vendors::model()->findByPk($vndId);
 
-			if($vndId > 0)
+			if ($vndId > 0)
 			{
-				$userType		 = UserInfo::TYPE_VENDOR;
-				$approvalStatus	 = VendorDriver::checkApprovalStatus($vndId);
+				$userType = UserInfo::TYPE_VENDOR;
+//				$approvalStatus	 = VendorDriver::checkApprovalStatus($vndId);
+				if ($vndModel->vnd_active > 0)
+				{
+					$approvalStatus = 1;
+				}
+
 				goto registerUrl;
 			}
 
-			if($drvId > 0)
+			if ($drvId > 0)
 			{
 				$userType		 = UserInfo::TYPE_DRIVER;
 				$drvId			 = $contactData['cr_is_driver'];
@@ -1355,7 +1362,7 @@ class UsersController extends BaseController
 				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
 				goto registerUrl;
 			}
-			if(!$drvId || $drvId == '')
+			if (!$drvId || $drvId == '')
 			{
 				$userType		 = ($vndId > 0) ? $userType : UserInfo::TYPE_CONSUMER;
 				$approvalStatus	 = 0;
@@ -1368,18 +1375,18 @@ class UsersController extends BaseController
 			$res = JWTokens::validateAppToken($JWToken);
 
 			$entityid = UserInfo::getEntityId();
-			if(!$entityid || !$res->aud)
+			if (!$entityid || !$res->aud)
 			{
 				$entityId = AppTokens::getEntity($res->token);
 
-				if($entityId > 0)
+				if ($entityId > 0)
 				{
 					$JWToken = JWTokens::generateToken($res->token);
 				}
 			}
 			$resArr['jwtoken'] = $JWToken;
 
-			if($contactData)
+			if ($contactData)
 			{
 				$userProfile		 = new \Beans\common\UserSession();
 				$userProfile->setProfileV1($contactData);
@@ -1387,12 +1394,12 @@ class UsersController extends BaseController
 			}
 
 			$resArr['approvalStatus'] = $approvalStatus;
-			if($approvalStatus == 0)
+			if ($approvalStatus == 0)
 			{
 				$resArr['url'] = $this->getUrlByJwt($JWToken);
 			}
 			$phoneData = \ContactPhone::getPrimaryNumber($contactData['cr_contact_id'], true);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$resArr['missingData'][] = 1;
 			}
@@ -1402,7 +1409,7 @@ class UsersController extends BaseController
 
 			$returnSet->setData($authResponse);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet->setStatus(false);
 			$returnSet = ReturnSet::setException($ex);
@@ -1425,7 +1432,7 @@ class UsersController extends BaseController
 			$returnSet->setData($userProfile);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1447,7 +1454,7 @@ class UsersController extends BaseController
 			$returnSet->setData($userProfile);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1462,28 +1469,24 @@ class UsersController extends BaseController
 
 		try
 		{
-			if($authToken)
+			if ($authToken)
 			{
 				$appModel = AppTokens::validateToken($authToken);
 			}
 
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$jsonObj		 = CJSON::decode($data, false);
 			$activeVersion	 = Config::get("Version.Android.dco");
-			if(!(version_compare($jsonObj->apkVersion, $activeVersion) < 0))
+			if (!(version_compare($jsonObj->apkVersion, $activeVersion) < 0))
 			{
 				$returnSet->setStatus(true);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
-			if($ex->getCode() == 401)
-			{
-				throw new CHttpException($ex->getCode(), $ex->getMessage());
-			}
 			$returnSet = ReturnSet::setException($ex);
 		}
 		return $returnSet;
@@ -1495,7 +1498,7 @@ class UsersController extends BaseController
 		$data		 = Yii::app()->request->rawBody;
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1515,7 +1518,7 @@ class UsersController extends BaseController
 			$vndId		 = UserInfo::getEntityId();
 			$vndCttId	 = \ContactProfile::getByVndId($vndId);
 
-			if(!$cttid)
+			if (!$cttid)
 			{
 				$sAuthModel	 = $obj->initiateSocialAuth();
 				$token		 = $obj->accessToken;
@@ -1523,28 +1526,28 @@ class UsersController extends BaseController
 				$oAuthModel = $sAuthModel->linkContact($token, $vndCttId);
 				ContactEmail::model()->updateEmailByContact($email, $vndCttId);
 
-				if(!$oAuthModel)
+				if (!$oAuthModel)
 				{
 					throw new Exception("Failed to link social account", ReturnSet::ERROR_FAILED);
 				}
 			}
-			else if($vndCttId == $cttid)
+			else if ($vndCttId == $cttid)
 			{
 				$sAuthModel	 = $obj->initiateSocialAuth();
 				$token		 = $obj->accessToken;
 				$userId		 = UserInfo::getUserId();
 
 				$oAuth = $sAuthModel->findByIdentifier($obj->provider, $obj->identifier);
-				if(!$oAuth)
+				if (!$oAuth)
 				{
 					$oAuthModel = $sAuthModel->linkUser($token, $userId);
-					if(!$oAuthModel)
+					if (!$oAuthModel)
 					{
 						throw new Exception("Failed to link social account", ReturnSet::ERROR_FAILED);
 					}
 				}
 			}
-			else if($cttid)
+			else if ($cttid)
 			{
 				throw new Exception("Email already linked ", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 			}
@@ -1555,7 +1558,7 @@ class UsersController extends BaseController
 
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1578,7 +1581,7 @@ class UsersController extends BaseController
 
 			$jwtToken	 = Yii::app()->request->getAuthorizationHeader(false);
 			$success	 = AppTokens::logoutDCO($jwtToken);
-			if(!$success)
+			if (!$success)
 			{
 				throw new Exception("Error in logout", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1586,7 +1589,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setMessage("Logged out successfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1602,7 +1605,7 @@ class UsersController extends BaseController
 			$notificationStatus	 = VendorPref::getGNowNotificationStatus($vndId);
 			$returnSet->setStatus($notificationStatus);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1616,7 +1619,7 @@ class UsersController extends BaseController
 		$jsonObj	 = \CJSON::decode($data, false);
 		try
 		{
-			if(empty($data))
+			if (empty($data))
 			{
 				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1626,14 +1629,14 @@ class UsersController extends BaseController
 			$snoozeTime	 = $jsonObj->snoozeTime;
 
 			$stat = \VendorPref::updateGnowStatus($vndId, $gnowStatus, $snoozeTime);
-			if($stat)
+			if ($stat)
 			{
 				$message = "Notication flag status modified";
 				$returnSet->setStatus(true);
 				$returnSet->setMessage($message);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1648,7 +1651,7 @@ class UsersController extends BaseController
 
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1663,15 +1666,19 @@ class UsersController extends BaseController
 			Logger::trace("jwtToken: {$jwtToken}");
 			/** @var \AppTokens $appRecord */
 			$appRecord	 = \AppTokens::getModelByJWT($jwtToken);
-			if(!$appRecord)
+			if (!$appRecord)
 			{
 				throw new Exception("Device not recognised", ReturnSet::ERROR_INVALID_DATA);
 			}
-			$device		 = $appRecord->apt_device_uuid;
-			$vndId		 = $this->getVendorId(false);
-			$returnSet	 = \VendorStats::updateLastLocationDCO($obj, $device, $vndId);
+			$device	 = $appRecord->apt_device_uuid;
+			$vndId	 = $this->getVendorId(false);
+			$drvId	 = $this->getDriverId(false);
+
+			// $record = $vndModel->getassignList($vndId, 5, 1, 600);
+
+			$returnSet = \VendorStats::updateLastLocationDCO($obj, $device, $vndId, $drvId);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -1687,7 +1694,7 @@ class UsersController extends BaseController
 		$jsonObj	 = CJSON::decode($data, false);
 		try
 		{
-			if(empty($data))
+			if (empty($data))
 			{
 				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1697,13 +1704,13 @@ class UsersController extends BaseController
 
 			$cttModel->ctt_preferred_language	 = $preferredLanguage;
 			$success							 = $cttModel->save();
-			if($success)
+			if ($success)
 			{
 				$returnSet->setMessage("Preferred language updated successfully");
 			}
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = \ReturnSet::setException($ex);
 		}
@@ -1718,14 +1725,14 @@ class UsersController extends BaseController
 		{
 			$langList	 = \Contact::languageList();
 			$langArr	 = [];
-			foreach($langList as $lang)
+			foreach ($langList as $lang)
 			{
 				$langArr[] = \Beans\common\ValueObject::setIdlabel($lang['id'], $lang['text'], $lang['val']);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData($langArr);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = \ReturnSet::setException($ex);
 		}
@@ -1739,7 +1746,7 @@ class UsersController extends BaseController
 		$userLogged		 = false;
 		$isExistingUser	 = false;
 		$approvalStatus	 = 0;
-		if($jwtToken)
+		if ($jwtToken)
 		{
 			/** @var \AppTokens $appRecord */
 			$appRecord		 = \AppTokens::getModelByJWT($jwtToken);
@@ -1756,11 +1763,11 @@ class UsersController extends BaseController
 
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("no request found", \ReturnSet::ERROR_INVALID_DATA);
 			}
-			if(!$authToken)
+			if (!$authToken)
 			{
 				throw new Exception("no token found", \ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1777,7 +1784,7 @@ class UsersController extends BaseController
 			$username	 = $obj->userName;
 			$isPhone	 = \Filter::validatePhoneNumber($username);
 
-			if(!$isPhone)
+			if (!$isPhone)
 			{
 				throw new Exception(json_encode(["Please enter your valid phone number."]), ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1789,35 +1796,34 @@ class UsersController extends BaseController
 			###Profile Block Start###
 			$contactId = \Contact::getByEmailPhone($userEmail, $userPhone);
 
-			if($contactId == '')
+			if ($contactId == '')
 			{
 				goto skipProfile;
 			}
 
 
-			if($userLogged)
+			if ($userLogged)
 			{
 
 				$loggedCttid = $this->getContactId();
 //				$phoneData	 = \ContactPhone::getPrimaryNumber($contactId, true);
-				if($contactId != '' && $loggedCttid != $contactId)
+				if ($contactId != '' && $loggedCttid != $contactId)
 				{
 					throw new Exception(json_encode(["Sorry, this number is linked with other user"]), ReturnSet::ERROR_VALIDATION);
 				}
 			}
 
+//			$contactData = \ContactProfile::getCodeByCttId($contactId);
+			$contactData = \ContactProfile::getPrimaryEntitiesByContact($contactId);
 
-			$contactData = \ContactProfile::getCodeByCttId($contactId);
-
-			if($contactData['cr_is_consumer'] > 0)
+			if ($contactData['cr_is_consumer'] > 0)
 			{
-
 				$appModel->apt_user_id	 = $contactData['cr_is_consumer'];
 				$appModel->save();
 				$isExistingUser			 = true;
 			}
 
-			if($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
+			if ($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
 			{
 				$drvId			 = $contactData['cr_is_driver'];
 				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
@@ -1826,27 +1832,23 @@ class UsersController extends BaseController
 				goto skipCheck;
 			}
 
-
-
-			if(!$contactData['cr_is_vendor'] || $contactData['cr_is_vendor'] == '')
+			if (!$contactData['cr_is_vendor'] || $contactData['cr_is_vendor'] == '')
 			{
 				$approvalStatus = 0;
 				goto skipProfile;
 				//throw new Exception("No vendor is linked with the contact", ReturnSet::ERROR_VALIDATION);
 			}
-			if(!$contactData['cr_is_driver'] || $contactData['cr_is_driver'] == '')
+			if (!$contactData['cr_is_driver'] || $contactData['cr_is_driver'] == '')
 			{
 				$approvalStatus = 0;
 				goto skipProfile;
 				//throw new Exception("No driver is linked with the contact", ReturnSet::ERROR_VALIDATION);
 			}
 
-
-
 			$vndId		 = $contactData['cr_is_vendor'];
-			$vndStatus	 = Vendors::model()->findByPk($vndId)->vnd_active;
+			$vndActive	 = Vendors::model()->findByPk($vndId)->vnd_active;
 
-			if(!in_array($vndStatus, [1, 2]))
+			if ($vndActive == 0)
 			{
 				$approvalStatus = 0;
 				goto skipProfile;
@@ -1861,7 +1863,7 @@ class UsersController extends BaseController
 			$objResponse->profile	 = $userProfile;
 
 			$phoneData = \ContactPhone::getPrimaryNumber($contactId);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$objResponse->missingData[] = 1;
 			}
@@ -1875,7 +1877,7 @@ class UsersController extends BaseController
 			$ctVerify->getModel();
 
 			$isCerfAllowed = 0;
-			if(property_exists($jsonObj, 'isCerf'))
+			if (property_exists($jsonObj, 'isCerf'))
 			{
 				$isCerfAllowed = $jsonObj->isCerf;
 			}
@@ -1884,7 +1886,7 @@ class UsersController extends BaseController
 			$inputValue	 = $ctVerify->value;
 
 			$isSend = $this->dispatchOTP($otp, $otpType, $inputValue, $isCerfAllowed, Booking::Platform_App);
-			if(!$isSend)
+			if (!$isSend)
 			{
 				throw new Exception('Sorry, unable to send  OTP', ReturnSet::ERROR_FAILED);
 			}
@@ -1893,13 +1895,10 @@ class UsersController extends BaseController
 			$jsonData					 = \Filter::removeNull(json_encode($dataArr));
 			$objResponse				 = new \Beans\common\AuthResponse();
 			$objResponse->encodedHash	 = \Filter::encrypt($jsonData);
-
 			###SMS Block End###
 
-
-
 			$dataExist = Contact::searchTempContactsByPhone($userPhone);
-			if($dataExist)
+			if ($dataExist)
 			{
 				$userProfile			 = new \Beans\common\UserSession();
 				$userProfile->setTempUserProfile($dataExist);
@@ -1914,13 +1913,13 @@ class UsersController extends BaseController
 
 			##Start Check temp contact
 			$isExist = \Contact::checkExistingTempContacts($userPhone);
-			if($isExist)
+			if ($isExist)
 			{
 				\Contact::updateTempContactsAttemptedByPhone($userPhone);
 			}
 			##End temp contact
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1934,7 +1933,7 @@ class UsersController extends BaseController
 		$userLogged		 = false;
 		$isExistingUser	 = false;
 		$approvalStatus	 = 0;
-		if($jwtToken)
+		if ($jwtToken)
 		{
 			/** @var \AppTokens $appRecord */
 			$appRecord		 = \AppTokens::getModelByJWT($jwtToken);
@@ -1951,11 +1950,11 @@ class UsersController extends BaseController
 
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("no request found", \ReturnSet::ERROR_INVALID_DATA);
 			}
-			if(!$authToken)
+			if (!$authToken)
 			{
 				throw new Exception("no token found", \ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1972,7 +1971,7 @@ class UsersController extends BaseController
 			$username	 = $obj->userName;
 			$isPhone	 = \Filter::validatePhoneNumber($username);
 
-			if(!$isPhone)
+			if (!$isPhone)
 			{
 				throw new Exception(json_encode(["Please enter your valid phone number."]), ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -1984,35 +1983,33 @@ class UsersController extends BaseController
 			###Profile Block Start###
 			$contactId = \Contact::getByEmailPhone($userEmail, $userPhone);
 
-			if($contactId == '')
+			if ($contactId == '')
 			{
 				goto skipProfile;
 			}
 
-
-			if($userLogged)
+			if ($userLogged)
 			{
-
 				$loggedCttid = $this->getContactId();
 //				$phoneData	 = \ContactPhone::getPrimaryNumber($contactId, true);
-				if($contactId != '' && $loggedCttid != $contactId)
+				if ($contactId != '' && $loggedCttid != $contactId)
 				{
 					throw new Exception(json_encode(["Sorry, this number is linked with other user"]), ReturnSet::ERROR_VALIDATION);
 				}
 			}
 
 
-			$contactData = \ContactProfile::getCodeByCttId($contactId);
+//			$contactData = \ContactProfile::getCodeByCttId($contactId);
+			$contactData = \ContactProfile::getPrimaryEntitiesByContact($contactId);
 
-			if($contactData['cr_is_consumer'] > 0)
+			if ($contactData['cr_is_consumer'] > 0)
 			{
-
 				$appModel->apt_user_id	 = $contactData['cr_is_consumer'];
 				$appModel->save();
 				$isExistingUser			 = true;
 			}
 
-			if($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
+			if ($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
 			{
 				$drvId			 = $contactData['cr_is_driver'];
 				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
@@ -2021,27 +2018,23 @@ class UsersController extends BaseController
 				goto skipCheck;
 			}
 
-
-
-			if(!$contactData['cr_is_vendor'] || $contactData['cr_is_vendor'] == '')
+			if (!$contactData['cr_is_vendor'] || $contactData['cr_is_vendor'] == '')
 			{
 				$approvalStatus = 0;
 				goto skipProfile;
 				//throw new Exception("No vendor is linked with the contact", ReturnSet::ERROR_VALIDATION);
 			}
-			if(!$contactData['cr_is_driver'] || $contactData['cr_is_driver'] == '')
+			if (!$contactData['cr_is_driver'] || $contactData['cr_is_driver'] == '')
 			{
 				$approvalStatus = 0;
 				goto skipProfile;
 				//throw new Exception("No driver is linked with the contact", ReturnSet::ERROR_VALIDATION);
 			}
 
-
-
 			$vndId		 = $contactData['cr_is_vendor'];
-			$vndStatus	 = Vendors::model()->findByPk($vndId)->vnd_active;
+			$vndActive	 = Vendors::model()->findByPk($vndId)->vnd_active;
 
-			if(!in_array($vndStatus, [1, 2]))
+			if ($vndActive == 0)
 			{
 				$approvalStatus = 0;
 				goto skipProfile;
@@ -2056,7 +2049,7 @@ class UsersController extends BaseController
 			$objResponse->profile	 = $userProfile;
 
 			$phoneData = \ContactPhone::getPrimaryNumber($contactId);
-			if(!$phoneData)
+			if (!$phoneData)
 			{
 				$objResponse->missingData[] = 1;
 			}
@@ -2070,7 +2063,7 @@ class UsersController extends BaseController
 			$ctVerify->getModel();
 
 			$isCerfAllowed = 0;
-			if(property_exists($jsonObj, 'isCerf'))
+			if (property_exists($jsonObj, 'isCerf'))
 			{
 				$isCerfAllowed = $jsonObj->isCerf;
 			}
@@ -2079,7 +2072,7 @@ class UsersController extends BaseController
 			$inputValue	 = $ctVerify->value;
 
 			$isSend = $this->dispatchOTP($otp, $otpType, $inputValue, $isCerfAllowed, Booking::Platform_App);
-			if(!$isSend)
+			if (!$isSend)
 			{
 				throw new Exception('Sorry, unable to send  OTP', ReturnSet::ERROR_FAILED);
 			}
@@ -2091,10 +2084,8 @@ class UsersController extends BaseController
 
 			###SMS Block End###
 
-
-
 			$dataExist = Contact::searchTempContactsByPhone($userPhone);
-			if($dataExist)
+			if ($dataExist)
 			{
 
 				$userProfile			 = new \Beans\common\UserSession();
@@ -2110,13 +2101,13 @@ class UsersController extends BaseController
 
 			##Start Check temp contact
 			$isExist = \Contact::checkExistingTempContacts($userPhone);
-			if($isExist)
+			if ($isExist)
 			{
 				\Contact::updateTempContactsAttemptedByPhone($userPhone);
 			}
 			##End temp contact
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2134,7 +2125,7 @@ class UsersController extends BaseController
 
 		$jwtToken	 = Yii::app()->request->getAuthorizationHeader(false);
 		$userLogged	 = false;
-		if($jwtToken)
+		if ($jwtToken)
 		{
 			/** @var \AppTokens $appRecord */
 			$appRecord	 = \AppTokens::getModelByJWT($jwtToken);
@@ -2150,11 +2141,11 @@ class UsersController extends BaseController
 
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
-			if(!$authToken)
+			if (!$authToken)
 			{
 				throw new Exception("no token found", \ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -2172,7 +2163,7 @@ class UsersController extends BaseController
 			$deviceObj->setData($appModel);
 			$obj->device	 = $deviceObj;
 			$approvalStatus	 = 1;
-			if($userLogged)
+			if ($userLogged)
 			{
 				$decryptArr = $this->verifyOTP($obj);
 
@@ -2186,7 +2177,7 @@ class UsersController extends BaseController
 			}
 
 			$resArr = [];
-			if(!$userModel)
+			if (!$userModel)
 			{
 				$approvalStatus = 0;
 				goto registerUrl;
@@ -2198,7 +2189,7 @@ class UsersController extends BaseController
 			$contactData	 = \ContactProfile::getPrimaryEntitiesByContact($refContactData['ctt_id']);
 
 			$cttId = $contactData['cr_contact_id'];
-			if($userLogged)
+			if ($userLogged)
 			{
 				Filter::parsePhoneNumber($userPhone, $code, $number);
 
@@ -2212,7 +2203,7 @@ class UsersController extends BaseController
 			}
 
 			$userType = UserInfo::TYPE_VENDOR;
-			if($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
+			if ($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
 			{
 				$userType	 = UserInfo::TYPE_DRIVER;
 				$JWToken	 = $this->getJWToken($userModel, $appModel, $userType);
@@ -2220,7 +2211,7 @@ class UsersController extends BaseController
 				$drvId			 = $this->getDriverId();
 				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
 				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
-				if($approvalStatus == 0)
+				if ($approvalStatus == 0)
 				{
 					goto userModel;
 				}
@@ -2228,21 +2219,21 @@ class UsersController extends BaseController
 			}
 
 
-			if($contactData['cr_is_driver'] == '')
+			if ($contactData['cr_is_driver'] == '')
 			{
 				$approvalStatus = 0;
 				goto userModel;
 			}
-			if($contactData['cr_is_vendor'] == '')
+			if ($contactData['cr_is_vendor'] == '')
 			{
 				$approvalStatus = 0;
 				goto userModel;
 			}
 			$vndId		 = $contactData['cr_is_vendor'];
-			$vndStatus	 = Vendors::model()->findByPk($vndId)->vnd_active;
+			$vndActive	 = Vendors::model()->findByPk($vndId)->vnd_active;
 
 			/** @var \Contact $cttModel */
-			if(!in_array($vndStatus, [1, 2]))
+			if ($vndActive == 0)
 			{
 				$approvalStatus = 0;
 				goto userModel;
@@ -2277,7 +2268,7 @@ class UsersController extends BaseController
 			$transaction = DBUtil::beginTransaction();
 
 			$returnSet = $cttModel->create(true, UserInfo::TYPE_CONSUMER);
-			if(!$returnSet->isSuccess())
+			if (!$returnSet->isSuccess())
 			{
 				throw new Exception("Sorry, unable to create your accounts", ReturnSet::ERROR_FAILED);
 			}
@@ -2310,13 +2301,13 @@ class UsersController extends BaseController
 			$cttModel	 = \Contact::model()->getByUserId($userModel->user_id);
 			$phone		 = $cttModel->contactPhones[0]->phn_phone_no;
 			$isExist	 = \Contact::checkExistingTempContacts($phone);
-			if($isExist)
+			if ($isExist)
 			{
 				\Contact::updateTempContactsRegisteredByPhone($phone, $cttModel->ctt_id);
 			}
 			##end Check temp contact
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2329,7 +2320,7 @@ class UsersController extends BaseController
 
 		$jwtToken	 = Yii::app()->request->getAuthorizationHeader(false);
 		$userLogged	 = false;
-		if($jwtToken)
+		if ($jwtToken)
 		{
 			/** @var \AppTokens $appRecord */
 			$appRecord	 = \AppTokens::getModelByJWT($jwtToken);
@@ -2345,11 +2336,11 @@ class UsersController extends BaseController
 
 		try
 		{
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
-			if(!$authToken)
+			if (!$authToken)
 			{
 				throw new Exception("no token found", \ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -2367,7 +2358,7 @@ class UsersController extends BaseController
 			$deviceObj->setData($appModel);
 			$obj->device	 = $deviceObj;
 			$approvalStatus	 = 1;
-			if($userLogged)
+			if ($userLogged)
 			{
 				$decryptArr = $this->verifyOTP($obj);
 
@@ -2381,7 +2372,7 @@ class UsersController extends BaseController
 			}
 
 			$resArr = [];
-			if(!$userModel)
+			if (!$userModel)
 			{
 				$approvalStatus = 0;
 				goto registerUrl;
@@ -2393,7 +2384,7 @@ class UsersController extends BaseController
 			$contactData	 = ContactProfile::getPrimaryEntitiesByContact($refContactData['ctt_id']);
 
 			$cttId = $contactData['cr_contact_id'];
-			if($userLogged)
+			if ($userLogged)
 			{
 				Filter::parsePhoneNumber($userPhone, $code, $number);
 
@@ -2407,7 +2398,7 @@ class UsersController extends BaseController
 			}
 
 			$userType = UserInfo::TYPE_VENDOR;
-			if($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
+			if ($contactData['cr_is_driver'] > 0 && !$contactData['cr_is_vendor'])
 			{
 				$userType	 = UserInfo::TYPE_DRIVER;
 				$JWToken	 = $this->getJWToken($userModel, $appModel, $userType);
@@ -2416,12 +2407,12 @@ class UsersController extends BaseController
 				$drvStatus		 = Drivers::model()->findByPk($drvId)->drv_approved;
 				$approvalStatus	 = ($drvStatus == 1) ? 1 : 0;
 				$drvStat		 = Drivers::model()->findByPk($drvId)->drv_is_freeze;
-				if($drvStat == 1)
+				if ($drvStat == 1)
 				{
 					$driverBlock				 = 1;
 					$contactData['cr_is_driver'] = 0;
 				}
-				if($approvalStatus == 0)
+				if ($approvalStatus == 0)
 				{
 					goto userModel;
 				}
@@ -2440,8 +2431,8 @@ class UsersController extends BaseController
 			  goto userModel;
 			  } */
 			$vndId		 = $contactData['cr_is_vendor'];
-			$vndStatus	 = Vendors::model()->findByPk($vndId)->vnd_active;
-			if($vndStatus == 2)
+			$vndActive	 = Vendors::model()->findByPk($vndId)->vnd_active;
+			if ($vndActive == 0)
 			{
 				$vendorBlock				 = 1;
 				//throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
@@ -2488,7 +2479,7 @@ class UsersController extends BaseController
 			$transaction = DBUtil::beginTransaction();
 
 			$returnSet = $cttModel->create(true, UserInfo::TYPE_CONSUMER);
-			if(!$returnSet->isSuccess())
+			if (!$returnSet->isSuccess())
 			{
 				throw new Exception("Sorry, unable to create your accounts", ReturnSet::ERROR_FAILED);
 			}
@@ -2496,15 +2487,15 @@ class UsersController extends BaseController
 			DBUtil::commitTransaction($transaction);
 			#User model
 			userModel:
-			if($vendorBlock == 1 && $driverBlock == 1)
+			if ($vendorBlock == 1 && $driverBlock == 1)
 			{
 				throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
 			}
-			if($vndId < 1 && $driverBlock == 1)
+			if ($vndId < 1 && $driverBlock == 1)
 			{
 				throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
 			}
-			if($drvId < 1 && $vendorBlock == 1)
+			if ($drvId < 1 && $vendorBlock == 1)
 			{
 				throw new Exception(json_encode(["Unable to login, your account is blocked."]), ReturnSet::ERROR_VALIDATION);
 			}
@@ -2533,13 +2524,13 @@ class UsersController extends BaseController
 			$cttModel	 = \Contact::model()->getByUserId($userModel->user_id);
 			$phone		 = $cttModel->contactPhones[0]->phn_phone_no;
 			$isExist	 = \Contact::checkExistingTempContacts($phone);
-			if($isExist)
+			if ($isExist)
 			{
 				\Contact::updateTempContactsRegisteredByPhone($phone, $cttModel->ctt_id);
 			}
 			##end Check temp contact
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2569,7 +2560,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($cityArr);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = \ReturnSet::setException($ex);
 		}
@@ -2589,7 +2580,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($stateArr);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = \ReturnSet::setException($ex);
 		}
@@ -2605,7 +2596,7 @@ class UsersController extends BaseController
 		Logger::info("request : " . $stateId);
 		try
 		{
-			if(!$stateId)
+			if (!$stateId)
 			{
 				throw new Exception("Select a state first", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -2616,7 +2607,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($cityArr);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = \ReturnSet::setException($ex);
 		}
@@ -2630,7 +2621,7 @@ class UsersController extends BaseController
 		$username			 = ($userModel->username) ? $userModel->username : $userModel->usr_email;
 		$identity			 = new UserIdentity($username, $passWord);
 		$identity->userId	 = $userModel->user_id;
-		if(!$identity->authenticate())
+		if (!$identity->authenticate())
 		{
 			throw new Exception("Unable to authenticate", 400);
 		}
@@ -2644,8 +2635,11 @@ class UsersController extends BaseController
 		Logger::trace("request : " . $data);
 		try
 		{
+			$cttId	 = $this->getContactId();
+			//check edit permission
+			ContactProfile::checkPermission($cttId);
 			$jsonObj = CJSON::decode($data, false);
-			if(empty($jsonObj))
+			if (empty($jsonObj))
 			{
 				throw new Exception(json_encode("No data Found."), ReturnSet::ERROR_VALIDATION);
 			}
@@ -2653,24 +2647,24 @@ class UsersController extends BaseController
 
 			$image		 = $_FILES['image'];
 			$docImage	 = CUploadedFile::getInstanceByName('image');
-			if(empty($image))
+			if (empty($image))
 			{
 				throw new Exception(json_encode("No Image Found."), ReturnSet::ERROR_VALIDATION);
 			}
 
-			$cttId		 = $this->getContactId();
-			$returnSet	 = Document::saveDcoImage($docImage, $cttId, $type);
-			if($returnSet->getStatus())
+
+			$returnSet = Document::saveDcoImage($docImage, $cttId, $type);
+			if ($returnSet->getStatus())
 			{
 				$cttLogDesc = ContactLog::model()->eventList($type);
 				ContactLog::model()->createLog($cttId, $cttLogDesc, $type);
 
 				$vendorId = $this->getVendorId(false);
-				if($vendorId > 0)
+				if ($vendorId > 0)
 				{
 					$event_id	 = VendorsLog::VENDOR_FILE_UPLOAD;
 					$docTypeName = VendorsLog::docTypeDCO($type);
-					if($docTypeName != '')
+					if ($docTypeName != '')
 					{
 						$logArray	 = VendorsLog::model()->getLogByDocumentType($docTypeName);
 						$logDesc	 = VendorsLog::model()->getEventByEventId($logArray['upload']);
@@ -2679,11 +2673,11 @@ class UsersController extends BaseController
 					}
 				}
 				$driverId = $this->getDriverId(false);
-				if($driverId > 0)
+				if ($driverId > 0)
 				{
 					$event_id	 = DriversLog::DRIVER_FILE_UPLOAD;
 					$docTypeName = DriversLog::docTypeDCO($type);
-					if($docTypeName != '')
+					if ($docTypeName != '')
 					{
 						$logArray	 = DriversLog::model()->getLogByDocumentType($docTypeName);
 						$logDesc	 = DriversLog::model()->getEventByEventId($logArray['upload']);
@@ -2697,7 +2691,7 @@ class UsersController extends BaseController
 				$returnSet->setMessage($message);
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -2711,10 +2705,11 @@ class UsersController extends BaseController
 		try
 		{
 			$cttId	 = $this->getContactId();
-			$vndId	 = $this->getVendorId(false);
+			//check edit permission
+			ContactProfile::checkPermission($cttId);
 			$jsonval = Yii::app()->request->rawBody;
 
-			if(!$jsonval)
+			if (!$jsonval)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -2729,18 +2724,18 @@ class UsersController extends BaseController
 
 			$preferenceRequest = $reqData->vendor->preferences;
 
-			if($contactRequest)
+			if ($contactRequest)
 			{
 				$success = Contact::updateProfileDCO($contactRequest, $cttId);
 			}
 
-			if($vndId > 0 && $preferenceRequest)
+			if ($vndId > 0 && $preferenceRequest)
 			{
 				$success = VendorPref::updatePreferenceService($preferenceRequest, $vndId);
 			}
 			$returnSet = $this->getProfileV1();
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2754,20 +2749,21 @@ class UsersController extends BaseController
 		try
 		{
 			$cttId	 = $this->getContactId();
+			ContactProfile::checkPermission($cttId);
 			/** @var \Contact $model */
 			$model	 = Contact::model()->findByPk($cttId);
 			$image	 = $_FILES['image'];
-			if(empty($image))
+			if (empty($image))
 			{
 				throw new Exception(json_encode("No Image Found."), ReturnSet::ERROR_VALIDATION);
 			}
 			$path			 = null;
 			$profileImage	 = CUploadedFile::getInstanceByName('image');
-			if($profileImage != "")
+			if ($profileImage != "")
 			{
 				$path = $model->saveDcoProfileImage($profileImage);
 			}
-			if(!$path)
+			if (!$path)
 			{
 				throw new Exception(json_encode("Error in profile image upload"), ReturnSet::ERROR_VALIDATION);
 			}
@@ -2775,7 +2771,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setMessage($message);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2797,22 +2793,22 @@ class UsersController extends BaseController
 			$userInfo		 = UserInfo::getInstance();
 			$agreementDate	 = date("Y-m-d");
 			$image			 = $_FILES['image'];
-			if(empty($image))
+			if (empty($image))
 			{
 				throw new Exception(json_encode("No Image Found."), ReturnSet::ERROR_VALIDATION);
 			}
 			$path			 = null;
 			$uploadedFile	 = CUploadedFile::getInstanceByName('image');
-			if($uploadedFile != "")
+			if ($uploadedFile != "")
 			{
 				$path = Vendors::model()->uploadVendorFiles($uploadedFile, $vndId, 'agreement');
-				if(!$path)
+				if (!$path)
 				{
 					throw new Exception(json_encode("Error in profile image upload"), ReturnSet::ERROR_VALIDATION);
 				}
 
 				$success = VendorAgreement::model()->saveDocument($vndId, $path, $userInfo, 'agreement', $agreementDate);
-				if(!$success)
+				if (!$success)
 				{
 					throw new Exception('Failed to save vendor agreement.');
 				}
@@ -2822,7 +2818,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setMessage($message);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2841,12 +2837,12 @@ class UsersController extends BaseController
 			$cttId		 = $this->getContactId();
 			$image		 = $_FILES['vnd_digital_sign'];
 
-			if(empty($image))
+			if (empty($image))
 			{
 				throw new Exception(json_encode("No Image Found."), ReturnSet::ERROR_VALIDATION);
 			}
 			$jsonval = Yii::app()->request->getParam('data');
-			if(!$jsonval)
+			if (!$jsonval)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -2854,23 +2850,23 @@ class UsersController extends BaseController
 			$vndDigitalTmp	 = $_FILES['vnd_digital_sign']['tmp_name'];
 			$type			 = "digital_sign";
 			$result2		 = Document::model()->saveVendorImage($vndDigital, $vndDigitalTmp, $vndId, $cttId, $type);
-			if(empty($result2))
+			if (empty($result2))
 			{
 				throw new Exception(json_encode("Image not Uploaded."), ReturnSet::ERROR_VALIDATION);
 			}
 			$path1 = str_replace("\\", "\\\\", $result2['path']);
 
 			$jsonObj = CJSON::decode($jsonval, false);
-			if(VendorAgreement::model()->updateSignature($vndId, $path1))
+			if (VendorAgreement::model()->updateSignature($vndId, $path1))
 			{
 
 				$appToken	 = AppTokens::model()->getByUserTypeAndUserId($userId, 2);
 				$digitalRes	 = new \Beans\common\Document();
 				$modelDig	 = $digitalRes->getDigitalData($jsonObj, $appToken, $vndId);
-				if($modelDig->update())
+				if ($modelDig->update())
 				{
 
-					if($model->vendorPrefs->vnp_is_freeze == 2)
+					if ($model->vendorPrefs->vnp_is_freeze == 2)
 					{
 						$model->vendorPrefs->vnp_is_freeze = 0;
 						$model->vendorPrefs->save();
@@ -2884,7 +2880,7 @@ class UsersController extends BaseController
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2899,7 +2895,7 @@ class UsersController extends BaseController
 		{
 			$userId	 = UserInfo::getUserId();
 			$jsonval = Yii::app()->request->getParam('data');
-			if(!$jsonval)
+			if (!$jsonval)
 			{
 				throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -2910,6 +2906,17 @@ class UsersController extends BaseController
 			$token		 = AppTokens::updateDeviceSettings($token, $jsonval);
 			$vndId		 = $this->getVendorId(false);
 			$drvId		 = $this->getDriverId(false);
+			if ($vndId > 0)
+			{
+				$vndModel = Vendors::model()->findByPk($vndId);
+				if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+				{
+					$activeList	 = $vndModel->vendorStatus;
+					$status		 = $activeList[$vndModel->vnd_active];
+
+					throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+				}
+			}
 			$data		 = Users::model()->getDCOStatusDetails($vndId, $drvId);
 			$status		 = new \Beans\common\User();
 			$dataList	 = $status->getStatusDetails($data);
@@ -2917,7 +2924,7 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($dataList);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2930,12 +2937,12 @@ class UsersController extends BaseController
 		try
 		{
 			$vendorId = $this->getVendorId(false);
-			if(!$vendorId)
+			if (!$vendorId)
 			{
 				throw new Exception("Invalid vendor", ReturnSet::ERROR_UNAUTHORISED);
 			}
 			$vendorModel = Vendors::model()->findByPk($vendorId);
-			if(!empty($vendorModel))
+			if (!empty($vendorModel))
 			{
 				$contactId		 = ContactProfile::getByVendorId($vendorId);
 				$contactModel	 = Contact::model()->findByPk($contactId);
@@ -2946,7 +2953,7 @@ class UsersController extends BaseController
 				$returnSet->setData($response);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = $returnSet->setException($ex);
 		}
@@ -2961,23 +2968,24 @@ class UsersController extends BaseController
 		$jsonObj	 = CJSON::decode($data, false);
 		try
 		{
-			if(empty($data))
+			if (empty($data))
 			{
 				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
 			}
-			$vndId		 = UserInfo::getEntityId();
+//			$vndId		 = UserInfo::getEntityId();
+			$vndId		 = $this->getVendorId(false);
 			$gnowStat	 = $jsonObj->gnowNotificationStat;
 			$snoozeTime	 = $jsonObj->muteTime;
 
 			$stat = VendorPref::updateGnowStatus($vndId, $gnowStat, $snoozeTime);
-			if($stat)
+			if ($stat)
 			{
 				$message = "GozoNow flag status modified";
 				$returnSet->setStatus(true);
 				$returnSet->setMessage($message);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -2990,18 +2998,18 @@ class UsersController extends BaseController
 		$returnSet = new ReturnSet();
 		try
 		{
-			$userId	 = UserInfo::getUserId();
+//			$userId	 = UserInfo::getUserId();
 			$vndId	 = $this->getVendorId(false);
 			$drvId	 = $this->getDriverId(false);
 
-			$data		 = Vendors::model()->spInfo($vndId, $drvId);
+			$data		 = Vendors::spInfo($vndId, $drvId);
 			$vndObj		 = new \Beans\Vendor();
 			$vndObj->setInfo($data, $vndId);
 			$response	 = Filter::removeNull($vndObj);
 			$returnSet->setStatus(true);
 			$returnSet->setData($response);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -3012,12 +3020,17 @@ class UsersController extends BaseController
 	public function showMatrix()
 	{
 		$returnSet	 = new ReturnSet();
-		$vendorId	 = UserInfo::getEntityId();
+//		$vendorId	 = UserInfo::getEntityId();
+		$vendorId	 = $this->getVendorId(false);
+		if (!$vendorId)
+		{
+			return $returnSet;
+		}
 		try
 		{
 			$matrixData = VendorStats::fetchMetric($vendorId);
 
-			if(!empty($matrixData))
+			if (!empty($matrixData))
 			{
 				$showModel = new \Beans\Vendor();
 				$showModel->getMatrix($matrixData);
@@ -3032,7 +3045,7 @@ class UsersController extends BaseController
 				$returnSet->setMessage("No record found");
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
 			$returnSet->setMessage("No record found");
@@ -3050,7 +3063,7 @@ class UsersController extends BaseController
 			$reasons		 = Yii::app()->params['PenaltyReason'];
 			//$amount			 = Yii::app()->params['PenaltyAmount'];
 			$ctr			 = 0;
-			foreach($reasons as $r)
+			foreach ($reasons as $r)
 			{
 				$penaltyArray[$ctr]['reason'] = $r;
 				$ctr++;
@@ -3059,10 +3072,148 @@ class UsersController extends BaseController
 			$returnSet->setStatus(true);
 			$returnSet->setData($penaltyArray);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
 			$returnSet->setMessage("No record found");
+		}
+		return $returnSet;
+	}
+
+	public function notifyLog()
+	{
+		$returnSet = new ReturnSet();
+
+		$data	 = Yii::app()->request->rawBody;
+		$jsonObj = CJSON::decode($data, false);
+		try
+		{
+
+			$vndId = $this->getVendorId(false);
+			if (empty($vndId))
+			{
+				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+			$id				 = $jsonObj->id;
+			$isNew			 = $jsonObj->isRead;
+			$getRelVndIds	 = Vendors::getRelatedIds($vndId);
+			$ntlLogList		 = NotificationLog::getList($getRelVndIds, 2, $id, $isNew);
+
+			$ntlList = \Beans\common\Notification::getLogList($ntlLogList);
+
+			$response = Filter::removeNull($ntlList);
+			//$message			 = "List";
+			if (!$response)
+			{
+				throw new Exception("No Data Found", ReturnSet::ERROR_NO_RECORDS_FOUND);
+			}
+			$returnSet->setStatus(true);
+			//$returnSet->setMessage($message);
+			$returnSet->setData($response);
+		}
+		catch (Exception $ex)
+		{
+			$returnSet = ReturnSet::setException($ex);
+		}
+
+		return $returnSet;
+	}
+
+	public function updateNotificationLog()
+	{
+		$returnSet	 = new ReturnSet();
+		$token		 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
+		$data		 = Yii::app()->request->rawBody;
+		try
+		{
+			if ($data)
+			{
+				$jsonObj	 = CJSON::decode($data, true);
+				$resultData	 = NotificationLog::updateLogById($jsonObj);
+
+				if ($resultData['success'] == false)
+				{
+					throw new Exception($resultData['message'], ReturnSet::ERROR_INVALID_DATA);
+				}
+				$returnSet->setStatus(true);
+				$returnSet->setMessage("Data Updated");
+				Logger::create("Response : " . json_encode($returnSet), CLogger::LEVEL_INFO);
+			}
+			else
+			{
+				$returnSet->setStatus(false);
+				$returnSet->setErrors("NO DATA FOUND.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+		}
+		catch (Exception $e)
+		{
+			$returnSet = $returnSet->setException($e);
+			Logger::exception($e);
+		}
+		return $returnSet;
+	}
+
+	/**
+	 * 
+	 * @return type
+	 * @throws Exception
+	 */
+	public function processReadNotification()
+	{
+		$returnSet = new ReturnSet();
+
+		$data = Yii::app()->request->rawBody;
+		try
+		{
+			if ($data)
+			{
+
+				$vendorId = $this->getVendorId(false);
+				if (empty($vendorId))
+				{
+					throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+				}
+				$success	 = false;
+				$ntlDataArr	 = CJSON::decode($data, true);
+				$ntlId		 = $ntlDataArr['id'];
+				$batchId	 = $ntlDataArr['batchId'];
+				if (isset($ntlDataArr['batchId']))
+				{
+					$ntlId = NotificationLog::getIdByBatchIdVendorId($batchId, $vendorId);
+					if ($ntlId)
+					{
+						$ntlDataArr ['id'] = $ntlId;
+					}
+					else
+					{
+
+						if ($success == false)
+						{
+							throw new Exception('Invalid data', ReturnSet::ERROR_INVALID_DATA);
+						}
+					}
+				}
+
+				$resultData = NotificationLog::updateReadNotification($ntlDataArr);
+				if ($resultData['success'] == false)
+				{
+					throw new Exception($resultData['message'], ReturnSet::ERROR_INVALID_DATA);
+				}
+				$success = $resultData['success'];
+
+				$returnSet->setStatus($success);
+				$returnSet->setMessage("Data Updated");
+				Logger::create("Response : " . json_encode($returnSet), CLogger::LEVEL_INFO);
+			}
+			else
+			{
+				throw new Exception("Invalid Data", ReturnSet::ERROR_INVALID_DATA);
+			}
+		}
+		catch (Exception $e)
+		{
+			$returnSet = $returnSet->setException($e);
+			Logger::exception($e);
 		}
 		return $returnSet;
 	}

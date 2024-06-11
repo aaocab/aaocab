@@ -279,11 +279,13 @@ class AccountController extends Controller
 
 		$success = "";
 		$model	 = new PartnerReconciliationSheet();
+		$model->prs_pickup_from_date = date("Y-m-d", strtotime("-1 week"));
+		$model->prs_pickup_to_date = date("Y-m-d");
 
 		if (isset($_FILES["file"]))
 		{
 			$arrSheet = Yii::app()->request->getParam('PartnerReconciliationSheet');
-
+			
 			$tmpFileName = $_FILES["file"]["tmp_name"];
 			$fileName	 = $_FILES["file"]["name"];
 			if ($_FILES["file"]["size"] > 0)
@@ -292,11 +294,15 @@ class AccountController extends Controller
 				
 				if($arrSheet['prs_sheet_type'] == 1)
 				{
-					$success = PartnerReconciliationData::addPayoutSheet($arrSheet, $file, $fileName);
+					$success = PartnerReconciliationPayout::addData($arrSheet, $file, $fileName);
 				}
 				else if($arrSheet['prs_sheet_type'] == 2)
 				{
-					$success = PartnerReconciliationData::addPenaltySheet($arrSheet, $file, $fileName);
+					$success = PartnerReconciliationPenalty::addData($arrSheet, $file, $fileName);
+				}
+				else if($arrSheet['prs_sheet_type'] == 3)
+				{
+					$success = PartnerReconciliationCompensation::addData($arrSheet, $file, $fileName);
 				}
 			}
 		}
@@ -321,15 +327,15 @@ class AccountController extends Controller
 		$sheetType = $objSheet->prs_sheet_type;
 		if ($sheetType == 1)
 		{
-			PartnerReconciliationData::exportData($prsId);
+			PartnerReconciliationPayout::exportData($prsId);
 		}
 		else if ($sheetType == 2)
 		{
-			
+			PartnerReconciliationPenalty::exportData($prsId);
 		}
 		else if ($sheetType == 3)
 		{
-			
+			PartnerReconciliationCompensation::exportData($prsId);
 		}
 		
 	}
@@ -346,7 +352,7 @@ class AccountController extends Controller
 
 			if ($sheetType == 1)
 			{
-				PartnerReconciliationData::processData($prsId, $status);
+				PartnerReconciliationPayout::processData($prsId, $status);
 			}
 			else if ($sheetType == 2)
 			{
@@ -354,7 +360,7 @@ class AccountController extends Controller
 			}
 			else if ($sheetType == 3)
 			{
-				
+				PartnerReconciliationCompensation::processData($prsId, $status);
 			}
 		}
 	}
@@ -430,51 +436,20 @@ class AccountController extends Controller
 
 	public function actionAccountingFlagData()
 	{
-		$fromDate = trim(Yii::app()->request->getParam('fromDate', date("Y-m-d")));
-        $toDate   = trim(Yii::app()->request->getParam('toDate', date("Y-m-d")));
+		$fromDate	 = trim(Yii::app()->request->getParam('fromDate', date("Y-m-d")));
+		$toDate		 = trim(Yii::app()->request->getParam('toDate', date("Y-m-d")));
 
-        if ($fromDate == '' || $toDate == '')
-        {
-            echo "From & To Date is required";
-            exit();
-        }
-		$model			 = new BookingLog();
-//		$sql = "SELECT 
-//				DATE_FORMAT(blg_created, '%Y-%m-%d') as date, 
-//				SUM(IF(blg_event_id = 65, 1, 0)) as accFlgSetCnt, 
-//				SUM(IF(blg_event_id = 66, 1, 0)) as accFlgUnsetCnt 
-//				FROM booking_log 
-//				WHERE blg_event_id IN (65,66) AND blg_created BETWEEN '{$fromDate} 00:00:00' AND '{$toDate} 23:59:59' 
-//				GROUP BY date";
-//		$rec = DBUtil::query($sql);
-//		
-//		$str = "<table border='1' cellspacing='2' cellpadding='5'><tr><td>Date</td><td>AccFlgSetCnt</td><td>AccFlgUnsetCnt</td></tr>";
-//		foreach ($rec as $row)
-//		{
-//			$str .= "<tr><td>{$row['date']}</td><td>{$row['accFlgSetCnt']}</td><td>{$row['accFlgUnsetCnt']}</td></tr>";
-//		}
-//		$str .= "</table>";
-//		
-//		echo $str;
-        
-    
-        
-//        $this->pageTitle = "AccountingFlagData";
-//		$model			 = new Agents('search');
-//		$model->agt_type = -1;
-//		$request		 = Yii::app()->request;
-//		if ($request->getParam('Agents'))
-//		{
-//			$arr				 = $request->getParam('Agents');
-//			$model->createDate1	 = $arr['createDate1'];
-//			$model->createDate2	 = $arr['createDate2'];
-//			$model->adm_fname	 = $arr['adm_fname'];
-//			$model->attributes	 = $arr;
-//		}
+		if ($fromDate == '' || $toDate == '')
+		{
+			echo "From & To Date is required";
+			exit();
+		}
+		$model = new BookingLog();
 
-		$dataProvider = $model->accountingFlagData($fromDate,$toDate);
+		$dataProvider = $model->accountingFlagData($fromDate, $toDate);
 		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
 		$dataProvider->setPagination(['params' => array_filter($_GET + $_POST)]);
 		$this->render('accountingFlagData', array('dataProvider' => $dataProvider, 'model' => $model));
 	}
+
 }

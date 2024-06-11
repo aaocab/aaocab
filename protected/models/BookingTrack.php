@@ -2404,7 +2404,7 @@ GROUP BY pYear, pWeek";
 		return $result;
 	}
 
-	public static function getOngoingBookingsMMT($agentId = 0)
+	public static function getOngoingBookingsMMT_OLD($agentId = 0)
 	{
 		if ($agentId == 18190)
 		{
@@ -2420,6 +2420,29 @@ GROUP BY pYear, pWeek";
                                        OR (btk.bkg_trip_arrive_time IS NOT NULL AND btk.btk_last_coordinates_time>DATE_SUB(NOW(), INTERVAL 10 MINUTE))) GROUP BY btk.btk_bkg_id 
                              ";
 		$result	 = DBUtil::query($sql, DBUtil::SDB());
+		return $result;
+	}
+
+	public static function getOngoingBookingsMMT($agentId = 0)
+	{
+		$sql = "SELECT bkg_id 
+				FROM booking 
+				INNER JOIN booking_cab ON bcb_id = bkg_bcb_id 
+				INNER JOIN booking_track ON bkg_id = btk_bkg_id AND bkg_status=5 AND bkg_agent_id = 18190 AND bkg_ride_complete = 0 
+				INNER JOIN driver_stats ON bcb_driver_id = drs_drv_id 
+				LEFT JOIN booking_track_log ON bkg_id = btl_bkg_id AND btl_event_type_id = 201 
+				WHERE bkg_pickup_date < DATE_ADD(NOW(), INTERVAL 240 MINUTE) 
+				AND drv_last_loc_date IS NOT NULL AND drv_last_loc_date > DATE_SUB(NOW(), INTERVAL 10 MINUTE) 
+				AND (btl_event_type_id = 201 OR bkg_arrived_for_pickup = 1 OR bkg_ride_start = 1) 
+				AND (
+					(bkg_trip_end_time IS NULL AND bkg_booking_type NOT IN (2,3) AND DATE_ADD(bkg_pickup_date, INTERVAL (bkg_trip_duration + 60) MINUTE) > NOW()) 
+					OR (bkg_trip_end_time IS NULL AND bkg_booking_type IN (2,3) AND DATE_ADD(bkg_pickup_date, INTERVAL (bkg_trip_duration + 120) MINUTE) > NOW()) 
+					OR (bkg_trip_end_time IS NULL AND bkg_return_date IS NOT NULL AND DATE_ADD(bkg_return_date, INTERVAL 60 MINUTE) > NOW())
+					OR (bkg_trip_end_time IS NOT NULL AND bkg_trip_end_time > DATE_SUB(NOW(), INTERVAL 5 MINUTE)) 
+				)
+				ORDER BY bkg_pickup_date";
+
+		$result = DBUtil::query($sql, DBUtil::SDB());
 		return $result;
 	}
 

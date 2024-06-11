@@ -6,7 +6,7 @@
 <script>
 	$(document).ready(function() {
 		
-		$chat.getChatLogs();
+		$chat.getChatLogs(0);
 		
 		// Auto Refresh/ Fetch Messages
 		$chat.start();

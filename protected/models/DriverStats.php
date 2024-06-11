@@ -18,6 +18,7 @@
  * @property string $drv_last_loc_long
  * @property string $drv_last_loc_device_id
  * @property string $drv_last_loc_date
+ * @property string $drv_last_loc_zone_id
  * @property string $drs_modified_date
  * @property integer $drs_active
  * @property integer $drs_lock_status
@@ -62,7 +63,7 @@ class DriverStats extends CActiveRecord
 			array('drs_drv_id, drs_active', 'required', 'on' => 'updateStats'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('drs_id, drs_drv_id, drs_drv_overall_rating, drs_total_trip, drs_trust_score, drs_doc_score, drs_no_of_star, drs_total_trips, drs_last_trip_date, drv_last_loc_lat, drv_last_loc_long, drv_last_loc_device_id, drv_last_loc_date, drs_modified_date, drs_active,drs_lock_status,drs_lock_status_info,drs_reason,drs_OW_Count,drs_RT_Count,drs_AT_Count,drs_PT_Count,drs_FL_Count,drs_SH_Count,drs_CT_Count,drs_DR_4HR_Count,drs_DR_8HR_Count,drs_DR_12HR_Count,drs_AP_Count,drs_drv_coin_cnt', 'safe', 'on' => 'search'),
+			array('drs_id, drs_drv_id, drs_drv_overall_rating, drs_total_trip, drs_trust_score, drs_doc_score, drs_no_of_star, drs_total_trips, drs_last_trip_date, drv_last_loc_lat, drv_last_loc_long,drv_last_loc_zone_id, drv_last_loc_device_id, drv_last_loc_date, drs_modified_date, drs_active,drs_lock_status,drs_lock_status_info,drs_reason,drs_OW_Count,drs_RT_Count,drs_AT_Count,drs_PT_Count,drs_FL_Count,drs_SH_Count,drs_CT_Count,drs_DR_4HR_Count,drs_DR_8HR_Count,drs_DR_12HR_Count,drs_AP_Count,drs_drv_coin_cnt', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -174,7 +175,7 @@ class DriverStats extends CActiveRecord
 			$model->drs_drv_id	 = $driverID;
 		}
 		$model->drs_active				 = 1;
-		$model->drs_drv_overall_rating	 = round($rating/ 2, 1);  // rating = trust score value /2  
+		$model->drs_drv_overall_rating	 = round($rating / 2, 1);  // rating = trust score value /2  
 		$model->drs_total_trip			 = $numberOfTrip;
 		$model->drs_trust_score			 = round($rating, 2);
 		$model->drs_no_of_star			 = $star;
@@ -631,16 +632,15 @@ class DriverStats extends CActiveRecord
 	{
 
 //drs_no_of_star > 0 AND
-        
-		$params = ["drvId" => $driverId];
-		$sql = "SELECT drs_drv_id,drs_no_of_star,drv_name,drv_code,IFNULL(drs_total_trip,IFNULL(drs_total_trips,0)) total_trip ,drs_drv_overall_rating
+
+		$params	 = ["drvId" => $driverId];
+		$sql	 = "SELECT drs_drv_id,drs_no_of_star,drv_name,drv_code,IFNULL(drs_total_trip,IFNULL(drs_total_trips,0)) total_trip ,drs_drv_overall_rating
 			FROM driver_stats drs
 			JOIN drivers drv ON drv.drv_id = drs.drs_drv_id
 			WHERE  drs_drv_id=:drvId";
-		$res = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
+		$res	 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 		return $res;
 	}
-
 
 	public static function updateCoins($totalCoin, $driverId)
 	{
@@ -657,4 +657,21 @@ class DriverStats extends CActiveRecord
 		return $success;
 	}
 
+	public static function getByLatestZoneIds($zoneIds)
+	{
+		$key	 = "zone:{$zoneIds}";
+		$sql	 = "SELECT COUNT(DISTINCT drs.drs_drv_id) AS cntDriver,
+                GROUP_CONCAT(DISTINCT drs.drs_drv_id) AS driverIds 
+                FROM drivers drv
+                INNER JOIN  driver_stats drs ON drs.drs_drv_id = drv.drv_id              
+                WHERE 1 
+                AND drv.drv_active = 1
+                AND drv.drv_id = drv.drv_ref_code
+                 AND drs.drv_last_loc_date > DATE_SUB(NOW(), INTERVAL 1 WEEK) 
+					AND drs.drv_last_loc_zone_id IN ($zoneIds) AND drs.drv_last_loc_zone_id >0";
+		$result	 = DBUtil::queryRow($sql, DBUtil::SDB());
+		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("zones"));
+
+		return $result;
+	}
 }

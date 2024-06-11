@@ -165,7 +165,7 @@ class BookingVendorRequest extends CActiveRecord
 		$bkgModel	 = Booking::model()->findByPk($bkgid);
 		$tripId		 = $bkgModel->bkg_bcb_id;
 		$where		 = '';
-		if($agtIds != '')
+		if ($agtIds != '')
 		{
 			$where .= ' agt.vnd_id NOT IN (' . $agtIds . ') AND ';
 		}
@@ -177,14 +177,14 @@ class BookingVendorRequest extends CActiveRecord
 		$command				 = $commandArr['sqlCommand'];
 		$agtList				 = $command->queryAll();
 
-		if(count($agtList) == 0 && ($onlyFreeze || $onlyAttached))
+		if (count($agtList) == 0 && ($onlyFreeze || $onlyAttached))
 		{
 			BookingTrail::model()->updateVendorRequestCounter($bkgid);
 			BookingCab::model()->updateVendorRequestCounter($tripId);
 			return;
 		}
 		$reqArr = [];
-		foreach($agtList as $k => $agt)
+		foreach ($agtList as $k => $agt)
 		{
 			$reqArr[] = [
 				'bvr_bcb_id'		 => $tripId,
@@ -196,12 +196,12 @@ class BookingVendorRequest extends CActiveRecord
 		}
 
 
-		if(sizeof($reqArr) > 0)
+		if (sizeof($reqArr) > 0)
 		{
 			Logger::create("Total Operator: " . sizeof($reqArr), CLogger::LEVEL_TRACE);
 			$builder = Yii::app()->db->schema->commandBuilder;
 			$command = $builder->createMultipleInsertCommand('booking_vendor_request', $reqArr);
-			if($command->execute() > 0)
+			if ($command->execute() > 0)
 			{
 				BookingTrail::model()->updateVendorRequestCounter($bkgid);
 				BookingCab::model()->updateVendorRequestCounter($tripId);
@@ -329,11 +329,11 @@ class BookingVendorRequest extends CActiveRecord
 		$criteria->compare('bvr_vendor_id', $vendor_id);
 		$model						 = $this->find($criteria);
 		$model->bvr_last_reminded_at = new CDbExpression('NOW()');
-		if($app_val					 = 1)
+		if ($app_val					 = 1)
 		{
 			$model->bvr_app_notification = 1;
 		}
-		else if($sms_val = 1)
+		else if ($sms_val = 1)
 		{
 			$model->bvr_sms_notification = 1;
 		}
@@ -342,16 +342,16 @@ class BookingVendorRequest extends CActiveRecord
 
 	public function updateVendorLastReminder($vendor_id, $app_val = 0, $sms_val = 0)
 	{
-		if($vendor_id > 0 && ($app_val == 1 || $sms_val == 1))
+		if ($vendor_id > 0 && ($app_val == 1 || $sms_val == 1))
 		{
 			$paramSet	 = '';
 			$paramWhere	 = '';
-			if($app_val == 1)
+			if ($app_val == 1)
 			{
 				$paramSet	 .= "bvr_app_notification=$app_val";
 				$paramWhere	 .= "bvr_app_notification=0";
 			}
-			elseif($sms_val == 1)
+			elseif ($sms_val == 1)
 			{
 				$paramSet	 .= "bvr_sms_notification=$sms_val";
 				$paramWhere	 .= "bvr_sms_notification = 0";
@@ -406,11 +406,11 @@ class BookingVendorRequest extends CActiveRecord
 		$vndIsFreeze	 = ($row['vnd_is_freeze'] > 0) ? $row['vnd_is_freeze'] : 0;
 		$vndCodFreeze	 = ($row['vnd_cod_freeze'] > 0) ? $row['vnd_cod_freeze'] : 0;
 		$offset			 = $page_no * 100;
-		if($sort == 'pk')
+		if ($sort == 'pk')
 		{
 			$s1 = "pickupDate ASC";
 		}
-		else if($sort == 'nk')
+		else if ($sort == 'nk')
 		{
 			$s1 = "bvr_created_at DESC, bcb_id DESC";
 		}
@@ -420,7 +420,7 @@ class BookingVendorRequest extends CActiveRecord
 		}
 
 		$search_qry = '';
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_qry = " HAVING
                             (
@@ -538,9 +538,9 @@ class BookingVendorRequest extends CActiveRecord
 
 		$recordset = DBUtil::queryAll($qry, DBUtil::SDB());
 
-		foreach($recordset as $key => $val)
+		foreach ($recordset as $key => $val)
 		{
-			if($val['tot'] > 1)
+			if ($val['tot'] > 1)
 			{
 				$recordset[$key]['bkg_route_name'] = BookingRoute::model()->getRouteNameByBcb($val['bcb_id']);
 			}
@@ -548,7 +548,7 @@ class BookingVendorRequest extends CActiveRecord
 			{
 				$recordset[$key]['bkg_route_name'] = BookingRoute::model()->getRouteName($val['bkg_id']);
 			}
-			if($recordset[$key]['bkg_route_name'] == '')
+			if ($recordset[$key]['bkg_route_name'] == '')
 			{
 				$recordset[$key]['bkg_route_name'] = BookingRoute::model()->getRouteName($val['bkg_id']);
 			}
@@ -566,11 +566,11 @@ class BookingVendorRequest extends CActiveRecord
 	 */
 	public function getRequestedList1($vendorId, $sort = '')
 	{
-		if($sort == 'pk')
+		if ($sort == 'pk')
 		{
 			$s1 = "bcb.bcb_id, bkg.bkg_pickup_date";
 		}
-		else if($sort == 'nk')
+		else if ($sort == 'nk')
 		{
 			$s1 = "bvr_created_at DESC, bcb.bcb_id DESC";
 		}
@@ -585,11 +585,11 @@ class BookingVendorRequest extends CActiveRecord
             WHERE bvr_vendor_id = $vendorId AND bkg_status = 2 AND bkg_active = 1 AND bvr_accepted = 0 AND bvr_active = 1
             GROUP BY bkg.bkg_id ORDER BY " . $s1;
 		$recordset	 = DBUtil::queryAll($qry);
-		foreach($recordset as $key => $val)
+		foreach ($recordset as $key => $val)
 		{
-			foreach($val as $k => $v)
+			foreach ($val as $k => $v)
 			{
-				if($k == 'bkg_id')
+				if ($k == 'bkg_id')
 				{
 					$recordset[$key]['bkg_route_name'] = BookingRoute::model()->getRouteName($v);
 				}
@@ -682,31 +682,31 @@ class BookingVendorRequest extends CActiveRecord
 	{
 		$result		 = '';
 		$recordsets	 = BookingVendorRequest::model()->getAutoAssignData();
-		if(count($recordsets) >= 1)
+		if (count($recordsets) >= 1)
 		{
 			$bcb_id = 0;
-			foreach($recordsets as $recordset)
+			foreach ($recordsets as $recordset)
 			{
-				if($bcb_id != $recordset['bkg_bcb_id'])
+				if ($bcb_id != $recordset['bkg_bcb_id'])
 				{
 					$cabModel	 = BookingCab::model()->findByPk($recordset['bkg_bcb_id']);
 					$userInfo	 = UserInfo::model();
 					$remark		 = 'Auto Assigned';
 					$assignMode	 = 0;
 					$return		 = $cabModel->assignVendor($recordset['bkg_bcb_id'], $recordset['bvr_vendor_id'], $recordset['bvr_bid_amount'], $remark, $userInfo, $assignMode);
-					if($return->isSuccess())
+					if ($return->isSuccess())
 					{
 						$bvrModels = BookingVendorRequest::model()->findByBcbIdAndVendorId($recordset['bkg_bcb_id'], $recordset['bvr_vendor_id']);
-						if(count($bvrModels) >= 1)
+						if (count($bvrModels) >= 1)
 						{
-							foreach($bvrModels as $bvrModel)
+							foreach ($bvrModels as $bvrModel)
 							{
 								$bvrModel->bvr_assigned		 = 1;
 								$bvrModel->bvr_assigned_at	 = new CDbExpression('NOW()');
 								$bvrModel->bvr_active		 = 0;
 								$success					 = $bvrModel->save();
 							}
-							if($success)
+							if ($success)
 							{
 								$row = BookingVendorRequest::model()->updateListByBcb($recordset['bkg_bcb_id']);
 							}
@@ -734,7 +734,7 @@ class BookingVendorRequest extends CActiveRecord
 			$totRecords	 = 1500000;
 			$limit		 = 1000;
 
-			while($chk)
+			while ($chk)
 			{
 				// BVR move all more than 6 months
 				// BVR Active=0, Assigned=0, Accepted=0
@@ -746,12 +746,12 @@ class BookingVendorRequest extends CActiveRecord
 							ORDER BY bvr_id LIMIT 0, $limit 
 							) as tmp";
 				$resQ	 = DBUtil::command($sql)->queryScalar();
-				if(!is_null($resQ) && $resQ != '')
+				if (!is_null($resQ) && $resQ != '')
 				{
 					$sql	 = "INSERT INTO " . $archiveDB . ".`booking_vendor_request` (SELECT * FROM `booking_vendor_request` WHERE bvr_id IN ($resQ))";
 					$rows	 = DBUtil::command($sql)->execute();
 
-					if($rows > 0)
+					if ($rows > 0)
 					{
 						$sql	 = "DELETE FROM `booking_vendor_request` WHERE bvr_id IN ($resQ)";
 						$rowsDel = DBUtil::command($sql)->execute();
@@ -768,12 +768,12 @@ class BookingVendorRequest extends CActiveRecord
 							ORDER BY bvr_id LIMIT 0, $limit 
 							) as tmp";
 				$resB	 = DBUtil::command($sql)->queryScalar();
-				if(!is_null($resB) && $resB != '')
+				if (!is_null($resB) && $resB != '')
 				{
 					$sql	 = "INSERT INTO " . $archiveDB . ".`booking_vendor_request` (SELECT * FROM `booking_vendor_request` WHERE bvr_id IN ($resB))";
 					$rows	 = DBUtil::command($sql)->execute();
 
-					if($rows > 0)
+					if ($rows > 0)
 					{
 						$sql	 = "DELETE FROM `booking_vendor_request` WHERE bvr_id IN ($resB)";
 						$rowsDel = DBUtil::command($sql)->execute();
@@ -790,12 +790,12 @@ class BookingVendorRequest extends CActiveRecord
 								ORDER BY bvr_id LIMIT 0, $limit 
 							) as tmp";
 				$resA	 = DBUtil::command($sql)->queryScalar();
-				if(!is_null($resA) && $resA != '')
+				if (!is_null($resA) && $resA != '')
 				{
 					$sql	 = "INSERT IGNORE INTO " . $archiveDB . ".`booking_vendor_request` (SELECT * FROM `booking_vendor_request` WHERE bvr_id IN ($resA))";
 					$rows	 = DBUtil::command($sql)->execute();
 
-					if($rows > 0)
+					if ($rows > 0)
 					{
 						$sql	 = "DELETE FROM `booking_vendor_request` WHERE bvr_id IN ($resA)";
 						$rowsDel = DBUtil::command($sql)->execute();
@@ -804,13 +804,13 @@ class BookingVendorRequest extends CActiveRecord
 				$transaction->commit();
 
 				$i += $limit;
-				if(($resQ <= 0 && $resB <= 0 && $resA <= 0) || $totRecords <= $i)
+				if (($resQ <= 0 && $resB <= 0 && $resA <= 0) || $totRecords <= $i)
 				{
 					break;
 				}
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			echo $e->getMessage();
 			echo "\r\n";
@@ -821,32 +821,32 @@ class BookingVendorRequest extends CActiveRecord
 	public function getVendorIdAutoAssigned($vendor_amount, $bcb_id, $maxVendorAmount, $maxLossVendorAmount, $customerDue)
 	{
 		$result = $this->getTopVendor($vendor_amount, $bcb_id, $vendor_amount, $customerDue);
-		if($result)
+		if ($result)
 		{
 			goto result;
 		}
 
 		$result = $this->getTopVendor($vendor_amount, $bcb_id, $maxVendorAmount, $customerDue);
-		if($result)
+		if ($result)
 		{
 			goto result;
 		}
 
 
 		$result = $this->getTopVendor($vendor_amount, $bcb_id, $maxVendorAmount, $customerDue, '3.5');
-		if($result)
+		if ($result)
 		{
 			goto result;
 		}
 
 		$result = $this->getTopVendor($vendor_amount, $bcb_id, $maxLossVendorAmount, $customerDue);
-		if($result)
+		if ($result)
 		{
 			goto result;
 		}
 
 		$result = $this->getTopVendor($vendor_amount, $bcb_id, $maxLossVendorAmount, $customerDue, '3.5');
-		if($result)
+		if ($result)
 		{
 			goto result;
 		}
@@ -857,7 +857,7 @@ class BookingVendorRequest extends CActiveRecord
 
 	public function getTopVendors($maxVendorAmount, $bcb_id, $allowedVendorAmount, $customerDue, $rating = '4', $totalAdvance = null)
 	{
-		if($totalAdvance !== null)
+		if ($totalAdvance !== null)
 		{
 			$cond = " AND (vnp_cod_freeze=0 OR $totalAdvance>0)";
 		}
@@ -899,7 +899,7 @@ class BookingVendorRequest extends CActiveRecord
 	{
 		$data	 = false;
 		$result	 = $this->getTopVendors($maxVendorAmount, $bcb_id, $allowedVendorAmount, $customerDue, $rating, $totalAdvance);
-		foreach($result as $row)
+		foreach ($result as $row)
 		{
 			$data = $row;
 			break;
@@ -1087,10 +1087,10 @@ class BookingVendorRequest extends CActiveRecord
 		$sql1				 = str_replace('##ALLOWEDVENDORAMT', 'vendor_amount', $sql);
 		$sql1				 = str_replace('##RATINGVENDOR', '4', $sql1);
 		$recordsets			 = DBUtil::queryRow($sql1);
-		if($recordsets != false)
+		if ($recordsets != false)
 		{
 
-			if($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
+			if ($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
 			{
 				return $normalBestBidRecord;
 			}
@@ -1099,9 +1099,9 @@ class BookingVendorRequest extends CActiveRecord
 		$sql2		 = str_replace('##ALLOWEDVENDORAMT', 'maxVendorAmount', $sql);
 		$sql2		 = str_replace('##RATINGVENDOR', '4', $sql2);
 		$recordsets	 = DBUtil::queryRow($sql2);
-		if($recordsets != false)
+		if ($recordsets != false)
 		{
-			if($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
+			if ($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
 			{
 				return $normalBestBidRecord;
 			}
@@ -1110,9 +1110,9 @@ class BookingVendorRequest extends CActiveRecord
 		$sql3		 = str_replace('##ALLOWEDVENDORAMT', 'maxVendorAmount', $sql);
 		$sql3		 = str_replace('##RATINGVENDOR', '3.5', $sql3);
 		$recordsets	 = DBUtil::queryRow($sql3);
-		if($recordsets != false)
+		if ($recordsets != false)
 		{
-			if($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
+			if ($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
 			{
 				return $normalBestBidRecord;
 			}
@@ -1122,9 +1122,9 @@ class BookingVendorRequest extends CActiveRecord
 		$sql4		 = str_replace('##ALLOWEDVENDORAMT', 'maxLossVendorAmount', $sql);
 		$sql4		 = str_replace('##RATINGVENDOR', '4', $sql4);
 		$recordsets	 = DBUtil::queryRow($sql4);
-		if($recordsets != false)
+		if ($recordsets != false)
 		{
-			if($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
+			if ($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
 			{
 				return $normalBestBidRecord;
 			}
@@ -1134,9 +1134,9 @@ class BookingVendorRequest extends CActiveRecord
 		$sql5		 = str_replace('##ALLOWEDVENDORAMT', 'maxLossVendorAmount', $sql);
 		$sql5		 = str_replace('##RATINGVENDOR', '3.5', $sql5);
 		$recordsets	 = DBUtil::command($sql5)->queryRow();
-		if($recordsets != false)
+		if ($recordsets != false)
 		{
-			if($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
+			if ($normalBestBidRecord['bestBidRank'] > $recordsets['bestBidRank'])
 			{
 				return $normalBestBidRecord;
 			}
@@ -1166,7 +1166,7 @@ class BookingVendorRequest extends CActiveRecord
 		{
 
 			$result = BookingVendorRequest::model()->checkAlreadyAssignOrNot($vendorId, $bcbId);
-			if($result > 0)
+			if ($result > 0)
 			{
 				$model = BookingVendorRequest::model()->findByPk($result);
 			}
@@ -1174,7 +1174,7 @@ class BookingVendorRequest extends CActiveRecord
 			{
 				$model = new BookingVendorRequest();
 			}
-			if($bcbId != '')
+			if ($bcbId != '')
 			{
 				$bookingCabModel = BookingCab::model()->findByPk($bcbId);
 			}
@@ -1196,23 +1196,23 @@ class BookingVendorRequest extends CActiveRecord
 			$model->bvr_created_at		 = new CDbExpression('NOW()');
 			$model->bvr_accepted_at		 = new CDbExpression('NOW()');
 
-			if(Config::get('hornok.operator.id') != $vendorId)
+			if (Config::get('hornok.operator.id') != $vendorId)
 			{
 				$model->bvr_active = 1;
 			}
-			if($status == 'deny')
+			if ($status == 'deny')
 			{
 				$model->bvr_accepted	 = 2;
 				$model->bvr_assigned	 = 2;
 				$model->bvr_assigned_at	 = new CDbExpression('NOW()');
 			}
-			else if($status == 'newAssign')
+			else if ($status == 'newAssign')
 			{
 				$model->bvr_accepted	 = 1;
 				$model->bvr_assigned	 = 1;
 				$model->bvr_assigned_at	 = new CDbExpression('NOW()');
 			}
-			else if($status == 'manualAssign')
+			else if ($status == 'manualAssign')
 			{
 				$model->bvr_accepted	 = 0;
 				$model->bvr_assigned	 = 1;
@@ -1226,7 +1226,7 @@ class BookingVendorRequest extends CActiveRecord
 			}
 
 
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception('Bid request not set');
 			}
@@ -1235,7 +1235,7 @@ class BookingVendorRequest extends CActiveRecord
 
 			$res = BookingVendorRequest::scheduleSMTScore($bcbId, $vendorId, $bidAmount);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$success = false;
@@ -1249,7 +1249,7 @@ class BookingVendorRequest extends CActiveRecord
 	 */
 	public static function updateSMTScore1($tripId, $vendorId, $score = null, $tripVendorAmount = null)
 	{
-		if($score !== null)
+		if ($score !== null)
 		{
 			goto updateScore;
 		}
@@ -1259,7 +1259,7 @@ class BookingVendorRequest extends CActiveRecord
 		$bvrId	 = $result['bvr_id'];
 
 		updateScore:
-		if($score != "")
+		if ($score != "")
 		{
 			$bvrModel				 = BookingVendorRequest::model()->findByPk($bvrId);
 			$bvrModel->bvr_smt_score = $score;
@@ -1298,11 +1298,11 @@ class BookingVendorRequest extends CActiveRecord
 		$vndInfo['vnp_accepted_zone']	 = ($vndInfo['vnp_accepted_zone'] == '') ? -1 : trim($vndInfo['vnp_accepted_zone'], ',');
 		$vndInfo['vnp_excluded_cities']	 = ($vndInfo['vnp_excluded_cities'] == '') ? -1 : trim($vndInfo['vnp_excluded_cities'], ',');
 		$vndInfo['vnp_home_zone']		 = ($vndInfo['vnp_home_zone'] == '') ? -1 : trim($vndInfo['vnp_home_zone'], ',');
-		if($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
+		if ($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
 		{
 			$vndIsFreeze = 0;
 		}
-		if($vndInfo['vnd_cat_type'] == 1)
+		if ($vndInfo['vnd_cat_type'] == 1)
 		{
 			$sql = "SELECT GROUP_CONCAT(bkgnew.bkg_id)
 					FROM   booking_cab bcb
@@ -1316,41 +1316,41 @@ class BookingVendorRequest extends CActiveRecord
 			$excludeBookings = DBUtil::querySCalar($sql, DBUtil::SDB());
 		}
 		$excludeBookings = ($excludeBookings == null || $excludeBookings == '') ? -1 : $excludeBookings;
-		if($vndInfo['vnp_oneway'] != 1)
+		if ($vndInfo['vnp_oneway'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(1)";
 		}
-		if($vndInfo['vnp_round_trip'] != 1 && $vndInfo['vnp_round_trip'] != -1)
+		if ($vndInfo['vnp_round_trip'] != 1 && $vndInfo['vnp_round_trip'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(2)";
 		}
-		if($vndInfo['vnp_multi_trip'] != 1 && $vndInfo['vnp_multi_trip'] != -1)
+		if ($vndInfo['vnp_multi_trip'] != 1 && $vndInfo['vnp_multi_trip'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(3)";
 		}
-		if($vndInfo['vnp_airport'] != 1 && $vndInfo['vnp_airport'] != -1)
+		if ($vndInfo['vnp_airport'] != 1 && $vndInfo['vnp_airport'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(4,12)";
 		}
-		if($vndInfo['vnp_package'] != 1 && $vndInfo['vnp_package'] != -1)
+		if ($vndInfo['vnp_package'] != 1 && $vndInfo['vnp_package'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(5)";
 		}
-		if($vndInfo['vnp_flexxi'] != 1 && $vndInfo['vnp_flexxi'] != -1)
+		if ($vndInfo['vnp_flexxi'] != 1 && $vndInfo['vnp_flexxi'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(6)";
 		}
-		if($vndInfo['vnp_daily_rental'] != 1 && $vndInfo['vnp_daily_rental'] != -1)
+		if ($vndInfo['vnp_daily_rental'] != 1 && $vndInfo['vnp_daily_rental'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(9,10,11)";
 		}
 		$serviceTier = $filterModel->tierList;
-		foreach($serviceTier as $service)
+		foreach ($serviceTier as $service)
 		{
 			$tiers[] = $service->id;
 		}
 		$tier_string = implode(",", $tiers);
-		if($tier_string != "")
+		if ($tier_string != "")
 		{
 			$condSelectTierCheck		 = " AND service_class.scc_id IN ($tier_string) ";
 			$condSelectTierCheckMatched	 = " AND scc.scc_id IN ($tier_string) ";
@@ -1377,7 +1377,7 @@ class BookingVendorRequest extends CActiveRecord
 		$includeBookings	 = ($includeBookings == null || $includeBookings == '') ? -1 : $includeBookings;
 		$search_qry			 = '';
 		$search_txt			 = $filterModel->search_txt;
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_qry = " HAVING
 				(
@@ -1389,16 +1389,16 @@ class BookingVendorRequest extends CActiveRecord
 				)";
 		}
 
-		if($filterModel->sort == 'newestBooking')
+		if ($filterModel->sort == 'newestBooking')
 		{
 			$sortCond = "ORDER BY bkgIds DESC";
 		}
-		if($filterModel->sort == 'earliestBooking')
+		if ($filterModel->sort == 'earliestBooking')
 		{
 			$sortCond = "ORDER BY bkg_pickup_date ASC";
 		}
 
-		if($page_no >= 1)
+		if ($page_no >= 1)
 		{
 			$offset		 = ($page_no - 1) * $offSetCount;
 			$limitCond	 = ($total_count == 0) ? " LIMIT $offSetCount OFFSET $offset" : " ";
@@ -1411,30 +1411,30 @@ class BookingVendorRequest extends CActiveRecord
 		$status	 = $filterModel->bid_status;
 		$date	 = $filterModel->date;
 
-		if(!empty($filterModel))
+		if (!empty($filterModel))
 		{
 			$bidStatus	 = $filterModel->bidStatus;
 			$filter_qry	 = "";
-			if($bidStatus == 1)
+			if ($bidStatus == 1)
 			{
 				$isBid		 = true;
 				$filter_qry	 .= " AND (bvr_id IS NOT NULL AND bvr_accepted = 1 AND bvr_vendor_id = $vendorId)";
 			}
 			$serviceType = $filterModel->serviceType;
-			if($serviceType == 'local')
+			if ($serviceType == 'local')
 			{
 				$filter_qry .= " AND booking.bkg_booking_type IN(4,9,10,11,12,15)";
 			}
-			if($serviceType == 'outstation')
+			if ($serviceType == 'outstation')
 			{
 				$filter_qry .= " AND booking.bkg_booking_type IN(1,2,3,5,6,7,8)";
 			}
-			if($serviceType == 'all')
+			if ($serviceType == 'all')
 			{
 				$filter_qry .= " AND booking.bkg_booking_type IN(1,2,3,5,6,7,8,4,9,10,11,12,15)";
 			}
 
-			if($date != "")
+			if ($date != "")
 			{
 				$filter_qry .= " AND booking.bkg_pickup_date LIKE '" . $date . "%'";
 			}
@@ -1593,7 +1593,7 @@ class BookingVendorRequest extends CActiveRecord
 		$acptBidPercent	 = ($vndBoostEnable > 0) ? (5 - $vndBoostPercent * 0.01 * 2) : 5;
 		$zones			 = implode(",", $filterModel->zones);
 		$query			 = "";
-		if($zones != "")
+		if ($zones != "")
 		{
 			$sqlServiceZone	 = $zones;
 			$query			 = "AND (zct.zct_zon_id IN ($sqlServiceZone) AND zct.zct_cty_id NOT IN (" . $vndInfo['vnp_excluded_cities'] . "))";
@@ -1603,13 +1603,23 @@ class BookingVendorRequest extends CActiveRecord
 			$sqlServiceZone	 = "SELECT hsz_service_id FROM home_service_zones WHERE hsz_home_id IN ({$vndInfo['vnp_home_zone']})";
 			$query			 = "AND ((zct.zct_zon_id IN ($sqlServiceZone) AND zct.zct_cty_id NOT IN (" . $vndInfo['vnp_excluded_cities'] . ")) OR zct.zct_zon_id IN (" . $vndInfo['vnp_home_zone'] . "))";
 		}
-		if($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
+		if ($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
 		{
 			$vndIsFreeze = 0;
 		}
 
-		if($vndInfo['vnd_is_dco'] == 1)
+		if ($vndInfo['vnd_is_dco'] == 1)
 		{
+			$res = Vendors::checkDriverCountForDCO($vendorId);
+
+			$isSelfDriver		 = $res['isSelfDriver']; ##1
+			$drvCount			 = $res['drvCount']; ##4
+			$isSelfInDriverList	 = $res['isSelfInDriverList']; #1
+			if ($isSelfDriver <> 1 || ( $drvCount - $isSelfInDriverList > 0 ))
+			{
+				goto skipDCOCheck;
+			}
+
 			// Check DCO bookings to be excluded if he is already assigned with another trip at the same time
 			$sql			 = "SELECT GROUP_CONCAT(DISTINCT bkgnew.bkg_id)
 					FROM   booking_cab bcb
@@ -1619,20 +1629,21 @@ class BookingVendorRequest extends CActiveRecord
 					INNER JOIN zone_cities zct ON zct.zct_cty_id = bkgnew.bkg_from_city_id
 					WHERE  bcb.bcb_active = 1 AND bcbnew.bcb_active = 1 $query";
 			$excludeBookings = DBUtil::querySCalar($sql, DBUtil::SDB());
+			skipDCOCheck:
 		}
 		$excludeBookings = ($excludeBookings == null || $excludeBookings == '') ? -1 : $excludeBookings;
 
 		/** According to discussion on 24/08/22 with AK & KG in pending list all types of booking will not shown except service added with vendor* */
 		/** According to AK for in case of airport booking if vendor dependency score>60 then able accept booking if  airport service not added to that vendor * */
-		if($vndInfo['vnp_oneway'] != 1)
+		if ($vndInfo['vnp_oneway'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(1)";
 		}
-		if($vndInfo['vnp_round_trip'] != 1)
+		if ($vndInfo['vnp_round_trip'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(2)";
 		}
-		if($vndInfo['vnp_multi_trip'] != 1)
+		if ($vndInfo['vnp_multi_trip'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(3)";
 		}
@@ -1640,15 +1651,15 @@ class BookingVendorRequest extends CActiveRecord
 		  {
 		  $condSelectProfile .= " AND booking.bkg_booking_type NOT IN(4,12)";
 		  } */
-		if($vndInfo['vnp_package'] != 1)
+		if ($vndInfo['vnp_package'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(5)";
 		}
-		if($vndInfo['vnp_flexxi'] != 1)
+		if ($vndInfo['vnp_flexxi'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(6)";
 		}
-		if($vndInfo['vnp_daily_rental'] != 1)
+		if ($vndInfo['vnp_daily_rental'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(9,10,11)";
 		}
@@ -1656,14 +1667,14 @@ class BookingVendorRequest extends CActiveRecord
 
 		$tiers		 = [];
 		$serviceTier = $filterModel->tierList;
-		foreach($serviceTier as $service)
+		foreach ($serviceTier as $service)
 		{
-			if($service->name == 'select')
+			if ($service->name == 'select')
 			{
 				$tiers[] = 4;
 				$tiers[] = 5;
 			}
-			else if($service->name == 'value')
+			else if ($service->name == 'value')
 			{
 				$tiers[] = 1;
 				$tiers[] = 6;
@@ -1674,14 +1685,14 @@ class BookingVendorRequest extends CActiveRecord
 			}
 		}
 		$serviceTierList = $filterModel->tiers;
-		foreach($serviceTierList as $service)
+		foreach ($serviceTierList as $service)
 		{
-			if($service == 3)
+			if ($service == 3)
 			{
 				$tiers[] = 4;
 				$tiers[] = 5;
 			}
-			else if($service == 1)
+			else if ($service == 1)
 			{
 				$tiers[] = 1;
 				$tiers[] = 6;
@@ -1693,22 +1704,22 @@ class BookingVendorRequest extends CActiveRecord
 		}
 		$tier_string = implode(",", array_unique($tiers));
 
-		if($tier_string != "")
+		if ($tier_string != "")
 		{
 			$condSelectTierCheck		 = " AND service_class.scc_id IN ($tier_string) ";
 			$condSelectTierCheckMatched	 = " AND scc.scc_id IN ($tier_string) ";
 		}
 		else
 		{
-			$condSelectTierCheck		 = " AND service_class.scc_id IN ({$vndInfo['vnp_is_allowed_tier']}) ";
-			$condSelectTierCheckMatched	 = " AND scc.scc_id IN ({$vndInfo['vnp_is_allowed_tier']}) ";
+//			$condSelectTierCheck		 = " AND service_class.scc_id IN ({$vndInfo['vnp_is_allowed_tier']}) ";
+//			$condSelectTierCheckMatched	 = " AND scc.scc_id IN ({$vndInfo['vnp_is_allowed_tier']}) ";
 		}
 
 
 		$search_qry		 = '';
 		$search_txt		 = $filterModel->search_txt;
 		$allowedZones	 = implode(',', array_filter(explode(',', $vndInfo['vnp_accepted_zone'] . ',' . $vndInfo['vnp_home_zone'])));
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_txt	 = addslashes($search_txt);
 			$search_qry	 = " AND
@@ -1726,12 +1737,12 @@ class BookingVendorRequest extends CActiveRecord
 							AND  booking.bkg_id NOT IN($excludeBookings)	
 						)";
 
-		if($filterModel->sort == 'newestBooking')
+		if ($filterModel->sort == 'newestBooking')
 		{
 			//$sortCond = "ORDER BY bkgIds DESC,isGozoNow DESC";
 			$sortCond = "ORDER BY bcb_bid_start_time DESC";
 		}
-		if($filterModel->sort == 'earliestBooking' || $sortCond == "")
+		if ($filterModel->sort == 'earliestBooking' || $sortCond == "")
 		{
 			$sortCond = "ORDER BY bkg_pickup_date ASC";
 		}
@@ -1742,11 +1753,11 @@ class BookingVendorRequest extends CActiveRecord
 		$date		 = $filterModel->date;
 		$isGozoNow	 = $filterModel->isGozoNow;
 
-		if(!empty($filterModel))
+		if (!empty($filterModel))
 		{
 			$bidStatus	 = $filterModel->bidStatus;
 			$filter_qry	 = "";
-			if($bidStatus == 1)
+			if ($bidStatus == 1)
 			{
 				$isBid		 = true;
 				$filter_qry	 .= " AND (bvr_id IS NOT NULL AND bvr_accepted = 1 AND bvr_vendor_id = $vendorId)";
@@ -1754,20 +1765,20 @@ class BookingVendorRequest extends CActiveRecord
 
 			$offerTypeList = $filterModel->offerTypes;
 //			$offerTypeList	 = array_diff($offerTypeList, [1]);
-			if(sizeof($offerTypeList) > 0)
+			if (sizeof($offerTypeList) > 0)
 			{
 				$offerQryrRaw = [];
-				foreach($offerTypeList as $offerType)
+				foreach ($offerTypeList as $offerType)
 				{//1=>new, 2 =>denied,3=>offered
-					if($offerType == 1)// =>new
+					if ($offerType == 1)// =>new
 					{
 						$offerQryrRaw[] = "(bvr_id IS NULL  OR (bvr_id IS NOT NULL AND bvr_accepted <> 2 AND bvr_vendor_id = $vendorId)) ";
 					}
-					if($offerType == 2)// =>denied
+					if ($offerType == 2)// =>denied
 					{
 						$offerQryrRaw[] = "(bvr_id IS NOT NULL AND bvr_accepted = 2 AND bvr_bid_amount = 0) AND bvr_vendor_id = $vendorId";
 					}
-					if($offerType == 3)//offered
+					if ($offerType == 3)//offered
 					{
 						$offerQryrRaw[] = "(bvr_id IS NOT NULL AND bvr_accepted = 1 AND bvr_bid_amount > 0) AND bvr_vendor_id = $vendorId";
 					}
@@ -1778,40 +1789,40 @@ class BookingVendorRequest extends CActiveRecord
 
 			$serviceType = $filterModel->serviceType;
 			$bkgTypes	 = '';
-			if($serviceType == 'local')
+			if ($serviceType == 'local')
 			{
 				$bkgTypes = '4,9,10,11,12,15';
 			}
-			if($serviceType == 'outstation')
+			if ($serviceType == 'outstation')
 			{
 				$bkgTypes = '1,2,3,5,6,7,8';
 			}
-			if($serviceType == 'all' || (empty($filterModel->serviceType) && empty($filterModel->serviceTypes)) || !$filterModel->serviceTypes[0])
+			if ($serviceType == 'all' || (empty($filterModel->serviceType) && empty($filterModel->serviceTypes)) || !$filterModel->serviceTypes[0])
 			{
 				$bkgTypes = '1,2,3,5,6,7,8,4,9,10,11,12,15';
 			}
 
-			if(sizeof($filterModel->serviceTypes) > 0)
+			if (sizeof($filterModel->serviceTypes) > 0)
 			{
 				$bkgTypes = ltrim($bkgTypes . ',' . implode(',', $filterModel->serviceTypes), ',');
 			}
 			$filter_qry .= " AND booking.bkg_booking_type IN($bkgTypes)";
 
-			if($date != "")
+			if ($date != "")
 			{
 				$fromDate	 = $date . " 00:00:00";
 				$toDate		 = $date . " 23:59:59";
 				$filter_qry	 .= " AND booking.bkg_pickup_date BETWEEN '$fromDate' AND '$toDate' ";
 			}
-			elseif($filterModel->pickupDateRange->fromDate || $filterModel->pickupDateRange->toDate)
+			elseif ($filterModel->pickupDateRange->fromDate || $filterModel->pickupDateRange->toDate)
 			{
 
-				if($filterModel->pickupDateRange->fromDate)
+				if ($filterModel->pickupDateRange->fromDate)
 				{
 					$fromDate	 = $filterModel->pickupDateRange->fromDate . " 00:00:00";
 					$filter_qry	 .= " AND booking.bkg_pickup_date >= '$fromDate' ";
 				}
-				if($filterModel->pickupDateRange->toDate)
+				if ($filterModel->pickupDateRange->toDate)
 				{
 					$toDate		 = $filterModel->pickupDateRange->toDate . " 23:59:59";
 					$filter_qry	 .= " AND booking.bkg_pickup_date <= '$toDate' ";
@@ -1821,7 +1832,7 @@ class BookingVendorRequest extends CActiveRecord
 			{
 				$filter_qry .= " AND booking.bkg_pickup_date > DATE_SUB(NOW(), INTERVAL 2 HOUR) ";
 			}
-			if($isGozoNow == 1)
+			if ($isGozoNow == 1)
 			{
 				$filter_qry .= "AND booking_pref.bkg_is_gozonow=1";
 			}
@@ -1855,7 +1866,7 @@ class BookingVendorRequest extends CActiveRecord
 		#DBUtil::createTempTable($createTempTable, $sqlTemp);
 		$bidQuery		 = "LEFT JOIN booking_vendor_request bvr ON bvr.bvr_bcb_id = bkg_bcb_id 
  			AND bvr.bvr_vendor_id = $vendorId AND bvr_active = 1";
-		if($filterModel->denyStatus == 1)
+		if ($filterModel->denyStatus == 1)
 		{
 
 //				$bidQuery = "LEFT JOIN booking_vendor_request bvr ON bvr.bvr_bcb_id = bkg_bcb_id  AND bvr.bvr_vendor_id = $vendorId AND bvr.bvr_accepted =2";
@@ -1940,8 +1951,8 @@ class BookingVendorRequest extends CActiveRecord
 
 		//According to Abhishek sir ($condSelectTierCheck) tier checking removed on 24-03-2023.
 		//Logger::trace("BookingCab::model()->getRevenueBreakup($tripId) :: " . json_encode($revenueDetails));
-		Logger::info('SQL MAIN ===>' . $sqlMain);
-		$data	 = DBUtil::query($sqlMain, DBUtil::SDB());
+		Logger::trace('SQL MAIN ===>' . $sqlMain);
+		$data = DBUtil::query($sqlMain, DBUtil::SDB());
 
 //		DBUtil::dropTempTable($createTempTable);
 
@@ -1952,47 +1963,47 @@ class BookingVendorRequest extends CActiveRecord
 	{
 		$carVal = array();
 
-		if(in_array(1, $car_arr))
+		if (in_array(1, $car_arr))
 		{
 			array_push($carVal, 1);
 		}
-		if(in_array(2, $car_arr))
+		if (in_array(2, $car_arr))
 		{
 			array_push($carVal, 1, 2, 3);
 		}
-		if(in_array(3, $car_arr))
+		if (in_array(3, $car_arr))
 		{
 			array_push($carVal, 1, 3);
 		}
-		if(in_array(4, $car_arr))
+		if (in_array(4, $car_arr))
 		{
 			array_push($carVal, 4);
 		}
-		if(in_array(5, $car_arr))
+		if (in_array(5, $car_arr))
 		{
 			array_push($carVal, 5);
 		}
-		if(in_array(6, $car_arr))
+		if (in_array(6, $car_arr))
 		{
 			array_push($carVal, 6);
 		}
-		if(in_array(7, $car_arr))
+		if (in_array(7, $car_arr))
 		{
 			array_push($carVal, 7);
 		}
-		if(in_array(8, $car_arr))
+		if (in_array(8, $car_arr))
 		{
 			array_push($carVal, 8);
 		}
-		if(in_array(9, $car_arr))
+		if (in_array(9, $car_arr))
 		{
 			array_push($carVal, 9);
 		}
-		if(in_array(10, $car_arr))
+		if (in_array(10, $car_arr))
 		{
 			array_push($carVal, 10);
 		}
-		if(in_array(11, $car_arr))
+		if (in_array(11, $car_arr))
 		{
 			array_push($carVal, 11);
 		}
@@ -2033,12 +2044,12 @@ class BookingVendorRequest extends CActiveRecord
 		//$acptBidPercent  = ($vndBoostEnable > 0) ? (5-($vndBoostPercent*2*0.01)) : 5;
 #echo $vndRating.'-'.$vndStickyScr.'-'.$vndPenaltyCount.'-'.$vndDriverApp.'-'.$vndDependency.'-'.$vndBoostPercent.'';exit;
 
-		if($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
+		if ($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
 		{
 			$vndIsFreeze = 0;
 		}
 
-		if($vndInfo['vnd_cat_type'] == 1)
+		if ($vndInfo['vnd_cat_type'] == 1)
 		{
 			$sql = "SELECT GROUP_CONCAT(bkgnew.bkg_id)
 					FROM   booking_cab bcb
@@ -2055,31 +2066,31 @@ class BookingVendorRequest extends CActiveRecord
 
 		$excludeBookings = ($excludeBookings == null || $excludeBookings == '') ? -1 : $excludeBookings;
 
-		if($vndInfo['vnp_oneway'] != 1 && $vndInfo['vnp_oneway'] != -1)
+		if ($vndInfo['vnp_oneway'] != 1 && $vndInfo['vnp_oneway'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(1)";
 		}
-		if($vndInfo['vnp_round_trip'] != 1 && $vndInfo['vnp_round_trip'] != -1)
+		if ($vndInfo['vnp_round_trip'] != 1 && $vndInfo['vnp_round_trip'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(2)";
 		}
-		if($vndInfo['vnp_multi_trip'] != 1 && $vndInfo['vnp_multi_trip'] != -1)
+		if ($vndInfo['vnp_multi_trip'] != 1 && $vndInfo['vnp_multi_trip'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(3)";
 		}
-		if($vndInfo['vnp_airport'] != 1 && $vndInfo['vnp_airport'] != -1)
+		if ($vndInfo['vnp_airport'] != 1 && $vndInfo['vnp_airport'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(4)";
 		}
-		if($vndInfo['vnp_package'] != 1 && $vndInfo['vnp_package'] != -1)
+		if ($vndInfo['vnp_package'] != 1 && $vndInfo['vnp_package'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(5)";
 		}
-		if($vndInfo['vnp_flexxi'] != 1 && $vndInfo['vnp_flexxi'] != -1)
+		if ($vndInfo['vnp_flexxi'] != 1 && $vndInfo['vnp_flexxi'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(6)";
 		}
-		if($vndInfo['vnp_daily_rental'] != 1 && $vndInfo['vnp_daily_rental'] != -1)
+		if ($vndInfo['vnp_daily_rental'] != 1 && $vndInfo['vnp_daily_rental'] != -1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(9,10,11)";
 		}
@@ -2097,7 +2108,7 @@ class BookingVendorRequest extends CActiveRecord
 		$includeBookings = ($includeBookings == null || $includeBookings == '') ? -1 : $includeBookings;
 
 		$search_qry = '';
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_qry = " HAVING
 				(
@@ -2109,22 +2120,22 @@ class BookingVendorRequest extends CActiveRecord
 				)";
 		}
 
-		if($sort == 'pk')
+		if ($sort == 'pk')
 		{
 			$sortCond = "ORDER BY bkg_pickup_date ASC";
 		}
-		else if($sort == 'nk')
+		else if ($sort == 'nk')
 		{
 			$sortCond = "ORDER BY bcb_id DESC";
 		}
-		else if($sort == 'NF')
+		else if ($sort == 'NF')
 		{
 			$sortCond = "ORDER BY booking_priority_date DESC";
 		}
 
-		if($page_no >= 0)
+		if ($page_no >= 0)
 		{
-			if($limitFlag != 2)
+			if ($limitFlag != 2)
 			{
 				$offset		 = $page_no * 30;
 				$limitCond	 = ($total_count == 0) ? " LIMIT 30 OFFSET $offset" : " ";
@@ -2135,43 +2146,43 @@ class BookingVendorRequest extends CActiveRecord
 			}
 		}
 
-		if($filter == null)
+		if ($filter == null)
 		{
 			$filter_qry = " AND (bvr_id IS NULL OR bvr_accepted = 1)";
 		}
 		else
 		{
-			if(isset($filter['bid']) && $filter['bid'] == 1)
+			if (isset($filter['bid']) && $filter['bid'] == 1)
 			{
 				$isBid = true;
 
 				$filter_qry = " AND (bvr_id IS NOT NULL AND bvr_accepted = 1)";
 			}
-			if(isset($filter['local']) && $filter['local'] == 1)
+			if (isset($filter['local']) && $filter['local'] == 1)
 			{
 				$isLocal	 = true;
 				$filter_qry	 = " AND booking.bkg_booking_type IN(4,9,10,11,15)";
 
-				if($isBid && $isLocal)
+				if ($isBid && $isLocal)
 				{
 					$filter_qry = " AND ((bvr_id IS NOT NULL AND bvr_accepted = 1) OR booking.bkg_booking_type IN(4,9,10,11,15))";
 				}
 			}
-			if(isset($filter['outstation']) && $filter['outstation'] == 1)
+			if (isset($filter['outstation']) && $filter['outstation'] == 1)
 			{
 				$isOutstaion = true;
 				$filter_qry	 = " AND booking.bkg_booking_type IN(1,2,3,5,6,7,8)";
-				if($isBid && $isLocal && $isOutstaion)
+				if ($isBid && $isLocal && $isOutstaion)
 				{
 					$filter_qry = " AND ((bvr_id IS NOT NULL AND bvr_accepted = 1) OR booking.bkg_booking_type IN(4,9,10,11,15) OR booking.bkg_booking_type IN(1,2,3,5,6,7,8))";
 				}
 
-				if($isBid && !$isLocal && $isOutstaion)
+				if ($isBid && !$isLocal && $isOutstaion)
 				{
 					$filter_qry = " AND ((bvr_id IS NOT NULL AND bvr_accepted = 1) OR booking.bkg_booking_type IN(1,2,3,5,6,7,8))";
 				}
 
-				if(!$isBid && $isLocal && $isOutstaion)
+				if (!$isBid && $isLocal && $isOutstaion)
 				{
 					$filter_qry = " AND (booking.bkg_booking_type IN(4,9,10,11,15) OR booking.bkg_booking_type IN(1,2,3,5,6,7,8))";
 				}
@@ -2305,19 +2316,19 @@ class BookingVendorRequest extends CActiveRecord
 
 		$recordsets = $this->getAutoAssignMatchData();
 
-		foreach($recordsets as $value)
+		foreach ($recordsets as $value)
 		{
 			$result	 = $this->getTopMatch($value['upbkg'], $value['downbkg']);
 			$trans	 = DBUtil::beginTransaction();
 			try
 			{
-				if(!$result)
+				if (!$result)
 				{
 					BookingPref::model()->setManualAssignMatched($value['upbkg']);
 					continue;
 				}
 
-				if($result['bsm_id'] > 0)
+				if ($result['bsm_id'] > 0)
 				{
 					$upBooking				 = Booking::model()->findByPk($result['bsm_upbooking_id']);
 					$upBooking->bkg_bcb_id	 = $result['bvr_bcb_id'];
@@ -2327,7 +2338,7 @@ class BookingVendorRequest extends CActiveRecord
 					$downBooking->bkg_bcb_id = $result['bvr_bcb_id'];
 					$downBooking->save();
 					$result1				 = BookingCab::model()->assignVendor($result['bvr_bcb_id'], $result['bvr_vendor_id'], $result['bvr_bid_amount'], "Vendor AutoAssigned And Booking Matched (" . $result['bsm_upbooking_id'] . "," . $result['bsm_downbooking_id'] . ")", UserInfo::getInstance(), 0);
-					if($result1->isSuccess())
+					if ($result1->isSuccess())
 					{
 						$this->assignVendor($result['bvr_bcb_id'], $result['bvr_vendor_id']);
 						BookingSmartmatch::model()->deactivateAllPreMatchedBooking($result['bsm_upbooking_id'], $result['bsm_downbooking_id'], $result['bsm_id']);
@@ -2345,11 +2356,11 @@ class BookingVendorRequest extends CActiveRecord
 				else
 				{
 					$arrBvr = Explode(',', $result['bvr_id']);
-					foreach($arrBvr as $bvr)
+					foreach ($arrBvr as $bvr)
 					{
 						$bookingVendorRequest	 = BookingVendorRequest::model()->findByPk($bvr);
 						$result					 = BookingCab::model()->assignVendor($bookingVendorRequest->bvr_bcb_id, $bookingVendorRequest->bvr_vendor_id, $bookingVendorRequest->bvr_bid_amount, "Vendor AutoAssigned Without Match ", UserInfo::getInstance(), 1);
-						if($result->isSuccess())
+						if ($result->isSuccess())
 						{
 							BookingVendorRequest::model()->assignVendor($bookingVendorRequest->bvr_bcb_id, $bookingVendorRequest->bvr_vendor_id);
 
@@ -2360,7 +2371,7 @@ class BookingVendorRequest extends CActiveRecord
 
 				DBUtil::commitTransaction($trans);
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				Logger::exception($e);
 				DBUtil::rollbackTransaction($trans);
@@ -2372,7 +2383,7 @@ class BookingVendorRequest extends CActiveRecord
 	{
 		$recordsets = $this->getAutoAssignData();
 
-		foreach($recordsets as $value)
+		foreach ($recordsets as $value)
 		{
 			$transaction = DBUtil::beginTransaction();
 			try
@@ -2392,7 +2403,7 @@ class BookingVendorRequest extends CActiveRecord
 				//{
 				$result				 = $this->getVendorIdAutoAssigned($vendor_amount, $bcb_id, $maxVendorAmount, $maxLossVendorAmount, $customerDue);
 
-				if(!$result)
+				if (!$result)
 				{
 					//$vndIdAll= BookingVendorRequest::model()->getNotAutoAssignVendorsByBcb($bcb_id,$acceptBidAmt);
 					BookingPref::model()->setManualAssignment($bcb_id);
@@ -2404,7 +2415,7 @@ class BookingVendorRequest extends CActiveRecord
 				$remark		 = 'Vendor Auto Assigned';
 				$vndId		 = $result['bvr_vendor_id'];
 				$result		 = BookingCab::model()->assignVendor($bcb_id, $vndId, $result['bvr_bid_amount'], $remark, UserInfo::getInstance(), 1);
-				if($result->isSuccess())
+				if ($result->isSuccess())
 				{
 					$this->assignVendor($bcb_id, $vndId);
 					BookingTrail::updateProfitFlag($bcb_id);
@@ -2415,7 +2426,7 @@ class BookingVendorRequest extends CActiveRecord
 					throw $result->getException();
 				}
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				Logger::exception($e);
 				DBUtil::rollbackTransaction($transaction);
@@ -2532,7 +2543,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 		Logger::info("autoVendorAssignments: Total records to be processed - " . $recordsets->getRowCount());
 		$i = 0;
 
-		foreach($recordsets as $value)
+		foreach ($recordsets as $value)
 		{
 			$transaction = null;
 			try
@@ -2545,7 +2556,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 				$customerDue	 = ($revenueDetails['customerDue'] == '') ? 0 : $revenueDetails['customerDue'];
 				$totalAdvance	 = $revenueDetails['totalAdvance'];
 
-				if($value['bkg_is_fbg_type'] == 1)
+				if ($value['bkg_is_fbg_type'] == 1)
 				{
 					$maxVendorAmount = $vendor_amount;
 				}
@@ -2561,7 +2572,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 
 				$result = BookingVendorRequest::model()->getTopVendors($maxVendorAmount, $bcb_id, $allowedVA, $customerDue, '3.5', $totalAdvance);
 
-				foreach($result as $rowTopVendor)
+				foreach ($result as $rowTopVendor)
 				{
 					Logger::info("getTopVendor({$maxVendorAmount}, {$bcb_id}, {$allowedVA}, {$customerDue})  - " . json_encode($rowTopVendor) . "\n");
 					$remark		 = 'Vendor Auto Assigned';
@@ -2570,7 +2581,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 					$bidID		 = $rowTopVendor['bvr_id'];
 
 					$bcbModel = BookingCab::model()->findByPk($bcb_id);
-					if(empty($bcbModel->bookings))
+					if (empty($bcbModel->bookings))
 					{
 						goto skipAssignment;
 					}
@@ -2578,17 +2589,17 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 					$bookingType	 = $bookingModel->bkg_booking_type;
 
 					//check vendor service available or not
-					if($bookingType == 4 || $bookingType == 12)
+					if ($bookingType == 4 || $bookingType == 12)
 					{
 						$vendorService = VendorPref::checkApprovedService($vndId, $bookingType);
-						if($vendorService < 1)
+						if ($vendorService < 1)
 						{
 							goto skipAssignment;
 						}
 					}
 					// validation for auto assigment
 					$validateBidding = BookingVendorRequest::assignmentValidation($bcb_id, $rowTopVendor['bvr_vendor_id']);
-					if($validateBidding > 0)
+					if ($validateBidding > 0)
 					{
 						goto skipAssignment;
 					}
@@ -2596,7 +2607,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 					$returnStatus	 = BookingCab::model()->assignVendor($bcb_id, $vndId, $rowTopVendor['bvr_bid_amount'], $remark, UserInfo::getInstance(), 0, $smtScore);
 
 					//$result->notifyAssignVendor();
-					if(!$returnStatus->isSuccess())
+					if (!$returnStatus->isSuccess())
 					{
 						throw $returnStatus->getException();
 					}
@@ -2607,7 +2618,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 					BookingTrail::updateProfitFlag($bcb_id);
 
 					DBUtil::commitTransaction($transaction);
-					if($tripid != null && $returnStatus->isSuccess())
+					if ($tripid != null && $returnStatus->isSuccess())
 					{
 						$returnSet->setStatus(true);
 						$returnSet->setMessage("Vendor assign successsfully");
@@ -2618,11 +2629,11 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 					continue;
 				}
 			}
-			catch(Exception $e)
+			catch (Exception $e)
 			{
 				DBUtil::rollbackTransaction($transaction);
 				ReturnSet::setException($e);
-				if($tripid != null)
+				if ($tripid != null)
 				{
 					$returnSet->setStatus(false);
 					$returnSet->setMessage("Failed to assign vendor");
@@ -2630,7 +2641,10 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 			}
 		}
 		Logger::info("autoVendorAssignments - Total booking auto assigned: $i");
-		if($tripid != null)
+		## Assign to EverestFleet
+		BookingCab::assignToEverestFleet();
+
+		if ($tripid != null)
 		{
 			return $returnSet;
 		}
@@ -2640,7 +2654,7 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 	public function getVendorAutoAssignments($tripid = '')
 	{
 		$cond = '';
-		if($tripid > 0)
+		if ($tripid > 0)
 		{
 			$cond = " AND bcb_id = {$tripid}";
 		}
@@ -2693,15 +2707,15 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 		$vhcModel		 = ($scvId == 4 || $scvId == 5) ? $bkgModel[0]->bkgSvcClassVhcCat->scv_label : $bkgModel[0]->bkgSvcClassVhcCat->scc_ServiceClass->scc_label;
 		$cabModel		 = $bkgModel[0]->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label . '(' . $vhcModel . ')';
 		$route			 = $bkgModel[0]->bkgFromCity->cty_full_name . ' to ' . $bkgModel[0]->bkgToCity->cty_full_name;
-		if(count($getIDs) > 0)
+		if (count($getIDs) > 0)
 		{
-			foreach($getIDs as $value)
+			foreach ($getIDs as $value)
 			{
 
 				$lostVendor		 = $value['bvr_vendor_id'];
 				$getLossQuality	 = $this->getQualityScaleVendor($bcbID, $lostVendor);
 				$getMsg			 = $this->buildMsg($getLossQuality, $getWinQuality, $bcbID);
-				if($getMsg)
+				if ($getMsg)
 				{
 					//$msg = $getMsg;
 				}
@@ -2712,13 +2726,13 @@ ORDER BY `booking_vendor_request`.`bvr_vendor_rating` ASC";
 							. " and higher driver app usage";
 				}
 				$msg = BookingVendorRequest::showBidRankForLooser($bcbID, $value['bvr_vendor_id'], $winVendor, $model->bcb_vendor_amount);
-				if($directAcpt == 1)
+				if ($directAcpt == 1)
 				{
 					$msg = "You lost the bid with Trip ID : $bcbID | $cabModel | $route. Booking was directly accepted by another operator";
 				}
 				$payLoadData = ['tripId' => $bcbID, 'EventCode' => Booking::CODE_VENDOR_BROADCAST];
 				$success	 = AppTokens::model()->notifyVendor($value['bvr_vendor_id'], $payLoadData, $msg, "Booking not assigned");
-				if($success)
+				if ($success)
 				{
 					$this->updateNotificationFlag($value['bvr_vendor_id'], $bcbID);
 				}
@@ -2771,15 +2785,15 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$msg	 = "Your bid for TRIP: $bcbID did not win because winner ";
 		$msgExt	 = "";
-		if($lostBidAmt > $winBidAmt)
+		if ($lostBidAmt > $winBidAmt)
 		{
 			$msgExt .= " has lower bid and";
-		} if($winRating > $lostRating)
+		} if ($winRating > $lostRating)
 		{
 			$msgExt .= " has better rating and";
 		}
 		//if ($winDriverAppUsage > $lostDriverAppUsage)
-		if(1 == 1)
+		if (1 == 1)
 		{
 			$msgExt .= " uses driver app more regularly and";
 		}
@@ -2824,7 +2838,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$bvrModel->bvr_assigned_at	 = new CDbExpression('NOW()');
 		$bvrModel->bvr_active		 = 1;
 		$success					 = false;
-		if($bvrModel->save())
+		if ($bvrModel->save())
 		{
 
 			$success = true;
@@ -2885,7 +2899,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	{
 
 		$pageSize = 25;
-		if($viewType == 1)
+		if ($viewType == 1)
 		{
 			$pageSize = 20;
 		}
@@ -2935,29 +2949,29 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$winnerStatus	 = BookingVendorRequest::model()->checkHighestStatus($bookingId);
 		$winning_amount	 = $winnerStatus['winning_amount'];
 		$winner_score	 = $winnerStatus['bvr_vendor_score'];
-		if($winning_amount != "")
+		if ($winning_amount != "")
 		{
 			$reqArr = BookingVendorRequest::vendorOwnRank($bookingId, $vendorId);
 
-			if(!empty($reqArr))
+			if (!empty($reqArr))
 			{
 
 				$bidDiffernece	 = $reqArr['bvr_bid_amount'] - $winning_amount;
 				$status			 = ($bidDiffernece < 0 ? 'higher' : 'lower');
-				if($bidDiffernece > 0)
+				if ($bidDiffernece > 0)
 				{
 					$winnerMsg = ", Winning bid is ₹" . $bidDiffernece . ' ' . $status;
 				}
-				if($winner_score != null || $winner_score != "")
+				if ($winner_score != null || $winner_score != "")
 				{
 					$winner_score = " and winning partner performance score is " . $winner_score;
 				}
 
 
-				if($boostStatus == 1)
+				if ($boostStatus == 1)
 				{
 					$bidRank = ($reqArr['bid_rank'] < 4 ? "is in top 3" : $reqArr['bid_rank']);
-					if($reqArr['bid_rank'] == 1)
+					if ($reqArr['bid_rank'] == 1)
 					{
 						$msg = "Your bid rank " . $bidRank . " Bid rank will keep changing as other bids come in";
 					}
@@ -2992,26 +3006,26 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$winning_amount	 = $winnerStatus['winning_amount'];
 		$winner_score	 = $winnerStatus['bvr_vendor_score'];
-		if($winning_amount != "")
+		if ($winning_amount != "")
 		{
 			$reqArr = BookingVendorRequest::vendorOwnRank($bookingId, $vendorId);
 
-			if(!empty($reqArr))
+			if (!empty($reqArr))
 			{
 
 				$bidDiffernece	 = $reqArr['bvr_bid_amount'] - $winning_amount;
 				$status			 = ($bidDiffernece < 0 ? 'higher' : 'lower');
-				if($bidDiffernece > 0)
+				if ($bidDiffernece > 0)
 				{
 					$winnerMsg = ", Winners bid is ₹ " . $bidDiffernece . ' ' . $status;
 				}
-				if($winner_score != null || $winner_score != "")
+				if ($winner_score != null || $winner_score != "")
 				{
 					$winner_score = ", Winner performance score is " . $winner_score;
 				}
 
 
-				if($boostStatus == 1)
+				if ($boostStatus == 1)
 				{
 
 					$msg = "Your bid rank is " . $reqArr['bvr_rank'] . "" . $winnerMsg . "" . $winner_score;
@@ -3043,20 +3057,20 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$winner_score		 = $winnerStatus['bvr_vendor_score'];
 
 		$reqArr = BookingVendorRequest::vendorOwnRank($bookingId, $vendorId);
-		if(!empty($reqArr))
+		if (!empty($reqArr))
 		{
 			$bidDiffernece = $reqArr['bvr_bid_amount'] - $winning_amount;
 
-			if($winner_score >= 1)
+			if ($winner_score >= 1)
 			{
 				$wining_msg = "and his performance score is $winner_score";
 			}
 			$status = ($bidDiffernece < 0 ? 'higher' : 'lower');
-			if($boostStatus == 0)
+			if ($boostStatus == 0)
 			{ //non boosted vendor
-				if($reqArr['bvr_assigned'] != 1)
+				if ($reqArr['bvr_assigned'] != 1)
 				{
-					switch($winnerBoostStatus)
+					switch ($winnerBoostStatus)
 					{
 						case 0:
 							//$msg = "you lost TripId " . $tripId . " from " . $bookingRouteName . ", Winners bid is " . $status . " $wining_msg"." Get Gozo boost to increase your chance to win bids";
@@ -3077,9 +3091,9 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			}
 			else
 			{   // boosted vendor
-				if($reqArr['bvr_assigned'] != 1)
+				if ($reqArr['bvr_assigned'] != 1)
 				{
-					switch($winnerBoostStatus)
+					switch ($winnerBoostStatus)
 					{
 						case 0:
 
@@ -3116,7 +3130,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$bookingId			 = $bookingIds[0];
 		$bookingRouteName	 = BookingRoute::model()->getRouteNameByBookingId($bookingId);
 		$boostStatus		 = BookingVendorRequest::model()->checkBoostStatus($vendorId);
-		switch($boostStatus)
+		switch ($boostStatus)
 		{
 			case 0:
 				$msg = "You won TRIPID " . $tripId . " from " . $bookingRouteName . " because your bid rank is best.";
@@ -3135,7 +3149,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$getBkgId	 = BookingCab::getBkgIdByTripId($tripId);
 		$bookingIds	 = explode(",", $getBkgId[bkg_ids]);
 		$bookingId	 = $bookingIds[0];
-		if($bookingId != "")
+		if ($bookingId != "")
 		{
 			$bookingRouteName	 = BookingRoute::model()->getRouteNameByBookingId($bookingId);
 			$boostStatus		 = BookingVendorRequest::model()->checkBoostStatus($vendorId);
@@ -3144,20 +3158,20 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			$winner_score		 = $winnerStatus['bvr_vendor_score'];
 
 			$reqArr = BookingVendorRequest::vendorOwnRank($bookingId, $vendorId);
-			if(!empty($reqArr))
+			if (!empty($reqArr))
 			{
 				$bidDiffernece = $reqArr['bvr_bid_amount'] - $winning_amount;
 
-				if($winner_score >= 1)
+				if ($winner_score >= 1)
 				{
 					$wining_msg = "and his performance score is $winner_score.";
 				}
 				$status = ($bidDiffernece < 0 ? 'higher' : 'lower');
 			}
 
-			if($boostStatus == 0)
+			if ($boostStatus == 0)
 			{ //non boosted vendor
-				switch($winnerBoostStatus)
+				switch ($winnerBoostStatus)
 				{
 					case 0:
 						$msg = "You lost Trip Id " . $reqArr['tripId'] . " from " . $bookingRouteName . ", your bid rank was " . $reqArr['bvr_rank'] . "";
@@ -3172,7 +3186,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			}
 			else
 			{ //boosted vendor
-				switch($winnerBoostStatus)
+				switch ($winnerBoostStatus)
 				{
 					case 0:
 
@@ -3251,7 +3265,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	{
 		$unasignedVendor = BookingLog::UnassignedVendors($bookingId);
 
-		if($unasignedVendor <> '')
+		if ($unasignedVendor <> '')
 		{
 			$uassignVendor = "AND bvr_vendor_id not in($unasignedVendor)"; //remove manually unassign vendor
 		}
@@ -3268,7 +3282,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$bidArr = DBUtil::queryAll($sql, DBUtil::SDB());
 
-		foreach($bidArr as $k => $arr)
+		foreach ($bidArr as $k => $arr)
 		{
 
 			//vendorname
@@ -3294,7 +3308,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public static function updateSMTByTripId($bcbID, $tripVendorAmount = null)
 	{
 		$rows = self::getActiveListByTripId($bcbID);
-		foreach($rows as $value)
+		foreach ($rows as $value)
 		{
 			$vendorId	 = $value['bvr_vendor_id'];
 			$success	 = BookingVendorRequest::updateSMTScore1($bcbID, $vendorId, $tripVendorAmount);
@@ -3317,7 +3331,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		//$maxVendorAmount = ($revenueDetails['bcb_max_allowable_vendor_amount'] == 0) ? $vendorAmount : $revenueDetails['bcb_max_allowable_vendor_amount'];
 
 		$maxVendorAmount = $revenueDetails['bcb_max_allowable_vendor_amount'];
-		if($maxVendorAmount == 0 || $maxVendorAmount == null)
+		if ($maxVendorAmount == 0 || $maxVendorAmount == null)
 		{
 			$maxVendorAmount = $vendorAmount;
 		}
@@ -3360,7 +3374,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	 */
 	public static function scheduleSMTScore($tripId, $vendorId = null, $tripAmount = null)
 	{
-		if($tripAmount == "")
+		if ($tripAmount == "")
 		{
 			return;
 		}
@@ -3422,7 +3436,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public static function copyPrvBid($oldBcbId, $newBcbId, $vendorId)
 	{
 		$rows = self::getOldBids($oldBcbId, $vendorId);
-		foreach($rows as $result)
+		foreach ($rows as $result)
 		{
 			try
 			{
@@ -3447,7 +3461,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				$model->bvr_special_remarks	 = $result['bvr_special_remarks'];
 				$model->bvr_is_gozonow		 = $result['bvr_is_gozonow'];
 				$model->bvr_snooze_time		 = $result['bvr_snooze_time'];
-				if(!$model->save())
+				if (!$model->save())
 				{
 					throw new Exception('copy bid request not set');
 				}
@@ -3461,7 +3475,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				$params['blg_vendor_id'] = $result['bvr_vendor_id'];
 				$res					 = BookingLog::model()->createLog($result['bvr_booking_id'], $desc, $userInfo, $eventId, '', $params);
 			}
-			catch(Exception $exc)
+			catch (Exception $exc)
 			{
 				Logger::error($exc);
 			}
@@ -3505,7 +3519,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	{
 		$params	 = ['days' => $days];
 		$where	 = '';
-		if($vendorId > 0)
+		if ($vendorId > 0)
 		{
 			$params ['vndId']	 = $vendorId;
 			$where				 = ' AND bvr.bvr_vendor_id=:vndId';
@@ -3528,12 +3542,32 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	 * @param int $bcbId
 	 * @return Array
 	 */
+	public static function getactionedTakenVendor($bcbId)
+	{
+
+		$appliedVendors		 = self::getAppliedVendors($bcbId);
+		$notifiedVendorList	 = [];
+		$readVendorsList	 = [];
+		if ($appliedVendors)
+		{
+			$notifiedVendorList = explode(',', $appliedVendors); //Notified vendor id array
+		}
+		$readVendors = NotificationLog::getReadVendor($bcbId); // readed vendor
+		if ($readVendors)
+		{
+			$readVendorsList = explode(',', $readVendors); //Notified vendor id array
+		}
+		$vendorsToExclude	 = array_unique(array_merge($notifiedVendorList, $readVendorsList));
+		$excludedVendor		 = implode(',', $vendorsToExclude);
+		return $excludedVendor;
+	}
+
 	public static function getAppliedVendors($bcbId)
 	{
 		$params	 = ['bcbId' => $bcbId];
 		$sql	 = "SELECT  GROUP_CONCAT(DISTINCT bvr.bvr_vendor_id) vndIds
 					FROM booking_vendor_request bvr 
-					WHERE bvr.bvr_bcb_id=:bcbId 
+					WHERE bvr.bvr_bcb_id=:bcbId AND bvr_accepted <>0
 					GROUP BY bvr.bvr_bcb_id ";
 		$rows	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		return $rows;
@@ -3658,7 +3692,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			$accept_bcb_id		 = $bcb_id;
 			$bkgAmount			 = BookingInvoice::getBKGAmount($accept_bcb_id);
 
-			if($vendorAmt > $accptVendorAmount)
+			if ($vendorAmt > $accptVendorAmount)
 			{
 				$oldVendorAmt	 = $vendorAmt;
 				$vendorAmt		 = $accptVendorAmount;
@@ -3668,26 +3702,26 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				Logger::pushTraceLogs();
 			}
 
-			if(count($bookingModels) == 0)
+			if (count($bookingModels) == 0)
 			{
 				$bookingModels				 = BookingSmartmatch::model()->getBookings($accept_bcb_id);
 				$bookingCabModel->bookings	 = $bookingModels;
 			}
 			$transaction = DBUtil::beginTransaction();
 
-			if($bookingCabModel->bcb_trip_type == 1 && $bookingModels[0]->bkg_bcb_id != $accept_bcb_id && $bookingModels[1]->bkg_bcb_id != $accept_bcb_id)
+			if ($bookingCabModel->bcb_trip_type == 1 && $bookingModels[0]->bkg_bcb_id != $accept_bcb_id && $bookingModels[1]->bkg_bcb_id != $accept_bcb_id)
 			{
 				goto skip;
 			}
 
-			if($bookingCabModel->bcb_trip_type == 1 && $bookingModels[0]->bkg_bcb_id != $accept_bcb_id && $bookingModels[1]->bkg_bcb_id != $accept_bcb_id)
+			if ($bookingCabModel->bcb_trip_type == 1 && $bookingModels[0]->bkg_bcb_id != $accept_bcb_id && $bookingModels[1]->bkg_bcb_id != $accept_bcb_id)
 			{
 				BookingCab::model()->confirmSmartMatch($accept_bcb_id, $bookingModels[0]->bkg_id, $bookingModels[1]->bkg_id);
 			}
 			$bvrModels = BookingVendorRequest::model()->findByBcbIdAndVendorId($accept_bcb_id, $vendorId);
-			if(count($bvrModels) >= 1)
+			if (count($bvrModels) >= 1)
 			{
-				foreach($bvrModels as $bvrModel)
+				foreach ($bvrModels as $bvrModel)
 				{
 
 					$bvrModel->bvr_assigned		 = 1;
@@ -3695,7 +3729,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 					$bvrModel->bvr_active		 = 1;
 					$bvrModel->bvr_bid_amount	 = $vendorAmt;
 					$success					 = $bvrModel->save();
-					if(!$success)
+					if (!$success)
 					{
 						throw new Exception(json_encode($bvrModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 					}
@@ -3710,20 +3744,20 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 			$return = $bookingCabModel->assignVendor($accept_bcb_id, $vendorId, $accptVendorAmount, '', $userInfo, $assignMode, null, $directAcpt);
 			$bookingCabModel->refresh();
-			if($return->isSuccess() && $success)
+			if ($return->isSuccess() && $success)
 			{
 				$numRows = BookingVendorRequest::model()->updateListByBcb($accept_bcb_id);
 				$success = true;
 			}
 			skip:
-			if(!$return->isSuccess())
+			if (!$return->isSuccess())
 			{
 				$success = false;
 				throw $return->getException();
 			}
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			ReturnSet::setException($exc);
@@ -3754,7 +3788,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		{
 			$modelvendor = Vendors::model()->findByPk($vendorId);
 			$model		 = BookingVendorRequest::model()->find('bvr_bcb_id=:bcbId AND bvr_vendor_id=:vendorId AND bvr_active=1', ['bcbId' => $bcbId, 'vendorId' => $vendorId]);
-			if(!$model)
+			if (!$model)
 			{
 				$model = new BookingVendorRequest();
 
@@ -3770,16 +3804,16 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 				$model->bvr_assigned = 0;
 			}
-			if($model->bvr_bid_amount > 0)
+			if ($model->bvr_bid_amount > 0)
 			{
-				if($model->bvr_is_gozonow == 1 && $bidAmount > $model->bvr_bid_amount)
+				if ($model->bvr_is_gozonow == 1 && $bidAmount > $model->bvr_bid_amount)
 				{
 					throw new Exception('You are exceeding previous offer', ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 				}
 			}
 			$model->bvr_is_gozonow = 1;
 
-			if($isAccept)
+			if ($isAccept)
 			{
 				$model->bvr_bid_amount	 = $bidAmount;
 				$model->bvr_accepted	 = 1;
@@ -3802,18 +3836,18 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			}
 			$model->bvr_accepted_at = new CDbExpression('NOW()');
 
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			DBUtil::commitTransaction($transaction);
 			$res = BookingVendorRequest::scheduleSMTScore($bcbId, $vendorId, $bidAmount);
-			if($success)
+			if ($success)
 			{
 				return $model;
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			throw new Exception($e->getMessage(), $e->getCode());
@@ -3832,7 +3866,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public static function notifiedMultiGNowEntry($vendorArr, $params)
 	{
 		$success = true;
-		foreach($vendorArr as $vendorId)
+		foreach ($vendorArr as $vendorId)
 		{
 			$success = BookingVendorRequest::notifiedGNowEntry($params, $vendorId);
 		}
@@ -3858,7 +3892,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		try
 		{
 			$model = BookingVendorRequest::model()->find('bvr_bcb_id=:bcbId AND bvr_vendor_id=:vendorId AND bvr_active=1', ['bcbId' => $bcbId, 'vendorId' => $vendorId]);
-			if(!$model)
+			if (!$model)
 			{
 				$model = new BookingVendorRequest();
 
@@ -3877,13 +3911,13 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			}
 			$model->bvr_last_reminded_at = DBUtil::getCurrentTime();
 
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception('Bid request not set');
 			}
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			throw new Exception($e->getMessage(), $e->getCode());
@@ -3900,7 +3934,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public static function getGNowAcceptedData($tripId, $hideExpired = true)
 	{
 		$params = ['tripId' => $tripId];
-		if($hideExpired)
+		if ($hideExpired)
 		{
 			$expireOffer = " AND TIMESTAMPDIFF(SECOND,bvr.bvr_accepted_at,NOW()) < 300 ";
 		}
@@ -3933,14 +3967,14 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 //		$returnSet	 = Yii::app()->cache->get($cachekey3);
 		//	if ($returnSet == false)
 		{
-			if($rowCount == 0)
+			if ($rowCount == 0)
 			{
 				$returnSet['message'] = "No bid appeared yet.";
 				goto end;
 			}
 			$returnSet['success']	 = true;
 			$result					 = [];
-			foreach($data as $key => $val)
+			foreach ($data as $key => $val)
 			{
 				$bkgId				 = $val['bvr_booking_id'];
 				$vendorAmount		 = $val['bvr_bid_amount'];
@@ -3957,7 +3991,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				$drvCntId		 = ContactProfile::getByEntityId($driverId, UserInfo::TYPE_DRIVER);
 				$drvCntDetails	 = Contact::getContactDetails($drvCntId);
 				$driverName		 = $drvCntDetails['ctt_first_name'];
-				if(empty(trim($driverName)))
+				if (empty(trim($driverName)))
 				{
 					$drvDetails	 = Drivers::getDriverInfo($driverId);
 					$driverName	 = $drvDetails['drv_name'];
@@ -3987,16 +4021,16 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$cachekey	 = "getGNowAcceptedList_{$tripId}_{$rowCount}_{$viewType}";
 		$returnSet	 = Yii::app()->cache->get($cachekey);
-		if($returnSet == false)
+		if ($returnSet == false)
 		{
-			if($rowCount == 0)
+			if ($rowCount == 0)
 			{
 				$returnSet['message'] = "No bid appeared yet.";
 				goto end;
 			}
 			$returnSet['success']	 = true;
 			$result					 = [];
-			foreach($data as $key => $val)
+			foreach ($data as $key => $val)
 			{
 				$bkgId					 = $val['bvr_booking_id'];
 				$vendorAmount			 = $val['bvr_bid_amount'];
@@ -4080,19 +4114,19 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$params	 = ['vndId' => $vndId];
 		$where	 = '';
-		if($filter != null)
+		if ($filter != null)
 		{
-			if($filter->isNew == 1)
+			if ($filter->isNew == 1)
 			{
-				$where = " AND bvr.bvr_bid_amount=0 AND bvr.bvr_accepted = 0 AND bkg.bkg_status = 2 ";
+				$where = " AND bvr.bvr_bid_amount=0 AND bvr.bvr_accepted = 0  
+ 			AND bkg.bkg_status = 2 ";
 			}
 		}
-
-
-		$qry	 = "SELECT bvr.bvr_bcb_id,bvr.bvr_booking_id,
-					bcb.bcb_vendor_id,bvr.bvr_is_gozonow,
+		$qry	 = "SELECT bvr.bvr_id ,bvr.bvr_bcb_id,bvr.bvr_booking_id,
+					bcb.bcb_vendor_id,bvr.bvr_is_gozonow,bkg_is_gozonow,
+					bvr.bvr_accepted,bvr.bvr_created_at, bvr.bvr_assigned,bvr.bvr_accepted_at,
 					bkg.bkg_booking_id,scv.scv_id,bkg.bkg_status,bvr.bvr_vendor_id,
-					bvr_bid_amount,bkg.bkg_pickup_date,
+					bvr_bid_amount,bkg.bkg_pickup_date,bkg_booking_type,bkg_pickup_address,
 					bkg.bkg_id,bkg.bkg_bcb_id,
 					bkg.bkg_from_city_id from_city_id,
 					bkg.bkg_to_city_id to_city_id,
@@ -4102,7 +4136,8 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 					bkgToCity.cty_name as to_city_name,
 					scv.scv_label,vct.vct_label,vct.vct_desc,bcb.bcb_end_time,bkg.bkg_trip_duration 
 					FROM booking_vendor_request bvr
-					INNER JOIN booking bkg ON bkg.bkg_id = bvr.bvr_booking_id AND bkg.bkg_status IN (2,3,5,6,7,9)  
+					INNER JOIN booking bkg ON bkg.bkg_id = bvr.bvr_booking_id 
+						AND bkg.bkg_status IN (2,3,5,6,7,9)  
 					INNER JOIN booking_pref bpr ON bpr.bpr_bkg_id = bkg.bkg_id
 					INNER JOIN booking_cab bcb ON bcb.bcb_id = bvr.bvr_bcb_id
 					INNER JOIN cities bkgFromCity ON (bkgFromCity.cty_id=bkg.bkg_from_city_id) AND (bkgFromCity.cty_active = 1)
@@ -4160,7 +4195,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$tripId		 = $bkgModel->bkg_bcb_id;
 		$dataexist	 = BookingVendorRequest::getPreferredVendorbyBooking($tripId);
 
-		if(!$dataexist)
+		if (!$dataexist)
 		{
 			$formatDateTime				 = 'Y-m-d H:i:s';
 			$data						 = BookingVendorRequest::getGNowAcceptedData($tripId);
@@ -4202,10 +4237,10 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$formatDateTime	 = 'Y-m-d H:i:s';
 
 		$bidCount = count($bidrows);
-		if($bidCount > 0)
+		if ($bidCount > 0)
 		{
 			$firstBidTime = $bidrows[0]['bvr_created_at'];
-			if($bidCount > 2)
+			if ($bidCount > 2)
 			{
 				$thirdBidTime = $bidrows[2]['bvr_created_at'];
 //					$thirdBidTime	 = date($formatDateTime, strtotime($createDate . ' + 60 second'));
@@ -4215,12 +4250,12 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$createDiffSecs = -1 * Filter::getTimeDiffinSeconds($createDate);
 
-		if($firstBidTime != null)
+		if ($firstBidTime != null)
 		{
 			$firstBidTimeDiffSecs = -1 * Filter::getTimeDiffinSeconds($firstBidTime);
 		}
 
-		if($thirdBidTime != null)
+		if ($thirdBidTime != null)
 		{
 			$thirdBidTimeDiffSecs = -1 * Filter::getTimeDiffinSeconds($thirdBidTime);
 		}
@@ -4229,28 +4264,28 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$durationRemaining	 = 0;
 		$stepValidation		 = '';
 //		$timerCount			 = 2;
-		if($timerCount >= 2)
+		if ($timerCount >= 2)
 		{
 //			if ($bidCount < 3 && $createDiffSecs <= $step1CSecDuration)
-			if($createDiffSecs <= $step1CSecDuration)
+			if ($createDiffSecs <= $step1CSecDuration)
 			{//O-2 bid : 1st Timer : 1 lap
 				$timerRunning		 = 'timer2';
 				$durationRemaining	 = $step2CSecDuration - $createDiffSecs;
 				$stepValidation		 = '1_3_1';
 			}
-			if($createDiffSecs > $step1CSecDuration)
+			if ($createDiffSecs > $step1CSecDuration)
 			{//O bid : no Timer : 2 lap
 				$timerRunning		 = 'sorry';
 				$durationRemaining	 = 0;
 				$stepValidation		 = '0_0_0';
 			}
 
-			if($bidCount > 0 && $bidCount < 3 && $createDiffSecs > $step1CSecDuration && $firstBidTimeDiffSecs > 0)
+			if ($bidCount > 0 && $bidCount < 3 && $createDiffSecs > $step1CSecDuration && $firstBidTimeDiffSecs > 0)
 			{//3 >= bid : 1st Timer : 1 lap
 //			$firstBidTimeDiffSecs	 = -1 * Filter::getTimeDiffinSeconds($firstBidTime);
 				$firstBidDurationdSec = $createDiffSecs - $firstBidTimeDiffSecs;
 
-				if($firstBidDurationdSec <= $step1CSecDuration && $createDiffSecs > $step1CSecDuration)
+				if ($firstBidDurationdSec <= $step1CSecDuration && $createDiffSecs > $step1CSecDuration)
 				{
 
 					$timerRunning		 = 'timer2';
@@ -4259,10 +4294,10 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				}
 			}
 
-			if($bidCount >= 3 && $thirdBidTimeDiffSecs > 0)
+			if ($bidCount >= 3 && $thirdBidTimeDiffSecs > 0)
 			{//3 >= bid : 1st Timer : 1 lap
 				$thirdBidDurationdSec = $createDiffSecs - $thirdBidTimeDiffSecs;
-				if($thirdBidDurationdSec < $step1CSecDuration)
+				if ($thirdBidDurationdSec < $step1CSecDuration)
 				{
 					$timerRunning		 = 'timer2';
 					$durationRemaining	 = ($thirdBidDurationdSec + $step2ASecDuration) - $createDiffSecs;
@@ -4276,39 +4311,39 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 
 
-		if($bidCount < 3 && $createDiffSecs <= $step1ASecDuration)
+		if ($bidCount < 3 && $createDiffSecs <= $step1ASecDuration)
 		{//O-2 bid : 1st Timer : 1 lap
 			$timerRunning		 = 'timer1';
 			$durationRemaining	 = $step1ASecDuration - $createDiffSecs;
 			$stepValidation		 = '1_1_1';
 		}
-		if($bidCount == 0 && $createDiffSecs > $step1ASecDuration && $createDiffSecs <= $step1BSecDuration)
+		if ($bidCount == 0 && $createDiffSecs > $step1ASecDuration && $createDiffSecs <= $step1BSecDuration)
 		{//O bid : 1st Timer : 2 lap
 			$timerRunning		 = 'timer1';
 			$durationRemaining	 = $step1BSecDuration - $createDiffSecs;
 			$stepValidation		 = '1_2_1';
 		}
 
-		if($bidCount == 0 && $createDiffSecs > $step1BSecDuration)
+		if ($bidCount == 0 && $createDiffSecs > $step1BSecDuration)
 		{//O bid : no Timer : 2 lap
 			$timerRunning		 = 'sorry';
 			$durationRemaining	 = 0;
 			$stepValidation		 = '0_0_0';
 		}
 ///////////////////////
-		if($bidCount > 0 && $bidCount < 3 && $createDiffSecs > $step1ASecDuration && $firstBidTimeDiffSecs > 0)
+		if ($bidCount > 0 && $bidCount < 3 && $createDiffSecs > $step1ASecDuration && $firstBidTimeDiffSecs > 0)
 		{//3 >= bid : 1st Timer : 1 lap
 //			$firstBidTimeDiffSecs	 = -1 * Filter::getTimeDiffinSeconds($firstBidTime);
 			$firstBidDurationdSec = $createDiffSecs - $firstBidTimeDiffSecs;
 
-			if($firstBidDurationdSec <= $step1ASecDuration && $createDiffSecs <= $step1ASecDuration)
+			if ($firstBidDurationdSec <= $step1ASecDuration && $createDiffSecs <= $step1ASecDuration)
 			{
 
 				$timerRunning		 = 'timer1';
 				$durationRemaining	 = $step1ASecDuration - $createDiffSecs;
 				$stepValidation		 = '1_2_1';
 			}
-			if($firstBidDurationdSec <= $step1ASecDuration && $createDiffSecs > $step1ASecDuration)
+			if ($firstBidDurationdSec <= $step1ASecDuration && $createDiffSecs > $step1ASecDuration)
 			{
 
 				$timerRunning		 = 'timer2';
@@ -4316,28 +4351,28 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				$stepValidation		 = '1_1_2';
 			}
 
-			if($firstBidDurationdSec >= $step1ASecDuration && $firstBidDurationdSec < $step1BSecDuration && $createDiffSecs <= $step1BSecDuration)
+			if ($firstBidDurationdSec >= $step1ASecDuration && $firstBidDurationdSec < $step1BSecDuration && $createDiffSecs <= $step1BSecDuration)
 			{
 				$timerRunning		 = 'timer1';
 				$durationRemaining	 = $step1BSecDuration - $createDiffSecs;
 				$stepValidation		 = '1_2_1';
 			}
 
-			if($firstBidDurationdSec >= $step1ASecDuration && $firstBidDurationdSec < $step1BSecDuration && $createDiffSecs > $step1BSecDuration)
+			if ($firstBidDurationdSec >= $step1ASecDuration && $firstBidDurationdSec < $step1BSecDuration && $createDiffSecs > $step1BSecDuration)
 			{
 				$timerRunning		 = 'timer2';
 				$durationRemaining	 = ($step1BSecDuration + $step2ASecDuration) - $createDiffSecs;
 				$stepValidation		 = '1_1_2';
 			}
 		}
-		if($bidCount >= 3 && $thirdBidTimeDiffSecs > 0)
+		if ($bidCount >= 3 && $thirdBidTimeDiffSecs > 0)
 		{//3 >= bid : 1st Timer : 1 lap
-			if($createDiffSecs < $step1ASecDuration)
+			if ($createDiffSecs < $step1ASecDuration)
 			{
 				
 			}
 			$thirdBidDurationdSec = $createDiffSecs - $thirdBidTimeDiffSecs;
-			if($thirdBidDurationdSec < $step1ASecDuration)
+			if ($thirdBidDurationdSec < $step1ASecDuration)
 			{
 				$timerRunning		 = 'timer2';
 				$durationRemaining	 = ($thirdBidDurationdSec + $step2ASecDuration) - $createDiffSecs;
@@ -4428,7 +4463,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$days	 = array(7, 30, 60);
 		$sql	 = "";
 		$score	 = 0.8;
-		foreach($days as $day)
+		foreach ($days as $day)
 		{
 			$result				 = VendorStats::getVendorServingStats($vendorId, $day);
 			$assignedTrip		 = $result['bookingAssigned'];
@@ -4444,17 +4479,17 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 			$servingRatio = $servedTrip / max([$assignedTrip, 1]);
 
-			if($directAcceptedTrip >= 5 || $directCanceltrip > 2)
+			if ($directAcceptedTrip >= 5 || $directCanceltrip > 2)
 			{
 				$score = 1 - (($directCanceltrip * 1.35) / ($directAcceptedTrip - $directCanceltrip));
 				break;
 			}
-			else if($bidAcceptedTrip > 10 || $bidCanceltrip > 5)
+			else if ($bidAcceptedTrip > 10 || $bidCanceltrip > 5)
 			{
 				$score = 1 - ($bidCanceltrip / ($bidAcceptedTrip - $bidCanceltrip));
 				break;
 			}
-			else if($assignedTrip > 15 || $cancelTrip > 10)
+			else if ($assignedTrip > 15 || $cancelTrip > 10)
 			{
 				$score = 1 - ($cancelTrip / ($assignedTrip - $cancelTrip));
 				break;
@@ -4650,7 +4685,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$acptBidPercent	 = ($vndBoostEnable > 0) ? (5 - $vndBoostPercent * 0.01 * 2) : 5;
 		$zones			 = implode(",", $filterModel->zones);
 		$query			 = "";
-		if($zones != "")
+		if ($zones != "")
 		{
 			$sqlServiceZone	 = $zones;
 			$query			 = "AND (zct.zct_zon_id IN ($sqlServiceZone) AND zct.zct_cty_id NOT IN (" . $vndInfo['vnp_excluded_cities'] . "))";
@@ -4660,11 +4695,11 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			$sqlServiceZone	 = "SELECT hsz_service_id FROM home_service_zones WHERE hsz_home_id IN ({$vndInfo['vnp_home_zone']})";
 			$query			 = "AND ((zct.zct_zon_id IN ($sqlServiceZone) AND zct.zct_cty_id NOT IN (" . $vndInfo['vnp_excluded_cities'] . ")) OR zct.zct_zon_id IN (" . $vndInfo['vnp_home_zone'] . "))";
 		}
-		if($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
+		if ($vndIsFreeze > 0 && $row['vnp_low_rating_freeze'] <= 0 && $row['vnp_doc_pending_freeze'] <= 0 && $row['vnp_manual_freeze'] <= 0)
 		{
 			$vndIsFreeze = 0;
 		}
-		if($vndInfo['vnd_cat_type'] == 1)
+		if ($vndInfo['vnd_cat_type'] == 1)
 		{
 			// Check DCO bookings to be excluded if he is already assigned with another trip at the same time
 			$sql			 = "SELECT GROUP_CONCAT(bkgnew.bkg_id)
@@ -4679,45 +4714,45 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$excludeBookings = ($excludeBookings == null || $excludeBookings == '') ? -1 : $excludeBookings;
 
 		/** According to discussion on 24/08/22 with AK & KG in pending list all types of booking will not shown except service added with vendor* */
-		if($vndInfo['vnp_oneway'] != 1)
+		if ($vndInfo['vnp_oneway'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(1,14)";
 		}
-		if($vndInfo['vnp_round_trip'] != 1)
+		if ($vndInfo['vnp_round_trip'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(2)";
 		}
-		if($vndInfo['vnp_multi_trip'] != 1)
+		if ($vndInfo['vnp_multi_trip'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(3)";
 		}
-		if($vndInfo['vnp_airport'] != 1)
+		if ($vndInfo['vnp_airport'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(4,12)";
 		}
-		if($vndInfo['vnp_package'] != 1)
+		if ($vndInfo['vnp_package'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(5)";
 		}
-		if($vndInfo['vnp_flexxi'] != 1)
+		if ($vndInfo['vnp_flexxi'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(6)";
 		}
-		if($vndInfo['vnp_daily_rental'] != 1)
+		if ($vndInfo['vnp_daily_rental'] != 1)
 		{
 			$condSelectProfile .= " AND booking.bkg_booking_type NOT IN(9,10,11)";
 		}
 
 		$tiers		 = [];
 		$serviceTier = $filterModel->tierList;
-		foreach($serviceTier as $service)
+		foreach ($serviceTier as $service)
 		{
-			if($service->name == 'select')
+			if ($service->name == 'select')
 			{
 				$tiers[] = 4;
 				$tiers[] = 5;
 			}
-			else if($service->name == 'value')
+			else if ($service->name == 'value')
 			{
 				$tiers[] = 1;
 				$tiers[] = 6;
@@ -4728,14 +4763,14 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			}
 		}
 		$serviceTierList = $filterModel->tiers;
-		foreach($serviceTierList as $service)
+		foreach ($serviceTierList as $service)
 		{
-			if($service == 3)
+			if ($service == 3)
 			{
 				$tiers[] = 4;
 				$tiers[] = 5;
 			}
-			else if($service == 1)
+			else if ($service == 1)
 			{
 				$tiers[] = 1;
 				$tiers[] = 6;
@@ -4747,7 +4782,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		}
 		$tier_string = implode(",", array_unique($tiers));
 
-		if($tier_string != "")
+		if ($tier_string != "")
 		{
 			$condSelectTierCheck		 = " AND service_class.scc_id IN ($tier_string) ";
 			$condSelectTierCheckMatched	 = " AND scc.scc_id IN ($tier_string) ";
@@ -4762,7 +4797,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$search_qry		 = '';
 		$search_txt		 = $filterModel->searchTxt;
 		$allowedZones	 = implode(',', array_filter(explode(',', $vndInfo['vnp_accepted_zone'] . ',' . $vndInfo['vnp_home_zone'])));
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_txt	 = addslashes($search_txt);
 			$search_qry	 = " AND
@@ -4780,41 +4815,41 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 							AND  booking.bkg_id NOT IN($excludeBookings)	
 						)";
 
-		if($filterModel->sort == 'newestBooking')
+		if ($filterModel->sort == 'newestBooking')
 		{
 			$sortCond = "ORDER BY bkgIds DESC,isGozoNow DESC";
 		}
-		if($filterModel->sort == 'earliestBooking')
+		if ($filterModel->sort == 'earliestBooking')
 		{
 			$sortCond = "ORDER BY bkg_pickup_date ASC";
 		}
 
 		$limitCond	 = "LIMIT $pageCount, $offSetCount";
 		$date		 = $filterModel->date;
-		if(!empty($filterModel))
+		if (!empty($filterModel))
 		{
 			$bidStatus	 = $filterModel->bidStatus;
 			$filter_qry	 = "";
-			if($bidStatus == 1)
+			if ($bidStatus == 1)
 			{
 				$isBid		 = true;
 				$filter_qry	 .= " AND (bvr_id IS NOT NULL AND bvr_accepted = 1 AND bvr_vendor_id = $vendorId)";
 			}
 			$serviceType = $filterModel->serviceType;
-			if($serviceType == 'local')
+			if ($serviceType == 'local')
 			{
 				$filter_qry .= " AND booking.bkg_booking_type IN(4,9,10,11,12,14,15,16)";
 			}
-			if($serviceType == 'outstation')
+			if ($serviceType == 'outstation')
 			{
 				$filter_qry .= " AND booking.bkg_booking_type IN(1,2,3,5,6,7,8)";
 			}
-			if($serviceType == 'all')
+			if ($serviceType == 'all')
 			{
 				$filter_qry .= " AND booking.bkg_booking_type IN(1,2,3,5,6,7,8,4,9,10,11,12,14,15,16)";
 			}
 
-			if($date != "")
+			if ($date != "")
 			{
 				$fromDate	 = $date . " 00:00:00";
 				$toDate		 = $date . " 23:59:59";
@@ -4955,9 +4990,9 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$returnSet	 = new ReturnSet();
 		$success	 = false;
 		$bvrModels	 = BookingVendorRequest::model()->findByBcbIdAndVendorId($tripId, $vendorId);
-		if(count($bvrModels) >= 1)
+		if (count($bvrModels) >= 1)
 		{
-			foreach($bvrModels as $bvrModel)
+			foreach ($bvrModels as $bvrModel)
 			{
 				$bvrModel->bvr_bid_amount	 = 0;
 				$bvrModel->bvr_accepted		 = 2;
@@ -4965,7 +5000,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				$bvrModel->bvr_assigned_at	 = new CDbExpression('NOW()');
 				$bvrModel->bvr_accepted_at	 = new CDbExpression('NOW()');
 				$success					 = $bvrModel->save();
-				if(!$success)
+				if (!$success)
 				{
 					$errors = $bvrModel->getErrors();
 					$returnSet->setErrors($errors);
@@ -4976,27 +5011,27 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		else
 		{
 			$success = BookingVendorRequest::model()->createRequest(0, $tripId, $vendorId, 'deny');
-			if(!$success)
+			if (!$success)
 			{
 				$error = 'Bid deny failed';
 				$returnSet->setMessage($error);
 				return $returnSet;
 			}
 		}
-		if($success)
+		if ($success)
 		{
 			$bcabModel	 = BookingCab::model()->findByPk($tripId);
 			$bModels	 = $bcabModel->bookings;
 			$eventId	 = BookingLog::BID_DENY;
 			$desc		 = "Bid denied by vendor.";
-			foreach($bModels as $bModel)
+			foreach ($bModels as $bModel)
 			{
 				BookingLog::model()->createLog($bModel->bkg_id, $desc, $userInfo, $eventId);
 			}
 			$returnSet->setMessage("Request processed successfully");
 		}
 		$ntlId = NotificationLog::getIdForGozonow($vendorId, $tripId);
-		if($ntlId > 0)
+		if ($ntlId > 0)
 		{
 			$ntlDataArr	 = ['id' => $ntlId, 'isRead' => 1];
 			$resultData	 = NotificationLog::updateReadNotification($ntlDataArr);
@@ -5027,13 +5062,13 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		{
 			$criticalityScore	 = $bModel1->bkgPref->bkg_critical_score;
 			$dependencyStatus	 = VendorStats::checkDependency($criticalityScore, $vendorId);
-			if(!$dependencyStatus && $isDirectAccept)
+			if (!$dependencyStatus && $isDirectAccept)
 			{
 				$errorMessage[] = "Dependability score low. Direct accept not available for you. To improve dependability score, do not refuse booking after you accept.";
 				throw new Exception(CJSON::encode($errorMessage), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if($bidAmount > $directAcptAmount && $isDirectAccept)
+			if ($bidAmount > $directAcptAmount && $isDirectAccept)
 			{
 				$errorMessage[] = "Direct accept is not available as the bid amount is higher than the required amount.";
 				throw new Exception(CJSON::encode($errorMessage), ReturnSet::ERROR_VALIDATION);
@@ -5041,14 +5076,14 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			//check security amount 
 
 			$calculateLockedAmount = BookingInvoice::calculateLockAmount($bModel1->bkg_id, $bidAmount, $vendorId);
-			if($calculateLockedAmount > 25)
+			if ($calculateLockedAmount > 25)
 			{
 				$securityAmountFlag	 = 1;
 				$lAmount			 = ceil($calculateLockedAmount / 25) * 25;
 				$lAmount			 = max($lAmount, 100);
 			}
 			$directAcceptMode = $isDirectAccept;
-			if($bidAmount <= $directAcptAmount && $dependencyStatus && $calculateLockedAmount < 25)
+			if ($bidAmount <= $directAcptAmount && $dependencyStatus && $calculateLockedAmount < 25 && $directAcceptMode)
 			{
 				$isDirectAccept = true;
 			}
@@ -5056,12 +5091,12 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			{
 				$isDirectAccept = false;
 			}
-			if($isDirectAccept)
+			if ($isDirectAccept)
 			{
 				$status = BookingVendorRequest::DirectAccept($bidAmount, $vendorId, $tripId, $userInfo);
-				if($status == true)
+				if ($status == true)
 				{
-					foreach($bModels as $bModel)
+					foreach ($bModels as $bModel)
 					{
 						$eventId = BookingLog::VENDOR_ASSIGNED;
 						$message = "The booking is assigned to you";
@@ -5071,11 +5106,11 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 					//modify assign logic for cab and driver
 					//check vendor is dco or not
 					$dco = $vendorModel->vnd_is_dco;
-					if($dco == 1)
+					if ($dco == 1)
 					{
 						$success = BookingVendorRequest::assignDefaultCabDriverForVendor($tripId, $vendorId);
 
-						if($success == false)
+						if ($success == false)
 						{
 							$errorMessage[] = "Unable to accept";
 							throw new Exception(CJSON::encode($errorMessage), ReturnSet::ERROR_VALIDATION);
@@ -5088,7 +5123,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 				$data = array("securityFlag"	 => $securityAmountFlag,
 					"securityAmount" => $lAmount);
 
-				if($directAcceptMode == true && $calculateLockedAmount > 25 && $bidAction == 2)
+				if ($directAcceptMode == true && $calculateLockedAmount > 25 && $bidAction == 2)
 				{
 					$message		 = "Oops! Your payment is overdue. Please settle your Gozo accounts ASAP.";
 					$errorMessage[]	 = $message;
@@ -5100,12 +5135,12 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 					return $returnSet;
 				}
 				$result = BookingVendorRequest::model()->createRequest($bidAmount, $tripId, $vendorId);
-				if($result)
+				if ($result)
 				{
 					$vendorStat				 = VendorStats::model()->getbyVendorId($vendorId);
 					$vendorStat->vrs_tot_bid = $vendorStat->vrs_tot_bid + 1;
 					$vendorStat->save();
-					if($validatemessage != "")
+					if ($validatemessage != "")
 					{
 						$validatemessage = "Your chance of winning it is very less because " . $validatemessage;
 					}
@@ -5113,12 +5148,12 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 					$desc	 = "Bid of ₹" . $bidAmount . " provided. " . $validatemessage;
 
 					$message = "Your bid is accepted." . $validatemessage;
-					if($calculateLockedAmount > 25)
+					if ($calculateLockedAmount > 25)
 					{
 						$message = "Your bid has been accepted but your chance of winning it is very less due to your low account balance. Please pay $lAmount to increase your chance of winning this bid..";
 						$returnSet->setData($data);
 					}
-					foreach($bModels as $bModel)
+					foreach ($bModels as $bModel)
 					{
 						$res = BookingLog::model()->createLog($bModel->bkg_id, $desc, $userInfo, $eventId);
 					}
@@ -5129,7 +5164,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			$bidRequest = \Beans\vendor\BidRequest::setData($bModels[0]->bkg_id, $tripId, $vendorId, $bidAmount, $bModels[0]->bkg_pickup_date, $bModels[0]->bkgInvoice->bkg_toll_tax, $bModels[0]->bkgInvoice->bkg_state_tax, $bModels[0]->bkg_trip_distance, $bModels[0]->bkgPref->bpr_row_identifier);
 			IRead::setVendorBidRequest($bidRequest);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::exception($e);
 			DBUtil::rollbackTransaction($transaction);
@@ -5150,7 +5185,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$vehicleTypeId	 = $bModel1->bkg_vehicle_type_id;
 		$drvData		 = \Drivers::getDefaultByContact($cttId);
 		$cabId			 = \Vehicles::getPrefferedByContact($cttId, $vehicleTypeId);
-		if(!empty($drvData))
+		if (!empty($drvData))
 		{
 			$drvphone					 = $drvData['drv_phone'];
 			$driverId					 = $drvData['drv_id'];
@@ -5164,7 +5199,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 		$userInfo	 = UserInfo::getInstance();
 		$success	 = $bcabModel->assignCabDriver($cabId, $driverId, $cab_type, $userInfo);
-		if(!$success)
+		if (!$success)
 		{
 			$errors = $bcabModel->getErrors();
 //			$errorStr	 = stripslashes($errors[key($errors)][0]);
@@ -5206,7 +5241,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public static function notifyVendorOnPaymentInitiated($bcbId)
 	{
 		$dataExist = BookingVendorRequest::getPreferredVendorbyBooking($bcbId);
-		if($dataExist)
+		if ($dataExist)
 		{
 			$vndId	 = $dataExist['bvr_vendor_id'];
 			$message = 'Customer has initiated the payment for the Trip ID: ' . $bcbId . ', the booking will show up in your queue when payment is completed';
@@ -5224,34 +5259,41 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$bookingCabModel	 = BookingCab::model()->findByPk($bcbId);
 		$bookingModels		 = $bookingCabModel->bookings;
 		$noDirectAcpt		 = 0;
-
-		if(($vendorModel->vnd_active == 1) || ($vendorModel->vendorPrefs->vnp_is_orientation > 0))
+		if ($vendorModel->vnd_active == 4)
+		{
+			$pendingApproval = true;
+		}
+		if ($pendingApproval == true)
+		{
+			$noDirectAcpt = 1;
+		}
+		if (($vendorModel->vnd_active == 1) || ($vendorModel->vendorPrefs->vnp_is_orientation > 0))
 		{
 			$isDocApprove = true;
 		}
 		$isApproveCar	 = ($vendorModel->vendorStats->vrs_approve_car_count > 0) ? true : false;
 		$isApproveDriver = ($vendorModel->vendorStats->vrs_approve_driver_count > 0) ? true : false;
 
-		if($isDocApprove == false)
+		if ($isDocApprove == false)
 		{
 			$noDirectAcpt = 1;
 		}
-		if($isApproveCar == false || $isApproveDriver == false || $vendorModel->vnd_active == 2)
+		if ($isApproveCar == false || $isApproveDriver == false || $vendorModel->vnd_active == 2)
 		{
 			$noDirectAcpt = 1;
 		}
-		foreach($bookingModels as $bModel)
+		foreach ($bookingModels as $bModel)
 		{
 			$booking_class	 = $bModel->bkgSvcClassVhcCat->scc_ServiceClass->scc_id;
 			$bookingType	 = $bModel->bkg_booking_type;
-			if(!Vehicles::checkVehicleclass($vendorId, $booking_class))
+			if (!Vehicles::checkVehicleclass($vendorId, $booking_class))
 			{
 				$noDirectAcpt = 1;
 			}
 			$dataCount = VendorPref::checkApprovedService($vendorId, $bookingType);
-			if($dataCount < 1)
+			if ($dataCount < 1)
 			{
-				if(($bookingType == 4 || $bookingType == 12)) // all vendor can able to bid for airport
+				if (($bookingType == 4 || $bookingType == 12)) // all vendor can able to bid for airport
 				{
 					goto skip;
 				}
@@ -5261,12 +5303,12 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 			skip:
 
 			$check_availability = Vehicles::checkVehicleAvailability($vendorId, $bookingCabModel->bcb_start_time, $bookingCabModel->bcb_end_time, $bModel->bkg_from_city_id, $bModel->bkg_to_city_id, $bModel->bkgSvcClassVhcCat->scv_vct_id);
-			if($check_availability != "")
+			if ($check_availability != "")
 			{
 				$noDirectAcpt = 1;
 			}
 			$isVendorUnassigned = BookingLog::isVendorUnAssigned($vendorId, $bModel->bkg_id);
-			if($isVendorUnassigned)
+			if ($isVendorUnassigned)
 			{
 				$noDirectAcpt = 1;
 			}
@@ -5274,35 +5316,45 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		return $noDirectAcpt;
 	}
 
-	public function validateCondition($tripId, $bidAmount, $entityId, $source = "bid")
+	public function validateCondition($tripId, $bidAmount, $entityId, $source = "bid", $bidAction = 1)
 	{
 		$allowDirectAccept	 = true;
 		$cabModel			 = BookingCab::model()->findByPk($tripId);
 		$bModels			 = $cabModel->bookings;
-		foreach($bModels as $bModel)
+		foreach ($bModels as $bModel)
 		{
-			$err[]	 = $this->reconfirmValidation($bModel);
+			//$err[]	 = $this->reconfirmValidation($bModel);
 			$err[]	 = $this->minMaxValidation($cabModel, $bidAmount);
 			$err[]	 = $this->unassignValidation($entityId, $bModel);
 			$err[]	 = $this->approveServiceValidation($bModel, $entityId);
 			$err[]	 = $this->assignStatusValidation($bModel);
 
 			$res = $this->cashBookingValidation($entityId, $bModel->bkg_id);
-			if(!$res)
+			if (!$res)
 			{
 				$allowDirectAccept	 = false;
 				$message			 = "Sorry! You do not have permission to accept cash booking.";
 			}
 			$criticalityScore	 = $bModel->bkgPref->bkg_critical_score;
 			$result				 = $this->vendorProfileValidation($entityId, $criticalityScore);
-			if(!empty($result))
+
+			if (!empty($result))
 			{
 				$allowDirectAccept	 = false;
 				$message			 = implode(",\n", $result);
 			}
+			$reconfirmError = $this->reconfirmValidation($bModel);
+			if ($reconfirmError)
+			{
+				$allowDirectAccept = false;
+				if ($bidAction == 2)
+				{
+					$message = $reconfirmError;
+				}
+			}
 		}
 		$errors = array_filter($err);
-		if(!empty($errors))
+		if (!empty($errors))
 		{
 			throw new Exception(json_encode($errors), ReturnSet::ERROR_VALIDATION);
 		}
@@ -5321,7 +5373,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 	public function assignStatusValidation($bModel)
 	{
-		if($bModel->bkg_status != 2 & $bModel->bkg_reconfirm_flag == 1)
+		if ($bModel->bkg_status != 2 & $bModel->bkg_reconfirm_flag == 1)
 		{
 			$error = "Oops! This booking is already assigned.";
 			return $error;
@@ -5332,7 +5384,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public function unassignValidation($entityId, $bModel)
 	{
 		$isVendorUnassigned = BookingLog::isVendorUnAssigned($entityId, $bModel->bkg_id);
-		if($isVendorUnassigned)
+		if ($isVendorUnassigned)
 		{
 			$error = "Sorry were unassigned from / denied this trip before. So you cannot bid on it again.";
 			return $error;
@@ -5341,10 +5393,10 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 	public function reconfirmValidation($bModel)
 	{
-		if($bModel->bkg_reconfirm_flag <> 1 || $bModel->bkgPref->bkg_block_autoassignment == 1)
+		if ($bModel->bkg_reconfirm_flag <> 1 || $bModel->bkgPref->bkg_block_autoassignment == 1)
 		{
 
-			$error = "Sorry! This booking is not confirmed yet";
+			$error = "Sorry! you are unable to accept this booking directly";
 			return $error;
 		}
 	}
@@ -5353,7 +5405,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	{
 		$arrAllowedBids = $bookingCabModel->getMinMaxAllowedBidAmount();
 
-		if(($bidAmount < $arrAllowedBids['minBid'] || ($bidAmount > $arrAllowedBids['maxBid'] && $arrAllowedBids['maxBid'] > 0)) || ( $bidAmount < $arrAllowedBids['minBid'] ))
+		if (($bidAmount < $arrAllowedBids['minBid'] || ($bidAmount > $arrAllowedBids['maxBid'] && $arrAllowedBids['maxBid'] > 0)) || ( $bidAmount < $arrAllowedBids['minBid'] ))
 		{
 
 			$error = "Bid amount out of range (too low or too high)";
@@ -5365,15 +5417,17 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	{
 		$bookingType = $bModel->bkg_booking_type;
 		$dataCount	 = VendorPref::checkApprovedService($entityId, $bookingType);
-		if($dataCount < 1)
+		if ($dataCount < 1)
 		{
-			if($bookingType == 4 || $bookingType == 12)
+			if ($bookingType == 4 || $bookingType == 12)
 			{
-				if($dependencyScore >= 60)
+				$statModel		 = VendorStats::model()->getbyVendorId($entityId);
+				$dependencyScore = $statModel->vrs_dependency;
+				if ($dependencyScore >= 60)
 				{
 					goto skip;
 				}
-				$error = "You do not have permission to accept this booking due to low dependency score..";
+				$error = "You do not have permission to serve this booking. ";
 				return $error;
 			}
 			else
@@ -5387,40 +5441,50 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 
 	public function vendorProfileValidation($entityId, $criticalityScore)
 	{
-		$isApproveCar		 = $isApproveDriver	 = $isDocApprove		 = $isApproveBooking	 = false;
+		$isApproveCar		 = $isApproveDriver	 = $isDocApprove		 = $isApproveBooking	 = $pendingApproval	 = false;
 
 		$vendorModel	 = Vendors::model()->findByPk($entityId);
 		$isApproveCar	 = ($vendorModel->vendorStats->vrs_approve_car_count > 0) ? true : false;
 		$isApproveDriver = ($vendorModel->vendorStats->vrs_approve_driver_count > 0) ? true : false;
 		$error			 = array();
-		if(($vendorModel->vnd_active == 1) || ($vendorModel->vendorPrefs->vnp_is_orientation > 0))
+		if ($vendorModel->vnd_active == 4)
+		{
+			$pendingApproval = true;
+		}
+		if ($pendingApproval == true)
+		{
+			$error[] = "Your account is not approve yet. Direct accept not available for you.";
+			goto skip;
+		}
+		if (($vendorModel->vnd_active == 1) || ($vendorModel->vendorPrefs->vnp_is_orientation > 0))
 		{
 			$isDocApprove = true;
 		}
 
-		if($isDocApprove == false)
+		if ($isDocApprove == false)
 		{
 			$error[] = "Check documents. Your documents are missing or not yet approved.";
 		}
-		if($isApproveCar == false)
+		if ($isApproveCar == false)
 		{
 			$error[] = "Get 1 car approved before we can send you business.";
 		}
-		if($isApproveDriver == false)
+		if ($isApproveDriver == false)
 		{
 
 			$error[] = "Get 1 driver approved before we can send you business.";
 		}
 		$dependencyStatus = VendorStats::checkDependency($criticalityScore, $entityId);
 
-		if(!$dependencyStatus)
+		if (!$dependencyStatus)
 		{
 			$error[] = "Dependability score low. Direct accept not available for you. To improve dependability score, do not refuse booking after you accept.";
 		}
-		if($vendorModel->vendorPrefs->vnp_low_rating_freeze == 1 || $vendorModel->vendorPrefs->vnp_doc_pending_freeze == 1 || $vendorModel->vendorPrefs->vnp_manual_freeze == 1)
+		if ($vendorModel->vendorPrefs->vnp_low_rating_freeze == 1 || $vendorModel->vendorPrefs->vnp_doc_pending_freeze == 1 || $vendorModel->vendorPrefs->vnp_manual_freeze == 1)
 		{
 			$error[] = "Your account is freezed. Cannot doing direct accept.";
 		}
+		skip:
 		return $error;
 	}
 
@@ -5458,7 +5522,7 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 	public static function getGNowLastOffer($bkgId)
 	{
 		$val = BookingVendorRequest::getGNowLastOfferData($bkgId);
-		if($val)
+		if ($val)
 		{
 			$vendorAmount			 = $val['bvr_bid_amount'];
 			$vhcid					 = $val['cabId'];
@@ -5487,5 +5551,12 @@ WHERE bvr_bcb_id= $bcbID AND bvr_vendor_id = $vndID";
 		$rows = DBUtil::queryScalar($sql, DBUtil::MDB(), $params);
 		#print_r($rows);
 		return $rows;
+	}
+
+	public static function getAcceptedBidId($bcbId, $vendorId)
+	{
+		$sql	 = "SELECT bvr_id FROM booking_vendor_request WHERE bvr_bcb_id=$bcbId AND bvr_vendor_id=$vendorId AND bvr_accepted=1 AND  bvr_active=1 ";
+		$result	 = DBUtil::queryScalar($sql);
+		return $result;
 	}
 }

@@ -33,25 +33,25 @@
 										array('name'	 => 'bkg_booking_id', 'filter' => FALSE, 'value'	 => function($data)
 											{
 												echo CHtml::link($data["bkg_booking_id"], Yii::app()->createUrl("admin/booking/view", ["id" => $data['bkg_id']]), ["class" => "", "onclick" => "", 'target' => '_blank']) . "<br>";
-											}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'			 => 'Booking Id'),
+											}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Booking Id'),
 										array('name'	 => 'bkg_from_city', 'filter' => FALSE, 'value'	 => function($data)
 											{
 												echo $data['bkg_from_city'];
 											}, 'sortable'			 => false,
-											'headerHtmlOptions'	 => array('class' => 'col-xs-4'), 'header'			 => 'Form'),
+											'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'			 => 'From'),
 										array('name'	 => 'bkg_to_city', 'filter' => FALSE, 'value'	 => function($data)
 											{
 												echo $data['bkg_to_city'];
 											}, 'sortable'			 => false,
-											'headerHtmlOptions'	 => array('class' => 'col-xs-4'), 'header'			 => 'To'),
+											'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'			 => 'To'),
 										array('name'	 => 'bkg_pickup_date', 'filter' => FALSE, 'value'	 => 'date("d/M/Y h:i A", strtotime($data[bkg_pickup_date]))'
 											, 'sortable'			 => false,
-											'headerHtmlOptions'	 => array('class' => 'col-xs-4'), 'header'			 => 'Pickup Date'),
+											'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Pickup Date'),
 										array('name'	 => 'bkg_customer_overall', 'filter' => FALSE, 'value'	 => function($data)
 											{
 												echo $data['bkg_customer_overall'];
 											}, 'sortable'			 => false,
-											'headerHtmlOptions'	 => array('class' => 'col-xs-4'), 'header'			 => 'Rating'),
+											'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Rating'),
 
 										array('name'	 => 'bkg_customer_review', 'filter' => FALSE, 'value'	 => function($data)
 											{

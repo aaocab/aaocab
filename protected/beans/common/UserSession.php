@@ -108,6 +108,9 @@ class UserSession
 			throw new \Exception("Invalid User : ", \ReturnSet::ERROR_INVALID_DATA);
 		}
 
+		$drvActive		 = $contactData['drv_active'];
+	$vndActive		 = $contactData['vnd_active'];
+
 		if ($userId != '')
 		{
 			$usrObj			 = new \Beans\common\User();

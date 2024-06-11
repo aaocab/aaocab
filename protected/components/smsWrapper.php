@@ -3187,7 +3187,31 @@ class smsWrapper
 	 */
 	public static function sendOtp($ext, $number, $otp, $type, $isCerf = 0, $platform = Booking::Platform_App)
 	{
+		$cacheOTPKey = "sendOtp::Ctr {$number}";
+		$cacheObj	 = Yii::app()->cache->get($cacheOTPKey);
+		if ($cacheObj == null)
+		{
+			$cacheObj = 0;
+		}
+		else
+		{
+			$cacheObj++;
+//			Logger::trace(session_id());
+//			Logger::trace($cacheObj);
+//			Logger::warning("Multiple sendOtp tried", true);
+			return false;
+		}
 
+		if ($GLOBALS["OTPCtr"] == null)
+		{
+			$GLOBALS["OTPCtr"] = 0;
+		}
+
+		if ($GLOBALS["OTPCtr"] > 0)
+		{
+			Logger::trace("Counter: {$GLOBALS["OTPCtr"]}");
+			Logger::warning("multiple otp sent", true);
+		}
 
 		//$dltId =  self::DLT_OTP_TEMPID;
 		$dltId			 = "";
@@ -3209,6 +3233,7 @@ class smsWrapper
 		}
 		$usertype = SmsLog::Consumers;
 		smsWrapper::createLog($ext, $number, "", $msg, $res, $usertype, 0, $type, "1", "", 0);
+		Yii::app()->cache->set($cacheOTPKey, $cacheObj, 10, new CacheDependency("CustomLog"));
 		return $res;
 	}
 

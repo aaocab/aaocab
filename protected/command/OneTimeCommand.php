@@ -1,5 +1,9 @@
 <?php
 
+use components\Event\Events;
+use components\Event\EventSchedule;
+use components\Event\EventReceiver;
+
 class OneTimeCommand extends BaseCommand
 {
 
@@ -809,6 +813,15 @@ class OneTimeCommand extends BaseCommand
 		$qrLink			 = 'Test';
 		$uniqueQrCode	 = 'CX220731818';
 		$contactId		 = 1304771;
+
+		QrCode::generateCode($qrLink, $uniqueQrCode, $contactId);
+	}
+	
+	public function actionEverestFleetQR()
+	{
+		$qrLink			 = 'https://gozo.cab/c/gozo-vndfleet';
+		$uniqueQrCode	 = 'gozo-vndfleet';
+		$contactId		 = 1116119;
 
 		QrCode::generateCode($qrLink, $uniqueQrCode, $contactId);
 	}
@@ -2154,20 +2167,19 @@ class OneTimeCommand extends BaseCommand
 
 	public function actionUpdateCommissionEMT()
 	{
-		$sql	 = "SELECT * FROM test.MismatchCommissionReports  WHERE status = 0";
+		$sql	 = "SELECT * FROM test.emtCommissionReportMayMid2024 WHERE status = 0";
 		$records = DBUtil::query($sql, DBUtil::SDB());
 		foreach ($records as $row)
 		{
 			$model			 = Booking::model()->findByPk($row['bkg_id']);
 			$agentCommission = $row['bkg_partner_commission'];
-
 			if ($agentCommission > 0)
 			{
 				$addCommission = AccountTransactions::model()->AddCommission($model->bkg_pickup_date, $model->bkg_id, $model->bkg_agent_id, $agentCommission);
 				if ($addCommission)
 				{
 					$bkg_id	 = $model->bkg_id;
-					$query	 = "UPDATE test.MismatchCommissionReports SET status = 1 WHERE bkg_id = $bkg_id";
+					$query	 = "UPDATE test.emtCommissionReportMayMid2024 SET status = 1 WHERE bkg_id = $bkg_id";
 					DBUtil::execute($query);
 					BookingInvoice::updateGozoAmount($model->bkg_bcb_id);
 				}
@@ -2840,7 +2852,7 @@ class OneTimeCommand extends BaseCommand
 
 	public function actionRevertGstMMT()
 	{
-		$sql	 = "SELECT bkg_id FROM test.mmtGSTReportUptoNow2024 WHERE update_status = 0 AND bkg_status IN(6,7) ORDER BY bkg_id";
+		$sql	 = "SELECT bkg_id FROM test.mmtGstRevertCancelBooking WHERE update_status = 0 ORDER BY bkg_id LIMIT 0,1";
 		$results = DBUtil::query($sql, DBUtil::SDB());
 		foreach ($results as $row)
 		{
@@ -2858,7 +2870,7 @@ class OneTimeCommand extends BaseCommand
 					$model->bkgInvoice->calculateTotal_1();
 					if (!$model->bkgInvoice->save())
 					{
-						$query = "UPDATE test.mmtGSTReportUptoNow2024 SET update_status = 2 WHERE bkg_id = " . $row['bkg_id'];
+						$query = "UPDATE test.mmtGstRevertCancelBooking SET update_status = 2 WHERE bkg_id = " . $row['bkg_id'];
 						DBUtil::execute($query);
 
 						throw new Exception("Failed to update BkgId ::" . $row['bkg_id'] . " :: msg" . json_encode($model->bkgInvoice->getErrors()));
@@ -2876,14 +2888,14 @@ class OneTimeCommand extends BaseCommand
 					$status			 = $accTransModel->processReceipt($drTrans, $crTrans, Accounting::AT_BOOKING);
 					if (!$status)
 					{
-						$query = "UPDATE test.mmtGSTReportUptoNow2024 SET update_status = 2 WHERE bkg_id = {$bkg_id}";
+						$query = "UPDATE test.mmtGstRevertCancelBooking SET update_status = 2 WHERE bkg_id = {$bkg_id}";
 						DBUtil::execute($query);
 
 						throw new Exception("Unable to revert gst to wallet bkgid:" . $bkg_id);
 					}
 					BookingInvoice::updateGozoAmount($model->bkg_bcb_id);
 
-					$query = "UPDATE test.mmtGSTReportUptoNow2024 SET update_status = 1 WHERE bkg_id = {$bkg_id}";
+					$query = "UPDATE test.mmtGstRevertCancelBooking SET update_status = 1 WHERE bkg_id = {$bkg_id}";
 					DBUtil::execute($query);
 
 					echo ", DONE";
@@ -3740,4 +3752,101 @@ class OneTimeCommand extends BaseCommand
 		}
 	}
 
+	public function actionSendQuoteExpiryReminderToCustomer()
+	{
+//		$bkgId = Yii::app()->request->getParam('bkgId');
+		Booking::sendQuoteExpiryReminderToCustomer(4390384);
+	}
+
+	/**
+	 * Function for Archiving Data From Tables
+	 */
+	public function actionWhatsappArchiveSingle()
+	{
+		$check = Filter::checkProcess("onetime whatsappArchiveSingle");
+		if (!$check)
+		{
+			return;
+		}
+
+		Logger::create("command.system.WhatsappArchiveSingle Start Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+		$archiveDB = 'gozo_archive';
+
+		// Archive WhatsappLog
+		#Logger::create("WhatsappLog Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+		#WhatsappLog::model()->archiveData($archiveDB, 1000000, 1000);
+		#Logger::create("WhatsappLog Ends Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+
+
+
+		Logger::create("Call Status Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+		CallStatus::model()->archiveData($archiveDB, 1000000, 1000);
+		Logger::create("Call Status Ends Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+
+		Logger::create("command.system.whatsappArchiveSingle end Today " . date("Y-m-d H:i:s"), CLogger::LEVEL_PROFILE);
+	}
+
+	public function actionNotificationMonthlyReminder($isSchedule = 0, $schedulePlatform = null)
+	{
+		$sql	 = "SELECT 
+						uml.uml_month_count,
+						uml.uml_month_id,
+						uml.uml_user_id,
+						CASE
+							WHEN uml.uml_month_id =1 THEN 'January'
+							WHEN uml.uml_month_id =2 THEN 'February'
+							WHEN uml.uml_month_id =3 THEN 'March'
+							WHEN uml.uml_month_id =4 THEN 'April'
+							WHEN uml.uml_month_id =5 THEN 'May'
+							WHEN uml.uml_month_id =6 THEN 'June'
+							WHEN uml.uml_month_id =7 THEN 'July'
+							WHEN uml.uml_month_id =8 THEN 'August'
+							WHEN uml.uml_month_id =9 THEN 'September'
+							WHEN uml.uml_month_id =10 THEN 'October'
+							WHEN uml.uml_month_id =11 THEN 'November'
+							WHEN uml.uml_month_id =12 THEN 'December'
+							ELSE 'NA'
+						END AS monthName
+					FROM user_month_lifetime uml
+					INNER JOIN 
+					(
+						SELECT `uml_user_id`, MAX(`uml_month_count`) AS max_month_count FROM user_month_lifetime GROUP BY uml_user_id
+					) max_month_user_traveled ON uml.uml_user_id = max_month_user_traveled.uml_user_id AND uml.uml_month_count = max_month_user_traveled.max_month_count
+					WHRE 1 
+						AND (MONTH(now())+1)=uml.uml_month_id
+					GROUP BY uml.uml_month_count
+					ORDER BY  uml.uml_user_id ASC";
+		$rows	 = DBUtil::query($sql, DBUtil::SDB());
+		foreach ($rows as $val)
+		{
+			try
+			{
+				$contentParams	 = ['eventId' => "51", 'monthName' => val['monthName'], 'amount' => moneyFormatter(123)];
+				$contactId		 = ContactProfile::getByEntityId($val['uml_user_id'], UserInfo::TYPE_CONSUMER);
+				$row			 = ContactPhone::getNumber($contactId);
+				if (!$row || empty($row))
+				{
+					goto skipAll;
+				}
+				if (!Filter::processPhoneNumber($row['number'], $row['code']))
+				{
+					goto skipAll;
+				}
+				$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $val['uml_user_id'], WhatsappLog::REF_TYPE_USER, $val['uml_user_id'], null, $row['code'], $row['number'], null, null);
+				$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::BOOKING_CONFIRM, "User Month notificication", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
+				MessageEventMaster::processPlatformSequences(51, $contentParams, $receiverParams, $eventScheduleParams);
+				skipAll:
+			}
+			catch (Exception $ex)
+			{
+				
+			}
+		}
+	}
+
+	public function actionDumpTdsData()
+	{
+//		Vendors::dumpTdsData();
+		Vendors::populateOutstandingData();
+	}
 }

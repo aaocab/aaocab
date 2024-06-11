@@ -33,12 +33,12 @@ class CabCategory
 
 	public static function setData($data)
 	{
-		$obj					 = new CabCategory();
-		
+		$obj = new CabCategory();
+
 		//$obj->name				 = $data->cab_lavel;
-		$obj->name				 = ($data->bkg_status>2?$data->scv_label:$data->cab_lavel);
-		$level = "({$data->cab_lavel})";
-		$data->scv_label = trim(str_replace($level, "", $data->scv_label));
+		$obj->name				 = ($data->bkg_status > 2 ? $data->scv_label : $data->cab_lavel);
+		$level					 = "({$data->cab_lavel})";
+		$data->scv_label		 = trim(str_replace($level, "", $data->scv_label));
 		$objCabModel			 = new \Beans\common\Cab();
 		$objCabModel->setDataValue($data);
 		$obj->allowedModels[]	 = $objCabModel;
@@ -60,21 +60,31 @@ class CabCategory
 	 * @param \VehicleTypes $vhtModel
 	 * @return type
 	 */
-	public static function setByVhtModel($vhtModel, $showAllowedModel = true)
+	public static function setByVhtModel($vhtModel, $showAllowedModel = true, $bcbModel = null)
 	{
-		$obj		 = new CabCategory();
-		$obj->id	 = (int)$vhtModel->vht_VcvCatVhcType->vcv_VehicleCategory->vct_id;
-		$obj->name	 = $vhtModel->vht_VcvCatVhcType->vcv_VehicleCategory->vct_label;
+
+
+		$obj	 = new CabCategory();
+		$obj->id = (int) $vhtModel->vht_VcvCatVhcType->vcv_VehicleCategory->vct_id;
+		if (!empty($bcbModel))
+		{
+			$bookingModel	 = $bcbModel->bookings;
+			$vhcModel		 = $bookingModel[0]->bkgSvcClassVhcCat->scv_label;
+		}
+		$obj->name = $vhtModel->vht_VcvCatVhcType->vcv_VehicleCategory->vct_label . '(' . $vhcModel . ')';
+
+		//$obj->name	 = $vhtModel->vht_name;
 		if ($showAllowedModel)
 		{
 			$obj->allowedModels[] = \Beans\common\AllowedModels::setByModel($vhtModel);
 		}
 		return $obj;
 	}
+
 	public static function setByDataModel($vhtModel, $showAllowedModel = true)
 	{
 		$obj		 = new CabCategory();
-		$obj->id	 = (int)$vhtModel->vct_id;
+		$obj->id	 = (int) $vhtModel->vct_id;
 		$obj->name	 = $vhtModel->vct_label;
 		if ($showAllowedModel)
 		{

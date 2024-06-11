@@ -2,16 +2,18 @@
 	<div class="col-xs-12">
 		<div class="row mb20">
 			<div class="col-xs-12 widget-tab-box3 widget-tab-box5">
-				
+
 				<?php
-				
 				if ($mycall == 1)
 				{
-					echo $this->renderPartial('../vendor/strength', ["model" => $vndStats,"dependency"=>$dependency], false, false);
+					echo $this->renderPartial('../vendor/strength', ['vendorAccount'	 => $vendorAccount,
+						"model"			 => $vndStats,
+						"dependency"	 => $dependency], false, false);
 				}
 				else
 				{
-					$this->renderPartial("strength", ["model" => $vndStats,"dependency"=>$dependency], false, false);
+					$this->renderPartial("strength", ['vendorAccount'	 => $vendorAccount,
+						"model"			 => $vndStats, "dependency"	 => $dependency], false, false);
 				}
 				?>
 			</div> 

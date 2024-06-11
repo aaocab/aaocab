@@ -28,16 +28,22 @@
 									<div class="panel-body p0 pt20">									
 										<?php
 										$this->renderpartial("customerinfo", [
-											'contact'			 => $contact,
-											'model'				 => $model,
-											'bookingmodel'		 => $bookingmodel,
-											'userModel'			 => $userModel,
-											'walletBalance'		 => $walletBalance,
-											"totalGozoCoins"	 => $totalGozoCoins,
-											'totalBookings'		 => $totalBookings,
-											"ongoingbooking"	 => $ongoingbooking,
-											'upcomingbooking'	 => $upcomingbooking,
-											'UserIdArr'			 => $UserIdArr,
+											'contact'						 => $contact,
+											'model'							 => $model,
+											'bookingmodel'					 => $bookingmodel,
+											'userModel'						 => $userModel,
+											'walletBalance'					 => $walletBalance,
+											"totalGozoCoins"				 => $totalGozoCoins,
+											'totalBookings'					 => $totalBookings,
+											"ongoingbooking"				 => $ongoingbooking,
+											'upcomingbooking'				 => $upcomingbooking,
+											'totalUserCitiesLifetime'		 => $totalUserCitiesLifetime,
+											'totalUserAirportCitiesLifetime' => $totalUserAirportCitiesLifetime,
+											'totalUserMonthLifetime'		 => $totalUserMonthLifetime,
+											'totalUserWeekLifetime'			 => $totalUserWeekLifetime,
+											'totalUserServiceClassLifetime'	 => $totalUserServiceClassLifetime,
+											'totalUserVehicleClassLifetime'	 => $totalUserVehicleClassLifetime,
+											'UserIdArr'						 => $UserIdArr,
 												], false, false);
 										?>
 									</div>
@@ -79,177 +85,177 @@
 	</div>
 </div>
 <script>
-	function sendVerifyLinkByEmail()
-	{
-		var userid = '<?= $userModel->user_id ?>';
-		$href = $adminUrl + "/user/SendResetPasswordLink";
-		jQuery.ajax({type: 'GET',
-			url: $href,
-			data: {"id": userid},
-			dataType: "html",
-			success: function (data)
-			{
-				//consol.log(data);
-				if (data != '') {
-					var json = JSON.parse(data);
-					if (json.success == false)
-					{
-						alert(json.error);
-					} else {
-						$('.verifymsg').html(json);
-					}
-				}
-			}
-		});
-	}
+    function sendVerifyLinkByEmail()
+    {
+        var userid = '<?= $userModel->user_id ?>';
+        $href = $adminUrl + "/user/SendResetPasswordLink";
+        jQuery.ajax({type: 'GET',
+            url: $href,
+            data: {"id": userid},
+            dataType: "html",
+            success: function (data)
+            {
+                //consol.log(data);
+                if (data != '') {
+                    var json = JSON.parse(data);
+                    if (json.success == false)
+                    {
+                        alert(json.error);
+                    } else {
+                        $('.verifymsg').html(json);
+                    }
+                }
+            }
+        });
+    }
 
-	function sendOtpByPhone()
-	{
-		var userid = '<?= $userModel->user_id ?>';
-		$href = $adminUrl + "/user/ResetPasswordByPhone";
-		jQuery.ajax({type: 'GET',
-			url: $href,
-			data: {"id": userid},
-			dataType: "html",
-			success: function (data)
-			{
-				//consol.log(data);
-				if (data != '') {
-					var json = JSON.parse(data);
-					if (json.success == false)
-					{
-						alert(json.error);
-					} else {
-						$('.verifymsg').html(json);
-					}
-				}
-			}
-		});
-	}
-	$("#showsociallink").on("click", function () {
-		$('#socialboxDiv').toggle();
-		return false;
-	});
-	$("#tabbooking").on("click", function () {
-		getuserTripDetails();
-	});
-	function getuserTripDetails()
-	{
-		var userid = '<?= $userModel->user_id ?>';
-		var flag = $('input[name=search]:checked').val();
-		$href = $adminUrl + "/user/userTripDetails";
-		jQuery.ajax({type: 'GET',
-			url: $href,
-			data: {"userId": userid, "searchBy": flag},
-			dataType: "html",
-			success: function (data)
-			{
-				$("#showbookinghistory").html(data);
+    function sendOtpByPhone()
+    {
+        var userid = '<?= $userModel->user_id ?>';
+        $href = $adminUrl + "/user/ResetPasswordByPhone";
+        jQuery.ajax({type: 'GET',
+            url: $href,
+            data: {"id": userid},
+            dataType: "html",
+            success: function (data)
+            {
+                //consol.log(data);
+                if (data != '') {
+                    var json = JSON.parse(data);
+                    if (json.success == false)
+                    {
+                        alert(json.error);
+                    } else {
+                        $('.verifymsg').html(json);
+                    }
+                }
+            }
+        });
+    }
+    $("#showsociallink").on("click", function () {
+        $('#socialboxDiv').toggle();
+        return false;
+    });
+    $("#tabbooking").on("click", function () {
+        getuserTripDetails();
+    });
+    function getuserTripDetails()
+    {
+        var userid = '<?= $userModel->user_id ?>';
+        var flag = $('input[name=search]:checked').val();
+        $href = $adminUrl + "/user/userTripDetails";
+        jQuery.ajax({type: 'GET',
+            url: $href,
+            data: {"userId": userid, "searchBy": flag},
+            dataType: "html",
+            success: function (data)
+            {
+                $("#showbookinghistory").html(data);
 
-			}
-		});
-	}
-	$('#appuse').click(function () {
-		userAppusage();
-	});
+            }
+        });
+    }
+    $('#appuse').click(function () {
+        userAppusage();
+    });
 
-	function userAppusage() {
-		var vendorId = '<?= $userModel->user_id ?>';
-		var type = '1';
-		var href = '<?= Yii::app()->createUrl("admpnl/user/appUsage"); ?>';
-		$.ajax
-				({
-					url: href,
-					data: {"userId": vendorId, "userType": type},
-					type: 'get',
-					"dataType": "html",
-					success: function (data)
-					{
-						$('.useapp').html(data);
-					}
-				});
+    function userAppusage() {
+        var vendorId = '<?= $userModel->user_id ?>';
+        var type = '1';
+        var href = '<?= Yii::app()->createUrl("admpnl/user/appUsage"); ?>';
+        $.ajax
+                ({
+                    url: href,
+                    data: {"userId": vendorId, "userType": type},
+                    type: 'get',
+                    "dataType": "html",
+                    success: function (data)
+                    {
+                        $('.useapp').html(data);
+                    }
+                });
 
-	}
-	$('#gozoCoinTransactionli').click(function () {
-		getGozoCoinDetails();
-	});
+    }
+    $('#gozoCoinTransactionli').click(function () {
+        getGozoCoinDetails();
+    });
 
-	function getGozoCoinDetails() {
-		var userId = '<?= $userModel->user_id ?>';		
-		var href = '<?= Yii::app()->createUrl("admpnl/user/getGozoCoinDetails"); ?>';
-		$.ajax
-				({
-					"url": href,
-					"data": {"userId": userId},
-					"type": 'get',
-					"dataType": "html",
-					success: function (data)
-					{
-						$('#gozoCoinTransaction').html(data);
-					}
-				});
+    function getGozoCoinDetails() {
+        var userId = '<?= $userModel->user_id ?>';
+        var href = '<?= Yii::app()->createUrl("admpnl/user/getGozoCoinDetails"); ?>';
+        $.ajax
+                ({
+                    "url": href,
+                    "data": {"userId": userId},
+                    "type": 'get',
+                    "dataType": "html",
+                    success: function (data)
+                    {
+                        $('#gozoCoinTransaction').html(data);
+                    }
+                });
 
-	}
-	$('#walletTransactionli').click(function () {
-		getWalletDetails();
-	});
+    }
+    $('#walletTransactionli').click(function () {
+        getWalletDetails();
+    });
 
-	function getWalletDetails() {
-		var userId = '<?= $userModel->user_id ?>';		
-		var href = '<?= Yii::app()->createUrl("admpnl/user/userWalletDetails"); ?>';
-		$.ajax
-				({
-					"url": href,
-					"data": {"userId": userId},
-					"type": 'get',
-					"dataType": "html",
-					success: function (data)
-					{
-						$('#walletTransaction').html(data);
-					}
-				});
+    function getWalletDetails() {
+        var userId = '<?= $userModel->user_id ?>';
+        var href = '<?= Yii::app()->createUrl("admpnl/user/userWalletDetails"); ?>';
+        $.ajax
+                ({
+                    "url": href,
+                    "data": {"userId": userId},
+                    "type": 'get',
+                    "dataType": "html",
+                    success: function (data)
+                    {
+                        $('#walletTransaction').html(data);
+                    }
+                });
 
-	}
-	$('#paymentTransactionli').click(function () {
-		getPaymentTransaction();
-	});
+    }
+    $('#paymentTransactionli').click(function () {
+        getPaymentTransaction();
+    });
 
-	function getPaymentTransaction() {
-		var userId = '<?= $userModel->user_id ?>';		
-		var href = '<?= Yii::app()->createUrl("admpnl/user/paymentTransactionDetails"); ?>';
-		$.ajax
-				({
-					"url": href,
-					"data": {"userId": userId},
-					"type": 'get',
-					"dataType": "html",
-					success: function (data)
-					{
-						$('#paymentTransaction').html(data);
-					}
-				});
+    function getPaymentTransaction() {
+        var userId = '<?= $userModel->user_id ?>';
+        var href = '<?= Yii::app()->createUrl("admpnl/user/paymentTransactionDetails"); ?>';
+        $.ajax
+                ({
+                    "url": href,
+                    "data": {"userId": userId},
+                    "type": 'get',
+                    "dataType": "html",
+                    success: function (data)
+                    {
+                        $('#paymentTransaction').html(data);
+                    }
+                });
 
-	}
-	$('#cbrdetailsli').click(function () {
-		getCbrDetails();
-	});
+    }
+    $('#cbrdetailsli').click(function () {
+        getCbrDetails();
+    });
 
-	function getCbrDetails() {
-		$(".tab-pane").removeClass("active");
-		$("#cbrDetails").addClass("active");
-		var userId = '<?= $userModel->user_id ?>';		
-		var href = '<?= Yii::app()->createUrl("admpnl/user/getCbrDetailsDetails"); ?>';
-		$.ajax
-				({
-					"url": href,
-					"data": {"userId": userId},
-					"type": 'get',
-					"dataType": "html",
-					success: function (data)
-					{						
-						$('#cbrDetails').html(data);
-					}
-				});
+    function getCbrDetails() {
+        $(".tab-pane").removeClass("active");
+        $("#cbrDetails").addClass("active");
+        var userId = '<?= $userModel->user_id ?>';
+        var href = '<?= Yii::app()->createUrl("admpnl/user/getCbrDetailsDetails"); ?>';
+        $.ajax
+                ({
+                    "url": href,
+                    "data": {"userId": userId},
+                    "type": 'get',
+                    "dataType": "html",
+                    success: function (data)
+                    {
+                        $('#cbrDetails').html(data);
+                    }
+                });
 
-	}
+    }
 </script>

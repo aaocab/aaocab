@@ -1,4 +1,5 @@
 <?php
+
 try
 {
 	$bkgId		 = trim($id);
@@ -20,15 +21,14 @@ try
 	$fromCityName	 = $bkgModel->bkgFromCity->cty_name;
 	$toCityName		 = $bkgModel->bkgToCity->cty_name;
 	$tripType		 = $bkgModel->getBookingType($bkgModel->bkg_booking_type);
-	$tripDistance	 = $bkgModel->bkg_trip_distance;
+	$tripDistance	 = $bkgModel->bkg_trip_distance."  KM";
 	$totalAmt		 = $bkgModel->bkgInvoice->bkg_total_amount;
 
 	$datePickupDate	 = new DateTime($bkgModel->bkg_pickup_date);
 	$pickupTime		 = $datePickupDate->format('j/M/y h:i A');
 
 	$buttonUrl	 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-	$paymentUrl	 = 'https://www.gozocabs.com/' . $buttonUrl;
-	$paymentUrl	 = Filter::shortUrl($paymentUrl);
+	$paymentUrl	 = 'https://gozo.cab/' . $buttonUrl;
 
 	$phoneNo = WhatsappLog::getPhoneNoByBookingId($bkgModel->bkg_id);
 	if (!$phoneNo)

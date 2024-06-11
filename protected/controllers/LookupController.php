@@ -43,7 +43,7 @@ class LookupController extends BaseController
 		$this->onRest('post.filter.req.auth.user', function ($validation) {
 			$pos = false;
 			$arr = $this->getURIAndHTTPVerb();
-			$ri	 = array('/citylist1', '/nearestcitylist', '/airportcities', '/nearestairportcities', '/citybounds', '/routeduration', '/getPlace', '/getPredictions', '/getLatlngByPlaceId');
+			$ri	 = array('/citylist1', '/nearestcitylist', '/airportcities', '/nearestairportcities', '/citybounds', '/routeduration', '/getPlace', '/getPredictions', '/getLatlngByPlaceId','/serverTime');
 			foreach ($ri as $value)
 			{
 				if (strpos($arr[0], $value))
@@ -154,8 +154,16 @@ class LookupController extends BaseController
 			echo $datafromcity;
 			Yii::app()->end();
 		});
-	}
+	
+	
+	$this->onRest('req.get.serverTime.render', function () {
 
+			$timeNow = Filter::getDBDateTime();
+			$timeArr =array("currentTime"=>$timeNow);
+			echo json_encode($timeArr);
+			Yii::app()->end();
+		});
+	}	
 	public function actionVehicletypejson()
 	{
 		$vhtdata = VehicleTypes::model()->getVehicleTypeList1();
@@ -823,7 +831,7 @@ class LookupController extends BaseController
 		$cabs		 = $request->getParam('cabs');
 		$onlyActive	 = $request->getParam('onlyActive') != null ? $request->getParam('onlyActive') : 1;
 		$vnd		 = $request->getParam('vnd') != null ? $request->getParam('vnd') : 0;
-		echo $datafromCab = Vehicles::model()->getJSONAllCabsbyQuery($query, $cabs, $onlyActive, $vnd);
+		echo $datafromCab = Vehicles::getJSONAllCabsbyQuery($query, $cabs, $onlyActive, $vnd);
 		Yii::app()->end();
 	}
 
@@ -1066,41 +1074,55 @@ class LookupController extends BaseController
 
 	public function actionGetPredictions()
 	{
-		$data			 = [];
-		$predictionHint	 = Yii::app()->request->getParam('pval');
-		$city			 = Yii::app()->request->getParam('city');
-		$sessiontoken	 = Yii::app()->request->getParam('sessiontoken');
+        
+        
+        if(APPLICATION_ENV != 'development2') 
+        {
+            $referer  = $_SERVER['HTTP_REFERER'];
+            $host     = $_SERVER['HTTP_HOST'];
+            $preferer = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+            $info     = "==1==" . $host . "==2==" . $preferer;
+            Logger::info($info);
+            if ($preferer != $host)
+            {
+                throw new CHttpException(403, "Valid host not found", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
+            }
+        }
+        $data           = [];
+        $predictionHint = Yii::app()->request->getParam('pval');
+        $city           = Yii::app()->request->getParam('city');
+        $sessiontoken   = Yii::app()->request->getParam('sessiontoken');
 
-		if (!$city)
-		{
-			throw new CHttpException(406, "City not found", 406);
-		}
-		if (!$sessiontoken)
-		{
-			throw new CHttpException(406, "No session found", 406);
-		}
-		try
-		{
-			$prediction	 = substr(trim($predictionHint), 0, 250);
-			$predictionsJson = Autocomplete::lookupKeyword($prediction, $city, $sessiontoken, 0.15);
-			$predictions	 = json_decode($predictionsJson);
+        if (!$city)
+        {
+            throw new CHttpException(406, "City not found", 406);
+        }
+        if (!$sessiontoken)
+        {
+            throw new CHttpException(406, "No session found", 406);
+        }
+        try
+        {
+            $prediction      = substr(trim($predictionHint), 0, 250);
+            $predictionsJson = Autocomplete::lookupKeyword($prediction, $city, $sessiontoken, 0.15);
+            $predictions     = json_decode($predictionsJson);
 
-			$arrPredictions = array();
-			if ($predictions != null || $predictions != [])
-			{
-				foreach ($predictions->predictions as $key => $row)
-				{
-					$arrPredictions[] = array("id" => $row->place_id, "text" => $row->description);
-				}
-			}
-			echo CJSON::encode($arrPredictions);
-			Yii::app()->end();
-		}
-		catch (Exception $e)
-		{
-			Logger::error($e);
-		}
-	}
+            $arrPredictions = array();
+            if ($predictions != null || $predictions != [])
+            {
+                foreach ($predictions->predictions as $key => $row)
+                {
+                    $arrPredictions[] = array("id" => $row->place_id, "text" => $row->description);
+                }
+            }
+            echo CJSON::encode($arrPredictions);
+            Yii::app()->end();
+        }
+        catch (Exception $e)
+        {
+            Logger::error($e);
+        }
+    }
 
 	public function actionGetLatlngByPlaceId()
 	{

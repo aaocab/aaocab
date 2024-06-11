@@ -156,6 +156,7 @@ class MessageEventMaster extends CActiveRecord
 		$returnSet	 = new ReturnSet();
 		foreach ($seqObject as $seq)
 		{
+           
 			if ($eventScheduleParams == null || $eventScheduleParams->event_sequence == null || $seq == $eventScheduleParams->event_sequence)
 			{
 				switch ($seq)

@@ -1283,7 +1283,7 @@ class FinancialController extends Controller
 				unlink($backup_file);
 			}
 			$type	 = 'command';
-			$rows	 = Vendors::model()->getCollectionReport($qry, true);
+			$rows	 = Vendors::getCollectionReport($qry, true);
 			$handle	 = fopen("php://output", 'w');
 			fputcsv($handle, ['Operator Id', 'Operator Name', 'Beneficiary Id', 'Phone', 'Relationship Manager', 'Credit Limit', 'Effective Credit Limit',
 				'Overdue Days', 'Security Amount', 'Last Payment Receive Amt', 'Last Payment Receive Date', 'Last Payment Sent Amt', 'Last Payment Sent Date',
@@ -1291,7 +1291,6 @@ class FinancialController extends Controller
 				'Trips', 'Rating', 'Contact Id', 'Number of contact', 'BankDetails_Lastmodified', 'Last login date', 'Home zone', 'Dependency score']);
 			if (count($rows) > 0)
 			{
-
 				foreach ($rows as $row)
 				{
 					if ($row['vnd_active'] == 2)
@@ -1362,9 +1361,6 @@ class FinancialController extends Controller
 			}
 			exit;
 		}
-
-
-
 		try
 		{
 			if (isset($_POST["import"]))
@@ -1530,7 +1526,7 @@ class FinancialController extends Controller
 			'amount'	 => $amount,
 			'admin'		 => $admin,
 			'modDay'	 => $modDay, 'roles'		 => $row];
-		$dataProvider	 = Vendors::model()->getCollectionReport($qry);
+		$dataProvider	 = Vendors::getCollectionReport($qry);
 		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
 		$dataProvider->setPagination(['params' => array_filter($_GET + $_POST)]);
 		$this->render('vendor_collection', array('dataProvider' => $dataProvider, 'model' => $model, 'message' => $message, 'messageBen' => $messageBen, 'roles' => $row));

@@ -114,6 +114,10 @@ class CancellationPolicy extends CComponent
 			$sccId		 = SvcClassVhcCat::model()->getClassById($svcId);
 			$svcModel	 = ServiceClass::model()->findByPk($sccId);
 			$ruleId		 = $svcModel->scc_cancel_rule;
+			if($agentId > 0 && $agentId != 1249 && $ruleId == 18)
+			{
+				$ruleId	 = 9;
+			}
 		}
 		return $ruleId;
 	}
@@ -1241,5 +1245,4 @@ class CancellationPolicy extends CComponent
 		Logger::unsetModelCategory(__CLASS__, __FUNCTION__);
 		return $objCancelCharges;
 	}
-
 }

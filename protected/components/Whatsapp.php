@@ -78,11 +78,14 @@ class Whatsapp extends CComponent
 			{
 				WhatsappLog::processLog(['whl_sent_response' => $errMsg, 'whl_status' => 3], '', $whlId);
 			}
-
-			$arrStatus = ['status' => 3, 'wamId' => '', 'error' => $errMsg];
-			\Sentry\captureMessage(json_encode(['template' => $templateName, 'arrComponent' => $arrComponent, 'arrData' => $arrData, 'status' => 3, 'wamId' => $whlId]), null);
-			Logger::error($ex);
-			Logger::exception($ex);
+			$jsonError = json_decode($errMsg, true);
+			if ($jsonError['error']['code'] != 131026)
+			{
+				$arrStatus = ['status' => 3, 'wamId' => '', 'error' => $errMsg];
+				\Sentry\captureMessage(json_encode(['template' => $templateName, 'arrComponent' => $arrComponent, 'arrData' => $arrData, 'status' => 3, 'wamId' => $whlId]), null);
+				Logger::error($ex);
+				Logger::exception($ex);
+			}
 		}
 		if ($whlId)
 		{
@@ -226,6 +229,7 @@ class Whatsapp extends CComponent
 			else if ($notification instanceof Netflie\WhatsAppCloudApi\WebHook\Notification\Button)
 			{
 				$arrData = self::populateCommonData($notification, WhatsappLog::MSG_TYPE_BUTTON);
+				\Sentry\captureMessage(json_encode(['WhatsappNotificationHookTrackButton' => $arrData]), null);
 			}
 			else if ($notification instanceof Netflie\WhatsAppCloudApi\WebHook\Notification\Interactive)
 			{
@@ -256,6 +260,7 @@ class Whatsapp extends CComponent
 		}
 		catch (Exception $ex)
 		{
+			\Sentry\captureMessage(json_encode(['WhatsappNotificationHook' => $ex->getMessage(), "value" => json_encode($notification)]), null);
 			Logger::exception($ex);
 		}
 	}
@@ -353,17 +358,19 @@ class Whatsapp extends CComponent
 
 	public static function buildComponentButton($arrData, $type = 'button', $subType = 'url', $text = "text")
 	{
-		$arrButton = [];
+		$arrButton	 = [];
+		$textArr	 = explode(",", $text);
+		$subTypeArr	 = explode(",", $subType);
 		foreach ($arrData as $key => $value)
 		{
 			$arrButton[] = [
 				'type'		 => $type,
-				'sub_type'	 => $subType,
+				'sub_type'	 => $subTypeArr[$key],
 				'index'		 => $key,
 				'parameters' => [
 					[
-						'type'	 => $text,
-						$text	 => $value,
+						'type'			 => $textArr[$key],
+						$textArr[$key]	 => $value,
 					]
 				]
 			];

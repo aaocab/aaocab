@@ -185,7 +185,7 @@ class ConfigController extends Controller
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
-		header('Content-Length: ' . filesize($file));
+	//	header('Content-Length: ' . filesize($file));
 		header("Content-Type: text/plain");
 		readfile($file);
 	}

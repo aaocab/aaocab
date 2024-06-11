@@ -12,32 +12,35 @@
 </style>
 
 <?php
-if ($errors )
+if ($errors)
 {
 	?>
-	 
-		<!--    <div class="container">-->
-		<div class="row p20 alert alert-danger h4 text-center">
 
-			<div class="col-xs-12">
-				<p class="dup-error">Errors occured</p>
-			</div>
-			<div class="col-xs-12 ">
-				<?=  $errors   ?>
+	<!--    <div class="container">-->
+	<div class="row p20 alert alert-danger h4 text-center">
 
-			</div>
+		<div class="col-xs-12">
+			<p class="dup-error">Errors occured</p>
 		</div>
-	 
+		<div class="col-xs-12 ">
+			<?= $errors ?>
+
+		</div>
+	</div>
+
 	<?php
-	 goto skipAll;
+	goto skipAll;
 }
-$ptpJson			 = VehicleTypes::model()->getJSON(PaymentType::model()->getList(false, false));
-$modeJson			 = VehicleTypes::model()->getJSON(PaymentGateway::model()->getModeList());
-$bankTransType		 = VehicleTypes::model()->getJSON(PaymentGateway::model()->getbankTransTypeList());
-$operatorJson		 = VehicleTypes::model()->getJSON(AccountTransDetails::model()->getOperatorList());
-$gozoPaid			 = AccountLedger::getGozoPiadLedgerIds();
-$gozoReceiver		 = AccountLedger::getGozoReceiverLedgerIds();
-$vndid				 = $_GET['vnd_id'];
+$ptpJson		 = VehicleTypes::model()->getJSON(PaymentType::model()->getList(false, false));
+$modeJson		 = VehicleTypes::model()->getJSON(PaymentGateway::model()->getModeList());
+$bankTransType	 = VehicleTypes::model()->getJSON(PaymentGateway::model()->getbankTransTypeList());
+$operatorJson	 = VehicleTypes::model()->getJSON(AccountTransDetails::model()->getOperatorList());
+$gozoPaid		 = AccountLedger::getGozoPiadLedgerIds();
+$gozoReceiver	 = AccountLedger::getGozoReceiverLedgerIds();
+
+//$vndid				 = $_GET['vnd_id'];
+$vndid = $agtId;
+
 $viewLockedAmount	 = Yii::app()->createUrl('admpnl/vendor/Getlockamount', array("vnd_id" => $vndid));
 $viewMetrics		 = Yii::app()->createUrl('admpnl/vendor/ViewMetrics', array("vnd_id" => $vndid));
 ?>
@@ -413,7 +416,8 @@ $viewMetrics		 = Yii::app()->createUrl('admpnl/vendor/ViewMetrics', array("vnd_i
 
 			<div class="row">
 				<?php
-				$openingBalance		 = AccountTransDetails::getOpeningBalance($agtId, $dateFromDate);
+				$vndIds = Vendors::getRelatedIds($agtId);
+				$openingBalance		 = AccountTransDetails::getOpeningBalance($vndIds, $dateFromDate);
 				if ($openingBalance != 0)
 				{
 					$date = date_create($dateFromDate);
@@ -699,4 +703,5 @@ $dateTodate			 = DateTimeFormat::DateToLocale($dateTodate);
 
 
 </script>
-<? skipAll:?>
+<?
+skipAll:?>

@@ -112,8 +112,8 @@ class Users extends CActiveRecord
 			array('usr_mobile', 'unique', 'criteria' => array('condition' => 'usr_active = 1'), 'on' => 'userSignup'),
 			array('usr_email', 'required', 'on' => 'inserttemplogin'),
 			array('user_email', 'required', 'on' => 'forgotpass'),
-			array('usr_email', 'email', 'message' => 'Please enter valid email address', 'on' => 'userSignup', 'checkMX' => true),
-			array('usr_email,user_email', 'email', 'message' => 'Please enter valid email address', 'checkMX' => true),
+			array('usr_email', 'email', 'message' => 'Please enter valid email address', 'on' => 'userSignup', 'checkMX' => true, "except" => "user_sync"),
+			array('usr_email,user_email', 'email', 'message' => 'Please enter valid email address', 'checkMX' => true, "except" => "user_sync"),
 			array('usr_email', 'unique', 'on' => 'insert,insertonbooking,mobinsert,inserttemplogin'),
 			array('username', 'required', 'on' => 'userLoginEmailPhone', "message" => "Please enter valid user phone/email address"),
 			array('username', 'validateEmailPhone', 'on' => 'userLoginEmailPhone'),
@@ -146,8 +146,8 @@ class Users extends CActiveRecord
 			array('usr_reset_desc', 'required', 'on' => 'reset', 'message' => 'Please enter the reason for resetting bad mark'),
 			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'captchaAction' => 'site/captcha', 'on' => 'captchaRequired'),
 			array('usr_name, usr_email, usr_password, repeat_password', 'required', 'on' => 'sociallinkinsert'),
-			array('usr_name', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "First Name should contain only alphanumeric characters", 'allowEmpty' => false),
-			array('usr_lname', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "Last Name should contain only alphanumeric characters", 'allowEmpty' => false),
+			//array('usr_name', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "First Name should contain only alphanumeric characters", 'allowEmpty' => false, 'except' => "user_sync"),
+			//array('usr_lname', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "Last Name should contain only alphanumeric characters", 'allowEmpty' => false, 'except' => "user_sync"),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('username,usr_refer_code,usr_referred_code,usr_referred_id, user_id, usr_lname, usr_name, usr_email, usr_password, usr_create_platform, usr_verification_code, 
@@ -172,17 +172,17 @@ class Users extends CActiveRecord
 
 	public function nameValidation($attribute, $params)
 	{
-		if($this->hasErrors())
+		if ($this->hasErrors())
 		{
 			return false;
 		}
-		if($this->usr_name != '')
+		if ($this->usr_name != '')
 		{
 			$this->addError("usr_name", "First Name cannot be changed");
 			//  return false;
 		}
 
-		if($this->usr_lname != '')
+		if ($this->usr_lname != '')
 		{
 			$this->addError("usr_lname", "Last Name cannot be changed");
 			// return false;
@@ -193,7 +193,7 @@ class Users extends CActiveRecord
 
 	public function checkLogin($attribute, $params)
 	{
-		if($this->hasErrors())
+		if ($this->hasErrors())
 		{
 			return false;
 		}
@@ -201,7 +201,7 @@ class Users extends CActiveRecord
 		$password		 = md5($this->usr_password);
 		$this->_identity = new UserIdentity($email, $password);
 		$valid			 = $this->_identity->authenticate();
-		switch($this->_identity->errorCode)
+		switch ($this->_identity->errorCode)
 		{
 			case 10:
 				$this->addError($attribute, 'Your account has been removed. Please contact Support');
@@ -215,7 +215,7 @@ class Users extends CActiveRecord
 			default:
 				break;
 		}
-		if(!$valid)
+		if (!$valid)
 		{
 			$this->addError($attribute, 'Invalid Email ID / Password');
 		}
@@ -229,33 +229,33 @@ class Users extends CActiveRecord
 		$username					 = $this->$attribute;
 		$isEmail					 = Filter::validateEmail($username);
 		$isPhone					 = false;
-		if(!$isEmail)
+		if (!$isEmail)
 		{
 			$isPhone = Filter::validatePhoneNumber($username);
 		}
 
-		if(!$isEmail && !$isPhone)
+		if (!$isEmail && !$isPhone)
 		{
 			$this->addError($attribute, "Please enter valid email id/phone number");
 			return false;
 		}
 		Logger::create("UsersController::validateUserName :: " . $isPhone, CLogger::LEVEL_INFO);
-		if($isEmail)
+		if ($isEmail)
 		{
 			$this->usernameType	 = Stub\common\ContactVerification::TYPE_EMAIL;
 			$contactId			 = Contact::getByEmailPhone($username);
-			if($contactId == '')
+			if ($contactId == '')
 			{
 				$this->addError($attribute, "This email is not registered with us");
 				return false;
 			}
 		}
 
-		if($isPhone)
+		if ($isPhone)
 		{
 			$this->usernameType	 = Stub\common\ContactVerification::TYPE_PHONE;
 			$phoneNumber		 = Filter::processPhoneNumber($username);
-			if(!$phoneNumber)
+			if (!$phoneNumber)
 			{
 				$this->addError($attribute, "Please enter valid phone number/email id");
 				return false;
@@ -265,14 +265,14 @@ class Users extends CActiveRecord
 			$this->$attribute	 = $code . $phone;
 			Logger::create("Users::validateUserName:: fullcontactnumber" . $this->$attribute, CLogger::LEVEL_INFO);
 			$contactId			 = Contact::getByEmailPhone('', $this->$attribute);
-			if($contactId == '')
+			if ($contactId == '')
 			{
 				$this->addError($attribute, "This phone number is not registered with us");
 				return false;
 			}
 		}
 
-		if($contactId == '')
+		if ($contactId == '')
 		{
 			$this->addError($attribute, "Sorry, this detail is not registered with us");
 			return false;
@@ -285,20 +285,20 @@ class Users extends CActiveRecord
 	public function validatePhoneNumber($attribute, $params)
 	{
 
-		if($this->$attribute != '')
+		if ($this->$attribute != '')
 		{
 			$phone		 = "+" . $this->usr_country_code . $this->$attribute;
 			$phonenumber = new libphonenumber\LibPhone($phone);
 			$a			 = $phonenumber->toE164();
 			$a			 = $phonenumber->toInternational();
 			$a			 = $phonenumber->toNational();
-			if(!$phonenumber->validate())
+			if (!$phonenumber->validate())
 			{
 				$this->addError($attribute, 'Please enter valid phone number');
 				return FALSE;
 			}
 
-			if($this->usr_country_code == '91' && strlen($this->$attribute) != 10)
+			if ($this->usr_country_code == '91' && strlen($this->$attribute) != 10)
 			{
 				$this->addError($attribute, 'Please enter valid phone number');
 				return FALSE;
@@ -507,21 +507,21 @@ class Users extends CActiveRecord
 		$contactId	 = 0;
 		$userId		 = 0;
 
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
-			if($row['userId'] > 0)
+			if ($row['userId'] > 0)
 			{
 				$userId		 = $row['userId'];
 				$contactId	 = $row['ctt_id'];
 				break;
 			}
-			if($contactId == 0 && ($row['eml_is_primary'] == 1 || $row['eml_is_verified'] == 1))
+			if ($contactId == 0 && ($row['eml_is_primary'] == 1 || $row['eml_is_verified'] == 1))
 			{
 				$contactId = $row['ctt_id'];
 			}
 		}
 
-		if($userId == 0 && $contactId > 0)
+		if ($userId == 0 && $contactId > 0)
 		{
 			$model = Users::createbyContact($contactId);
 			goto end;
@@ -544,11 +544,11 @@ class Users extends CActiveRecord
 	public function checkValidAttempt($login = 1, $email)
 	{
 		Users::model()->getByEmail($email);
-		if($login == 1)
+		if ($login == 1)
 		{
 			$this->usr_log_count = 0;
 		}
-		else if($login == 0)
+		else if ($login == 0)
 		{
 			$this->usr_log_count = ($this->usr_log_count + 1);
 		}
@@ -584,7 +584,7 @@ class Users extends CActiveRecord
 
 	public function resetMarkBadByUserId($userId)
 	{
-		if($userId != '')
+		if ($userId != '')
 		{
 			$model								 = new User();
 			$userModel							 = $model->findByPk($userId);
@@ -603,22 +603,23 @@ class Users extends CActiveRecord
 
 	public function beforeSave()
 	{
+
 		$email = $this->usr_email;
-		if($this->scenario != 'agentjoin' && $this->scenario != 'change' && $this->scenario != 'new' && $this->scenario != 'update' && $this->scenario != 'reset' && $this->scenario != 'refcode' && $this->scenario != 'updateProfile' && $this->scenario != "insertonbooking" && $this->scenario != "agentQrjoin" && $this->scenario != "deactivate")
+		if ($this->scenario != 'agentjoin' && $this->scenario != 'user_sync' && $this->scenario != 'change' && $this->scenario != 'new' && $this->scenario != 'update' && $this->scenario != 'reset' && $this->scenario != 'refcode' && $this->scenario != 'updateProfile' && $this->scenario != "insertonbooking" && $this->scenario != "agentQrjoin" && $this->scenario != "deactivate")
 		{
 			$emailexist = $this->findByEmail($email);
-			if($emailexist != '')
+			if ($emailexist != '')
 			{
 				$this->addError("usr_email", "Email already exists");
 				return false;
 			}
-			if(!empty($this->usr_password) && strlen($this->usr_password))
+			if (!empty($this->usr_password) && strlen($this->usr_password))
 			{
 				$this->usr_password = $this->encrypt($this->usr_password . '');
 			}
 			else
 			{
-				if(empty($this->usr_password))
+				if (empty($this->usr_password))
 				{
 					$this->usr_password = $this->findByPk($this->user_id)->usr_password;
 				}
@@ -632,7 +633,7 @@ class Users extends CActiveRecord
 
 		$catFilter					 = ($this->category > 0) ? " AND cpr_category = " . $this->category : "";
 		$lastBookingCreatedFilter	 = "";
-		if($this->last_booking_create_date1 != '' && $this->last_booking_create_date2 != '')
+		if ($this->last_booking_create_date1 != '' && $this->last_booking_create_date2 != '')
 		{
 			$lastBookingCreatedFilter = " AND DATE(urs_last_trip_created) BETWEEN '{$this->last_booking_create_date1}' AND '{$this->last_booking_create_date2}'";
 		}
@@ -669,7 +670,7 @@ class Users extends CActiveRecord
 		$sql .= ($this->search_marked_bad == 1) ? " AND users.usr_mark_customer_count>0" : "";
 
 		$sql .= " GROUP BY users.user_id";
-		if($isExport)
+		if ($isExport)
 		{
 			$dataArr = DBUtil::query($sql);
 			return $dataArr;
@@ -737,10 +738,10 @@ class Users extends CActiveRecord
 	public function linkUserid($email, $phone)
 	{
 		$userid = '';
-		if($email != '' || $phone != '')
+		if ($email != '' || $phone != '')
 		{
 			$criteria2 = new CDbCriteria;
-			if($email != '' && $phone != '')
+			if ($email != '' && $phone != '')
 			{
 				$criteria1	 = new CDbCriteria;
 				$criteria1->compare('usr_email', $email);
@@ -749,7 +750,7 @@ class Users extends CActiveRecord
 				$userid		 = $user1->user_id;
 			}
 
-			if($userid > 0)
+			if ($userid > 0)
 			{
 				return $userid;
 			}
@@ -759,7 +760,7 @@ class Users extends CActiveRecord
 				$criteria2->compare('usr_mobile', $phone, false, 'OR');
 			}
 			$user2 = $this->find($criteria2);
-			if($user2)
+			if ($user2)
 			{
 				$userid = $user2->user_id;
 			}
@@ -775,11 +776,11 @@ class Users extends CActiveRecord
 		$bkgUserModel = BookingUser::model()->find('bui_bkg_id=:bkg_id', ['bkg_id' => $bkg_id]);
 
 		$contactId = $bkgUserModel->bkg_contact_id;
-		if($contactId > 0)
+		if ($contactId > 0)
 		{
 			$cpRow	 = ContactProfile::getProfileByCttId($contactId);
 			$userId	 = $cpRow['cr_is_consumer'];
-			if($userId > 0)
+			if ($userId > 0)
 			{
 				$usrModel = Users::model()->findByPk($userId);
 				return $usrModel;
@@ -800,18 +801,18 @@ class Users extends CActiveRecord
 		{
 			$transaction = DBUtil::beginTransaction();
 			$usrModel	 = Users::createbyContact($contactId);
-			if($usrModel->hasErrors())
+			if ($usrModel->hasErrors())
 			{
 				throw new ModelValidationException($usrModel);
 			}
-			if($sendNotification)
+			if ($sendNotification)
 			{
 				Users::model()->sentConfirmationEmail($bkg_id);
 			}
 			DBUtil::commitTransaction($transaction);
 			return $usrModel;
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			return false;
@@ -820,17 +821,17 @@ class Users extends CActiveRecord
 
 	public function sentConfirmationEmail($refBookingId = null)
 	{
-		if($refBookingId != null && $this->usr_acct_type == '1')
+		if ($refBookingId != null && $this->usr_acct_type == '1')
 		{
 			/* @var $bkgModel Booking */
 			$bkgModel		 = Booking::model()->findByPk($refBookingId);
 			$bkgUserModel	 = BookingUser::model()->find('bui_bkg_id=:bkg_id', ['bkg_id' => $refBookingId]);
-			if(!$bkgModel)
+			if (!$bkgModel)
 			{
 				return false;
 			}
 			$response = Contact::referenceUserData($bkgUserModel->bui_id, 1);
-			if($response->getStatus())
+			if ($response->getStatus())
 			{
 				$email = $response->getData()->email['email'];
 			}
@@ -838,7 +839,7 @@ class Users extends CActiveRecord
 			//$userId = $bkgModel->bkg_user_id;
 			$bookingId	 = $bkgModel->bkg_booking_id;
 			$userId		 = ($this->user_id > 0) ? $this->user_id : $bkgModel->bkgUserInfo->bkg_user_id;
-			if($email != '')
+			if ($email != '')
 			{
 				$emailCom	 = new emailWrapper();
 				$logType	 = UserInfo::TYPE_SYSTEM;
@@ -846,12 +847,12 @@ class Users extends CActiveRecord
 				return true;
 			}
 		}
-		else if($this->usr_acct_type == 1)
+		else if ($this->usr_acct_type == 1)
 		{
 			//$email		 = $bkgModel->bkg_user_email;
 			$userId		 = $bkgModel->bkg_user_id;
 			$bookingId	 = $bkgModel->bkg_booking_id;
-			if($email != '')
+			if ($email != '')
 			{
 				$emailCom	 = new emailWrapper();
 				$logType	 = UserInfo::TYPE_SYSTEM;
@@ -864,17 +865,17 @@ class Users extends CActiveRecord
 
 	public function sendConfirmationSMS($refBookingId = null)
 	{
-		if($refBookingId != null && $this->usr_acct_type != 0)
+		if ($refBookingId != null && $this->usr_acct_type != 0)
 		{
 			/* @var $bkgModel Booking */
 			$bkgModel		 = Booking::model()->findByPk($refBookingId);
 			$bkgUserModel	 = BookingUser::model()->find('bui_bkg_id=:bkg_id', ['bkg_id' => $refBookingId]);
-			if(!$bkgModel)
+			if (!$bkgModel)
 			{
 				return false;
 			}
 			$response = Contact::referenceUserData($bkgUserModel->bui_id, 2);
-			if($response->getStatus())
+			if ($response->getStatus())
 			{
 				$contactNo	 = $response->getData()->phone['number'];
 				$countryCode = $response->getData()->phone['ext'];
@@ -882,7 +883,7 @@ class Users extends CActiveRecord
 			$country_code	 = $countryCode;
 			$phone			 = $contactNo;
 			$bookingId		 = $bkgModel->bkg_booking_id;
-			if($phone != '')
+			if ($phone != '')
 			{
 				$msgCom	 = new smsWrapper();
 				$logType = UserInfo::TYPE_SYSTEM;
@@ -891,11 +892,11 @@ class Users extends CActiveRecord
 				return true;
 			}
 		}
-		else if($this->usr_acct_type != 0)
+		else if ($this->usr_acct_type != 0)
 		{
 			$phone			 = $this->usr_mobile;
 			$country_code	 = $this->usr_country_code;
-			if($phone != '')
+			if ($phone != '')
 			{
 				$msgCom	 = new smsWrapper();
 				$logType = UserInfo::TYPE_SYSTEM;
@@ -924,7 +925,7 @@ class Users extends CActiveRecord
 
 	public function updateBookingByUserId($bkgId, $usrId)
 	{
-		if($bkgId != '' && $usrId != '')
+		if ($bkgId != '' && $usrId != '')
 		{
 			$book					 = new Booking();
 			$book->resetScope();
@@ -1006,18 +1007,18 @@ class Users extends CActiveRecord
 	public function addCreditRefererOnFirstBooking($referredUser)
 	{
 		$allbookings = BookingUser::model()->find('bkg_user_id=:user', ['user' => $referredUser]);
-		if($allbookings)
+		if ($allbookings)
 		{
 			/*    @var $userreffered Users  */
 			$userreffered = Users::model()->findByPk($referredUser);
-			if($userreffered != '' && $userreffered->usr_referred_code != '')
+			if ($userreffered != '' && $userreffered->usr_referred_code != '')
 			{
 				$userrefer = Users::model()->getByReferCode($userreffered->usr_referred_code);
-				if($userrefer != '')
+				if ($userrefer != '')
 				{
 
 					$creditModel1 = UserCredits::model()->resetScope()->find('ucr_user_id=:user AND ucr_ref_id=:ref AND 	ucr_status=2', ['user' => $userrefer->user_id, 'ref' => $referredUser]);
-					if($creditModel1 != '' || $creditModel1 != null)
+					if ($creditModel1 != '' || $creditModel1 != null)
 					{
 						$creditModel1->ucr_status = 1;
 						$creditModel1->save();
@@ -1052,25 +1053,25 @@ class Users extends CActiveRecord
 
 	public function getUsers($type)
 	{
-		if($type == 1)
+		if ($type == 1)
 		{
 			$sql = "select user_id from users where usr_active =1";
 		}
-		if($type == 2)
+		if ($type == 2)
 		{
 			$sql = "Select user_id, MAX(bkg_pickup_date) as max_date FROM `booking` JOIN users ON bkg_user_id = user_id 
 						WHERE bkg_status IN (2,3,5,6,7) AND bkg_active = 1 AND usr_active = 1
 						GROUP BY user_id 
 						HAVING user_id <> '' AND max_date < date_sub(NOW(),INTERVAL 3 MONTH)";
 		}
-		if($type == 3)
+		if ($type == 3)
 		{
 			$sql = "Select user_id, MAX(bkg_pickup_date) as max_date FROM `booking` JOIN users ON bkg_user_id = user_id 
 						WHERE bkg_status IN (2,3,5,6,7) AND bkg_active = 1 AND usr_active = 1
 						GROUP BY user_id 
 						HAVING user_id <> '' AND max_date < date_sub(NOW(),INTERVAL 6 MONTH)";
 		}
-		if($type == 4)
+		if ($type == 4)
 		{
 			$sql = "select user_id from users
 						WHERE usr_active = 1 AND user_id NOT IN (Select DISTINCT bkg_user_id from booking where bkg_active = 1 and bkg_status IN (2,3,5,6,7) and bkg_user_id <> '')";
@@ -1085,7 +1086,7 @@ class Users extends CActiveRecord
 	 */
 	public function linkUser()
 	{
-		if($this->usr_email == '' && $this->usr_mobile == '')
+		if ($this->usr_email == '' && $this->usr_mobile == '')
 		{
 			return false;
 		}
@@ -1102,20 +1103,20 @@ class Users extends CActiveRecord
 		$params	 = [];
 		$cond	 = [];
 
-		if($this->usr_email != '')
+		if ($this->usr_email != '')
 		{
 			$params["email"] = trim($this->usr_email);
 			$cond[]			 = "(usr_email=:email OR eml_email_address=:email)";
 		}
 
-		if($this->usr_mobile != '')
+		if ($this->usr_mobile != '')
 		{
 			$params["phone"] = trim($this->usr_mobile);
 			$params["code"]	 = trim($this->usr_country_code);
 			$cond[]			 = "((usr_mobile=:phone AND usr_country_code=:code) OR (phn_phone_no=:phone AND phn_phone_country_code=:code))";
 		}
 
-		if(count($cond) > 0)
+		if (count($cond) > 0)
 		{
 			$sql .= " AND (" . implode(" OR ", $cond) . ")";
 		}
@@ -1125,19 +1126,19 @@ class Users extends CActiveRecord
 
 	public static function getLinkedContactIds($phone, $email)
 	{
-		if($phone == '' && $email == '')
+		if ($phone == '' && $email == '')
 		{
 			return false;
 		}
 
 		$phone = Filter::processPhoneNumber($phone);
-		if($phone)
+		if ($phone)
 		{
 			Filter::parsePhoneNumber($phone, $code, $number);
 			$phone = $code . $number;
 		}
 
-		if(!$phone && $email == '')
+		if (!$phone && $email == '')
 		{
 			return false;
 		}
@@ -1153,20 +1154,20 @@ class Users extends CActiveRecord
 		$params	 = [];
 		$cond	 = [];
 
-		if($email != '')
+		if ($email != '')
 		{
 			$params["email"] = trim($email);
 			$cond[]			 = "(usr_email=:email)";
 		}
 
-		if($phone != '')
+		if ($phone != '')
 		{
 			$params["phone"] = trim($number);
 			$params["code"]	 = trim($code);
 			$cond[]			 = "(usr_mobile=:phone AND usr_country_code=:code)";
 		}
 
-		if(count($cond) > 0)
+		if (count($cond) > 0)
 		{
 			$sql .= " AND (" . implode(" OR ", $cond) . ")";
 		}
@@ -1179,6 +1180,7 @@ class Users extends CActiveRecord
 	{
 		$sql	 = "SELECT SUM(IF(bkg_status IN(6,7),IF(booking_invoice.bkg_total_amount IS NULL,0,booking_invoice.bkg_total_amount),0)) totAmount,SUM(IF(bkg_status IN(4,5),1,0)) totOntheWay,"
 				. "SUM(IF(bkg_status=3,1,0)) totAssinged,"
+				. " COUNT(1) totInquiry, MAX(bkg_create_date) As lastInquiryDate,MAX(IF(bkg_status IN(6, 7),bkg_pickup_date,null)) As lastTravelledDate,MAX(IF(bkg_reconfirm_flag=1,bkg_create_date,null)) As lastPaidBookingCreateDate, "
 				. "SUM(IF(bkg_status IN(6,7),IF(booking_invoice.bkg_gozo_amount IS NULL,0,booking_invoice.bkg_gozo_amount),0)) totGozoAmount,"
 				. "SUM(IF(bkg_status IN(6,7),1,0)) totCompleted,"
 				. "SUM(IF(bkg_status IN(3,5,13),1,0)) totOthers,SUM(IF(bkg_status=2,1,0)) totNew,"
@@ -1187,8 +1189,6 @@ class Users extends CActiveRecord
 				. " JOIN `booking_invoice` ON booking.bkg_id=booking_invoice.biv_bkg_id "
 				. " JOIN `booking_user` ON booking.bkg_id=booking_user.bui_bkg_id"
 				. " WHERE booking_user.bkg_user_id=$userId AND bkg_status<>8 AND bkg_active=1";
-//          $sql;
-//         exit;
 		$data	 = DBUtil::queryRow($sql);
 		return $data;
 	}
@@ -1196,14 +1196,14 @@ class Users extends CActiveRecord
 	public function verifyEmail($email)
 	{
 		$users = Users::model()->find("usr_email=:email", ['email' => $email]);
-		if(count($users) > 0)
+		if (count($users) > 0)
 		{
 			$code							 = rand(999, 9999);
 			$emailWrapper					 = new emailWrapper();
 			$email							 = $users->usr_email;
 			$emailWrapper->sendVerificationAgent($email, $code);
 			$users->usr_verification_code	 = $code;
-			if($users->update())
+			if ($users->update())
 			{
 				$status = true;
 			}
@@ -1298,10 +1298,10 @@ class Users extends CActiveRecord
 	public function isLinkedToAgent($user)
 	{
 		$agentUsers = AgentUsers::model()->with('agentAgentUsers')->findAll('agu_user_id=:user', ['user' => $user]);
-		if($agentUsers != '' && count($agentUsers) > 0)
+		if ($agentUsers != '' && count($agentUsers) > 0)
 		{
 			$str = "";
-			foreach($agentUsers as $key => $agentUser)
+			foreach ($agentUsers as $key => $agentUser)
 			{
 				$str .= " <label class='bg-info pl5 pr5'>" . $agentUser->agentAgentUsers->agt_fname . "</label>";
 			}
@@ -1318,7 +1318,7 @@ class Users extends CActiveRecord
 	public static function getUniqueReferCode($model)
 	{
 		$referCode = "";
-		if($model->usr_refer_code != '')
+		if ($model->usr_refer_code != '')
 		{
 			return $model->usr_refer_code;
 		}
@@ -1326,7 +1326,7 @@ class Users extends CActiveRecord
 		$referCode	 = Users::generateRefCode($model->usr_name);
 		$usrModel	 = Users::model()->getByReferCode($referCode);
 
-		if(!empty($usrModel))
+		if (!empty($usrModel))
 		{
 			self::getUniqueReferCode($model);
 		}
@@ -1339,7 +1339,7 @@ class Users extends CActiveRecord
 		$refCode			 = "";
 		$modelUser			 = Users::model()->resetScope()->findByPk($userId);
 		$modelUser->scenario = 'refcode';
-		if($modelUser->usr_refer_code != '')
+		if ($modelUser->usr_refer_code != '')
 		{
 			$refCode = $modelUser->usr_refer_code;
 		}
@@ -1351,11 +1351,11 @@ class Users extends CActiveRecord
 				$refCode			 = Users::generateRefCode($uname);
 				$checkExistingCode	 = Users::model()->getByReferCode($refCode);
 			}
-			while($checkExistingCode);
+			while ($checkExistingCode);
 			$modelUser->usr_refer_code = $refCode;
-			if($modelUser->validate())
+			if ($modelUser->validate())
 			{
-				if(!$modelUser->save())
+				if (!$modelUser->save())
 				{
 					return false;
 				}
@@ -1367,65 +1367,65 @@ class Users extends CActiveRecord
 
 	public function getFbLogin($userId = 0, $email = '', $phone = '', $returnUser = false)
 	{
-		if(($userId == 0 || $userId == '') && ($email != '' || $phone != ''))
+		if (($userId == 0 || $userId == '') && ($email != '' || $phone != ''))
 		{
-			if($email != '' && $phone != '')
+			if ($email != '' && $phone != '')
 			{
 				$criteria1	 = new CDbCriteria;
 				$criteria1->compare('usr_email', trim($email));
 				$criteria1->compare('usr_mobile', trim($phone));
 				$criteria1->addCondition("usr_active > 0");
 				$usrModel	 = $this->find($criteria1);
-				if($usrModel != '')
+				if ($usrModel != '')
 				{
 					$userId = $usrModel->user_id;
 				}
 			}
-			if($email != '' && $userId == '')
+			if ($email != '' && $userId == '')
 			{
 				$criteria2	 = new CDbCriteria;
 				$criteria2->compare('usr_email', trim($email));
 				$criteria2->addCondition("usr_active > 0");
 				$usrModel	 = $this->find($criteria2);
-				if($usrModel)
+				if ($usrModel)
 				{
 					$userId = $usrModel->user_id;
 				}
 			}
-			if($phone != '' && $userId == '')
+			if ($phone != '' && $userId == '')
 			{
 				$criteria3	 = new CDbCriteria;
 				$criteria3->compare('usr_mobile', trim($phone));
 				$criteria3->addCondition("usr_active > 0");
 				$usrModel	 = $this->find($criteria3);
-				if($usrModel)
+				if ($usrModel)
 				{
 					$userId = $usrModel->user_id;
 				}
 			}
 		}
-		if(!Yii::app()->user->isGuest)
+		if (!Yii::app()->user->isGuest)
 		{
 			$userId = Yii::app()->user->getId();
 		}
-		if($userId != 0 && $userId != '')
+		if ($userId != 0 && $userId != '')
 		{
-			if($returnUser)
+			if ($returnUser)
 			{
 				return $userId;
 			}
 
-			if(!Yii::app()->user->isGuest)
+			if (!Yii::app()->user->isGuest)
 			{
 				$userId	 = Yii::app()->user->getId();
 				$result	 = DBUtil::command('SELECT COUNT(*) FROM ' . Yii::app()->db->tablePrefix . 'user_oauth WHERE user_id=' . $userId . ' AND provider="Facebook"')->queryScalar();
-				if($result > 0)
+				if ($result > 0)
 				{
 					$userModel = Users::model()->findByPk($userId);
-					if($userModel->usr_gender == '')
+					if ($userModel->usr_gender == '')
 					{
 						$profile = DBUtil::command('SELECT profile_cache FROM ' . Yii::app()->db->tablePrefix . 'user_oauth WHERE user_id=' . $userId . ' AND provider="Facebook"')->queryScalar();
-						if($profile != '')
+						if ($profile != '')
 						{
 							$arr					 = unserialize($profile);
 							$userModel->usr_gender	 = Users::model()->reverseGenderList[$arr['gender']];
@@ -1436,7 +1436,7 @@ class Users extends CActiveRecord
 				}
 			}
 		}
-		if($returnUser)
+		if ($returnUser)
 		{
 			return 0;
 		}
@@ -1813,7 +1813,7 @@ class Users extends CActiveRecord
 		$process_sync_data	 = Yii::app()->request->getParam('data', '');
 
 		//////////////
-		if($flag1 === 'vendor-app')
+		if ($flag1 === 'vendor-app')
 		{
 			$provider			 = $provider_name;
 			$process_sync_data	 = $sync_Data;
@@ -1822,7 +1822,7 @@ class Users extends CActiveRecord
 
 		$success = false;
 		$msg	 = '';
-		if($social_data == '')
+		if ($social_data == '')
 		{
 			$process_sync_data1 = Yii::app()->request->getParam('social_data', '');
 		}
@@ -1850,17 +1850,17 @@ class Users extends CActiveRecord
 //		}
 
 		$userModel = Users::model()->findByEmail($email);
-		if(!empty($userModel))
+		if (!empty($userModel))
 		{
 
-			if($linkeduserid > 0)
+			if ($linkeduserid > 0)
 			{
 
 				$userModel = Users::model()->findByPk($linkeduserid);
 			}
 			else
 			{
-				if($social != 1)
+				if ($social != 1)
 				{// incase of vendor or driver pasword should not be added or modified
 					$userModel					 = new Users();
 					$pass						 = uniqid(rand(), TRUE);
@@ -1891,14 +1891,14 @@ class Users extends CActiveRecord
 		$sessData				 = [];
 		$oauthData['identifier'] = $userData['id'];
 
-		if($provider == 'Google')
+		if ($provider == 'Google')
 		{
-			if($social != 1)
+			if ($social != 1)
 			{// incase of vendor or driver no data will modified for user table 
 				$userModel->usr_email	 = $userData['email'];
 				$userModel->usr_name	 = $userData['givenName'];
 				$userModel->usr_lname	 = $userData['familyName'];
-				if(($userModel->usr_mobile == '' || $userModel->usr_mobile == null ) && $userData['phone'] != '')
+				if (($userModel->usr_mobile == '' || $userModel->usr_mobile == null ) && $userData['phone'] != '')
 				{
 					$userModel->usr_mobile = str_replace(' ', '', $userData['phone']);
 				}
@@ -1919,15 +1919,15 @@ class Users extends CActiveRecord
 			$sessData['hauth_session.google.token.expires_at']	 = serialize($userData['expirationTime']);
 			$sessData['hauth_session.google.is_logged_in']		 = serialize('1');
 		}
-		if($provider == 'Facebook')
+		if ($provider == 'Facebook')
 		{
-			if($social != 1)
+			if ($social != 1)
 			{// incase of vendor or driver no data will modified for user table 
 				$userModel->usr_email	 = $userData['email'];
 				$userModel->usr_name	 = $userData['first_name'];
 				$userModel->usr_lname	 = $userData['last_name'];
 			}
-			if($userModel->usr_gender == '' && $userData['gender'] != '')
+			if ($userModel->usr_gender == '' && $userData['gender'] != '')
 			{
 				$userModel->usr_gender = $userData['gender'];
 			}
@@ -1938,7 +1938,7 @@ class Users extends CActiveRecord
 
 			$sessData['hauth_session.facebook.is_logged_in'] = serialize('1');
 		}
-		if(($userModel->usr_profile_pic == '' || $userModel->usr_profile_pic == null ) && $profile_image_url != '')
+		if (($userModel->usr_profile_pic == '' || $userModel->usr_profile_pic == null ) && $profile_image_url != '')
 		{
 			$userModel->usr_profile_pic = $profile_image_url;
 		}
@@ -1950,7 +1950,7 @@ class Users extends CActiveRecord
 		$userModel->save();
 
 		$isSocialLinked = Users::model()->checkSocialLinking($userModel->user_id, $provider, $userData['id']);
-		if(!$isSocialLinked)
+		if (!$isSocialLinked)
 		{
 			$tablePrefix = Yii::app()->db->tablePrefix;
 			$oauthtable	 = $tablePrefix . 'user_oauth';
@@ -1958,7 +1958,7 @@ class Users extends CActiveRecord
 			$identifier	 = $userData['id'];
 			$sql		 = "select * from $oauthtable where  identifier='$identifier' AND provider = '$provider'";
 			$val		 = DBUtil::queryRow($sql);
-			if(!$val)
+			if (!$val)
 			{
 				$profile_cache	 = serialize($oauthData);
 				$session_data	 = serialize($sessData);
@@ -1968,7 +1968,7 @@ class Users extends CActiveRecord
 			}
 		}
 
-		if($userModel->usr_gender == '' && $userData['gender'] != '')
+		if ($userModel->usr_gender == '' && $userData['gender'] != '')
 		{
 			$genderList				 = Users::model()->reverseGenderList;
 			$userModel->usr_gender	 = $genderList[$userData['gender']];
@@ -1976,7 +1976,7 @@ class Users extends CActiveRecord
 
 
 		$response = [];
-		if($userModel->save())
+		if ($userModel->save())
 		{
 			Logger::create("user data saved ", CLogger::LEVEL_INFO);
 			$response['user_id'] = $userModel->user_id;
@@ -1985,17 +1985,17 @@ class Users extends CActiveRecord
 		}
 
 		$picdata = $userModel->usr_profile_pic;
-		if(((!file_exists(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic)) || $userModel->usr_profile_pic == '' || filesize(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic) == 0) && $picdata != '')
+		if (((!file_exists(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic)) || $userModel->usr_profile_pic == '' || filesize(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic) == 0) && $picdata != '')
 		{
 			$arrContextOptions = array("ssl" => array(
 					"verify_peer"		 => false,
 					"verify_peer_name"	 => false,
 				),);
-			if($userModel->usr_profile_pic_path == '' && $picdata != '')
+			if ($userModel->usr_profile_pic_path == '' && $picdata != '')
 			{
 				$userModel->usr_profile_pic_path = $picdata;
 			}
-			if($userModel->usr_profile_pic_path)
+			if ($userModel->usr_profile_pic_path)
 			{
 				$profilePic = strtolower('images/profiles/' . $userModel->user_id . str_replace(' ', '', $userModel->usr_name)) . rand(10000, 99999) . '.jpg';
 
@@ -2004,7 +2004,7 @@ class Users extends CActiveRecord
 				);
 				$userModel->usr_profile_pic = '/' . $profilePic;
 			}
-			if($userModel->validate())
+			if ($userModel->validate())
 			{
 				$userModel->save();
 			}
@@ -2023,7 +2023,7 @@ class Users extends CActiveRecord
 		#$provider			 = Yii::app()->request->getParam('provider');
 		#$process_sync_data	 = Yii::app()->request->getParam('data', '');
 		//////////////
-		if($flag1 == 'vendor-app')
+		if ($flag1 == 'vendor-app')
 		{
 			$provider = $userData->provider;
 		}
@@ -2033,17 +2033,17 @@ class Users extends CActiveRecord
 
 		$userModel = Users::model()->findByEmail($email);
 
-		if(!empty($userModel))
+		if (!empty($userModel))
 		{
 
-			if($linkeduserid > 0)
+			if ($linkeduserid > 0)
 			{
 
 				$userModel = Users::model()->findByPk($linkeduserid);
 			}
 			else
 			{
-				if($social != 1)
+				if ($social != 1)
 				{// incase of vendor or driver pasword should not be added or modified
 					$userModel					 = new Users();
 					$pass						 = uniqid(rand(), TRUE);
@@ -2072,14 +2072,14 @@ class Users extends CActiveRecord
 		$sessData				 = [];
 		$oauthData['identifier'] = $userData->identifier;
 		#$userModel						 = new Users();
-		if($provider == 'Google')
+		if ($provider == 'Google')
 		{
-			if($social != 1)
+			if ($social != 1)
 			{// incase of vendor or driver no data will modified for user table 
 				$userModel->usr_email	 = $userData->email;
 				$userModel->usr_name	 = $userData->givenName;
 				$userModel->usr_lname	 = $userData->familyName;
-				if(($userModel->usr_mobile == '' || $userModel->usr_mobile == null ) && $userData->phone != '')
+				if (($userModel->usr_mobile == '' || $userModel->usr_mobile == null ) && $userData->phone != '')
 				{
 					$userModel->usr_mobile = str_replace(' ', '', $userData->phone);
 				}
@@ -2100,15 +2100,15 @@ class Users extends CActiveRecord
 			$sessData['hauth_session.google.token.expires_at']	 = serialize($userData->expirationTime);
 			$sessData['hauth_session.google.is_logged_in']		 = serialize('1');
 		}
-		if($provider == 'Facebook')
+		if ($provider == 'Facebook')
 		{
-			if($social != 1)
+			if ($social != 1)
 			{// incase of vendor or driver no data will modified for user table 
 				$userModel->usr_email	 = $userData->email;
 				$userModel->usr_name	 = $userData->first_name;
 				$userModel->usr_lname	 = $userData->last_name;
 			}
-			if($userModel->usr_gender == '' && $userData->gender != '')
+			if ($userModel->usr_gender == '' && $userData->gender != '')
 			{
 				$userModel->usr_gender = $userData->gender;
 			}
@@ -2119,7 +2119,7 @@ class Users extends CActiveRecord
 
 			$sessData['hauth_session.facebook.is_logged_in'] = serialize('1');
 		}
-		if(($userModel->usr_profile_pic == '' || $userModel->usr_profile_pic == null ) && $profile_image_url != '')
+		if (($userModel->usr_profile_pic == '' || $userModel->usr_profile_pic == null ) && $profile_image_url != '')
 		{
 			$userModel->usr_profile_pic = $profile_image_url;
 		}
@@ -2129,13 +2129,13 @@ class Users extends CActiveRecord
 		$userModel->usr_lname			 = $oauthData['lastName'];
 		$userModel->usr_email			 = $oauthData['email'];
 		#print_r($userModel->attributes);exit;
-		if(!$userModel->save())
+		if (!$userModel->save())
 		{
 			$msg = json_encode($userModel->getErrors('usr_email')[0], true);
 			goto result_error;
 		}
 		$isSocialLinked = Users::model()->checkSocialLinking($userModel->user_id, $provider, $userData->identifier);
-		if(!$isSocialLinked)
+		if (!$isSocialLinked)
 		{
 			$tablePrefix = Yii::app()->db->tablePrefix;
 			$oauthtable	 = $tablePrefix . 'user_oauth';
@@ -2143,7 +2143,7 @@ class Users extends CActiveRecord
 			$identifier	 = $userData->identifier;
 			$sql		 = "select * from $oauthtable where  identifier='$identifier' AND provider = '$provider'";
 			$val		 = DBUtil::queryRow($sql);
-			if(!$val)
+			if (!$val)
 			{
 				$profile_cache	 = serialize($oauthData);
 				$session_data	 = serialize($sessData);
@@ -2159,7 +2159,7 @@ class Users extends CActiveRecord
 			}
 		}
 
-		if($userModel->usr_gender == '' && $userData->gender != '')
+		if ($userModel->usr_gender == '' && $userData->gender != '')
 		{
 			$genderList				 = Users::model()->reverseGenderList;
 			$userModel->usr_gender	 = $genderList[$userData->gender];
@@ -2167,7 +2167,7 @@ class Users extends CActiveRecord
 
 
 		$response = [];
-		if($userModel->save())
+		if ($userModel->save())
 		{
 			Logger::create("user data saved ", CLogger::LEVEL_INFO);
 			$response['user_id'] = $userModel->user_id;
@@ -2176,17 +2176,17 @@ class Users extends CActiveRecord
 		}
 
 		$picdata = $userModel->usr_profile_pic;
-		if(((!file_exists(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic)) || $userModel->usr_profile_pic == '' || filesize(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic) == 0) && $picdata != '')
+		if (((!file_exists(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic)) || $userModel->usr_profile_pic == '' || filesize(PUBLIC_PATH . DIRECTORY_SEPARATOR . $userModel->usr_profile_pic) == 0) && $picdata != '')
 		{
 			$arrContextOptions = array("ssl" => array(
 					"verify_peer"		 => false,
 					"verify_peer_name"	 => false,
 				),);
-			if($userModel->usr_profile_pic_path == '' && $picdata != '')
+			if ($userModel->usr_profile_pic_path == '' && $picdata != '')
 			{
 				$userModel->usr_profile_pic_path = $picdata;
 			}
-			if($userModel->usr_profile_pic_path)
+			if ($userModel->usr_profile_pic_path)
 			{
 				$profilePic = strtolower('images/profiles/' . $userModel->user_id . str_replace(' ', '', $userModel->usr_name)) . rand(10000, 99999) . '.jpg';
 
@@ -2195,7 +2195,7 @@ class Users extends CActiveRecord
 				);
 				$userModel->usr_profile_pic = '/' . $profilePic;
 			}
-			if($userModel->validate())
+			if ($userModel->validate())
 			{
 				$userModel->save();
 			}
@@ -2220,7 +2220,7 @@ class Users extends CActiveRecord
 		$process_sync_data	 = Yii::app()->request->getParam('data', '');
 
 		//////////////
-		if($flag1 == 'vendor-app')
+		if ($flag1 == 'vendor-app')
 		{
 			$provider			 = $provider_name;
 			$process_sync_data	 = $sync_Data;
@@ -2237,7 +2237,7 @@ class Users extends CActiveRecord
 		//echo $sql;exit;
 		$result	 = DBUtil::command($sql)->queryScalar();
 		//echo $result;exit;
-		if($result > 0)
+		if ($result > 0)
 		{
 
 			$success = false;
@@ -2249,7 +2249,7 @@ class Users extends CActiveRecord
 			$sql1	 = "select count(*) as cntuser from $oauthtable where  identifier='$identifier' AND user_id != $linkeduserid";
 			$result1 = DBUtil::command($sql1)->queryScalar();
 			//echo $result1;exit;
-			if($result1 > 0)
+			if ($result1 > 0)
 			{
 				$success = false;
 				$msg	 = "Already linked with other user.";
@@ -2257,7 +2257,7 @@ class Users extends CActiveRecord
 			}
 			else
 			{
-				if($provider == 'Google')
+				if ($provider == 'Google')
 				{
 					$oauthData['displayName']							 = $userData['displayName'];
 					$oauthData['firstName']								 = $userData['givenName'];
@@ -2269,7 +2269,7 @@ class Users extends CActiveRecord
 					$sessData['hauth_session.google.token.expires_at']	 = serialize($userData['expirationTime']);
 					$sessData['hauth_session.google.is_logged_in']		 = serialize('1');
 				}
-				if($provider == 'Facebook')
+				if ($provider == 'Facebook')
 				{
 					$oauthData['firstName']							 = $userData['first_name'];
 					$oauthData['lastName']							 = $userData['last_name'];
@@ -2284,11 +2284,11 @@ class Users extends CActiveRecord
 					VALUES ('$linkeduserid', '$provider', '$identifier','$profile_cache' , '$session_data')";
 				//echo $sql; exit;
 				$resultRow		 = DBUtil::command($sql)->execute();
-				if($userData['email'] != NULL)
+				if ($userData['email'] != NULL)
 				{
 					$contactEmail	 = ContactEmail::model()->findEmailIdByEmail($userData['email']);
 					$email			 = $userData['email'];
-					if(count($contactEmail) == 0 && $contactId != "")
+					if (count($contactEmail) == 0 && $contactId != "")
 					{
 						$sql		 = "INSERT INTO contact_email (`eml_contact_id`,`eml_email_address`,`eml_is_verified`,`eml_is_primary`,`eml_active`) VALUES ('$contactId','$email',1,0,1)";
 						$resultRow	 = DBUtil::command($sql)->execute();
@@ -2311,7 +2311,7 @@ class Users extends CActiveRecord
 		#$process_sync_data	 = Yii::app()->request->getParam('data', '');
 		//////////////
 
-		if($flag1 == 'vendor-app')
+		if ($flag1 == 'vendor-app')
 		{
 			$provider = $userData->provider;
 			#$process_sync_data	 = $sync_Data;
@@ -2326,7 +2326,7 @@ class Users extends CActiveRecord
 
 		$result = DBUtil::command($sql)->queryScalar();
 
-		if($result > 0)
+		if ($result > 0)
 		{
 
 			$success = false;
@@ -2338,7 +2338,7 @@ class Users extends CActiveRecord
 			$sql1	 = "select count(*) as cntuser from $oauthtable where  identifier='$userData->identifier' AND user_id != $userId";
 			$result1 = DBUtil::command($sql1)->queryScalar();
 			//echo $result1;exit;
-			if($result1 > 0)
+			if ($result1 > 0)
 			{
 				$success = false;
 				$msg	 = "Already linked with other user.";
@@ -2346,7 +2346,7 @@ class Users extends CActiveRecord
 			}
 			else
 			{
-				if($provider == 'Google')
+				if ($provider == 'Google')
 				{
 					$oauthData['displayName']							 = $userData->displayName;
 					$oauthData['firstName']								 = $userData->givenName;
@@ -2358,7 +2358,7 @@ class Users extends CActiveRecord
 					$sessData['hauth_session.google.token.expires_at']	 = serialize($userData->expirationTime);
 					$sessData['hauth_session.google.is_logged_in']		 = serialize('1');
 				}
-				if($provider == 'Facebook')
+				if ($provider == 'Facebook')
 				{
 					$oauthData['firstName']							 = $userData->first_name;
 					$oauthData['lastName']							 = $userData->last_name;
@@ -2373,12 +2373,12 @@ class Users extends CActiveRecord
 					VALUES ($userId, '$provider', '$identifier','$profile_cache' , '$session_data')";
 				//echo $sql; exit;
 				$resultRow		 = DBUtil::command($sql)->execute();
-				if($userData->email != NULL)
+				if ($userData->email != NULL)
 				{
 					$contactEmail = ContactEmail::model()->findEmailIdByEmail($userData->email);
 
 					$email = $userData->email;
-					if(count($contactEmail) == 0 && $contactId <> "")
+					if (count($contactEmail) == 0 && $contactId <> "")
 					{
 						$sql		 = "INSERT INTO contact_email (`eml_contact_id`,`eml_email_address`,`eml_is_verified`,`eml_is_primary`,`eml_active`) VALUES ('$contactId','$email',1,0,1)";
 						$resultRow	 = DBUtil::command($sql)->execute();
@@ -2418,11 +2418,11 @@ class Users extends CActiveRecord
 //			}
 //		}
 
-		if($linkeduserid != "")
+		if ($linkeduserid != "")
 		{
 			$sql	 = "select count(*) as cntuser from $oauthtable where  identifier='$identifier' AND user_id = $linkeduserid";
 			$result	 = DBUtil::command($sql)->queryScalar();
-			if($result > 0)
+			if ($result > 0)
 			{
 				$success = false;
 				$msg	 = "Already linked with same user.";
@@ -2432,13 +2432,13 @@ class Users extends CActiveRecord
 			{
 				$sql	 = "select * from $oauthtable where  identifier='$identifier' AND user_id != $linkeduserid";
 				$result	 = DBUtil::queryRow($sql);
-				if(count($result) > 1)
+				if (count($result) > 1)
 				{
 					$uid	 = $result['user_id'];
 					$sql	 = "select *  from drivers where  drv_user_id = $uid and drv_id = drv_ref_code ";
 					$result1 = DBUtil::queryRow($sql);
 
-					if(count($result1) > 1)
+					if (count($result1) > 1)
 					{
 						$success = false;
 						$msg	 = "Already linked with other user.";
@@ -2456,7 +2456,7 @@ class Users extends CActiveRecord
 				{
 					// inserted into imp outh table
 
-					if($provider == 'Google')
+					if ($provider == 'Google')
 					{
 						$oauthData['displayName']							 = $userData['displayName'];
 						$oauthData['firstName']								 = $userData['givenName'];
@@ -2468,7 +2468,7 @@ class Users extends CActiveRecord
 						$sessData['hauth_session.google.token.expires_at']	 = serialize($userData['expirationTime']);
 						$sessData['hauth_session.google.is_logged_in']		 = serialize('1');
 					}
-					if($provider == 'Facebook')
+					if ($provider == 'Facebook')
 					{
 						$oauthData['firstName']							 = $userData['first_name'];
 						$oauthData['lastName']							 = $userData['last_name'];
@@ -2495,13 +2495,13 @@ class Users extends CActiveRecord
 		{
 			$sql	 = "select *  from $oauthtable where  identifier='$identifier'";
 			$result	 = DBUtil::queryRow($sql);
-			if($result > 1)
+			if ($result > 1)
 			{
 				$uid	 = $result['user_id'];
 				$sql	 = "select *  from drivers where  drv_user_id = $uid and drv_id = drv_ref_code ";
 				$result1 = DBUtil::queryRow($sql);
 
-				if(count($result1) > 1)
+				if (count($result1) > 1)
 				{
 					$success = false;
 					$msg	 = "Already linked with other user.";
@@ -2520,7 +2520,7 @@ class Users extends CActiveRecord
 
 				$sql	 = "select *  from users where  usr_email='$email'";
 				$result2 = DBUtil::queryRow($sql);
-				if(count($result2) > 1)
+				if (count($result2) > 1)
 				{
 					$user_ID = $result2['user_id'];
 				}
@@ -2541,7 +2541,7 @@ class Users extends CActiveRecord
 					$user_ID = $userModel->user_id;
 				}
 
-				if($provider == 'Google')
+				if ($provider == 'Google')
 				{
 					$oauthData['displayName']							 = $userData['displayName'];
 					$oauthData['firstName']								 = $userData['givenName'];
@@ -2553,7 +2553,7 @@ class Users extends CActiveRecord
 					$sessData['hauth_session.google.token.expires_at']	 = serialize($userData['expirationTime']);
 					$sessData['hauth_session.google.is_logged_in']		 = serialize('1');
 				}
-				if($provider == 'Facebook')
+				if ($provider == 'Facebook')
 				{
 					$oauthData['firstName']							 = $userData['first_name'];
 					$oauthData['lastName']							 = $userData['last_name'];
@@ -2596,7 +2596,7 @@ class Users extends CActiveRecord
 	{
 		/* @var $userModel Users */
 		$userModel = self::validateInstance($model, $forceSignUp);
-		if(!$userModel)
+		if (!$userModel)
 		{
 			throw new Exception("Unable to authenticate.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 		}
@@ -2620,12 +2620,12 @@ class Users extends CActiveRecord
 
 
 		$isVersionCheck = AppTokens::validateVersion($currentVersion, $activeVersion);
-		if(!$isVersionCheck)
+		if (!$isVersionCheck)
 		{
 			throw new Exception("Invalid version : ", ReturnSet::ERROR_INVALID_DATA);
 		}
 		$isValidateToken = AppTokens::validateToken($tokens);
-		if(!$isValidateToken)
+		if (!$isValidateToken)
 		{
 			throw new Exception("Unauthorised user : ", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -2633,7 +2633,7 @@ class Users extends CActiveRecord
 		/* @var $result AppTokens */
 		$result = AppTokens::validatePlatform($userId, $tokens);
 
-		if(!$result)
+		if (!$result)
 		{
 			throw new Exception("Unauthorised Platform : ", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -2655,12 +2655,12 @@ class Users extends CActiveRecord
 		];
 		$criteria->addColumnCondition($columns, 'OR', 'AND');
 		$model		 = Users::model()->find($criteria);
-		if(!$model)
+		if (!$model)
 		{
 			return false;
 		}
 
-		if($model->usr_password != md5($password))
+		if ($model->usr_password != md5($password))
 		{
 			return false;
 		}
@@ -2676,7 +2676,7 @@ class Users extends CActiveRecord
 	public static function getModelBySocialAccount($identifier, $provider)
 	{
 		$row = self::getBySocialAccount($identifier, $provider);
-		if(!$row)
+		if (!$row)
 		{
 			return false;
 		}
@@ -2717,7 +2717,7 @@ class Users extends CActiveRecord
 		$userModel			 = $model;
 		$identity			 = new UserIdentity($userModel->usr_email, $userModel->usr_password);
 		$identity->userId	 = $userModel->user_id;
-		if(!$identity->authenticate())
+		if (!$identity->authenticate())
 		{
 			throw new Exception("Unable to authenticate", ReturnSet::ERROR_UNAUTHORISED);
 		}
@@ -2735,7 +2735,7 @@ class Users extends CActiveRecord
 	 */
 	public static function validateInstance($model, $forceSignup = false)
 	{
-		if($model instanceof SocialAuth)
+		if ($model instanceof SocialAuth)
 		{
 			$socialAuthModel = clone $model;
 
@@ -2743,33 +2743,33 @@ class Users extends CActiveRecord
 			$socialAuthModel->isNewRecord	 = false;
 			$result							 = $socialAuthModel->authenticate($model->provider);
 
-			if($result == null || ($result->isNewRecord && !$forceSignup))
+			if ($result == null || ($result->isNewRecord && !$forceSignup))
 			{
 				return false;
 			}
-			if($forceSignup && $result->isNewRecord)
+			if ($forceSignup && $result->isNewRecord)
 			{
 				$result = self::addSocialUser($model, null);
 			}
 //            skipSocialAuth:
 			$userModel = Users::model()->findByPk($result->user_id);
 		}
-		else if($model instanceof Users)
+		else if ($model instanceof Users)
 		{
 			$userModel = clone $model;
 			$userModel->setScenario("userLogin");
 			//$userModel->scenario	 = 'userLogin';
-			if(!$userModel->validate())
+			if (!$userModel->validate())
 			{
 				throw new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			$contactId	 = $userModel->usr_contact_id;
 			$userId		 = ContactProfile::getUserId($contactId);
-			if(!$userId)
+			if (!$userId)
 			{
 				$userId = Users::getByContactId($contactId);
 			}
-			if(!$userId)
+			if (!$userId)
 			{
 				$userModel = Users::createbyContact($contactId);
 			}
@@ -2778,10 +2778,10 @@ class Users extends CActiveRecord
 				$userModel = Users::model()->findByPk($userId);
 			}
 
-			if($forceSignup)
+			if ($forceSignup)
 			{
 				//$userModel = Users::model()->getByEmail($model->usr_email);
-				if($userModel->usr_password != $model->usr_password)
+				if ($userModel->usr_password != $model->usr_password)
 				{
 					return false;
 				}
@@ -2797,7 +2797,7 @@ class Users extends CActiveRecord
 		$result['success']	 = true;
 
 		$userModel = Users::model()->getByEmail($data['email']);
-		if(!$userModel)
+		if (!$userModel)
 		{
 			throw new Exception('User not found', ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -2805,13 +2805,13 @@ class Users extends CActiveRecord
 		{
 			$isSocialLinked = Users::model()->checkSocialLinking($userModel->user_id, $data['provider']);
 			Logger::create("isSocialLinked :: " . ($isSocialLinked), CLogger::LEVEL_INFO);
-			if(!$isSocialLinked)
+			if (!$isSocialLinked)
 			{
 				$result	 = Users::model()->linkAppUser($userModel->user_id);
 				$userid	 = $result['user_id'];
 				Logger::create("isSocialLinked result :: " . $result['success'], CLogger::LEVEL_INFO);
 			}
-			if($result['success'])
+			if ($result['success'])
 			{
 
 				$userModel	 = Users::model()->findByPk($userid);
@@ -2836,17 +2836,17 @@ class Users extends CActiveRecord
 
 	public function checkSocialLinking($userid, $provider = '', $identifier = '', $returnProvider = false)
 	{
-		if($userid > 0)
+		if ($userid > 0)
 		{
 			$tablePrefix = Yii::app()->db->tablePrefix;
 			$oauthtable	 = $tablePrefix . 'user_oauth';
 			$sql		 = "SELECT * from $oauthtable where user_id = $userid";
 			$provider	 = trim($provider);
-			if($identifier != '')
+			if ($identifier != '')
 			{
 				$sql .= " AND identifier = '$identifier'";
 			}
-			if($provider != '' && in_array($provider, ['Google', 'Facebook']))
+			if ($provider != '' && in_array($provider, ['Google', 'Facebook']))
 			{
 				$sql .= " AND provider = '$provider'";
 			}
@@ -2854,12 +2854,12 @@ class Users extends CActiveRecord
 
 			$result = DBUtil::queryAll($sql);
 
-			if(count($result) > 0)
+			if (count($result) > 0)
 			{
-				if($returnProvider)
+				if ($returnProvider)
 				{
 					$resultData = [];
-					foreach($result as $key => $value)
+					foreach ($result as $key => $value)
 					{
 						$resultData[$value['provider']] = $value;
 					}
@@ -2945,7 +2945,7 @@ class Users extends CActiveRecord
 		$row			 = DBUtil::queryRow($sql);
 
 		$usrModel = Users::model()->findByPk($user_id);
-		if(($row['usr_gender'] > 0) && $usrModel->usr_gender != $row['usr_gender'])
+		if (($row['usr_gender'] > 0) && $usrModel->usr_gender != $row['usr_gender'])
 		{
 			$success		 = 1;
 			$existingGender	 = $row['gender'];
@@ -3012,10 +3012,10 @@ class Users extends CActiveRecord
 			 WHERE  booking.bkg_active = 1 AND booking.bkg_status IN(5) AND bkg_ride_complete = 0  AND  booking_user.bkg_user_id ='$userId' ORDER BY
 							booking.bkg_pickup_date DESC ";
 		$data	 = DBUtil::queryAll($sql, DBUtil::SDB());
-		foreach($data as $recordset)
+		foreach ($data as $recordset)
 		{
 			//if pickup time is after 30 min OR ride is one the way 
-			if(($recordset['isStarted'] == 1 || $recordset['bkg_ride_start'] == 1) && $recordset['tripCompletionTime'] == 0)
+			if (($recordset['isStarted'] == 1 || $recordset['bkg_ride_start'] == 1) && $recordset['tripCompletionTime'] == 0)
 			{
 				$result			 = $this->getSosContactList($userId);
 				//has sosconatactList and ride is on the way  and not completed
@@ -3063,7 +3063,7 @@ class Users extends CActiveRecord
 						DESC
 				) AND booking_user.bkg_user_id = '$userId' AND booking.bkg_status IN (6,7)";
 		$row			 = DBUtil::queryRow($sql, DBUtil::SDB());
-		if($row['bkg_id'] > 0)
+		if ($row['bkg_id'] > 0)
 		{
 			$lastBkgId		 = $row['bkg_id'];
 			$lastBookingId	 = $row['bkg_booking_id'];
@@ -3085,11 +3085,11 @@ class Users extends CActiveRecord
 		$firstTripDate	 = '';
 		$lastTripDate	 = '';
 		$rating			 = '';
-		if(isset($userId) && $userId > 0)
+		if (isset($userId) && $userId > 0)
 		{
 			$sql = "SELECT * FROM `user_stats` WHERE user_stats.urs_user_id=" . $userId . "";
 			$row = DBUtil::queryRow($sql);
-			if(isset($row['urs_id']) && $row['urs_id'] > 0)
+			if (isset($row['urs_id']) && $row['urs_id'] > 0)
 			{
 				$totalTrips		 = $row['urs_total_trips'];
 				$firstTripDate	 = $row['urs_first_date'];
@@ -3111,12 +3111,12 @@ class Users extends CActiveRecord
 		$model->scenario		 = 'change';
 		$userModel				 = Users::model()->findByPk($userId);
 		$userPassword			 = $userModel->attributes['usr_password'];
-		if($userPassword == md5($model->old_password))
+		if ($userPassword == md5($model->old_password))
 		{
-			if($model->new_password == $model->repeat_password)
+			if ($model->new_password == $model->repeat_password)
 			{
 				$userModel->usr_password = md5($model->new_password);
-				if($userModel->save())
+				if ($userModel->save())
 				{
 					Users::model()->logoutByUserId($userId);
 					$status	 = 'true';
@@ -3160,10 +3160,10 @@ class Users extends CActiveRecord
 		$cntInsert		 = 0;
 		$cntUpdate		 = 0;
 		$cntNotUpdate	 = 0;
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$model = UserStats::model()->getbyUserId($row['user_id']);
-			if(!$model)
+			if (!$model)
 			{
 				$model = new UserStats();
 				$cntInsert++;
@@ -3190,7 +3190,7 @@ class Users extends CActiveRecord
 			$model->urs_DR_12HR_Count	 = $row['DR_12HR_Count'];
 			$model->urs_AP_Count		 = $row['AP_Count'];
 			$model->scenario			 = 'updateStats';
-			if($model->save())
+			if ($model->save())
 			{
 				$success = true;
 			}
@@ -3199,7 +3199,7 @@ class Users extends CActiveRecord
 				$cntNotUpdate++;
 			}
 		}
-		if($userId > 0)
+		if ($userId > 0)
 		{
 			return $success;
 		}
@@ -3221,16 +3221,16 @@ class Users extends CActiveRecord
 		//echo $email.$code.$newPassword;
 		$user_model = Users::model()->getByEmail($email);
 
-		if(count($user_model['attributes']) > 1)
+		if (count($user_model['attributes']) > 1)
 		{
 			$user_id					 = $user_model['attributes']['user_id'];
 			$vendor_verification_code	 = $user_model['attributes']['usr_verification_code'];
-			if($code != "")
+			if ($code != "")
 			{
-				if($vendor_verification_code == $code)
+				if ($vendor_verification_code == $code)
 				{
 
-					if($newPassword != "")
+					if ($newPassword != "")
 					{
 
 						$userData1				 = Users::model()->findByPk($user_id);
@@ -3273,7 +3273,7 @@ class Users extends CActiveRecord
 
 	public function checkUserExistance($phoneNumber, $dl, $booking_id)
 	{
-		if($booking_id != "")
+		if ($booking_id != "")
 		{
 			//$statement = " UNION (SELECT d.drv_id,d.drv_user_id,d.drv_approved FROM drivers d, booking b, booking_cab bc WHERE b.bkg_booking_id LIKE '%".$booking_id."' AND b.bkg_id=bc.bcb_bkg_id1 AND d.drv_phone='".$phoneNumber."' AND d.drv_id= bc.bcb_driver_id)";
 			$statement = " UNION (SELECT drivers.drv_id, drivers.drv_user_id, drivers.drv_approved
@@ -3294,13 +3294,13 @@ class Users extends CActiveRecord
 				WHERE contact_phone.phn_phone_no ='" . $phoneNumber . "' AND contact.ctt_license_no='" . $dl . "'  $statement";
 
 		$row				 = DBUtil::command($sql)->queryAll($fetchAssociative	 = true);
-		if(count($row) == 0)
+		if (count($row) == 0)
 		{
 			$return['result']	 = false;
 			$return['msg']		 = "No driver found";
 			goto error;
 		}
-		else if(count($row) > 1)
+		else if (count($row) > 1)
 		{
 			$return['result']	 = false;
 			$return['msg']		 = "Already linked with other user.";
@@ -3310,7 +3310,7 @@ class Users extends CActiveRecord
 		{
 			$driver_id	 = $row[0]['drv_id'];
 			$user_id	 = $row[0]['drv_user_id'];
-			if($row['drv_approved'] > 2)
+			if ($row['drv_approved'] > 2)
 			{
 				$return['result']	 = false;
 				$return['msg']		 = "No driver found";
@@ -3328,7 +3328,7 @@ class Users extends CActiveRecord
 		$msgCom->linkDriverOTP($contactDetails['phn_phone_country_code'], $contactDetails['phn_phone_no'], $otp, $username);
 		$return['result']				 = true;
 		$return['msg']					 = 'OTP sent successfully';
-		if($contactDetails['ctt_license_no'] != $dl)
+		if ($contactDetails['ctt_license_no'] != $dl)
 		{
 			$return['msg'] = 'OTP sent successfully but need proper licence number';
 		}
@@ -3345,7 +3345,7 @@ class Users extends CActiveRecord
 
 	public function getSocialList($user_id = "")
 	{
-		if(isset($this->search) && $this->search != "" && isset($this->email) && $this->email != "")
+		if (isset($this->search) && $this->search != "" && isset($this->email) && $this->email != "")
 		{
 			$where			 = " AND ( (cnte.eml_email_address LIKE '%" . trim($this->search) . "%')	OR (cntp.phn_phone_no LIKE '%" . trim($this->search) . "%') OR (vnd.vnd_code LIKE '%" . trim($this->search) . "%' ) OR (vnd.vnd_name LIKE '%" . trim($this->search) . "%')) AND cp.cr_is_consumer IN ($user_id)";
 			$sql			 = "SELECT 
@@ -3378,7 +3378,7 @@ class Users extends CActiveRecord
 			]);
 			return $dataprovider;
 		}
-		else if(isset($this->search) && $this->search != "")
+		else if (isset($this->search) && $this->search != "")
 		{
 			$where		 = " and ( (cnte.eml_email_address LIKE '%" . trim($this->search) . "%')	OR (cntp.phn_phone_no LIKE '%" . trim($this->search) . "%')  OR (vnd.vnd_code LIKE '%" . trim($this->search) . "%' ) OR (vnd.vnd_name LIKE '%" . trim($this->search) . "%'))";
 			$sql		 = "SELECT  
@@ -3412,7 +3412,7 @@ class Users extends CActiveRecord
 			]);
 			return $dataprovider;
 		}
-		else if(isset($this->email) && $this->email != "")
+		else if (isset($this->email) && $this->email != "")
 		{
 			$where			 = " AND cp.cr_is_consumer IN ($user_id)";
 			$sql			 = "SELECT 
@@ -3503,7 +3503,7 @@ class Users extends CActiveRecord
 	public function getSocialListUsers()
 	{
 		$where = "";
-		if(isset($this->search) && $this->search != "")
+		if (isset($this->search) && $this->search != "")
 		{
 			$where .= " and ( (usr.usr_email LIKE '%" . trim($this->search) . "%') OR (usr.usr_mobile LIKE '%" . trim($this->search) . "%') OR (imp.provider LIKE '%" . trim($this->search) . "%')  OR (usr.usr_name LIKE '%" . trim($this->search) . "%' ) OR (usr.usr_lname LIKE '%" . trim($this->search) . "%') OR (imp.profile_cache LIKE '%" . trim($this->search) . "%') )";
 		}
@@ -3543,7 +3543,7 @@ class Users extends CActiveRecord
 
 	public function getSocialListDrivers($user_id = "")
 	{
-		if(isset($this->search) && $this->search != "" && isset($this->email) && $this->email != "")
+		if (isset($this->search) && $this->search != "" && isset($this->email) && $this->email != "")
 		{
 			$where			 = " and ( (cnte.eml_email_address LIKE '%" . trim($this->search) . "%')	OR (cntp.phn_phone_no LIKE '%" . trim($this->search) . "%') OR (drv_code LIKE '%" . trim($this->search) . "%' ) OR (drv_name LIKE '%" . trim($this->search) . "%')) and drv_user_id in ($user_id)";
 			$sql			 = "SELECT  
@@ -3574,7 +3574,7 @@ class Users extends CActiveRecord
 			]);
 			return $dataprovider;
 		}
-		else if(isset($this->search) && $this->search != "")
+		else if (isset($this->search) && $this->search != "")
 		{
 			$where	 = " and ( (cnte.eml_email_address LIKE '%" . trim($this->search) . "%') OR (cntp.phn_phone_no LIKE '%" . trim($this->search) . "%')  OR (drv_code LIKE '%" . trim($this->search) . "%' ) OR (drv_name LIKE '%" . trim($this->search) . "%'))";
 			$sql	 = "SELECT  
@@ -3605,7 +3605,7 @@ class Users extends CActiveRecord
 			]);
 			return $dataprovider;
 		}
-		else if(isset($this->email) && $this->email != "")
+		else if (isset($this->email) && $this->email != "")
 		{
 			$where			 = " and drv_user_id in ($user_id)";
 			$sql			 = "SELECT 
@@ -3685,9 +3685,9 @@ class Users extends CActiveRecord
 		$criteria			 = new CDbCriteria;
 		$criteria->condition = "apt_user_id = $userId and  apt_status =1 and apt_user_type in (1,2,5)";
 		$applogout			 = AppTokens::model()->findAll($criteria);
-		foreach($applogout as $value)
+		foreach ($applogout as $value)
 		{
-			if($value)
+			if ($value)
 			{
 				$value->apt_status	 = 0;
 				$value->apt_logout	 = new CDbExpression('NOW()');
@@ -3712,9 +3712,9 @@ class Users extends CActiveRecord
 		$userName		 = $UserModel->usr_name . '' . $UserModel->usr_lname;
 		$travellerName	 = $bModel->bkgUserInfo->bkg_user_fname . ' ' . $bModel->bkgUserInfo->bkg_user_lname;
 		$sosContactList	 = $this->getSosContactList($userId);
-		if($location['lat'] != 0.0 && $location['lon'] != 0.0)
+		if ($location['lat'] != 0.0 && $location['lon'] != 0.0)
 		{
-			foreach($sosContactList As $value)
+			foreach ($sosContactList As $value)
 			{
 				$emergencyUserName	 = $value['name'];
 				$phone				 = str_replace('-', '', str_replace(' ', '', $value['phon_no']));
@@ -3724,12 +3724,12 @@ class Users extends CActiveRecord
 				$urlHash = $this->createSOSHashUrl($bkgId, $userId);
 				$url	 = Yii::app()->params['fullBaseURL'] . "/e?v=" . $urlHash;
 				$msg	 = "$travellerName has pressed panic button and wants to notify you of the emergency. Track their location at $url urgently contact them. Gozo is also taking action.";
-				if(strlen($phoneNumber) >= 10)
+				if (strlen($phoneNumber) >= 10)
 				{
 					$msgCom		 = new smsWrapper();
 					$sendSmsFlag = $msgCom->sendSmsToEmergencyContact($bkgId, $phoneNumber, $msg);
 				}
-				if($emailAddress != '')
+				if ($emailAddress != '')
 				{
 					$emailModel		 = new emailWrapper();
 					$sendEmailFlag	 = $emailModel->sendEmailToEmergencyContact($bkgId, $userName, $emergencyUserName, $emailAddress, $msg);
@@ -3765,7 +3765,7 @@ class Users extends CActiveRecord
 	static function getImageUrl($fileName)
 	{
 		$path = "";
-		if(strpos($fileName, "https://") === false && $fileName != "")
+		if (strpos($fileName, "https://") === false && $fileName != "")
 		{
 			$path = Yii::app()->request->hostInfo . $fileName;
 		}
@@ -3781,18 +3781,18 @@ class Users extends CActiveRecord
 		$emailAddress	 = $bkgModel->bkgUserInfo->bkg_user_email;
 
 		$dltId = '';
-		if($bkgModel->bkgTrack != '')
+		if ($bkgModel->bkgTrack != '')
 		{
 			$msgOTP	 = "Your OTP for starting " . $bkgModel->bkg_booking_id . " is " . $bkgModel->bkgTrack->bkg_trip_otp . " - Gozocabs";
 			$dltId	 = smsWrapper::DLT_TRIP_START_OTP_TEMPID;
 		}
-		if(strlen($phoneNumber) >= 10)
+		if (strlen($phoneNumber) >= 10)
 		{
 			$msgCom	 = new smsWrapper();
 			$slgId	 = $msgCom->sendTripOtp($bkgModel->bkg_booking_id, $ext, $phoneNumber, $msgOTP, $dltId);
 			Logger::create("SMS Error: " . json_encode($slgId), CLogger::LEVEL_INFO);
 		}
-		if($emailAddress != '')
+		if ($emailAddress != '')
 		{
 			$emailModel	 = new emailWrapper();
 			$elgId		 = $emailModel->sendTripOtp($bkgModel->bkg_booking_id, $userName, $emailAddress, $msgOTP, $type		 = 0);
@@ -3818,12 +3818,12 @@ class Users extends CActiveRecord
 		$isSocialLogin		 = Yii::app()->request->getParam('isSocialLogin', 0);
 		$social_data		 = Yii::app()->request->getParam('social_data', '');
 		Logger::create("isSocialLogin :: " . $isSocialLogin, CLogger::LEVEL_INFO);
-		if($isSocialLogin == 1)
+		if ($isSocialLogin == 1)
 		{
-			if($type == 'signup')
+			if ($type == 'signup')
 			{
 				$result = Users::model()->linkAppUser(0, $social_data);
-				if($result['success'])
+				if ($result['success'])
 				{
 					$user_id	 = $result['user_id'];
 					$userModel	 = Users::model()->findByPk($user_id);
@@ -3840,7 +3840,7 @@ class Users extends CActiveRecord
 				$email				 = $userData['email'];
 				$result['success']	 = true;
 				$userModel			 = Users::model()->getByEmail($email);
-				if(!$userModel)
+				if (!$userModel)
 				{
 					$result = ['success' => false, 'message' => 'User not found'];
 					Logger::create("message :: User not found", CLogger::LEVEL_INFO);
@@ -3855,13 +3855,13 @@ class Users extends CActiveRecord
 
 					Logger::create("isSocialLinked :: " . ($isSocialLinked), CLogger::LEVEL_INFO);
 
-					if(!$isSocialLinked)
+					if (!$isSocialLinked)
 					{
 						$result	 = Users::model()->linkAppUser($userid);
 						$userid	 = $result['user_id'];
 						Logger::create("isSocialLinked result :: " . $result['success'], CLogger::LEVEL_INFO);
 					}
-					if($result['success'])
+					if ($result['success'])
 					{
 
 						$userModel	 = Users::model()->findByPk($userid);
@@ -3927,36 +3927,36 @@ class Users extends CActiveRecord
 
 	public function createUserTempLogin($fname, $lname, $email, $phone, $countryCode, $platform)
 	{
-		if($email != '' && $phone != '')
+		if ($email != '' && $phone != '')
 		{
 			$criteria1	 = new CDbCriteria;
 			$criteria1->compare('usr_email', trim($email));
 			$criteria1->compare('usr_mobile', trim($phone));
 			$criteria1->addCondition("usr_active > 0");
 			$usrModel	 = $this->find($criteria1);
-			if($usrModel != '')
+			if ($usrModel != '')
 			{
 				return array("status" => 1, 'UserId' => $usrModel->user_id, 'message' => "");
 			}
 		}
-		if($email != '')
+		if ($email != '')
 		{
 			$criteria2	 = new CDbCriteria;
 			$criteria2->compare('usr_email', trim($email));
 			$criteria2->addCondition("usr_active > 0");
 			$usrModel	 = $this->find($criteria2);
-			if($usrModel)
+			if ($usrModel)
 			{
 				return array("status" => 1, 'UserId' => $usrModel->user_id, 'message' => "");
 			}
 		}
-		if($phone != '')
+		if ($phone != '')
 		{
 			$criteria3	 = new CDbCriteria;
 			$criteria3->compare('usr_mobile', trim($phone));
 			$criteria3->addCondition("usr_active > 0");
 			$usrModel	 = $this->find($criteria3);
-			if($usrModel)
+			if ($usrModel)
 			{
 				return array("status" => 1, 'UserId' => $usrModel->user_id, 'message' => "");
 			}
@@ -3973,7 +3973,7 @@ class Users extends CActiveRecord
 			$usrModel->usr_device		 = UserLog::model()->getDevice();
 			$usrModel->usr_country_code	 = $countryCode;
 			$usrModel->usr_password		 = 'welcomeToGozo';
-			if($email != '' && $email != 'NULL' && $email != 'null')
+			if ($email != '' && $email != 'NULL' && $email != 'null')
 			{
 				$usrModel->usr_email	 = $email;
 				$usrModel->usr_acct_type = '1';
@@ -3984,20 +3984,20 @@ class Users extends CActiveRecord
 //				$usrModel->usr_acct_type = '2';
 				throw new Exception("Please enter valid email id");
 			}
-			if($phone != '' && $phone != 'NULL')
+			if ($phone != '' && $phone != 'NULL')
 			{
 				$usrModel->usr_mobile = str_replace(' ', '', $phone);
 			}
 			$usrModel->usr_active			 = '1';
 			$usrModel->usr_create_platform	 = $platform;
-			if($usrModel->save())
+			if ($usrModel->save())
 			{
 				//	DBUtil::commitTransaction($transaction);
 				return array("status" => 1, 'UserId' => $usrModel->user_id, 'message' => "");
 			}
 			else
 			{
-				foreach($usrModel->getErrors() as $key => $value)
+				foreach ($usrModel->getErrors() as $key => $value)
 				{
 					//DBUtil::rollbackTransaction($transaction);
 					return array("status" => 0, 'message' => $value[0]);
@@ -4005,7 +4005,7 @@ class Users extends CActiveRecord
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			//DBUtil::rollbackTransaction($transaction);
 			return array("status" => 0, 'message' => "Please try again later");
@@ -4021,7 +4021,7 @@ class Users extends CActiveRecord
 	{
 		/** @var $userModel Users  */
 		$userModel = Users::model()->findByPk($userId);
-		if($hasImage == 0)
+		if ($hasImage == 0)
 		{
 			$userModel->usr_contact_id	 = $contactId;
 			$userModel->usr_name		 = $model->usr_name;
@@ -4034,47 +4034,77 @@ class Users extends CActiveRecord
 			$userModel->usr_state		 = $model->usr_state;
 			$userModel->usr_country		 = $model->usr_country;
 		}
-		if($hasImage == 1)
+		if ($hasImage == 1)
 		{
 			Logger::create("File Request : " . json_encode($_FILES), CLogger::LEVEL_INFO);
 			$image		 = $_FILES['image']['name'];
 			$imagetmp	 = $_FILES['image']['tmp_name'];
-			if($image != '')
+			$profileImage	 = CUploadedFile::getInstanceByName('image');
+			if ($profileImage != '')
 			{
-				$name		 = $userId . "_" . date('Ymd_His') . $image;
-				$file_path	 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'profiles';
-				$file_name	 = basename($name);
-				$f			 = $file_path;
-				$file_path	 = $file_path . DIRECTORY_SEPARATOR . $file_name;
-				file_put_contents($file_path, $image);
-				Yii::log("Image Path: \n\t Temp: " . $image . "\n\t Path: " . $f, CLogger::LEVEL_INFO, 'system.api.images');
-				if($this->img_resize($imagetmp, 1200, $f, $name))
-				{
-					$userModel->usr_profile_pic_path = substr($file_path, strlen(PUBLIC_PATH));
-					$userModel->usr_profile_pic_path = str_replace("\\", "/", $userModel->usr_profile_pic_path);
-				}
-				else
-				{
-					throw new Exception('Profile Image Upload Failed', ReturnSet::ERROR_INVALID_DATA);
-				}
+
+//				$name		 = $userId . "_" . date('Ymd_His') . $image;
+//				$file_path	 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'profiles';
+
+				$path = Users::saveUserProfileImage($userId, $profileImage);
+
+				
+//				$file_name	 = basename($name);
+//				$f			 = $file_path;
+//				$file_path	 = $file_path . DIRECTORY_SEPARATOR . $file_name;
+//				file_put_contents($file_path, $image);
+//				Yii::log("Image Path: \n\t Temp: " . $image . "\n\t Path: " . $f, CLogger::LEVEL_INFO, 'system.api.images');
+//				if ($this->img_resize($imagetmp, 1200, $f, $name))
+//				{
+//					$userModel->usr_profile_pic_path = substr($file_path, strlen(PUBLIC_PATH));
+//					$userModel->usr_profile_pic_path = str_replace("\\", "/", $userModel->usr_profile_pic_path);
+//				}
+//				else
+//				{
+//					throw new Exception('Profile Image Upload Failed', ReturnSet::ERROR_INVALID_DATA);
+//				}
 			}
-			$userModel->usr_profile_pic = $userModel->usr_profile_pic_path;
+			$userModel->usr_profile_pic = $path;
 		}
-		if(!$userModel->save())
+		if (!$userModel->save())
 		{
 			throw new Exception('Not Updated Profile Information ', ReturnSet::ERROR_INVALID_DATA);
 		}
-		if($hasImage == 1)
+		if ($hasImage == 1)
 		{
-			$userModel->usr_profile_pic = Users::getImageUrl($userModel->usr_profile_pic);
+			$userModel->usr_profile_pic = $path;
 		}
 		//Updating contact profile table
-		if($contactId != '')
+		if ($contactId != '')
 		{
 			ContactProfile::setProfile($contactId, UserInfo::TYPE_CONSUMER);
 		}
 
 		return $userModel;
+	}
+
+	/**
+	 * @param integer $userId
+	 * @param string $profileImage
+	 * @return boolean
+	 */
+	public static function saveUserProfileImage($userId, $profileImage)
+	{
+		$contactId = ContactProfile::getByUserId($userId);
+		if ($contactId == null)
+		{
+			goto skip;
+		}
+		/* @var $contactModel Contact */
+		$contactModel					 = Contact::model()->findByPk($contactId);
+		$path							 = Document::upload($contactId, "profile", $profileImage);
+		$contactModel->ctt_profile_path	 = $path;
+		if ($contactModel->save())
+		{
+			return $path;
+		}
+		skip:
+		return false;
 	}
 
 	function img_resize($tmpname, $size, $save_dir, $save_name, $maxisheight = 0)
@@ -4086,7 +4116,7 @@ class Users extends CActiveRecord
 		$arr[21]	 = $tmpname;
 		$type		 = $gis[2];
 		$arr[2]		 = $gis;
-		switch($type)
+		switch ($type)
 		{
 			case "1": $imorig	 = imagecreatefromgif($tmpname);
 				break;
@@ -4102,14 +4132,14 @@ class Users extends CActiveRecord
 
 		$woh = (!$maxisheight) ? $gis[0] : $gis[1];
 
-		if($woh <= $size)
+		if ($woh <= $size)
 		{
 			$aw	 = $x;
 			$ah	 = $y;
 		}
 		else
 		{
-			if(!$maxisheight)
+			if (!$maxisheight)
 			{
 				$aw	 = $size;
 				$ah	 = $size * $y / $x;
@@ -4121,9 +4151,9 @@ class Users extends CActiveRecord
 			}
 		}
 		$im = imagecreatetruecolor($aw, $ah);
-		if(imagecopyresampled($im, $imorig, 0, 0, 0, 0, $aw, $ah, $x, $y))
+		if (imagecopyresampled($im, $imorig, 0, 0, 0, 0, $aw, $ah, $x, $y))
 		{
-			if(imagejpeg($im, $save_dir . $save_name))
+			if (imagejpeg($im, $save_dir . $save_name))
 			{
 				Yii::log("Image Resampled: " . $save_dir . $save_name, CLogger::LEVEL_INFO, 'system.api.images');
 				return true;
@@ -4148,13 +4178,13 @@ class Users extends CActiveRecord
 		/* @var $model Users */
 		$model	 = Users::model()->findByPk($userId);
 
-		if($model->validate())
+		if ($model->validate())
 		{
-			if($model->usr_password != md5($newModel->old_password))
+			if ($model->usr_password != md5($newModel->old_password))
 			{
 				throw new Exception('Old Password Not Matching', ReturnSet::ERROR_VALIDATION);
 			}
-			else if($newModel->new_password == $newModel->old_password)
+			else if ($newModel->new_password == $newModel->old_password)
 			{
 				throw new Exception('Password Not Changed', ReturnSet::ERROR_VALIDATION);
 			}
@@ -4184,7 +4214,7 @@ class Users extends CActiveRecord
 		try
 		{
 			$isValid = Filter::validateEmail($email);
-			if(!$isValid)
+			if (!$isValid)
 			{
 				throw new Exception('Please enter valid email address', ReturnSet::ERROR_VALIDATION);
 			}
@@ -4192,7 +4222,7 @@ class Users extends CActiveRecord
 			$contactId		 = ContactEmail::findById($email);
 			$contactModel	 = Contact::model()->findByPk($contactId);
 			$users			 = ($contactId == null || $contactId == "") ? array() : Users::model()->findByContactID($contactId);
-			if(count($users) > 0)
+			if (count($users) > 0)
 			{
 				$user_id				 = $users[0]->user_id;
 				$hash					 = Yii::app()->shortHash->hash($user_id);
@@ -4216,7 +4246,7 @@ class Users extends CActiveRecord
 				$mail->setFrom(Yii::app()->params['mail']['noReplyMail'], 'Info Gozocabs');
 				$mail->setTo($email, $username);
 				$mail->setSubject('Reset your Password');
-				if($mail->sendMail(0))
+				if ($mail->sendMail(0))
 				{
 					$delivered = "Email sent successfully";
 				}
@@ -4238,7 +4268,7 @@ class Users extends CActiveRecord
 				throw new Exception("Email not found.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 			$returnSet->setMessage($ex->getMessage());
@@ -4277,11 +4307,11 @@ class Users extends CActiveRecord
 			$usrModel->usr_create_platform	 = $isPlatform;
 			$usrModel->usr_ip				 = \Filter::getUserIP();
 			$usrModel->usr_refer_code		 = Users::getUniqueReferCode($model);
-			if($model->usr_referred_code != null)
+			if ($model->usr_referred_code != null)
 			{
 				$users		 = Users::model()->getByReferCode($model->usr_referred_code);
 				$refferalId	 = Users::getIdByReferCode($model->usr_referred_code);
-				if(!$users)
+				if (!$users)
 				{
 					throw new Exception(CJSON::encode('Invalid Referral Code'), ReturnSet::ERROR_VALIDATION);
 				}
@@ -4289,19 +4319,19 @@ class Users extends CActiveRecord
 				$usrModel->usr_referred_id	 = $refferalId;
 			}
 			$usrModel->scenario = 'userSignup';
-			if(!$usrModel->save())
+			if (!$usrModel->save())
 			{
 				Logger::info('user not created ' . CJSON::encode($usrModel->getErrors()));
 				throw new Exception(CJSON::encode($usrModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			Logger::info('user created ' . $usrModel->user_id);
-			if($isMail)
+			if ($isMail)
 			{
 				$email = new emailWrapper();
 				$email->signupEmail($usrModel->user_id);
 			}
 
-			if($contactId != '')
+			if ($contactId != '')
 			{
 				ContactProfile::setProfile($contactId, UserInfo::TYPE_CONSUMER);
 			}
@@ -4309,7 +4339,7 @@ class Users extends CActiveRecord
 			$returnSet->setData(['userId' => $usrModel->user_id]);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 			DBUtil::rollbackTransaction($transaction);
@@ -4342,18 +4372,18 @@ class Users extends CActiveRecord
 		$userModel->usr_email			 = $model->usr_email;
 		$userModel->usr_refer_code		 = self::getUniqueReferCode($model);
 		$userModel->scenario			 = 'mobinsert';
-		if($model->usr_referred_code != '')
+		if ($model->usr_referred_code != '')
 		{
 			$users		 = Users::model()->getByReferCode($model->usr_referred_code);
 			$refferalId	 = Users::getIdByReferCode($model->usr_referred_code);
-			if(!$users)
+			if (!$users)
 			{
 				throw new Exception(CJSON::encode('Invalid Referral Code'), ReturnSet::ERROR_VALIDATION);
 			}
 			$userModel->usr_referred_code	 = $model->usr_referred_code;
 			$userModel->usr_referred_id		 = $refferalId;
 		}
-		if(!$userModel->save())
+		if (!$userModel->save())
 		{
 			throw new Exception(CJSON::encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -4367,7 +4397,7 @@ class Users extends CActiveRecord
 //			$userModel->usr_refer_code	 = $arr['refCode'];
 //		}
 		//Updating contact profile table
-		if($contactId != '')
+		if ($contactId != '')
 		{
 			ContactProfile::setProfile($contactId, UserInfo::TYPE_CONSUMER);
 		}
@@ -4381,9 +4411,9 @@ class Users extends CActiveRecord
 			$type		 = 'signup';
 			$userModel	 = Users::model()->getByEmail($newModel->usr_email);
 
-			if(!$userModel)
+			if (!$userModel)
 			{
-				if($isSocialLogin == 1)
+				if ($isSocialLogin == 1)
 				{
 					$pass					 = uniqid(rand(), TRUE);
 					$newModel->usr_password	 = $pass;
@@ -4392,10 +4422,10 @@ class Users extends CActiveRecord
 
 				$result = Users::model()->registerpostonapi($newModel);
 
-				if($result['success'] == 'true')
+				if ($result['success'] == 'true')
 				{
 					$status = Users::model()->loginpostapi($newModel, $type);
-					if($status['success'] == true)
+					if ($status['success'] == true)
 					{
 						$success				 = true;
 						$userId					 = Yii::app()->user->getId();
@@ -4426,7 +4456,7 @@ class Users extends CActiveRecord
 				$returnSet->setData($data);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = $returnSet->setException($ex);
 		}
@@ -4450,12 +4480,12 @@ class Users extends CActiveRecord
 		$code						 = $data->usr_referred_code;
 
 		$success = true;
-		if($code != '')
+		if ($code != '')
 		{
 			$userModel = Users::model()->getByReferCode($data->usr_referred_code);
-			if(!$userModel)
+			if (!$userModel)
 			{
-				if($code != '')
+				if ($code != '')
 				{
 					$model->usr_referred_code = $data->usr_referred_code;
 				}
@@ -4468,11 +4498,11 @@ class Users extends CActiveRecord
 		}
 
 		$errMsg = '';
-		if($model->validate() && $success)
+		if ($model->validate() && $success)
 		{
 			$model->scenario = 'mobinsert';
 			$reg			 = $model->save();
-			if(!$reg)
+			if (!$reg)
 			{
 				$success = false;
 				$msg	 = 'email exist';
@@ -4480,7 +4510,7 @@ class Users extends CActiveRecord
 			else
 			{
 				$user_id = $model->user_id;
-				if($model->usr_email != '')
+				if ($model->usr_email != '')
 				{
 					$email = new emailWrapper();
 					$email->signupEmail($user_id);
@@ -4493,7 +4523,7 @@ class Users extends CActiveRecord
 		{
 			$errors	 = $model->errors;
 			$success = 'false';
-			foreach($errors as $value)
+			foreach ($errors as $value)
 			{
 				$errMsg = $value[0];
 				break;
@@ -4533,12 +4563,12 @@ class Users extends CActiveRecord
 		$isSocialLogin		 = Yii::app()->request->getParam('isSocialLogin', 0);
 		$social_data		 = Yii::app()->request->getParam('social_data', '');
 		Logger::create("isSocialLogin :: " . $isSocialLogin, CLogger::LEVEL_INFO);
-		if($isSocialLogin == 1)
+		if ($isSocialLogin == 1)
 		{
-			if($type == 'signup')
+			if ($type == 'signup')
 			{
 				$result = Users::model()->linkAppUser(0, $social_data);
-				if($result['success'])
+				if ($result['success'])
 				{
 					$user_id	 = $result['user_id'];
 					$userModel	 = Users::model()->findByPk($user_id);
@@ -4559,7 +4589,7 @@ class Users extends CActiveRecord
 
 				$result['success']	 = true;
 				$userModel			 = Users::model()->getByEmail($email);
-				if(!$userModel)
+				if (!$userModel)
 				{
 					$result = ['success' => false, 'message' => 'User not found'];
 					Logger::create("message :: User not found", CLogger::LEVEL_INFO);
@@ -4574,13 +4604,13 @@ class Users extends CActiveRecord
 
 					Logger::create("isSocialLinked :: " . ($isSocialLinked), CLogger::LEVEL_INFO);
 
-					if(!$isSocialLinked)
+					if (!$isSocialLinked)
 					{
 						$result	 = Users::model()->linkAppUser($userid);
 						$userid	 = $result['user_id'];
 						Logger::create("isSocialLinked result :: " . $result['success'], CLogger::LEVEL_INFO);
 					}
-					if($result['success'])
+					if ($result['success'])
 					{
 
 						$userModel	 = Users::model()->findByPk($userid);
@@ -4596,17 +4626,17 @@ class Users extends CActiveRecord
 		}
 
 		$identity = new UserIdentity($email, $md5password);
-		if($identity->authenticate())
+		if ($identity->authenticate())
 		{
 			$userID		 = $identity->getId();
 			Yii::app()->user->login($identity);
 			$token		 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
 			$appToken	 = AppTokens::model()->findAll('((apt_device_uuid=:device AND apt_device_uuid<>\'\') OR (apt_device_token=:gcmtoken AND apt_device_token<>\'\')) AND apt_token_id<>:token', array('device' => $deviceID, 'gcmtoken' => $apt_device_token, 'token' => $token));
-			if($appToken != '')
+			if ($appToken != '')
 			{
-				foreach($appToken as $value)
+				foreach ($appToken as $value)
 				{
-					if(count($value) > 0)
+					if (count($value) > 0)
 					{
 						$value->apt_status = 0;
 						$value->update();
@@ -4614,7 +4644,7 @@ class Users extends CActiveRecord
 				}
 			}
 			$appTokenModel = AppTokens::model()->find('apt_token_id = :token AND apt_token_id<>\'\' AND apt_status = :status', array('token' => $token, 'status' => 1));
-			if(!$appTokenModel)
+			if (!$appTokenModel)
 			{
 				$appTokenModel				 = new AppTokens();
 				$appTokenModel->apt_token_id = Yii::app()->getSession()->getSessionId();
@@ -4650,16 +4680,16 @@ class Users extends CActiveRecord
 		$success	 = false;
 		/* @var $userModel Users */
 		$userModel	 = Users::model()->findByPk($userId);
-		if(!$userModel)
+		if (!$userModel)
 		{
 			throw new Exception(CJSON::encode("Invalid Data : "), ReturnSet::ERROR_INVALID_DATA);
 		}
 		$userModel->usr_sos = trim($data);
-		if(!$userModel->save())
+		if (!$userModel->save())
 		{
 			throw new Exception(CJSON::encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
-		if($userModel->save())
+		if ($userModel->save())
 		{
 			$success = true;
 		}
@@ -4671,10 +4701,10 @@ class Users extends CActiveRecord
 		try
 		{
 			$userModel = Users::model()->findByPk($userId);
-			if($userModel)
+			if ($userModel)
 			{
 				$userModel->usr_sos = null;
-				if($userModel->save())
+				if ($userModel->save())
 				{
 					$userModel->usr_sos	 = trim($data);
 					$userModel->update();
@@ -4687,7 +4717,7 @@ class Users extends CActiveRecord
 			}
 			return $message;
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			throw $ex;
 		}
@@ -4703,7 +4733,7 @@ class Users extends CActiveRecord
 	{
 		/* @var $userModel Users */
 		$userModel = Users::validateInstance($model);
-		if(!$userModel)
+		if (!$userModel)
 		{
 			return false;
 		}
@@ -4719,7 +4749,7 @@ class Users extends CActiveRecord
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($userId))
+			if (empty($userId))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -4735,13 +4765,13 @@ class Users extends CActiveRecord
 
 			$arrRelationDetails = DBUtil::queryAll($findUserProviderDetails, DBUtil::SDB());
 
-			if(!empty($arrRelationDetails))
+			if (!empty($arrRelationDetails))
 			{
 				$returnset->setData($arrRelationDetails);
 				$returnset->setStatus(true);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -4760,13 +4790,13 @@ class Users extends CActiveRecord
 	{
 		$success = false;
 		$model	 = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
-		if(!$model)
+		if (!$model)
 		{
 			throw new Exception(CJSON::encode('User logged out not successful.'), ReturnSet::ERROR_VALIDATION);
 		}
 		$model->apt_status	 = 0;
 		$model->apt_logout	 = new CDbExpression('NOW()');
-		if(!$model->save())
+		if (!$model->save())
 		{
 			throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 		}
@@ -4779,12 +4809,12 @@ class Users extends CActiveRecord
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		try
 		{
-			if($token == null)
+			if ($token == null)
 			{
 				goto skipValidateToken;
 			}
 			$isValid = $socialAuth->validateToken($token);
-			if(!$isValid)
+			if (!$isValid)
 			{
 				$model = Users::model();
 				$model->addError("authentication", "Invaid Social Authentication");
@@ -4798,14 +4828,14 @@ class Users extends CActiveRecord
 
 			$authModel = $authModel->authenticate($socialAuth->provider);
 
-			if(!$authModel->isNewRecord && $authModel->user_id != $userId)
+			if (!$authModel->isNewRecord && $authModel->user_id != $userId)
 			{
 				$model = Users::model();
 				$model->addError("user", "Account already linked with another user");
 				throw new Exception(CJSON::encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if($userId != null)
+			if ($userId != null)
 			{
 				$model = Users::model()->findByPk($userId);
 				goto skipAdd;
@@ -4814,7 +4844,7 @@ class Users extends CActiveRecord
 
 			$emailId = $profile->emailVerified;
 
-			if(empty($emailId))
+			if (empty($emailId))
 			{
 				$model = Users::model();
 				$model->addError("email", "Can't verify email using this account.");
@@ -4822,7 +4852,7 @@ class Users extends CActiveRecord
 			}
 
 			$model = Users::model()->getByEmail($profile->emailVerified, true);
-			if($model)
+			if ($model)
 			{
 				goto skipAdd;
 			}
@@ -4835,13 +4865,13 @@ class Users extends CActiveRecord
 			skipAdd:
 			$authModel->user_id = $model->user_id;
 
-			if(!$authModel->save())
+			if (!$authModel->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			return $authModel;
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			ReturnSet::setException($e);
 			throw $e;
@@ -4888,14 +4918,14 @@ class Users extends CActiveRecord
 	public static function sendNotificationToContact($bkgId, $sosContactList, $travellerName, $url, $eventId)
 	{
 		$returnSet = new ReturnSet();
-		foreach($sosContactList As $value)
+		foreach ($sosContactList As $value)
 		{
 			$emergencyUserName	 = $value["name"];
 			$phone				 = str_replace('-', '', str_replace(' ', '', $value["phon_no"]));
 			$phoneNumber		 = substr($phone, -10);
 			$emailAddress		 = $value["email"];
 			$sosContacts[]		 = $phoneNumber;
-			if($eventId == BookingTrack::SOS_START)
+			if ($eventId == BookingTrack::SOS_START)
 			{
 				$msg = "$travellerName has pressed panic button and wants to notify you of the emergency. Track their location at $url urgently contact them. Gozo is also taking action.";
 			}
@@ -4904,7 +4934,7 @@ class Users extends CActiveRecord
 				$msg = "PANIC Situation resolved.Track $travellerName current location at $url";
 			}
 
-			if(strlen($phoneNumber) >= 10)
+			if (strlen($phoneNumber) >= 10)
 			{
 				$msgCom		 = new smsWrapper();
 				$sendSmsFlag = $msgCom->sendSmsToEmergencyContact($bkgId, $phoneNumber, $msg);
@@ -4914,12 +4944,12 @@ class Users extends CActiveRecord
 				$desc			 = "EMERGENCY Contact ( $phoneNumber ) has been notified.";
 				BookingLog::model()->createLog($bkgId, $desc, null, $oldEventId);
 			}
-			if($emailAddress != '')
+			if ($emailAddress != '')
 			{
 				$emailModel		 = new emailWrapper();
 				$sendEmailFlag	 = $emailModel->sendEmailToEmergencyContact($bkgId, $travellerName, $emergencyUserName, $emailAddress, $msg);
 			}
-			if(!empty($sendSmsFlag) || !empty($sendEmailFlag))
+			if (!empty($sendSmsFlag) || !empty($sendEmailFlag))
 			{
 				$returnSet->setStatus(true);
 				$returnSet->setMessage($msg);
@@ -4939,7 +4969,7 @@ class Users extends CActiveRecord
 	 */
 	public function mergeConIds($primaryContactId, $duplicateContactId)
 	{
-		if(empty($primaryContactId) || empty($duplicateContactId))
+		if (empty($primaryContactId) || empty($duplicateContactId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -4947,9 +4977,9 @@ class Users extends CActiveRecord
 		$sql			 = "SELECT * FROM `users` WHERE `usr_contact_id`=:id";
 		$arrDupUsrData	 = DBUtil::command($sql, DBUtil::MDB())->query(['id' => $duplicateContactId]);
 
-		if(!empty($arrDupUsrData))
+		if (!empty($arrDupUsrData))
 		{
-			foreach($arrDupUsrData as $drvData)
+			foreach ($arrDupUsrData as $drvData)
 			{
 				$usrId = $drvData["user_id"];
 
@@ -4971,13 +5001,13 @@ class Users extends CActiveRecord
 	 */
 	public static function createbyContact($contact, $sendPassword = 0)
 	{
-		if(!$contact instanceof Contact)
+		if (!$contact instanceof Contact)
 		{
 			$contact = Contact::model()->findByPk($contact);
 		}
 
 		$cpModel = ContactProfile::model()->findByContactId($contact->ctt_id);
-		if($cpModel->cr_is_consumer > 0)
+		if ($cpModel->cr_is_consumer > 0)
 		{
 			$userModel = Users::model()->findByPk($cpModel->cr_is_consumer);
 			goto end;
@@ -5004,10 +5034,10 @@ class Users extends CActiveRecord
 			$userModel->email				 = $email;
 			$userModel->usr_email			 = $email;
 			$userModel->usr_refer_code		 = Users::getUniqueReferCode($userModel);
-			if($contact->ctt_id > 0)
+			if ($contact->ctt_id > 0)
 			{
 				$modelCpr = ContactPref::model()->find("cpr_ctt_id=:cId", ['cId' => $contact->ctt_id]);
-				if(!$modelCpr)
+				if (!$modelCpr)
 				{
 					$modelCpr				 = new ContactPref();
 					$modelCpr->cpr_ctt_id	 = $contact->ctt_id;
@@ -5015,16 +5045,16 @@ class Users extends CActiveRecord
 				$modelCpr->cpr_category = 1; //bronze
 				$modelCpr->save();
 			}
-			if(!$userModel->save())
+			if (!$userModel->save())
 			{
 				$e = new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 				throw $e;
 			}
 			Users::addSignUpBonus($userModel->user_id);
-			if($sendPassword > 0)
+			if ($sendPassword > 0)
 			{
 				//// need to send mail and sms || need sms content for reset password
-				if($userModel->email)
+				if ($userModel->email)
 				{
 					$emailWrapper	 = new emailWrapper();
 					$delivery		 = $emailWrapper->signupUserCredential($userModel->user_id, $pasword);
@@ -5035,7 +5065,7 @@ class Users extends CActiveRecord
 //					$smsModel	 = new smsWrapper(); 
 //					$smsModel->sendLinkVendor($userModel->user_id, $userModel->usr_mobile, $userModel->usr_country_code, $link);
 //				}
-					if($delivery['flag'] > 0)
+					if ($delivery['flag'] > 0)
 					{
 						$userModel->usr_changepassword = 1;
 						$userModel->save();
@@ -5045,7 +5075,7 @@ class Users extends CActiveRecord
 			$cpModel = ContactProfile::linkUserId($contact->ctt_id, $userModel->user_id);
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			throw $e;
@@ -5075,13 +5105,13 @@ class Users extends CActiveRecord
 
 		try
 		{
-			if(empty($usrData))
+			if (empty($usrData))
 			{
 				throw new Exception("Invalid data1", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$userId = $usrData["user_id"];
-			if(strpos($usrData["usr_email"], "gozo") || strpos($usrData["usr_email"], "test"))
+			if (strpos($usrData["usr_email"], "gozo") || strpos($usrData["usr_email"], "test"))
 			{
 				throw new Exception("User Id: $userId Skipped as it contains gozo or test", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -5089,12 +5119,12 @@ class Users extends CActiveRecord
 			$response	 = "User Id: $userId failed"; //Default
 			$userModel	 = self::model()->findByPk($userId);
 			$cttId		 = self::transferToContact($userModel);
-			if($cttId > 0)
+			if ($cttId > 0)
 			{
 				$response = "User Id: $userId updated with Contact Id: $cttId";
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$sql = "UPDATE users SET usr_tmp_status = 1 WHERE user_id = {$userId}";
 			DBUtil::command($sql)->execute();
@@ -5118,7 +5148,7 @@ class Users extends CActiveRecord
 		$phoneNo	 = $userModel->usr_mobile;
 		$firstName	 = $userModel->usr_name;
 		$lastName	 = $userModel->usr_lname;
-		if(empty($emailId))
+		if (empty($emailId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5127,19 +5157,19 @@ class Users extends CActiveRecord
 			$transaction = DBUtil::beginTransaction();
 			$verified	 = false;
 			$cttId		 = Contact::getIdByDetails($emailId, $phoneNo, $firstName, $lastName, $verified);
-			if($cttId > 0)
+			if ($cttId > 0)
 			{
 				#$emailModel = ContactEmail::model()->findByEmailAndContact($emailId, $cttId);
 				$numRows = DBUtil::command("SELECT COUNT(1) cnt FROM contact_email WHERE eml_email_address=:emailId AND eml_contact_id=:contactId AND eml_active=1")->queryScalar(['emailId' => $emailId, 'contactId' => $cttId]);
-				if($numRows == 0)
+				if ($numRows == 0)
 				{
 					ContactEmail::addNew($cttId, $emailId, SocialAuth::Eml_Gozocabs, 1, '', $userModel->usr_email_verify);
 				}
-				if($phoneNo)
+				if ($phoneNo)
 				{
 					#$phoneModel = ContactPhone::model()->findByPhoneAndContact($phoneNo, $cttId);
 					$numRows = DBUtil::command("SELECT COUNT(1) cnt FROM contact_phone WHERE phn_phone_no=:phoneId AND phn_contact_id=:contactId AND phn_active=1")->queryScalar(['phoneId' => $phoneNo, 'contactId' => $cttId]);
-					if($numRows == 0)
+					if ($numRows == 0)
 					{
 						ContactPhone::add($cttId, $phoneNo, '', $userModel->usr_country_code, 1, 1, '', $userModel->usr_mobile_verify);
 					}
@@ -5157,7 +5187,7 @@ class Users extends CActiveRecord
 			// DBUtil::rollbackTransaction($transaction);
 			return $cttId;
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			throw new Exception($e->getMessage());
@@ -5172,7 +5202,7 @@ class Users extends CActiveRecord
 	 */
 	public static function updateContactId($cttIds = null, $userId = null)
 	{
-		if(empty($cttIds) || empty($userId))
+		if (empty($cttIds) || empty($userId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5190,12 +5220,12 @@ class Users extends CActiveRecord
 	public static function createContactBySocialUser($profileData, $fetchData, $user)
 	{
 
-		if($fetchData['provider'] == 'Google')
+		if ($fetchData['provider'] == 'Google')
 		{
 			$provider = 2;
 		}
 
-		if($fetchData['provider'] == 'Facebook')
+		if ($fetchData['provider'] == 'Facebook')
 		{
 			$provider = 3;
 		}
@@ -5209,10 +5239,10 @@ class Users extends CActiveRecord
 		$jsonObj->profile->profilePic				 = $user->usr_profile_pic;
 
 		$contactId = 0;
-		if($profileData['email'] === $user->usr_email)
+		if ($profileData['email'] === $user->usr_email)
 		{
 			$contactId = $user->usr_contact_id;
-			if($contactId)
+			if ($contactId)
 			{
 				Contact::modifyContact($jsonObj, $contactId, 0, UserInfo::TYPE_CONSUMER, $provider);
 			}
@@ -5231,7 +5261,7 @@ class Users extends CActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if(empty($usrData))
+			if (empty($usrData))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -5242,23 +5272,23 @@ class Users extends CActiveRecord
 			$emailModel	 = ContactEmail::model()->findByEmailAndContact($email, $contactId);
 			$phoneModel	 = ContactPhone::model()->findByPhoneAndContact($phoneNo, $contactId);
 			$success	 = false;
-			if($emailModel)
+			if ($emailModel)
 			{
 				$emailModel->eml_is_verified = 1;
 				$success					 = $emailModel->save();
 			}
-			if($phoneModel)
+			if ($phoneModel)
 			{
 				$phoneModel->phn_is_verified = 1;
 				$success					 = $phoneModel->save();
 			}
 			DBUtil::commitTransaction($transaction);
-			if($success)
+			if ($success)
 			{
 				echo "verified: " . $contactId . "==";
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$response = $ex->getMessage();
 			echo "error: " . $contactId . "==";
@@ -5269,7 +5299,7 @@ class Users extends CActiveRecord
 
 	public function findByContactID($cttId)
 	{
-		if($cttId == null || $cttId == "")
+		if ($cttId == null || $cttId == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5289,7 +5319,7 @@ class Users extends CActiveRecord
 	{
 		$phone	 = trim($phoneArray['phn_phone_no']);
 		$isValid = Filter::validatePhoneNumber($phone);
-		if($isValid)
+		if ($isValid)
 		{
 			Filter::parsePhoneNumber($phone, $code, $number);
 		}
@@ -5314,7 +5344,7 @@ class Users extends CActiveRecord
 	 */
 	public static function userData($model, $arr1)
 	{
-		if(!$model->usr_contact_id)
+		if (!$model->usr_contact_id)
 		{
 			$model->repeat_password		 = $arr1['repeat_password'];
 			$model->new_password		 = $arr1['new_password'];
@@ -5403,20 +5433,20 @@ class Users extends CActiveRecord
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($model) || $model->usr_referred_code == null)
+			if (empty($model) || $model->usr_referred_code == null)
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$model->usr_referred_code	 = $referralCode;
 			$model->usr_referred_id		 = Users::getIdByReferCode($referralCode);
-			if(!$model->save())
+			if (!$model->save())
 			{
 				$e = new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_FAILED);
 				throw $e;
 			}
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			$returnSet = ReturnSet::setException($exc);
 		}
@@ -5439,14 +5469,14 @@ class Users extends CActiveRecord
 		$inviteeId	 = $model->bkgUserInfo->bkgUser->usr_referred_id;
 		$amount		 = $model->bkgInvoice->bkg_net_base_amount;
 		Logger::trace("JoinerId: " . $joinerId . " InviteeId: " . $inviteeId . " Amount: " . $amount);
-		if($joinerId == null || $inviteeId == null || $amount == null)
+		if ($joinerId == null || $inviteeId == null || $amount == null)
 		{
 			$e			 = new Exception("Invitee or joiner Id can not be null.", ReturnSet::ERROR_VALIDATION);
 			$returnSet	 = ReturnSet::setException($e);
 			goto skipReferBonus;
 		}
 		$totalBooking = self::cntBookingById($joinerId);
-		if($totalBooking > 1)
+		if ($totalBooking > 1)
 		{
 			$e			 = new Exception("Bonus not applicable", ReturnSet::ERROR_VALIDATION);
 			$returnSet	 = ReturnSet::setException($e);
@@ -5454,17 +5484,17 @@ class Users extends CActiveRecord
 		}
 		$actualAmount	 = $amount;
 		$referralConfig	 = Config::get("user.referral");
-		if($referralConfig["limitType"] > 0)
+		if ($referralConfig["limitType"] > 0)
 		{
 			$lastBkgId	 = Users::getLastBookingById($inviteeId);
 			$bivModel	 = BookingInvoice::model()->getByBookingID($lastBkgId);
-			if($bivModel == null)
+			if ($bivModel == null)
 			{
 				goto skipAmount;
 			}
 
 			$inviteeLastBookingAmount = $bivModel->bkg_net_base_amount;
-			switch($referralConfig["limitType"])
+			switch ($referralConfig["limitType"])
 			{
 				case 2:
 					$actualAmount	 = max([$amount, $inviteeLastBookingAmount]);
@@ -5481,7 +5511,7 @@ class Users extends CActiveRecord
 
 		$bonusAmount = self::getBonusValue($actualAmount, 1);
 
-		if($bonusAmount === null)
+		if ($bonusAmount === null)
 		{
 			$e			 = new Exception("Unable to calculate bonus amount", ReturnSet::ERROR_FAILED);
 			$returnSet	 = ReturnSet::setException($e);
@@ -5489,27 +5519,27 @@ class Users extends CActiveRecord
 		}
 
 		$returnSet = self::processBonus(1, $bonusAmount, $inviteeId, $joinerId, $bkgId, $lastBkgId);
-		if($returnSet->isSuccess())
+		if ($returnSet->isSuccess())
 		{
 			$eventId = BookingLog::BONUS_REFERRAL;
-			if($remarks == null)
+			if ($remarks == null)
 			{
-				if($lastBkgId > 0)
+				if ($lastBkgId > 0)
 				{
 					$refText		 = '';
 					$objUserInvitee	 = Contact::model()->getByUserId($inviteeId);
-					if($objUserInvitee)
+					if ($objUserInvitee)
 					{
 						$refText = $objUserInvitee->getName();
 					}
 
 					$refText .= " (" . Booking::model()->getCodeById($lastBkgId) . ")";
 				}
-				else if($bkgId > 0)
+				else if ($bkgId > 0)
 				{
 					$refText		 = '';
 					$objUserJoiner	 = Contact::model()->getByUserId($joinerId);
-					if($objUserJoiner)
+					if ($objUserJoiner)
 					{
 						$refText = $objUserJoiner->getName();
 					}
@@ -5541,7 +5571,7 @@ class Users extends CActiveRecord
 	 */
 	public static function processBonus($type, $value, $userId, $refUserId, $refId, $inviterBkgId)
 	{
-		switch($type)
+		switch ($type)
 		{
 			case 1:
 				$returnSet	 = UserWallet::addReferralAmount($value, $userId, $refUserId, ["bkgId" => $refId, "inviterBkgId" => $inviterBkgId]);
@@ -5570,7 +5600,7 @@ class Users extends CActiveRecord
 		$referralConfig	 = Config::get("user.referral");
 		$refType		 = ($type == 2) ? "joiner" : "invitee";
 		$userConfig		 = $referralConfig[$refType];
-		switch($userConfig["type"])
+		switch ($userConfig["type"])
 		{
 			case 2:
 				$value	 = $userConfig["value"];
@@ -5590,7 +5620,7 @@ class Users extends CActiveRecord
 	 */
 	public static function calculateBonus($config, $amount = 0)
 	{
-		switch($config["calType"])
+		switch ($config["calType"])
 		{
 			case 2:
 				$value	 = $config["value"];
@@ -5639,7 +5669,7 @@ class Users extends CActiveRecord
 					JOIN `users` as usr2 ON usr2.user_id=trans2.adt_trans_ref_id AND usr2.usr_active=1
 				    WHERE trans1.adt_ledger_id=51 ORDER BY account_transactions.act_created DESC";
 
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			return DBUtil::query($sql, DBUtil::SDB());
 		}
@@ -5665,10 +5695,10 @@ class Users extends CActiveRecord
 	{
 		$returnSet	 = new ReturnSet();
 		$usrModel	 = Users::model()->findByPk($userId);
-		if($usrModel->usr_refer_code == null)
+		if ($usrModel->usr_refer_code == null)
 		{
 			$records = Self::getRefercode($userId);
-			if($records == false)
+			if ($records == false)
 			{
 				$e			 = new Exception('Unable to create refer code.', ReturnSet::ERROR_INVALID_DATA);
 				$returnSet->setStatus(false);
@@ -5686,13 +5716,13 @@ class Users extends CActiveRecord
 	/** @return libphonenumber\PhoneNumber */
 	public static function getPrimaryPhone($userId, $isVerified = false)
 	{
-		if($userId == '')
+		if ($userId == '')
 		{
 			return null;
 		}
 
 		$cttModel = Contact::model()->getByUserId($userId);
-		if(!$cttModel)
+		if (!$cttModel)
 		{
 			return null;
 		}
@@ -5706,7 +5736,7 @@ class Users extends CActiveRecord
 	{
 		$params	 = ['userId' => $userId];
 		$where	 = ' AND 1';
-		if($isprimary)
+		if ($isprimary)
 		{
 
 			$where = ' AND phn.phn_is_primary=1';
@@ -5718,7 +5748,7 @@ class Users extends CActiveRecord
 			";
 		$listObj = DBUtil::query($sql, DBUtil::SDB(), $params);
 		$list	 = [];
-		foreach($listObj as $data)
+		foreach ($listObj as $data)
 		{
 			$ext	 = ($data['phn_phone_country_code'] > 0) ? $data['phn_phone_country_code'] : '91';
 			$list[]	 = $ext . $data['phn_phone_no'];
@@ -5736,11 +5766,11 @@ class Users extends CActiveRecord
 	public static function getSignupBonusValue($type, $refId)
 	{
 		$signupConfig = Config::get("user.signup.bonus");
-		if($signupConfig["type"] == 0)
+		if ($signupConfig["type"] == 0)
 		{
 			return false;
 		}
-		switch($signupConfig["type"])
+		switch ($signupConfig["type"])
 		{
 			case 3:
 				$value	 = $signupConfig["value"];
@@ -5769,13 +5799,13 @@ class Users extends CActiveRecord
 			$signupConfig	 = Config::get("user.signup.bonus");
 			$type			 = $signupConfig["type"];
 			$amount			 = $signupConfig["value"];
-			if($type == 0 || $amount == 0)
+			if ($type == 0 || $amount == 0)
 			{
 				return false;
 			}
 			$model	 = Users::model()->findByPk($userId);
 			$remarks = "Signup Bonus added";
-			switch($type)
+			switch ($type)
 			{
 				case 1:
 					$transModel	 = UserCredits::addCoins($model->user_id, UserCredits::CREDIT_SIGNUP, null, $amount, null, $remarks, 1);
@@ -5785,13 +5815,13 @@ class Users extends CActiveRecord
 					break;
 			}
 
-			if($transModel)
+			if ($transModel)
 			{
 				$returnSet->setStatus(true);
 				$returnSet->setMessage($remarks);
 			}
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			$returnSet = ReturnSet::setException($exc);
 		}
@@ -5807,7 +5837,7 @@ class Users extends CActiveRecord
 		$sql		 = "SELECT user_id  FROM $oauthtable WHERE `provider`=:provider AND identifier  =:identifier";
 		$userID		 = DBUtil::command($sql, DBUtil::SDB())->queryScalar($params);
 		$drvModel	 = Drivers::getByUserId($userID);
-		if($drvModel)
+		if ($drvModel)
 		{
 			$driverId = $drvModel->drv_id;
 		}
@@ -5816,7 +5846,7 @@ class Users extends CActiveRecord
 
 	public static function findByEmailId($email)
 	{
-		if($email == null || $email == "")
+		if ($email == null || $email == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -5852,7 +5882,7 @@ class Users extends CActiveRecord
 		$userModel					 = Users::model()->findByPk($userId);
 		$userModel->usr_password	 = md5($cpassword);
 		$userModel->usr_email_verify = 1;
-		if($userModel->save())
+		if ($userModel->save())
 		{
 			ContactEmail::verifyItems($email, $contactId);
 			$status = "success";
@@ -5865,12 +5895,12 @@ class Users extends CActiveRecord
 		$status					 = "";
 		$userModel				 = Users::model()->findByPk($userId);
 		$userModel->usr_password = md5($cpassword);
-		if($userModel->save())
+		if ($userModel->save())
 		{
 			ContactPhone::updateVerifyStatus($contactId, $phone);
 			$phoneModel					 = ContactPhone::model()->findByPhoneAndContact($phone, $contactId);
 			$phoneModel->phn_is_expired	 = 1;
-			if($phoneModel->save())
+			if ($phoneModel->save())
 			{
 				$status = "success";
 			}
@@ -5894,11 +5924,11 @@ class Users extends CActiveRecord
 	 */
 	public static function getIdByContactEmailPhone($email, $phone)
 	{
-		if(trim($email) != '')
+		if (trim($email) != '')
 		{
 			$emailRecord = ContactEmail::getByEmail($email, $phone);
 		}
-		if(trim($phone) != '')
+		if (trim($phone) != '')
 		{
 			$phoneRecord = ContactPhone::getByPhone($phone, $email);
 		}
@@ -6014,15 +6044,15 @@ class Users extends CActiveRecord
 
 		$ongoingbooking	 = [];
 		$upcomingbooking = [];
-		if(!empty($result))
+		if (!empty($result))
 		{
-			foreach($result as $r)
+			foreach ($result as $r)
 			{
-				if($r['bkg_pickup_date'] >= date("Y-m-d H:i:s", strtotime('-2 hours')) && $r['bkg_status'] == '5')
+				if ($r['bkg_pickup_date'] >= date("Y-m-d H:i:s", strtotime('-2 hours')) && $r['bkg_status'] == '5')
 				{
 					$ongoingbooking = $r;
 				}
-				if($r['bkg_pickup_date'] >= date("Y-m-d H:i:s") && $r['vendor_id'] != null && $r['driver_id'] != null)
+				if ($r['bkg_pickup_date'] >= date("Y-m-d H:i:s") && $r['vendor_id'] != null && $r['driver_id'] != null)
 				{
 					$upcomingbooking = $r;
 				}
@@ -6040,7 +6070,7 @@ class Users extends CActiveRecord
 
 	public function getTripDetailsbyUser($userid, $searchBy = 0)
 	{
-		if($searchBy == 1)
+		if ($searchBy == 1)
 		{
 			$cond .= " AND bkg.bkg_status IN (6,7,9)";
 		}
@@ -6113,7 +6143,7 @@ class Users extends CActiveRecord
 	public function deleteSocialDetails($userId, $provider = '')
 	{
 		$cond = '';
-		if($provider != "")
+		if ($provider != "")
 		{
 			$cond .= " AND provider = '" . $provider . "'";
 		}
@@ -6125,7 +6155,7 @@ class Users extends CActiveRecord
 
 	public static function getUserIdByUserInfo($value, $type)
 	{
-		switch($type)
+		switch ($type)
 		{
 			case 1:
 				$cond	 .= "AND usr_email = '$value' ";
@@ -6183,11 +6213,11 @@ class Users extends CActiveRecord
 
 	public static function uploadAllToS3($limit = 1000)
 	{
-		while($limit > 0)
+		while ($limit > 0)
 		{
 			$limit1		 = min([1000, $limit]);
 			$serverId	 = Config::getServerID();
-			if($serverId == '' || $serverId <= 0)
+			if ($serverId == '' || $serverId <= 0)
 			{
 				Logger::writeToConsole('Server ID not found!!!');
 				break;
@@ -6195,19 +6225,25 @@ class Users extends CActiveRecord
 			$condPath = " AND (usr_s3_data IS NULL AND usr_qr_code_path LIKE '%/doc/{$serverId}/qrcode%') ";
 
 			$sql = "SELECT user_id FROM users 
-					WHERE usr_active = 1 {$condPath}
+					WHERE 1 AND usr_active = 1 {$condPath}
 					ORDER BY user_id DESC LIMIT 0, $limit1";
 			$res = DBUtil::query($sql, DBUtil::SDB());
 
-			if($res->getRowCount() == 0)
+			if ($res->getRowCount() == 0)
 			{
 				break;
 			}
-			foreach($res as $row)
+			foreach ($res as $row)
 			{
-				/** @var Document $docModel */
-				$usrModel = Users::model()->findByPk($row["user_id"]);
-				$usrModel->uploadUserFileToSpace();
+				try
+				{
+					$usrModel = Users::model()->findByPk($row["user_id"]);
+					$usrModel->uploadUserFileToSpace();
+				}
+				catch (Exception $ex)
+				{
+					ReturnSet::setException($ex);
+				}
 			}
 
 			$limit -= $limit1;
@@ -6218,26 +6254,30 @@ class Users extends CActiveRecord
 	/** @return Stub\common\SpaceFile */
 	public function uploadUserFileToSpace($removeLocal = true)
 	{
-		$spaceFile = null;
+
+		$spaceFile	 = null;
+		$usrModel	 = $this;
 		try
 		{
-			$usrModel		 = $this;
-			$localFilePath	 = $usrModel->getLocalQrCodePath();
-			if(!file_exists($localFilePath) || $usrModel->usr_qr_code_path == '')
+			$localFilePath = $usrModel->getLocalQrCodePath();
+			if (!file_exists($localFilePath) || $usrModel->usr_qr_code_path == '')
 			{
-				if($usrModel->usr_s3_data == '')
+
+				if ($usrModel->usr_s3_data == null || $usrModel->usr_s3_data == '')
 				{
-					$usrModel->usr_s3_data = "{}";
-					$usrModel->save();
+					$usrModel->scenario		 = 'user_sync';
+					$usrModel->usr_s3_data	 = "{}";
 					return null;
 				}
 			}
-			$spaceFile = $usrModel->uploadToSpace($localFilePath, $usrModel->getDigitalSpacePath(), $removeLocal);
-
-			$usrModel->usr_s3_data = $spaceFile->toJSON();
-			$usrModel->save();
+			$spaceFile				 = $usrModel->uploadToSpace($localFilePath, $usrModel->getDigitalSpacePath(), $removeLocal);
+			$usrModel->usr_s3_data	 = is_array(json_decode($spaceFile->toJSON(), true)) ? $spaceFile->toJSON() : "{}";
+			if (!$usrModel->save())
+			{
+				throw new Exception(json_encode($usrModel->getErrors()), ReturnSet::ERROR_VALIDATION);
+			}
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			ReturnSet::setException($exc);
 		}
@@ -6256,7 +6296,7 @@ class Users extends CActiveRecord
 
 		$filePath = $this->getQrCodeLocalPath() . $filePath;
 
-		if(!file_exists($filePath))
+		if (!file_exists($filePath))
 		{
 			$filePath = APPLICATION_PATH . $this->usr_qr_code_path;
 		}
@@ -6304,7 +6344,7 @@ class Users extends CActiveRecord
 		$path = '/images/no-image.png';
 
 		$usrModel = Users::model()->findByPk($usrId);
-		if(!$usrModel)
+		if (!$usrModel)
 		{
 			goto end;
 		}
@@ -6313,9 +6353,9 @@ class Users extends CActiveRecord
 		$s3Data	 = $usrModel->$fieldName;
 		$imgPath = $usrModel->getPath();
 
-		if(file_exists($imgPath) && $imgPath != $usrModel->getQrCodeLocalPath())
+		if (file_exists($imgPath) && $imgPath != $usrModel->getQrCodeLocalPath())
 		{
-			if(substr_count($imgPath, PUBLIC_PATH) > 0)
+			if (substr_count($imgPath, PUBLIC_PATH) > 0)
 			{
 				$path = substr($imgPath, strlen(PUBLIC_PATH));
 			}
@@ -6324,11 +6364,11 @@ class Users extends CActiveRecord
 				$path = AttachmentProcessing::publish($imgPath);
 			}
 		}
-		else if($s3Data != '{}' && $s3Data != '')
+		else if ($s3Data != '{}' && $s3Data != '')
 		{
 			$spaceFile	 = \Stub\common\SpaceFile::populate($s3Data);
 			$path		 = $spaceFile->getURL();
-			if($spaceFile->isURLCreated())
+			if ($spaceFile->isURLCreated())
 			{
 				$usrModel->$fieldName = $spaceFile->toJSON();
 				$usrModel->save();
@@ -6342,14 +6382,14 @@ class Users extends CActiveRecord
 	{
 		$filePath = $this->usr_qr_code_path;
 
-		if(substr($filePath, 0, strlen('doc')) == 'doc')
+		if (substr($filePath, 0, strlen('doc')) == 'doc')
 		{
 			$filePath = substr($filePath, strlen('doc'));
 		}
 		$filePath = $this->getQrCodeLocalPath() . $filePath;
 
 		//	Logger::writeToConsole($filePath);
-		if(!file_exists($filePath))
+		if (!file_exists($filePath))
 		{
 			$filePath = APPLICATION_PATH . $this->usr_qr_code_path;
 		}
@@ -6375,13 +6415,13 @@ class Users extends CActiveRecord
 					AND usr.user_id NOT IN (SELECT user_id FROM test.qr_ignore) 
 					ORDER BY bkg.bkg_id DESC LIMIT 0, $limit1";
 		$res = DBUtil::query($sql, DBUtil::SDB(), $params);
-		foreach($res as $row)
+		foreach ($res as $row)
 		{
 			#sleep(1);
 			$returnSet = QrCode::processData($row["user_id"]);
 
 			echo "\r\nuser_id == " . $row["user_id"];
-			if(!$returnSet->getStatus())
+			if (!$returnSet->getStatus())
 			{
 				echo "\r\nErrorUpdateQRCodeById == " . $returnSet->getMessage();
 
@@ -6414,10 +6454,10 @@ class Users extends CActiveRecord
 		$username					 = $this->$attribute;
 		$isEmail					 = Filter::validateEmail($username, true);
 		$isPhone					 = false;
-		if(!$isEmail)
+		if (!$isEmail)
 		{
 			$isPhone = Filter::processPhoneNumber($username);
-			if(!$isPhone)
+			if (!$isPhone)
 			{
 				$this->addError($attribute, "Please enter valid email id/phone number");
 				return false;
@@ -6433,7 +6473,7 @@ class Users extends CActiveRecord
 			$this->usr_email	 = trim($username);
 			$this->usernameType	 = Stub\common\ContactVerification::TYPE_EMAIL;
 		}
-		if(!$isEmail && !$isPhone)
+		if (!$isEmail && !$isPhone)
 		{
 			$this->addError($attribute, "Please enter your valid email id/phone number");
 			return false;
@@ -6454,23 +6494,23 @@ class Users extends CActiveRecord
 
 		$isEmail = Filter::validateEmail($var, true);
 		$isPhone = false;
-		if(!$isEmail)
+		if (!$isEmail)
 		{
 			$phone	 = Filter::processPhoneNumber($var);
 			$isPhone = ($phone !== false);
 		}
-		if(!$isEmail && !$isPhone)
+		if (!$isEmail && !$isPhone)
 		{
 			return false;
 		}
 
-		if($isEmail)
+		if ($isEmail)
 		{
 			$type	 = Stub\common\ContactVerification::TYPE_EMAIL;
 			$arr	 = ['type' => $type, 'value' => $var];
 		}
 
-		if($isPhone)
+		if ($isPhone)
 		{
 			$type			 = Stub\common\ContactVerification::TYPE_PHONE;
 			Filter::parsePhoneNumber($phone, $code, $number);
@@ -6483,7 +6523,7 @@ class Users extends CActiveRecord
 
 	public function getFullMobileNumber()
 	{
-		if($this->usr_mobile == '')
+		if ($this->usr_mobile == '')
 		{
 			return false;
 		}
@@ -6500,7 +6540,7 @@ class Users extends CActiveRecord
 		$userModel			 = Users::model()->findByPk($userId);
 		$identity			 = new UserIdentity($userModel->usr_email, $userModel->usr_password);
 		$identity->userId	 = $userModel->user_id;
-		if(!$identity->authenticate())
+		if (!$identity->authenticate())
 		{
 			throw new Exception("Unable to authenticate", ReturnSet::ERROR_UNAUTHORISED);
 		}
@@ -6517,10 +6557,10 @@ class Users extends CActiveRecord
 	{
 		$userModel	 = $this;
 		$type		 = 0;
-		if($userModel->usr_email)
+		if ($userModel->usr_email)
 		{
 			$isEmail = Filter::validateEmail($userModel->usr_email, true);
-			if(!$isEmail)
+			if (!$isEmail)
 			{
 				$userModel->addError("usr_email", "Please enter valid email address");
 				goto end;
@@ -6528,26 +6568,26 @@ class Users extends CActiveRecord
 		}
 		$phNumber	 = $userModel->usr_country_code . $userModel->usr_mobile;
 		$isPhone	 = Filter::processPhoneNumber($phNumber);
-		if(!$isPhone)
+		if (!$isPhone)
 		{
 			$userModel->addError("usr_mobile", "Please enter valid phone number");
 			goto end;
 		}
 
-		if($isEmail)
+		if ($isEmail)
 		{
 			$contactId = Contact::getByEmailPhone($userModel->usr_email);
-			if($contactId != '')
+			if ($contactId != '')
 			{
 				$userModel->addError("usr_email", "This Email Address " . $userModel->usr_email . " is already registered with us. Click yes to login with this existing account or press cancel to change Email Address and create a new account.");
 				$type = Stub\common\ContactVerification::TYPE_EMAIL;
 				goto end;
 			}
 		}
-		if($isPhone)
+		if ($isPhone)
 		{
 			$contactId = Contact::getByEmailPhone('', $phNumber);
-			if($contactId != '')
+			if ($contactId != '')
 			{
 				$userModel->addError("usr_mobile", "This phone number " . $userModel->usr_mobile . " is already registered with us. Click yes to login with this existing account or press cancel to change Email Address and create a new account.");
 				$type = Stub\common\ContactVerification::TYPE_PHONE;
@@ -6571,7 +6611,7 @@ class Users extends CActiveRecord
 		{
 			/* @var $model Users */
 			$model = Users::model()->findByPk($userId);
-			if(!$model)
+			if (!$model)
 			{
 				$model = new Users();
 				$model->addError("bkg_id", "User does not exist or already deactivated");
@@ -6580,7 +6620,7 @@ class Users extends CActiveRecord
 			$model->usr_deactivate_reason	 = $reason;
 			$model->usr_active				 = 2;
 			$model->scenario				 = 'deactivate';
-			if(!$model->validate())
+			if (!$model->validate())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -6589,9 +6629,9 @@ class Users extends CActiveRecord
 			$contactId		 = ContactProfile::getByUserId($userId);
 			$contactProfile	 = ContactProfile::model()->findByContactId($contactId);
 
-			if($type == UserInfo::TYPE_CONSUMER)
+			if ($type == UserInfo::TYPE_CONSUMER)
 			{
-				if(ContactProfile::isDriver($contactId) || ContactProfile::isVendor($contactId))
+				if (ContactProfile::isDriver($contactId) || ContactProfile::isVendor($contactId))
 				{
 					throw new Exception("Profile is linked to existing vendor/driver account. Please contact gozo support", ReturnSet::ERROR_VALIDATION);
 				}
@@ -6601,27 +6641,27 @@ class Users extends CActiveRecord
 			// Deactivate contactEmails or contactPhones for consumer or partner
 			$contactReturnSet = Contact::deactivateV1($contactId, $reason);
 
-			if(!$contactReturnSet->isSuccess())
+			if (!$contactReturnSet->isSuccess())
 			{
 				throw new Exception(json_encode($contactReturnSet->getMessage()), $contactReturnSet->getErrorCode());
 			}
 
 			SocialAuth::unlink($userId);
 
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if($contactProfile->cr_is_driver > 0 && $type != UserInfo::TYPE_CONSUMER)
+			if ($contactProfile->cr_is_driver > 0 && $type != UserInfo::TYPE_CONSUMER)
 			{
 				AppTokens::deactivateByEntityIdandEntityType($contactProfile->cr_is_driver, UserInfo::TYPE_DRIVER);
 			}
-			if($contactProfile->cr_is_vendor > 0 && $type != UserInfo::TYPE_CONSUMER)
+			if ($contactProfile->cr_is_vendor > 0 && $type != UserInfo::TYPE_CONSUMER)
 			{
 				AppTokens::deactivateByEntityIdandEntityType($contactProfile->cr_is_vendor, UserInfo::TYPE_VENDOR);
 			}
-			if($userId > 0)
+			if ($userId > 0)
 			{
 				AppTokens::deactivateByUserIdandUserType($userId, UserInfo::TYPE_CONSUMER);
 			}
@@ -6631,7 +6671,7 @@ class Users extends CActiveRecord
 			$returnSet->setData(['userId' => $userId]);
 			$returnSet->setMessage("User deleted successfully");
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($exc);
@@ -6646,7 +6686,7 @@ class Users extends CActiveRecord
 		$status['vendorId']	 = (int) $vndId;
 		$status['driverId']	 = (int) $drvId;
 		$vndModel			 = Vendors::model()->findByPk($vndId);
-		if($vndId > 0 && $vndModel != null)
+		if ($vndId > 0 && $vndModel != null)
 		{
 			$status['is_agreement']	 = VendorStats::model()->statusCheckAgreement($vndId);
 			$status['is_document']	 = VendorStats::model()->statusCheckDocument($vndId);
@@ -6656,7 +6696,7 @@ class Users extends CActiveRecord
 			$status['securityFlag']	 = $arr['flag'];
 			$status['message']		 = $arr['message'];
 		}
-		if($drvId > 0)
+		if ($drvId > 0)
 		{
 			$result = Drivers::checkDrvStatus($drvId);
 
@@ -6678,25 +6718,25 @@ class Users extends CActiveRecord
 		try
 		{
 			$userModel = Users::model()->findByPk($userId);
-			if(!$userModel)
+			if (!$userModel)
 			{
 				throw new Exception("No Contact Found, Error For User Id: {$userId}");
 			}
 			$userCount = ContactProfile::getCountByEntityId($userId, UserInfo::TYPE_CONSUMER);
-			if($userCount == 1)
+			if ($userCount == 1)
 			{
 				$contactId = ContactProfile::getByEntityId($userId, UserInfo::TYPE_CONSUMER);
 			}
-			if(!$contactId)
+			if (!$contactId)
 			{
 				$contactId = Contact::getByEmailPhone($userModel->usr_email, $userModel->usr_mobile);
 			}
-			if(!$contactId)
+			if (!$contactId)
 			{
 				$contactId = ContactProfile::getByUserId($userId);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
 		}
@@ -6710,12 +6750,12 @@ class Users extends CActiveRecord
 	public static function CustomerReferrals($userId, $contactId, $url, $discount, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$phoneNo			 = ContactPhone::getContactNumber($contactId, $whatsappVerified	 = 1);
-		if($phoneNo == "")
+		if ($phoneNo == "")
 		{
 			goto skipAll;
 		}
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
-		$contentParams		 = array('url' => $url, 'discount' => $discount);
+		$contentParams		 = array('eventId' => "12", 'url' => $url, 'discount' => $discount);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, null, null, null, $code, $number, null, 0, null, null);
 		$eventScheduleParams = EventSchedule::setData($userId, ScheduleEvent::CUSTOMER_REF_TYPE, ScheduleEvent::CUSTOMER_REFERRALS, "Customer Referrals", $isSchedule, CJSON::encode(array('userId' => $userId)), 10, $schedulePlatform);
 		MessageEventMaster::processPlatformSequences(12, $contentParams, $receiverParams, $eventScheduleParams);
@@ -6725,26 +6765,26 @@ class Users extends CActiveRecord
 	public static function notifyConsumerForGozonow($bkgId, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$success = false;
-		if($bkgId > 0)
+		if ($bkgId > 0)
 		{
 			$bkgModel = Booking::model()->findByPk($bkgId);
 		}
-		if(!$bkgModel || $bkgModel->bkg_reconfirm_flag == 1)
+		if (!$bkgModel || $bkgModel->bkg_reconfirm_flag == 1)
 		{
 			goto skipAll;
 		}
 		$userId		 = $bkgModel->bkgUserInfo->bkg_user_id;
 		$userName	 = $bkgModel->bkgUserInfo->bkg_user_fname . " " . $bkgModel->bkgUserInfo->bkg_user_lname;
-		if($userName == null || trim($userName) == "")
+		if ($userName == null || trim($userName) == "")
 		{
 			$contactId	 = ContactProfile::getByEntityId($userId, UserInfo::TYPE_CONSUMER);
 			$cttModel	 = Contact::model()->findByPk($contactId);
-			if(!$cttModel)
+			if (!$cttModel)
 			{
 				goto skipAll;
 			}
 			$userName = $cttModel->getName();
-			if($userName == null || trim($userName) == "")
+			if ($userName == null || trim($userName) == "")
 			{
 				goto skipAll;
 			}
@@ -6753,7 +6793,7 @@ class Users extends CActiveRecord
 		$url		 = Yii::app()->params['fullBaseURL'] . '/gznow/' . $bkgId . '/' . $hash;
 		$buttonUrl	 = 'gznow/' . $bkgId . '/' . $hash;
 		$result		 = BookingVendorRequest::getGNowLastOffer($bkgId);
-		if(!$result)
+		if (!$result)
 		{
 			goto skipAll;
 		}
@@ -6763,11 +6803,11 @@ class Users extends CActiveRecord
 		$bookingId	 = $bkgModel->bkg_booking_id;
 		$pickupTime	 = DateTimeFormat::DateTimeToLocale($bkgModel->bkg_pickup_date);
 		$pickupLoc	 = $bkgModel->bkg_pickup_address;
-		if($bkgModel->bkg_pickup_address == null or trim($bkgModel->bkg_pickup_address) == "")
+		if ($bkgModel->bkg_pickup_address == null || trim($bkgModel->bkg_pickup_address) == "")
 		{
 			goto skipAll;
 		}
-		$dropLoc		 = $bkgModel->bkg_drop_address != null and trim($bkgModel->bkg_drop_address) != "" ? $bkgModel->bkg_drop_address : $bkgModel->bkg_pickup_address;
+		$dropLoc		 = $bkgModel->bkg_drop_address != null && trim($bkgModel->bkg_drop_address) != "" ? $bkgModel->bkg_drop_address : $bkgModel->bkg_pickup_address;
 		$distance		 = $bkgModel->bkg_trip_distance . ' KM';
 		$sLink			 = Filter::shortUrl('https://' . Yii::app()->params['host'] . Yii::app()->createUrl('gznow/' . $bkgId . '/' . $hash));
 		$contentParams	 = array(
@@ -6781,14 +6821,15 @@ class Users extends CActiveRecord
 			'dropLoc'		 => $dropLoc,
 			'distance'		 => $distance,
 			'buttonUrl'		 => $url,
-			'sLink'			 => $sLink
+			'sLink'			 => $sLink,
+			'eventId'		 => "18"
 		);
 		$phone			 = $bkgModel->bkgUserInfo->bkg_contact_no;
-		if($phone == null || trim($phone) == "")
+		if ($phone == null || trim($phone) == "")
 		{
 			$contactId	 = ContactProfile::getByEntityId($userId, UserInfo::TYPE_CONSUMER);
 			$row		 = ContactPhone::getNumber($contactId);
-			if(!$row || empty($row))
+			if (!$row || empty($row))
 			{
 				goto skipAll;
 			}
@@ -6802,14 +6843,14 @@ class Users extends CActiveRecord
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bookingId, $row['code'], $row['number'], null, 1, null, SmsLog::Consumers, $buttonUrl);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::CUSTOMER_GOZONOW, "notify Consumer For Gozonow", $isSchedule, CJSON::encode(array('userId' => $userId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(18, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 				BookingLog::missedGozoNowOfferNotified($bkgId, $response['id'], true);
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success = true;
 				BookingLog::missedGozoNowOfferNotified($bkgId, $response['id']);
@@ -6822,36 +6863,37 @@ class Users extends CActiveRecord
 	public static function notifyCustomerOngoingTrip($bkgId, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$success = false;
-		if($bkgId > 0)
+		if ($bkgId > 0)
 		{
 			$model = Booking::model()->findByPk($bkgId);
 		}
-		if(!$model)
+		if (!$model)
 		{
 			goto skipAll;
 		}
-		if(($model->bkg_agent_id != null || $model->bkg_agent_id != "") && !in_array($model->bkg_booking_type, [1, 2, 3]))
+		if (($model->bkg_agent_id != null || $model->bkg_agent_id != "") && !in_array($model->bkg_booking_type, [1, 2, 3]))
 		{
 			goto skipAll;
 		}
 		$userName	 = ($model->bkgUserInfo->bkg_user_fname . ' ' . $model->bkgUserInfo->bkg_user_lname);
 		$userId		 = $model->bkgUserInfo->bkg_user_id;
 		$templateId	 = WhatsappLog::findByTemplateNameLang("customer_ongoing_trip", 'en_US', 'wht_id');
-		if($userName == null || trim($userName) == "")
+		if ($userName == null || trim($userName) == "")
 		{
 			$contactId	 = ContactProfile::getByEntityId($userId, UserInfo::TYPE_CONSUMER);
 			$cttModel	 = Contact::model()->findByPk($contactId);
-			if(!$cttModel)
+			if (!$cttModel)
 			{
 				goto skipAll;
 			}
 			$userName = $cttModel->getName();
-			if($userName == null || trim($userName) == "")
+			if ($userName == null || trim($userName) == "")
 			{
 				goto skipAll;
 			}
 		}
 		$contentParams	 = array(
+			'eventId'		 => "13",
 			'userName'		 => $userName,
 			'url'			 => Filter::getBkpnURL($bkgId),
 			'phoneNumber'	 => "9051877000",
@@ -6859,10 +6901,10 @@ class Users extends CActiveRecord
 			'offer'			 => "20%"
 		);
 		$phone			 = $model->bkgUserInfo->bkg_contact_no;
-		if($phone == null || trim($phone) == "")
+		if ($phone == null || trim($phone) == "")
 		{
 			$row = ContactPhone::getNumber($contactId);
-			if(!$row || empty($row))
+			if (!$row || empty($row))
 			{
 				goto skipAll;
 			}
@@ -6877,9 +6919,9 @@ class Users extends CActiveRecord
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $model->bkg_booking_id, $row['code'], $row['number'], null, 1, null, null, $buttonArr);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::CUSTOMER_ONGOING_TRIP, "notify Customer Ongoing Trip", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(13, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 				$row	 = ["initiateBy" => WhatsappInitiateTrack::INITIATE_BY_GOZO, "initiateType" => WhatsappInitiateTrack::INITIATE_TYPE_USER, "templateId" => $templateId, "phoneNumber" => $row['code'] . $row['number']];
@@ -6905,7 +6947,8 @@ class Users extends CActiveRecord
 			'discount'	 => "20%",
 			'type'		 => "immediately",
 			'promo'		 => "DISC20",
-			'url'		 => $leadUrl
+			'url'		 => $leadUrl,
+			'eventId'	 => "20"
 		];
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_USER, $userId, null, $code, $number, null, 1, null, null, $leadButtonUrl);
@@ -6929,18 +6972,19 @@ class Users extends CActiveRecord
 			'dltId'			 => $dltId,
 			'platform'		 => UserInfo::$platform,
 			'smsTextType'	 => $smsTextType,
-			'primaryId'		 => $dltId
+			'primaryId'		 => $dltId,
+			'eventId'		 => "27"
 		];
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_USER, $userId, null, $code, $number, null, 1, null, $smsLogType, $otp);
 		$eventScheduleParams = EventSchedule::setData($userId, ScheduleEvent::CUSTOMER_REF_TYPE, ScheduleEvent::LOGIN_FORGOT_WEB_OTP, "Customer login/forgot web otp", $isSchedule, CJSON::encode(array('code' => $code, 'number' => $number, 'otp' => $otp, 'dltId' => $dltId, 'smsLogType' => $smsLogType, 'smsTextType' => $smsTextType)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(27, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success = true;
 			}
@@ -6958,41 +7002,41 @@ class Users extends CActiveRecord
 		$success = false;
 		try
 		{
-			if($bkgId > 0)
+			if ($bkgId > 0)
 			{
 				$model = Booking::model()->findByPk($bkgId);
 			}
-			if(!$model)
+			if (!$model)
 			{
 				goto skipAll;
 			}
-			if($model->bkgTrail->btr_is_dbo_applicable == 0 || $model->bkgTrail->btr_dbo_amount <= 0)
+			if ($model->bkgTrail->btr_is_dbo_applicable == 0 || $model->bkgTrail->btr_dbo_amount <= 0)
 			{
 				goto skipAll;
 			}
 
 			$userName	 = ($model->bkgUserInfo->bkg_user_fname . ' ' . $model->bkgUserInfo->bkg_user_lname);
 			$userId		 = $model->bkgUserInfo->bkg_user_id;
-			if($userName == null || trim($userName) == "")
+			if ($userName == null || trim($userName) == "")
 			{
 				$contactId	 = ContactProfile::getByEntityId($userId, UserInfo::TYPE_CONSUMER);
 				$cttModel	 = Contact::model()->findByPk($contactId);
-				if(!$cttModel)
+				if (!$cttModel)
 				{
 					goto skipAll;
 				}
 				$userName = $cttModel->getName();
-				if($userName == null || trim($userName) == "")
+				if ($userName == null || trim($userName) == "")
 				{
 					goto skipAll;
 				}
 			}
 
 			$phone = $model->bkgUserInfo->bkg_country_code . $model->bkgUserInfo->bkg_contact_no;
-			if($phone == null || trim($phone) == "")
+			if ($phone == null || trim($phone) == "")
 			{
 				$row = ContactPhone::getNumber($contactId);
-				if(!$row || empty($row))
+				if (!$row || empty($row))
 				{
 					goto skipAll;
 				}
@@ -7004,6 +7048,7 @@ class Users extends CActiveRecord
 				$row['number']	 = $number;
 			}
 			$contentParams		 = array(
+				'eventId'	 => "28",
 				'username'	 => $userName,
 				'bookingId'	 => Filter::formatBookingId($model->bkg_booking_id),
 				'amount'	 => "₹" . $model->bkgTrail->btr_dbo_amount
@@ -7011,15 +7056,15 @@ class Users extends CActiveRecord
 			$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $model->bkg_booking_id, $row['code'], $row['number'], null, 0, null, null);
 			$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::CUSTOMER_DOUBLE_BACK_OFFER, "notify Customer duouble back offer", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
 			$responseArr		 = MessageEventMaster::processPlatformSequences(28, $contentParams, $receiverParams, $eventScheduleParams);
-			foreach($responseArr as $response)
+			foreach ($responseArr as $response)
 			{
-				if($response['success'] && $response['type'] == 1)
+				if ($response['success'] && $response['type'] == 1)
 				{
 					$success = true;
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
 		}
@@ -7027,18 +7072,69 @@ class Users extends CActiveRecord
 		return $success;
 	}
 
+	public static function getCttIdsById($usrIds)
+	{
+		if (trim($usrIds) == '')
+		{
+			throw new \Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
+		}
+		$sql2 = "SELECT GROUP_CONCAT(cr_contact_id) FROM contact_profile 
+					WHERE cr_is_consumer IN ({$usrIds}) AND cr_status =1";
+
+		$sql = " SELECT GROUP_CONCAT( DISTINCT CONCAT_WS(',',ctt.ctt_id,ctt.ctt_ref_code)) FROM contact_profile cp1
+JOIN users usr ON usr.user_id =cp1.cr_is_consumer 
+JOIN contact_profile cp ON cp.cr_is_consumer=usr.user_id AND cp.cr_status =1
+JOIN contact ctt1 ON ctt1.ctt_id=cp.cr_contact_id AND ctt1.ctt_active =1
+JOIN contact ctt ON ctt.ctt_ref_code=ctt1.ctt_ref_code AND ctt.ctt_active =1
+WHERE cp1.cr_is_consumer IN ({$usrIds}) AND cp1.cr_status =1;";
+
+		$relIds = \DBUtil::queryScalar($sql, DBUtil::SDB());
+
+		$relIdArr = explode(',', $relIds);
+
+		$distinctRelIds = implode(',', array_unique($relIdArr));
+
+		return $distinctRelIds;
+	}
+
 	public static function getRelatedByCttIds($relCttIds)
 	{
-		$sql = "SELECT GROUP_CONCAT(DISTINCT cp.cr_is_consumer) cr_is_consumer 
+		$sql		 = "SELECT GROUP_CONCAT(DISTINCT cp.cr_is_consumer) cr_is_consumer 
 				FROM contact_profile cp 
 				WHERE cp.cr_contact_id IN ({$relCttIds}) 
 				AND cp.cr_status = 1 
 				AND cp.cr_is_consumer IS NOT NULL";
-		$relDrvIds = DBUtil::queryScalar($sql, DBUtil::SDB());
+		$relDrvIds	 = DBUtil::queryScalar($sql, DBUtil::SDB());
 		return $relDrvIds;
 	}
 
-	public static function getPrimaryByIds($userIds)
+	public static function getRelatedIds($usrId)
+	{
+		if (empty($usrId))
+		{
+			return false;
+		}
+		  $cttIds = \Users::getCttIdsById($usrId);
+		if (empty($cttIds))
+		{
+			return 0;
+		}
+		$relCttIds	 = \Contact::getRelatedIds($cttIds);
+		$relUserList = \Users::getRelatedByCttIds($relCttIds);
+		return $relUserList;
+	}
+
+	public static function getPrimaryId($usrId)
+	{
+		$relUserList = \Users::getRelatedIds($usrId);
+		if ($relUserList)
+		{
+			$primaryUsr = \Users::getPrimaryByIds($relUserList);
+		}
+		return $primaryUsr['user_id'];
+	}
+
+	public static function getPrimaryByIds($userIds, $onlyPrimary = true)
 	{
 		$sql = "SELECT usr.user_id,ctt.ctt_id,ctt.ctt_ref_code, 
 			IF(ctt.ctt_id =ctt.ctt_ref_code,1,0) contactWeight	, 
@@ -7086,7 +7182,232 @@ class Users extends CActiveRecord
 		GROUP BY ctt.ctt_id
 		ORDER BY contactWeight DESC, hasValidLicense DESC";
 
-		$relData = DBUtil::queryRow($sql, DBUtil::SDB());
+		if ($onlyPrimary)
+		{
+			$relData = DBUtil::queryRow($sql, DBUtil::SDB());
+		}
+		else
+		{
+			$relData = DBUtil::query($sql, DBUtil::SDB());
+		}
 		return $relData;
 	}
+
+	/**
+	 * This function is used to send notifications  for user login/forgot password otp
+	 * @return None
+	 */
+	public static function notifyCoinExpiry($userId, $expiryDate, $coin, $contactID, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+		$contact = Contact::getDetails($contactID);
+		$email	 = $contact['eml_email_address'];
+		$code	 = $contact['phn_phone_country_code'];
+		$number	 = $contact['phn_phone_no'];
+		$name	 = $contact['ctt_first_name'] . ' ' . $contact['ctt_last_name'];
+
+		Logger::writeToConsole($schedulePlatform . " - " . $email . " - " . $number . " - " . $name);
+
+		if (($schedulePlatform == 2 && trim($number) == '') || ($schedulePlatform == 3 && trim($email) == ''))
+		{
+			goto skip;
+		}
+
+		$contentParams = [
+			'expire'	 => $expiryDate,
+			'coin'		 => $coin,
+			'username'	 => $name,
+			'eventId'	 => "43"
+		];
+
+		$link		 = Yii::app()->params['fullBaseURL'] . '/bkpn/' . $bkgId . '/' . $hash;
+		$buttonUrl	 = 'bkpn/' . $bkgId . '/' . $hash;
+
+		$buttonUrl			 = $receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_USER, $userId, null, $code, $number, $email, 1, null, null, null, 'mail1', null, null, EmailLog::EMAIL_GOZOCOIN_EXPIRY, EmailLog::Consumers, EmailLog::REF_USER_ID, $userId, EmailLog::SEND_SERVICE_EMAIL, null, null);
+		//$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_USER, $userId, null, $code, $number, $email, 1, null, null);
+		$eventScheduleParams = EventSchedule::setData($userId, ScheduleEvent::CUSTOMER_REF_TYPE, ScheduleEvent::USER_COIN_EXPIRE, "User coin expire", $isSchedule, CJSON::encode(array('coin' => $coin, 'expiryDate' => $expiryDate, 'contactID' => $contactID)), 10, $schedulePlatform);
+		$responseArr		 = MessageEventMaster::processPlatformSequences(43, $contentParams, $receiverParams, $eventScheduleParams);
+		foreach ($responseArr as $response)
+		{
+			if ($response['success'] && $response['type'] == 1)
+			{
+				$success = true;
+			}
+			else if ($response['success'] && $response['type'] == 2)
+			{
+				$success = true;
+			}
+			else if ($response['success'] && $response['type'] == 3)
+			{
+				$success = true;
+			}
+		}
+
+		skip:
+		return $success;
+	}
+
+	public static function notifyCoinRecharge($userId, $contactID, $coin, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+
+		$contact = Contact::getDetails($contactID);
+		$email	 = $contact['eml_email_address'];
+		$code	 = $contact['phn_phone_country_code'];
+		$number	 = $contact['phn_phone_no'];
+		$name	 = $contact['ctt_first_name'] . ' ' . $contact['ctt_last_name'];
+
+		Logger::writeToConsole($name . " - " . $email . " - " . $number);
+
+		if (!$email || empty($email))
+		{
+			goto success;
+		}
+
+		$contentParams		 = [
+			'eventId'	 => "44",
+			'coin'		 => $coin,
+			'username'	 => $name
+		];
+		//$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_USER, $userId, null, $code, $number, $email, 1, null, null);
+		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_USER, $userId, null, $code, $number, $email, 1, null, null, null, 'mail1', null, null, EmailLog::EMAIL_GOZOCOIN, EmailLog::Consumers, EmailLog::REF_USER_ID, $userId, EmailLog::SEND_SERVICE_EMAIL, null, null);
+		$eventScheduleParams = EventSchedule::setData($userId, ScheduleEvent::CUSTOMER_REF_TYPE, ScheduleEvent::USER_COIN_RECHARGE, "User coin recharge", $isSchedule, CJSON::encode(array('coin' => $coin, 'contactID' => $contactID)), 10, $schedulePlatform);
+		$responseArr		 = MessageEventMaster::processPlatformSequences(44, $contentParams, $receiverParams, $eventScheduleParams);
+		foreach ($responseArr as $response)
+		{
+			if ($response['success'] && $response['type'] == 1)
+			{
+				$success = true;
+			}
+			else if ($response['success'] && $response['type'] == 2)
+			{
+				$success = true;
+			}
+			else if ($response['success'] && $response['type'] == 3)
+			{
+				$success = true;
+			}
+		}
+		success:
+		return $success;
+	}
+
+	/**
+	 * @param integer $userId
+	 * @param integer $contactId
+	 * @param integer $bkgId
+	 * @param integer $bookingId
+	 * @param integer $eventId
+	 * @param integer $isSchedule
+	 * @param integer $schedulePlatform
+	 * @return boolean
+	 */
+	public static function remindToUpdateAddress($userId, $contactId, $bkgId, $bookingId, $eventId, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+
+		$contact = Contact::getDetails($contactId);
+		$email	 = $contact['eml_email_address'];
+		$code	 = $contact['phn_phone_country_code'];
+		$number	 = $contact['phn_phone_no'];
+		$name	 = $contact['ctt_first_name'] . ' ' . $contact['ctt_last_name'];
+
+		Logger::writeToConsole($userId . " - " . $contactId . " - " . $bkgId . " - " . $bookingId . " - " . $eventId . " - " . $isSchedule . " - " . $schedulePlatform);
+		Logger::writeToConsole($email . " - " . $code . $number . " - " . $name);
+
+//		if ((in_array($schedulePlatform, [1, 2]) && trim($number) == '') || ($schedulePlatform == 3 && trim($email) == ''))
+//		{
+//			goto skip;
+//		}
+
+		$hash		 = Yii::app()->shortHash->hash($bkgId);
+		$buttonUrl	 = 'bkpn/' . $bkgId . '/' . $hash;
+		$link		 = Yii::app()->params['fullBaseURL'] . '/bkpn/' . $bkgId . '/' . $hash;
+
+		Logger::writeToConsole($hash . " - " . $buttonUrl . " - " . $link);
+
+		$contentParams = [
+			'eventId'		 => $eventId,
+			'bookingId'		 => $bookingId,
+			'username'		 => $name,
+			'link'			 => $link,
+			'customercareno' => '+91-90518-77000'
+		];
+
+		$entityType			 = UserInfo::TYPE_CONSUMER;
+		$entityId			 = $userId;
+		$refType			 = WhatsappLog::REF_TYPE_BOOKING;
+		$refId				 = $bkgId;
+		$ext				 = $code;
+		$isButton			 = 1;
+		$appEventCode		 = null;
+		$emailReplyTo		 = null;
+		$emailReplyName		 = null;
+		$emailType			 = EmailLog::EMAIL_UPDATE_ADDRESS_REMINDER;
+		$emailUserType		 = EmailLog::Consumers;
+		$emailRefType		 = EmailLog::REF_USER_ID;
+		$emailRefId			 = $bookingId;
+		$emailLogInstance	 = EmailLog::SEND_SERVICE_EMAIL;
+		$emailDelayTime		 = 0;
+		$smsRefId			 = $bookingId;
+
+		$receiverParams = EventReceiver::setData(
+						$entityType,
+						$entityId,
+						$refType,
+						$refId,
+						$bookingId,
+						$ext,
+						$number,
+						$email, $isButton, $appEventCode, SmsLog::SMS_UPDATE_ADDRESS_REMINDER,
+						$buttonUrl,
+						'mail1', $emailReplyTo, $emailReplyName,
+						$emailType,
+						$emailUserType,
+						$emailRefType,
+						$emailRefId,
+						$emailLogInstance,
+						$emailDelayTime,
+						$smsRefId);
+
+		$arrData = ['bookingId' => $bookingId, 'username' => $name, 'link' => $link, 'customercareno' => '+91-90518-77000', 'contactId' => $contactId];
+
+		Logger::writeToConsole(json_encode($arrData));
+
+		$eventScheduleParams = EventSchedule::setData(
+						$bkgId,
+						ScheduleEvent::BOOKING_REF_TYPE,
+						ScheduleEvent::UDPATE_BOOKING_ADDRESS,
+						"Update Booking Address",
+						$isSchedule,
+						CJSON::encode($arrData),
+						10, $schedulePlatform);
+
+		$responseArr = MessageEventMaster::processPlatformSequences($eventId, $contentParams, $receiverParams, $eventScheduleParams);
+
+		Logger::writeToConsole(json_encode($responseArr));
+
+		foreach ($responseArr as $response)
+		{
+			if ($response['success'] && $response['type'] == 1)
+			{
+				$success = true;
+			}
+			else if ($response['success'] && $response['type'] == 2)
+			{
+				$success = true;
+			}
+			else if ($response['success'] && $response['type'] == 3)
+			{
+				$success = true;
+			}
+		}
+
+		skip:
+
+		Logger::writeToConsole("Success: " . $success);
+
+		return $success;
+	}
+
 }

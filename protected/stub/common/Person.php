@@ -85,6 +85,7 @@ class Person
 		$model->bkg_bill_address	 = $this->address;
 		$model->bkg_bill_company	 = $this->companyName;
 		$model->bkg_bill_gst		 = $this->gstin;
+
 		$model->bkg_country_code	 = (int) $this->primaryContact->code;
 		$model->bkg_contact_no		 = $this->primaryContact->number;
 		$model->bkg_alt_country_code = $this->alternateContact->code;

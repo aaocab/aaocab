@@ -1778,7 +1778,17 @@ class PaymentGateway extends CActiveRecord
 				$partnerId		 = $model->apg_trans_ref_id;
 				/** @var Agents $partnerModel */
 				$partnerModel	 = Agents::model()->findByPk($partnerId);
-				$company		 = $partnerModel->agt_company;
+				$cityName		 = '';
+				if ($partnerModel->agt_city > 0)
+				{
+					$cityName = Cities::getName($partnerModel->agt_city);
+				}
+				$address = $partnerModel->agt_address;
+				if (!$partnerModel->agt_address && $cityName != '')
+				{
+					$address = $cityName;
+				}
+				$company = $partnerModel->agt_company;
 				if ($company == '')
 				{
 					$company = $partnerModel->agt_owner_name;
@@ -1787,7 +1797,7 @@ class PaymentGateway extends CActiveRecord
 				{
 					$company = $partnerModel->agt_fname . " " . $partnerModel->agt_lname;
 				}
-				$infoDesc	 = $company . " (" . $partnerModel->agt_agent_id . ")";
+				$infoDesc	 = $company . " - " . $partnerModel->agt_agent_id;
 				$paymentData = [
 					'transaction_amount' => $model->apg_amount,
 					'ptp_id'			 => $model->apg_ptp_id,
@@ -1796,8 +1806,8 @@ class PaymentGateway extends CActiveRecord
 					'mobile'			 => $partnerModel->agt_phone,
 					'email'				 => $partnerModel->agt_email,
 					'name'				 => $partnerModel->agt_fname . " " . $partnerModel->agt_lname,
-//					'billing_address'	 => $partnerModel->agt_address,
-					'city'				 => '',
+					'billing_address'	 => $address,
+					'city'				 => $cityName,
 					'state'				 => '',
 					'postal_code'		 => '',
 					'country'			 => 'IN',
@@ -1973,6 +1983,7 @@ class PaymentGateway extends CActiveRecord
 					if ($pgModel->apg_mode == 1)
 					{
 						$bkgId	 = $pgModel->apg_booking_id;
+						Logger::writeToConsole("BookingId: " . $bkgId);
 						$bModel	 = Booking::model()->findByPk($bkgId);
 //						if ($bModel->bkg_agent_id == 34928 )
 						if ($bModel->bkg_agent_id > 0 && $bModel->bkg_agent_id != 1249)
@@ -2477,17 +2488,39 @@ class PaymentGateway extends CActiveRecord
 	 * @param type $bkgid
 	 * @return dataset
 	 */
-	public static function getTotalOnlinePaymentByBooking($bkgid, $status = 9)
+	public static function getTotalOnlinePaymentByBooking($bkgid, $status = 9 )
 	{
-		$params		 = ['bkgid' => $bkgid, 'status' => $status];
+		$params	 = ['bkgid' => $bkgid, 'status' => $status];
+		$where	 = '';	 
+
 		$ledgerList	 = implode(',', Accounting::getBookingPaymentSource(false));
 		$sql		 = " SELECT   apg_booking_id, sum(apg_amount) balance
 		FROM     payment_gateway apg JOIN booking ON bkg_id = apg_booking_id AND bkg_status = :status
 		WHERE    apg_booking_id IS NOT NULL AND apg_ledger_id IN ($ledgerList) 
 		AND apg_ledger_id NOT IN (47,1,49) AND (apg_status = 1 OR (apg_status=0 AND apg_mode=1))
-		AND apg_booking_id = :bkgid AND bkg_status IN (6,9)
+		AND apg_booking_id = :bkgid AND bkg_status IN (6,9) 
 		GROUP BY apg_booking_id ";
 		$res		 = DBUtil::queryRow($sql, null, $params);
+		return $res;
+	}
+
+	public static function getTotalOnlineExpiredBalanceByBooking($bkgid, $lastPaymentMonthDuration = 4)
+	{
+		$params	 = ['bkgid' => $bkgid ];
+		$where	 = '';
+		if ($lastPaymentMonthDuration > 0)
+		{
+			$where			 = ' AND apg_date < DATE_SUB(NOW(),INTERVAL :month MONTH) ';
+			$params['month'] = $lastPaymentMonthDuration;
+		}
+		$ledgerList	 = implode(',', Accounting::getBookingPaymentSource(false));
+		$sql		 = " SELECT  COALESCE(SUM(apg_amount), 0)   balance 
+		FROM     payment_gateway apg 
+		JOIN booking ON bkg_id = apg_booking_id AND bkg_status IN (6,9)
+		WHERE    apg_booking_id IS NOT NULL AND apg_ledger_id IN ($ledgerList) 
+		AND apg_ledger_id NOT IN (47,1,49) AND apg_status = 1 AND apg_mode=2 
+		AND apg_booking_id = :bkgid AND apg_booking_id IS NOT NULL $where ";
+		$res		 = DBUtil::queryScalar($sql, null, $params);
 		return $res;
 	}
 

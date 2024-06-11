@@ -334,8 +334,17 @@ class LookupController extends Controller
 			$cityId		 = ($jsonObj->airportCityId > 0) ? $jsonObj->airportCityId : $jsonObj->cityId;
 			$status		 = 1;
 			$response	 = Cities::getCityBoundByLatLong($cityId, $status);
+
+			
+			$precision = 0.15;
+			$response['northeast']['lat']	 = strval($response['northeast']['lat'] + $precision);
+			$response['northeast']['lng']	 = strval($response['northeast']['lng'] + $precision);
+			$response['southwest']['lat']	 = strval($response['southwest']['lat'] - $precision);
+			$response['southwest']['lng']	 = strval($response['southwest']['lng'] - $precision);
 			$returnSet->setStatus(true);
 			$returnSet->setData($response);
+			
+			#test
 		}
 		catch (Exception $ex)
 		{

@@ -83,6 +83,7 @@ class DocumentController extends Controller
 			{
 				throw new CHttpException(1, json_encode($model->getErrors()));
 			}
+			
 			$docId = $model->doc_id;
 			Contact::model()->updateContact($docId, $model->doc_type, $cttId, $identity);
 
@@ -90,6 +91,11 @@ class DocumentController extends Controller
 			  Ireaddocs::add($docId, $docType = 1, $type    = 1); */
 
 			DBUtil::commitTransaction($transaction);
+			//check document status and modify  vendor status
+			if($contProfileModel->cr_is_vendor>0)
+			{
+				Vendors::modifyReadytoApprove($contProfileModel->cr_is_vendor);
+			}
 		}
 		catch (Exception $ex)
 		{
@@ -201,8 +207,12 @@ class DocumentController extends Controller
 			$refType			 =  UserInfo::TYPE_VENDOR;
 			$vendor			 = ContactProfile::getEntityById($arrContactModel['ctt_id'], $refType);
 			$vendorId = $vendor['id'];
-			$isSCQ = ServiceCallQueue::showUpdateVendorSCQ($vendor['id'],$vendorId);
-			
+			if($vendorId>0)
+			{
+			$isSCQ = ServiceCallQueue::showUpdateVendorSCQ($vendorId);
+			//check document and modify ready to approve status
+			Vendors::modifyReadytoApprove($vendorId);
+			}
 		}
 		echo CJSON::encode(array('success' => $returnSet->getStatus(), 'message' => $returnSet->getStatus() ? $returnSet->getData() : $this->getError($returnSet)));
 		Yii::app()->end();

@@ -57,30 +57,30 @@ class QuoteRequest
 			throw new \Exception("Invalid Trip Type", \ReturnSet::ERROR_INVALID_DATA);
 		}
 
-		$model->bkg_agent_id			 = 18190;
-		$platformId						 = \Filter::getPlatform($model->bkg_agent_id);
-		$model->bkgTrail->bkg_platform	 = $platformId;
+		$model->bkg_agent_id		   = 18190;
+		$platformId					   = \Filter::getPlatform($model->bkg_agent_id);
+		$model->bkgTrail->bkg_platform = $platformId;
 		if (isset($this->vehicle_details->sku_id))
 		{
 			$svcModel = \SvcClassVhcCat::getBySKU($this->vehicle_details->sku_id);
 			if ($svcModel)
 			{
-				$model->bkg_vehicle_type_id	 = $svcModel->scv_id;
-				$model->bkg_vht_id			 = $svcModel->scv_model;
+				$model->bkg_vehicle_type_id = $svcModel->scv_id;
+				$model->bkg_vht_id			= $svcModel->scv_model;
 			}
 		}
 		else
 		{
-			$cabType					 = self::$cabTypes[$this->vehicle_type];
-			$model->bkg_vehicle_type_id	 = $cabType;
+			$cabType					= self::$cabTypes[$this->vehicle_type];
+			$model->bkg_vehicle_type_id = $cabType;
 		}
 		$tripType = self::$tripTypes[$this->trip_type];
 		if (!in_array($tripType, [1, 2]))
 		{
 			$tripType = self::$packageId[$this->package_id];
-			if(!$tripType)
+			if (!$tripType)
 			{
-				throw new \Exception("Package (" . $this->package_id .") not supported", \ReturnSet::ERROR_NO_RECORDS_FOUND);
+				throw new \Exception("Package (" . $this->package_id . ") not supported", \ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 		}
 
@@ -88,8 +88,7 @@ class QuoteRequest
 		$model->bkg_create_date	 = new \CDbExpression('now()');
 		$model->bkg_pickup_date	 = $this->start_time;
 		$model->bkg_return_date	 = $this->end_time;
-		$model->search_tags	 = $this->search_tags;
-               
+		$model->search_tags		 = $this->search_tags;
 
 		if (in_array('CO', $this->search_tags))
 		{
@@ -98,18 +97,16 @@ class QuoteRequest
 
 		if ($this->one_way_distance > 0 && $tripType == 1)
 		{
-			$this->distance				 = $this->one_way_distance;
-			$model->bkg_trip_distance	 = $this->one_way_distance;
+			$this->distance			  = $this->one_way_distance;
+			$model->bkg_trip_distance = $this->one_way_distance;
 		}
-		
 		elseif ($tripType == 2)
 		{
 			if ($this->distance > 0)
 			{
-				$model->bkg_trip_distance	 = $this->distance;
-				$model->requiredKMs			 = $this->distance;
+				$model->bkg_trip_distance = $this->distance;
+				$model->requiredKMs		  = $this->distance;
 			}
-			
 			else if ($this->one_way_distance > 0)
 			{
 				$model->bkg_trip_distance = $this->one_way_distance * 2;
@@ -119,39 +116,43 @@ class QuoteRequest
 		{
 			if ($this->distance > 0)
 			{
-				$model->bkg_trip_distance	 = $this->distance;
-				$model->requiredKMs			 = $this->distance;
+				$model->bkg_trip_distance = $this->distance;
+				$model->requiredKMs		  = $this->distance;
 			}
-			
 			else if ($this->one_way_distance > 0)
 			{
 				$model->bkg_trip_distance = $this->one_way_distance;
 			}
 		}
-		
+
 
 		$route = $this->getRouteModel(null, $model, $objData);
+
+		if (in_array($model->bkg_booking_type, [2, 3, 9, 10, 11]))
+		{
+			$route->useHyperLocation = false;
+		}
 
 		$model->bkg_from_city_id = $route->brt_from_city_id;
 		$model->bkg_to_city_id	 = $route->brt_to_city_id;
 
 		$isMMTNewCancellationEnable = \Config::get('isMMT.newCabcellationPolicy.enable');
-		if($isMMTNewCancellationEnable == 0)
+		if ($isMMTNewCancellationEnable == 0)
 		{
-			$cityCategory						 = \CitiesStats::getCategory($model->bkg_from_city_id);
-			$cancellationRule					 = \CancellationPolicy::getPolicy($cityCategory, $svcModel->scv_scc_id);
-			$model->bkgPref->bkg_cancel_rule_id	 = $cancellationRule['ruleId'];
+			$cityCategory						= \CitiesStats::getCategory($model->bkg_from_city_id);
+			$cancellationRule					= \CancellationPolicy::getPolicy($cityCategory, $svcModel->scv_scc_id);
+			$model->bkgPref->bkg_cancel_rule_id = $cancellationRule['ruleId'];
 		}
 		else
 		{
-			if($model->bkg_vehicle_type_id != NULL)
+			if ($model->bkg_vehicle_type_id != NULL)
 			{
-				$svcModel                           = \SvcClassVhcCat::model()->getVctSvcList('object', 0, 0, $model->bkg_vehicle_type_id);
-				$cancelRuleId						 = \CancellationPolicy::getCancelRuleId($model->bkg_agent_id, $svcModel->scv_id, $model->bkg_from_city_id, $model->bkg_to_city_id, $model->bkg_booking_type, $isGozonow = 0, $fromTopZoneCat = true);
-				$model->bkgPref->bkg_cancel_rule_id	 = $cancelRuleId;
+				$svcModel							= \SvcClassVhcCat::model()->getVctSvcList('object', 0, 0, $model->bkg_vehicle_type_id);
+				$cancelRuleId						= \CancellationPolicy::getCancelRuleId($model->bkg_agent_id, $svcModel->scv_id, $model->bkg_from_city_id, $model->bkg_to_city_id, $model->bkg_booking_type, $isGozonow							= 0, $fromTopZoneCat						= true);
+				$model->bkgPref->bkg_cancel_rule_id = $cancelRuleId;
 			}
 		}
-	
+
 		$routes[] = $route;
 		if ($tripType == 2)
 		{
@@ -168,8 +169,8 @@ class QuoteRequest
 		// Multi cities
 		if (count($this->stopovers) > 0)
 		{
-			$routes					 = $this->getMultiCityRoute($routes);
-			if($this->trip_type == 'ROUND_TRIP')
+			$routes = $this->getMultiCityRoute($routes);
+			if ($this->trip_type == 'ROUND_TRIP')
 			{
 				$model->bkg_booking_type = 2;
 			}
@@ -179,8 +180,8 @@ class QuoteRequest
 			}
 		}
 
-		$model->bookingRoutes	 = $routes;
-		$model->search			 = $this->search_id;
+		$model->bookingRoutes = $routes;
+		$model->search		  = $this->search_id;
 		return $model;
 	}
 
@@ -191,13 +192,13 @@ class QuoteRequest
 			$model = new \BookingRoute();
 		}
 
-		$userInfo	 = \UserInfo::getInstance();
-		$agentId	 = $userInfo->userId;
-		
-		$model->brt_from_location	 = \Cities::model()->clean($this->source->address);
-		$model->brt_from_latitude	 = (float) $this->source->latitude;
-		$model->brt_from_longitude	 = (float) $this->source->longitude;
-		$model->brt_from_place_id	 = $this->source->place_id;
+		$userInfo = \UserInfo::getInstance();
+		$agentId  = $userInfo->userId;
+
+		$model->brt_from_location  = \Cities::model()->clean($this->source->address);
+		$model->brt_from_latitude  = (float) $this->source->latitude;
+		$model->brt_from_longitude = (float) $this->source->longitude;
+		$model->brt_from_place_id  = $this->source->place_id;
 
 		if ($this->trip_type != 'LOCAL_RENTAL')
 		{
@@ -228,23 +229,23 @@ class QuoteRequest
 
 		if ($routeModel && $this->trip_type == 'ROUND_TRIP')
 		{
-			$distance					 = max([$this->one_way_distance, $routeModel->rut_estm_distance]);
-			$model->brt_trip_distance	 = $distance;
+			$distance				  = max([$this->one_way_distance, $routeModel->rut_estm_distance]);
+			$model->brt_trip_distance = $distance;
 		}
 
 		if ($this->trip_type == 'ONE_WAY' && $this->distance > 0)
 		{
-			$model->brt_trip_distance	 = $this->distance;
-			$isAirportTransfer			 = $model->isAirportTransfer();
+			$model->brt_trip_distance = $this->distance;
+			$isAirportTransfer		  = $model->isAirportTransfer();
 			if ($isAirportTransfer)
 			{
-				if($routeModel->rut_from_city_id)
+				if ($routeModel->rut_from_city_id)
 				{
-					$model->tripType = 12;
-					$fcityModel					 = \Cities::model()->getDetailsByCityId($routeModel->rut_from_city_id);
-					$bkgModel->bkg_transfer_type = ($fcityModel['cty_is_airport'] == 1) ? 1 : 2;
-					$bkgModel->bkg_booking_type	 = 12;
-					$bkgModel->bkgTrail->btr_stop_increasing_vendor_amount	 = 1;
+					$model->tripType									   = 12;
+					$fcityModel											   = \Cities::model()->getDetailsByCityId($routeModel->rut_from_city_id);
+					$bkgModel->bkg_transfer_type						   = ($fcityModel['cty_is_airport'] == 1) ? 1 : 2;
+					$bkgModel->bkg_booking_type							   = 12;
+					$bkgModel->bkgTrail->btr_stop_increasing_vendor_amount = 1;
 				}
 				else
 				{
@@ -256,45 +257,43 @@ class QuoteRequest
 		$tier = 0;
 		if ($bkgModel->bkg_vehicle_type_id > 0)
 		{
-			$svcModel	 = \SvcClassVhcCat::model()->findByPk($bkgModel->bkg_vehicle_type_id);
-			$tier		 = $svcModel->scv_scc_id;
+			$svcModel = \SvcClassVhcCat::model()->findByPk($bkgModel->bkg_vehicle_type_id);
+			$tier	  = $svcModel->scv_scc_id;
 		}
 
 		$bkgModel->bkg_from_city_id = $routeModel->rut_from_city_id;
 
 		$currentTime = \Filter::getDBDateTime();
-		
-		$response = $bkgModel->checkTime($bkgModel);
+
+		$response		= $bkgModel->checkTime($bkgModel);
 		$minutes_to_add = $response->timeDifference + \Config::get('instantsearch.pickup.mintime');
 
 		$time = new \DateTime($currentTime);
 		$time->add(new \DateInterval('PT' . $minutes_to_add . 'M'));
 
 		$nextAvailableTime = $time->format('Y-m-d H:i:s');
-		
-		
-		$currDateTime	 = \Filter::getDBDateTime();
-		$workingMinDiff	 = \Filter::CalcWorkingMinutes($currDateTime, $bkgModel->bkg_pickup_date);
-		
-		$responseWM					 = new \stdClass();
-		$responseWM->isAllowed		 = true;
-		$responseWM->timeDifference	 = 60 + \Config::get('instantsearch.pickup.mintime');
-		
-		if($workingMinDiff<$responseWM->timeDifference)
+
+		$currDateTime	= \Filter::getDBDateTime();
+		$workingMinDiff = \Filter::CalcWorkingMinutes($currDateTime, $bkgModel->bkg_pickup_date);
+
+		$responseWM					= new \stdClass();
+		$responseWM->isAllowed		= true;
+		$responseWM->timeDifference = \Config::get('working.minute.difference') + \Config::get('instantsearch.pickup.mintime');
+
+		if ($workingMinDiff < $responseWM->timeDifference)
 		{
 			$responseWM->isAllowed = false;
 		}
 		$nextAvailableTimeWM = \Filter::addWorkingMinutes($responseWM->timeDifference, $currentTime);
-		
 
 		if ((!$response->isAllowed || !$responseWM->isAllowed) && ($objData->distance == NULL))
 		{
-			$model->brt_pickup_datetime	 = (strtotime($nextAvailableTime)>strtotime($nextAvailableTimeWM)) ? $nextAvailableTime : $nextAvailableTimeWM;
+			$model->brt_pickup_datetime = (strtotime($nextAvailableTime) > strtotime($nextAvailableTimeWM)) ? $nextAvailableTime : $nextAvailableTimeWM;
 //			if ($objData->is_instant_search == true || $objData->is_instant_search != NULL)
 //			{
-			$dateTime					 = new \DateTime($model->brt_pickup_datetime);
-			$date						 = \booking::roundUpToMinuteInterval($dateTime, 15);
-			$model->brt_pickup_datetime	 = $date->format("Y-m-d H:i:s");
+			$dateTime					= new \DateTime($model->brt_pickup_datetime);
+			$date						= \booking::roundUpToMinuteInterval($dateTime, 15);
+			$model->brt_pickup_datetime = $date->format("Y-m-d H:i:s");
 			//}
 		}
 		else
@@ -306,10 +305,10 @@ class QuoteRequest
 
 	public function getMultiCityRoute($routes)
 	{
-		$routes					 = array();
-		$source					 = json_decode(json_encode($this->source));
-		$destination			 = json_decode(json_encode($this->destination));
-		$arrStopages			 = $this->stopovers;
+		$routes		 = array();
+		$source		 = json_decode(json_encode($this->source));
+		$destination = json_decode(json_encode($this->destination));
+		$arrStopages = $this->stopovers;
 
 		array_unshift($arrStopages, $source);
 		array_push($arrStopages, $destination);
@@ -322,9 +321,9 @@ class QuoteRequest
 				$nextKey = $key + 1;
 				if (isset($arrStopages[$nextKey]))
 				{
-					$setKey									 = sizeof($arrFinalRoute);
-					$arrFinalRoute[$setKey]['source']		 = json_decode(json_encode($jsonRoute), true);
-					$arrFinalRoute[$setKey]['destination']	 = json_decode(json_encode($arrStopages[$nextKey]), true);
+					$setKey								   = sizeof($arrFinalRoute);
+					$arrFinalRoute[$setKey]['source']	   = json_decode(json_encode($jsonRoute), true);
+					$arrFinalRoute[$setKey]['destination'] = json_decode(json_encode($arrStopages[$nextKey]), true);
 				}
 			}
 		}
@@ -338,25 +337,27 @@ class QuoteRequest
 		{
 			if ($arrCount > 1)
 			{
-				$finalArr							 = [];
-				$finalArr[$arrCount]['source']		 = $arrFinalRoute[$arrCount - 1]['destination'];
-				$finalArr[$arrCount]['destination']	 = $arrFinalRoute[0]['source'];
-				$arrFinalRoute						 = array_merge($arrFinalRoute, $finalArr);
+				$finalArr							= [];
+				$finalArr[$arrCount]['source']		= $arrFinalRoute[$arrCount - 1]['destination'];
+				$finalArr[$arrCount]['destination'] = $arrFinalRoute[0]['source'];
+				$arrFinalRoute						= array_merge($arrFinalRoute, $finalArr);
 			}
 		}
 		foreach ($arrFinalRoute as $value)
 		{
 
-			$this->stopage	 = new \Stub\common\Itinerary();
-			$routes[]		 = $this->stopage->getStoppageRouteData($value, $this->start_time, $routeDuration, $this->end_time, $arrFinalRoute);
+			$this->stopage			 = new \Stub\common\Itinerary();
+			$route					 = $this->stopage->getStoppageRouteData($value, $this->start_time, $routeDuration, $this->end_time, $arrFinalRoute);
+			$route->useHyperLocation = false;
+			$routes[]				 = $route;
 
-			$this->start_time	 = $routes[$i]->brt_pickup_datetime;
-			$nextRouteDuration	 = $routes[$i]->brt_trip_duration;
+			$this->start_time  = $routes[$i]->brt_pickup_datetime;
+			$nextRouteDuration = $routes[$i]->brt_trip_duration;
 			$i++;
-			$prevRouteDuration	 = ($i == 1) ? 0 : $routes[$i - 1]->brt_trip_duration;
-			$routeDuration		 = $nextRouteDuration + $routeDuration;
-			$tripEndTime		 = date('Y-m-d H:i:s', strtotime($this->start_time . ' + ' . $nextRouteDuration . ' minute'));
-			$this->start_time	 = $tripEndTime;
+			$prevRouteDuration = ($i == 1) ? 0 : $routes[$i - 1]->brt_trip_duration;
+			$routeDuration	   = $nextRouteDuration + $routeDuration;
+			$tripEndTime	   = date('Y-m-d H:i:s', strtotime($this->start_time . ' + ' . $nextRouteDuration . ' minute'));
+			$this->start_time  = $tripEndTime;
 		}
 
 		if ($this->end_time < $tripEndTime)
@@ -365,5 +366,4 @@ class QuoteRequest
 		}
 		return $routes;
 	}
-
 }

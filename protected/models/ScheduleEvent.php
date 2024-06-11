@@ -73,6 +73,17 @@ class ScheduleEvent extends CActiveRecord
 	const BOOKING_CONFIRM_WITHOUT_PAY					 = 236;
 	const BOOKING_CONFIRM_WITH_PAY					 = 237;
 	const TRIP_AMOUNT_RESET							 = 238;
+	const VENDOR_EXPIRY_DOCS							 = 239;
+	const VENDOR_REJECTED_DOCS						 = 240;
+	const VENDOR_NOT_LOGIN							 = 241;
+	const USER_CHECK_RATE								 = 242;
+	const USER_ADDRESS_UPDATE							 = 243;
+	const USER_COIN_EXPIRE							 = 244;
+	const USER_COIN_RECHARGE							 = 245;
+	const UDPATE_BOOKING_ADDRESS						 = 246;
+	const PRICE_LOCK_EXPIRING							 = 247;
+	const PRICE_LOCK_EXPIRED							 = 248;
+	const LAST_INQUIRY_LAST_TRAVELED					 = 249;
 	//status
 	const STATUS_PENDING								 = 0;
 	const STATUS_PROCESSED							 = 1;
@@ -87,7 +98,7 @@ class ScheduleEvent extends CActiveRecord
 	const DRIVER_REF_TYPE								 = 3;
 	const VENDOR_REF_TYPE								 = 4;
 	const CUSTOMER_REF_TYPE							 = 5;
-	const LEAD_REF_TYPE								 = 5;
+	const LEAD_REF_TYPE								 = 6;
 
 	/**
 	 * @return string the associated database table name
@@ -203,7 +214,9 @@ class ScheduleEvent extends CActiveRecord
 			109	 => 'Driver App Uses Penalty',
 			110	 => 'Generate QR Code',
 			111	 => 'Booking Vendor Compensation',
-			200	 => 'Booking Cab Driver Assignment'
+			200	 => 'Booking Cab Driver Assignment',
+			244	 => 'Coin Expire',
+			245	 => 'Coin Recharge'
 		];
 		asort($eventlist);
 		return $eventlist;
@@ -251,7 +264,7 @@ class ScheduleEvent extends CActiveRecord
 		}
 		catch (Exception $ex)
 		{
-			ReturnSet::exception($ex);
+			ReturnSet::setException($ex);
 		}
 	}
 
@@ -282,7 +295,7 @@ class ScheduleEvent extends CActiveRecord
 		DBUtil::getINStatement($eventIds, $bindStringEvent, $paramsEvent);
 		DBUtil::getINStatement($refTypes, $bindStringRefType, $paramsRefType);
 
-		$sql	 = "SELECT 
+		$sql = "SELECT 
 						sde_id,
 						sde_ref_id,
 						sde_addtional_data,
@@ -296,6 +309,9 @@ class ScheduleEvent extends CActiveRecord
 						AND sde_event_id IN ({$bindStringEvent})
 						AND sde_ref_type IN ({$bindStringRefType})
 					ORDER BY sde_schedule_time";
+
+		Logger::writeToConsole($sql);
+
 		$records = DBUtil::query($sql, DBUtil::SDB(), array_merge($paramsEvent, $paramsRefType));
 		return $records;
 	}

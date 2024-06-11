@@ -311,7 +311,7 @@ class BookingScheduleEvent extends CActiveRecord
 						$bkgModel = booking::model()->findByPk($valBookingID['bkg_id']);
 						if ($bkgModel->bkg_agent_id > 0)
 						{
-							$agentCommission = $bkgModel->calAgentCommission();
+							$agentCommission = ($bkgModel->bkgInvoice->bkg_partner_commission + $bkgModel->bkgInvoice->bkg_partner_extra_commission);
 							Logger::trace("calculate Commission" . $bkgModel->bkg_id);
 							if ($agentCommission > 0)
 							{
@@ -800,7 +800,7 @@ class BookingScheduleEvent extends CActiveRecord
 		$params	 = array('event' => $event);
 		$sql	 = "SELECT * FROM booking_schedule_event
 					WHERE bse_event_id =:event AND bse_event_status = 0
-					ORDER BY bse_id ASC";
+					ORDER BY bse_id DESC";
 		$records = DBUtil::query($sql, DBUtil::SDB(), $params);
 		return $records;
 	}
@@ -1271,7 +1271,7 @@ class BookingScheduleEvent extends CActiveRecord
 		$sql = "SELECT * FROM booking_schedule_event 
 					WHERE bse_event_status IN (0,2) AND bse_err_count <= 5 
 						AND (bse_schedule_time IS NULL OR bse_schedule_time <= NOW()) 
-						AND bse_event_id IN (108,109,110,111)  
+						AND bse_event_id IN (108,109,110,111)
 					ORDER BY bse_schedule_time ASC";
 
 		$results = DBUtil::query($sql, DBUtil::SDB());
@@ -1404,129 +1404,147 @@ class BookingScheduleEvent extends CActiveRecord
 
 			$cabArrivedByAdmin	 = 0;
 			$rideStartedByAdmin	 = 0;
-			$adminEvents		 = BookingLog::checkEventsDoneByAdmin(array(215, 93), $bkgId);
+			$adminEvents		 = BookingLog::checkEventsDoneByAdmin(array(215, 93, 216), $bkgId);
 			if ($adminEvents)
 			{
 				$cabArrivedByAdmin	 = $adminEvents['cabArrivedByAdmin'];
 				$rideStartedByAdmin	 = $adminEvents['rideStartedByAdmin'];
+				$rideEndByAdmin		 = $adminEvents['rideEndByAdmin'];
 			}
 
 			Logger::writeToConsole("cabArrivedByAdmin == " . $cabArrivedByAdmin);
 			Logger::writeToConsole("rideStartedByAdmin == " . $rideStartedByAdmin);
 
-			if ($isDrvAppRequired)
+			if (!$isDrvAppRequired)
 			{
-				$penaltyType	 = PenaltyRules::PTYPE_NOT_USING_DRIVER_APP;
-				$arrRules		 = PenaltyRules::getRuleByPenaltyType($penaltyType);
-				$penaltyAmount	 = PenaltyRules::calculatePenaltyCharge($penaltyType, $arrRules, $model->bkgBcb->bcb_vendor_amount, null, null, null, $model->bkgInvoice->bkg_total_amount);
-				$pAmount		 = round($penaltyAmount);
+				goto applyDisableAppPenalty;
+			}
+			$penaltyType	 = PenaltyRules::PTYPE_NOT_USING_DRIVER_APP;
+			$arrRules		 = PenaltyRules::getRuleByPenaltyType($penaltyType);
+			$penaltyAmount	 = PenaltyRules::calculatePenaltyCharge($penaltyType, $arrRules, $model->bkgBcb->bcb_vendor_amount, null, null, null, $model->bkgInvoice->bkg_total_amount);
+			$pAmount		 = round($penaltyAmount);
 
-				Logger::writeToConsole("penaltyType == " . $penaltyType);
-				Logger::writeToConsole("arrRules == " . $arrRules);
-				Logger::writeToConsole("penaltyAmount == " . $penaltyAmount);
-				Logger::writeToConsole("pAmount == " . $pAmount);
+			Logger::writeToConsole("penaltyType == " . $penaltyType);
+			Logger::writeToConsole("arrRules == " . $arrRules);
+			Logger::writeToConsole("penaltyAmount == " . $penaltyAmount);
+			Logger::writeToConsole("pAmount == " . $pAmount);
 
-				$pMessage	 = " ";
-				$weightage	 = 0;
+			$pMessage	 = " ";
+			$weightage	 = 0;
 
-				if (($isArrivedPickup != 1 || $cabArrivedByAdmin == 1) && ($isRideStart != 1 || $rideStartedByAdmin == 1))
+			if ($cabArrivedByAdmin == 1)
+			{
+				$isArrivedPickup = 0;
+			}
+
+			if ($rideStartedByAdmin == 1)
+			{
+				$isRideStart = 0;
+			}
+
+			if($rideEndByAdmin == 1)
+			{
+				$isRideCompleted = 0;
+			}
+
+			$msg = [];
+			if ($isArrivedPickup == 0)
+			{
+				$msg[]		 = "arriving";
+				$weightage	 = 0.2;
+				$penaltyType = PenaltyRules::PTYPE_NOT_ARRIVING_DRIVER_APP;
+			}
+			if ($isRideStart == 0)
+			{
+				$msg[]		 = "starting";
+				$weightage	 += 0.4;
+				$penaltyType = PenaltyRules::PTYPE_RIDE_NOT_STARTED_BY_DRIVER;
+			}
+
+			if ($isRideCompleted == 0)
+			{
+				$msg[]		 = "completing";
+				$weightage	 += 0.4;
+				$penaltyType = PenaltyRules::PTYPE_RIDE_NOT_COMPLETED_BY_DRIVER;
+			}
+
+			if ($weightage == 1)
+			{
+				$pMessage	 = "for not using the driver app";
+				$penaltyType = PenaltyRules::PTYPE_NOT_USING_DRIVER_APP;
+			}
+			else
+			{
+				$msg1		 = implode(" and ", $msg);
+				$pMessage	 = "for not {$msg1} the trip using driver app";
+			}
+
+			$pAmount = round($pAmount * $weightage);
+
+			Logger::writeToConsole("pAmount After == " . $pAmount);
+
+			if ($pAmount > 0)
+			{
+				$vnd_id			 = $model->bkgBcb->bcb_vendor_id;
+				$bkgID			 = $model->bkg_id;
+				$bkg_booking_id	 = $model->bkg_booking_id;
+				//$penaltyType	 = PenaltyRules::PTYPE_RIDE_NOT_STARTED_BY_DRIVER;
+				$remarks		 = "₹$pAmount Penalty applied  $pMessage ($bkg_booking_id)";
+				$result			 = AccountTransactions::checkAppliedPenaltyByType($bkgID, $penaltyType);
+				if ($result)
 				{
-					$weightage	 = 1;
-					$pMessage	 = "for not using the driver app";
-					$penaltyType = PenaltyRules::PTYPE_NOT_USING_DRIVER_APP;
-				}
+					$addVendorPenalty = AccountTransactions::model()->addVendorPenalty($bkgID, $vnd_id, $pAmount, $remarks, '', $penaltyType);
 
-				if (($isRideStart != 1 || $rideStartedByAdmin == 1) && ($isArrivedPickup == 1 && $cabArrivedByAdmin == 0))
-				{
-					$weightage	 = 0.7;
-					$pMessage	 = " for not starting the trip in driver app";
-					$penaltyType = PenaltyRules::PTYPE_RIDE_NOT_STARTED_BY_DRIVER;
-				}
-
-				if ($isRideCompleted != 1 && ($isRideStart == 1 && $rideStartedByAdmin == 0))
-				{
-					$weightage	 = 0.35;
-					$pMessage	 = " for not completing the trip in driver app";
-					$penaltyType = PenaltyRules::PTYPE_RIDE_NOT_COMPLETED_BY_DRIVER;
-				}
-
-				if ($isRideStart == 1 && $rideStartedByAdmin == 0)
-				{
-					$weightage	 = 0.35;
-					$penaltyType = PenaltyRules::PTYPE_RIDE_NOT_COMPLETED_BY_DRIVER;
-				}
-
-				if ($isRideCompleted == 1)
-				{
-					$weightage = 0;
-				}
-
-				$pAmount = round($pAmount * $weightage);
-
-				Logger::writeToConsole("pAmount After == " . $pAmount);
-
-				if ($pAmount > 0)
-				{
-					$vnd_id			 = $model->bkgBcb->bcb_vendor_id;
-					$bkgID			 = $model->bkg_id;
-					$bkg_booking_id	 = $model->bkg_booking_id;
-					//$penaltyType	 = PenaltyRules::PTYPE_RIDE_NOT_STARTED_BY_DRIVER;
-					$remarks		 = "₹$pAmount Penalty applied  $pMessage ($bkg_booking_id)";
-					$result			 = AccountTransactions::checkAppliedPenaltyByType($bkgID, $penaltyType);
-					if ($result)
+					if ($addVendorPenalty)
 					{
-						$addVendorPenalty = AccountTransactions::model()->addVendorPenalty($bkgID, $vnd_id, $pAmount, $remarks, '', $penaltyType);
-
-						if ($addVendorPenalty)
-						{
-							$success = true;
-						}
-						else
-						{
-							throw new Exception("Driver App Usage Penalty Process Failed");
-						}
+						$success = true;
 					}
 					else
 					{
-						throw new Exception("Driver App Usage Penalty Already Applied!");
+						throw new Exception("Driver App Usage Penalty Process Failed");
 					}
 				}
-			}
-			else //driver app required flag off
-			{
-				$penaltyType = PenaltyRules::PTYPE_DRIVER_APP_DISABLE;
-				$arrRules	 = PenaltyRules::getValueByPenaltyType($penaltyType);
-				$pAmount	 = $arrRules['plt_value'];
-				$eventId	 = BookingLog::DRIVER_APP_USAGE;
-				$checkUser	 = BookingLog::getDataByEventId($eventId, $model->bkg_id);
-				if ($checkUser == "")
+				else
 				{
-					goto skip;
+					throw new Exception("Driver App Usage Penalty Already Applied!");
 				}
-				if (($isArrivedPickup == 0 || $cabArrivedByAdmin == 1) && ($isRideStart == 0 || $rideStartedByAdmin == 1) && $isRideCompleted == 0)
+			}
+			goto skip;
+
+			applyDisableAppPenalty:
+			$penaltyType = PenaltyRules::PTYPE_DRIVER_APP_DISABLE;
+			$arrRules	 = PenaltyRules::getValueByPenaltyType($penaltyType);
+			$pAmount	 = $arrRules['plt_value'];
+			$eventId	 = BookingLog::DRIVER_APP_USAGE;
+			$checkUser	 = BookingLog::getDataByEventId($eventId, $model->bkg_id);
+			if ($checkUser == "")
+			{
+				goto skip;
+			}
+			if (($isArrivedPickup == 0 || $cabArrivedByAdmin == 1) && ($isRideStart == 0 || $rideStartedByAdmin == 1) && $isRideCompleted == 0)
+			{
+				$pMessage	 = "for driver app disable from system";
+				$vnd_id		 = $model->bkgBcb->bcb_vendor_id;
+				$remarks	 = "₹$pAmount Penalty applied  $pMessage ($model->bkg_booking_id)";
+				$result		 = AccountTransactions::checkAppliedPenaltyByType($model->bkg_id, $penaltyType);
+				if ($result)
 				{
-					$pMessage	 = "for driver app disable from system";
-					$vnd_id		 = $model->bkgBcb->bcb_vendor_id;
-					$remarks	 = "₹$pAmount Penalty applied  $pMessage ($model->bkg_booking_id)";
-					$result		 = AccountTransactions::checkAppliedPenaltyByType($model->bkg_id, $penaltyType);
-					if ($result)
+					$addVendorPenalty = AccountTransactions::model()->addVendorPenalty($model->bkg_id, $vnd_id, $pAmount, $remarks, '', $penaltyType);
+					if ($addVendorPenalty)
 					{
-						$addVendorPenalty = AccountTransactions::model()->addVendorPenalty($model->bkg_id, $vnd_id, $pAmount, $remarks, '', $penaltyType);
-						if ($addVendorPenalty)
-						{
-							$success = true;
-						}
-						else
-						{
-							throw new Exception("Driver App Usage Penalty Process Failed");
-						}
+						$success = true;
 					}
 					else
 					{
-						throw new Exception("Driver App Usage Penalty Already Applied!");
+						throw new Exception("Driver App Usage Penalty Process Failed");
 					}
 				}
+				else
+				{
+					throw new Exception("Driver App Usage Penalty Already Applied!");
+				}
 			}
+
 			skip:
 			// Update Booking Event Stats
 			$data								 = [];

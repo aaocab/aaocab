@@ -61,10 +61,9 @@ class IndexController extends BaseController
 	public function actionIndex()
 	{
 		#Logger::setCategory("warning.module.index.index");
-		$request	 = Yii::app()->request;
+		$request = Yii::app()->request;
 		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_HOME);
 		Logger::profile("Start");
-
 
 		$fullUrl	 = Yii::app()->createAbsoluteUrl(Yii::app()->request->url);
 		$rutId		 = Yii::app()->request->getParam('rutId');
@@ -113,7 +112,6 @@ class IndexController extends BaseController
 		end:
 
 		Filter::setReferrer($refSource);
-
 		//Logger::create("ACTION START: " . Filter::getExecutionTime());
 		$model							 = new BookingTemp('new');
 		$model->loadDefaults();
@@ -125,6 +123,7 @@ class IndexController extends BaseController
 		$providerStructureMarkupData	 = StructureData::providerDetails();
 		$jsonproviderStructureMarkupData = json_encode($providerStructureMarkupData, JSON_UNESCAPED_SLASHES);
 		Logger::endProfile("StructureData::providerDetails");
+		$GLOBALS["prefetch"]			 = "home";
 		$this->render('home', array('model'								 => $model,
 			'jsonproviderStructureMarkupData'	 => $jsonproviderStructureMarkupData));
 	}
@@ -264,7 +263,7 @@ class IndexController extends BaseController
 		$bookingRoute						 = new BookingRoute();
 		$bookingRoute->brt_from_city_id		 = $airport_id;
 		$bookingRoute->brt_to_city_id		 = $localDestinationId;
-		$duration							 = Route::model()->getRouteDurationbyCities($airport_id, $localDestinationId);
+		//$duration							 = Route::model()->getRouteDurationbyCities($airport_id, $localDestinationId);
 		//$bookingRoute->brt_trip_duration	 = $duration;
 		$bookingRoute->brt_pickup_datetime	 = date("Y-m-d 07:00:00", strtotime("+8 day"));
 		$bookingRoutes[]					 = $bookingRoute;
@@ -278,7 +277,7 @@ class IndexController extends BaseController
 		$quote->pickupDate					 = $bookingRoute->brt_pickup_datetime;
 		//$quote->setCabTypeArr(NULL, true);
 
-		$bookingRoute->calculateDistance();
+			$bookingRoute->calculateDistance();
 		$routeQuot = $quote->getQuote([2, 3, 73, 74]);
 
 		$suvValuePrice		 = ($routeQuot[2]->success && $routeQuot[2]->routeRates->baseAmount > 0) ? $routeQuot[2]->routeRates->baseAmount : 0;
@@ -321,7 +320,7 @@ class IndexController extends BaseController
 					$routeModel						 = new BookingRoute();
 					$routeModel->brt_from_city_id	 = $airport_id;
 					$routeModel->brt_to_city_id		 = $topRoute['rut_to_city_id'];
-					$distanceModel					 = Cities::model()->getDistTimeByFromCityAndToCity($airport_name, $topRoute['to_city']);
+					//$distanceModel					 = Cities::model()->getDistTimeByFromCityAndToCity($airport_name, $topRoute['to_city']);
 
 					$routeQuot = Route::getBasicOnewayQuote($routeModel->brt_from_city_id, $routeModel->brt_to_city_id);
 
@@ -339,8 +338,21 @@ class IndexController extends BaseController
 					$topTenRoutes[$ctr]['to_city']			 = $topRoute['to_city'];
 					$topTenRoutes[$ctr]['brt_to_city_id']	 = $routeModel->brt_to_city_id;
 					$topTenRoutes[$ctr]['rut_name']			 = $topRoute['rut_name'];
-
-					$topTenRoutes[$ctr]['distance']		 = $distanceModel['distance'];
+					if($topRoute['rut_estm_distance']>0)
+					{
+						$topTenRoutes[$ctr]['distance']		 = $topRoute['rut_estm_distance'];
+					}
+					else 
+					{
+						foreach($routeQuot as $qtVal){
+							if($qtVal->routeDistance->tripDistance > 0)
+							{
+								$topTenRoutes[$ctr]['distance']	= $qtVal->routeDistance->tripDistance;
+								break;
+							} 
+						}
+					}
+					
 					$topTenRoutes[$ctr]['extraKmRate']	 = min(array_filter([$suvValueRateKm, $sedanValueRateKm, $suvEconomyRateKm, $sedanEconomyRateKm]));
 					//$topTenRoutes[$ctr]['duration']			 = $routeQuot[$cabId]->routeDuration->durationInWords;
 					$topTenRoutes[$ctr]['suv_price']	 = min(array_filter([$suvValuePrice, $suvEconomyPrice]));
@@ -423,6 +435,12 @@ class IndexController extends BaseController
 	{
 		$this->checkV2Theme();
 		$this->render('change_india', array());
+	}
+
+	public function actionOfferType()
+	{
+		$this->checkV3Theme();
+		$this->render('offer-type', array());
 	}
 
 	public function actionContactus()
@@ -795,7 +813,7 @@ class IndexController extends BaseController
 			$this->redirect(["index/temporoutes", "city" => $alias], true, 301);
 		}
 
-		skipSearch:	
+		skipSearch:
 		//Yii::app()->cache->flush();
 		$tempoGetQuote = Yii::app()->cache->get("tempoGetQuote2__" . $cmodel->cty_id);
 
@@ -2859,6 +2877,7 @@ class IndexController extends BaseController
 		$this->layout		 = 'column1';
 		$this->pageTitle	 = "One Way Cabs";
 		Yii::app()->clientScript->registerLinkTag('canonical', null, 'https://www.gozocabs.com/one-way-cab');
+		$GLOBALS["prefetch"] = "one-way-cab";
 		Logger::profile("STEP1");
 		$modelNorthRegion	 = Cities::model()->getTopCitiesByNorthRegion();
 		Logger::profile("getTopCitiesByNorthRegion");
@@ -2868,11 +2887,11 @@ class IndexController extends BaseController
 		Logger::profile("getTopCitiesBySouthRegion");
 		$modelEastRegion	 = Cities::model()->getTopCitiesByEastRegion();
 		Logger::profile("getTopCitiesByEastRegion");
-		
+
 		//booking temp started
-		$model				 = new BookingTemp('Route');
+		$model			 = new BookingTemp('Route');
 		$model->loadDefaults();
-		$this->pageTitle	 = "The best & economical One way intercity cab services India. Book or get a quote now";
+		$this->pageTitle = "The best & economical One way intercity cab services India. Book or get a quote now";
 		//booking temp ended
 		$this->render('one-way-cabs', array(
 			'model'				 => $model,
@@ -4994,8 +5013,8 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 		$this->redirect($url, true, 301);
 		exit();
 	}
-    
-    public function actionAutocompleteTransfer()
+
+	public function actionAutocompleteTransfer()
 	{
 		$check = Filter::checkProcess("autocomplete address");
 		if (!$check)
@@ -5005,4 +5024,181 @@ WHERE vnd_active=1 AND vnd_user_id IS NULL AND bkg.bkg_status = 6 AND bkg.bkg_ac
 
 		Autocomplete::importFromMaster();
 	}
+
+	public function actionVLanding()
+	{
+
+		try
+		{
+			$referrer	 = $_SERVER['HTTP_REFERER'];
+			$pReferrer	 = parse_url($referrer);
+			$refHost	 = $pReferrer["host"];
+			//  if ($refHost)
+			//   {
+
+			$hostArray = array("gozocabs", "gozo.cab", "192.168.1.179");
+
+			if (!in_array($refHost, $hostArray))
+			{
+				$params	 = Filter::parseTrackingParams();
+				$vUrl	 = $params['url'];
+				if ($vUrl)
+				{
+					$model = new UsersSourceTracking();
+					if ($model->add())
+					{
+						$url = $this->getURL($vUrl);
+						$this->redirect($url);
+					}
+				}
+			}
+			//  }
+		}
+		catch (Exception $exc)
+		{
+			ReturnSet::setException($exc);
+		}
+	}
+
+	public function actionOffer()
+	{
+		$this->renderAuto('offer-type');
+	}
+
+	public function actionCoinsReminder()
+	{
+
+		$today	 = date('Y-m-d');
+		$newDate = date('Y-m-d', strtotime('+15 days', strtotime($today)));
+
+		$sql = "SELECT cr_contact_id, SUM(ucr_value - ucr_used) as coinHave, ucr_id, ucr_value, ucr_used, user_id, MIN(ucr_validity) as ucr_validity
+					FROM `contact_profile` 
+					INNER JOIN users ON cr_is_consumer = user_id 
+					INNER JOIN user_credits ON ucr_user_id = user_id AND ucr_status = 1 
+					WHERE cr_is_consumer > 0 AND cr_status=1 AND ucr_status = 1 
+					AND ucr_validity BETWEEN '{$newDate} 00:00:00' AND '{$newDate} 23:59:59' AND ucr_validity IS NOT NULL 
+					GROUP BY ucr_user_id 
+					HAVING coinHave >= 50";
+
+		$result = DBUtil::query($sql, DBUtil::SDB());
+		foreach ($result as $value)
+		{
+			$expiryDate	 = $value['ucr_validity'];
+			$coin		 = $value['coinHave'];
+			$contactID	 = $value['cr_contact_id'];
+			$userId		 = $value['user_id'];
+
+			$contact = Contact::getDetails($contactID);
+			$email	 = $contact['eml_email_address'];
+			$code	 = $contact['phn_phone_country_code'];
+			$number	 = $contact['phn_phone_no'];
+			$name	 = $contact['ctt_first_name'] . ' ' . $contact['ctt_last_name'];
+
+			//	Users::notifyCoinExpiry($userId, $expiryDate, $coin, $contactID,1,1);
+			if ($code && $number)
+			{
+
+				Users::notifyCoinExpiry($userId, $expiryDate, $coin, $contactID, 1, 2);
+			}
+			if ($email)
+			{
+
+				Users::notifyCoinExpiry($userId, $expiryDate, $coin, $contactID, 1, 3);
+			}
+		}
+	}
+
+	public function actionCoinRecharge()
+	{
+		$giftCoinAmount	 = 300;
+		$userId			 = '';
+		$getEligibleUser = UserCredits::getEligibleUserForRecharge($userId, $giftCoinAmount);
+		foreach ($getEligibleUser as $row)
+		{
+			$userGozoCoin	 = ($row['coinHave'] > 0 ? $row['coinHave'] : 0);
+			$addToCoin		 = 1000;
+			$validity		 = date('Y-m-d H:i:s', strtotime('+12 month'));
+			$maxUseType		 = 1;
+
+			$contactID	 = $row['cr_contact_id'];
+			$userId		 = $row['user_id'];
+
+			Logger::writeToConsole($userId . " - " . $contactID);
+
+			$userCreditsModel = UserCredits::addAmount($userId, 1, $addToCoin, "Promotional coins credited", $maxUseType, NULL, $validity);
+
+			if ($userCreditsModel)
+			{
+				Logger::writeToConsole($userId . " - " . $contactID);
+
+				$contact = Contact::getDetails($contactID);
+				$email	 = $contact['eml_email_address'];
+				$code	 = $contact['phn_phone_country_code'];
+				$number	 = $contact['phn_phone_no'];
+				$name	 = $contact['ctt_first_name'] . ' ' . $contact['ctt_last_name'];
+
+				if ($email)
+				{
+					//  Users::notifyCoinRecharge($userId,$contactID, $addToCoin, 1, 2);
+					Users::notifyCoinRecharge($userId, $contactID, $addToCoin, 1, 3);
+					//     Users::notifyCoinRecharge($userId,$contactID, $email,$code,$number,$name, $addToCoin, 1, 3);
+				}
+			}
+		}
+	}
+
+	public function actionTestvnd()
+	{
+		$vndModel	 = new Vendors();
+		$record		 = $vndModel->getassignList(73472, 5, 1, 120);
+
+		print_r($record);
+		foreach ($record as $row)
+		{
+			echo $row['bkg_id'];
+		}
+	}
+
+	public function actionreferbyFriend()
+	{
+		$this->checkV3Theme();
+		$this->pageTitle = "Refer a friend, get cash back - it's a win-win!";
+		$model			 = new Users();
+		$hash			 = Yii::app()->request->getParam('hash');
+		if (yii::app()->request->getPost('Users'))
+		{
+			try
+			{
+				$userRequest = (yii::app()->request->getPost('Users'));
+				$name		 = $userRequest['usr_name'];
+				$email		 = $userRequest['usr_email'];
+				$referredId	 = $userRequest['usr_referred_id'];
+				for ($i = 0; $i < count($name); $i++)
+				{
+					$userModel	 = Users::model()->findByPk($referredId[$i]);
+					UsersReferred::add($referredId[$i], $name[$i], $email[$i]);
+					$qrCode		 = QrCode::getCode($referredId[$i]);
+					$emailCom	 = new emailWrapper();
+					$emailCom->userReferredBy($email[$i], $name[$i], $userModel->usr_name, $qrCode);
+				}
+
+				$message = "Thank You";
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+				$message = "Some error occured";
+			}
+			$model->usr_referred_id	 = $referredId[0];
+			$hash					 = $hash != null ? $hash : Yii::app()->shortHash->Hash(referredId[0]);
+		}
+		else
+		{
+			$model->usr_referred_id	 = $referredId[0] != null ? $referredId[0] : Yii::app()->shortHash->unHash($hash);
+			$message				 = "";
+			$hash					 = $hash != null ? $hash : Yii::app()->shortHash->Hash($referredId[0]);
+		}
+		$this->render('referbyfriend', array('model' => $model, "message" => $message, 'hash' => $hash));
+	}
+
 }

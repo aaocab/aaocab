@@ -73,9 +73,9 @@ class VehicleController extends BaseController
 			$arr = $this->getURIAndHTTPVerb();
 			$ri	 = array();
 
-			foreach($ri as $value)
+			foreach ($ri as $value)
 			{
-				if(strpos($arr[0], $value))
+				if (strpos($arr[0], $value))
 				{
 					$pos = true;
 				}
@@ -122,21 +122,21 @@ class VehicleController extends BaseController
 		try
 		{
 			$vndId = $this->getVendorId(false);
-			if(!$vndId)
+			if (!$vndId)
 			{
 				throw new Exception("You are not a vendor.", ReturnSet::ERROR_UNAUTHORISED);
 			}
 			$cabList	 = Vehicles::getCabListByVendor($vndId, $searchTxt);
 			$res		 = \Beans\common\Cab::getList($cabList);
 			$response	 = Filter::removeNull($res);
-			if(!$response)
+			if (!$response)
 			{
 				throw new Exception("No Data Found", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData($response);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -157,7 +157,7 @@ class VehicleController extends BaseController
 			$obj		 = $jsonMapper->map($reqObj, new \Beans\common\Cab());
 //			/** @var Vehicles $vhcModel  */
 			$vhcId		 = \Vehicles::getIdByNumber($obj->number);
-			if($vhcId > 0)
+			if ($vhcId > 0)
 			{
 				$data['id']	 = (int) $vhcId;
 				$flag		 = 1;
@@ -166,7 +166,7 @@ class VehicleController extends BaseController
 			$returnSet->setData($data);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -183,7 +183,7 @@ class VehicleController extends BaseController
 			$returnSet->setData($dataList);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -198,11 +198,21 @@ class VehicleController extends BaseController
 		try
 		{
 			$vndId = $this->getVendorId(false);
-			if(!$vndId)
+
+			if (!$vndId)
 			{
 				throw new Exception("You are not a vendor.", ReturnSet::ERROR_UNAUTHORISED);
 			}
 			//$cttId = \ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
+
+			$vndModel = Vendors::model()->findByPk($vndId);
+			if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+			{
+				$activeList	 = $vndModel->vendorStatus;
+				$status		 = $activeList[$vndModel->vnd_active];
+
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+			}
 
 			$reqObj		 = CJSON::decode($requestData, false);
 			$jsonMapper	 = new JsonMapper();
@@ -211,16 +221,16 @@ class VehicleController extends BaseController
 			$obj	 = $jsonMapper->map($reqObj, new \Beans\common\Cab());
 			/** @var Vehicles $vhcModel  */
 			$vhcId	 = \Vehicles::getIdByNumber($obj->number);
-			if($vhcId > 0)
+			if ($vhcId > 0)
 			{
 				$vhcModel = Vehicles::model()->findByPk($vhcId);
 			}
-			if($vhcId > 0 && !$obj->id)//cab exists but id not provided in request
+			if ($vhcId > 0 && !$obj->id)//cab exists but id not provided in request
 			{
 				throw new Exception(json_encode(["Cab already exist"]), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if($vhcId != $obj->id)
+			if ($vhcId != $obj->id)
 			{
 				throw new Exception("Cab id not matching", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
@@ -233,42 +243,42 @@ class VehicleController extends BaseController
 			$resData = [];
 			$result	 = [];
 
-			if($vhcModel1->validate())
+			if ($vhcModel1->validate())
 			{
 				$dataArr = $vhcModel->addVehicle_V2([], $vndId, $vhcModel, false);
 
 				$success = $dataArr['success'];
-				if(!$success && $dataArr['errors'] != '')
+				if (!$success && $dataArr['errors'] != '')
 				{
 					throw new Exception(json_encode([$dataArr['errors']]), ReturnSet::ERROR_VALIDATION);
 				}
 				$id = $dataArr['vehicleId'];
-				if($id > 0)
+				if ($id > 0)
 				{
 					$resData['id'] = $id;
 				}
 				$returnSet->setData($resData);
-				if($success)
+				if ($success)
 				{
 					$returnSet->setMessage('Cab registered successfully');
 				}
 				$returnSet->setStatus($success);
 			}
-			elseif($vhcModel1->hasErrors())
+			elseif ($vhcModel1->hasErrors())
 			{
-				foreach($vhcModel1->getErrors() as $attribute => $error)
+				foreach ($vhcModel1->getErrors() as $attribute => $error)
 				{
 					$result[] = $error[0];
 				}
 				$success = false;
 			}
-			if(!$success && sizeof($result) > 0)
+			if (!$success && sizeof($result) > 0)
 			{
 				$returnSet->setErrors($result, ReturnSet::ERROR_VALIDATION);
 			}
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -284,12 +294,12 @@ class VehicleController extends BaseController
 		try
 		{
 			Logger::trace("getDetails Request: " . $data);
-			if(!$data)
+			if (!$data)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$vndId = $this->getVendorId(false);
-			if(!$vndId)
+			if (!$vndId)
 			{
 				throw new Exception("You are not a vendor.", ReturnSet::ERROR_UNAUTHORISED);
 			}
@@ -298,7 +308,7 @@ class VehicleController extends BaseController
 			/** @var Vehicle $vhcModel */
 			$vhcId		 = $obj->id;
 			$vhcModel	 = Vehicles::model()->resetScope()->findByPk($vhcId);
-			if(!$vhcModel)
+			if (!$vhcModel)
 			{
 				throw new Exception("No cab found", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -306,7 +316,7 @@ class VehicleController extends BaseController
 			$vndModel			 = Vendors::model()->findByPk($vndId);
 			$vndName			 = trim($vndModel->vndContact->ctt_first_name . ' ' . $vndModel->vndContact->ctt_last_name);
 			$vehicleOwnerName	 = trim($vhcModel->vhc_reg_owner . ' ' . $vhcModel->vhc_reg_owner_lname);
-			if(strtoupper($vndName) == strtoupper($vehicleOwnerName))
+			if (strtoupper($vndName) == strtoupper($vehicleOwnerName))
 			{
 				$linkWithVnd = true;
 			}
@@ -314,7 +324,7 @@ class VehicleController extends BaseController
 			$returnSet->setData($obj1);
 			$returnSet->setStatus(true);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -330,10 +340,21 @@ class VehicleController extends BaseController
 		{
 			Logger::trace("updateInfo Request: " . $requestData);
 			$vndId = $this->getVendorId(false);
-			if(!$vndId)
+			if (!$vndId)
 			{
 				throw new Exception("You are not a vendor.", ReturnSet::ERROR_UNAUTHORISED);
 			}
+
+ 
+			$vndModel = Vendors::model()->findByPk($vndId);
+			if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+			{
+				$activeList	 = $vndModel->vendorStatus;
+				$status		 = $activeList[$vndModel->vnd_active];
+
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+
 
 			$reqObj		 = CJSON::decode($requestData, false);
 			$jsonMapper	 = new JsonMapper();
@@ -342,11 +363,11 @@ class VehicleController extends BaseController
 			$obj	 = $jsonMapper->map($reqObj, new \Beans\common\Cab());
 			/** @var \Vehicles $vhcModel  */
 			$vhcId	 = $obj->id;
-			if($vhcId > 0)
+			if ($vhcId > 0)
 			{
 				$vhcModel = Vehicles::model()->findByPk($vhcId);
 			}
-			if(!$vhcModel)
+			if (!$vhcModel)
 			{
 				throw new Exception("No cab found", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -358,28 +379,28 @@ class VehicleController extends BaseController
 
 			$vhcModel->vhc_owned_or_rented = $vhcModel->vhc_owned_or_rented | 0;
 
-			if($vhcModel1->validate())
+			if ($vhcModel1->validate())
 			{
 				$linkWithVnd = false;
-				if($obj->isOwner == 1)
+				if ($obj->isOwner == 1)
 				{
 					$vndModel			 = Vendors::model()->findByPk($vndId);
 					$vndName			 = trim($vndModel->vndContact->ctt_first_name . ' ' . $vndModel->vndContact->ctt_last_name);
 					$vehicleOwnerName	 = trim($vhcModel->vhc_reg_owner . ' ' . $vhcModel->vhc_reg_owner_lname);
-					if(strtoupper($vndName) == strtoupper($vehicleOwnerName))
+					if (strtoupper($vndName) == strtoupper($vehicleOwnerName))
 					{
 						$linkWithVnd = true;
 					}
 				}
 				$dataArr = $vhcModel->addVehicle_V2([], $vndId, $vhcModel, $linkWithVnd);
 				$success = $dataArr['success'];
-				if(!$success && $dataArr['errors'] != '')
+				if (!$success && $dataArr['errors'] != '')
 				{
 					throw new Exception(json_encode([$dataArr['errors']]), ReturnSet::ERROR_VALIDATION);
 				}
 				$vendorVehicleModel	 = VendorVehicle::model()->findByVndVhcId($vndId, $vhcId);
 				$resArr				 = ['isLouRequired' => 0];
-				if(!($vendorVehicleModel && $vendorVehicleModel->vvhc_active == 1) || $vendorVehicleModel->vvhc_is_lou_required == 1)
+				if (!($vendorVehicleModel && $vendorVehicleModel->vvhc_active == 1) || $vendorVehicleModel->vvhc_is_lou_required == 1)
 				{
 					$resArr = ['isLouRequired' => 1];
 				}
@@ -389,21 +410,21 @@ class VehicleController extends BaseController
 				$returnSet->setMessage('Information updated');
 				$returnSet->setStatus($success);
 			}
-			elseif($vhcModel1->hasErrors())
+			elseif ($vhcModel1->hasErrors())
 			{
-				foreach($vhcModel1->getErrors() as $attribute => $error)
+				foreach ($vhcModel1->getErrors() as $attribute => $error)
 				{
 					$result[] = $error[0];
 				}
 				$success = false;
 			}
-			if(!$success && sizeof($result) > 0)
+			if (!$success && sizeof($result) > 0)
 			{
 				$returnSet->setErrors($result, ReturnSet::ERROR_VALIDATION);
 			}
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -417,13 +438,13 @@ class VehicleController extends BaseController
 
 		try
 		{
-			if(!$requestData)
+			if (!$requestData)
 			{
 				throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$uploadedFile	 = CUploadedFile::getInstanceByName("docImage");
 			$vndId			 = $this->getVendorId(false);
-			if(!$vndId)
+			if (!$vndId)
 			{
 				throw new Exception("You are not a vendor.", ReturnSet::ERROR_UNAUTHORISED);
 			}
@@ -436,23 +457,23 @@ class VehicleController extends BaseController
 
 			$vhcId		 = $obj->getVehicleId();
 			$vhcModel	 = Vehicles::model()->findByPk($vhcId);
-			if(!$vhcModel)
+			if (!$vhcModel)
 			{
 				throw new Exception("No cab found", ReturnSet::ERROR_INVALID_DATA);
 			}
 
 			$userInfo	 = UserInfo::getInstance();
 			$docType	 = $obj->documentType;
-			if(!$docType)
+			if (!$docType)
 			{
 				throw new Exception("document type not given", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$docTypeList = VehicleDocs::model()->doctypeTxt;
 			$doctypeTxt	 = $docTypeList[$docType];
-			if($uploadedFile)
+			if ($uploadedFile)
 			{
 				$success = VehicleDocs::saveDoc($uploadedFile, $vhcId, $docType, $userInfo);
-				if($success)
+				if ($success)
 				{
 					$returnSet->setStatus(true);
 					$vhcModel->vhc_modified_at	 = new CDbExpression('NOW()');
@@ -460,13 +481,13 @@ class VehicleController extends BaseController
 					$vhcModel->pendingApproval($vhcId, $userInfo);
 				}
 			}
-			if(!$returnSet->isSuccess())
+			if (!$returnSet->isSuccess())
 			{
 				throw new Exception("Document not uploaded", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$returnSet->setMessage("Document for $doctypeTxt uploaded successfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -483,25 +504,36 @@ class VehicleController extends BaseController
 		try
 		{
 			Logger::trace("setUnderTaking  Request: " . $reqData);
-			$vndId			 = $this->getVendorId(false);
+			$vndId			 = $this->getVendorId();
+ 
+			$vndModel = Vendors::model()->findByPk($vndId);
+			if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+			{
+				$activeList	 = $vndModel->vendorStatus;
+				$status		 = $activeList[$vndModel->vnd_active];
+
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+
+
 			/* @var $objCab \Beans\common\Cab */
 			$objCab			 = $jsonMapper->map($jsonObj, new Beans\common\Cab());
 			$objOwner		 = $jsonMapper->map($jsonObj->owner, new Beans\contact\Person());
 			$objCab->owner	 = $objOwner;
 			$vhcId			 = $objCab->id;
 			$vhcModel		 = Vehicles::model()->findByPk($vhcId);
-			if(!$vhcModel)
+			if (!$vhcModel)
 			{
 				throw new Exception("No cab found", ReturnSet::ERROR_INVALID_DATA);
 			}
-			if(!$objCab->LOU->validTill)
+			if (!$objCab->LOU->validTill)
 			{
 				throw new Exception("LOU expiry date is missing", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$licenseNo	 = trim($objCab->owner->dlNumber);
 			$pan		 = trim($objCab->owner->pan);
 
-			if($licenseNo && $pan)
+			if ($licenseNo && $pan)
 			{
 				$cttOwnerId = \Contact::getIdByLicensePan($pan, $licenseNo);
 			}
@@ -526,12 +558,12 @@ class VehicleController extends BaseController
 //					throw new Exception(json_encode(["Unable to create owner data"]), ReturnSet::ERROR_VALIDATION);
 //				}
 //			}
-			if($cttOwnerId)
+			if ($cttOwnerId)
 			{
 				$objCab->owner->id = $cttOwnerId;
 			}
 
-			if(trim($vhcModel->vhc_reg_owner) == '')
+			if (trim($vhcModel->vhc_reg_owner) == '')
 			{
 				$vhcModel->vhc_reg_owner		 = $objCab->owner->firstName;
 				$vhcModel->vhc_reg_owner_lname	 = $objCab->owner->lastName;
@@ -542,7 +574,7 @@ class VehicleController extends BaseController
 			$dataArr = $vhcModel->addVehicle_V2([], $vndId, $vhcModel);
 
 			$success = $dataArr['success'];
-			if(!$success && $dataArr['errors'] != '')
+			if (!$success && $dataArr['errors'] != '')
 			{
 				throw new Exception(json_encode([$dataArr['errors']]), ReturnSet::ERROR_VALIDATION);
 			}
@@ -555,11 +587,11 @@ class VehicleController extends BaseController
 			$modelVvhc = $objCab->setLOUData($vhcModel, $vndId, $linkId);
 
 			$modelVvhc->scenario = 'updateUnderTaking';
-			if($modelVvhc->validate())
+			if ($modelVvhc->validate())
 			{
-				if($modelVvhc->vvhcVhc->save())
+				if ($modelVvhc->vvhcVhc->save())
 				{
-					if(!$modelVvhc->save())
+					if (!$modelVvhc->save())
 					{
 						$errors = $modelVvhc->getErrors();
 						throw new Exception(CJSON::encode($errors), ReturnSet::ERROR_VALIDATION);
@@ -588,7 +620,7 @@ class VehicleController extends BaseController
 				throw new Exception(CJSON::encode($errors), ReturnSet::ERROR_VALIDATION);
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 			Logger::exception($e);
@@ -609,7 +641,7 @@ class VehicleController extends BaseController
 			$vndId		 = $this->getVendorId(false);
 			$objCab		 = $jsonMapper->map($jsonObj, new \Beans\common\Cab());
 			$vhcModel	 = \Vehicles::model()->findByPk($objCab->id);
-			if(!$vhcModel)
+			if (!$vhcModel)
 			{
 				throw new Exception("No cab found", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -619,7 +651,7 @@ class VehicleController extends BaseController
 			$returnSet->setData($data);
 			Logger::create("Under Taking Information Response : " . CJSON::encode($returnSet), CLogger::LEVEL_INFO);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet = ReturnSet::setException($e);
 		}
@@ -634,20 +666,20 @@ class VehicleController extends BaseController
 
 		$linkHash = Yii::app()->request->getParam('linkHash', '');
 
-		if($linkHash)
+		if ($linkHash)
 		{
 			$linkIdHash	 = substr($linkHash, 0, 5);
 			$linkId		 = Yii::app()->shortHash->unHash($linkIdHash);
 			$vhcIdHash	 = substr($linkHash, 5, 5);
 			$vhcId		 = Yii::app()->shortHash->unHash($vhcIdHash);
 		}
-		if($vhcId == 0 && $vndId == 0 && $linkId == 0)
+		if ($vhcId == 0 && $vndId == 0 && $linkId == 0)
 		{
 			echo "No data provided";
 			Yii::app()->end();
 		}
 		$data = VendorVehicle::model()->findUndertakingByVndVhcId($vhcId, $vndId, $linkId);
-		if(!$data['vvhc_id'])
+		if (!$data['vvhc_id'])
 		{
 			echo "There is some issue in linking";
 			Yii::app()->end();
@@ -671,16 +703,27 @@ class VehicleController extends BaseController
 		$transaction = null;
 		try
 		{
-			$vndId		 = $this->getVendorId(false);
+			$vndId = $this->getVendorId(false);
+
+			$vndModel = Vendors::model()->findByPk($vndId);
+			if (in_array($vndModel->vnd_active, [0, 2, 3, 4]))
+			{
+				$activeList	 = $vndModel->vendorStatus;
+				$status		 = $activeList[$vndModel->vnd_active];
+
+				throw new Exception("Your account is in $status status.", ReturnSet::ERROR_UNAUTHORISED);
+			}
+
+
 			$objCab		 = $jsonMapper->map($jsonObj, new \Beans\common\Cab());
 			$vhcModel	 = \Vehicles::model()->findByPk($objCab->id);
-			if(!$vhcModel)
+			if (!$vhcModel)
 			{
 				throw new Exception("No cab found", ReturnSet::ERROR_INVALID_DATA);
 			}
 			$transaction = DBUtil::beginTransaction();
 			$result		 = VendorVehicle::model()->unlinkByVendorVehicleId($vndId, $objCab->id);
-			if(!$result)
+			if (!$result)
 			{
 				throw new Exception(json_encode(["Cab was not linked with you"]), ReturnSet::ERROR_VALIDATION);
 			}
@@ -688,7 +731,7 @@ class VehicleController extends BaseController
 			$returnSet->setMessage("Cab removed successfully.");
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 			DBUtil::rollbackTransaction($transaction);

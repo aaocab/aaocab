@@ -2220,7 +2220,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 					success: function(data)
 					{
 						response(data.result);
-					},
+					}
 				});
 			},
 			response: function(event, ui)

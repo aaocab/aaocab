@@ -54,7 +54,7 @@ class TrackController extends BaseController
 					(
 					"REST.GET", "REST.PUT", "REST.POST", "REST.DELETE", "REST.OPTIONS",
 					"uploads", 'file', 'termsfile', 'whatsappNotificationHook',
-					'dcoInterested', 'dcoInterestedUrl', 'dcoDownload', 'VendorWriteOff', 'VendorDownloadDco','VendorLoginReminder'
+					'dcoInterested', 'dcoInterestedUrl', 'dcoDownload', 'VendorWriteOff', 'VendorDownloadDco', 'VendorLoginReminder', 'TrackActionButton'
 				),
 				"users"		 => array("*"),
 			),
@@ -259,7 +259,9 @@ class TrackController extends BaseController
 			}
 			else
 			{
-				throw new CHttpException(400, 'Invalid data');
+				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				header("Location: $url");
+				Yii::app()->end();
 			}
 		}
 		catch (Exception $ex)
@@ -287,7 +289,9 @@ class TrackController extends BaseController
 			}
 			else
 			{
-				throw new CHttpException(400, 'Invalid data');
+				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				header("Location: $url");
+				Yii::app()->end();
 			}
 		}
 		catch (Exception $ex)
@@ -315,7 +319,47 @@ class TrackController extends BaseController
 			}
 			else
 			{
-				throw new CHttpException(400, 'Invalid data');
+				$url = "https://play.google.com/store/apps/details?id=com.gozocab.dco";
+				header("Location: $url");
+				Yii::app()->end();
+			}
+		}
+		catch (Exception $ex)
+		{
+			ReturnSet::setException($ex);
+		}
+	}
+
+	public function actionTrackActionButton()
+	{
+		$refId		 = Yii::app()->shortHash->unHash(Yii::app()->request->getParam('refId'));
+		$refType	 = Yii::app()->shortHash->unHash(Yii::app()->request->getParam('refType'));
+		$eventId	 = Yii::app()->shortHash->unHash(Yii::app()->request->getParam('eventId'));
+		$platform	 = Yii::app()->shortHash->unHash(Yii::app()->request->getParam('platform'));
+		$linkId		 = Yii::app()->shortHash->unHash(Yii::app()->request->getParam('linkId'));
+		try
+		{
+			switch ($eventId)
+			{
+				case 50:
+					MarketingMessageTracker::updateStatus($refType, $refId, $eventId,$platform, $linkId);
+					if ($linkId == 0)
+					{
+						$url = "https://www.gozocabs.com/";
+						header("Location: $url");
+						Yii::app()->end();
+					}
+					else if ($linkId == 1)
+					{
+						$hash	 = Yii::app()->shortHash->hash($refId);
+						$url	 = "https://www.gozocabs.com/refer-by-friend/$hash";
+						header("Location: $url");
+						Yii::app()->end();
+					}
+					break;
+
+				default:
+					break;
 			}
 		}
 		catch (Exception $ex)

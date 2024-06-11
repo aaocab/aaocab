@@ -406,7 +406,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$params	 = ['userId' => $userId];
 		$where	 = "";
-		if($reftype > 0)
+		if ($reftype > 0)
 		{
 			$params['scq_follow_up_queue_type']	 = $reftype;
 			$where								 = " AND scq_follow_up_queue_type =:scq_follow_up_queue_type ";
@@ -428,12 +428,12 @@ class ServiceCallQueue extends CActiveRecord
 		$params	 = ['userId' => $userId];
 		$where	 = "";
 		$where1	 = "";
-		if($bkgId > 0)
+		if ($bkgId > 0)
 		{
 			$params['scq_related_bkg_id']	 = $bkgId;
 			$where1							 = " AND scq_related_bkg_id =:scq_related_bkg_id";
 		}
-		if($reftype > 0)
+		if ($reftype > 0)
 		{
 			$params['scq_follow_up_queue_type']	 = $reftype;
 			$where								 = " AND scq_follow_up_queue_type =:scq_follow_up_queue_type ";
@@ -461,7 +461,7 @@ class ServiceCallQueue extends CActiveRecord
 			16	 => "New Lead Booking",
 			17	 => "New Quote Booking",
 		];
-		if($reason > 0)
+		if ($reason > 0)
 		{
 			return $reasons[$reason];
 		}
@@ -486,32 +486,27 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$userId = UserInfo::getUserId();
 			/** @var ServiceCallQueue $model */
-			if($model->scq_related_bkg_id != null)
+			if ($model->scq_related_bkg_id != null)
 			{
 				$model->scq_related_bkg_id	 = Booking::getBookingId($model->scq_related_bkg_id);
 				$bkgModel					 = Booking::model()->findByPk($model->scq_related_bkg_id);
 			}
-			if($userId == '')
+			if ($userId == '')
 			{
 				$userId = $bkgModel->bkgUserInfo->bkg_user_id;
 			}
-			if($model->scq_created_by_type == null)
+			if ($model->scq_created_by_type == null)
 			{
 
 				$model->scq_created_by_type = UserInfo::getUserType();
 			}
 			$model->scq_created_by_uid = $model->scq_created_by_uid != null ? $model->scq_created_by_uid : $userId;
-			if($model->scq_created_by_type == UserInfo::TYPE_SYSTEM)
+			if ($model->scq_created_by_type == UserInfo::TYPE_SYSTEM)
 			{
 				$model->scq_created_by_uid = 0;
 			}
-//			if($model->scq_to_be_followed_up_by_id == null)
-//			{
-//				$model->scq_to_be_followed_up_by_type	 = 1;
-//				$model->scq_to_be_followed_up_by_id		 = Teams::getTeamIdFromCached($model->scq_follow_up_queue_type);
-//			}
 
-			if($model->scq_to_be_followed_up_with_type === null)
+			if ($model->scq_to_be_followed_up_with_type === null)
 			{
 				$model->scq_to_be_followed_up_with_type = 2;
 			}
@@ -521,7 +516,21 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_unique_code							 = date('ymd') . rand(100, 999);
 			$model->scq_to_be_followed_up_with_entity_type	 = $model->isFlag == "1" ? $entityType : ($model->scq_follow_up_queue_type == 4 ? UserInfo::TYPE_VENDOR : $entityType);
 			$model->scq_to_be_followed_up_with_entity_rating = -1;
-			if($model->scq_follow_up_priority == null)
+
+			if ($model->scq_related_bkg_id != null && ( Tags::isVVIPBooking($model->scq_related_bkg_id) || Tags::isVIPBooking($model->scq_related_bkg_id)))
+			{
+				$model->scq_follow_up_priority = 5;
+			}
+			if ($model->scq_follow_up_queue_type == ServiceCallQueue::TYPE_NEW_BOOKING)
+			{
+				$userCatRow = UserCategoryMaster::getByUserId(UserInfo::getUserId());
+				if (is_array($userCatRow) && in_array($userCatRow['ucm_id'], [3, 4]))
+				{
+					$model->scq_follow_up_priority = 5;
+				}
+			}
+
+			if ($model->scq_follow_up_priority == null)
 			{
 				$model->scq_follow_up_priority = ServiceCallQueue::getServiceCallPriority($model);
 			}
@@ -540,7 +549,7 @@ class ServiceCallQueue extends CActiveRecord
 //				$returnSet->addError("Invalid SCQ data entered");
 //				return $returnSet;
 //			}
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -551,7 +560,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->save();
 			}
 			$data = [];
-			if($model->scq_id > 0)
+			if ($model->scq_id > 0)
 			{
 				$waitData	 = ServiceCallQueue::getActiveWaitingTimeById($model->scq_id);
 				$queNo		 = $waitData['rank'] | 0;
@@ -573,7 +582,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setData($data);
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -588,36 +597,36 @@ class ServiceCallQueue extends CActiveRecord
 	public function validateFollowupAdd($attribute, $params)
 	{
 		$refId = $this->scq_related_bkg_id;
-		if($this->scq_follow_up_queue_type == 2 && !in_array($this->scq_platform, [ServiceCallQueue::PLATFORM_ADMIN_CALL, ServiceCallQueue::PLATFORM_WHATSAPP]))
+		if ($this->scq_follow_up_queue_type == 2 && !in_array($this->scq_platform, [ServiceCallQueue::PLATFORM_ADMIN_CALL, ServiceCallQueue::PLATFORM_WHATSAPP]))
 		{
 			$bookingCode = BookingSub::getCodebyUserIdnId($this->scq_created_by_uid, $this->scq_related_bkg_id);
-			if(!$bookingCode && ($this->force == null || !$this->force))
+			if (!$bookingCode && ($this->force == null || !$this->force))
 			{
 				$this->addError($attribute, 'Invalid Booking id');
 				return false;
 			}
 		}
-		if($this->scq_follow_up_queue_type == 4 && $this->scq_related_bkg_id != '')
+		if ($this->scq_follow_up_queue_type == 4 && $this->scq_related_bkg_id != '')
 		{
 			$vnd	 = ContactProfile::getEntityById($this->scq_to_be_followed_up_with_contact, UserInfo::TYPE_VENDOR);
 			$vndid	 = $vnd['id'];
-			if(!BookingSub::getCodebyVndIdnId($vndid, $this->scq_related_bkg_id) && ($this->force == null || !$this->force))
+			if (!BookingSub::getCodebyVndIdnId($vndid, $this->scq_related_bkg_id) && ($this->force == null || !$this->force))
 			{
 				$this->addError($attribute, 'Invalid Booking id');
 				return false;
 			}
 		}
 
-		if(($this->followupPerson != 1 && $this->scq_to_be_followed_up_with_value != Yii::app()->params['scqToCustomerforMMT']))
+		if (($this->followupPerson != 1 && $this->scq_to_be_followed_up_with_value != Yii::app()->params['scqToCustomerforMMT']))
 		{
 
-			if($this->scq_to_be_followed_up_with_type == 2 && !Filter::validatePhoneNumber($this->scq_to_be_followed_up_with_value))
+			if ($this->scq_to_be_followed_up_with_type == 2 && !Filter::validatePhoneNumber($this->scq_to_be_followed_up_with_value))
 			{
 				$entityType	 = UserInfo::TYPE_VENDOR;
 				$vnd		 = ContactProfile::getEntityById($this->scq_to_be_followed_up_with_contact, UserInfo::TYPE_VENDOR);
 				$vndid		 = $vnd['id'];
 				$bookingCode = BookingSub::getCodebyVndIdnId($vndid, $refId);
-				if(!$bookingCode)
+				if (!$bookingCode)
 				{
 					$this->addError($attribute, 'Invalid phone number');
 					return false;
@@ -656,7 +665,7 @@ class ServiceCallQueue extends CActiveRecord
 		];
 		$where		 = '';
 		$addParams	 = '';
-		if($userdId > 0)
+		if ($userdId > 0)
 		{
 			$params['userdId']				 = $userdId;
 			$params['scq_additional_param']	 = json_encode(array('userdId' => $userdId));
@@ -683,7 +692,7 @@ class ServiceCallQueue extends CActiveRecord
 					FROM  service_call_queue
 					WHERE scq_to_be_followed_up_with_contact =:contactId  AND scq_status IN (1,3) AND scq_active=1   AND TIMESTAMPDIFF(HOUR, scq_create_date , NOW()) < 48 order by scq_id desc   LIMIT 0,1 ";
 		$res	 = DBUtil::queryScalar($sql, null, $params);
-		if($res > 0)
+		if ($res > 0)
 		{
 			$res = self::countWaitingFollowupById($res);
 		}
@@ -728,7 +737,7 @@ class ServiceCallQueue extends CActiveRecord
 
 		$platformString	 = '';
 		$platFormArr	 = ServiceCallQueue::platformList;
-		foreach($platFormArr as $p => $q)
+		foreach ($platFormArr as $p => $q)
 		{
 			$platformString .= 'WHEN scq_platform = ' . $p . ' THEN "' . $q . '" ';
 		}
@@ -816,20 +825,20 @@ class ServiceCallQueue extends CActiveRecord
 						LEFT JOIN admins adm ON adm.adm_id = scq_assigned_uid';
 
 		$qryWhere = ' WHERE  1 AND scq_active=1 ';
-		if($fwpId > 0)
+		if ($fwpId > 0)
 		{
 			$qryWhere .= " AND scq_id = $fwpId";
 		}
-		if($isMycall > 0)
+		if ($isMycall > 0)
 		{
 			$qryWhere .= " AND ( scq_assigned_uid = " . $userId . ") AND scq_status IN  (1,3)";
 		}
 
-		if($refId > 0)
+		if ($refId > 0)
 		{
 			$qryWhere .= " AND ( scq_related_bkg_id = " . $refId . " OR scq_related_lead_id = " . $refId . "  )";
 		}
-		if($contactId > 0 && $isMycall > 0)
+		if ($contactId > 0 && $isMycall > 0)
 		{
 			$qryWhere .= " OR (( scq_to_be_followed_up_with_contact = " . $contactId . " ) AND scq_status=2 AND scq_create_date BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 2 MONTH), ' 00:00:00') AND NOW())";
 		}
@@ -872,13 +881,13 @@ class ServiceCallQueue extends CActiveRecord
 		$active	 = "";
 		$team	 = null;
 		$model	 = ServiceCallQueue::model()->findByPk($refId);
-		if($statusId == 4)
+		if ($statusId == 4)
 		{
 			$scq_prev_or_originating_followup	 = $model->scq_prev_or_originating_followup;
 			$scq_prev_or_originating_followup	 = ($scq_prev_or_originating_followup != null && $scq_prev_or_originating_followup > 0) ? $scq_prev_or_originating_followup : $refId;
 			$statusId							 = $reFollowup == 0 ? 2 : 3;
 		}
-		if($model->scq_assigned_uid == null)
+		if ($model->scq_assigned_uid == null)
 		{
 			$where .= " scq_assigned_uid=:csr,scq_assigned_date_time=NOW(),scq_disposition_date = NOW(), ";
 		}
@@ -886,14 +895,14 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$where .= "  scq_disposition_date = NOW(), ";
 		}
-		if($statusId == 0)
+		if ($statusId == 0)
 		{
 			$active = " scq_active=0, ";
 		}
-		if($statusId == 2)
+		if ($statusId == 2)
 		{
 			$teamId = Teams::getMultipleTeamid($csr);
-			foreach($teamId as $teamId)
+			foreach ($teamId as $teamId)
 			{
 				$team = $teamId['tea_id'];
 				break;
@@ -919,7 +928,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$type	 = '';
 		$typeArr = UserInfo::getEntityList();
-		foreach($typeArr as $p => $q)
+		foreach ($typeArr as $p => $q)
 		{
 			$type .= 'WHEN scq_to_be_followed_up_with_entity_type = ' . $p . ' THEN "' . $q . '" ';
 		}
@@ -994,11 +1003,11 @@ class ServiceCallQueue extends CActiveRecord
 		$model->scq_to_be_followed_up_with_value		 = $bkgmodel->bkgUserInfo->bkg_contact_no;
 		$model->scq_to_be_followed_up_with_contact		 = $bkgmodel->bkgUserInfo->bkg_contact_id;
 		$model->scq_creation_comments					 = $desc;
-		if($followupDtTime != null)
+		if ($followupDtTime != null)
 		{
 			$model->scq_follow_up_date_time = $followupDtTime;
 		}
-		if($parentId != null)
+		if ($parentId != null)
 		{
 			$model->scq_prev_or_originating_followup = $parentId;
 		}
@@ -1019,12 +1028,12 @@ class ServiceCallQueue extends CActiveRecord
 	 */
 	public static function getServiceCallPriority($serviceModel)
 	{
-		if($serviceModel->followUpTimeOpt == 1)
+		if ($serviceModel->followUpTimeOpt == 1)
 		{
 			$priorityLevel = 4;
 			goto skipCheck;
 		}
-		switch($serviceModel->scq_follow_up_queue_type)
+		switch ($serviceModel->scq_follow_up_queue_type)
 		{
 			case ServiceCallQueue::TYPE_NEW_BOOKING:
 				$priorityLevel	 = ServiceCallQueue::getSubServiceCallPriority($serviceModel->subQueue);
@@ -1042,11 +1051,11 @@ class ServiceCallQueue extends CActiveRecord
 			case ServiceCallQueue::TYPE_EXISTING_BOOKING:
 				$model			 = Booking::model()->findByPk($serviceModel->scq_related_bkg_id);
 				$hour			 = (DBUtil::getTimeDiff($model->bkg_pickup_date, DBUtil::getCurrentTime()) / 60);
-				if(($model->bkg_status == 2 || $model->bkg_status == 3 ) && $hour < 12)
+				if (($model->bkg_status == 2 || $model->bkg_status == 3 ) && $hour < 12)
 				{
 					$priorityLevel = 4;
 				}
-				else if($model->bkgTrack->bkg_ride_start == 1 && $model->bkgTrack->bkg_ride_complete == 0)
+				else if ($model->bkgTrack->bkg_ride_start == 1 && $model->bkgTrack->bkg_ride_complete == 0)
 				{
 					$priorityLevel = 5;
 				}
@@ -1063,11 +1072,11 @@ class ServiceCallQueue extends CActiveRecord
 			case ServiceCallQueue::TYPE_EXISTING_VENDOR:
 				$model	 = Booking::model()->findByPk($bookingId);
 				$hour	 = (DBUtil::getTimeDiff($model->bkg_pickup_date, DBUtil::getCurrentTime()) / 60);
-				if(($model->bkg_status == 2 || $model->bkg_status == 3 ) && $hour < 12)
+				if (($model->bkg_status == 2 || $model->bkg_status == 3 ) && $hour < 12)
 				{
 					$priorityLevel = 4;
 				}
-				else if($model->bkgTrack->bkg_ride_start == 1 && $model->bkgTrack->bkg_ride_complete == 0)
+				else if ($model->bkgTrack->bkg_ride_start == 1 && $model->bkgTrack->bkg_ride_complete == 0)
 				{
 					$priorityLevel = 4;
 				}
@@ -1155,7 +1164,7 @@ class ServiceCallQueue extends CActiveRecord
 	 */
 	public static function getSubServiceCallPriority($subQueue)
 	{
-		switch($subQueue)
+		switch ($subQueue)
 		{
 			case ServiceCallQueue::SUB_FOLLOW_UP_REQUEST:
 				$priorityLevel = 4;
@@ -1191,7 +1200,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$rows		 = $this->getGozen($query, $admuser);
 		$arrCities	 = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrCities[] = array("id" => $row['adm_id'], "text" => $row['gozen']);
 		}
@@ -1211,16 +1220,16 @@ class ServiceCallQueue extends CActiveRecord
 		$query	 = ($query == null || $query == "") ? "" : $query;
 		DBUtil::getLikeStatement($query, $bindString0, $params1);
 		($query == null || $query == "") ? DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '"') : DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '*"');
-		if($admuser != '')
+		if ($admuser != '')
 		{
 			$qry1 = " AND  adm_id in ($admuser)";
 		}
-		if($query != '')
+		if ($query != '')
 		{
 
 			$qry .= " AND gozen  LIKE $bindString0 ";
 		}
-		if($admuser != '')
+		if ($admuser != '')
 		{
 			$sql = "SELECT adm_id ,gozen,adm_fname FROM admins  WHERE adm_active=1 $qry1";
 			return DBUtil::query($sql, DBUtil::SDB());
@@ -1244,7 +1253,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$rows	 = $this->getVnds($query, $vndId);
 		$arrVnd	 = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrVnd[] = array("id" => $row['vnd_id'], "text" => $row['vnd_name'] . " " . $row['vnd_code']);
 		}
@@ -1264,16 +1273,16 @@ class ServiceCallQueue extends CActiveRecord
 		$query	 = ($query == null || $query == "") ? "" : $query;
 		DBUtil::getLikeStatement($query, $bindString0, $params1);
 		($query == null || $query == "") ? DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '"') : DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '*"');
-		if($vndId != '')
+		if ($vndId != '')
 		{
 			$qry1 = " AND  vnd_id   in ($vndId)";
 		}
-		if($query != '')
+		if ($query != '')
 		{
 
 			$qry .= " AND (vnd_name   LIKE $bindString0 OR vnd_code  LIKE $bindString0)";
 		}
-		if($vndId != '')
+		if ($vndId != '')
 		{
 			$sql = "SELECT vnd_id  ,vnd_name,vnd_code  FROM vendors  WHERE vnd_active IN (1,3) $qry1";
 			return DBUtil::query($sql, DBUtil::SDB());
@@ -1298,7 +1307,7 @@ class ServiceCallQueue extends CActiveRecord
 
 		$rows	 = $this->getDrvs($query, $drvId);
 		$arrdrv	 = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrdrv[] = array("id" => $row['drv_id'], "text" => $row['drv_name'] . " " . $row['drv_code']);
 		}
@@ -1318,16 +1327,16 @@ class ServiceCallQueue extends CActiveRecord
 		$query	 = ($query == null || $query == "") ? "" : $query;
 		DBUtil::getLikeStatement($query, $bindString0, $params1);
 		($query == null || $query == "") ? DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '"') : DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '*"');
-		if($drvId != '')
+		if ($drvId != '')
 		{
 			$qry1 = " AND  drv_id    in ($drvId)";
 		}
-		if($query != '')
+		if ($query != '')
 		{
 
 			$qry .= " AND (drv_name LIKE $bindString0 OR drv_code  LIKE $bindString0) ";
 		}
-		if($drvId != '')
+		if ($drvId != '')
 		{
 			$sql = "SELECT drv_id  ,drv_name,drv_code   FROM drivers  WHERE drv_active =1 $qry1";
 			return DBUtil::query($sql, DBUtil::SDB());
@@ -1352,7 +1361,7 @@ class ServiceCallQueue extends CActiveRecord
 
 		$rows	 = $this->getCustomer($query, $admuser);
 		$arrUser = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrUser[] = array("id" => $row['user_id'], "text" => $row['usr_name'] . " " . $row['usr_lname'] . " " . $row['phn_phone_no']);
 		}
@@ -1372,16 +1381,16 @@ class ServiceCallQueue extends CActiveRecord
 		$query	 = ($query == null || $query == "") ? "" : $query;
 		DBUtil::getLikeStatement($query, $bindString0, $params1);
 		($query == null || $query == "") ? DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '"') : DBUtil::getLikeStatement($query, $bindString1, $params2, '"', '*"');
-		if($admuser != '')
+		if ($admuser != '')
 		{
 			$qry1 = " AND  user_id    in ($admuser)";
 		}
-		if($query != '')
+		if ($query != '')
 		{
 
 			$qry .= " AND (usr_name LIKE $bindString0) OR (phn_phone_no LIKE $bindString0) ";
 		}
-		if($admuser != '')
+		if ($admuser != '')
 		{
 
 			$sql = "SELECT user_id,usr_name,usr_lname,phn_phone_no FROM `users`
@@ -1411,12 +1420,12 @@ class ServiceCallQueue extends CActiveRecord
 
 			$scqId	 = self::assignTopQueue($csr, $teamId, $unverifiedAccess, $newAccess, $highValueAccess, $isRetailSalesQueue, $followupQueue, $isMultipleAllowed);
 			$model	 = ServiceCallQueue::model()->findByPk($scqId);
-			switch((int) $teamId)
+			switch ((int) $teamId)
 			{
 				case 1:
 					$refType	 = $model->scq_follow_up_queue_type;
 					$callType	 = 1;
-					if($model->scq_related_lead_id != null)
+					if ($model->scq_related_lead_id != null)
 					{
 						$refType			 = 1;
 						$callType			 = 1;
@@ -1425,10 +1434,10 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultLD["bkg_user_id"], $resultLD["email"], $resultLD['bkg_contact_no']);
 						$getRelatedLead		 = [];
 						$lead				 = "";
-						foreach($getRelatedLeadIds as $leadArr)
+						foreach ($getRelatedLeadIds as $leadArr)
 						{
 							$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id']);
-							if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+							if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 							{
 								$lead						 .= $leadArr['bkg_id'] . ",";
 								$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1438,7 +1447,7 @@ class ServiceCallQueue extends CActiveRecord
 						$data = json_encode(array('bookingTempReleated' => rtrim($lead, ",")));
 						ServiceCallQueue::updateAdditonalParam($scqId, $data);
 					}
-					else if($model->scq_related_bkg_id != null)
+					else if ($model->scq_related_bkg_id != null)
 					{
 						$refType			 = 2;
 						$callType			 = 2;
@@ -1447,10 +1456,10 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no']);
 						$lead				 = "";
 						$getRelatedLead		 = [];
-						foreach($getRelatedLeadIds as $leadArr)
+						foreach ($getRelatedLeadIds as $leadArr)
 						{
 							$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id']);
-							if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+							if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 							{
 								$lead						 .= $leadArr['bkg_id'] . ",";
 								$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1460,7 +1469,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedQuoteIds	 = Booking::getRelatedIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no']);
 						$quote				 = "";
 						$getRelatedQuote	 = [];
-						foreach($getRelatedQuoteIds as $quoteArr)
+						foreach ($getRelatedQuoteIds as $quoteArr)
 						{
 							$quote						 .= $quoteArr['bkg_id'] . ",";
 							$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -1475,13 +1484,13 @@ class ServiceCallQueue extends CActiveRecord
 						$callType	 = $model->scq_follow_up_queue_type;
 						$contactId	 = ($model->scq_to_be_followed_up_with_contact == null) ? 0 : $model->scq_to_be_followed_up_with_contact;
 						$arrProfile	 = ContactProfile::getEntityById($contactId, UserInfo::TYPE_CONSUMER);
-						if(!empty($arrProfile["id"]))
+						if (!empty($arrProfile["id"]))
 						{
 							$userId = $arrProfile['id'];
 						}
 						$contactEmail	 = ContactEmail::getEmailByBookingUserId($userId);
 						$code			 = 91;
-						if($model->scq_to_be_followed_up_with_type == 2)
+						if ($model->scq_to_be_followed_up_with_type == 2)
 						{
 							$phone = $model->scq_to_be_followed_up_with_value;
 						}
@@ -1494,7 +1503,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($userId, $contactEmail, $custUserPhone);
 						$lead				 = "";
 						$getRelatedLead		 = [];
-						foreach($getRelatedLeadIds as $leadArr)
+						foreach ($getRelatedLeadIds as $leadArr)
 						{
 							$lead						 .= $leadArr['bkg_id'] . ",";
 							$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1503,7 +1512,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedQuoteIds	 = Booking::getRelatedIds($userId, $contactEmail, $custUserPhone);
 						$quote				 = "";
 						$getRelatedQuote	 = [];
-						foreach($getRelatedQuoteIds as $quoteArr)
+						foreach ($getRelatedQuoteIds as $quoteArr)
 						{
 							$quote						 .= $quoteArr['bkg_id'] . ",";
 							$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -1516,12 +1525,12 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 				case 5:
 
-					if($model->scq_agent_id > 0)
+					if ($model->scq_agent_id > 0)
 					{
 						$agentId	 = $model->scq_agent_id;
 						$refType	 = $model->scq_follow_up_queue_type;
 						$callType	 = 1;
-						if($model->scq_related_lead_id != null)
+						if ($model->scq_related_lead_id != null)
 						{
 							$refType			 = 1;
 							$callType			 = 1;
@@ -1530,10 +1539,10 @@ class ServiceCallQueue extends CActiveRecord
 							$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultLD["bkg_user_id"], $resultLD["email"], $resultLD['bkg_contact_no'], $agentId);
 							$getRelatedLead		 = [];
 							$lead				 = "";
-							foreach($getRelatedLeadIds as $leadArr)
+							foreach ($getRelatedLeadIds as $leadArr)
 							{
 								$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-								if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+								if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 								{
 									$lead						 .= $leadArr['bkg_id'] . ",";
 									$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1543,7 +1552,7 @@ class ServiceCallQueue extends CActiveRecord
 							$data = json_encode(array('bookingTempReleated' => rtrim($lead, ",")));
 							ServiceCallQueue::updateAdditonalParam($scqId, $data);
 						}
-						else if($model->scq_related_bkg_id != null)
+						else if ($model->scq_related_bkg_id != null)
 						{
 							$refType			 = 2;
 							$callType			 = 2;
@@ -1552,10 +1561,10 @@ class ServiceCallQueue extends CActiveRecord
 							$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no'], $agentId);
 							$lead				 = "";
 							$getRelatedLead		 = [];
-							foreach($getRelatedLeadIds as $leadArr)
+							foreach ($getRelatedLeadIds as $leadArr)
 							{
 								$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-								if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+								if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 								{
 									$lead						 .= $leadArr['bkg_id'] . ",";
 									$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1565,7 +1574,7 @@ class ServiceCallQueue extends CActiveRecord
 							$getRelatedQuoteIds	 = Booking::getRelatedIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no'], $agentId);
 							$quote				 = "";
 							$getRelatedQuote	 = [];
-							foreach($getRelatedQuoteIds as $quoteArr)
+							foreach ($getRelatedQuoteIds as $quoteArr)
 							{
 								$quote						 .= $quoteArr['bkg_id'] . ",";
 								$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -1580,13 +1589,13 @@ class ServiceCallQueue extends CActiveRecord
 							$callType	 = $model->scq_follow_up_queue_type;
 							$contactId	 = ($model->scq_to_be_followed_up_with_contact == null) ? 0 : $model->scq_to_be_followed_up_with_contact;
 							$arrProfile	 = ContactProfile::getEntityById($contactId, UserInfo::TYPE_CONSUMER);
-							if(!empty($arrProfile["id"]))
+							if (!empty($arrProfile["id"]))
 							{
 								$userId = $arrProfile['id'];
 							}
 							$contactEmail	 = ContactEmail::getEmailByBookingUserId($userId);
 							$code			 = 91;
-							if($model->scq_to_be_followed_up_with_type == 2)
+							if ($model->scq_to_be_followed_up_with_type == 2)
 							{
 								$phone = $model->scq_to_be_followed_up_with_value;
 							}
@@ -1599,7 +1608,7 @@ class ServiceCallQueue extends CActiveRecord
 							$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($userId, $contactEmail, $custUserPhone, $agentId);
 							$lead				 = "";
 							$getRelatedLead		 = [];
-							foreach($getRelatedLeadIds as $leadArr)
+							foreach ($getRelatedLeadIds as $leadArr)
 							{
 								$lead						 .= $leadArr['bkg_id'] . ",";
 								$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1608,7 +1617,7 @@ class ServiceCallQueue extends CActiveRecord
 							$getRelatedQuoteIds	 = Booking::getRelatedIds($userId, $contactEmail, $custUserPhone, $agentId);
 							$quote				 = "";
 							$getRelatedQuote	 = [];
-							foreach($getRelatedQuoteIds as $quoteArr)
+							foreach ($getRelatedQuoteIds as $quoteArr)
 							{
 								$quote						 .= $quoteArr['bkg_id'] . ",";
 								$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -1627,7 +1636,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedExistings = Booking::getRelatedExistings($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no']);
 						$lead				 = "";
 						$getRelatedArr		 = [];
-						foreach($getRelatedExistings as $ids)
+						foreach ($getRelatedExistings as $ids)
 						{
 							$lead						 .= $ids['bkg_id'] . ",";
 							$getRelatedArr[]['bkg_id']	 = $ids['bkg_id'];
@@ -1641,7 +1650,7 @@ class ServiceCallQueue extends CActiveRecord
 					$agentId	 = $model->scq_agent_id;
 					$refType	 = $model->scq_follow_up_queue_type;
 					$callType	 = 1;
-					if($model->scq_related_lead_id != null)
+					if ($model->scq_related_lead_id != null)
 					{
 						$refType			 = 1;
 						$callType			 = 1;
@@ -1650,10 +1659,10 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultLD["bkg_user_id"], $resultLD["email"], $resultLD['bkg_contact_no'], $agentId);
 						$getRelatedLead		 = [];
 						$lead				 = "";
-						foreach($getRelatedLeadIds as $leadArr)
+						foreach ($getRelatedLeadIds as $leadArr)
 						{
 							$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-							if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+							if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 							{
 								$lead						 .= $leadArr['bkg_id'] . ",";
 								$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1663,7 +1672,7 @@ class ServiceCallQueue extends CActiveRecord
 						$data = json_encode(array('bookingTempReleated' => rtrim($lead, ",")));
 						ServiceCallQueue::updateAdditonalParam($scqId, $data);
 					}
-					else if($model->scq_related_bkg_id != null)
+					else if ($model->scq_related_bkg_id != null)
 					{
 						$refType			 = 2;
 						$callType			 = 2;
@@ -1672,10 +1681,10 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no'], $agentId);
 						$lead				 = "";
 						$getRelatedLead		 = [];
-						foreach($getRelatedLeadIds as $leadArr)
+						foreach ($getRelatedLeadIds as $leadArr)
 						{
 							$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-							if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+							if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 							{
 								$lead						 .= $leadArr['bkg_id'] . ",";
 								$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1685,7 +1694,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedQuoteIds	 = Booking::getRelatedIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no'], $agentId);
 						$quote				 = "";
 						$getRelatedQuote	 = [];
-						foreach($getRelatedQuoteIds as $quoteArr)
+						foreach ($getRelatedQuoteIds as $quoteArr)
 						{
 							$quote						 .= $quoteArr['bkg_id'] . ",";
 							$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -1700,13 +1709,13 @@ class ServiceCallQueue extends CActiveRecord
 						$callType	 = $model->scq_follow_up_queue_type;
 						$contactId	 = ($model->scq_to_be_followed_up_with_contact == null) ? 0 : $model->scq_to_be_followed_up_with_contact;
 						$arrProfile	 = ContactProfile::getEntityById($contactId, UserInfo::TYPE_CONSUMER);
-						if(!empty($arrProfile["id"]))
+						if (!empty($arrProfile["id"]))
 						{
 							$userId = $arrProfile['id'];
 						}
 						$contactEmail	 = ContactEmail::getEmailByBookingUserId($userId);
 						$code			 = 91;
-						if($model->scq_to_be_followed_up_with_type == 2)
+						if ($model->scq_to_be_followed_up_with_type == 2)
 						{
 							$phone = $model->scq_to_be_followed_up_with_value;
 						}
@@ -1719,7 +1728,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($userId, $contactEmail, $custUserPhone, $agentId);
 						$lead				 = "";
 						$getRelatedLead		 = [];
-						foreach($getRelatedLeadIds as $leadArr)
+						foreach ($getRelatedLeadIds as $leadArr)
 						{
 							$lead						 .= $leadArr['bkg_id'] . ",";
 							$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -1728,7 +1737,7 @@ class ServiceCallQueue extends CActiveRecord
 						$getRelatedQuoteIds	 = Booking::getRelatedIds($userId, $contactEmail, $custUserPhone, $agentId);
 						$quote				 = "";
 						$getRelatedQuote	 = [];
-						foreach($getRelatedQuoteIds as $quoteArr)
+						foreach ($getRelatedQuoteIds as $quoteArr)
 						{
 							$quote						 .= $quoteArr['bkg_id'] . ",";
 							$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -1746,7 +1755,7 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 				case 9:
 					$refType	 = 3;
-					switch($model->scq_follow_up_queue_type)
+					switch ($model->scq_follow_up_queue_type)
 					{
 						case 4:
 							$callType	 = 3;
@@ -1767,7 +1776,7 @@ class ServiceCallQueue extends CActiveRecord
 			}
 			CallStatus::model()->addMyCall($model->scq_id, $refType, $callType, 91, $model->scq_to_be_followed_up_with_value, 1);
 		}
-		catch(Exception $exc)
+		catch (Exception $exc)
 		{
 			throw $exc;
 		}
@@ -1786,7 +1795,7 @@ class ServiceCallQueue extends CActiveRecord
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($csr))
+			if (empty($csr))
 			{
 				throw new Exception("CSR not found", ReturnSet::ERROR_FAILED);
 			}
@@ -1801,7 +1810,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setStatus(true);
 			$returnSet->setMessage("Leads has been assigned to you");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -1819,7 +1828,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function checkAssignment($csr)
 	{
 		$scq_id = 0;
-		if($csr == '')
+		if ($csr == '')
 		{
 			goto end;
 		}
@@ -1840,19 +1849,19 @@ class ServiceCallQueue extends CActiveRecord
 	public static function getTopQueue($csr, $teamId, $isNewBookingEligible = true, $defaultEligibleScore = 80, $isRetailSalesQueue = 1, $followupQueue = 0)
 	{
 		$discardNewBkgSQL = "";
-		if(in_array((int) date('H'), array(21, 22, 23, 0, 1, 2, 3, 4, 5, 6)))
+		if (in_array((int) date('H'), array(21, 22, 23, 0, 1, 2, 3, 4, 5, 6)))
 		{
 			$isNewBookingEligible = true;
 		}
 
-		if(!$isNewBookingEligible)
+		if (!$isNewBookingEligible)
 		{
 			$discardNewBkgSQL .= " AND ((TIMESTAMPDIFF(MINUTE,scq_create_date,NOW())>=5 AND scq_follow_up_queue_type=1 
 											AND ($defaultEligibleScore + TIMESTAMPDIFF(MINUTE, scq_create_date, NOW()))>110) 
 										OR (scq_follow_up_queue_type NOT IN (1,16,17)) 
 										OR (scq_follow_up_queue_type IN (16,17) AND scq_priority_score<=($defaultEligibleScore + TIMESTAMPDIFF(MINUTE, scq_create_date, NOW())))) ";
 		}
-		if($isRetailSalesQueue == 0)
+		if ($isRetailSalesQueue == 0)
 		{
 			$discardNewBkgSQL .= " AND (scq_priority_score<=100 AND scq_follow_up_queue_type IN (16,17,20,21,34)) ";
 		}
@@ -1937,35 +1946,35 @@ class ServiceCallQueue extends CActiveRecord
 		$bkid		 = 0;
 
 		$eligibleScore = "105";
-		if($unverifiedAccess == 0)
+		if ($unverifiedAccess == 0)
 		{
 			$eligibleScore = "105";
 		}
 
-		if($newAccess == 0)
+		if ($newAccess == 0)
 		{
 			$eligibleScore = "85";
 		}
 		$isEligibleForNewLead	 = self::checkCSRLeadEligibility($csr);
 		$isEligibleForNewLead	 = ($isEligibleForNewLead && ($unverifiedAccess == 1 && $newAccess == 1));
 
-		if(self::getLeadCount($isEligibleForNewLead, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed') && ServiceCallQueue::isAllowedLead($teamId) > 0)
+		if (self::getLeadCount($isEligibleForNewLead, $eligibleScore) < (int) Config::get('SCQ.maxLeadAllowed') && ServiceCallQueue::isAllowedLead($teamId) > 0)
 		{
 			self::updatePendingLeads($csr, 1, $unverifiedAccess, $newAccess, $highValueAccess);
 		}
 		// for BAR Booking
-		if(ServiceCallQueue::isAllowedBAR($teamId) > 0)
+		if (ServiceCallQueue::isAllowedBAR($teamId) > 0)
 		{
 			$type				 = $teamId == 4 ? 0 : 1;
 			$region				 = Admins::getRegionId($csr);
 			$serveBookingType	 = Admins::getAdminsServeBookingType($csr);
 			$data				 = self::getDataForBARQueue($type, $region, $serveBookingType);
 			$count				 = self::canCBRAdded('19,33', $data['bkg_id']);
-			if($data && $count == 0)
+			if ($data && $count == 0)
 			{
 				$data['desc']	 = "Manual action needed. Dispatch team should escalate to field if you need their help. Booking will auto cancel of vendor not assigned in time";
 				$returnSet		 = self::addBARQueue($data, $csr, 0);
-				if($returnSet->getStatus())
+				if ($returnSet->getStatus())
 				{
 					$row['scq_id']	 = $returnSet->getData()['followupId'];
 					$isBarFlag		 = 1;
@@ -1976,17 +1985,17 @@ class ServiceCallQueue extends CActiveRecord
 		}
 
 		// for DTM Booking
-		if(ServiceCallQueue::isAllowedCSA($teamId) > 0)
+		if (ServiceCallQueue::isAllowedCSA($teamId) > 0)
 		{
 			$region				 = Admins::getRegionId($csr);
 			$serveBookingType	 = Admins::getAdminsServeBookingType($csr);
 			$data				 = ServiceCallQueue::getCSAdData($region, $serveBookingType);
-			if($data)
+			if ($data)
 			{
 				$data['Controller']	 = "Lead Controller";
 				$data['desc']		 = "Dispatch team had escalate to field Operations for your help. Booking will auto cancel of vendor not assigned in time";
 				$returnSet			 = ServiceCallQueue::addCSAQueue($data, $teamId, 0);
-				if($returnSet->getStatus())
+				if ($returnSet->getStatus())
 				{
 					$isCsaFlag		 = 1;
 					$row['scq_id']	 = $returnSet->getData()['followupId'];
@@ -1997,50 +2006,50 @@ class ServiceCallQueue extends CActiveRecord
 		}
 
 		// for Followup Dispatch  Booking
-		if(ServiceCallQueue::isAllowedFollowupDispatch($teamId) > 0 && ServiceCallQueue::getFollowupDispatchCount() < (int) Config::get('SCQ.maxDisPatchAllowed'))
+		if (ServiceCallQueue::isAllowedFollowupDispatch($teamId) > 0 && ServiceCallQueue::getFollowupDispatchCount() < (int) Config::get('SCQ.maxDisPatchAllowed'))
 		{
 			$result = ServiceCallQueue::getFollowupDispatch((int) Config::get('SCQ.maxDisPatchAllowed'));
-			foreach($result as $rows)
+			foreach ($result as $rows)
 			{
 				try
 				{
 					ServiceCallQueue::autoFURDriverLate($rows['bkg_id']);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::exception($ex->getMessage());
 				}
 			}
 		}
 
-		if(empty($row))
+		if (empty($row))
 		{
 			$row = self::getTopQueue($csr, $teamId, $isEligibleForNewLead, $eligibleScore, $isRetailSalesQueue, $followupQueue);
 		}
 
-		if(empty($row) || $row['scq_id'] == null)
+		if (empty($row) || $row['scq_id'] == null)
 		{
 			Logger::info("isEligibleForNewLead:  $isEligibleForNewLead, CSR: $csr, Team: $teamId , Data: " . json_encode($row));
 			throw new Exception("Sorry no leads are avaliable for you.", ReturnSet::ERROR_NO_RECORDS_FOUND);
 		}
 		$count		 = self::getAssignmentCount($csr, $teamId, $isEligibleForNewLead);
 		$returnCount = self::assign($row['scq_id'], $csr, $count, $isMultipleAllowed);
-		if($returnCount > 0)
+		if ($returnCount > 0)
 		{
 			self::assignTeam($row['scq_id'], $teamId);
 		}
 
-		if($returnCount && $isBarFlag == 1)
+		if ($returnCount && $isBarFlag == 1)
 		{
 			$bookingmodel								 = Booking::model()->findByPk($bkid);
 			$bookingmodel->bkgPref->bpr_assignment_level = 1;
 			$bookingmodel->bkgPref->bpr_assignment_id	 = $adminid;
-			if($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
+			if ($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
 			{
 				$bookingmodel->bkgPref->bpr_assignment_fdate = new CDbExpression('NOW()');
 			}
 			$bookingmodel->bkgPref->bpr_assignment_ldate = new CDbExpression('NOW()');
-			if($bookingmodel->bkgPref->save())
+			if ($bookingmodel->bkgPref->save())
 			{
 				$admin	 = Admins::model()->findByPk($adminid);
 				$aname	 = $admin->adm_fname;
@@ -2049,24 +2058,24 @@ class ServiceCallQueue extends CActiveRecord
 			}
 			$type				 = $teamId == 4 ? 0 : 1;
 			$bookingmodelDetails = Booking::getBookingByCityZoneWise($bookingmodel->bkg_from_city_id, $type);
-			foreach($bookingmodelDetails as $bookingRow)
+			foreach ($bookingmodelDetails as $bookingRow)
 			{
 				$count = self::canCBRAdded('19,33', $bookingRow['bkg_id']);
-				if($count == 0)
+				if ($count == 0)
 				{
 					$bookingRow['desc']	 = " Related Manual action needed. Dispatch team should escalate to field if you need their help. Booking will auto cancel of vendor not assigned in time";
 					$returnSet			 = self::addBARQueue($bookingRow, $csr, 0);
-					if($returnSet->getStatus())
+					if ($returnSet->getStatus())
 					{
 						$bookingmodel								 = Booking::model()->findByPk($bookingRow['bkg_id']);
 						$bookingmodel->bkgPref->bpr_assignment_level = 1;
 						$bookingmodel->bkgPref->bpr_assignment_id	 = $adminid;
-						if($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
+						if ($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
 						{
 							$bookingmodel->bkgPref->bpr_assignment_fdate = new CDbExpression('NOW()');
 						}
 						$bookingmodel->bkgPref->bpr_assignment_ldate = new CDbExpression('NOW()');
-						if($bookingmodel->bkgPref->save())
+						if ($bookingmodel->bkgPref->save())
 						{
 							$admin	 = Admins::model()->findByPk($adminid);
 							$aname	 = $admin->adm_fname;
@@ -2076,7 +2085,7 @@ class ServiceCallQueue extends CActiveRecord
 						$scqId		 = $returnSet->getData()['followupId'];
 						$count		 = self::getAssignmentCount($csr, $teamId, $isEligibleForNewLead);
 						$returnCount = self::assign($scqId, $csr, $count, 1);
-						if($returnCount > 0)
+						if ($returnCount > 0)
 						{
 							self::assignTeam($scqId, $teamId);
 						}
@@ -2089,27 +2098,27 @@ class ServiceCallQueue extends CActiveRecord
 			$bookingDestinationDetails	 = Booking::getBookingDestinationZoneByCityZoneWise($bookingmodel->bkg_from_city_id, $type);
 			$toZones					 = $bookingDestinationDetails['toZones'];
 			$fromZones					 = $bookingDestinationDetails['fromZones'];
-			if($toZones != null && $fromZones != null)
+			if ($toZones != null && $fromZones != null)
 			{
 				$bookingmodelDetails = Booking::getBookingSourceZoneWise($fromZones, $toZones, $type);
-				foreach($bookingmodelDetails as $bookingRow)
+				foreach ($bookingmodelDetails as $bookingRow)
 				{
 					$count = self::canCBRAdded('19,33', $bookingRow['bkg_id']);
-					if($count == 0)
+					if ($count == 0)
 					{
 						$bookingRow['desc']	 = " Related Manual action needed. Dispatch team should escalate to field if you need their help. Booking will auto cancel of vendor not assigned in time";
 						$returnSet			 = self::addBARQueue($bookingRow, $csr, 0);
-						if($returnSet->getStatus())
+						if ($returnSet->getStatus())
 						{
 							$bookingmodel								 = Booking::model()->findByPk($bookingRow['bkg_id']);
 							$bookingmodel->bkgPref->bpr_assignment_level = 1;
 							$bookingmodel->bkgPref->bpr_assignment_id	 = $adminid;
-							if($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
+							if ($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
 							{
 								$bookingmodel->bkgPref->bpr_assignment_fdate = new CDbExpression('NOW()');
 							}
 							$bookingmodel->bkgPref->bpr_assignment_ldate = new CDbExpression('NOW()');
-							if($bookingmodel->bkgPref->save())
+							if ($bookingmodel->bkgPref->save())
 							{
 								$admin	 = Admins::model()->findByPk($adminid);
 								$aname	 = $admin->adm_fname;
@@ -2119,7 +2128,7 @@ class ServiceCallQueue extends CActiveRecord
 							$scqId		 = $returnSet->getData()['followupId'];
 							$count		 = self::getAssignmentCount($csr, $teamId, $isEligibleForNewLead);
 							$returnCount = self::assign($scqId, $csr, $count, 1);
-							if($returnCount > 0)
+							if ($returnCount > 0)
 							{
 								self::assignTeam($scqId, $teamId);
 							}
@@ -2129,17 +2138,17 @@ class ServiceCallQueue extends CActiveRecord
 			}
 		}
 
-		if($returnCount && $isCsaFlag == 1)
+		if ($returnCount && $isCsaFlag == 1)
 		{
 			$bookingmodel								 = Booking::model()->findByPk($bkid);
 			$bookingmodel->bkgPref->bpr_assignment_id	 = $adminid;
 			$bookingmodel->bkgPref->bpr_assignment_level = 2;
-			if($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
+			if ($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
 			{
 				$bookingmodel->bkgPref->bpr_assignment_fdate = new CDbExpression('NOW()');
 			}
 			$bookingmodel->bkgPref->bpr_assignment_ldate = new CDbExpression('NOW()');
-			if($bookingmodel->bkgPref->save())
+			if ($bookingmodel->bkgPref->save())
 			{
 				$admin	 = Admins::model()->findByPk($adminid);
 				$aname	 = $admin->adm_fname;
@@ -2150,10 +2159,10 @@ class ServiceCallQueue extends CActiveRecord
 		}
 
 		$isMultiQueueAllowed = Config::get('SCQ.isMultiQueueAllowed');
-		if($returnCount && $isMultiQueueAllowed)
+		if ($returnCount && $isMultiQueueAllowed)
 		{
 			$teamIds = Teams::getMultipleTeamid($csr);
-			foreach($teamIds as $teamId)
+			foreach ($teamIds as $teamId)
 			{
 				self::assignMutipleQueue($row['scq_id'], $teamId);
 			}
@@ -2173,7 +2182,7 @@ class ServiceCallQueue extends CActiveRecord
 	private static function assign($scqId, $csr, $count, $flag = 0)
 	{
 		$id = ServiceCallQueue::checkAssignment($csr);
-		if($id > 0 && $flag == 0)
+		if ($id > 0 && $flag == 0)
 		{
 			throw new Exception("Failed to assign queue id: {$id }", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
@@ -2181,7 +2190,7 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$sql	 = "UPDATE service_call_queue SET scq_assigned_uid =:csr,scq_assignment_count=:scq_assignment_count,scq_assigned_date_time = NOW(),scq_time_to_assign=TIMESTAMPDIFF(MINUTE, scq_follow_up_date_time,NOW()) WHERE scq_id =:scq_id AND scq_active=1";
 			$numrows = DBUtil::execute($sql, ['csr' => $csr, 'scq_id' => $scqId, 'scq_assignment_count' => $count]);
-			if($numrows == 0)
+			if ($numrows == 0)
 			{
 
 				throw new Exception("Failed to assign queue ids => {$scqId }", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
@@ -2221,28 +2230,28 @@ class ServiceCallQueue extends CActiveRecord
 		$agt_id			 = $requestdt->getPost('Agents')['agt_id'];
 		$drv_id			 = $requestdt->getPost('Drivers')['drv_id'];
 		$usr_id			 = $requestdt->getPost('Users')['user_id'];
-		if($vnd_id != "")
+		if ($vnd_id != "")
 		{
 			$entityType	 = UserInfo::TYPE_VENDOR;
 			$entityId	 = $vnd_id;
 		}
-		if($agt_id != "")
+		if ($agt_id != "")
 		{
 			$entityType	 = UserInfo::TYPE_AGENT;
 			$entityId	 = $agt_id;
 		}
-		if($drv_id != "")
+		if ($drv_id != "")
 		{
 			$entityType	 = UserInfo::TYPE_DRIVER;
 			$entityId	 = $drv_id;
 		}
-		if($usr_id != "")
+		if ($usr_id != "")
 		{
 			$entityType	 = UserInfo::TYPE_CONSUMER;
 			$entityId	 = $usr_id;
 		}
 
-		if($entityId != '')
+		if ($entityId != '')
 		{
 			$contactId = ContactProfile::getByEntityId($entityId, $entityType);
 		}
@@ -2252,27 +2261,27 @@ class ServiceCallQueue extends CActiveRecord
 		$followupDt								 = date('Y-m-d', strtotime(str_replace("/", "-", $post['locale_followup_date']))) . " " . date("h:i:s", strtotime($post['locale_followup_time']));
 		$model->scq_follow_up_date_time			 = $followupDt;
 
-		if($followupPriority == 1 || $followupPriority == 2)
+		if ($followupPriority == 1 || $followupPriority == 2)
 		{
 			$model->scq_follow_up_date_time = new CDbExpression('NOW()');
 		}
 		$followUpby								 = $post['followUpby'];
 		$model->scq_to_be_followed_up_by_type	 = ($followUpby == 1) ? 1 : 2;
 		$teams									 = 0;
-		if($model->scq_to_be_followed_up_by_type == 1)
+		if ($model->scq_to_be_followed_up_by_type == 1)
 		{
 			$teams			 = $post['scq_to_be_followed_up_by_id'];
 			$bookingModel	 = Booking::model()->findbyPk($bookingId);
 			$teamids		 = Admins::getTeamid(UserInfo::getUserId());
-			if((($teams == $teamids) && in_array($teamids, [4, 48])))
+			if ((($teams == $teamids) && in_array($teamids, [4, 48])))
 			{
 				$teams = 41;
 			}
-			else if($teams == -1 && (in_array($bookingModel->bkg_booking_type, [4, 9, 10, 11, 12, 14, 15])))
+			else if ($teams == -1 && (in_array($bookingModel->bkg_booking_type, [4, 9, 10, 11, 12, 14, 15])))
 			{
 				$teams = 48;
 			}
-			else if($teams == -1 && (!in_array($bookingModel->bkg_booking_type, [4, 9, 10, 11, 12, 14, 15])))
+			else if ($teams == -1 && (!in_array($bookingModel->bkg_booking_type, [4, 9, 10, 11, 12, 14, 15])))
 			{
 				$teams = 4;
 			}
@@ -2283,7 +2292,7 @@ class ServiceCallQueue extends CActiveRecord
 			$teams								 = Admins::getTeamid(trim($requestdt->getPost('Admins')['adm_id']));
 			$model->scq_to_be_followed_up_by_id	 = $requestdt->getPost('Admins')['adm_id'];
 		}
-		if($agt_id == 18190 && $followupPerson == 1)
+		if ($agt_id == 18190 && $followupPerson == 1)
 		{
 			$model->scq_to_be_followed_up_with_contact	 = 0;
 			$model->scq_to_be_followed_up_with_value	 = $mmtNumber;
@@ -2291,7 +2300,7 @@ class ServiceCallQueue extends CActiveRecord
 		}
 		else
 		{
-			if($post['scqType'] == 1)
+			if ($post['scqType'] == 1)
 			{
 				$entityType										 = UserInfo::TYPE_ADMIN;
 				$model->scq_to_be_followed_up_with_entity_type	 = $entityType;
@@ -2304,7 +2313,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_to_be_followed_up_with_entity_type	 = $entityType;
 				$model->scq_to_be_followed_up_with_entity_id	 = $entityId;
 				$arrPhoneByPriority								 = Contact::getPhoneNoByPriority($contactId);
-				if($arrPhoneByPriority != null)
+				if ($arrPhoneByPriority != null)
 				{
 					$model->scq_to_be_followed_up_with_type	 = 2;
 					$model->scq_to_be_followed_up_with_value = $arrPhoneByPriority['phn_phone_no'];
@@ -2315,13 +2324,13 @@ class ServiceCallQueue extends CActiveRecord
 					$model->scq_to_be_followed_up_with_value = $contactId;
 				}
 				$model->scq_to_be_followed_up_with_contact = $contactId;
-				if($scqType == 2 && $model->scq_to_be_followed_up_by_id == 1)
+				if ($scqType == 2 && $model->scq_to_be_followed_up_by_id == 1)
 				{
 					$model->scq_follow_up_queue_type = 1;
 				}
 			}
 		}
-		if($bookingId)
+		if ($bookingId)
 		{
 			$model->scq_related_bkg_id = $bookingId;
 		}
@@ -2346,7 +2355,7 @@ class ServiceCallQueue extends CActiveRecord
 		 * This function is used to upload multiple file in a service queue documents
 		 */
 		CallBackDocuments::model()->upload($followupId);
-		if($model->scq_related_bkg_id != null && $followupId != null)
+		if ($model->scq_related_bkg_id != null && $followupId != null)
 		{
 			$params['blg_ref_id'] = $bookingId;
 			BookingLog::model()->createLog($bookingId, $model->scq_creation_comments, UserInfo::getInstance(), BookingLog:: FOLLOWUP_CREATE, false, $params);
@@ -2562,9 +2571,9 @@ class ServiceCallQueue extends CActiveRecord
 		$param	 = array();
 		$where	 = "";
 		$inner	 = "";
-		if($followModel->requestedBy > 0)
+		if ($followModel->requestedBy > 0)
 		{
-			switch($followModel->requestedBy)
+			switch ($followModel->requestedBy)
 			{
 				case 1:
 					$where	 .= " AND scq_to_be_followed_up_with_entity_type=$followModel->requestedBy AND scq_to_be_followed_up_with_entity_id=$followModel->custId  ";
@@ -2586,9 +2595,9 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 		}
-		if($followModel->scq_to_be_followed_up_by_type > 0)
+		if ($followModel->scq_to_be_followed_up_by_type > 0)
 		{
-			switch($followModel->scq_to_be_followed_up_by_type)
+			switch ($followModel->scq_to_be_followed_up_by_type)
 			{
 				case 2:
 					$where .= " AND scq_disposed_by_uid=$followModel->isGozen AND scq_active= 1 AND scq_status= 2  ";
@@ -2597,7 +2606,7 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 		}
-		if($followModel->isCreated > 0)
+		if ($followModel->isCreated > 0)
 		{
 			$csr			 = $userInfo->userId;
 			$type			 = $userInfo->userType;
@@ -2605,16 +2614,16 @@ class ServiceCallQueue extends CActiveRecord
 			$param['csr']	 = $csr;
 		}
 
-		if($followModel->queueType != "" && $followModel->queueType > 0)
+		if ($followModel->queueType != "" && $followModel->queueType > 0)
 		{
 			$where				 .= " AND scq_follow_up_queue_type=:queueType ";
 			$param['queueType']	 = $followModel->queueType;
 		}
-		if($followModel->scq_to_be_followed_up_by_id > 0 && $followModel->event_id != 6)
+		if ($followModel->scq_to_be_followed_up_by_id > 0 && $followModel->event_id != 6)
 		{
 			$teamsQueue	 = TeamQueueMapping::getQueueIdByTeamId($followModel->scq_to_be_followed_up_by_id);
 			$queueIds	 = "";
-			foreach($teamsQueue as $queue)
+			foreach ($teamsQueue as $queue)
 			{
 				$queueIds .= $queue['tqm_queue_id'] . ",";
 			}
@@ -2622,18 +2631,18 @@ class ServiceCallQueue extends CActiveRecord
 			$param	 = array_merge($param, $queueParams);
 			$where	 .= " AND scq_follow_up_queue_type IN ({$bindStringQueue}) ";
 		}
-		if($followModel->csrSearch != null)
+		if ($followModel->csrSearch != null)
 		{
 			DBUtil::getINStatement($followModel->csrSearch, $bindString1, $params2);
 			$param	 = array_merge($param, $params2);
 			$where	 .= " AND scq_assigned_uid IN ({$bindString1}) ";
 		}
-		if(($followModel->event_id != null && $followModel->event_id > 0 ) && ($followModel->event_by != "" && $followModel->event_by > 0))
+		if (($followModel->event_id != null && $followModel->event_id > 0 ) && ($followModel->event_by != "" && $followModel->event_by > 0))
 		{
-			switch($followModel->event_by)
+			switch ($followModel->event_by)
 			{
 				case 1:
-					switch($followModel->event_id)
+					switch ($followModel->event_id)
 					{
 						case 1:
 							$where			 .= " AND scq_create_date  BETWEEN :date1 AND :date2 ";
@@ -2661,13 +2670,13 @@ class ServiceCallQueue extends CActiveRecord
 							$where			 .= " AND (scq_disposition_date BETWEEN :date1 AND :date2) AND scq_status = 2 ";
 							$param['date1']	 = $followModel->date1;
 							$param['date2']	 = $followModel->date2;
-							if($followModel->csrSearch != null)
+							if ($followModel->csrSearch != null)
 							{
 								DBUtil::getINStatement($followModel->csrSearch, $bindString3, $params3);
 								$param	 = array_merge($param, $params3);
 								$where	 .= " AND scq_disposed_by_uid IN ({$bindString3}) ";
 							}
-							if($followModel->scq_to_be_followed_up_by_id > 0)
+							if ($followModel->scq_to_be_followed_up_by_id > 0)
 							{
 								$sqlinner	 = "SELECT GROUP_CONCAT( DISTINCT adp.adp_adm_id) AS ids
 											FROM service_call_queue
@@ -2700,7 +2709,7 @@ class ServiceCallQueue extends CActiveRecord
 					}
 					break;
 				case 2:
-					switch($followModel->event_id)
+					switch ($followModel->event_id)
 					{
 						case 1:
 							$where			 .= " AND scq_platform NOT IN (6,7) AND scq_create_date  BETWEEN :date1 AND :date2 ";
@@ -2728,13 +2737,13 @@ class ServiceCallQueue extends CActiveRecord
 							$where			 .= "  AND scq_platform NOT IN (6,7) AND (scq_disposition_date BETWEEN :date1 AND :date2) AND scq_status = 2 ";
 							$param['date1']	 = $followModel->date1;
 							$param['date2']	 = $followModel->date2;
-							if($followModel->csrSearch != null)
+							if ($followModel->csrSearch != null)
 							{
 								DBUtil::getINStatement($followModel->csrSearch, $bindString3, $params3);
 								$param	 = array_merge($param, $params3);
 								$where	 .= " AND scq_disposed_by_uid IN ({$bindString3}) ";
 							}
-							if($followModel->scq_to_be_followed_up_by_id > 0)
+							if ($followModel->scq_to_be_followed_up_by_id > 0)
 							{
 								$sqlinner	 = "SELECT GROUP_CONCAT(DISTINCT adp.adp_adm_id) AS ids FROM service_call_queue
 											JOIN `admin_profiles` adp ON adp.adp_adm_id = service_call_queue.scq_assigned_uid AND scq_disposed_by_uid=scq_assigned_uid AND service_call_queue.scq_status=2
@@ -2765,7 +2774,7 @@ class ServiceCallQueue extends CActiveRecord
 					}
 					break;
 				case 3:
-					switch($followModel->event_id)
+					switch ($followModel->event_id)
 					{
 						case 1:
 							$where			 .= "  AND scq_platform=7 AND scq_create_date  BETWEEN :date1 AND :date2 ";
@@ -2793,13 +2802,13 @@ class ServiceCallQueue extends CActiveRecord
 							$where			 .= " AND scq_platform=7  AND (scq_disposition_date BETWEEN :date1 AND :date2) AND scq_status = 2 ";
 							$param['date1']	 = $followModel->date1;
 							$param['date2']	 = $followModel->date2;
-							if($followModel->csrSearch != null)
+							if ($followModel->csrSearch != null)
 							{
 								DBUtil::getINStatement($followModel->csrSearch, $bindString3, $params3);
 								$param	 = array_merge($param, $params3);
 								$where	 .= " AND scq_disposed_by_uid IN ({$bindString3}) ";
 							}
-							if($followModel->scq_to_be_followed_up_by_id > 0)
+							if ($followModel->scq_to_be_followed_up_by_id > 0)
 							{
 								$sqlinner	 = "SELECT GROUP_CONCAT(DISTINCT adp.adp_adm_id) AS ids FROM service_call_queue
 											JOIN `admin_profiles` adp ON adp.adp_adm_id = service_call_queue.scq_assigned_uid AND scq_disposed_by_uid=scq_assigned_uid AND service_call_queue.scq_status=2
@@ -2830,7 +2839,7 @@ class ServiceCallQueue extends CActiveRecord
 					}
 					break;
 				case 4:
-					switch($followModel->event_id)
+					switch ($followModel->event_id)
 					{
 						case 1:
 							$where			 .= " AND scq_platform=6 AND scq_create_date  BETWEEN :date1 AND :date2 ";
@@ -2858,13 +2867,13 @@ class ServiceCallQueue extends CActiveRecord
 							$where			 .= "  AND scq_platform=6 AND (scq_disposition_date BETWEEN :date1 AND :date2) AND scq_status = 2 ";
 							$param['date1']	 = $followModel->date1;
 							$param['date2']	 = $followModel->date2;
-							if($followModel->csrSearch != null)
+							if ($followModel->csrSearch != null)
 							{
 								DBUtil::getINStatement($followModel->csrSearch, $bindString3, $params3);
 								$param	 = array_merge($param, $params3);
 								$where	 .= " AND scq_disposed_by_uid IN ({$bindString3}) ";
 							}
-							if($followModel->scq_to_be_followed_up_by_id > 0)
+							if ($followModel->scq_to_be_followed_up_by_id > 0)
 							{
 								$sqlinner	 = "SELECT GROUP_CONCAT(DISTINCT adp.adp_adm_id) AS ids FROM service_call_queue
 											JOIN `admin_profiles` adp ON adp.adp_adm_id = service_call_queue.scq_assigned_uid AND scq_disposed_by_uid=scq_assigned_uid AND service_call_queue.scq_status=2
@@ -2898,9 +2907,9 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 		}
-		else if($followModel->event_id != null && $followModel->event_id > 0)
+		else if ($followModel->event_id != null && $followModel->event_id > 0)
 		{
-			switch($followModel->event_id)
+			switch ($followModel->event_id)
 			{
 				case 1:
 					$where			 .= " AND scq_create_date  BETWEEN :date1 AND :date2 ";
@@ -2928,13 +2937,13 @@ class ServiceCallQueue extends CActiveRecord
 					$where			 .= " AND (scq_disposition_date BETWEEN :date1 AND :date2) AND scq_status = 2 ";
 					$param['date1']	 = $followModel->date1;
 					$param['date2']	 = $followModel->date2;
-					if($followModel->csrSearch != null)
+					if ($followModel->csrSearch != null)
 					{
 						DBUtil::getINStatement($followModel->csrSearch, $bindString3, $params3);
 						$param	 = array_merge($param, $params3);
 						$where	 .= " AND scq_disposed_by_uid IN ({$bindString3}) ";
 					}
-					if($followModel->scq_to_be_followed_up_by_id > 0)
+					if ($followModel->scq_to_be_followed_up_by_id > 0)
 					{
 						$sqlinner	 = "SELECT GROUP_CONCAT(DISTINCT adp.adp_adm_id) AS ids FROM service_call_queue
 											JOIN `admin_profiles` adp ON adp.adp_adm_id = service_call_queue.scq_assigned_uid AND scq_disposed_by_uid=scq_assigned_uid AND service_call_queue.scq_status=2
@@ -2965,13 +2974,13 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 		}
-		else if($followModel->event_by != null && $followModel->event_by > 0)
+		else if ($followModel->event_by != null && $followModel->event_by > 0)
 		{
-			switch($followModel->event_by)
+			switch ($followModel->event_by)
 			{
 				case 2:
 					$where .= " AND scq_platform NOT IN (6,7) ";
-					if($followModel->date2 != null)
+					if ($followModel->date2 != null)
 					{
 						$where			 .= " AND scq_create_date<=:date2 ";
 						$param['date2']	 = $followModel->date2;
@@ -2979,7 +2988,7 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 				case 3:
 					$where .= "  AND scq_platform=7  ";
-					if($followModel->date2 != null)
+					if ($followModel->date2 != null)
 					{
 						$where			 .= " AND scq_create_date<=:date2 ";
 						$param['date2']	 = $followModel->date2;
@@ -2987,14 +2996,14 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 				case 4:
 					$where .= "  AND scq_platform=6 ";
-					if($followModel->date2 != null)
+					if ($followModel->date2 != null)
 					{
 						$where			 .= " AND scq_create_date<=:date2 ";
 						$param['date2']	 = $followModel->date2;
 					}
 					break;
 				default:
-					if($followModel->date2 != null && $followModel->date1 != null)
+					if ($followModel->date2 != null && $followModel->date1 != null)
 					{
 						$where			 .= "AND scq_create_date >=:date1 AND scq_create_date<=:date2 ";
 						$param['date2']	 = $followModel->date2;
@@ -3003,18 +3012,18 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 		}
-		else if($followModel->date2 != null && $followModel->date1 != null)
+		else if ($followModel->date2 != null && $followModel->date1 != null)
 		{
 			$where			 .= "AND scq_create_date >=:date1 AND scq_create_date<=:date2 ";
 			$param['date2']	 = $followModel->date2;
 			$param['date1']	 = $followModel->date1;
 		}
 
-		if($followModel->bookingType == 1)
+		if ($followModel->bookingType == 1)
 		{
 			$inner .= "  INNER JOIN booking ON booking.bkg_id=service_call_queue.scq_related_bkg_id AND  bkg_reconfirm_flag=0 ";
 		}
-		else if($followModel->bookingType == 2)
+		else if ($followModel->bookingType == 2)
 		{
 			$inner .= "  INNER JOIN booking ON booking.bkg_id=service_call_queue.scq_related_bkg_id AND booking.bkg_status IN (2,3,4,5,6,7,9) AND  bkg_reconfirm_flag=1";
 		}
@@ -3115,7 +3124,7 @@ class ServiceCallQueue extends CActiveRecord
 					LEFT JOIN users    ON    users.user_id  = cp.cr_is_consumer AND  scq_created_by_type IN(2,3)
 					LEFT JOIN drivers  ON   drivers.drv_id = cp.cr_is_driver AND  scq_created_by_type=3
 					WHERE 1 $where AND scq_create_date >='2021-01-01 00:00:00' AND scq_active=1  GROUP BY scq_id";
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			return DBUtil::query($sql, DBUtil::SDB(), $param);
 		}
@@ -3138,15 +3147,15 @@ class ServiceCallQueue extends CActiveRecord
 		$joinstr = '';
 		$whrcond = '';
 
-		if($from != "" && $from == "Vendor")
+		if ($from != "" && $from == "Vendor")
 		{
 			$whrcond = " AND cp.cr_is_vendor =" . $contactid;
 		}
-		else if($from != "" && $from == "Driver")
+		else if ($from != "" && $from == "Driver")
 		{
 			$whrcond = " AND cp.cr_is_driver =" . $contactid;
 		}
-		else if($from != "" && $from == "Consumer")
+		else if ($from != "" && $from == "Consumer")
 		{
 			$whrcond = " AND cp.cr_is_consumer =" . $contactid;
 		}
@@ -3209,7 +3218,7 @@ class ServiceCallQueue extends CActiveRecord
 		$params			 = [];
 		$calendarDays	 = `Total_Days`;
 
-		if($fromDate != '')
+		if ($fromDate != '')
 		{
 			$scqFromDateSql		 = " AND scq_assigned_date_time>=:fromDate";
 			$bkgFromDateSql		 = " AND bkg_create_date>=:fromDate";
@@ -3217,25 +3226,25 @@ class ServiceCallQueue extends CActiveRecord
 		}
 
 
-		if($toDate != '')
+		if ($toDate != '')
 		{
 			$scqToDateSql		 = " AND scq_assigned_date_time<=:toDate";
 			$bkgToDateSql		 = " AND bkg_create_date<=:toDate";
 			$params[":toDate"]	 = $toDate;
 		}
 
-		if($fromDate != '' && $toDate != '')
+		if ($fromDate != '' && $toDate != '')
 		{
 			$calendarDays = " abs(DATEDIFF(:toDate, :fromDate)) + 1";
 		}
 
-		if($csr > 0)
+		if ($csr > 0)
 		{
 			$scqCSRSql		 = " AND scq_assigned_uid=:csr";
 			$bkgCSRSql		 = " AND bkg_create_user_id=:csr";
 			$params["csr"]	 = $csr;
 		}
-		if($teamLead > 0)
+		if ($teamLead > 0)
 		{
 			$scqLeadSql			 = " AND (atl.adm_id=:teamLead OR admins.adm_id=:teamLead)";
 			$params["teamLead"]	 = $teamLead;
@@ -3334,7 +3343,7 @@ class ServiceCallQueue extends CActiveRecord
 		$command = self::getCSRLeadPeformanceCommand($fromDate, $toDate, 0, $teamLead);
 
 		$count = DBUtil::queryScalar("SELECT COUNT(*) FROM ({$command->getText()} ) temp", DBUtil::SDB(), $command->params);
-		if($type == DBUtil::ReturnType_Provider)
+		if ($type == DBUtil::ReturnType_Provider)
 		{
 			$dataprovider = new CSqlDataProvider($command, array(
 				"totalItemCount" => $count,
@@ -3367,7 +3376,7 @@ class ServiceCallQueue extends CActiveRecord
 
 		$params	 = array('date1' => $date1, 'date2' => $date2);
 		$where	 = "";
-		if($teamId > 0)
+		if ($teamId > 0)
 		{
 			$sqlinner	 = "SELECT GROUP_CONCAT(DISTINCT adp.adp_adm_id) AS ids FROM service_call_queue
 							JOIN `admin_profiles` adp ON adp.adp_adm_id = service_call_queue.scq_assigned_uid AND scq_disposed_by_uid=scq_assigned_uid AND service_call_queue.scq_status=2
@@ -3387,7 +3396,7 @@ class ServiceCallQueue extends CActiveRecord
 			$params		 = array_merge($params1, $params);
 			$where		 .= " AND scq_disposed_by_uid IN ({$bindString4}) ";
 		}
-		if($queueType > 0)
+		if ($queueType > 0)
 		{
 			$qType				 = $queueType;
 			$where				 .= " AND scq_follow_up_queue_type = :queueType  ";
@@ -3487,10 +3496,10 @@ class ServiceCallQueue extends CActiveRecord
 	public static function currentlyServingCBR($queueType = 0)
 	{
 		$returnSet = Yii::app()->cache->get('currentlyServingCBR_' . $queueType);
-		if($returnSet === false)
+		if ($returnSet === false)
 		{
 			$param = array();
-			if($queueType > 0)
+			if ($queueType > 0)
 			{
 				$param['queueType']	 = $queueType;
 				$where				 = " AND scq_follow_up_queue_type=:queueType ";
@@ -3518,7 +3527,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function countAllActiveCBR()
 	{
 		$returnSet = Yii::app()->cache->get('countAllActiveCBR');
-		if($returnSet === false)
+		if ($returnSet === false)
 		{
 			$sql		 = "SELECT  COUNT(*) as active_cbr_count FROM `service_call_queue` WHERE 1 AND scq_follow_up_queue_type != 15 AND scq_status IN (1,3) AND scq_active=1 AND scq_create_date >='2021-01-01 00:00:00'";
 			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 60, CacheDependency::Type_DashBoard);
@@ -3540,9 +3549,9 @@ class ServiceCallQueue extends CActiveRecord
 
 		$params	 = [];
 		$where	 = "";
-		if($this->requestedBy > 0)
+		if ($this->requestedBy > 0)
 		{
-			switch($this->requestedBy)
+			switch ($this->requestedBy)
 			{
 				case 1:
 					$where	 .= " AND scq_created_by_type=$this->requestedBy AND scq_created_by_uid=$this->custId  ";
@@ -3564,9 +3573,9 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 		}
-		if($this->scq_to_be_followed_up_by_type > 0)
+		if ($this->scq_to_be_followed_up_by_type > 0)
 		{
-			switch($this->scq_to_be_followed_up_by_type)
+			switch ($this->scq_to_be_followed_up_by_type)
 			{
 				case 1:
 					$where	 .= " AND scq_to_be_followed_up_by_type=$this->scq_to_be_followed_up_by_type AND scq_to_be_followed_up_by_id=$this->scq_to_be_followed_up_by_id  ";
@@ -3579,7 +3588,7 @@ class ServiceCallQueue extends CActiveRecord
 			}
 		}
 
-		if($isFollowUpOpen == 1)
+		if ($isFollowUpOpen == 1)
 		{
 			$whereDue24	 = $isDue24 == 1 ? " AND scq_follow_up_date_time < DATE_ADD(NOW(),INTERVAL 24 HOUR)" : "";
 			$where		 .= " AND scq_status IN (1,3) ";
@@ -3590,7 +3599,7 @@ class ServiceCallQueue extends CActiveRecord
 		}
 
 
-		if($search != null)
+		if ($search != null)
 		{
 			DBUtil::getLikeStatement($search, $bindString1, $params1);
 			DBUtil::getLikeStatement($search, $bindString2, $params2);
@@ -3614,7 +3623,7 @@ class ServiceCallQueue extends CActiveRecord
 							LEFT JOIN admins  ON  adm_id=scq_to_be_followed_up_by_id  and scq_to_be_followed_up_by_type=2
 							WHERE 1 AND scq_follow_up_queue_type=9  AND scq_active=1   $where $whereDue24   GROUP BY scq_id    ";
 
-		if(!$command)
+		if (!$command)
 		{
 			$count			 = DBUtil::queryScalar(" SELECT COUNT(*) FROM ($sql ) abc", DBUtil::MDB(), $params);
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -3643,7 +3652,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$params	 = ['phone' => $phone];
 		$qrySTr	 = '';
-		if($refType > 0)
+		if ($refType > 0)
 		{
 			$params['refType']	 = $refType;
 			$qrySTr				 = ' AND scq_follow_up_queue_type=:refType ';
@@ -3665,7 +3674,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$params	 = ['contactId' => $contactId, 'phone' => $phone];
 		$qrySTr	 = '';
-		if($refType > 0)
+		if ($refType > 0)
 		{
 			$params['refType']	 = $refType;
 			$qrySTr				 = ' AND scq_follow_up_queue_type=:refType ';
@@ -3701,13 +3710,13 @@ class ServiceCallQueue extends CActiveRecord
 			$phone			 = $callerNumber;
 			$phone			 = trim(str_replace(' ', '', $phone));
 			$phone			 = preg_replace('/[^0-9\-]/', '', $phone);
-			if(!Filter::validatePhoneNumber($phone))
+			if (!Filter::validatePhoneNumber($phone))
 			{
 				throw new Exception('Invalid phone number', ReturnSet::ERROR_INVALID_DATA);
 			}
 			$contactId	 = $userId > 0 ? ContactProfile::getByUserId($userId) : ContactPhone::getContactid($phone);
 			$followupId	 = !$contactId ? ServiceCallQueue::checkActiveCallbackByContactNumber($phone) : ServiceCallQueue::checkActiveCallbackByContactId($contactId);
-			if($followupId > 0)
+			if ($followupId > 0)
 			{
 				$returnSet->setMessage($message);
 				goto skipNewAdd;
@@ -3728,7 +3737,7 @@ class ServiceCallQueue extends CActiveRecord
 			$followupId									 = $dt['followupId'];
 			skipNewAdd:
 			$data										 = [];
-			if($followupId > 0)
+			if ($followupId > 0)
 			{
 				$fpModel	 = ServiceCallQueue::model()->findByPk($followupId);
 				$queueData	 = ServiceCallQueue::getQueueNumber($fpModel->scq_id, $fpModel->scq_follow_up_queue_type);
@@ -3741,7 +3750,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setData($data);
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 			\Sentry\captureMessage(json_encode($ex), null);
@@ -3768,13 +3777,13 @@ class ServiceCallQueue extends CActiveRecord
 			$phone			 = $callerNumber;
 			$phone			 = trim(str_replace(' ', '', $phone));
 			$phone			 = preg_replace('/[^0-9\-]/', '', $phone);
-			if(!Filter::validatePhoneNumber($phone))
+			if (!Filter::validatePhoneNumber($phone))
 			{
 				throw new Exception('Invalid phone number', ReturnSet::ERROR_INVALID_DATA);
 			}
 			$contactId	 = ($vendorId > 0) ? ContactProfile::getByVndId($vendorId) : ContactPhone::getContactid($phone);
 			$followupId	 = !$contactId ? ServiceCallQueue::checkActiveCallbackByContactNumber($phone) : ServiceCallQueue::checkActiveCallbackByContactId($contactId);
-			if($followupId > 0)
+			if ($followupId > 0)
 			{
 				$returnSet->setMessage($message);
 				goto skipNewAdd;
@@ -3796,7 +3805,7 @@ class ServiceCallQueue extends CActiveRecord
 			$followupId									 = $dt['followupId'];
 			skipNewAdd:
 			$data										 = [];
-			if($followupId > 0)
+			if ($followupId > 0)
 			{
 				$fpModel	 = ServiceCallQueue::model()->findByPk($followupId);
 				$queueData	 = ServiceCallQueue::getQueueNumber($fpModel->scq_id, $fpModel->scq_follow_up_queue_type);
@@ -3809,7 +3818,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setData($data);
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -3845,11 +3854,11 @@ class ServiceCallQueue extends CActiveRecord
 		$totalWaitingLeads	 = ($queNo > 0) ? $queNo : self::countWaitingByReftype($refType);
 		$medianCallDuration	 = self::getMedianCallDurationbyRef($refType);
 		$totalCSRonline		 = self::getOnlineCSRByRef($refType, $durationHour);
-		if($totalCSRonline == 0)
+		if ($totalCSRonline == 0)
 		{
 			$totalCSRonline = self::getTotalCallingCSRByRef($refType, $durationHour);
 		}
-		if($totalCSRonline > 0)
+		if ($totalCSRonline > 0)
 		{
 			$waittime	 = round($medianCallDuration * $totalWaitingLeads / $totalCSRonline);
 			$waittime	 = ($waittime < 2) ? 2 : $waittime;
@@ -3947,7 +3956,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function getQueueNumber($fwpId, $refType = 0)
 	{
 		$queNo = 0;
-		if($fwpId > 0)
+		if ($fwpId > 0)
 		{
 			$data		 = ServiceCallQueue::getActiveWaitingTimeById($fwpId);
 			$queNo		 = $data['rank'] | 0;
@@ -3983,7 +3992,7 @@ class ServiceCallQueue extends CActiveRecord
 //		Logger::create('queNosupplied:' . $queNo);
 //		$waitTime = self::calculateWaitingTimeByReftype($refType, $queNo);
 
-		if($queNo == 0)
+		if ($queNo == 0)
 		{
 			$waitTime = 2;
 		}
@@ -4007,34 +4016,34 @@ class ServiceCallQueue extends CActiveRecord
 			$callerNumber	 = $req['callerNumber'];
 			$userNumber		 = $req['userNumber'];
 			$force			 = false;
-			if(trim($userNumber) == '')
+			if (trim($userNumber) == '')
 			{
 				$userNumber = $callerNumber;
 			}
 			$success = false;
 			$phone	 = $userNumber;
-			if(!Filter::validatePhoneNumber($phone))
+			if (!Filter::validatePhoneNumber($phone))
 			{
 				throw new Exception('Invalid phone number', ReturnSet::ERROR_VALIDATION);
 			}
 			Filter::parsePhoneNumber($phone, $code, $number);
 			Filter::parsePhoneNumber($callerNumber, $callCode, $callnumber);
 			$phoneNumber = $callCode . $callnumber;
-			if($force)
+			if ($force)
 			{
 				goto skipValidate;
 			}
-			if(strlen($bkgID) < 7)
+			if (strlen($bkgID) < 7)
 			{
 				throw new Exception('At least last 7 digits of the booking id is required.', ReturnSet::ERROR_VALIDATION);
 			}
 			$bookingId = BookingSub::getbyBookingLastDigits($bkgID, 6);
-			if(!$bookingId)
+			if (!$bookingId)
 			{
 				throw new Exception('Booking not found.', ReturnSet::ERROR_VALIDATION);
 			}
 			$contactData = BookingUser::verifyBookingContact($bookingId, $number);
-			if(!$contactData)
+			if (!$contactData)
 			{
 				throw new Exception('Number not  linked with the booking', ReturnSet::ERROR_VALIDATION);
 			}
@@ -4042,7 +4051,7 @@ class ServiceCallQueue extends CActiveRecord
 			$bkgStatus	 = $contactData['bkg_status'];
 			$contactId	 = $contactData['callerContactId'];
 			$followupId	 = ServiceCallQueue::checkActiveCallbackByContactId($contactId, $refType, $phoneNumber);
-			if($followupId > 0)
+			if ($followupId > 0)
 			{
 				$returnSet->setMessage('There is an existing callback request for you. We will call you back shortly.');
 				goto skipNewAdd;
@@ -4058,14 +4067,14 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_to_be_followed_up_with_contact	 = $contactId;
 			$model->scq_to_be_followed_up_by_type		 = 1;
 			$model->scq_to_be_followed_up_by_id			 = Teams::getTeamIdFromCached($model->scq_follow_up_queue_type);
-			if($force)
+			if ($force)
 			{
 				$model->scq_creation_comments = "Customer had provide this as booking id: $bkgID";
 			}
 
-			if(!empty($bookingCode))
+			if (!empty($bookingCode))
 			{
-				if(!in_array($bkgStatus, [2, 3, 5, 6, 7, 9]) && $refType == 2)
+				if (!in_array($bkgStatus, [2, 3, 5, 6, 7, 9]) && $refType == 2)
 				{
 					$model->scq_follow_up_queue_type		 = 1;
 					$model->scq_to_be_followed_up_by_type	 = 1;
@@ -4078,7 +4087,7 @@ class ServiceCallQueue extends CActiveRecord
 			$followupId	 = $dt['followupId'];
 			skipNewAdd:
 			$data		 = [];
-			if($followupId > 0)
+			if ($followupId > 0)
 			{
 				$fpModel	 = ServiceCallQueue::model()->findByPk($followupId);
 				$queueData	 = self::getQueueNumber($fpModel->scq_id, $fpModel->scq_follow_up_queue_type);
@@ -4091,7 +4100,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setData($data);
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -4107,7 +4116,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$csr		 = UserInfo::getUserId();
 		$returnSet	 = Yii::app()->cache->get('countInternalActiveCBR_' . $csr);
-		if($returnSet === false)
+		if ($returnSet === false)
 		{
 			$csrTeam	 = Admins::getTeamid($csr);
 			$params		 = ['team_id' => $csrTeam, 'csr' => $csr];
@@ -4167,7 +4176,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$data		 = self::getCallingDurationMedian();
 		$jsonData	 = json_encode($data);
-		if(trim($jsonData) != '')
+		if (trim($jsonData) != '')
 		{
 			$param	 = ['val' => $jsonData];
 			$sql	 = "UPDATE config set cfg_value=:val WHERE cfg_name='CMB.call.stats'";
@@ -4183,7 +4192,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$refTypeArr	 = self::getReasonList();
 		$data		 = [];
-		foreach($refTypeArr as $reftype => $val)
+		foreach ($refTypeArr as $reftype => $val)
 		{
 			$param			 = ['refType' => $reftype];
 			$sql			 = "SELECT  ROUND(AVG(g.callDuration)) medVal from (
@@ -4265,7 +4274,7 @@ class ServiceCallQueue extends CActiveRecord
 				LEFT JOIN contact c2 ON c1.ctt_ref_code=c2.ctt_id
 				LEFT JOIN contact_profile cp1 ON cp1.cr_contact_id=c2.ctt_id AND cp1.cr_status=1
 				WHERE fwp_id=:fwpId ";
-		if($algId != "")
+		if ($algId != "")
 		{
 			$sql			 .= " AND alg_id=:algId";
 			$params["algId"] = $algId;
@@ -4396,19 +4405,19 @@ class ServiceCallQueue extends CActiveRecord
 //			265623
 //		}
 		$i	 = 0;
-		while(true)
+		while (true)
 		{
 			$sql = "SELECT alg_id,alg_ref_type  FROM assign_log WHERE alg_ref_type IN (1,2) AND alg_active=1 AND alg_id<257273 ORDER BY  alg_id DESC LIMIT $i, 2000";
 			$res = DBUtil::query($sql, DBUtil::SDB());
 			$i	 += 2000;
-			if($res->getRowCount() == 0)
+			if ($res->getRowCount() == 0)
 			{
 				break;
 			}
-			foreach($res as $row)
+			foreach ($res as $row)
 			{
 				$result = self::AssgnLogBackupScript($row['alg_id']);
-				foreach($result as $rows)
+				foreach ($result as $rows)
 				{
 					try
 					{
@@ -4417,13 +4426,13 @@ class ServiceCallQueue extends CActiveRecord
 						$model->scq_additional_param = json_encode(array('alg_id' => $row['alg_id']));
 						$model->scq_ref_type		 = $row['alg_ref_type'];
 						$model->attributes			 = $rows;
-						if(!$model->save())
+						if (!$model->save())
 						{
 							throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_INVALID_DATA);
 						}
 						break;
 					}
-					catch(Exception $ex)
+					catch (Exception $ex)
 					{
 						Logger::exception($ex);
 						Logger::writeToConsole($ex->getMessage());
@@ -4448,31 +4457,31 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$limit	 = 0;
 		$model	 = new ServiceCallQueue();
-		while(true)
+		while (true)
 		{
 			$success = false;
 			$rows	 = BookingTemp::getPendingLeads($csr, $limit, $type, $unverifiedAccess, $newAccess, $highValueAccess);
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
-				if($row['type'] == 2)
+				if ($row['type'] == 2)
 				{
-					if(ServiceCallQueue::isRelatedQuoteExist($row['bkg_id']) == 0)
+					if (ServiceCallQueue::isRelatedQuoteExist($row['bkg_id']) == 0)
 					{
 						$model = self::updateLead($row);
-						if($model->scq_id > 0)
+						if ($model->scq_id > 0)
 						{
 							$success = true;
 							break;
 						}
 					}
 				}
-				else if($row['type'] == 1)
+				else if ($row['type'] == 1)
 				{
 					$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($row['bkg_id']);
-					if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+					if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 					{
 						$model = self::updateLead($row);
-						if($model->scq_id > 0)
+						if ($model->scq_id > 0)
 						{
 							$success = true;
 							break;
@@ -4481,7 +4490,7 @@ class ServiceCallQueue extends CActiveRecord
 				}
 			}
 			$limit++;
-			if($success || $limit > 2)
+			if ($success || $limit > 2)
 			{
 				break;
 			}
@@ -4499,7 +4508,7 @@ class ServiceCallQueue extends CActiveRecord
 		Logger::info("Row Value  " . json_encode($row));
 		$count = ServiceCallQueue::checkLeadExist($row['bkg_contact_no'], $row['type'], $agentId);
 		Logger::info("checkLeadExist  " . $count);
-		if($count == 0)
+		if ($count == 0)
 		{
 			try
 			{
@@ -4513,14 +4522,14 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_to_be_followed_up_with_entity_id	 = $row['bkg_user_id'] != null ? $row['bkg_user_id'] : 0;
 				$model->scq_to_be_followed_up_with_entity_rating = -1;
 				$model->subQueue								 = $row['type'] == 2 ? ServiceCallQueue::SUB_QUOTE_CREATED_FOLLOWUP : ServiceCallQueue::SUB_LEADS;
-				$model->scq_priority_score						 = ($row['loginRank'] + $row['csrRank'] + $row['timeRank'] + $row['advanceRank'] + $row['pickupRank'] + $row['followup_rank']);
-				if($row ['bkg_country_code'] == null || $row ['bkg_country_code'] == "91")
+				$model->scq_priority_score						 = ($row['VVIPRank'] + $row['VIPRank'] + $row['loginRank'] + $row['csrRank'] + $row['timeRank'] + $row['advanceRank'] + $row['pickupRank'] + $row['followup_rank']);
+				if ($row ['bkg_country_code'] == null || $row ['bkg_country_code'] == "91")
 				{
-					if($row['type'] == 2)
+					if ($row['type'] == 2)
 					{
 						$model->scq_ref_type		 = 2;
 						$model->scq_related_bkg_id	 = $row['bkg_id'];
-						if($agentId > 0)
+						if ($agentId > 0)
 						{
 							$model->scq_follow_up_queue_type = ServiceCallQueue::TYPE_NEW_SPICE_QUOTE_BOOKING;
 						}
@@ -4533,7 +4542,7 @@ class ServiceCallQueue extends CActiveRecord
 					{
 						$model->scq_ref_type		 = 1;
 						$model->scq_related_lead_id	 = $row['bkg_id'];
-						if($agentId > 0)
+						if ($agentId > 0)
 						{
 							$model->scq_follow_up_queue_type = ServiceCallQueue::TYPE_NEW_SPICE_LEAD_BOOKING;
 						}
@@ -4546,11 +4555,11 @@ class ServiceCallQueue extends CActiveRecord
 				else
 				{
 
-					if($row['type'] == 2)
+					if ($row['type'] == 2)
 					{
 						$model->scq_ref_type		 = 2;
 						$model->scq_related_bkg_id	 = $row['bkg_id'];
-						if($agentId > 0)
+						if ($agentId > 0)
 						{
 							$model->scq_follow_up_queue_type = ServiceCallQueue::TYPE_NEW_SPICE_QUOTE_BOOKING_INTERNATIONAL;
 						}
@@ -4563,7 +4572,7 @@ class ServiceCallQueue extends CActiveRecord
 					{
 						$model->scq_ref_type		 = 1;
 						$model->scq_related_lead_id	 = $row['bkg_id'];
-						if($agentId > 0)
+						if ($agentId > 0)
 						{
 							$model->scq_follow_up_queue_type = ServiceCallQueue::TYPE_NEW_SPICE_LEAD_BOOKING_INTERNATIONAL;
 						}
@@ -4581,7 +4590,7 @@ class ServiceCallQueue extends CActiveRecord
 				$platform									 = $type == 1 ? ServiceCallQueue::PLATFORM_SYSTEM : ServiceCallQueue::PLATFORM_ADMIN_CALL;
 				ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, $platform);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::trace("Serivice::updateLead : " . $ex->getMessage());
 				Logger::exception($ex);
@@ -4597,7 +4606,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$callTypeName	 = '';
 		$model			 = ServiceCallQueue::model()->findByPk($scqId);
-		switch((int) $model->scq_follow_up_queue_type)
+		switch ((int) $model->scq_follow_up_queue_type)
 		{
 			case 42:
 			case 43:
@@ -4611,18 +4620,18 @@ class ServiceCallQueue extends CActiveRecord
 			case 1: //Lead
 
 				$callTypeName = "New Booking  Callback Request";
-				if($model->scq_related_lead_id != null)
+				if ($model->scq_related_lead_id != null)
 				{
 					$callTypeName = "Lead";
 				}
-				else if($model->scq_related_bkg_id != null)
+				else if ($model->scq_related_bkg_id != null)
 				{
 					$bModel = Booking::model()->findByPk($model->scq_related_bkg_id);
-					if(in_array($bModel->bkg_status, [1, 15]))
+					if (in_array($bModel->bkg_status, [1, 15]))
 					{
 						$callTypeName = "Quotation";
 					}
-					if(in_array($bModel->bkg_status, [2, 3, 5, 6, 7, 9]))
+					if (in_array($bModel->bkg_status, [2, 3, 5, 6, 7, 9]))
 					{
 						$callTypeName = "Existing Booking";
 					}
@@ -4631,11 +4640,11 @@ class ServiceCallQueue extends CActiveRecord
 			case 2:
 				/** @var Booking $bModel */
 				$bModel = Booking::model()->findByPk($model->scq_related_bkg_id);
-				if(in_array($bModel->bkg_status, [1, 15]))
+				if (in_array($bModel->bkg_status, [1, 15]))
 				{
 					$callTypeName = "Quotation";
 				}
-				if(in_array($bModel->bkg_status, [2, 3, 5, 6, 7, 9]))
+				if (in_array($bModel->bkg_status, [2, 3, 5, 6, 7, 9]))
 				{
 					$callTypeName = "Existing Booking";
 				}
@@ -4674,10 +4683,10 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$params	 = ['csrId' => $csrId];
 		$where	 = '';
-		if($refId > 0)
+		if ($refId > 0)
 		{
 			$params['refId'] = $refId;
-			if($ref_type == 1)
+			if ($ref_type == 1)
 			{
 				$where = ' AND scq_related_lead_id =:refId ';
 			}
@@ -4716,7 +4725,7 @@ class ServiceCallQueue extends CActiveRecord
 		$model->scq_to_be_followed_up_with_value		 = $userModel->usr_mobile;
 		$model->scq_to_be_followed_up_with_contact		 = $contactId;
 		$model->scq_creation_comments					 = $jsonObject->refDesc;
-		if($jsonObject->bkgCode != null)
+		if ($jsonObject->bkgCode != null)
 		{
 			$model->scq_related_bkg_id = $jsonObject->bkgCode;
 		}
@@ -4770,7 +4779,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function updatePriorityScore($row)
 	{
 		$booking = $row['scq_related_lead_id'] != null ? BookingTemp::model()->findByPk($row['scq_related_lead_id']) : Booking::model()->findByPk($row['scq_related_bkg_id']);
-		if($booking)
+		if ($booking)
 		{
 			$bookingPickupDate	 = $booking->bkg_pickup_date;
 			$bookingCreateDate	 = $booking->bkg_create_date;
@@ -4780,13 +4789,13 @@ class ServiceCallQueue extends CActiveRecord
 			$result				 = DBUtil::command("CALL getSCQScore(:p1,:p2,@p3,@p4,@p5)", DBUtil::MDB())->execute(["p1" => $createTimeDiff, "p2" => $pickupTimeDiff]);
 			$res				 = DBUtil::queryRow("SELECT @p3 AS `createRange`, @p4 AS `pickupRange`, @p5 AS `Score`", DBUtil::MDB());
 			$model				 = ServiceCallQueue::model()->findByPk($row['scq_id']);
-			if($model)
+			if ($model)
 			{
 				$model->scq_time_since_create	 = ( $res['createRange'] * 100);
 				$model->scq_time_to_pickup		 = ( $res['pickupRange'] * 100);
 				$model->scq_priority_score		 = $res['Score'];
 				$model->contactRequired			 = 0;
-				if(!$model->save())
+				if (!$model->save())
 				{
 					throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_INVALID_DATA);
 				}
@@ -4839,16 +4848,16 @@ class ServiceCallQueue extends CActiveRecord
 		$toDate					 = new CDbExpression("NOW()");
 		$data					 = self::getLeadStatsByCSR($csr, $fromDate, $toDate);
 		$avgConversionPerLead	 = $data ["Total_Follow_ups"] / (($data ["Booking_Confirmed"] == 0) ? 1 : $data["Booking_Confirmed"]);
-		if($data ["Booking_Confirmed"] > 0 && $avgConversionPerLead < 16)
+		if ($data ["Booking_Confirmed"] > 0 && $avgConversionPerLead < 16)
 		{
 			$isEligible = true;
 		}
-		else if($avgConversionPerLead < 12)
+		else if ($avgConversionPerLead < 12)
 		{
 			$isEligible = true;
 		}
 
-		if(!$isEligible && $duration == 120)
+		if (!$isEligible && $duration == 120)
 		{
 			$isEligible = self::checkCSRLeadEligibility($csr, 240);
 		}
@@ -4890,13 +4899,13 @@ class ServiceCallQueue extends CActiveRecord
 		try
 		{
 			$scqId = self::checkAssignment($csr);
-			if(!$scqId)
+			if (!$scqId)
 			{
 				throw new Exception("Service queueId not valid", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 			$model		 = ServiceCallQueue::model()->findByPk($scqId);
 			$transaction = DBUtil::beginTransaction();
-			switch((int) $model->scq_follow_up_queue_type)
+			switch ((int) $model->scq_follow_up_queue_type)
 			{
 				case 43:
 				case 43:
@@ -4909,14 +4918,14 @@ class ServiceCallQueue extends CActiveRecord
 				case 21:
 				case 1:
 					$agentId = $model->scq_agent_id != null ? $model->scq_agent_id : 0;
-					if($model->scq_related_lead_id != null)
+					if ($model->scq_related_lead_id != null)
 					{
 						$jsonDecode		 = json_decode($model->scq_additional_param);
 						$bookingTempsIds = $jsonDecode->bookingTempReleated;
 						BookingTemp::unassignLD($model->scq_related_lead_id, $csr);
 						BookingTemp::unassignedIds($bookingTempsIds, $csr, $model->scq_related_lead_id, $agentId);
 					}
-					else if($model->scq_related_bkg_id != null)
+					else if ($model->scq_related_bkg_id != null)
 					{
 						$jsonDecode		 = json_decode($model->scq_additional_param);
 						$bookingTempsIds = $jsonDecode->bookingTempReleated;
@@ -4947,10 +4956,10 @@ class ServiceCallQueue extends CActiveRecord
 					break;
 			}
 			$count = self::countScq($csr);
-			if($count > 0)
+			if ($count > 0)
 			{
 				$cbrDetails = self::getAllActiveCBRByCsrId($csr);
-				foreach($cbrDetails as $value)
+				foreach ($cbrDetails as $value)
 				{
 					ServiceCallQueue::unassign($value['scq_id']);
 					CallStatus::updateStatus($value['scq_id'], $csr);
@@ -4966,7 +4975,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setStatus(true);
 			$returnSet->setMessage("csr has been unassigned successfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
@@ -4983,7 +4992,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$sql	 = "UPDATE service_call_queue SET scq_assigned_uid =null,scq_additional_param=null,`scq_status`=1, `scq_assigned_date_time` = null WHERE scq_id =:scq_id";
 		$numrows = DBUtil::execute($sql, ['scq_id' => $scqId]);
-		if($numrows == 0)
+		if ($numrows == 0)
 		{
 			throw new Exception(" Failed to unassign queue id: {$scqId }", ReturnSet::ERROR_FAILED);
 		}
@@ -5002,14 +5011,14 @@ class ServiceCallQueue extends CActiveRecord
 		$queueType	 = ServiceCallQueue::TYPE_UPSELL . "," . ServiceCallQueue::TYPE_UPSELL_UPPERTIER;
 		$count		 = ServiceCallQueue::countQueueByBkgId($bookingId, $queueType);
 		/* Auto FUR Trip started Start */
-		if($count == 0)
+		if ($count == 0)
 		{
 			$bookingModel	 = Booking::model()->findByPk($bookingId);
 			$fromDate		 = $bookingModel->bkgTrack->bkg_trip_start_time;
 			$userId			 = $bookingModel->bkgUserInfo->bkg_user_id;
 			$toDate			 = Filter::getDBDateTime();
 			$timediff		 = DBUtil::getTimeDiff($fromDate, $toDate);
-			if($timediff <= 60 && $bookingModel->bkg_agent_id == null)
+			if ($timediff <= 60 && $bookingModel->bkg_agent_id == null)
 			{
 				$model = new ServiceCallQueue();
 				try
@@ -5027,7 +5036,7 @@ class ServiceCallQueue extends CActiveRecord
 					$model->scq_creation_comments				 = "Customers trip has already started. Call them and ask how the trip is going and ensure all is well. If customer is unhappy - create a immediate service request for Customer support team against the same booking ID. Escalate the booking to Customer support leader if issue is serious. If things are going well - ask customer if they need any booking and you can create for them. Create a service request for Retail sales to follow up with this same customer. Remind the customer - they can get 20% of their trip cost back as cash if they refer a friend to travel with us within the next 5 days.";
 					$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					$returnSet = ReturnSet::setException($ex);
 				}
@@ -5048,15 +5057,15 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$where		 = "";
 		$whereClosed = "";
-		if($type == "notRating")
+		if ($type == "notRating")
 		{
 			$where .= " AND JSON_VALUE(`scq_additional_param`,'$.rating') IS NULL";
 		}
-		if($type == "IsRated")
+		if ($type == "IsRated")
 		{
 			$where .= " AND JSON_VALUE(`scq_additional_param`,'$.rating')=1";
 		}
-		if($type == "closed")
+		if ($type == "closed")
 		{
 			$whereClosed = " OR  scq_status IN (2) ";
 		}
@@ -5077,7 +5086,7 @@ class ServiceCallQueue extends CActiveRecord
 		$bookingModel	 = Booking::model()->findByPk($bookingId);
 		$userId			 = $bookingModel->bkgUserInfo->bkg_user_id;
 		$returnSet		 = new ReturnSet();
-		if($bookingModel->bkg_agent_id == null && ($bookingModel->ratings[0]->rtg_customer_overall < 4 && $bookingModel->ratings[0]->rtg_customer_overall != '' && $bookingModel->ratings[0]->rtg_customer_overall > 0))
+		if ($bookingModel->bkg_agent_id == null && ($bookingModel->ratings[0]->rtg_customer_overall < 4 && $bookingModel->ratings[0]->rtg_customer_overall != '' && $bookingModel->ratings[0]->rtg_customer_overall > 0))
 		{
 			$model = new ServiceCallQueue();
 			try
@@ -5095,7 +5104,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_creation_comments				 = "Customer has given a poor review. Please call customer. Find out the issue and take action to bring back customer delight";
 				$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$returnSet = ReturnSet::setException($ex);
 			}
@@ -5132,7 +5141,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "Trip is not completed in driver app. Call Driver and find out why it was not completed on time. Driver must complete on time else penalty will be applicable.";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_DRIVER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -5167,7 +5176,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "Driver location is either not known or too far and looks like he wont reach pickup on time. Call driver. Talk to him and make sure trip is on time. If it looks like Driver will be late, then inform customer immediately that there may be a trip delay or find a alternate car by talking to the vendor.";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_DRIVER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -5208,7 +5217,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = $comment;
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_DRIVER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -5239,7 +5248,7 @@ class ServiceCallQueue extends CActiveRecord
 		try
 		{
 			$scqId = self::getIdByQueueAndReference($queueType, $ref_type, $ref_id);
-			if(!$scqId)
+			if (!$scqId)
 			{
 				$data	 = ['comments' => "No scq found due to this category"];
 				$success = true;
@@ -5250,11 +5259,11 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_disposition_comments = $comments != NULL ? $comments : "Auto closing followup";
 			$model->scq_disposition_date	 = new CDbExpression('NOW()');
 			$model->scq_disposed_by_uid		 = 0;
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_INVALID_DATA);
 			}
-			if($model->scq_id > 0)
+			if ($model->scq_id > 0)
 			{
 				$data	 = [
 					'followupId' => (int) $model->scq_id,
@@ -5266,7 +5275,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setData($data);
 			$returnSet->setStatus($success);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -5304,7 +5313,7 @@ class ServiceCallQueue extends CActiveRecord
 		$bookingModel	 = Booking::model()->findByPk($bookingId);
 		$vendorId		 = $bookingModel->bkgBcb->bcb_vendor_id;
 		$returnSet		 = new ReturnSet();
-		if(($bookingModel->ratings[0]->rtg_customer_overall < 4 && $bookingModel->ratings[0]->rtg_customer_overall != '' && $bookingModel->ratings[0]->rtg_customer_overall > 0))
+		if (($bookingModel->ratings[0]->rtg_customer_overall < 4 && $bookingModel->ratings[0]->rtg_customer_overall != '' && $bookingModel->ratings[0]->rtg_customer_overall > 0))
 		{
 			$model = new ServiceCallQueue();
 			try
@@ -5323,7 +5332,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_creation_comments				 = "Customer has given a poor review. Please call vendor. Find out the issue and take action to bring back customer delight";
 				$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_VENDOR, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$returnSet = ReturnSet::setException($ex);
 			}
@@ -5357,7 +5366,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "Vendor ready for approval: $vnd_name";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_VENDOR, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 			\Sentry\captureMessage(json_encode($ex), null);
@@ -5387,9 +5396,7 @@ class ServiceCallQueue extends CActiveRecord
 		$where	 .= $agentId == 0 ? " AND scq_follow_up_queue_type IN (16,17) " : " AND scq_follow_up_queue_type IN (42,43,44,45) ";
 		$sql	 = "SELECT  COUNT(1) as cnt FROM `service_call_queue`
 					WHERE 1 $where  AND scq_active=1 AND scq_reason_id=2 AND scq_assigned_uid IS NULL  AND scq_status IN (1,3)
-						AND scq_follow_up_queue_type <> 9 
-
-						AND scq_ref_type IN (1,2)  AND scq_follow_up_date_time <= NOW()";
+					AND scq_follow_up_queue_type <> 9 AND scq_ref_type IN (1,2)  AND scq_follow_up_date_time <= NOW()";
 		return DBUtil::queryScalar($sql, DBUtil::MDB());
 	}
 
@@ -5414,7 +5421,7 @@ class ServiceCallQueue extends CActiveRecord
 		$params['createdByType'] = $createdByType;
 		$innerJoin				 = "";
 		$where					 = "";
-		if($createdByType == 4)
+		if ($createdByType == 4)
 		{
 			$innerJoin = "  INNER JOIN booking ON booking.bkg_id=service_call_queue.scq_related_bkg_id  AND bkg_status NOT IN (2) ";
 		}
@@ -5523,7 +5530,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function getCbrStaticalDetailsData($fromdate, $todate)
 	{
 		$params = array();
-		if($fromdate != "" && $todate != null)
+		if ($fromdate != "" && $todate != null)
 		{
 			$params['fromdate']	 = $fromdate . " 00:00:00";
 			$params['todate']	 = $todate . " 23:59:59";
@@ -5633,7 +5640,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function getCbrStaticalCloseData($fromdate, $todate)
 	{
 		$params = array();
-		if($fromdate != "" && $todate != null)
+		if ($fromdate != "" && $todate != null)
 		{
 			$params['fromdate']	 = $fromdate . " 00:00:00";
 			$params['todate']	 = $todate . " 23:59:59";
@@ -5690,19 +5697,19 @@ class ServiceCallQueue extends CActiveRecord
 			$entityType				 = $obj->scq_to_be_followed_up_with_entity_type;
 			$model					 = new ServiceCallQueue();
 			$model->contactRequired	 = (($obj->scq_follow_up_queue_type == ServiceCallQueue::TYPE_BAR) || ($obj->scq_follow_up_queue_type == ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL)) ? 0 : 1;
-			if(($obj->scq_follow_up_queue_type == ServiceCallQueue::TYPE_BAR) || ($obj->scq_follow_up_queue_type == ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL))
+			if (($obj->scq_follow_up_queue_type == ServiceCallQueue::TYPE_BAR) || ($obj->scq_follow_up_queue_type == ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL))
 			{
 				$model->followupPerson					 = 1;
 				$model->scq_to_be_followed_up_with_type	 = 0;
 			}
 			$model->scq_follow_up_queue_type = $obj->scq_follow_up_queue_type;
-			if($followupWith == 1)
+			if ($followupWith == 1)
 			{
 				$model->followupPerson					 = 1;
 				$model->scq_to_be_followed_up_by_type	 = 2;
 				$model->scq_to_be_followed_up_by_id		 = UserInfo::getUserId();
 			}
-			else if($followupWith == 2)
+			else if ($followupWith == 2)
 			{
 				$model->scq_to_be_followed_up_by_type	 = 1;
 				$model->scq_to_be_followed_up_by_id		 = $followupTeam;
@@ -5730,7 +5737,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_ref_type						 = $obj->scq_ref_type;
 			$returnSet									 = ServiceCallQueue::model()->create($model, $entityType, $platform);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -5746,7 +5753,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$returnSet	 = new ReturnSet();
 		$count		 = ServiceCallQueue::countQueueByBkgId($bookingId, ServiceCallQueue::TYPE_B2B_POST_PICKUP);
-		if($count == 0)
+		if ($count == 0)
 		{
 			$bookingModel	 = Booking::model()->findByPk($bookingId);
 			$driverId		 = $bookingModel->bkgBcb->bcb_driver_id;
@@ -5755,7 +5762,7 @@ class ServiceCallQueue extends CActiveRecord
 			$toDate			 = Filter::getDBDateTime();
 			$timediff		 = DBUtil::getTimeDiff($fromDate, $toDate);
 			$isUpperTier	 = in_array($bookingModel->bkgSvcClassVhcCat->scv_scc_id, [1, 6]) ? 0 : 1;
-			if($timediff <= 60 && $bookingModel->bkg_agent_id != null)
+			if ($timediff <= 60 && $bookingModel->bkg_agent_id != null)
 			{
 				$model = new ServiceCallQueue();
 				try
@@ -5775,7 +5782,7 @@ class ServiceCallQueue extends CActiveRecord
 					$entityType									 = $isUpperTier == 0 ? UserInfo::TYPE_DRIVER : UserInfo::TYPE_CONSUMER;
 					$returnSet									 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					$returnSet = ReturnSet::setException($ex);
 				}
@@ -5831,11 +5838,11 @@ class ServiceCallQueue extends CActiveRecord
 	public static function getAssignmentCount($csr, $teamId, $isNewBookingEligible = true)
 	{
 		$discardNewBkgSQL = "";
-		if(!$isNewBookingEligible)
+		if (!$isNewBookingEligible)
 		{
 			$discardNewBkgSQL = " AND scq_follow_up_queue_type<>1 AND scq_follow_up_priority < 35 ";
 		}
-		if($csr > 0 && $teamId > 0)
+		if ($csr > 0 && $teamId > 0)
 		{
 			$params	 = ['team' => $teamId, 'csr' => $csr];
 			$sql	 = "SELECT COUNT('scq_id') As Cnt
@@ -5875,27 +5882,29 @@ class ServiceCallQueue extends CActiveRecord
 		$whereBookingType	 = "";
 		$params1			 = array();
 
-		if($region != null && $region != "")
+		if ($region != null && $region != "")
 		{
 			$region		 = is_string($region) ? $region : strval($region);
 			DBUtil::getINStatement($region, $bindString, $params);
 			$whereRegion = " AND states.stt_zone IN ({$bindString}) ";
 		}
 
-		if($serveBookingType != null && $serveBookingType != "")
+		if ($serveBookingType != null && $serveBookingType != "")
 		{
 			$bookingType		 = is_string($serveBookingType) ? $serveBookingType : strval($serveBookingType);
 			DBUtil::getINStatement($bookingType, $bindString1, $params1);
 			$whereBookingType	 = " AND booking.bkg_booking_type IN ({$bindString1})";
 		}
 
-		$workingHour = $type == 0 ? "" : " OR (CalcWorkingHour(NOW(), bkg_pickup_date) <= 4) ";
+		$whereInner	 = $type == 0 ? "" : " INNER JOIN booking_trail ON booking_trail.btr_bkg_id=bpr_bkg_id  ";
+		$workingHour = $type == 0 ? "" : " OR ( CalcWorkingHour(NOW(), bkg_pickup_date) <= 2  AND TIMESTAMPDIFF(MINUTE, bkg_confirm_datetime,NOW())>60 ) ";
 		$orderBy	 = $type == 0 ? " ORDER BY   bkg_critical_assignment DESC, bkg_manual_assignment DESC, bkg_critical_score DESC,booking.bkg_pickup_date ASC,bkg_create_date ASC " : " ORDER BY pickUpPriority DESC,bkg_critical_assignment DESC, bkg_manual_assignment DESC, bkg_critical_score DESC,booking.bkg_pickup_date ASC,bkg_create_date ASC ";
 		$sql		 = "SELECT * FROM
                 (
                     (
 						SELECT bkg_id, bkg_booking_type, bpr_assignment_id, 1 AS type, IF(CalcWorkingHour(NOW(), bkg_pickup_date) <= 4,1,0) AS pickUpPriority
 						FROM `booking_pref`
+						$whereInner
 						INNER JOIN booking	ON booking.bkg_id = bpr_bkg_id AND bpr_assignment_level IN (0,1)  AND (bkg_manual_assignment=1 OR  bkg_critical_assignment=1 $workingHour  )
 						INNER JOIN  cities on bkg_from_city_id = cty_id AND cities.cty_active=1
 						INNER JOIN  states on cty_state_id = stt_id AND states.stt_active='1'
@@ -5960,14 +5969,14 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_to_be_followed_up_with_entity_type	 = UserInfo::TYPE_ADMIN;
 			$model->scq_to_be_followed_up_with_entity_id	 = 0;
 			$model->scq_to_be_followed_up_with_entity_rating = -1;
-			if($data['bpr_assignment_id'] > 0 && $data ['type'] == 1)
+			if ($data['bpr_assignment_id'] > 0 && $data ['type'] == 1)
 			{
 				$model->scq_to_be_followed_up_by_type	 = 2;
 				$model->scq_to_be_followed_up_by_id		 = $csr;
 			}
 			$model->scq_follow_up_queue_type = ServiceCallQueue::TYPE_BAR;
 			$bookingType					 = $data['bkg_booking_type'];
-			if(in_array($bookingType, [4, 9, 10, 11, 12, 14, 15]))
+			if (in_array($bookingType, [4, 9, 10, 11, 12, 14, 15]))
 			{
 				$model->scq_follow_up_queue_type = ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL;
 			}
@@ -5978,7 +5987,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_additional_param	 = json_encode(array('allocationType' => $allocationType));
 			$returnSet						 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_ADMIN_CALL);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -6088,12 +6097,12 @@ class ServiceCallQueue extends CActiveRecord
 		try
 		{
 			$model = ServiceCallQueue::model()->findByPk($scqId);
-			if(!$model)
+			if (!$model)
 			{
 				throw new Exception("Service queueId not valid", ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
 			$transaction = DBUtil::beginTransaction();
-			switch((int) $model->scq_follow_up_queue_type)
+			switch ((int) $model->scq_follow_up_queue_type)
 			{
 
 				case 42:
@@ -6106,14 +6115,14 @@ class ServiceCallQueue extends CActiveRecord
 				case 20:
 				case 21:
 				case 1:
-					if($model->scq_related_lead_id != null)
+					if ($model->scq_related_lead_id != null)
 					{
 						$jsonDecode		 = json_decode($model->scq_additional_param);
 						$bookingTempsIds = $jsonDecode->bookingTempReleated;
 						BookingTemp::unassignLD($model->scq_related_lead_id, $csr);
 						BookingTemp::unassignedIds($bookingTempsIds, $csr, $model->scq_related_lead_id);
 					}
-					else if($model->scq_related_bkg_id != null)
+					else if ($model->scq_related_bkg_id != null)
 					{
 						$jsonDecode		 = json_decode($model->scq_additional_param);
 						$bookingTempsIds = $jsonDecode->bookingTempReleated;
@@ -6145,7 +6154,7 @@ class ServiceCallQueue extends CActiveRecord
 			$returnSet->setStatus(true);
 			$returnSet->setMessage("csr has been unassigned successfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
@@ -6190,7 +6199,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function getStaticalDataByCsr($csr, $queueType, $fromdate, $todate)
 	{
 
-		if($queueType == '')
+		if ($queueType == '')
 		{
 			$params	 = ['csr' => $csr, 'fromdate' => $fromdate, 'todate' => $todate];
 			$sql	 = "SELECT ROUND(MIN(minutes/60),1) as MinTime,
@@ -6264,7 +6273,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "FBG";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_VENDOR, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -6326,7 +6335,7 @@ class ServiceCallQueue extends CActiveRecord
 	 */
 	public static function countDemMisFireByBkgId($bkgId, $type = 0)
 	{
-		if($type == 0)
+		if ($type == 0)
 		{
 			$sql = "SELECT  scq_id FROM `service_call_queue` WHERE 1 AND scq_active=1 AND scq_assigned_uid IS NULL AND  (scq_follow_up_queue_type IN  (33,19) OR JSON_VALUE(`scq_additional_param`,'$.DemMisFire')=1) AND scq_related_bkg_id=:bkgId ORDER BY scq_id DESC LIMIT 0,1";
 			return DBUtil::queryRow($sql, DBUtil::MDB(), ['bkgId' => $bkgId]);
@@ -6366,7 +6375,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "This was an upper tier trip. Customer received an SMS to give a review but has not responded yet. We need to know if they had a good trip or if there were any issues. we need to score 5* on every upper tier trip.";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -6423,7 +6432,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 
 		$where = $type == 1 ? " AND scq_follow_up_queue_type IN (16,20) " : " AND scq_follow_up_queue_type IN (17,21) ";
-		if($agentId > 0)
+		if ($agentId > 0)
 		{
 			$where = $type == 1 ? " AND scq_follow_up_queue_type IN (42,44) " : " AND scq_follow_up_queue_type IN (43,45) ";
 		}
@@ -6445,7 +6454,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$sql	 = "UPDATE service_call_queue SET scq_status =0,`scq_active`=0 WHERE scq_id =:scq_id AND scq_status IN (1,3) AND scq_active=1";
 		$numrows = DBUtil::execute($sql, ['scq_id' => $scqId]);
-		if($numrows == 0)
+		if ($numrows == 0)
 		{
 			throw new Exception("Failed to marked inactive queue id:  {$scqId }", ReturnSet::ERROR_FAILED);
 		}
@@ -6463,7 +6472,7 @@ class ServiceCallQueue extends CActiveRecord
 
 		$rows		 = $this->getTeams($query, $teamId);
 		$arrTeams	 = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrTeams[] = array("id" => $row['tea_id'], "text" => $row['tea_name']);
 		}
@@ -6482,16 +6491,16 @@ class ServiceCallQueue extends CActiveRecord
 		$qry	 = '';
 		$query	 = ($query == null || $query == "") ? "" : $query;
 		DBUtil::getLikeStatement($query, $bindString0, $params1);
-		if($teamId != '')
+		if ($teamId != '')
 		{
 			$qry1 = " AND tea_id in ($teamId)";
 		}
-		if($query != '')
+		if ($query != '')
 		{
 
 			$qry .= " AND (tea_name LIKE $bindString0) ";
 		}
-		if($teamId != '')
+		if ($teamId != '')
 		{
 			$sql = "SELECT tea_id, tea_name FROM teams  WHERE tea_status =1 $qry1";
 			return DBUtil::query($sql, DBUtil::SDB());
@@ -6540,18 +6549,18 @@ class ServiceCallQueue extends CActiveRecord
 		$limit	 = 0;
 		$flag	 = 0;
 		$model	 = new ServiceCallQueue();
-		while(true)
+		while (true)
 		{
 			$rows = BookingTemp::getPendingLeadsCron($limit, $isEligibleForNewLead, $elgibileScore, $agentId);
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
-				if($row['type'] == 2)
+				if ($row['type'] == 2)
 				{
 					$isRelatedQuoteCnt = ServiceCallQueue::isRelatedQuoteExist($row['bkg_id'], $agentId);
-					if($isRelatedQuoteCnt == 0)
+					if ($isRelatedQuoteCnt == 0)
 					{
 						$model = self::updateLead($row, 1, $agentId);
-						if($model->scq_id > 0)
+						if ($model->scq_id > 0)
 						{
 							self::addAdditionalParams($model, $agentId);
 						}
@@ -6562,18 +6571,18 @@ class ServiceCallQueue extends CActiveRecord
 						Logger::writeToConsole("Related Quote found ($isRelatedQuoteCnt): " . json_encode($row));
 					}
 				}
-				else if($row['type'] == 1)
+				else if ($row['type'] == 1)
 				{
 					$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($row['bkg_id'], $agentId);
-					if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+					if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 					{
 						$model = self::updateLead($row, 1, $agentId);
-						if($model->scq_id > 0)
+						if ($model->scq_id > 0)
 						{
 							self::addAdditionalParams($model, $agentId);
 						}
 					}
-					elseif($rowLeadStatus['isQueuedUp'] == 0)
+					elseif ($rowLeadStatus['isQueuedUp'] == 0)
 					{
 						BookingTemp::model()->inactivateDuplicateLeadById($row['bkg_id']);
 					}
@@ -6583,14 +6592,14 @@ class ServiceCallQueue extends CActiveRecord
 						Logger::writeToConsole("Related Leads found ($isRelatedQuoteCnt): " . json_encode($row));
 					}
 				}
-				if(ServiceCallQueue::getLeadCount($isEligibleForNewLead, $elgibileScore, $agentId) > (int) Config::get('SCQ.maxLeadAllowed'))
+				if (ServiceCallQueue::getLeadCount($isEligibleForNewLead, $elgibileScore, $agentId) > (int) Config::get('SCQ.maxLeadAllowed'))
 				{
 					$flag = 1;
 					break;
 				}
 			}
 			$limit++;
-			if($flag == 1 || $limit > 2)
+			if ($flag == 1 || $limit > 2)
 			{
 				break;
 			}
@@ -6603,16 +6612,16 @@ class ServiceCallQueue extends CActiveRecord
 	 */
 	public static function addAdditionalParams($model, $agentId = 0)
 	{
-		if($model->scq_related_lead_id != null)
+		if ($model->scq_related_lead_id != null)
 		{
 			$resultLD			 = BookingTemp::model()->getUserbyId($model->scq_related_lead_id, $agentId);
 			$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultLD["bkg_user_id"], $resultLD["email"], $resultLD['bkg_contact_no'], $agentId);
 			$getRelatedLead		 = [];
 			$lead				 = "";
-			foreach($getRelatedLeadIds as $leadArr)
+			foreach ($getRelatedLeadIds as $leadArr)
 			{
 				$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-				if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+				if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 				{
 					$lead						 .= $leadArr['bkg_id'] . ",";
 					$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -6621,16 +6630,16 @@ class ServiceCallQueue extends CActiveRecord
 			$data = json_encode(array('bookingTempReleated' => rtrim($lead, ",")));
 			ServiceCallQueue::updateAdditonalParam($model->scq_id, $data);
 		}
-		else if($model->scq_related_bkg_id != null)
+		else if ($model->scq_related_bkg_id != null)
 		{
 			$resultQT			 = Booking::model()->getUserbyIdNew($model->scq_related_bkg_id, $agentId);
 			$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no'], $agentId);
 			$lead				 = "";
 			$getRelatedLead		 = [];
-			foreach($getRelatedLeadIds as $leadArr)
+			foreach ($getRelatedLeadIds as $leadArr)
 			{
 				$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-				if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+				if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 				{
 					$lead						 .= $leadArr['bkg_id'] . ",";
 					$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -6639,9 +6648,9 @@ class ServiceCallQueue extends CActiveRecord
 			$getRelatedQuoteIds	 = Booking::getRelatedIds($resultQT["bkg_user_id"], $resultQT["bkg_user_email"], $resultQT['bkg_contact_no'], $agentId);
 			$quote				 = "";
 			$getRelatedQuote	 = [];
-			foreach($getRelatedQuoteIds as $quoteArr)
+			foreach ($getRelatedQuoteIds as $quoteArr)
 			{
-				if(ServiceCallQueue::isRelatedQuoteExist($quoteArr['bkg_id'], $agentId) == 0)
+				if (ServiceCallQueue::isRelatedQuoteExist($quoteArr['bkg_id'], $agentId) == 0)
 				{
 					$quote						 .= $quoteArr['bkg_id'] . ",";
 					$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -6654,13 +6663,13 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$contactId	 = ($model->scq_to_be_followed_up_with_contact == null) ? 0 : $model->scq_to_be_followed_up_with_contact;
 			$arrProfile	 = ContactProfile::getEntityById($contactId, UserInfo::TYPE_CONSUMER);
-			if(!empty($arrProfile["id"]))
+			if (!empty($arrProfile["id"]))
 			{
 				$userId = $arrProfile['id'];
 			}
 			$contactEmail	 = ContactEmail::getEmailByBookingUserId($userId);
 			$code			 = 91;
-			if($model->scq_to_be_followed_up_with_type == 2)
+			if ($model->scq_to_be_followed_up_with_type == 2)
 			{
 				$phone = $model->scq_to_be_followed_up_with_value;
 			}
@@ -6673,10 +6682,10 @@ class ServiceCallQueue extends CActiveRecord
 			$getRelatedLeadIds	 = BookingTemp::getRelatedLeadIds($userId, $contactEmail, $custUserPhone, $agentId);
 			$lead				 = "";
 			$getRelatedLead		 = [];
-			foreach($getRelatedLeadIds as $leadArr)
+			foreach ($getRelatedLeadIds as $leadArr)
 			{
 				$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($leadArr['bkg_id'], $agentId);
-				if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+				if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 				{
 					$lead						 .= $leadArr['bkg_id'] . ",";
 					$getRelatedLead[]['bkg_id']	 = $leadArr['bkg_id'];
@@ -6685,9 +6694,9 @@ class ServiceCallQueue extends CActiveRecord
 			$getRelatedQuoteIds	 = Booking::getRelatedIds($userId, $contactEmail, $custUserPhone, $agentId);
 			$quote				 = "";
 			$getRelatedQuote	 = [];
-			foreach($getRelatedQuoteIds as $quoteArr)
+			foreach ($getRelatedQuoteIds as $quoteArr)
 			{
-				if(ServiceCallQueue::isRelatedQuoteExist($quoteArr['bkg_id'], $agentId) == 0)
+				if (ServiceCallQueue::isRelatedQuoteExist($quoteArr['bkg_id'], $agentId) == 0)
 				{
 					$quote						 .= $quoteArr['bkg_id'] . ",";
 					$getRelatedQuote[]['bkg_id'] = $quoteArr['bkg_id'];
@@ -6710,11 +6719,11 @@ class ServiceCallQueue extends CActiveRecord
 		$bkgId		 = $bcbModel->bookings[0]->bkg_id;
 		$scqId		 = ServiceCallQueue::getScqIdGozoNowForVendor($bkgId, $vendorId, ServiceCallQueue::TYPE_GOZONOW);
 		$returnSet	 = new ReturnSet();
-		if($scqId > 0)
+		if ($scqId > 0)
 		{
 			$scqDetails	 = ServiceCallQueue::model()->detail($scqId);
 			$data		 = [];
-			if($scqDetails['scq_id'] > 0)
+			if ($scqDetails['scq_id'] > 0)
 			{
 				$data	 = ['followupId' => (int) $scqDetails['scq_id'], 'queNo' => $scqDetails['scq_queue_no'], 'followupCode' => $scqDetails['scq_unique_code'], 'waitTime' => $scqDetails['scq_waittime']];
 				$success = true;
@@ -6741,7 +6750,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_creation_comments				 = "There are some problem with vendor. Please call to know the reason";
 				$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_VENDOR, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$returnSet = ReturnSet::setException($ex);
 			}
@@ -6803,7 +6812,7 @@ class ServiceCallQueue extends CActiveRecord
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		Logger::info("Row Value  " . json_encode($row));
 		$count = ServiceCallQueue::checkLeadExist($row['bkg_contact_no'], $row['type']);
-		if($count == 0)
+		if ($count == 0)
 		{
 			try
 			{
@@ -6819,7 +6828,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_to_be_followed_up_with_entity_rating = -1;
 				$model->subQueue								 = $row['type'] == 2 ? ServiceCallQueue::SUB_QUOTE_CREATED_FOLLOWUP : ServiceCallQueue::SUB_LEADS;
 				$model->scq_priority_score						 = ($row['csrRank'] + $row['timeRank'] + $row['advanceRank'] + $row['pickupRank'] + $row['followup_rank']);
-				if($row['type'] == 2)
+				if ($row['type'] == 2)
 				{
 					$model->scq_ref_type		 = 2;
 					$model->scq_related_bkg_id	 = $row['bkg_id'];
@@ -6837,7 +6846,7 @@ class ServiceCallQueue extends CActiveRecord
 				$platform									 = $type == 1 ? ServiceCallQueue::PLATFORM_SYSTEM : ServiceCallQueue::PLATFORM_ADMIN_CALL;
 				ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, $platform);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::trace("Serivice::updateLead : " . $ex->getMessage());
 				Logger::exception($ex);
@@ -6887,7 +6896,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_additional_param				 = json_encode(array('driverContactId' => $row['driverContactId'] != null ? $row['driverContactId'] : 0, 'vehicleIds' => $row['vehicleIds'] != NULL ? $row['vehicleIds'] : 0));
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_VENDOR, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -6903,7 +6912,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$returnSet	 = new ReturnSet();
 		$count		 = ServiceCallQueue::countQueueByBkgId($bookingId, ServiceCallQueue::TYPE_B2B_POST_PICKUP);
-		if($count == 0)
+		if ($count == 0)
 		{
 			$bookingModel	 = Booking::model()->findByPk($bookingId);
 			$driverId		 = $bookingModel->bkgBcb->bcb_driver_id;
@@ -6930,7 +6939,7 @@ class ServiceCallQueue extends CActiveRecord
 				$entityType									 = $isUpperTier == 0 ? UserInfo::TYPE_DRIVER : UserInfo::TYPE_CONSUMER;
 				$returnSet									 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$returnSet = ReturnSet::setException($ex);
 			}
@@ -6950,7 +6959,7 @@ class ServiceCallQueue extends CActiveRecord
 		$queueType	 = ServiceCallQueue::TYPE_UPSELL . "," . ServiceCallQueue::TYPE_UPSELL_UPPERTIER;
 		$count		 = ServiceCallQueue::countQueueByBkgId($bookingId, $queueType);
 		/* Auto FUR Trip started Start */
-		if($count == 0)
+		if ($count == 0)
 		{
 			$bookingModel	 = Booking::model()->findByPk($bookingId);
 			$fromDate		 = $bookingModel->bkgTrack->bkg_trip_start_time;
@@ -6973,7 +6982,7 @@ class ServiceCallQueue extends CActiveRecord
 				$model->scq_creation_comments				 = "Customers trip has already started. Call them and ask how the trip is going and ensure all is well. If customer is unhappy - create a immediate service request for Customer support team against the same booking ID. Escalate the booking to Customer support leader if issue is serious. If things are going well - ask customer if they need any booking and you can create for them. Create a service request for Retail sales to follow up with this same customer. Remind the customer - they can get 20% of their trip cost back as cash if they refer a friend to travel with us within the next 5 days.";
 				$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$returnSet = ReturnSet::setException($ex);
 			}
@@ -7007,7 +7016,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_additional_param				 = json_encode(array('VendorUpdateService' => $vendorIds));
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo::TYPE_VENDOR, ServiceCallQueue::PLATFORM_VENDOR_APP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -7088,7 +7097,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_additional_param					 = json_encode(array('DTM' => 1, 'Region' => $data['stt_zone'], 'Path' => $data['Controller'], 'allocationType' => $allocationType));
 			$returnSet										 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_ADMIN_CALL);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -7196,7 +7205,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$where	 = "";
 		$params	 = array();
-		if($cdt_id > 0)
+		if ($cdt_id > 0)
 		{
 			$params['cdt_id']	 = $cdt_id;
 			$where				 = " AND  cdt.cdt_id =:cdt_id ";
@@ -7278,26 +7287,26 @@ class ServiceCallQueue extends CActiveRecord
 		$dateFormat				 = ['date' => '%Y-%m-%d', 'week' => '%x-%v', 'month' => '%Y-%m', 'hour' => '%Y-%m-%d %H'];
 		$date					 = $dateFormat[$groupBy];
 		$params					 = [];
-		if($groupBy == 'hour' || $groupBy == 'date')
+		if ($groupBy == 'hour' || $groupBy == 'date')
 		{
 			$restrictSCQQry			 = " AND TIME(scq_assigned_date_time)<=CURRENT_TIME()";
 			$restrictBkgQry			 = " AND TIME(bkg_create_date)<=CURRENT_TIME()";
 			$restrictBkgConfirmQry	 = " AND TIME(bkg_confirm_datetime)<=CURRENT_TIME()";
 		}
-		else if($groupBy == 'week')
+		else if ($groupBy == 'week')
 		{
 			$restrictSCQQry			 = " AND WEEKDAY(scq_assigned_date_time)<=WEEKDAY(:toDate)";
 			$restrictBkgQry			 = " AND WEEKDAY(bkg_create_date)<=WEEKDAY(:toDate)";
 			$restrictBkgConfirmQry	 = " AND WEEKDAY(bkg_confirm_datetime)<=WEEKDAY(:toDate)";
 		}
-		else if($groupBy == 'month')
+		else if ($groupBy == 'month')
 		{
 			$restrictSCQQry			 = " AND DAYOFMONTH(scq_assigned_date_time)<=DAYOFMONTH(:toDate)";
 			$restrictBkgQry			 = " AND DAYOFMONTH(bkg_create_date)<=DAYOFMONTH(:toDate)";
 			$restrictBkgConfirmQry	 = " AND DAYOFMONTH(bkg_confirm_datetime)<=DAYOFMONTH(:toDate)";
 		}
 
-		if($data['restrictCurrentTime'] != 1)
+		if ($data['restrictCurrentTime'] != 1)
 		{
 			$restrictSCQQry			 = "";
 			$restrictBkgQry			 = "";
@@ -7318,7 +7327,7 @@ class ServiceCallQueue extends CActiveRecord
 		$isAndroid				 = $data['isAndroid'];
 		$isIOS					 = $data['isIOS'];
 
-		if(count($regions) > 0)
+		if (count($regions) > 0)
 		{
 
 			$stateIds	 = States::getIdsByRegion($regions);
@@ -7333,7 +7342,7 @@ class ServiceCallQueue extends CActiveRecord
 
 
 
-		if(count($bkgTypes) > 0)
+		if (count($bkgTypes) > 0)
 		{
 			$bkgTypeStr			 = implode(",", $bkgTypes);
 			$scqBookingType_bkg	 = " AND (bkg.bkg_id IS NULL OR bkg.bkg_booking_type IN ($bkgTypeStr)) ";
@@ -7343,25 +7352,25 @@ class ServiceCallQueue extends CActiveRecord
 			$bookingType_bt		 = " AND bt.bkg_booking_type IN ($bkgTypeStr) ";
 			$bookingType_b		 = " AND b.bkg_booking_type IN ($bkgTypeStr) ";
 		}
-		if($csrSearch != '')
+		if ($csrSearch != '')
 		{
 			$params['csrsearch'] = $csrSearch;
 			$bkgCSRSearch		 = " AND ((btr.bkg_create_user_type=4 AND btr.bkg_create_user_id=:csrsearch) OR (btr.bkg_confirm_user_type=4 AND btr.bkg_confirm_user_id=:csrsearch))";
 			$scqCSRSearch		 = "AND scq_assigned_uid=:csrsearch";
 		}
-		if($teamLead != '')
+		if ($teamLead != '')
 		{
 			$params["teamLead"] = $teamLead;
 
 			$adminIds = AdminProfiles::getAdmIdByTeamLeader($teamLead);
-			if(!$adminIds)
+			if (!$adminIds)
 			{
 				$adminIds = 0;
 			}
 			$scqLeadSql	 = " AND (scq.scq_assigned_uid IN ({$adminIds})) ";
 			$bkgAdminSql = " AND (bkg_admin_id IN ({$adminIds})) ";
 		}
-		if($groupByCSR)
+		if ($groupByCSR)
 		{
 			$groupBySCQ	 = ", scq_assigned_uid";
 			$groupByBkg	 = ", bkg_create_user_id";
@@ -7369,36 +7378,36 @@ class ServiceCallQueue extends CActiveRecord
 			$joinBkg	 = " AND scq.scq_assigned_id=bkg_create_user_id";
 		}
 
-		if($isAndroid == true || $isIOS == true)
+		if ($isAndroid == true || $isIOS == true)
 		{
 			$isMobile = true;
 		}
 
-		if($isMobile)
+		if ($isMobile)
 		{
 			$mobileApp		 = "  AND (btr.bkg_platform = 3) ";
 			$tempMobileApp	 = " AND (bkg_platform = 3)";
 
-			if($isAndroid && $isIOS == false)
+			if ($isAndroid && $isIOS == false)
 			{
 				$mobileApp		 .= " AND btr.bkg_user_device NOT LIKE '%iOS%'";
 				$tempMobileApp	 .= " AND bkg_user_device NOT LIKE '%iOS%'";
 			}
 
-			if($isIOS && $isAndroid == false)
+			if ($isIOS && $isAndroid == false)
 			{
 				$mobileApp		 .= " AND btr.bkg_user_device LIKE '%iOS%'";
 				$tempMobileApp	 .= " AND bkg_user_device LIKE '%iOS%'";
 			}
 		}
 		$scqGozoNow = '';
-		if($isGozonow)
+		if ($isGozonow)
 		{
 			$isGozonowSelected		 = "  AND (bpr.bkg_is_gozonow = 1) ";
 			$isGozonowTempSelected	 = "  AND (bkg_is_gozonow = 1) ";
 			$scqGozoNow				 = ",27";
 		}
-		if(is_array($weekDays) && count($weekDays) > 0)
+		if (is_array($weekDays) && count($weekDays) > 0)
 		{
 			$weekDaysStr			 = implode(',', $weekDays);
 			$weekDayqry				 = "  AND FIND_IN_SET(DAYOFWEEK(ct.dt), '{$weekDaysStr}') ";
@@ -7601,49 +7610,49 @@ class ServiceCallQueue extends CActiveRecord
 		$limit	 = 0;
 		$flag	 = 0;
 		$model	 = new ServiceCallQueue();
-		while(true)
+		while (true)
 		{
 			$rows = BookingTemp::getLastMinPendingLeadsCron($limit);
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$row['desc'] = "Last mintue booking.";
-				if($row['type'] == 2)
+				if ($row['type'] == 2)
 				{
 					$isRelatedQuoteCnt = ServiceCallQueue::isRelatedQuoteExist($row['bkg_id']);
-					if($isRelatedQuoteCnt == 0)
+					if ($isRelatedQuoteCnt == 0)
 					{
 						$model = self::updateLead($row, 1);
-						if($model->scq_id > 0)
+						if ($model->scq_id > 0)
 						{
 							self::addAdditionalParams($model);
 						}
 					}
 				}
-				else if($row['type'] == 1)
+				else if ($row['type'] == 1)
 				{
 					$rowLeadStatus = ServiceCallQueue::isRelatedLeadExist($row['bkg_id']);
-					if($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
+					if ($rowLeadStatus == false || $rowLeadStatus['cnt'] == 0)
 					{
 						$model = self::updateLead($row, 1);
-						if($model->scq_id > 0)
+						if ($model->scq_id > 0)
 						{
 							self::addAdditionalParams($model);
 						}
 					}
-					elseif($rowLeadStatus['isQueuedUp'] == 0)
+					elseif ($rowLeadStatus['isQueuedUp'] == 0)
 					{
 
 						BookingTemp::model()->inactivateDuplicateLeadById($row['bkg_id']);
 					}
 				}
-				if(ServiceCallQueue::getLastMinLeadCount() > (int) Config::get('SCQ.maxLeadAllowed'))
+				if (ServiceCallQueue::getLastMinLeadCount() > (int) Config::get('SCQ.maxLeadAllowed'))
 				{
 					$flag = 1;
 					break;
 				}
 			}
 			$limit++;
-			if($flag == 1 || $limit > 2)
+			if ($flag == 1 || $limit > 2)
 			{
 				break;
 			}
@@ -7675,7 +7684,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = $row['bkg_cancel_delete_reason'];
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, ServiceCallQueue::PLATFORM_SYSTEM);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -7737,7 +7746,7 @@ class ServiceCallQueue extends CActiveRecord
 			$allocationMsg	 = $allocationType == 0 ? " Auto " : " Manually ";
 			$transaction	 = DBUtil::beginTransaction();
 			$returnSet		 = self::addBARQueue($data, $csr, $allocationType);
-			if($returnSet->getStatus())
+			if ($returnSet->getStatus())
 			{
 				$row['scq_id']	 = $returnSet->getData()['followupId'];
 				$isBarFlag		 = 1;
@@ -7748,22 +7757,22 @@ class ServiceCallQueue extends CActiveRecord
 			$isEligibleForNewLead	 = true;
 			$count					 = self::getAssignmentCount($csr, $teamId, $isEligibleForNewLead);
 			$returnCount			 = self::assign($row['scq_id'], $csr, $count);
-			if($returnCount > 0)
+			if ($returnCount > 0)
 			{
 				self::assignTeam($row['scq_id'], $teamId);
 			}
-			if($returnCount && $isBarFlag == 1)
+			if ($returnCount && $isBarFlag == 1)
 			{
 				$bookingmodel								 = Booking::model()->findByPk($bkid);
 				$bookingmodel->bkgPref->bpr_assignment_level = 1;
 				$bookingmodel->bkgPref->bpr_assignment_id	 = $adminid;
-				if($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
+				if ($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
 				{
 					$bookingmodel->bkgPref->bpr_assignment_fdate = new CDbExpression('NOW()');
 				}
 				$bookingmodel->bkgPref->bpr_assignment_ldate = new CDbExpression('NOW()');
 				$bookingmodel->bkgPref->save();
-				if($bookingmodel->bkgPref->save())
+				if ($bookingmodel->bkgPref->save())
 				{
 					$admin	 = Admins::model()->findByPk($adminid);
 					$aname	 = $admin->adm_fname;
@@ -7773,7 +7782,7 @@ class ServiceCallQueue extends CActiveRecord
 			}
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			Logger::exception($ex);
@@ -7833,7 +7842,7 @@ class ServiceCallQueue extends CActiveRecord
 	 */
 	public static function getDetailsByQueueBkgCsr($queueIds, $bkgId, $csrId, $check = 0, $status = "1,3")
 	{
-		if($check == 1)
+		if ($check == 1)
 		{
 			$cond = "";
 		}
@@ -7878,26 +7887,26 @@ class ServiceCallQueue extends CActiveRecord
 		$where2		 = "";
 		$sqlJoin	 = "";
 
-		if($this->from_date != '' && $this->to_date != '')
+		if ($this->from_date != '' && $this->to_date != '')
 		{
 			$fromDate	 = $this->from_date . ' 00:00:00';
 			$toDate		 = $this->to_date . ' 23:59:59';
 		}
-		if($this->bkg_pickup_date1 != '' && $this->bkg_pickup_date2 != '')
+		if ($this->bkg_pickup_date1 != '' && $this->bkg_pickup_date2 != '')
 		{
 			$pickupDate1 = $this->bkg_pickup_date1 . ' 00:00:00';
 			$pickupDate2 = $this->bkg_pickup_date2 . ' 23:59:59';
 		}
-		if($this->adminId > 0)
+		if ($this->adminId > 0)
 		{
 			$where .= " AND (atl.adm_id=$this->adminId OR admins.adm_id=$this->adminId) ";
 		}
-		if($pickupDate1 != '' && $pickupDate2 != '')
+		if ($pickupDate1 != '' && $pickupDate2 != '')
 		{
 			$where2 .= " AND (bkg_pickup_date BETWEEN '{$pickupDate1}' AND '{$pickupDate2}') ";
 		}
 
-		if($this->region != '')
+		if ($this->region != '')
 		{
 			$sqlJoin	 .= " INNER JOIN cities c1 ON c1.cty_id=bkg_from_city_id AND c1.cty_active=1 
 						INNER JOIN states s1 ON s1.stt_id=c1.cty_state_id AND s1.stt_active = '1' ";
@@ -7905,7 +7914,7 @@ class ServiceCallQueue extends CActiveRecord
 			$where2		 .= " AND s1.stt_zone IN ($strRegion) ";
 		}
 
-		if($this->assignMode != '')
+		if ($this->assignMode != '')
 		{
 			$strAssignMode	 = implode(',', $this->assignMode);
 			$where2			 .= " AND bcb_assign_mode IN ($strAssignMode) ";
@@ -7913,17 +7922,17 @@ class ServiceCallQueue extends CActiveRecord
 
 		$whereCritical = [];
 
-		if($this->isManual > 0)
+		if ($this->isManual > 0)
 		{
 			$whereCritical[] = "(bpr.bkg_manual_assignment=$this->isManual AND bpr.bkg_critical_assignment=0)";
 		}
 
-		if($this->isCritical > 0)
+		if ($this->isCritical > 0)
 		{
 			$whereCritical[] = "bpr.bkg_critical_assignment=$this->isCritical";
 		}
 
-		if(count($whereCritical) > 0)
+		if (count($whereCritical) > 0)
 		{
 			$where2 .= " AND (" . implode(" OR ", $whereCritical) . ")";
 		}
@@ -8022,11 +8031,11 @@ class ServiceCallQueue extends CActiveRecord
 		$data		 = ['bkg_id' => $bookingmodel->bkg_id, 'bkg_booking_type' => $bookingmodel->bkg_booking_type, 'bpr_assignment_id' => 0, 'type' => 1];
 		$returnSet	 = ServiceCallQueue::addBARQueue($data, $adminid, $allocationType);
 		$scqId		 = $returnSet->getData()['followupId'];
-		if(in_array($adminTeamId, [48, 4]))
+		if (in_array($adminTeamId, [48, 4]))
 		{
 			$count		 = self::getAssignmentCount($adminid, $adminTeamId, false);
 			$returnCount = self::assign($scqId, $adminid, $count, 1);
-			if($returnCount > 0)
+			if ($returnCount > 0)
 			{
 				self::assignTeam($scqId, $adminTeamId);
 			}
@@ -8035,7 +8044,7 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$count		 = self::getAssignmentCount($adminid, $adminTeamId, false);
 			$returnCount = self::assign($scqId, $adminid, $count, 0);
-			if($returnCount > 0)
+			if ($returnCount > 0)
 			{
 				self::assignTeam($scqId, $adminTeamId);
 			}
@@ -8068,7 +8077,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$where	 = "";
 		$params1 = array();
-		if($serveBookingType != null && $serveBookingType != "")
+		if ($serveBookingType != null && $serveBookingType != "")
 		{
 			$bookingType = is_string($serveBookingType) ? $serveBookingType : strval($serveBookingType);
 			DBUtil::getINStatement($bookingType, $bindString1, $params1);
@@ -8113,7 +8122,7 @@ class ServiceCallQueue extends CActiveRecord
 		try
 		{
 			$returnSet = self::addCSAQueue($data, $teamId, $allocationType);
-			if($returnSet->getStatus())
+			if ($returnSet->getStatus())
 			{
 				$row['scq_id']	 = $returnSet->getData()['followupId'];
 				$isCsaFlag		 = 1;
@@ -8123,21 +8132,21 @@ class ServiceCallQueue extends CActiveRecord
 			$isEligibleForNewLead	 = true;
 			$count					 = self::getAssignmentCount($csr, $teamId, $isEligibleForNewLead);
 			$returnCount			 = self::assign($row['scq_id'], $csr, $count, 1);
-			if($returnCount > 0)
+			if ($returnCount > 0)
 			{
 				self::assignTeam($row['scq_id'], $teamId);
 			}
-			if($returnCount && $isCsaFlag == 1)
+			if ($returnCount && $isCsaFlag == 1)
 			{
 				$bookingmodel								 = Booking::model()->findByPk($bkid);
 				$bookingmodel->bkgPref->bpr_assignment_level = $type == 1 ? 3 : 2;
 				$bookingmodel->bkgPref->bpr_assignment_id	 = $adminid;
-				if($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
+				if ($bookingmodel->bkgPref->bpr_assignment_fdate == NULL || $bookingmodel->bkgPref->bpr_assignment_fdate == "")
 				{
 					$bookingmodel->bkgPref->bpr_assignment_fdate = new CDbExpression('NOW()');
 				}
 				$bookingmodel->bkgPref->bpr_assignment_ldate = new CDbExpression('NOW()');
-				if($bookingmodel->bkgPref->save())
+				if ($bookingmodel->bkgPref->save())
 				{
 					$admin		 = Admins::model()->findByPk($adminid);
 					$aname		 = $admin->adm_fname;
@@ -8148,7 +8157,7 @@ class ServiceCallQueue extends CActiveRecord
 				}
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			return false;
@@ -8177,20 +8186,20 @@ class ServiceCallQueue extends CActiveRecord
 		$chk		 = true;
 		$totRecords	 = $upperLimit;
 		$limit		 = $lowerLimit;
-		while($chk)
+		while ($chk)
 		{
 			$transaction = "";
 			try
 			{
 				$sql	 = "SELECT GROUP_CONCAT(scq_id) AS scq_id FROM (SELECT scq_id FROM service_call_queue WHERE 1 AND scq_create_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 6 MONTH), ' 23:59:59') AND scq_status IN (0,2) ORDER BY scq_id ASC LIMIT 0, $limit) as temp";
 				$resQ	 = DBUtil::queryScalar($sql);
-				if(!is_null($resQ) && $resQ != '')
+				if (!is_null($resQ) && $resQ != '')
 				{
 					$transaction = DBUtil::beginTransaction();
 					DBUtil::getINStatement($resQ, $bindString, $params);
 					$sql		 = "INSERT INTO " . $archiveDB . ".service_call_queue (SELECT * FROM service_call_queue WHERE scq_id IN ($bindString))";
 					$rows		 = DBUtil::execute($sql, $params);
-					if($rows > 0)
+					if ($rows > 0)
 					{
 						$sql = "DELETE FROM `service_call_queue` WHERE scq_id IN ($bindString)";
 						DBUtil::execute($sql, $params);
@@ -8203,12 +8212,12 @@ class ServiceCallQueue extends CActiveRecord
 				}
 
 				$i += $limit;
-				if(($resQ <= 0) || $totRecords <= $i)
+				if (($resQ <= 0) || $totRecords <= $i)
 				{
 					break;
 				}
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				DBUtil::rollbackTransaction($transaction);
 				Logger::exception($ex);
@@ -8251,7 +8260,7 @@ class ServiceCallQueue extends CActiveRecord
 			$entityType										 = $flag == 1 ? UserInfo::TYPE_DRIVER : ($partnerType == 1 ? UserInfo::TYPE_VENDOR : UserInfo::TYPE_CONSUMER);
 			$returnSet										 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_ADMIN_CALL);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -8263,11 +8272,11 @@ class ServiceCallQueue extends CActiveRecord
 		$cusPenalizedRule	 = CancelReasons::getCustomerPenalizeRuleById($cancelId);
 		$venPenalizedRule	 = CancelReasons::getVendorPenalizeRuleById($cancelId);
 		$cancelCharge		 = ($cusPenalizedRule <= 1) ? 0 : $cancelCharges;
-		if($cusPenalizedRule == 3 && $cancelCharge > 0)
+		if ($cusPenalizedRule == 3 && $cancelCharge > 0)
 		{
 			ServiceCallQueue::addFollowupForPenalizedCustomer($bkgId);
 		}
-		if($venPenalizedRule == 3 && $cancelCharge > 0)
+		if ($venPenalizedRule == 3 && $cancelCharge > 0)
 		{
 			ServiceCallQueue::addFollowupForPenalizedVendor($bkgId);
 		}
@@ -8286,12 +8295,12 @@ class ServiceCallQueue extends CActiveRecord
 		try
 		{
 			$bookingmodel = Booking::model()->findByPk($bkgId);
-			if(!in_array($bookingmodel->bkg_agent_id, array(18190, 450)))
+			if (!in_array($bookingmodel->bkg_agent_id, array(18190, 450)))
 			{
 				$returnSet->setMessage(" B2C/Other Channel Partner ");
 				$returnSet->setStatus(false);
 			}
-			else if(ServiceCallQueue::countQueueByBkgId($bkgId, ServiceCallQueue::TYPE_MMT_SUPPORT, 'closed') > 0)
+			else if (ServiceCallQueue::countQueueByBkgId($bkgId, ServiceCallQueue::TYPE_MMT_SUPPORT, 'closed') > 0)
 			{
 				$returnSet->setMessage(" CBR already exist");
 				$returnSet->setStatus(false);
@@ -8319,7 +8328,7 @@ class ServiceCallQueue extends CActiveRecord
 				$returnSet										 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_ADMIN_CALL);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -8519,7 +8528,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "Ask the vendor to assign driver/cab details as soon as posible. ";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_VENDOR, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -8560,7 +8569,7 @@ class ServiceCallQueue extends CActiveRecord
 			$params['contact_no']	 = $model->bkgUserInfo->bkg_country_code != null ? $model->bkgUserInfo->bkg_country_code . $model->bkgUserInfo->bkg_contact_no : $model->bkgUserInfo->bkg_contact_no;
 			$params['bkgId']		 = $model->bkg_id;
 			$params['userId']		 = $model->bkgUserInfo->bkg_user_id;
-			if($refBkgId != null)
+			if ($refBkgId != null)
 			{
 				$params['refBkgId']	 = $refBkgId;
 				$where				 .= " OR (scq_related_lead_id=:refBkgId) ";
@@ -8582,12 +8591,12 @@ class ServiceCallQueue extends CActiveRecord
 						$where
 					)";
 			$scqDetails	 = DBUtil::query($sql, DBUtil::MDB(), $params);
-			foreach($scqDetails as $row)
+			foreach ($scqDetails as $row)
 			{
 				ServiceCallQueue::updateStatus($row['scq_id'], 10, 0, "Booking already confirmed/Payment serviced");
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
 		}
@@ -8686,7 +8695,7 @@ class ServiceCallQueue extends CActiveRecord
 						AND booking.bkg_pickup_date BETWEEN :fromDate AND :toDate
 			) AS TEMP WHERE 1  GROUP BY TEMP.bkg_id ORDER BY TEMP.MANUAL DESC";
 
-		if($command == DBUtil::ReturnType_Provider)
+		if ($command == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ({$sql} ) temp", DBUtil::SDB(), ['fromDate' => $fromDate, 'toDate' => $toDate]);
 			$dataProvider	 = new CSqlDataProvider($sql, [
@@ -8732,7 +8741,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = $message;
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -8743,7 +8752,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$fromDate	 = "$followModel->from_date 00:00:00";
 		$toDate		 = "$followModel->to_date 23:59:59";
-		if(count($followModel->teamList) > 0)
+		if (count($followModel->teamList) > 0)
 		{
 			$teamLead = implode(",", $followModel->teamList);
 		}
@@ -8751,7 +8760,7 @@ class ServiceCallQueue extends CActiveRecord
 		$command = self::getServiceCallQueueCommand($fromDate, $toDate, $teamLead);
 
 		$count = DBUtil::queryScalar("SELECT COUNT(*) FROM ({$command->getText()} ) temp", DBUtil::SDB3(), $command->params);
-		if($type == DBUtil::ReturnType_Provider)
+		if ($type == DBUtil::ReturnType_Provider)
 		{
 			$dataprovider = new CSqlDataProvider($command, array(
 				"totalItemCount" => $count,
@@ -8771,20 +8780,20 @@ class ServiceCallQueue extends CActiveRecord
 
 	public static function getServiceCallQueueCommand($fromDate, $toDate, $teamLead)
 	{
-		if($fromDate != '')
+		if ($fromDate != '')
 		{
 			$createFromDays		 = " AND scq_create_date>=:fromDate";
 			$params[":fromDate"] = $fromDate;
 		}
 
 
-		if($toDate != '')
+		if ($toDate != '')
 		{
 			$createToDate		 = " AND scq_create_date<=:toDate";
 			$params[":toDate"]	 = $toDate;
 		}
 
-		if($teamLead > 0)
+		if ($teamLead > 0)
 		{
 			$scqLeadSql			 = " AND scq_to_be_followed_up_by_id IN (:teamLead)";
 			$params[":teamLead"] = $teamLead;
@@ -8889,7 +8898,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$fromDate	 = "$followModel->from_date 00:00:00";
 		$toDate		 = "$followModel->to_date 23:59:59";
-		if(count($followModel->teamList) > 0)
+		if (count($followModel->teamList) > 0)
 		{
 			$teamLead = implode(",", $followModel->teamList);
 		}
@@ -8897,7 +8906,7 @@ class ServiceCallQueue extends CActiveRecord
 		$command = self::getServiceCallQueueClosedDateCommand($fromDate, $toDate, $teamLead);
 
 		$count = DBUtil::queryScalar("SELECT COUNT(*) FROM ({$command->getText()} ) temp", DBUtil::SDB3(), $command->params);
-		if($type == DBUtil::ReturnType_Provider)
+		if ($type == DBUtil::ReturnType_Provider)
 		{
 			$dataprovider = new CSqlDataProvider($command, array(
 				"totalItemCount" => $count,
@@ -8917,20 +8926,20 @@ class ServiceCallQueue extends CActiveRecord
 
 	public static function getServiceCallQueueClosedDateCommand($fromDate, $toDate, $teamLead)
 	{
-		if($fromDate != '')
+		if ($fromDate != '')
 		{
 			$createFromDays		 = " AND scq_disposition_date>=:fromDate";
 			$params[":fromDate"] = $fromDate;
 		}
 
 
-		if($toDate != '')
+		if ($toDate != '')
 		{
 			$createToDate		 = " AND scq_disposition_date<=:toDate";
 			$params[":toDate"]	 = $toDate;
 		}
 
-		if($teamLead > 0)
+		if ($teamLead > 0)
 		{
 			$scqLeadSql			 = " AND scq_disposed_team_id IN(:teamLead)";
 			$params[":teamLead"] = $teamLead;
@@ -9046,7 +9055,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function generateModel(\Beans\contact\Scq $reqData, $cttId, $entityType, $scqType, $followupId = 0, $platform = ServiceCallQueue::PLATFORM_DCO_APP, $additionalParams = [])
 	{
 		$returnSet = new ReturnSet();
-		if($followupId > 0)
+		if ($followupId > 0)
 		{
 			$fpModel = ServiceCallQueue::model()->findbyPk($followupId);
 
@@ -9071,24 +9080,24 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_created_by_uid					 = UserInfo::getUserId();
 			$model->scq_to_be_followed_up_with_contact	 = $cttId;
 			$model->subQueue							 = ServiceCallQueue::SUB_FOLLOW_UP_REQUEST;
-			if($scqType == 6)
+			if ($scqType == 6)
 			{
 				$model->scq_to_be_followed_up_by_type	 = 1;
 				$model->scq_to_be_followed_up_by_id		 = 9;
 			}
 
-			if(isset($reqData->refId) && trim($reqData->refId) != '')
+			if (isset($reqData->refId) && trim($reqData->refId) != '')
 			{
 				$model->scq_related_bkg_id = $reqData->refId;
 			}
-			if(!empty($additionalParams))
+			if (!empty($additionalParams))
 			{
 				$params = $additionalParams;
 
 				$model->scq_additional_param = json_encode($params);
 			}
 			$returnSet = $model->create($model, $entityType, $platform);
-			if($model->hasErrors())
+			if ($model->hasErrors())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -9112,7 +9121,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$success = false;
 		$model	 = ServiceCallQueue::model()->findbyPk($scqId);
-		if($model && $model->scq_assigned_uid && ( $model->scq_to_be_followed_up_with_value > 0 || $model->scq_to_be_followed_up_with_entity_id > 0))
+		if ($model && $model->scq_assigned_uid && ( $model->scq_to_be_followed_up_with_value > 0 || $model->scq_to_be_followed_up_with_entity_id > 0))
 		{
 			$followedValue	 = $model->scq_to_be_followed_up_with_value;
 			$entityId		 = $model->scq_to_be_followed_up_with_entity_id;
@@ -9157,18 +9166,18 @@ class ServiceCallQueue extends CActiveRecord
 								scq_follow_up_date_time ASC,
 								scq_create_date ASC";
 			$details		 = DBUtil::query($sql, DBUtil::MDB(), ['followedValue' => $followedValue, 'entityId' => $entityId, 'entityType' => $entityType, 'teamId' => $teamId]);
-			foreach($details as $row)
+			foreach ($details as $row)
 			{
 				try
 				{
 					$count		 = self::getAssignmentCount($csrId, $teamId, true);
 					$returnCount = self::assign($row['scq_id'], $csrId, $count, 1);
-					if($returnCount > 0)
+					if ($returnCount > 0)
 					{
 						self::assignTeam($row['scq_id'], $teamId);
 					}
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					ReturnSet::setException($ex);
 				}
@@ -9215,7 +9224,7 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$bookingModel	 = Booking::model()->findByPk($bkgId);
 			$days			 = Filter::getDaysCount($bookingModel->bkg_pickup_date, date('Y-m-d H:i:s'));
-			if($days <= 180)
+			if ($days <= 180)
 			{
 				$model										 = new ServiceCallQueue();
 				$countryCode								 = ($bookingModel->bkgUserInfo->bkg_country_code != '') ? $bookingModel->bkgUserInfo->bkg_country_code : '91';
@@ -9233,7 +9242,7 @@ class ServiceCallQueue extends CActiveRecord
 				$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo::TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WHATSAPP);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -9264,7 +9273,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = "Call the vendor  and ask him to pay the " . $row['balance'] . " money which owes to gozo";
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo:: TYPE_SYSTEM, ServiceCallQueue::PLATFORM_WEB_DESKTOP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -9280,10 +9289,10 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$queType = $reqData->queType;
 		$bkgId	 = null;
-		switch($queType)
+		switch ($queType)
 		{
 			case 11:
-				if($reqData->refType == ServiceCallQueue::REF_BOOKING && $reqData->refId > 0)
+				if ($reqData->refType == ServiceCallQueue::REF_BOOKING && $reqData->refId > 0)
 				{
 					$bkgId = $reqData->refId;
 				}
@@ -9331,7 +9340,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments				 = $message;
 			$returnSet									 = ServiceCallQueue::model()->create($model, UserInfo::TYPE_CONSUMER, ServiceCallQueue::PLATFORM_WHATSAPP);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -9348,7 +9357,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$params	 = ['phone' => $phone];
 		$where	 = "";
-		if($reftype > 0)
+		if ($reftype > 0)
 		{
 			$params['scq_follow_up_queue_type']	 = $reftype;
 			$where								 = " AND scq_follow_up_queue_type =:scq_follow_up_queue_type ";
@@ -9417,7 +9426,7 @@ class ServiceCallQueue extends CActiveRecord
 			$model->scq_creation_comments					 = $message;
 			$returnSet										 = ServiceCallQueue::model()->create($model, UserInfo::TYPE_DRIVER, ServiceCallQueue::PLATFORM_ADMIN_CALL);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
@@ -9426,16 +9435,16 @@ class ServiceCallQueue extends CActiveRecord
 
 	public static function notifyTaggedBooking($bkgId, $comment)
 	{
-		$refType = 53; // vip/vvip booking
-		$scqId	 = self::checkActiveCBRByBookingId($bkgId, 0, $refType);
-		if($scqId > 0)
+		$scqId = self::checkActiveCBRByBookingId($bkgId, 0, ServiceCallQueue::TYPE_VVIP_BOOKING);
+		if ($scqId > 0)
 		{
 			return true;
 		}
-		$modelBooking = Booking::model()->findByPk($bkgId);
-
+		$modelBooking								 = Booking::model()->findByPk($bkgId);
 		$model										 = new ServiceCallQueue();
-		$model->scq_follow_up_queue_type			 = $refType;
+		$model->scq_follow_up_queue_type			 = ServiceCallQueue::TYPE_VVIP_BOOKING;
+		$model->scq_to_be_followed_up_by_type		 = 1;
+		$model->scq_to_be_followed_up_by_id			 = 5;
 		$model->scq_related_bkg_id					 = $bkgId;
 		$model->scq_to_be_followed_up_with_value	 = $modelBooking->bkgUserInfo->bkg_country_code . $modelBooking->bkgUserInfo->bkg_contact_no;
 		$model->scq_creation_comments				 = "Auto generated Call Back Request for {$comment} customer booking";
@@ -9443,7 +9452,7 @@ class ServiceCallQueue extends CActiveRecord
 		$model->scq_created_by_uid					 = 0;
 		$model->scq_to_be_followed_up_with_entity_id = $modelBooking->bkgUserInfo->bkg_user_id;
 		$pickupTimeMinus4hour						 = date('Y-m-d H:i:s', strtotime("-4 hour", strtotime($modelBooking->bkg_pickup_date)));
-		if($pickupTimeMinus4hour > Filter::getDBDateTime())
+		if ($pickupTimeMinus4hour > Filter::getDBDateTime())
 		{
 			$model->scq_follow_up_date_time = $pickupTimeMinus4hour;
 		}
@@ -9466,9 +9475,9 @@ class ServiceCallQueue extends CActiveRecord
 
 	public static function closeTaggedBookingCBR($bkgId)
 	{
-		$refType = 53; // vip/vvip booking
+		$refType = ServiceCallQueue::TYPE_VVIP_BOOKING; // vip/vvip booking
 		$scqId	 = self::checkActiveCBRByBookingId($bkgId, 0, $refType);
-		if($scqId > 0)
+		if ($scqId > 0)
 		{
 			ServiceCallQueue::updateStatus($scqId, 10, 0, "CBR expired On booking mark complete");
 		}
@@ -9512,7 +9521,7 @@ class ServiceCallQueue extends CActiveRecord
 	public static function processActiveWaitingTimeById($scqId, $maxWaitTime = 240)
 	{
 		$teamIds = self::getTeamsById($scqId);
-		if(!$teamIds)
+		if (!$teamIds)
 		{
 			return false;
 		}
@@ -9553,7 +9562,7 @@ class ServiceCallQueue extends CActiveRecord
 	{
 		$teamIds = self::getTeamsById($scqId);
 
-		if(!$teamIds)
+		if (!$teamIds)
 		{
 			return false;
 		}
@@ -9585,7 +9594,7 @@ class ServiceCallQueue extends CActiveRecord
 		$data				 = self::processActiveWaitingTimeById($scqId, $maxWaitMinutes);
 		$totalWaitMinutes	 = $data['totalWaitMinutes'] | 0;
 		$queueRank			 = $data['rank'];
-		if(!$totalWaitMinutes)
+		if (!$totalWaitMinutes)
 		{
 			$dataRank			 = self::getRankById($scqId);
 			$queueRank			 = $dataRank['rank'];
@@ -9594,11 +9603,11 @@ class ServiceCallQueue extends CActiveRecord
 			$countCSR			 = $dataTeam['countCSR'];
 			$countClosedCalls	 = $dataTeam['countClosedCalls'];
 			$totalWaitMinutes	 = ($countClosedCalls > 0) ? ceil($queueRank * 60 / $countClosedCalls) : $maxWaitMinutes;
-			if(!$data)
+			if (!$data)
 			{
 				$data = [];
 			}
-			if(!$dataRank)
+			if (!$dataRank)
 			{
 				$dataRank = [];
 			}
@@ -9620,7 +9629,7 @@ class ServiceCallQueue extends CActiveRecord
 	private static function assignTeam($scqId, $teamId)
 	{
 		$model = ServiceCallQueue::model()->detail($scqId);
-		if($model->scq_to_be_followed_up_by_type > 0 && $model->scq_to_be_followed_up_by_id > 0)
+		if ($model->scq_to_be_followed_up_by_type > 0 && $model->scq_to_be_followed_up_by_id > 0)
 		{
 			return;
 		}
@@ -9628,7 +9637,7 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			$sql	 = "UPDATE service_call_queue SET scq_to_be_followed_up_by_type =1,scq_to_be_followed_up_by_id=:teamId WHERE scq_id =:scq_id AND scq_active=1";
 			$numrows = DBUtil::execute($sql, ['teamId' => $teamId, 'scq_id' => $scqId]);
-			if($numrows == 0)
+			if ($numrows == 0)
 			{
 				return;
 			}
@@ -9673,7 +9682,7 @@ class ServiceCallQueue extends CActiveRecord
 		##exit;
 		$scq = DBUtil::query($sql, DBUtil::SDB(), $params);
 
-		foreach($scq as $scqData)
+		foreach ($scq as $scqData)
 		{
 			self::updateVendorSCQ($scqData['scq_id'], $scqData['scq_preferred_csr']);
 		}
@@ -9707,4 +9716,5 @@ class ServiceCallQueue extends CActiveRecord
 		$entityType										 = UserInfo::TYPE_SYSTEM;
 		$returnSet										 = ServiceCallQueue::model()->create($model, $entityType, ServiceCallQueue::PLATFORM_ADMIN_CALL);
 	}
+
 }

@@ -275,6 +275,7 @@ class BookingController extends BaseController
 			$userInfo	 = \UserInfo::getInstance();
 			$agentId	 = $userInfo->userId;
 			$model		 = $obj->getModel(null, $agentId);		
+			$model->requestType = booking::HOLD_REQUEST;
 
 			$spiceId = Config::get('spicejet.partner.id');
 			$sugerboxId =  Config::get('sugerbox.partner.id');

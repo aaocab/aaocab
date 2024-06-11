@@ -76,29 +76,29 @@ class Hornok extends CComponent
 
 		/* @var $obj Beans\operator\hornok\Hold */
 		$obj			 = Beans\operator\hornok\Hold::getInstance($bkgId);
-		$operatorRequest = Filter::removeNull($obj);	
+		$operatorRequest = Filter::removeNull($obj);
 
 		#$userInfo	 = UserInfo::getInstance();
-		$typeAction	 = OperatorApiTracking::CREATE_BOOKING;
+		$typeAction = OperatorApiTracking::CREATE_BOOKING;
 
-		$oatModel	 = OperatorApiTracking::add($typeAction, $operatorRequest, $operatorId, $bkgId, null);
+		$oatModel = OperatorApiTracking::add($typeAction, $operatorRequest, $operatorId, $bkgId, null);
 		$returnSet->setStatus(true);
 		$returnSet->setData($operatorRequest);
 
 		$responseParamList	 = self::callAPI($returnSet, $type, $operatorId);
-		$operatorResponse	 = self::parseResponse((object) $responseParamList);	
-		
+		$operatorResponse	 = self::parseResponse((object) $responseParamList);
+
 		/* @var $holdResponse Beans\operator\hornok\HoldResponse */
-		$holdResponse		 = Beans\operator\hornok\HoldResponse::setData($operatorResponse, $bkgId);
+		$holdResponse = Beans\operator\hornok\HoldResponse::setData($operatorResponse, $bkgId);
 		if ($holdResponse->success == true)
 		{
 			$status		 = 1;
 			$errorMsg	 = null;
 			$tripId		 = $holdResponse->tripId;
-			if($tripId != '')
+			if ($tripId != '')
 			{
-				$bkgModel = Booking::model()->findByPk($bkgId);
-				$bookingCab	= $bkgModel->bkgBcb;
+				$bkgModel						 = Booking::model()->findByPk($bkgId);
+				$bookingCab						 = $bkgModel->bkgBcb;
 				$bookingCab->bcb_vendor_ref_code = $tripId;
 				$bookingCab->save();
 			}
@@ -108,8 +108,8 @@ class Hornok extends CComponent
 			$status		 = 2;
 			$errorMsg	 = $operatorResponse->error;
 		}
-		$oatModel->updateData($operatorResponse, $status, $bkgId, $operatorId, $errorMsg, null);		
-		$returnSet->setData([$status,$errorMsg]);
+		$oatModel->updateData($operatorResponse, $status, $bkgId, $operatorId, $errorMsg, null);
+		$returnSet->setData([$status, $errorMsg]);
 		return $returnSet;
 	}
 
@@ -128,21 +128,21 @@ class Hornok extends CComponent
 
 		/* @var $obj Beans\operator\hornok\Cancel */
 		$obj			 = Beans\operator\hornok\Cancel::getInstance($bkgId);
-		$operatorRequest = Filter::removeNull($obj);	
+		$operatorRequest = Filter::removeNull($obj);
 
 		$userInfo	 = UserInfo::getInstance();
 		$typeAction	 = OperatorApiTracking::CANCEL_BOOKING;
 		$oatModel	 = OperatorApiTracking::add($typeAction, $operatorRequest, $operatorId, $bkgId, null);
-		
-		$response	 = Filter::removeNull($operatorRequest);
+
+		$response = Filter::removeNull($operatorRequest);
 		$returnSet->setStatus(true);
 		$returnSet->setData($response);
 
 		$responseParamList	 = self::callAPI($returnSet, $type, $operatorId);
-		$operatorResponse	 = self::parseResponse((object) $responseParamList);	
+		$operatorResponse	 = self::parseResponse((object) $responseParamList);
 
 		/* @var $response Beans\operator\hornok\CancelResponse */
-		$response		 = Beans\operator\hornok\CancelResponse::setData($operatorResponse, $bkgId);
+		$response = Beans\operator\hornok\CancelResponse::setData($operatorResponse, $bkgId);
 		if ($operatorResponse->success == true)
 		{
 			$status		 = 1;
@@ -153,10 +153,10 @@ class Hornok extends CComponent
 			$status		 = 2;
 			$errorMsg	 = $operatorResponse->userMsg;
 		}
-		Logger::create("Response ===> ".CJSON::encode($operatorResponse), CLogger::LEVEL_WARNING);
+		Logger::create("Response ===> " . CJSON::encode($operatorResponse), CLogger::LEVEL_WARNING);
 		$operatorResponse = Filter::removeNull($operatorResponse);
-		$oatModel->updateData($operatorResponse, $status, $bkgId, $operatorId, $errorMsg, null);		
-		$returnSet->setData([$status,$errorMsg]);
+		$oatModel->updateData($operatorResponse, $status, $bkgId, $operatorId, $errorMsg, null);
+		$returnSet->setData([$status, $errorMsg]);
 		return $returnSet;
 	}
 
@@ -174,7 +174,7 @@ class Hornok extends CComponent
 		/* @var $obj Beans\operator\hornok\Update */
 		$obj			 = Beans\operator\hornok\Update::getInstance($bkgId);
 		$operatorRequest = Filter::removeNull($obj);
-		
+
 		$userInfo	 = UserInfo::getInstance();
 		$typeAction	 = OperatorApiTracking::UPDATE_BOOKING;
 		$oatModel	 = OperatorApiTracking::add($typeAction, $operatorRequest, $operatorId, $bkgId, null);
@@ -194,10 +194,10 @@ class Hornok extends CComponent
 			$status		 = 2;
 			$errorMsg	 = $operatorResponse->userMsg;
 		}
-		Logger::create("Response ===> ".CJSON::encode($operatorResponse), CLogger::LEVEL_WARNING);
+		Logger::create("Response ===> " . CJSON::encode($operatorResponse), CLogger::LEVEL_WARNING);
 		$operatorResponse = Filter::removeNull($operatorResponse);
-		$oatModel->updateData($operatorResponse, $status, $bkgId, $operatorId, $errorMsg, null);		
-		$returnSet->setData([$status,$errorMsg]);
+		$oatModel->updateData($operatorResponse, $status, $bkgId, $operatorId, $errorMsg, null);
+		$returnSet->setData([$status, $errorMsg]);
 		return $returnSet;
 	}
 
@@ -214,18 +214,18 @@ class Hornok extends CComponent
 		$returnSet = new ReturnSet();
 		try
 		{
-			$typeAction		=   OperatorApiTracking::CAB_DRIVER_ALLOCATION;
-			$oatModel		=   OperatorApiTracking::add($typeAction, $jsonData, $operatorId, $bModel->bkg_id, null);
+			$typeAction	 = OperatorApiTracking::CAB_DRIVER_ALLOCATION;
+			$oatModel	 = OperatorApiTracking::add($typeAction, $jsonData, $operatorId, $bModel->bkg_id, null);
 
 			/* @var $drvData Drivers */
 			$drvData = Drivers::model()->addOperator($jsonData, $operatorId);
-		
-			/* @var $vhcData Vehicles */
-			$vhcData = Vehicles::model()->addHornOk($jsonData, $operatorId); 
 
-			$cttId			=	ContactProfile::getByDrvId($drvData['driverId']);
-			$drvphone		=	ContactPhone::getContactPhoneById($cttId);
-			
+			/* @var $vhcData Vehicles */
+			$vhcData = Vehicles::model()->addHornOk($jsonData, $operatorId);
+
+			$cttId		 = ContactProfile::getByDrvId($drvData['driverId']);
+			$drvphone	 = ContactPhone::getContactPhoneById($cttId);
+
 			//booking cab data update
 			$bModel->bkg_status;
 			$bCabModel					 = $bModel->bkgBcb;
@@ -234,23 +234,23 @@ class Hornok extends CComponent
 			$bCabModel->bcb_cab_id		 = $vhcData['vehicleId'];
 			$bCabModel->bcb_driver_id	 = $drvData['driverId'];
 			$cab_type					 = $bModel->bkgSvcClassVhcCat->scv_vct_id;
-			
+
 			/* @var $bCabModel BookingCab */
-			$success					 = $bCabModel->assignCabDriver($vhcData['vehicleId'], $drvData['driverId'], $cab_type, UserInfo::getInstance());
-			if($success)
+			$success = $bCabModel->assignCabDriver($vhcData['vehicleId'], $drvData['driverId'], $cab_type, UserInfo::getInstance());
+			if ($success)
 			{
 				$returnSet->setStatus(true);
 				$returnSet->setMessage("Successfully assign chauffeur");
-				$status = 1;
-				$errorMsg = null;
+				$status		 = 1;
+				$errorMsg	 = null;
 			}
 			else
 			{
-				$errors = implode(" ",Filter::getNestedValues($bCabModel->getErrors()));			
+				$errors		 = implode(" ", Filter::getNestedValues($bCabModel->getErrors()));
 				$returnSet->setStatus(false);
 				$returnSet->setMessage($errors);
-				$errorMsg = $errors;
-				$status = 2;
+				$errorMsg	 = $errors;
+				$status		 = 2;
 			}
 			$oatModel->updateData($returnSet, $status, $bModel->bkg_id, $operatorId, $errorMsg, null);
 		}
@@ -303,7 +303,7 @@ class Hornok extends CComponent
 				$status = BookingVendorRequest::DirectAccept($acceptVendorAmount, $vendorId, $bidAcceptId, $userInfo);
 				if ($status == true)
 				{
-					$message = "Booking confirm successfully";
+					$message		 = "Booking confirm successfully";
 					/* @var $confirmResponse Beans\operator\hornok\ConfirmResponse */
 					$confirmResponse = new Beans\operator\hornok\ConfirmResponse();
 					$confirmResponse->getData($status, $message);
@@ -313,7 +313,7 @@ class Hornok extends CComponent
 					$errorMsg		 = null;
 					$statusData		 = 1;
 					$model->bkgBcb->refresh();
-					if((Config::get('hornok.operator.id') === $model->bkgBcb->bcb_vendor_id) && $model->bkg_agent_id !=18190)
+					if ((Config::get('hornok.operator.id') === $model->bkgBcb->bcb_vendor_id) && $model->bkg_agent_id != 18190)
 					{
 						$scheduleTime = Config::get('hornok.sendcustinfo.min');
 						BookingScheduleEvent::addPushTravellerDetailsEvent($model, $model->bkg_pickup_date, $scheduleTime);
@@ -322,11 +322,11 @@ class Hornok extends CComponent
 				}
 				else
 				{
-					$message	 = "Sorry we can not process this request";
+					$message		 = "Sorry we can not process this request";
 					$confirmResponse = new Beans\operator\hornok\ConfirmResponse();
 					$confirmResponse->getData($status, $message);
-					$errorMsg = $message;
-					$statusData	 = 2;
+					$errorMsg		 = $message;
+					$statusData		 = 2;
 				}
 			}
 //			elseif (($acceptVendorAmount <= $model->bkgBcb->bcb_vendor_amount) && ($model->bkg_status == 3))
@@ -432,7 +432,7 @@ class Hornok extends CComponent
 		switch ($operatorId)
 		{
 			case Config::get('hornok.operator.id'):
-				$apiServerConfig = json_decode(\Config::get('hornok.server.api.config'), true);
+				$apiServerConfig			 = json_decode(\Config::get('hornok.server.api.config'), true);
 				$arrConfig['apiServerUrl']	 = $apiServerConfig['serverurl'] . $type;
 				$arrConfig['authorization']	 = $apiServerConfig['authorization'];
 				break;
@@ -496,11 +496,11 @@ class Hornok extends CComponent
 		try
 		{
 			$model = \Booking::model()->findByPk($bkgId);
-			
-			$userInfo			 = \UserInfo::getInstance();
-			$typeAction			 = OperatorApiTracking::UNASSIGN_VENDOR;
-			$oatModel			 = OperatorApiTracking::add($typeAction, $response, $operatorId, $bkgId);
-			$reason				 = "Driver not available";
+
+			$userInfo	 = \UserInfo::getInstance();
+			$typeAction	 = OperatorApiTracking::UNASSIGN_VENDOR;
+			$oatModel	 = OperatorApiTracking::add($typeAction, $response, $operatorId, $bkgId);
+			$reason		 = "Driver not available";
 
 			$success = Booking::model()->canVendor($model->bkg_bcb_id, $reason, $userInfo);
 			if ($success == true)
@@ -508,14 +508,14 @@ class Hornok extends CComponent
 				$desc		 = "Booking cancelled by operator";
 				$returnSet->setStatus(true);
 				$returnSet->setMessage($desc);
-				$errorMsg = null;
-				$status = 1;
+				$errorMsg	 = null;
+				$status		 = 1;
 			}
 			else
 			{
-				$errorMsg = "request not accepte";
+				$errorMsg	 = "request not accepte";
 				$returnSet->setStatus(false);
-				$status = 2;
+				$status		 = 2;
 			}
 			$oatModel->updateData($returnSet, $status, $bkgId, $operatorId, $errorMsg, null);
 		}
@@ -539,7 +539,7 @@ class Hornok extends CComponent
 	 */
 	public static function updateLatLocation($bkgId, $operatorId, $response)
 	{
-		$returnSet	 = new ReturnSet();		
+		$returnSet = new ReturnSet();
 		try
 		{
 			$model = \Booking::model()->findByPk($bkgId);
@@ -548,30 +548,30 @@ class Hornok extends CComponent
 				throw new Exception("Invalid Booking", ReturnSet::ERROR_INVALID_DATA);
 			}
 
-			$typeAction				= OperatorApiTracking::UPDATE_LAST_LOCATION;
-			$oatModel				= OperatorApiTracking::add($typeAction, $response, $operatorId, $bkgId, null);
+			$typeAction	 = OperatorApiTracking::UPDATE_LAST_LOCATION;
+			$oatModel	 = OperatorApiTracking::add($typeAction, $response, $operatorId, $bkgId, null);
 
-			$cordinates				= $response->latitude . ',' . $response->longitude;
-			$event					= BookingTrack::UPDATE_LAST_LOCATION;
-			$trackDetailStatus		= BookingTrack::updateTrackingDetails($model, $cordinates, $response,$event);
+			$cordinates			 = $response->latitude . ',' . $response->longitude;
+			$event				 = BookingTrack::UPDATE_LAST_LOCATION;
+			$trackDetailStatus	 = BookingTrack::updateTrackingDetails($model, $cordinates, $response, $event);
 			if ($trackDetailStatus == true)
 			{
-				$message = "Update last location successfully";
+				$message	 = "Update last location successfully";
 				$returnSet->setMessage($message);
 				$returnSet->setStatus(true);
-				$status = 1;
-				$errorMsg = null;
+				$status		 = 1;
+				$errorMsg	 = null;
 			}
 			else
 			{
 				$returnSet->setMessage("Sorry unable to process your request");
-				$status = 2;
-				$errorMsg = "Sorry unable to process your request"; 
-			}		
+				$status		 = 2;
+				$errorMsg	 = "Sorry unable to process your request";
+			}
 			$oatModel->updateData($returnSet, $status, $bkgId, $operatorId, $errorMsg, null);
 		}
 		catch (Exception $e)
-		{			
+		{
 			Logger::warning("Failed to get refid: " . $e->getMessage());
 			$returnSet->setStatus(false);
 			$returnSet = $returnSet->setException($e);
@@ -645,11 +645,11 @@ class Hornok extends CComponent
 		try
 		{
 			$model = \Booking::model()->findByPk($bkgId);
-			
-			$userInfo			 = \UserInfo::getInstance();
-			$typeAction			 = OperatorApiTracking::UNASSIGN_VENDOR;
-			$oatModel			 = OperatorApiTracking::add($typeAction, $jsonData, $operatorId, $bkgId);
-			$reason				 = "Driver not available";
+
+			$userInfo	 = \UserInfo::getInstance();
+			$typeAction	 = OperatorApiTracking::UNASSIGN_VENDOR;
+			$oatModel	 = OperatorApiTracking::add($typeAction, $jsonData, $operatorId, $bkgId);
+			$reason		 = "Driver not available";
 
 			$success = Booking::model()->canVendor($model->bkg_bcb_id, $reason, $userInfo);
 			if ($success == true)
@@ -657,14 +657,14 @@ class Hornok extends CComponent
 				$desc		 = "Successfully accept your request";
 				$returnSet->setStatus(true);
 				$returnSet->setMessage($desc);
-				$errorMsg = null;
-				$status = 1;
+				$errorMsg	 = null;
+				$status		 = 1;
 			}
 			else
 			{
-				$errorMsg = "Request not accepted";
+				$errorMsg	 = "Request not accepted";
 				$returnSet->setStatus(false);
-				$status = 2;
+				$status		 = 2;
 			}
 			$oatModel->updateData($returnSet, $status, $bkgId, $operatorId, $errorMsg, null);
 		}

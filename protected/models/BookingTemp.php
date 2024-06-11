@@ -220,8 +220,8 @@ class BookingTemp extends CActiveRecord
 			//array('bkg_user_email', 'email', 'message' => 'Please enter valid email address', 'checkMX' => true),
 			array('bkg_user_email', 'validateEmail', 'on' => 'validateStep1'),
 			array('bkg_from_city_id, bkg_to_city_id,bkg_pickup_date_date, bkg_pickup_date_time', 'required', 'on' => 'lead_convert'),
-			array('bkg_user_name', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "First Name should contain only alphanumeric characters", 'allowEmpty' => false),
-			array('bkg_user_lname', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "Last Name should contain only alphanumeric characters", 'allowEmpty' => false),
+			//array('bkg_user_name', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "First Name should contain only alphanumeric characters", 'allowEmpty' => false),
+			//	array('bkg_user_lname', 'CRegularExpressionValidator', 'pattern' => '/^[a-zA-Z0-9 .]*$/', 'message' => "Last Name should contain only alphanumeric characters", 'allowEmpty' => false),
 //array('bkg_user_name', 'match', 'pattern'=>'/^[\w\s,]+$/', 'message'=>'Tags can only contain word characters.'),
 			array('bkg_alternate_contact,bkg_contact_no,contactnumber,bkg_user_id, bkg_route_id, bkg_booking_type, bkg_from_city_id, bkg_to_city_id,bkg_id,
                 bkg_vehicle_type_id,bkg_country_code, bkg_no_person, bkg_driver_id, bkg_vehicle_id, bkg_vendor_id,bkg_platform, bkg_is_approved, bkg_amount,
@@ -488,11 +488,6 @@ class BookingTemp extends CActiveRecord
 		}
 		else
 		{
-//            if (trim($this->bkg_contact_no) == '')
-//            {
-//                $this->addError($attribute, 'Please enter phone number');
-//                $success = false;
-//            }
 			$success = true;
 			if ($this->bkg_alternate_contact != '')
 			{
@@ -727,7 +722,7 @@ class BookingTemp extends CActiveRecord
 			}
 			$allowedCityList = CJSON::decode(Config::get("isAllowed.cities"));
 			$isFromCity		 = in_array($this->bkg_from_city_id, $allowedCityList);
-			if($isFromCity == true && in_array($this->bkg_booking_type,[1,4,12]) && $gzminTime <= $diff && 60 <= $workingMinutesDiff)
+			if ($isFromCity == true && in_array($this->bkg_booking_type, [1, 4, 12]) && $gzminTime <= $diff && 60 <= $workingMinutesDiff)
 			{
 				$response->isAllowed	 = true;
 				$this->bkg_is_gozonow	 = 0;
@@ -4341,13 +4336,13 @@ class BookingTemp extends CActiveRecord
 		$having = "";
 		if ($isEligibleForNewLead)
 		{
-			$where	 = " AND (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank) >$elgibileScore ";
-			$having	 = " HAVING (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank)>$elgibileScore";
+			$where	 = " AND (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank) >$elgibileScore ";
+			$having	 = " HAVING (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank)>$elgibileScore";
 		}
 		else
 		{
-			$where	 = " AND (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank) <=$elgibileScore ";
-			$having	 = " HAVING (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank)<=$elgibileScore";
+			$where	 = " AND (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank) <=$elgibileScore ";
+			$having	 = " HAVING (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank)<=$elgibileScore";
 		}
 		$whereAgent	 = $agentId == 0 ? " AND bkg_agent_id IS NULL  " : " AND bkg_agent_id=$agentId ";
 		$limit		 = $limit * 15;
@@ -4385,7 +4380,11 @@ class BookingTemp extends CActiveRecord
                         WHEN TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 28800 AND 43200 THEN 15
                         ELSE 0
                       END AS pickupRank, 0 AS advanceRank,
-                      IF(bkg_follow_up_status=20,15,0) AS followup_rank, 1 as type, 0 AS refType
+                      IF(bkg_follow_up_status=20,15,0) AS followup_rank,
+					  0 AS VVIPRank,
+					  0 AS VIPRank,
+					  1 as type,
+					  0 AS refType
 				FROM     booking_temp
 				WHERE 1  AND bkg_follow_up_status <> 14 
 					AND  bkg_create_date<=DATE_SUB(NOW(), INTERVAL IF(HOUR(NOW())>21, 15, 
@@ -4397,7 +4396,7 @@ class BookingTemp extends CActiveRecord
 					AND (bkg_contact_no <> '' OR bkg_log_phone <> '')
 					$whereAgent
 					$having
-				ORDER BY (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank) DESC, bkg_pickup_date ASC, bkg_create_date DESC
+				ORDER BY (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank) DESC, bkg_pickup_date ASC, bkg_create_date DESC
 				LIMIT 0,6
 		)
 		UNION
@@ -4437,6 +4436,8 @@ class BookingTemp extends CActiveRecord
 			  WHEN TIMESTAMPDIFF(MINUTE, bkg_follow_up_reminder, NOW()) BETWEEN 1440 AND 2880 THEN 0
 			ELSE -15
 			END AS followup_rank,
+			0 AS VVIPRank,
+			0 AS VIPRank,
 			1 as type, 0 AS refType
 			FROM     booking_temp
             WHERE  1 AND bkg_follow_up_status <> 14 AND   bkg_create_date<=DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND  (HOUR(NOW()) <= 21 OR (HOUR(NOW())>21 AND TIMESTAMPDIFF(MINUTE, bkg_create_date, now())<45))
@@ -4446,8 +4447,7 @@ class BookingTemp extends CActiveRecord
 						OR DATE_ADD(bkg_follow_up_reminder, INTERVAL IF(bkg_assigned_to=0,0,45) MINUTE) <NOW()))
 			AND (bkg_contact_no <> '' OR bkg_log_phone <> '')
 			$whereAgent
-
-			ORDER BY (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank) DESC, bkg_pickup_date ASC, bkg_create_date DESC
+			ORDER BY (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank) DESC, bkg_pickup_date ASC, bkg_create_date DESC
 			LIMIT 0,6
 		)
 		UNION
@@ -4459,8 +4459,8 @@ class BookingTemp extends CActiveRecord
                 bkg_booking_id,
                 bkg_user_id,
 		bkg_country_code,
-                CONCAT(bkg_country_code,bkg_contact_no) as  bkg_contact_no,
-                 IF(bkg_user_id>0,10,0) AS loginRank,
+        CONCAT(bkg_country_code,bkg_contact_no) as  bkg_contact_no,
+        IF(bkg_user_id>0,10,0) AS loginRank,
 		0 as csrRank,
 		CASE
 			WHEN TIMESTAMPDIFF(MINUTE, bkg_create_date, NOW()) BETWEEN 20 AND 30 THEN 35
@@ -4491,11 +4491,15 @@ class BookingTemp extends CActiveRecord
 		  ELSE 0
 		END AS advanceRank,
 		IF(bt.bkg_follow_type_id=10 AND btr_unv_followup_by IS NULL , 30, 0) AS followup_rank,
-			2 as type,
-			0 AS refType
-		FROM     booking INNER JOIN booking_trail bt ON booking.bkg_id= bt.btr_bkg_id
+		IF((cpf.cpr_category IS NOT NULL AND cpf.cpr_category=4) OR (bkg_tags IS NOT NULL AND bkg_tags=3),50,0) AS VVIPRank,
+        IF((cpf.cpr_category IS NOT NULL AND cpf.cpr_category=3) OR (bkg_tags IS NOT NULL AND bkg_tags=2),25,0) AS VIPRank,
+		2 as type,
+		0 AS refType
+		FROM booking INNER JOIN booking_trail bt ON booking.bkg_id= bt.btr_bkg_id
 		INNER JOIN  booking_invoice bi ON  bi.biv_bkg_id = bt.btr_bkg_id
 		INNER JOIN booking_user bui on bui_bkg_id = bkg_id AND bui.bkg_contact_no <> ''
+		LEFT JOIN contact_profile cp ON cp.cr_is_consumer = bui.bkg_user_id AND cp.cr_status = 1 
+		LEFT JOIN contact_pref cpf ON cpf.cpr_ctt_id = cp.cr_contact_id AND cpf.cpr_category IN (4,3)
 		WHERE
 			bkg_create_date<=DATE_SUB(NOW(), INTERVAL 20 MINUTE) 
 			AND  (HOUR(NOW()) <= 21 OR (HOUR(NOW())>21 AND TIMESTAMPDIFF(MINUTE, bkg_create_date, now())<45))
@@ -4504,10 +4508,10 @@ class BookingTemp extends CActiveRecord
 			AND  bt.bkg_create_type=3
 			AND (bkg_followup_date IS NULL OR bkg_followup_date < NOW())
 			$whereAgent
-		ORDER BY (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank) DESC, bkg_pickup_date ASC,
+		ORDER BY (csrRank + timeRank + advanceRank + pickupRank + followup_rank+loginRank+VVIPRank+VIPRank) DESC, bkg_pickup_date ASC,
 				bkg_create_date DESC LIMIT 0,6)
 
-		) a  WHERE  1 $where  order by (csrRank + timeRank + pickupRank+loginRank) DESC, refType DESC LIMIT  $limit,10";
+		) a  WHERE  1 $where  order by (csrRank + timeRank + pickupRank+loginRank+VVIPRank+VIPRank) DESC, refType DESC LIMIT  $limit,10";
 		return DBUtil::query($sql);
 	}
 
@@ -4562,9 +4566,28 @@ class BookingTemp extends CActiveRecord
 				$result['success'] = true;
 			}
 		}
-
+		$allowBookingInshortTime = self::allowBookingInShortTime($fcity, $bkgType, $pickupDateTime);
+		if ($result['success'] && $allowBookingInshortTime)
+		{
+			$result['success'] = false;
+		}
 		skipAll:
 		return $result;
+	}
+
+	public static function allowBookingInShortTime($fcity, $bkgType, $pickDate)
+	{
+		$fromDate	 = new CDbExpression('NOW()');
+		$toDate		 = $pickDate;
+
+		$workingMinutesDiff	 = Filter::CalcWorkingMinutes($fromDate, $toDate);
+		$allowedCityList	 = CJSON::decode(Config::get("isAllowed.cities"));
+		$isFromCity			 = in_array($fcity, $allowedCityList);
+		if ($isFromCity == true && in_array($bkgType, [1, 4, 12]) && 60 <= $workingMinutesDiff)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public static function getBookingCountByRowIdentifier($rowIdentifier)
@@ -4826,7 +4849,7 @@ class BookingTemp extends CActiveRecord
 			goto skipAll;
 		}
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
-		$contentParams		 = array("primaryId" => $bkgId, "url" => Filter::shortUrl(LeadFollowup::getLeadURL($bkgId, 'p')));
+		$contentParams		 = array('eventId' => "27", "primaryId" => $bkgId, "url" => Filter::shortUrl(LeadFollowup::getLeadURL($bkgId, 'p')));
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $model->bkg_user_id, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $model->bkg_booking_id, $code, $number, $model->bkg_user_email, 0, null, SmsLog::SMS_LEAD_FOLLOWUP, null, 'mail2', null, null, EmailLog::EMAIL_LEAD_FOLLOWUP, EmailLog::Consumers, EmailLog::REF_BOOKING_ID, $model->bkg_id, EmailLog::SEND_CONSUMER_BATCH_EMAIL, 0);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::LEAD_REF_TYPE, ScheduleEvent::BOOKING_LEAD_FOLLOWUP, "Booking Lead Followups", $isSchedule, CJSON::encode(array('bkg_id' => $bkgId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(27, $contentParams, $receiverParams, $eventScheduleParams);
@@ -4867,4 +4890,226 @@ class BookingTemp extends CActiveRecord
 			}
 		}
 	}
+
+	/**
+	 * This function is used to send notifications  for user  who has only saw cab price and left the page
+	 * @param integer $bkgId
+	 * @return None
+	 */
+	public static function notifyUserCheckRate($bkgId, $cabType, $totalFare, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+		try
+		{
+			$model = BookingTemp::model()->findByPk($bkgId);
+			if (!$model)
+			{
+				goto skipAll;
+			}
+			if (!Filter::processPhoneNumber($model->bkg_contact_no, $model->bkg_country_code))
+			{
+				goto skipAll;
+			}
+			$datePickupDate		 = new DateTime($model->bkg_pickup_date);
+			$pickupTime			 = $datePickupDate->format('j/M/y h:i A');
+			$hash				 = Yii::app()->shortHash->Hash($bkgId);
+			$contentParams		 = array(
+				'userName'		 => $model->bkg_user_name != null ? $model->bkg_user_name : "User",
+				'bookingId'		 => $model->bkg_booking_id,
+				'tripType'		 => Booking::model()->getBookingType($model->bkg_booking_type),
+				'cabType'		 => $cabType,
+				'pickupDate'	 => $pickupTime,
+				'fromCityName'	 => Cities::getDisplayName($model->bkg_from_city_id),
+				'toCityName'	 => Cities::getDisplayName($model->bkg_to_city_id),
+				'totalFare'		 => "₹" . $totalFare,
+				'paymentUrl'	 => 'https://gozo.cab' . Yii::app()->createUrl('book-cab/quote/' . $bkgId . '/' . $hash),
+				'supportPhone'	 => "+91-90518-77000",
+				'eventId'		 => "42"
+			);
+			$buttonUrl			 = 'book-cab/quote/' . $bkgId . '/' . $hash;
+			$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $model->bkg_user_id, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $model->bkg_booking_id, $model->bkg_country_code, $model->bkg_contact_no, null, 1, null, null, $buttonUrl);
+			$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::USER_CHECK_RATE, "notify Customer check rate ", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
+			MessageEventMaster::processPlatformSequences(42, $contentParams, $receiverParams, $eventScheduleParams);
+		}
+		catch (Exception $ex)
+		{
+			ReturnSet::setException($ex);
+		}
+		skipAll:
+		return $success;
+	}
+
+	public static function fetchLeadListbyUserId($userId)
+	{
+		$sql = "SELECT
+					bkg_id,
+					bkg_country_code,
+					bkg_contact_no,
+					bkg_booking_id,
+					bkg_pickup_date,
+					bkg_user_email,
+					bkg_create_date,
+					bkg_user_name,
+					bkg_user_lname,
+					IFNULL(bkg_follow_up_reminder,	bkg_create_date	) AS remindDate,
+					CASE WHEN TIMESTAMPDIFF(MINUTE, bkg_create_date, NOW()) BETWEEN 15 AND 30 THEN 60 WHEN TIMESTAMPDIFF(MINUTE, bkg_create_date, NOW()) BETWEEN 30 AND 60 THEN 40 WHEN TIMESTAMPDIFF(MINUTE, bkg_create_date, NOW()) BETWEEN 60 AND 120 THEN 25 WHEN TIMESTAMPDIFF(MINUTE, bkg_create_date, NOW()) BETWEEN 120 AND 720 THEN 10 ELSE 0
+					END AS timeRank,
+					CASE WHEN TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 300 AND 1440 THEN 50 WHEN TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 1440 AND 2880 THEN 40 WHEN TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 2880 AND 5760 THEN 25 WHEN TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 5760 AND 8640 THEN 10 WHEN TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 8640 AND 11520 THEN 2 ELSE 0
+					END AS pickupRank,
+					IF(bkg_pickup_date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 6 HOUR),1,0) AS immediatePickup,
+					IF(bkg_follow_up_status = 0, 1, 0) AS flagNew,
+					scc_VehicleCategory.vct_label AS vct_label,
+					scc_VehicleCategory.vct_id AS vct_id,
+					scc_VehicleCategory.vct_image AS vct_image,
+					bkgFromCity.cty_name AS from_city_name,
+					bkgToCity.cty_name AS to_city_name,
+					bkg_vehicle_type_id,
+					sc.scc_label
+				FROM booking_temp
+					LEFT JOIN cities bkgFromCity ON bkg_from_city_id = bkgFromCity.cty_id AND(bkgFromCity.cty_active = 1)
+					LEFT JOIN cities bkgToCity ON bkg_to_city_id = bkgToCity.cty_id AND(bkgToCity.cty_active = 1)
+					LEFT JOIN admins AssignedTo ON bkg_assigned_to = AssignedTo.adm_id AND(AssignedTo.adm_active > 0)
+					LEFT JOIN svc_class_vhc_cat bkgSvcClassVhcCat ON bkg_vehicle_type_id = bkgSvcClassVhcCat.scv_id
+					LEFT JOIN service_class sc ON sc.scc_id = bkgSvcClassVhcCat.scv_scc_id
+					LEFT JOIN vehicle_category scc_VehicleCategory ON bkgSvcClassVhcCat.scv_vct_id = scc_VehicleCategory.vct_id
+					LEFT JOIN admins FollowUpBy ON bkg_follow_up_by = FollowUpBy.adm_id AND(FollowUpBy.adm_active > 0)
+				WHERE
+					1 
+				   AND bkg_user_id = :userId 
+				   AND bkg_ref_booking_id IS NULL
+				   AND bkg_pickup_date >= NOW()
+				   AND bkg_follow_up_status IN (0,1,2,3,15,16,20,21)
+					
+				ORDER BY flagNew  DESC,(timeRank + pickupRank)DESC,bkg_pickup_date ASC,immediatePickup DESC,bkg_create_date DESC,remindDate ASC";
+		return DBUtil::queryAll($sql, DBUtil::SDB(), ['userId' => $userId]);
+	}
+
+	public static function NotificationInquiryLastTravelReminder($isSchedule = 0, $schedulePlatform = null, $limit = 100)
+	{
+		$rows				 = BookingTemp::InquiryLastTravelReminder($limit);
+		$totalCount			 = 0;
+		$totalSend			 = 0;
+		$totalWhatsappSend	 = 0;
+		$totalEmailSend		 = 0;
+		$sendingStartTime	 = DBUtil::getCurrentTime();
+		foreach ($rows as $val)
+		{
+			$totalCount++;
+			try
+			{
+				if (in_array($val['userId'], CJSON::decode(Config::get("marketing.disallowedUserId"))))
+				{
+					Logger::writeToConsole("Block UserId: " . $val['userId']);
+					continue;
+				}
+				$contactId	 = ContactProfile::getByEntityId($val['userId'], UserInfo::TYPE_CONSUMER);
+				$row		 = ContactPhone::getNumber($contactId);
+				if (!$row || empty($row))
+				{
+					Logger::writeToConsole("Empty row: " . json_encode($row));
+					goto skipAll;
+				}
+				if (!Filter::processPhoneNumber($row['number'], $row['code']))
+				{
+					Logger::writeToConsole("Phone Not Valid: ");
+					goto skipAll;
+				}
+				$userCity	 = UserCitiesLifetime::getTopCity($val['userId'], null, 3);
+				$cities		 = "";
+				foreach ($userCity as $city)
+				{
+					$cities .= $city['cityName'] . ",";
+				}
+				if ($limit == 1)
+				{
+					$row['number']	 = '9820094912';
+					$row['code']	 = '91';
+					$val['userId']	 = 1081152;
+				}
+
+
+				$refIdHash		 = Yii::app()->shortHash->hash($val['userId']);
+				$refTypeHash	 = Yii::app()->shortHash->hash(ScheduleEvent::CUSTOMER_REF_TYPE);
+				$eventIdHash	 = Yii::app()->shortHash->hash(50);
+				$platformHash	 = Yii::app()->shortHash->hash(TemplateMaster::SEQ_WHATSAPP_CODE);
+				$linkIdHash0	 = Yii::app()->shortHash->hash("0");
+				$linkIdHash1	 = Yii::app()->shortHash->hash("1");
+				$btnurl1		 = "trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHash/$linkIdHash0/";
+				$btnurl2		 = "trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHash/$linkIdHash1/";
+				$platformHashEmail	 = Yii::app()->shortHash->hash(TemplateMaster::SEQ_EMAIL_CODE);
+				$btnEmailurl1		 = "https://wwww.gozocabs.com/trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHashEmail/$linkIdHash0/";
+				$btnEmailurl2		 = "https://wwww.gozocabs.com/trackBtn/$refIdHash/$refTypeHash/$eventIdHash/$platformHashEmail/$linkIdHash1/";
+				$email				 = ContactEmail::getEmailByUserId($val['userId']);
+				$contentParams		 = ['eventId' => "50", "fromCity" => ($cities == "" ? "Delhi,Mumbai,Bangalore" : $cities), "coin" => "500", 'btnEmailurl1' => $btnEmailurl1, 'btnEmailurl2' => $btnEmailurl2];
+//				$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $val['userId'], WhatsappLog::REF_TYPE_USER, $val['userId'], $val['userId'], $row['code'], $row['number'], null, 1, null, null, array('data' => "$btnurl1,$btnurl2", "type" => "button", "subType" => "url,url", "text" => "text,text"));
+				$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $val['userId'], WhatsappLog::REF_TYPE_USER, $val['userId'], $val['userId'], $row['code'], $row['number'], $email, 1, null, null, array('data' => "$btnurl1,$btnurl2", "type" => "button", "subType" => "url,url", "text" => "text,text"), $emailLayout		 = "mail1", $emailReplyTo		 = null, $emailReplyName		 = null, $emailType			 = EmailLog::EMAIL_BOOKING_REMINDER, $emailUserType		 = EmailLog::Consumers, $emailRefType		 = EmailLog::REF_USER_ID, $emailRefId			 = $val['userId'], $emailLogInstance	 = EmailLog::SEND_CONSUMER_BATCH_EMAIL, $emailDelayTime		 = 0);
+				$eventScheduleParams = EventSchedule::setData($val['userId'], ScheduleEvent::CUSTOMER_REF_TYPE, ScheduleEvent::LAST_INQUIRY_LAST_TRAVELED, "Last inquiry last traveled reminder", $isSchedule, CJSON::encode(array('userId' => $val['userId'])), 10, $schedulePlatform);
+				$responseArr		 = MessageEventMaster::processPlatformSequences(50, $contentParams, $receiverParams, $eventScheduleParams);
+				Logger::writeToConsole("Json Response : " . json_encode($responseArr));
+				foreach ($responseArr as $response)
+				{
+					if ($response['success'] && $response['type'] == TemplateMaster::SEQ_WHATSAPP_CODE)
+					{
+						UserCredits::addCoins($val['userId'], UserCredits::CREDIT_OTHER, null, 500, null, "As promotion coin because he/she has not traveled with us for last 90 days.", 1);
+						MessageEventTracker::add(ScheduleEvent::CUSTOMER_REF_TYPE, $val['userId'], 50, TemplateMaster::SEQ_WHATSAPP_CODE);
+						$totalWhatsappSend++;
+						$totalSend++;
+					}
+					elseif ($response['success'] && $response['type'] == TemplateMaster::SEQ_EMAIL_CODE)
+					{
+						UserCredits::addCoins($val['userId'], UserCredits::CREDIT_OTHER, null, 500, null, "As promotion coin because he/she has not traveled with us for last 90 days.", 1);
+						MessageEventTracker::add(ScheduleEvent::CUSTOMER_REF_TYPE, $val['userId'], 50, TemplateMaster::SEQ_EMAIL_CODE);
+						$totalEmailSend++;
+						$totalSend++;
+					}
+				}
+				skipAll:
+			}
+			catch (Exception $ex)
+			{
+				Logger::writeToConsole("Exception : " . $ex->getMessage());
+				ReturnSet::setException($ex);
+			}
+		}
+		$sendingEndTime	 = DBUtil::getCurrentTime();
+		$emailCom		 = new emailWrapper();
+		$emailCom->sendingMarketingReport($totalCount, $totalSend, $totalWhatsappSend, $totalEmailSend, $sendingStartTime, $sendingEndTime);
+	}
+
+	public static function InquiryLastTravelReminder($limit = 100)
+	{
+		$sql = "SELECT 
+					temp.userId,
+					IF(message_event_tracker.met_id IS NOT NULL, message_event_tracker.met_create_date,null) AS sortOrder
+					FROM 
+					(
+						SELECT
+							booking_temp.bkg_user_id  AS userId
+						FROM booking_temp
+						WHERE 1 
+							AND booking_temp.bkg_user_id IS NOT NULL
+							AND booking_temp.bkg_create_date BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 YEAR),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+						GROUP BY booking_temp.bkg_user_id 
+						HAVING  MOD(DATEDIFF(DATE_SUB(CURDATE(),INTERVAL 1 DAY),MAX(booking_temp.bkg_create_date)), 60)=0
+						UNION 
+						SELECT
+							booking_user.bkg_user_id userId
+						FROM booking
+							INNER JOIN booking_user ON booking_user.bui_bkg_id=booking.bkg_id
+							INNER JOIN users ON users.user_id= booking_user.bkg_user_id AND users.usr_active=1
+						WHERE 1 
+							AND booking.bkg_status IN (6,7)
+							AND booking_user.bkg_user_id IS NOT NULL
+							AND booking.bkg_agent_id IS NULL 
+							AND booking.bkg_pickup_date BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 YEAR),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+						GROUP BY booking_user.bkg_user_id 
+						HAVING  MOD(DATEDIFF(DATE_SUB(CURDATE(),INTERVAL 1 DAY),MAX(booking.bkg_pickup_date)), 90)=0
+                    ) AS temp 
+                    LEFT JOIN message_event_tracker ON message_event_tracker.met_unique_code= temp.userId AND  message_event_tracker.met_event_type=5 AND message_event_tracker.met_event_id=50
+                    WHERE 1 
+                    ORDER BY sortOrder ASC
+                    LIMIT 0,$limit";
+		return DBUtil::query($sql, DBUtil::SDB2());
+	}
+
 }

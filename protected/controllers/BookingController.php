@@ -69,7 +69,7 @@ class BookingController extends BaseController
 				'users'		 => array('@'),
 			],
 			['allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'	 => array('showPackage', 'list', 'verifytrip', 'verify1', 'verifycontact', 'discountadvance', 'index', 'cabrate', 'userdetails', 'confirmmobile',
+				'actions'	 => array('showPackage', 'list','leadlist', 'verifytrip', 'verify1', 'verifycontact', 'discountadvance', 'index', 'cabrate', 'userdetails', 'confirmmobile',
 					'toproutelist', 'billing', 'summary', 'checkcode', 'process', 'verify', 'promoapply', 'paynow', 'paynow1', 'vendorpaynow', 'vendorpay', 'payment',
 					'confirm', 'sendreviewmail', 'codeverify', 'package', 'step1', 'getminpickupval', 'promoremove', 'route', 'carshared', 'addroute', 'mff', 'Sulafest',
 					'sunburn', 'supersonic', 'Nh7weekender', 'sunsplash', 'comiccon', 'moodindigo', 'kumbh', 'getrut', 'citylinks', 'pickupcityairport', 'type1', 'type2',
@@ -83,7 +83,7 @@ class BookingController extends BaseController
 					'getGNowReqData', 'processGNowbidaccept', 'processGNowOfferDeny', 'refreshAddressWidget', 'bkGNowInventory', 'gnowBidTimer', 'saveGnowDropAddress', 'saveGnowPickAddress', 'showtimer', 'resettimer', 'gnowDropAddress', 'notifyGnowVendor', 'gnowaddress',
 					'applyPromo', 'autoaddress', 'updaterouteaddress', 'downloadDocs', 'addmoreroute', 'addmoreitinerary', 'showmoreitinerary', 'CheckTripStatus', 'applyaddon', 'vendortrip', 'bookNowVO', 'typeContent', 'tierQuotes', 'removeitinerary', 'moreTierQuotes', 'review', 'pay', 'saveLead', 'paymentreview', 'cancelgnow',
 					'bookNow1', 'checkAccount', 'signin', 'resendOtp', 'otpVerify', 'tripType', 'bkgType', 'itinerary', 'catQuotes', 'previousStep', 'bkgConfirmation', 'paymentv3', 'book', 'fareBrkup', 'gmap', 'existAddress', 'applyWallet', 'addressForm', 'showDriverDetails', 'saveAdditionalRequest', 'finalPay', 'evalCharges', 'confirmbooking', 'GnowDropAddress', 'track', 'editAddress', 'getpromobyid', 'checkAddress', 'addons', 'refreshQuote', 'intraCatQuotes', 'refreshtravellerinfo', 'travellerinfo', 'cab', 'airport',
-					'autofurcustomer', 'traveller', 'travellercontact', 'checkPayAmmount', 'canbooking', 'SendOTPPartnerCancel', 'VerifyOTPPartnerCancel', 'ReSendOTPPartnerCancel', 'tripsuggestions', 'suggestedtripselect', 'reschedulereview', 'checkCancellation','infoNew'),
+					'autofurcustomer', 'traveller', 'travellercontact', 'checkPayAmmount', 'canbooking', 'SendOTPPartnerCancel', 'VerifyOTPPartnerCancel', 'ReSendOTPPartnerCancel', 'tripsuggestions', 'suggestedtripselect', 'reschedulereview', 'checkCancellation', 'infoNew'),
 				'users'		 => array('*'),
 			],
 			['allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -405,8 +405,28 @@ class BookingController extends BaseController
 	{
 		$this->redirect('/');
 	}
+	
+	public function actionList()
+	{
+		$this->checkV3Theme();
 
-	public function actionList($qry = [])
+		$this->layout = 'column2';
+		if (Yii::app()->user->isGuest)
+		{
+			$this->redirect(array('users/view'));
+		}
+
+		$this->current_page	 = 'Booking_History';
+		$this->pageTitle	 = 'My Booking History';
+		$userId				 = Yii::app()->user->getId();
+
+		$bookingList = Booking::model()->fetchListByUser($userId);
+		$models		 = $bookingList->getData();
+
+		$this->render('list', array('models' => $models, 'bookingList' => $bookingList));
+	}
+
+	public function actionList_OLD($qry = [])
 	{
 		$this->checkV3Theme();
 
@@ -1812,7 +1832,10 @@ class BookingController extends BaseController
 			Yii::app()->end();
 		}
 	}
-
+	/**
+	 * @deprecated since version v3 theme introduced
+	 * 
+	 */
 	public function actionInfo()
 	{
 		$flashRequest = Yii::app()->request->getParam('flashBooking');
@@ -1867,54 +1890,60 @@ class BookingController extends BaseController
 		renderView:
 		$this->renderAuto("bkInfo", ['model' => $model, 'step' => $step, 'islogin' => $islogin, 'note' => $noteArr]);
 	}
-    
+
 	public function actionInfoNew()
-	{   
-		$request		 = Yii::app()->request;
+	{
+		$request = Yii::app()->request;
 		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_FLASHBOOKING);
-		
+
 		if (Yii::app()->user->isGuest)
 		{
 			throw new CHttpException(403, "Login required.", ReturnSet::ERROR_UNAUTHORISED);
 		}
 
 		$flashRequest = Yii::app()->request->getParam('flashBooking');
-		if($request->isPostRequest && $flashRequest == 1)
+		if ($request->isPostRequest && $flashRequest == 1)
 		{
-			$cavhash = Yii::app()->request->getParam('cavhash');
-			$pickupDate = Yii::app()->request->getParam('pickupDate');
-			$cavId	 = Yii::app()->shortHash->unHash($cavhash);
-			$model					 = BookingTemp::model()->populateFromCabAvailabilities($cavId,$pickupDate);
+			$cavhash				 = Yii::app()->request->getParam('cavhash');
+			$pickupDate				 = Yii::app()->request->getParam('pickupDate');
+			$cavId					 = Yii::app()->shortHash->unHash($cavhash);
+			$cavModel = CabAvailabilities::model()->findByPk($cavId);
+			if($cavModel->cav_status == 0)
+			{
+				echo json_encode(['success'=>false,'message'=>'This cab/offer is taken by someone else']);
+				Yii::app()->end();
+			}
+			$model					 = BookingTemp::model()->populateFromCabAvailabilities($cavId, $pickupDate);
 			$model->bkg_route_data	 = CJSON::encode($model->bookingRoutes);
 			$model->bkg_user_device	 = UserLog::model()->getDevice();
-            
-            if(!Yii::app()->user->isGuest && UserInfo::isLoggedIn())
-            {
-                $userModel = UserInfo::getUser()->loadUser();
-                $model->loadDefaultUser($userModel->user_id);
-            }
-            
+
+			if (!Yii::app()->user->isGuest && UserInfo::isLoggedIn())
+			{
+				$userModel = UserInfo::getUser()->loadUser();
+				$model->loadDefaultUser($userModel->user_id);
+			}
+
 			$bkgModel = Booking::getNewInstance();
 
 			$bkgModel->populateFromLead($model, true);
-            if($model->bkg_user_id != '' || $model->bkg_user_id > 0)
-            {
-                $contactId = ContactProfile::getByUserId($model->bkg_user_id);
-                $bkgModel->bkgUserInfo->bkg_contact_id = $contactId;
-            }
-            $bkgModel->bkgPref->bkg_cancel_rule_id = 9;
-			$result		 = $bkgModel->createQuote();
+			if ($model->bkg_user_id != '' || $model->bkg_user_id > 0)
+			{
+				$contactId								 = ContactProfile::getByUserId($model->bkg_user_id);
+				$bkgModel->bkgUserInfo->bkg_contact_id	 = $contactId;
+			}
+			$bkgModel->bkgPref->bkg_cancel_rule_id	 = 9;
+			$result									 = $bkgModel->createQuote();
 
-			CabAvailabilities::deactivateById($bkgModel->bkg_cav_id);
+			//CabAvailabilities::deactivateById($bkgModel->bkg_cav_id);
 			$hash	 = Yii::app()->shortHash->hash($bkgModel->bkg_id);
 			//$url	 = $_SERVER['HTTP_HOST'] . '/bkpn/' . $bkgModel->bkg_id . '/' . $hash;
 			//$data	 = ['url' => $url];
-            $url = Yii::app()->createUrl('bkpn/' . $bkgModel->bkg_id . '/' . $hash);
-            $this->redirect($url);
+			$url	 = Yii::app()->createUrl('bkpn/' . $bkgModel->bkg_id . '/' . $hash);
+			$this->redirect($url);
 			//echo CJSON::encode($data);
 			Yii::app()->end();
 		}
-        //$this->renderAuto("bkInfo", ['model' => $model, 'step' => $step, 'islogin' => $islogin, 'note' => $noteArr]);
+		//$this->renderAuto("bkInfo", ['model' => $model, 'step' => $step, 'islogin' => $islogin, 'note' => $noteArr]);
 	}
 
 	public function actionSummary()
@@ -3490,7 +3519,7 @@ class BookingController extends BaseController
 			$this->metaDescription	 = "Book " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " cabs online starting from ₹" . $baseAmt . " Book " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi service online with the cheapest fare for oneway and roundtrip with Gozocabs";
 			$this->metaKeywords		 = $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " oneway," . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi fare, online cab booking " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . ", cabs for " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . ", " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " car rental, outstation taxi " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . ", outstation cabs in " . $rModel->rutFromCity->cty_name . ", " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " taxi, " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " distance, " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . " round trip taxi fare, outstation cab booking " . $rModel->rutFromCity->cty_name . " to " . $rModel->rutToCity->cty_name . "";
 			Logger::profile("Structured Data Loaded");
-
+			$GLOBALS["prefetch"] = "route";
 			$this->render('home', array(
 				'model'								 => $model,
 				'brtModel'							 => $brtModel,
@@ -3513,6 +3542,7 @@ class BookingController extends BaseController
 		}
 		elseif ($cModel)
 		{
+			$GLOBALS["prefetch"] = "city_details";
 			$this->pageTitle = "Book cab in one way cab, round trip cab, local cab and outstation packages";
 			//$this->metaKeywords = 'your, keywords, here';
 			$topRoutes		 = Route::model()->getRoutesByCityId($cModel->cty_id);
@@ -3555,7 +3585,7 @@ class BookingController extends BaseController
 		{
 			$this->render(
 					'city_details',
-	 array('model'				 => $model,
+					array('model'				 => $model,
 						'cmodel'			 => $cmodel,
 						'topRoutes'			 => $topRoutes,
 						'topCitiesByRegion'	 => $topCitiesByRegion,
@@ -7342,16 +7372,40 @@ class BookingController extends BaseController
 		$model = Booking::model()->findByPk($id);
 		try
 		{
-//            if (Yii::app()->user->isGuest && $phone == "" && $request->isAjaxRequest)
-//			{
-//                
-//				throw new CHttpException(401, "Login required.", ReturnSet::ERROR_UNAUTHORISED);
-//			}
-			if (!Yii::app()->request->isPostRequest || $id != Yii::app()->shortHash->unhash($hash) || !$model)
+
+            $username   = $model->bkgUserInfo->bkg_user_fname . $model->bkgUserInfo->bkg_user_lname;
+            $newGstName = "";
+            $gstnData   = $_POST['gstnData'];
+            parse_str($gstnData, $strGstnDataArr);
+            $strGstnDataArr['BookingUser'];
+            $gstnName   = $strGstnDataArr['BookingUser']['bkg_bill_fullname'];
+
+            if ((!preg_match( '/^[-a-zA-Z0-9 .]+$/' , $username)) && (!preg_match('/^[-a-zA-Z0-9 .]+$/', $gstnName)))
+            {
+                throw new Exception(json_encode(['error' => "Name should contain only alphanumeric characters."]), ReturnSet::ERROR_INVALID_DATA);
+            }
+           if($gstnName!=$username)
+            {
+                $newGstName = $strGstnDataArr['BookingUser']['bkg_bill_fullname'];
+                $var = explode(" ",$newGstName);
+                $model->bkgUserInfo->bkg_user_fname = $var[0];
+                $model->bkgUserInfo->bkg_user_lname = $var[1]|"";
+                $model->save();
+            }
+            
+
+            if (!Yii::app()->request->isPostRequest || $id != Yii::app()->shortHash->unhash($hash) || !$model)
 			{
 				throw new CHttpException(400, "Invalid Request");
 			}
-
+			if($model->bkg_cav_id > 0)
+			{
+				$cavModel = CabAvailabilities::model()->findByPk($model->bkg_cav_id);
+				if($cavModel->cav_status == 0)
+				{
+					throw new CHttpException(ReturnSet::ERROR_INVALID_DATA, json_encode(['error' => "This cab/offer is taken by someone else"]));
+				}
+			}
 			$curtime	 = strtotime(Filter::getDBDateTime());
 			$expiryTime	 = strtotime($model->bkgTrail->bkg_payment_expiry_time);
 			if ($curtime > $expiryTime)
@@ -7415,9 +7469,17 @@ class BookingController extends BaseController
 		}
 		catch (Exception $e)
 		{
-			ReturnSet::renderJSONException($e);
-			Logger::trace("Errors.\n\t\t", CLogger::LEVEL_ERROR);
-		}
+           
+            if ($e->getCode() == ReturnSet::ERROR_INVALID_DATA || $e->statusCode == ReturnSet::ERROR_INVALID_DATA)
+            {
+                $returnSet = new ReturnSet();
+                $returnSet->setErrors(json_decode($e->getMessage()), ReturnSet::ERROR_INVALID_DATA);
+                echo json_encode($returnSet);
+                Yii::app()->end();
+            }
+            ReturnSet::renderJSONException($e);
+            Logger::trace("Errors.\n\t\t", CLogger::LEVEL_ERROR);
+        }
 	}
 
 	/** @param Booking $model */
@@ -7686,9 +7748,7 @@ class BookingController extends BaseController
 		}
 
 		$str = http_build_query($arr);
-
 		parse_str($str, $result2);
-
 		$result = array_replace_recursive($result, $result1);
 
 		$bookingRoutes = $result2["BookingRoute"];
@@ -7781,12 +7841,12 @@ class BookingController extends BaseController
 				$qry['cav_date_time']	 = $model->cav_date_time;
 			}
 		}
-		
-        $bookings    = $model->fetchFlashSale($qry);
-        $pageSize    = Yii::app()->params['listPerPage'];
-        $usersList	 = new CArrayDataProvider($bookings, array('pagination' => array('pageSize' => $pageSize),));
+
+		$bookings	 = $model->fetchFlashSale($qry);
+		$pageSize	 = Yii::app()->params['listPerPage'];
+		$usersList	 = new CArrayDataProvider($bookings, array('pagination' => array('pageSize' => $pageSize),));
 		$models		 = $usersList->getData();
-        $this->render('flashsale', ['model' => $model, 'models' => $models , 'bkModel' => $bkModel, 'usersList' => $usersList]);
+		$this->render('flashsale', ['model' => $model, 'models' => $models, 'bkModel' => $bkModel, 'usersList' => $usersList]);
 	}
 
 	public function actionAutoMarkerAddress($city = '')
@@ -8021,6 +8081,8 @@ class BookingController extends BaseController
 		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
+			echo CJSON::encode(['success'=>$returnSet->getStatus(),'errors'=>$returnSet->getErrors()]);
+			Yii::app()->end();
 		}
 		echo CJSON::encode($returnSet);
 	}
@@ -8250,7 +8312,8 @@ class BookingController extends BaseController
 
 	public function actionDownloadDocs()
 	{
-		try {
+		try
+		{
 			$success	 = false;
 			$filename	 = Yii::app()->request->getParam('filename');
 			$id			 = Yii::app()->request->getParam('birId');
@@ -8270,12 +8333,13 @@ class BookingController extends BaseController
 				//$success = true;
 				header('Content-Type: text/csv');
 				header('Content-disposition: attachment; filename=' . $filename);
-				header('Content-Length: ' . filesize($filename));
+				//		header('Content-Length: ' . filesize($filename));
 				readfile($path);
 				exit;
 			}
-
-		} catch (Exception $ex) {
+		}
+		catch (Exception $ex)
+		{
 			echo $ex->getMessage();
 			exit;
 		}
@@ -8338,33 +8402,21 @@ class BookingController extends BaseController
 			}
 			if ($bkgModel != "")
 			{
-				$bkgModel->bkgInvoice->applyAddon($addOnId, $addonType);
-				if ($addonType == 1)
+			
+				
+				$returnSet = $bkgModel->bkgInvoice->useAddon($addOnId, $addonType);
+				if($returnSet->getStatus())
 				{
-					$cancelRuleId							 = AddonCancellationPolicy::getCancelRuleById($addOnId);
-					$bkgModel->bkgPref->bkg_cancel_rule_id	 = ($cancelRuleId) ? $cancelRuleId : 1;
-					$bkgModel->bkgPref->save();
+			    	$this->actionApplyPromo();
+					goto render;
 				}
-				if ($addonType == 2)
-				{
-					$cabType = ($addOnId) ? AddonCabModels::model()->findByPk($addOnId)->acm_svc_id_to : $bkgModel->bkg_vehicle_type_id;
-					if ($addOnId == 0)
-					{
-						$cabType = SvcClassVhcCat::model()->findByPk($bkgModel->bkg_vehicle_type_id)->scv_parent_id;
-					}
-					$bkgModel->bkg_vehicle_type_id	 = ($cabType > 0) ? $cabType : $bkgModel->bkg_vehicle_type_id;
-					$bkgModel->bkg_vht_id			 = SvcClassVhcCat::model()->findByPk($cabType)->scv_model;
-					$bkgModel->save();
-				}
-				$this->actionApplyPromo();
-				goto render;
 			}
 		}
 		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
 		}
-		echo CJSON::encode($returnSet);
+		echo CJSON::encode(['success'=>$returnSet->getStatus(),'errors'=>$returnSet->getErrors()]);
 		render:
 	}
 
@@ -9655,12 +9707,12 @@ class BookingController extends BaseController
 			goto end;
 		}
 
-		$rData				 = Yii::app()->request->getParam("rdata");
-		$rDataCookie		 = \Yii::app()->request->cookies['gozo_rdata']->value;
-		$rData				 = ($rDataCookie != '' && $rData == '') ? $rDataCookie : $rData;
+		$rData		 = Yii::app()->request->getParam("rdata");
+		$rDataCookie = \Yii::app()->request->cookies['gozo_rdata']->value;
+		$rData		 = ($rDataCookie != '' && $rData == '') ? $rDataCookie : $rData;
 
-		$rDataSession		 = \Yii::app()->session['_gz_rdata_skiplogin'];
-		$rData				 = ($rDataSession != '' && $rData == '') ? $rDataSession : $rData;
+		$rDataSession	 = \Yii::app()->session['_gz_rdata_skiplogin'];
+		$rData			 = ($rDataSession != '' && $rData == '') ? $rDataSession : $rData;
 
 		$this->pageRequest	 = BookFormRequest::createInstance($rData);
 		$objPage			 = $this->pageRequest;
@@ -9674,6 +9726,7 @@ class BookingController extends BaseController
 		}
 
 		end:
+
 		return $this->pageRequest;
 	}
 
@@ -9681,6 +9734,7 @@ class BookingController extends BaseController
 	{
 		//Yii::app()->request->cookies->clear();
 		$this->enableClarity();
+//$this->trackSource();
 
 		/** @var HttpRequest $request */
 		$request		 = Yii::app()->request;
@@ -9707,6 +9761,7 @@ class BookingController extends BaseController
 
 			$model		 = new BookingTemp();
 			$model->loadDefaults();
+			$GLOBALS["prefetch"] = $model->bkg_booking_type;
 			Logger::profile("model->loadDefaults");
 			$this->parseFriendlyUrl($model);
 			$objPage->setBookingModel($model);
@@ -9715,6 +9770,7 @@ class BookingController extends BaseController
 		else
 		{
 			$objBooking	 = $objPage->booking;
+			$GLOBALS["prefetch"] = $objBooking->tripType;
 			$model		 = $objBooking->getLeadModel();
 			if ($model->bkg_user_id != null && $model->bkg_agent_id == null)
 			{
@@ -9732,7 +9788,7 @@ class BookingController extends BaseController
 			{
 				goto skiploggedin;
 			}
-			if (Yii::app()->user->isGuest && $phone == "" && $request->isAjaxRequest && $request->getParam("skipLogin")!=1)
+			if (Yii::app()->user->isGuest && $phone == "" && $request->isAjaxRequest && $request->getParam("skipLogin") != 1)
 			{
 				throw new CHttpException(401, "Login required.", ReturnSet::ERROR_UNAUTHORISED);
 			}
@@ -9762,7 +9818,7 @@ class BookingController extends BaseController
 				$isValidPhone = Filter::validatePhoneNumber('+' . $model->bkg_country_code . $model->bkg_contact_no);
 			}
 
-			if ($request->isAjaxRequest && ($model->bkg_contact_no == '' || !$isValidPhone) && $model->bkg_agent_id != Config::get('Kayak.partner.id') && $request->getParam("skipLogin")!=1)
+			if ($request->isAjaxRequest && ($model->bkg_contact_no == '' || !$isValidPhone) && $model->bkg_agent_id != Config::get('Kayak.partner.id') && $request->getParam("skipLogin") != 1)
 			{
 				throw new CHttpException(403, "Phone number required.", ReturnSet::ERROR_UNAUTHORISED);
 			}
@@ -9813,7 +9869,6 @@ class BookingController extends BaseController
 				}
 				$brtModel->attributes = $routeParam;
 //                
-
 				if (($model->bkg_booking_type == 4 || $model->bkg_booking_type == 12))
 				{
 					if (!$brtModel->airportValidate())
@@ -10034,7 +10089,7 @@ class BookingController extends BaseController
 
 
 		$this->renderAuto('bkQuoteIntra',
-					array('step'			 => $step,
+				array('step'			 => $step,
 					'pageid'		 => $step,
 					'nextStep'		 => $nextStep, 'minIntraQuote'	 => $minIntraQuote), false, true);
 	}
@@ -10053,7 +10108,7 @@ class BookingController extends BaseController
 		$pageID	 = $request->getParam('step');
 		$objPage = $this->getRequestData();
 		Logger::trace("actionCatQuotes - objPage :: " . json_encode($objPage));
-		if(!$request->isPostRequest && $request->getParam('rid')!='')
+		if (!$request->isPostRequest && $request->getParam('rid') != '')
 		{
 			$this->forward('booking/tierQuotes');
 			Yii::app()->end();
@@ -10104,19 +10159,19 @@ class BookingController extends BaseController
 			$this->forward('booking/tierQuotes');
 			Yii::app()->end();
 		}
-		/************* Flash Sale *******************************************/
-        if($model->bkg_booking_type == 1)
-        {
-            $flashModel = new CabAvailabilities();
-            $flashBooking    = $flashModel->fetchFlashSaleBooking($model);
-        }
-        /************* Flash Sale *******************************************/
+		/*		 * *********** Flash Sale ****************************************** */
+		if ($model->bkg_booking_type == 1)
+		{
+			$flashModel		 = new CabAvailabilities();
+			$flashBooking	 = $flashModel->fetchFlashSaleBooking($model);
+		}
+		/*		 * *********** Flash Sale ****************************************** */
 		$this->pageRequest->step = $step;
 		$view					 = ($objBooking->agentId == Config::get('Mobisign.partner.id')) ? 'bkQuoteNew_M' : 'bkQuoteNew';
 		$this->renderAuto($view,
-					array('step'		 => $step,
-					'pageid'	 => $step,
-					'nextStep'	 => $nextStep, 'userCredit' => $userCredit, 'flashBooking' => $flashBooking), false, true);
+				array('step'			 => $step,
+					'pageid'		 => $step,
+					'nextStep'		 => $nextStep, 'userCredit'	 => $userCredit, 'flashBooking'	 => $flashBooking), false, true);
 	}
 
 	public function actionTierQuotes()
@@ -10129,7 +10184,7 @@ class BookingController extends BaseController
 		$this->layout	 = 'column_booking';
 		$step			 = 6;
 		$pageID			 = $request->getParam('step');
-		$refreshQuotes   = $request->getParam('refreshQuotes');
+		$refreshQuotes	 = $request->getParam('refreshQuotes');
 		//$step			 = 9;
 		//$pageID			 = $request->getParam('step');
 		$userCredit		 = UserCredits::getUserCoin(UserInfo::getUserId());
@@ -10140,12 +10195,12 @@ class BookingController extends BaseController
 
 		$cabCategory = $request->getParam('cabcategory');
 
-		if (!$request->isPostRequest && $objPage->booking->id == '' && $request->getParam('rid')=='')
+		if (!$request->isPostRequest && $objPage->booking->id == '' && $request->getParam('rid') == '')
 		{
 			$this->forward("booking/itinerary");
 		}
-		
-		if ($pageID == 5 )//|| $refreshQuotes)
+
+		if ($pageID == 5)//|| $refreshQuotes)
 		{
 			$this->pageRequest->populateQuote();
 		}
@@ -10156,7 +10211,7 @@ class BookingController extends BaseController
 		Logger::info("booking savelead:ProfileInfo" . CJSON::encode($profile));
 		$hasPhone	 = ($objBooking != null) && ($profile != null) && ($profile->primaryContact != null) && ($profile->primaryContact->number != '');
 		// $contactPhone = ContactPhone::getPhoneNo($userId, UserInfo::TYPE_CONSUMER);
-		if ($profile->primaryContact->number == '' && $objBooking->agentId != Config::get('Kayak.partner.id') && $request->getParam('skipLogin')!=1 && $request->getParam('rid')=='')
+		if ($profile->primaryContact->number == '' && $objBooking->agentId != Config::get('Kayak.partner.id') && $request->getParam('skipLogin') != 1 && $request->getParam('rid') == '')
 		{
 			Logger::error("Phone number can not be blank while create a booking.");
 			$this->forward("booking/travellerInfo");
@@ -10221,12 +10276,12 @@ class BookingController extends BaseController
 			$pageID = 6;
 		}
 
-		/************* Skip Login *******************************************/
-		if(Yii::app()->user->isGuest && $model->bkg_agent_id == '' && $request->getParam('rid')=='')
+		/*		 * *********** Skip Login ****************************************** */
+		if (Yii::app()->user->isGuest && $model->bkg_agent_id == '' && $request->getParam('rid') == '')
 		{
-			Yii::app()->session['_gz_rdata_skiplogin']	 = $objPage->getEncrptedData();
+			Yii::app()->session['_gz_rdata_skiplogin'] = $objPage->getEncrptedData();
 		}
-		/************* Skip Login *******************************************/
+		/*		 * *********** Skip Login ****************************************** */
 
 		if ($request->isPostRequest && $pageID == 6)
 		{
@@ -10299,12 +10354,12 @@ class BookingController extends BaseController
 						$this->redirect($url);
 						Yii::app()->end();
 					}
-					if($model->bkg_agent_id != Config::get('Mobisign.partner.id') && $refreshQuotes == 1)
+					if ($model->bkg_agent_id != Config::get('Mobisign.partner.id') && $refreshQuotes == 1)
 					{
 //							$url = $this->getURL($objPage->getQuoteURL());
 //							$this->redirect($url);
-							echo CJSON::encode(['success'=>true,'refreshQuotes'=>1]);
-							Yii::app()->end();
+						echo CJSON::encode(['success' => true, 'refreshQuotes' => 1]);
+						Yii::app()->end();
 					}
 
 					$isAirport = $model->bookingRoutes[0]->brtFromCity->cty_is_airport;
@@ -10330,14 +10385,14 @@ class BookingController extends BaseController
 			}
 		}
 		renderview:
-        /************* Flash Sale *******************************************/
-        if($model->bkg_booking_type == 1)
-        {
-            $flashModel = new CabAvailabilities();
-            $flashBooking    = $flashModel->fetchFlashSaleBooking($model);
-        }
-        /************* Flash Sale *******************************************/
-        
+		/*		 * *********** Flash Sale ****************************************** */
+		if ($model->bkg_booking_type == 1)
+		{
+			$flashModel		 = new CabAvailabilities();
+			$flashBooking	 = $flashModel->fetchFlashSaleBooking($model);
+		}
+		/*		 * *********** Flash Sale ****************************************** */
+
 		$this->pageRequest->step = $step;
 		$view					 = ($objBooking->agentId == Config::get('Mobisign.partner.id')) ? 'bkQuoteNew_M' : 'bkQuoteNew';
 		$this->renderAuto($view, array('step' => $step, 'pageid' => $step, 'model' => $model, 'tncArr' => $tncArr, 'serviceClassDesc' => $serviceClassDesc, 'tierBrkUp' => $arrQuoteCat, 'prefCategory' => $prefCategory, 'userCredit' => $userCredit, 'flashBooking' => $flashBooking), false, true);
@@ -10384,9 +10439,9 @@ class BookingController extends BaseController
 		$step					 = 13;
 		$pageID					 = $request->getParam('step');
 
-		$flashRequest	 = Yii::app()->request->getParam('flashBooking');
-		$bkgModel		 = Booking::getNewInstance();
-		$model			 = $objBooking->getLeadModel();
+		$flashRequest		 = Yii::app()->request->getParam('flashBooking');
+		$bkgModel			 = Booking::getNewInstance();
+		$model				 = $objBooking->getLeadModel();
 		$model->bkg_platform = Booking::Platform_User;
 		if (!$request->isPostRequest)
 		{
@@ -10527,14 +10582,14 @@ class BookingController extends BaseController
 					}
 					$model->save();
 				}
-				$bkgModel->bkgUserInfo->bkg_contact_id = ($bkgModel->bkgUserInfo->bkg_contact_id=='')?(($contactModel->ctt_id==0 || $contactModel->ctt_id==null)?$userModel->usr_contact_id:$contactModel->ctt_id):$bkgModel->bkgUserInfo->bkg_contact_id;
+				$bkgModel->bkgUserInfo->bkg_contact_id		 = ($bkgModel->bkgUserInfo->bkg_contact_id == '') ? (($contactModel->ctt_id == 0 || $contactModel->ctt_id == null) ? $userModel->usr_contact_id : $contactModel->ctt_id) : $bkgModel->bkgUserInfo->bkg_contact_id;
 				skipusercontact:
 				$bkgModel->bkgUserInfo->bkg_user_fname		 = ($model->bkg_user_name == '') ? $userModel->usr_name : $model->bkg_user_name;
 				$bkgModel->bkgUserInfo->bkg_user_lname		 = ($model->bkg_user_lname == '') ? $userModel->usr_lname : $model->bkg_user_lname;
 				$bkgModel->bkgUserInfo->bkg_country_code	 = ($bkgModel->bkgUserInfo->bkg_country_code == 0) ? $userModel->usr_country_code : $bkgModel->bkgUserInfo->bkg_country_code;
-				$bkgModel->bkgUserInfo->bkg_contact_no		 = ($model->bkg_contact_no=='')?$userModel->usr_mobile:$model->bkg_contact_no;
+				$bkgModel->bkgUserInfo->bkg_contact_no		 = ($model->bkg_contact_no == '') ? $userModel->usr_mobile : $model->bkg_contact_no;
 				$bkgModel->bkgUserInfo->bkg_traveller_type	 = $model->bkg_traveller_type;
-				
+
 				$bkgModel->bkgUserInfo->bkg_user_email	 = ($model->bkg_user_email == '') ? $userModel->usr_email : $model->bkg_user_email;
 				$result									 = BookingUser::model()->updateData($bkgModel->bkgUserInfo, $bkgId);
 				if ($result)
@@ -10542,7 +10597,7 @@ class BookingController extends BaseController
 
 					$arrResult = BookingRoute::updateDistance($bkgModel, $bkgId);
 				}
-				DBUtil::commitTransaction($transaction); 
+				DBUtil::commitTransaction($transaction);
 				//DBUtil::rollbackTransaction($transaction);
 				$success = true;
 				$hash	 = Yii::app()->shortHash->hash($bkgId);
@@ -13221,4 +13276,24 @@ class BookingController extends BaseController
 		echo json_encode($arr);
 		Yii::app()->end();
 	}
+
+	public function actionLeadList()
+	{
+		$this->checkV3Theme();
+		$this->layout = 'column2';
+		if (Yii::app()->user->isGuest)
+		{
+			$this->redirect(array('users/view'));
+		}
+		$this->current_page	 = 'Lead_History';
+		$this->pageTitle	 = 'Trip Inquiries';
+		$userId				 = Yii::app()->user->getId();
+		$pageSize			 = Yii::app()->params['listPerPage'];
+		$tab				 = Yii::app()->request->getParam('tab');
+		$Bookings			 = BookingTemp::fetchLeadListbyUserId($userId, 0);
+		$usersList			 = new CArrayDataProvider($Bookings, array('pagination' => array('pageSize' => $pageSize),));
+		$models				 = $usersList->getData();
+		$this->render('leadlist', array('models' => $models, 'usersList' => $usersList, 'tab' => $tab));
+	}
+
 }

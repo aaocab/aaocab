@@ -5,7 +5,7 @@ use components\Event\EventSchedule;
 class emailWrapper
 {
 
-	public $email_receipient; 
+	public $email_receipient;
 
 	public function confirmBookingEmailByUserId($userId, $bookingId = '', $logType = '')
 	{
@@ -6388,7 +6388,6 @@ GozoCabs Team";
 			{
 				$delivered = "Email not sent";
 			}
-			echo $delivered;
 			$body		 = $mail->Body;
 			$refType	 = EmailLog::SEND_SERVICE_EMAIL;
 			$refId		 = $bookingId;
@@ -6408,15 +6407,18 @@ GozoCabs Team";
 		$usrArr = ['bkgId' => $bkgId, 'userName' => $userName, 'msg' => $msg, 'emailAddress' => $email];
 		if ($email != '')
 		{
-			$bkgUserModel	 = BookingUser::model()->find('bui_bkg_id=:bkg_id', ['bkg_id' => $bkgId]);
-			$userId			 = $bkgUserModel->bkg_user_id;
-			$mail			 = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
+//			$bkgUserModel	 = BookingUser::model()->find('bui_bkg_id=:bkg_id', ['bkg_id' => $bkgId]);
+//			$userId			 = $bkgUserModel->bkg_user_id;
+			/* @var $model Booking */
+			$model	 = Booking::model()->getByCode($bkgId);
+			$userId	 = $model->bkgUserInfo->bkg_user_id;
+			$mail	 = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
 			$mail->setView('resent_trip_otp');
 			$mail->setData(array('arr' => $usrArr, 'email_recepient' => $email, 'id' => $userId));
 			$mail->setLayout('mail2');
 			$mail->setTo($email, $userName);
 			//$mail->addReplyTo(array('sos@gozocabs.in' => 'SOS Gozo Team'));
-			$subject		 = 'TRIP OTP FOR (Booking Id - ' . $bkgId . ')';
+			$subject = 'TRIP OTP FOR (Booking Id - ' . $bkgId . ')';
 			$mail->setSubject($subject);
 			if ($mail->sendMail(0))
 			{
@@ -6632,16 +6634,14 @@ GozoCabs Team";
 		$eHash			 = Yii::app()->shortHash->hash($model->bkgUserInfo->bkg_verifycode_email);
 		$payment_link	 = 'https://gozocabs.com/bkpn/' . $bkgId . '/' . $hash . '/e/' . $eHash;
 
-		$mail->setData(
-				array(
-					'email' => $email
-				)
-		);
+		$mail->setData(array('email_receipient' => $email, 'userId' => $model->bkgUserInfo->bkg_user_id, 'email' => $email));
+
 		$mail->setLayout('mail');
 		//$mail->setFrom('', 'Info GozoCabs');
 		$mail->setTo($email);
-		$mail->setSubject('Booking ID ' . $model->bkg_booking_id . ' Updated. Pickup time rescheduled');
-		$body = 'Dear ' . $userName . ',<br/>
+		$subject = 'Booking ID ' . $model->bkg_booking_id . ' Updated. Pickup time rescheduled';
+		$mail->setSubject($subject);
+		$body	 = 'Dear ' . $userName . ',<br/>
                 <br/> This is to notify you that we have updated the pickup time for your booking ' . $model->bkg_booking_id . '.  <br/>
 				If this change was not made upon your request, please contact us immediately. <br/><br/>
 				Booking details: <br/>
@@ -6667,9 +6667,12 @@ GozoCabs Team";
 		}
 		$userInfo	 = UserInfo::getInstance();
 		$emailType	 = EmailLog::EMAIL_ROUTE_SUGGEST_RE1;
+		$usertype	 = SmsLog::Consumers;
 		$delay_time	 = 0;
-		$elgId		 = emailWrapper::createLog($email, $subject, $mail->Body, '', $usertype, $delivered, $emailType, $refType, $userInfo->userId, EmailLog::SEND_CONSUMER_BATCH_EMAIL, $delay_time);
+		$bookingId	 = $model->bkg_booking_id;
 
+		//$elgId		 = emailWrapper::createLog($email, $subject, $mail->Body, $bkgId, $usertype, $delivered, $emailType, $refType, $userInfo->userId, EmailLog::SEND_CONSUMER_BATCH_EMAIL, $delay_time);
+		$elgId = emailWrapper::createLog($email, $subject, $mail->Body, $bookingId, $usertype, $delivered, $emailType, $refType, $userInfo->userId, EmailLog::SEND_CONSUMER_BATCH_EMAIL, $delay_time);
 		return false;
 	}
 
@@ -7415,7 +7418,7 @@ GozoCabs Team";
 		$time		 = $eventScheduleParams->event_sequence == TemplateMaster::SEQ_EMAIL_CODE ? $eventScheduleParams->schedule_time : 0;
 		if ($time > 0 && $eventScheduleParams->event_schedule == 1)
 		{
-			ScheduleEvent::add($eventScheduleParams->ref_id, $eventScheduleParams->ref_type, $eventScheduleParams->event_id, $eventScheduleParams->remarks, $eventScheduleParams->addtional_data, $time, TemplateMaster::SEQ_SMS_CODE);
+			ScheduleEvent::add($eventScheduleParams->ref_id, $eventScheduleParams->ref_type, $eventScheduleParams->event_id, $eventScheduleParams->remarks, $eventScheduleParams->addtional_data, $time, TemplateMaster::SEQ_EMAIL_CODE);
 			$returnSet->setStatus(true);
 			$returnSet->setData(['type' => TemplateMaster::SEQ_EMAIL_CODE]);
 		}
@@ -7435,6 +7438,8 @@ GozoCabs Team";
 			$delayTime		 = $emailParams['emailDelayTime'];
 
 			$mail = EIMailer::getInstance($emailLog);
+
+			Logger::writeToConsole("Mail Data Filename: " . $obj->filename);
 			if ($obj->filename != null)
 			{
 				$fileParams = array('id' => $contentParams['primaryId'], 'arrayData' => $contentParams);
@@ -7448,6 +7453,7 @@ GozoCabs Team";
 					Logger::trace("web");
 					$data = Yii::app()->controller->renderFile(Yii::getPathOfAlias("application.components.Event.email.{$obj->filename}") . ".php", $fileParams, true);
 				}
+				#Logger::writeToConsole("Data: ".json_decode($data));
 				$dataObj = json_decode($data);
 				if (!$dataObj || !$dataObj->status || $dataObj == null)
 				{
@@ -7456,21 +7462,27 @@ GozoCabs Team";
 					$returnSet->setData(['type' => TemplateMaster::SEQ_EMAIL_CODE]);
 					goto skipAll;
 				}
+				#Logger::writeToConsole("DataXX: ".json_decode($dataObj->data));
 				$emailArr = (array) $dataObj->data;
+
+				Logger::writeToConsole("EmailArr: " . json_decode($emailArr));
 				if (isset($emailArr['model']))
 				{
 					unset($emailArr['model']);
 				}
-				$mail->setData(array('email_receipient' => $emailArr['emailRecepient'], 'userId' => $emailArr['userId'], 'params' => $emailArr));
+
+				$emailRecepient = ($emailArr['emailRecepient'] != "") ? $emailArr['emailRecepient'] : $emailArr['email_receipient'];
+				$mail->setData(array('email_receipient' => $emailRecepient, 'userId' => $emailArr['userId'], 'params' => $emailArr));
 				$mail->setTo($toEmail, $emailArr['full_name']);
 				if ($dataObj->subject != null)
 				{
 					$obj->title = $dataObj->subject;
 				}
 
+				Logger::writeToConsole("TemplateName: " . $dataObj->templateName);
 				if ($dataObj->body != '')
 				{
-					if($dataObj->templateName!='')
+					if ($dataObj->templateName != '')
 					{
 						//$mail->viewPath = "/application/components/email/view/";
 						$mail->setPath(true, $eventScheduleParams->ref_type);
@@ -7486,27 +7498,37 @@ GozoCabs Team";
 			}
 			else
 			{
-
-				$mail->setData(array('email_receipient' => $toEmail));
+				$setParams	 = ['email_receipient' => $toEmail];
+				$userId		 = ($refType == EmailLog::REF_USER_ID) ? $refId : null;
+				if ($userId > 0)
+				{
+					$setParams = ['email_receipient' => $toEmail, 'userId' => $userId];
+				}
+				$mail->setData($setParams);
 				$mail->setTo($toEmail, $contentParams['userName']);
 				$mail->setBody($message);
 			}
 
-			$subject = $obj->title;
-			$subject = TemplateMaster::replaceVariablesInTemplate($subject, $contentParams);
+			Logger::writeToConsole("EmailSubject: " . $obj->title);
+			$subject = TemplateMaster::replaceVariablesInTemplate($obj->title, $contentParams);
 			$mail->setSubject($subject);
 			$mail->setLayout($emailLayout);
 			if ($emailReplyName != null && $emailReplyTo != null)
 			{
 				$mail->addReplyTo(array($emailReplyTo => $emailReplyName));
 			}
+			Logger::writeToConsole("Sent: ");
 			$delivered	 = $mail->sendMail(0) ? "Email sent successfully" : "Email not sent";
 			$elgId		 = emailWrapper::createLog($toEmail, $subject, $mail->Body, $refId, $userType, $delivered, $emailType, $refType, $bookingId, $emailLog, $delayTime);
+			if ($elgId > 0 && $eventScheduleParams->ref_id != null && $eventScheduleParams->ref_id > 0)
+			{
+				MarketingMessageTracker::add($eventScheduleParams->ref_type, $eventScheduleParams->ref_id, $contentParams['eventId'], TemplateMaster::SEQ_EMAIL_CODE, 2);
+			}
 			$returnSet->setStatus($elgId > 0 ? true : false);
 			$returnSet->setData(['type' => TemplateMaster::SEQ_EMAIL_CODE, 'id' => $elgId]);
-			skipAll:
-			return $returnSet;
 		}
+		skipAll:
+		return $returnSet;
 	}
 
 	public static function setEmailParams($email = null, $bookingId = null, $emailLayout = null, $emailReplyTo = null, $emailReplyName = null, $emailType = null, $emailUserType = null, $emailRefType = null, $emailRefId = null, $emailLogInstance = null, $delayTime = 0)
@@ -7524,6 +7546,60 @@ GozoCabs Team";
 			'emailLogInstance'	 => $emailLogInstance,
 			'emailDelayTime'	 => $delayTime
 		);
+	}
+
+	public function sendingMarketingReport($totalCount, $totalSend, $totalWhatsappSend, $totalEmailSend, $sendingStartTime, $sendingEndTime)
+	{
+		$email = Config::get('leadershipMail');
+		if ($email != '')
+		{
+			$this->email_receipient	 = $email;
+			$mail					 = EIMailer::getInstance(EmailLog::SEND_CUSTOM_EMAIL);
+			$mail->setView('marketingreport');
+			$mail->setData(array('totalCount' => $totalCount, 'totalSend' => $totalSend, 'totalWhatsappSend' => $totalWhatsappSend, 'totalEmailSend' => $totalEmailSend, 'sendingStartTime' => $sendingStartTime, 'sendingEndTime' => $sendingEndTime));
+			$mail->setLayout('mail');
+			$mail->setTo($email);
+			$date					 = DBUtil::getCurrentTime();
+			$subject				 = "B2C marketing activity emial report on $date ";
+			$mail->setSubject($subject);
+			if ($mail->sendMail(0))
+			{
+
+				$delivered = "Email sent successfully";
+			}
+			else
+			{
+				$delivered = "Email not sent";
+			}
+			$body = $mail->Body;
+			emailWrapper::createLog($email, $subject, $body, "", EmailLog::EMAIL_CUSTOM, $delivered);
+		}
+	}
+
+	public function userReferredBy($email, $name, $referalName, $qrCode)
+	{
+		if ($email != '')
+		{
+			$this->email_receipient	 = $email;
+			$mail					 = EIMailer::getInstance(EmailLog::SEND_CUSTOM_EMAIL);
+			$mail->setView('userrefferedby');
+			$mail->setData(array('name' => $name, 'referalName' => $referalName, 'qrCode' => $qrCode));
+			$mail->setLayout('mail');
+			$mail->setTo($email);
+			$subject				 = "$referalName has sent you discounted travel on Gozo Cabs";
+			$mail->setSubject($subject);
+			if ($mail->sendMail(0))
+			{
+
+				$delivered = "Email sent successfully";
+			}
+			else
+			{
+				$delivered = "Email not sent";
+			}
+			$body = $mail->Body;
+			emailWrapper::createLog($email, $subject, $body, "", EmailLog::EMAIL_CUSTOM, $delivered);
+		}
 	}
 
 }

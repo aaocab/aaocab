@@ -14,7 +14,6 @@ class AdminModule extends CWebModule
             'admin.models.*',
             'admin.components.*',
         ));
-        
         Yii::app()->setComponents(array(
             'user' => array(
 // There you go, use our 'extended' version
@@ -24,11 +23,9 @@ class AdminModule extends CWebModule
 // enable cookie-based authentication
                 'allowAutoLogin' => true),
         ));
-         
         $params  = [
             'RestfullYii' => require( Yii::app()->basePath . '/config/restAdmin.php'),
         ];
-       
         Yii::app()->setParams($params);
         $user    = Yii::app()->user;
         /* @var $user AdminWebUser */

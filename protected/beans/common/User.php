@@ -70,8 +70,7 @@ class User extends \Beans\contact\Contact
 	
 	
 	public function getStatusDetails($statusData)
-	{
-		
+	{		
 		$userInfo	 = \UserInfo::getInstance();
 		$contactData = \ContactProfile::getEntitybyUserId($userInfo->userId);
 		$obj->userTypes = \ContactProfile::getEntityListByData($contactData);

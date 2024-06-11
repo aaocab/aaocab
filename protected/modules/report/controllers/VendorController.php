@@ -61,7 +61,7 @@ class VendorController extends Controller
 				'roles'		 => array('ConfidentialReports'),
 			),
 			array('allow', // allow all users to perform 'index' and 'view' actions
-				'actions'	 => array('vendorLockedPayment', 'VendorUsageReport', 'blockedVendor',
+				'actions'	 => array('vendorLockedPayment', 'VendorUsageReport', 'blockedVendor', 'AutoAssignmentTracking',
 					'vendorWiseCountBooking', 'stickyVendorCount', 'directAcceptReport', 'louRequired',
 					'vendorCancellation', 'compensation', 'dco', 'profileReport', 'lowRatingCabDriver', 'dcoLinkAttached', 'vendorCoins'),
 				'roles'		 => array('GeneralReport'),
@@ -1908,8 +1908,7 @@ class VendorController extends Controller
 		$vndArr['groupvar']	 = 'date';
 		if ($request->getParam('Vendors'))
 		{
-			$vndArr = $request->getParam('Vendors');
-
+			$vndArr				 = $request->getParam('Vendors');
 			$model->from_date	 = $vndArr['from_date'];
 			$model->to_date		 = $vndArr['to_date'];
 			$model->vnd_zone	 = $vndArr['vnd_zone'];
@@ -1948,7 +1947,8 @@ class VendorController extends Controller
 			}
 		}
 		$this->pageTitle = "Vendor Coin Report";
-		$model			 = new VendorCoins();
+
+		$model = new VendorCoins();
 
 		$model->from_date	 = date("Y-m-01", strtotime("-3 month", time()));
 		$model->to_date		 = date('Y-m-d');
@@ -1961,6 +1961,7 @@ class VendorController extends Controller
 			$model->from_date	 = $data['from_date'];
 			$model->to_date		 = $data['to_date'];
 			$model->groupBy		 = $data['groupBy'];
+			$model->vndStatus		 = $data['vndStatus'];
 		}
 
 		$dataProvider = $model->getCoinDetails();
@@ -1969,4 +1970,83 @@ class VendorController extends Controller
 		$this->render('report_vendorcoins', array('model' => $model, 'dataProvider' => $dataProvider));
 	}
 
+	public function actionAutoAssignmentTracking()
+	{
+		$model	 = new Booking();
+		$arr	 = Yii::app()->request->getParam('Booking');
+		if ($arr == null)
+		{
+			$arr['autoAssignDate1']	 = date('Y-m-d', strtotime('-7 DAY'));
+			$arr['autoAssignDate2']	 = date('Y-m-d');
+		}
+		$model->attributes		 = $arr;
+		$model->confirmDate1	 = $arr['confirmDate1'];
+		$model->confirmDate2	 = $arr['confirmDate2'];
+		$model->autoAssignDate1	 = $arr['autoAssignDate1'];
+		$model->autoAssignDate2	 = $arr['autoAssignDate2'];
+		$model->bkg_pickup_date1 = $arr['bkg_pickup_date1'];
+		$model->bkg_pickup_date2 = $arr['bkg_pickup_date2'];
+		$arr1					 = array_filter($arr);
+
+		if (isset($_REQUEST['export']) && $_REQUEST['export'])
+		{
+			header('Content-type: text/csv');
+			header("Content-Disposition: attachment; filename=\"AutoAssignmentTrackingReport_" . date('Ymdhis') . ".csv\"");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+			$filename	 = "AutoAssignmentTrackingReport_" . date('Ymdhis') . ".csv";
+			$foldername	 = Yii::app()->params['uploadPath'];
+			$backup_file = $foldername . DIRECTORY_SEPARATOR . $filename;
+			if (!is_dir($foldername))
+			{
+				mkdir($foldername);
+			}
+			if (file_exists($backup_file))
+			{
+				unlink($backup_file);
+			}
+
+			$handle = fopen("php://output", 'w');
+			fputcsv($handle, ['Booking ID', 'From City', 'To City', 'Cab Type', 'Status', 'Create Date/Time', 'Confirm Date/Time', 'Pickup Date/Time', 'Auto Assignment Date/Time', 'Actual Assignment Date/Time', 'Current Assigned Vendor', 'Proposed Critical Score', 'Current Critical Score', 'Trip Distance (KM)', 'Current Trip Amount', 'Proposed VA', 'Quoted VA', 'Old Trip Amount', 'Toll Tax', 'Total Amount', 'Current Gozo Amount', 'Proposed Gozo Amount']);
+
+			$statusList	 = Booking::model()->getActiveBookingStatus();
+			$rows		 = VendorAutoAssignmentTracking::fetchList($arr1, DBUtil::ReturnType_Query);
+			foreach ($rows as $row)
+			{
+				$rowArray								 = [];
+				$rowArray['bkg_booking_id']				 = $row['bkg_booking_id'];
+				$rowArray['fromCity']					 = $row['fromCity'];
+				$rowArray['toCity']						 = $row['toCity'];
+				$rowArray['cabType']					 = $row['cabType'];
+				$rowArray['bkg_status']					 = $statusList[$row['bkg_status']];
+				$rowArray['bkg_create_date']			 = DateTimeFormat::DateTimeToLocale($row['bkg_create_date']);
+				$rowArray['confirmDate']				 = DateTimeFormat::DateTimeToLocale($row['confirmDate']);
+				$rowArray['bkg_pickup_date']			 = DateTimeFormat::DateTimeToLocale($row['bkg_pickup_date']);
+				$rowArray['autoAssignmentTime']			 = ($row['autoAssignmentTime'] == '') ? '' : DateTimeFormat::DateTimeToLocale($row['autoAssignmentTime']);
+				$rowArray['actualAssignmentTime']		 = ($row['actualAssignmentTime'] == '') ? '' : DateTimeFormat::DateTimeToLocale($row['actualAssignmentTime']);
+				$rowArray['currentAssignedVendorName']	 = $row['currentAssignedVendorName'];
+				$rowArray['vat_booking_critical_score']	 = $row['vat_booking_critical_score'];
+				$rowArray['bkg_critical_score']			 = $row['bkg_critical_score'];
+				$rowArray['bkg_trip_distance']			 = $row['bkg_trip_distance'];
+				$rowArray['currentTripAmount']			 = $row['currentTripAmount'];
+				$rowArray['proposedVA']					 = $row['proposedVA'];
+				$rowArray['quotedVA']					 = $row['quotedVA'];
+				$rowArray['oldTripAmount']				 = $row['oldTripAmount'];
+				$rowArray['tollTax']					 = $row['tollTax'];
+				$rowArray['totalAmount']				 = $row['totalAmount'];
+				$rowArray['currentGozoAmount']			 = $row['currentGozoAmount'];
+				$rowArray['proposedGozoAmount']			 = $row['proposedGozoAmount'];
+				$row1									 = array_values($rowArray);
+
+				fputcsv($handle, $row1);
+			}
+			fclose($handle);
+			exit;
+		}
+
+		$dataProvider = VendorAutoAssignmentTracking::fetchList($arr1);
+		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
+		$dataProvider->setPagination(['params' => array_filter($_GET + $_POST)]);
+		$this->render('assignmentTracking', array('dataProvider' => $dataProvider, 'model' => $model));
+	}
 }

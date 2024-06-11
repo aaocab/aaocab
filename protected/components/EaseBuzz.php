@@ -101,12 +101,12 @@ class EaseBuzz extends CComponent
 		// Create an array having all required parameters for creating checksum.
 		$param_list['key']			 = $this->merchant_key;
 		$param_list['txnid']		 = $payRequest->transaction_code;
-		$param_list['productinfo']	 = preg_replace('/[^a-zA-Z0-9-\s\|\-]/i', ' - ', $payRequest->description);
+		$param_list['productinfo']	 = trim(preg_replace('/[^a-zA-Z0-9-\s\|\-]/i', ' - ', $payRequest->description));
 		$param_list['amount']		 = $payRequest->trans_amount;
 		$param_list['firstname']	 = $payRequest->name;
 		$param_list['address1']		 = $payRequest->billingAddress; //
-		$param_list['city']			 = $payRequest->city;
-		$param_list['state']		 = $payRequest->state;
+		$param_list['city']			 = (!$payRequest->city) ? '' : $payRequest->city;
+		$param_list['state']		 = (!$payRequest->state) ? '' : $payRequest->state;
 		$param_list['country']		 = $payRequest->country;
 		$param_list['zipcode']		 = $payRequest->postal;
 		$param_list['email']		 = $payRequest->email; //Email ID of customer

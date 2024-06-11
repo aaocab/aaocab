@@ -2036,6 +2036,21 @@ bkg_is_manual_surge, bkg_surge_differentiate_amount,bkg_is_wallet_selected,bkg_w
 		}
 
 		$bkgModel = $this->bivBkg;
+		if($this->bkg_addon_details!='' && $promoCode!='')
+		{
+			$promoModel = Promos::model()->getByCode($promoCode);
+			$isNegativeAllowed = $promoModel->prm_allow_negative_addon;
+			if($isNegativeAllowed!=1 && $promoModel!='')
+			{
+					$addons = json_decode($this->bkg_addon_details,true);
+					foreach ($addons as $value)
+					{
+						if($value['adn_value'] < 0){
+							throw new Exception("This promo is not allowed with negative addon");
+						}
+					}
+			}
+		}
 
 		/* @var $prmModel Promos */
 		$prmModel = Promos::validateCode($bkgModel, $promoCode);
@@ -3092,6 +3107,78 @@ bkg_is_manual_surge, bkg_surge_differentiate_amount,bkg_is_wallet_selected,bkg_w
 		$this->calculateTotal();
 		$this->save();
 	}
+	/**
+	* This function is used to apply addon and it's benefits on booking
+	* @param type $adnId
+	* @param type $adnType
+	* @return boolean
+	*/
+	public function useAddon($adnId,$adnType = 1)
+	{
+
+		$returnSet = new ReturnSet();
+		$returnSet->setStatus(false);
+		try
+		{
+			$addonDetails = json_decode($this->bkg_addon_details,true);
+			$modelName = ($adnType == 1)?'AddonCancellationPolicy':'AddonCabModels';
+			$cpIndex = array_search($adnType, array_column($addonDetails, 'adn_type'));
+			$cntPrevAddons = count($addonDetails);
+
+			//if default applied remove previously selected
+			if ($adnId == 0 && !is_null($cpIndex) && $cpIndex!==false)
+			{
+				if($adnType == 1)
+				{
+					$defCanPolicyId = AddonCancellationPolicy::model()->findByPk($addonDetails[$cpIndex]['adn_id'])->acp_cr_from;
+				}
+				array_splice($addonDetails, $cpIndex, 1);
+				goto skipApplyAddon;
+			}
+
+			// apply selected addon or replace if previously same addon exist
+			$cpAddon	 = $modelName::getById($adnId, $this->bkg_base_amount);
+			$index = ($cntPrevAddons > 0 && !is_null($cpIndex) &&  $cpIndex!==false && $adnId>0)? $cpIndex : $cntPrevAddons;
+			$addonDetails[$index] = ['adn_type'=>$adnType,'adn_id'=>$cpAddon['id'],'adn_value'=>$cpAddon['cost']];
+
+			skipApplyAddon:
+			$this->bkg_addon_charges = array_sum(array_column($addonDetails, 'adn_value')); 
+			$this->bkg_addon_details = (!empty($addonDetails)) ? json_encode($addonDetails) : null;
+			$this->calculateTotal();
+			
+			if($this->bkg_addon_details!='' && $this->bkg_promo1_id>0)
+			{
+				$isNegativeAllowed = Promos::model()->findByPk($this->bkg_promo1_id)->prm_allow_negative_addon;
+				if($isNegativeAllowed!=1)
+				{
+					$addons = (is_array($this->bkg_addon_details))?$this->bkg_addon_details:json_decode($this->bkg_addon_details,true);
+					foreach ($addons as $value)
+					{
+						if($value['adn_value'] < 0){
+							throw new Exception("Negative addon is not allowed with this promo");
+						}
+					}
+				}
+			}
+			if($this->save())
+			{
+				$result =  $this->bivBkg->bkgPref->applyAddonBenefit($adnType, $adnId, $defCanPolicyId); //apply  addon benefit change cancel rule id , change vehile type id etc.
+				if($result)
+				{
+					$returnSet->setStatus(true);
+				}
+
+			}
+		}
+		catch(Exception $e)
+		{
+			\Sentry\captureMessage(json_encode($e), null);
+			 $returnSet = ReturnSet::setException($e);
+		}
+		return $returnSet;
+	}
+
+	
 
 	public function applyExtraDiscount($bkgId, $disAmount, $disReason)
 	{
@@ -3174,7 +3261,11 @@ bkg_is_manual_surge, bkg_surge_differentiate_amount,bkg_is_wallet_selected,bkg_w
 		$serviceTaxRate = BookingInvoice::getGstTaxRate($this->bivBkg->bkg_agent_id, $this->bivBkg->bkg_booking_type);
 
 		$this->bkg_due_amount = $this->bkg_total_amount - $this->bkg_net_advance_amount - $this->bkg_vendor_collected;
-		$this->calculateTotal();
+		
+		if(!$this->bkg_partner_extra_commission && $this->bivBkg->bkg_agent_id == 18190)
+		{
+			$this->calculateTotal();
+		}
 
 		if($this->bkg_due_amount >= -2 && $this->bkg_due_amount >= 2)
 		{
@@ -4979,7 +5070,7 @@ bkg_is_manual_surge, bkg_surge_differentiate_amount,bkg_is_wallet_selected,bkg_w
 		$this->refresh();
 		$estimatedVendorCollected	 = $this->bkg_vendor_collected;
 		$actualVendorCollected		 = $this->bkg_vendor_actual_collected;
-		return ($estimatedVendorCollected > 0 && $actualVendorCollected > 0 && abs($actualVendorCollected - $estimatedVendorCollected) > 10);
+		return ($estimatedVendorCollected > 0 && $actualVendorCollected > 0 && abs($actualVendorCollected - $estimatedVendorCollected) > 20);//according to ak extra amount modify tfrom 10 to 20 in 05/04
 	}
 
 	public function getListWithExtraCharges($bkgmodel)

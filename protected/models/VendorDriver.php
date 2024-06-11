@@ -125,7 +125,7 @@ class VendorDriver extends CActiveRecord
 		{
 			$model				 = new VendorDriver();
 			$model->vdrv_drv_id	 = $data['driver'];
-			$model->vdrv_vnd_id	 = $data['vendor'];			
+			$model->vdrv_vnd_id	 = $data['vendor'];
 			if ($model->save())
 			{
 				return true;
@@ -155,29 +155,38 @@ class VendorDriver extends CActiveRecord
 		return $recordset;
 	}
 
-	public function getDriverListbyVendorid($vndId)
+	public static function getDriverListbyVendorid($vndIds, $onlyDataSet = false)
 	{
-		$params		 = ['vndId' => $vndId];
-		$sql		 = "Select d.drv_id,d.drv_name,d.drv_code,phn_phone_no AS drv_phone,d.drv_is_freeze, cp.cr_contact_id, d.drv_contact_id, 
+		$params	 = [];
+		$sql	 = "Select distinct d.drv_id,d.drv_name,d.drv_code,phn_phone_no AS drv_phone,d.drv_is_freeze, cp.cr_contact_id, d.drv_contact_id, 
 						IF(d.drv_active=1,'Active','InActive') AS drv_active 
 						FROM vendor_driver 
 						INNER JOIN drivers d ON vdrv_drv_id = drv_id AND vdrv_active = 1 AND drv_id = drv_ref_code 
 						INNER JOIN contact_profile AS cp on cp.cr_is_driver = drv_id and cp.cr_status=1 
 						INNER JOIN contact ON contact.ctt_id = cp.cr_contact_id and contact.ctt_active =1 and contact.ctt_id = contact.ctt_ref_code 
 						LEFT JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id AND contact_phone.phn_active=1
-						WHERE vdrv_vnd_id =:vndId Group By drv_id";
-		$recordset	 = DBUtil::queryAll($sql, DBUtil::SDB(), $params);
-		return $recordset;
+						WHERE vdrv_vnd_id IN ($vndIds) 
+						Group By drv_ref_code";
+		if ($onlyDataSet)
+		{
+			$recordset = DBUtil::query($sql, DBUtil::SDB());
+			return $recordset;
+		}
+		else
+		{
+			$recordset = DBUtil::queryAll($sql, DBUtil::SDB(), $params);
+			return $recordset;
+		}
 	}
 
 	public function findVndIdsByDrvId($drvId, $status = "")
 	{
-		$sql = "SELECT GROUP_CONCAT(vendor_driver.vdrv_vnd_id SEPARATOR ',') as vendor_ids FROM `vendor_driver` WHERE vendor_driver.vdrv_drv_id in (SELECT d3.drv_id FROM drivers d1
+		$sql			 = "SELECT GROUP_CONCAT(vendor_driver.vdrv_vnd_id SEPARATOR ',') as vendor_ids FROM `vendor_driver` WHERE vendor_driver.vdrv_drv_id in (SELECT d3.drv_id FROM drivers d1
           INNER JOIN drivers d2 ON d2.drv_id=d1.drv_ref_code
           INNER JOIN drivers d3 ON d3.drv_ref_code=d2.drv_id
           WHERE d1.drv_id='$drvId') ";
-		$sql .= $status != "" ? " and vendor_driver.vdrv_active=$status" : "";
-		$recordVndIds = DBUtil::command($sql, DBUtil::MDB())->queryScalar();
+		$sql			 .= $status != "" ? " and vendor_driver.vdrv_active=$status" : "";
+		$recordVndIds	 = DBUtil::command($sql, DBUtil::MDB())->queryScalar();
 		return $recordVndIds;
 	}
 
@@ -235,27 +244,26 @@ class VendorDriver extends CActiveRecord
 	}
 
 	/**
-     * @param integer $vndId
-     * @param integer $drvId
-     * @return array
-     */
+	 * @param integer $vndId
+	 * @param integer $drvId
+	 * @return array
+	 */
 	public static function getLinking($vndId, $drvId)
 	{
-		$params		 = ['vndId' => $vndId,'drvId' => $drvId];
-		$sql		 = "Select d.drv_id,d.drv_name,d.drv_code,vdrv_vnd_id
+		$params	 = ['vndId' => $vndId, 'drvId' => $drvId];
+		$sql	 = "Select d.drv_id,d.drv_name,d.drv_code,vdrv_vnd_id
 						FROM vendor_driver 
 						INNER JOIN drivers d ON vdrv_drv_id = drv_id 											
-						WHERE vdrv_active = 1 AND vdrv_vnd_id =:vndId AND vdrv_drv_id =:drvId";		
+						WHERE vdrv_active = 1 AND vdrv_vnd_id =:vndId AND vdrv_drv_id =:drvId";
 		$result	 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 		return $result;
 	}
-	
+
 	/**
 	 * count of driver for particular vendor
 	 * @param type $vndId
 	 * @return type
 	 */
-	
 	public static function getDriverCountbyVendorid($vndId)
 	{
 		$params		 = ['vndId' => $vndId];
@@ -269,7 +277,7 @@ class VendorDriver extends CActiveRecord
 		$recordset	 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 		return $recordset;
 	}
-	
+
 	/**
 	 * total number of drivers of particular vendor
 	 * @param type $vndIds
@@ -285,10 +293,10 @@ class VendorDriver extends CActiveRecord
 					AND vendor_driver.vdrv_active=1
 					GROUP BY vendors.vnd_ref_code";
 		$res	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
-		
 
 		return $res;
 	}
+
 	/**
 	 * number of rejected drivers of particular vendor
 	 * @param type $vndIds
@@ -297,39 +305,37 @@ class VendorDriver extends CActiveRecord
 	public static function rejectedDriver($vndIds)
 	{
 		$params	 = ['vndId' => $vndIds];
-		$sql = "SELECT COUNT(DISTINCT vendor_driver.vdrv_drv_id) AS is_driver
+		$sql	 = "SELECT COUNT(DISTINCT vendor_driver.vdrv_drv_id) AS is_driver
                 FROM `vendor_driver`
                 INNER JOIN `vendors` ON vendors.vnd_id = vendor_driver.vdrv_vnd_id 
                 INNER JOIN `drivers` ON drivers.drv_id= vendor_driver.vdrv_drv_id AND drivers.drv_approved =3 AND drivers.drv_active =1
                 WHERE vendor_driver.vdrv_active = 1 AND vendors.vnd_id IN (:vndId) group by vendors.vnd_ref_code";
-		
 
-		$res	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+		$res = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 
 		return $res;
 	}
-	public static function getVndDrvId($drvId,$vendorId)
+
+	public static function getVndDrvId($drvId, $vendorId)
 	{
 		$params	 = ['vndId' => $vendorId, 'drvId' => $drvId];
-		$sql = "SELECT vdrv_id AS vendorDriverId FROM vendor_driver
+		$sql	 = "SELECT vdrv_id AS vendorDriverId FROM vendor_driver
                 WHERE 1 AND vdrv_active=1 AND vdrv_drv_id  =:drvId AND vdrv_vnd_id =:vndId ";
 		return DBUtil::queryScalar($sql, DBUtil::MDB(), $params);
 	}
-	
+
 	public static function checkApprovalStatus($vndId)
 	{
-		$approvalStatus = 1;
-		$vndModel = Vendors::model()->findByPk($vndId);
-		$active =$vndModel->vnd_active;
-		$driverCount = VendorDriver::getDriverCountbyVendorid($vndId); //According to AK no driver checking needed for login.
-		
+		$approvalStatus	 = 1;
+		$vndModel		 = Vendors::model()->findByPk($vndId);
+		$active			 = $vndModel->vnd_active;
+		$driverCount	 = VendorDriver::getDriverCountbyVendorid($vndId); //According to AK no driver checking needed for login.
+
 		if ($vndModel->vnd_active != 1)
-			{
-				$approvalStatus	 = 0;
-				
-			}
+		{
+			$approvalStatus = 0;
+		}
 
 		return $approvalStatus;
 	}
-
 }

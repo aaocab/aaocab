@@ -25,7 +25,7 @@ if (Yii::app()->request->isAjaxRequest) {
                         <div class="row flex m0">
                             <div class="col-sm-6 p0 signin-left">
                                 <div class="pt30 pb30">
-                                    <div class="mt20 mb30"><img src="<?=ASSETS_URL?>images/logo_outstation.png" alt="Gozocabs"></div>
+                                    <div class="mt20 mb30"><img src="<?=IMAGE_URL?>/logo_outstation.png" alt="Gozocabs"></div>
                                     <div class="mt50 mb5"><b>Book with Gozo cabs mobile app</b></div>
                                     <div class="mb50">
                                         <a href="https://play.google.com/store/apps/details?id=com.gozocabs.client" target="_blank"><img src="/images/GooglePlay.png?v1.1" alt="Gozocabs APP"></a> <a href="https://itunes.apple.com/app/id1398759012?mt=8" target="_blank"><img src="/images/app_store.png?v1.2" alt="Gozocabs APP"></a>

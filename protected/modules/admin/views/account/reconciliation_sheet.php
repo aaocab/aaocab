@@ -26,11 +26,15 @@
 									//    'ajaxType' => 'POST',
 									'columns'			 => array(
 										array('name' => 'prs_title', 'filter' => false, 'value' => '$data["prs_title"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Title'),
+										array('name' => 'prs_pickup_from_date', 'filter' => false, 'value' => '$data["prs_pickup_from_date"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Pickup From Date'),
+										array('name' => 'prs_pickup_to_date', 'filter' => false, 'value' => '$data["prs_pickup_to_date"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Pickup To Date'),
 										array('name' => 'prs_sheet_type', 'filter' => false, 'value' => function ($data) use ($arrSheetType) {
 											echo $arrSheetType[$data["prs_sheet_type"]];
 										}, 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Sheet Type'),
 										array('name' => 'prs_filename', 'filter' => false, 'value' => '$data["prs_filename"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Filename'),
 										array('name' => 'prs_row_count', 'filter' => false, 'value' => '$data["prs_row_count"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Row Count'),
+										array('name' => 'prs_success_count', 'filter' => false, 'value' => '$data["prs_success_count"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Success Count'),
+										array('name' => 'prs_failed_count', 'filter' => false, 'value' => '$data["prs_failed_count"]', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Failed Count'),
 										array('name' => 'prs_status', 'filter' => false, 'value' => function ($data) use ($arrStatus) {
 											echo $arrStatus[$data["prs_status"]];
 										}, 'sortable' => true, 'headerHtmlOptions' => array(), 'header' => 'Status'),

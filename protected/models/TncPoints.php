@@ -318,6 +318,14 @@ class TncPoints extends CActiveRecord
 		return parent::model($className);
 	}
 
+	/** 
+	 * 
+	 * @param integer $tnpFor
+	 * @param integer $tnpTripType
+	 * @param integer $tnpTierId
+	 * @param integer $tnpCType
+	 * @return array
+	 */
 	public function getTncDescription($tnpFor, $tnpTripType, $tnpTierId, $tnpCType)
 	{
 
@@ -330,7 +338,7 @@ class TncPoints extends CActiveRecord
 		{
 			$cond .= " AND tnp_c_type =" . $tnpCType;
 		}
-		$sql			 = "SELECT * FROM `tnc_points`  WHERE 1=1 " . $cond . " order by tnp_position";
+		$sql			 = "SELECT * FROM `tnc_points`  WHERE 1=1 AND tnc_points.tnp_active=1 " . $cond . " order by tnp_position";
 		$tncPoints		 = DBUtil::queryAll($sql, DBUtil::SDB(), $params);
 		$tncPointsArr	 = [];
 		if (!empty($tncPoints))

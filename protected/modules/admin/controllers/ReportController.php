@@ -1491,6 +1491,7 @@ class ReportController extends Controller
 				'State',
 				'Gst',
 				'Base Fare',
+				'Base Fare Without Driver Allowance',
 				'Cancel Base Fare',
 				'Cancel Gst']);
 			foreach ($rows as $row)
@@ -1502,6 +1503,7 @@ class ReportController extends Controller
 				$rowArray['stt_name']		 = $row['stt_name'];
 				$rowArray['GST']			 = $row['GST'];
 				$rowArray['BaseFare']		 = $row['BaseFare'];
+				$rowArray['BaseFareWithoutDriverAllowance']		 = $row['netBaseAmount'];
 				$rowArray['CancelBaseFare']	 = $row['CancelBaseFare'];
 				$rowArray['CancelGST']		 = $row['CancelGST'];
 				$row1						 = array_values($rowArray);
@@ -1815,7 +1817,7 @@ class ReportController extends Controller
 				unlink($backup_file);
 			}
 			$type	 = 'command';
-			$rows	 = Vendors::model()->getCollectionReport($qry, true);
+			$rows	 = Vendors::getCollectionReport($qry, true);
 			$handle	 = fopen("php://output", 'w');
 			fputcsv($handle, ['Operator Id', 'Operator Name', 'Beneficiary Id', 'Phone', 'Relationship Manager', 'Credit Limit', 'Effective Credit Limit',
 				'Overdue Days', 'Security Amount', 'Last Payment Receive Amt', 'Last Payment Receive Date', 'Last Payment Sent Amt', 'Last Payment Sent Date',
@@ -1998,7 +2000,7 @@ class ReportController extends Controller
 			'amount'	 => $amount,
 			'admin'		 => $admin,
 			'modDay'	 => $modDay];
-		$dataProvider	 = Vendors::model()->getCollectionReport($qry);
+		$dataProvider	 = Vendors::getCollectionReport($qry);
 		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
 		$dataProvider->setPagination(['params' => array_filter($_GET + $_POST)]);
 		$this->render('vendor_collection', array('dataProvider' => $dataProvider, 'model' => $model, 'message' => $message));
@@ -2245,6 +2247,8 @@ class ReportController extends Controller
 
 	public function actionCancellations()
 	{
+		$this->redirect(array("/report/booking/ReportCancellations"));
+		exit();
 		$this->pageTitle	 = "Cancellation Report";
 		/* @var $model Booking */
 		$model				 = new Booking;

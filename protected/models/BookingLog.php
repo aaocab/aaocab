@@ -115,7 +115,8 @@ class BookingLog extends CActiveRecord
 	const BOOKING_NON_PROFITABLE_SET					 = 48;
 	const BOOKING_NON_PROFITABLE_OVERRRIDE_SET		 = 49;
 	const BOOKING_MANUAL_ASSIGNMENT					 = 50;
-	const CAB_PARTITIONED								 = 51;
+	const CAB_PARTITIONED							 = 51;
+	const BOOKING_REVIEWED_BY_DRIVER				 = 255;
 	const CANCEL_REASON_CHANGED						 = 269;
 	const CNG_ALLOWED									 = 273;
 	// const EMAIL_BOOKING_CREATED = 44;
@@ -1012,6 +1013,7 @@ class BookingLog extends CActiveRecord
 			{
 				$bookingLog->blg_driver_assigned_id	 = $params['blg_driver_id'];
 				$bookingLog->blg_user_type			 = 3;
+				
 			}
 		}
 		if ($userInfo->userType == 3)
@@ -2202,7 +2204,8 @@ class BookingLog extends CActiveRecord
 
 		$sql = "SELECT 
 				SUM(IF(blg_event_id=93 AND blg_user_type=4, 1, 0)) cabArrivedByAdmin,
-				SUM(IF(blg_event_id=215 AND blg_user_type=4, 1, 0)) rideStartedByAdmin
+				SUM(IF(blg_event_id=215 AND blg_user_type=4, 1, 0)) rideStartedByAdmin,
+				SUM(IF(blg_event_id=216 AND blg_user_type=4, 1, 0)) rideEndByAdmin
 				FROM `booking_log` WHERE `blg_event_id` IN ({$eventIds}) AND blg_booking_id={$bkgId}
 				GROUP BY blg_booking_id";
 

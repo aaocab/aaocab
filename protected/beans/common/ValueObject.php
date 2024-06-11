@@ -61,7 +61,7 @@ class ValueObject
 		$obj		 = new ValueObject();
 		$obj->id	 = (int) $tripType;
 		$obj->label	 = $label;
-		$obj->desc	 = $bkgModel->getBookingType($tripType);
+		$obj->desc	 = ($tripType>0)?$bkgModel->getBookingType($tripType):"";
 		return $obj;
 	}
 

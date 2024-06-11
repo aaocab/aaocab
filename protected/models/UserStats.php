@@ -280,7 +280,9 @@ class UserStats extends CActiveRecord
 		foreach ($result as $value)
 		{
 			$sql = "SELECT 
-					SUM(IF(bkg_status = 9,1,0)) totCancelled,
+					SUM(IF(bkg_status = 9,1,0)) totCancelled, 
+					SUM(IF(bkg_status = 9 AND bkg_cancel_id = 21 AND bkg_reconfirm_flag = 1 AND bkg_net_advance_amount <= 0,1,0)) totZeroCashCancelled, 
+					SUM(IF(bkg_status = 9 AND bkg_cancel_id = 21 AND bkg_reconfirm_flag = 1 AND bkg_net_advance_amount <= 0 AND bkg_pickup_date >= DATE_SUB(NOW(), INTERVAL 12 MONTH),1,0)) totZeroCashCancelledMonth12, 
 					ROUND(SUM(IF(bkg_status IN (6,7), bkg_total_amount, 0))) totAmt,
 					ROUND(SUM(IF(bkg_status IN (6,7), bkg_gozo_amount, 0))) totGozoAmt,
 					SUM(IF((bkg_status IN (6,7) AND bkg_pickup_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)), 1, 0)) as trips_month3,
@@ -290,10 +292,11 @@ class UserStats extends CActiveRecord
 					MAX(bkg_create_date) lastCreateDate 
 					FROM `booking` 
 					INNER JOIN booking_user ON bui_bkg_id = bkg_id 
-					INNER JOIN users ON users.user_id = bkg_user_id AND usr_active = 1 
+					INNER JOIN booking_invoice ON biv_bkg_id = bkg_id 
+					INNER JOIN users ON user_id = bkg_user_id AND usr_active = 1 
 					INNER JOIN contact_profile ON cr_is_consumer = user_id 
 					INNER JOIN contact ON ctt_id = cr_contact_id AND ctt_active = 1 AND ctt_id = ctt_ref_code 
-					INNER JOIN booking_invoice ON biv_bkg_id = bkg_id 
+					
 					WHERE 1 AND bkg_active =1 AND bkg_create_date > '2015-10-01 23:59:59' AND bkg_status IN (2,3,5,6,7,9) 
 					AND bkg_agent_id IS NULL AND bkg_user_id=:id 
 					GROUP BY bkg_user_id";
@@ -311,6 +314,10 @@ class UserStats extends CActiveRecord
 					$model->urs_user_id	 = $value['bkg_user_id'];
 					$model->urs_active	 = 1;
 				}
+				
+				$totZeroCashCancelled = $data['totZeroCashCancelled'];
+				$totZeroCashCancelledMonth12 = $data['totZeroCashCancelledMonth12'];
+				
 				$model->urs_total_cancelled		 = $data['totCancelled'];
 				$model->urs_total_amount		 = $data['totAmt'];
 				$model->urs_total_gozo_amount	 = $data['totGozoAmt'];
@@ -321,7 +328,7 @@ class UserStats extends CActiveRecord
 				$model->urs_last_trip_created	 = $data['lastCreateDate'];
 				if ($model->save())
 				{
-					ContactPref::updateCategory($value['bkg_user_id']);
+					ContactPref::updateCategory($value['bkg_user_id'], $totZeroCashCancelled, $totZeroCashCancelledMonth12);
 				}
 			}
 			catch (Exception $ex)

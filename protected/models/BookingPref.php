@@ -1778,6 +1778,21 @@ class BookingPref extends CActiveRecord
 
 	/**
 	 * 
+	 * @param Booking $model
+	 * @return boolean
+	 */
+	public static function isDriverDetailsViewable($model)
+	{
+		$cancelFee					 = CancellationPolicy::initiateRequest($model);
+		$alreadyViewed				 = ($model->bkgTrack->btk_drv_details_viewed == 1);
+		$isCancelChargesApplicable	 = ($cancelFee->charges > 0);
+		$minPickupTimeLeft			 = Filter::CalcWorkingMinutes(Filter::getDBDateTime(), $model->bkg_pickup_date);
+		$isMinPickupTimePassed		 = ($minPickupTimeLeft < 60);
+		return ($isCancelChargesApplicable || $alreadyViewed || $isMinPickupTimePassed);
+	}
+
+	/**
+	 * 
 	 * @param type $model
 	 * @param int $customerNo
 	 * @return int
@@ -1894,13 +1909,13 @@ class BookingPref extends CActiveRecord
 			$jsonData	 = json_encode($data);
 			$sql		 = "UPDATE booking_pref SET bkg_min_advance_params='$jsonData' WHERE bpr_bkg_id=:bkgId";
 			$result		 = DBUtil::execute($sql, $params);
-		} 
+		}
 		return $result;
 	}
-	
+
 	public static function getAccountingFlagSet($bkgmodel)
 	{
-		$dateRange	 = '';
+		$dateRange = '';
 
 		if (!$bkgmodel->bkg_create_date1 || !$bkgmodel->bkg_create_date2)
 		{
@@ -1938,7 +1953,7 @@ class BookingPref extends CActiveRecord
 		$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB())->queryScalar();
 		$dataprovider	 = new CSqlDataProvider($sql, [
 			'totalItemCount' => $count,
-			'sort'			 => ['attributes' =>
+			'sort'			 => ['attributes'	 =>
 				[],
 				'defaultOrder'	 => "bkg_create_date ASC"],
 			'pagination'	 => ['pageSize' => 50],
@@ -1946,30 +1961,30 @@ class BookingPref extends CActiveRecord
 		return $dataprovider;
 	}
 
-	/** 
+	/**
 	 * 
 	 * @param integer $bkgId
 	 * @return boolean
 	 */
 	public static function isFullCashAllowed($bkgId)
 	{
-		$model = Booking::model()->findByPk($bkgId);
-		$isAllowedCash = false;
-		if(in_array($model->bkg_status, [1, 15]))
+		$model			 = Booking::model()->findByPk($bkgId);
+		$isAllowedCash	 = false;
+		if (in_array($model->bkg_status, [1, 15]))
 		{
-			if($model->bkgUserInfo->bkg_user_id > 0)
+			if ($model->bkgUserInfo->bkg_user_id > 0)
 			{
 				$isAllowedCash = UserCategoryMaster::isCashBookingAllowed($model->bkgUserInfo->bkg_user_id, $model->bkg_booking_type); //user category bronze,silver,gold,platinum
 			}
-			if(in_array($model->bkg_booking_type, [4, 12]) && $model->bkg_transfer_type == 1 && ($model->bkg_agent_id == Config::get('Mobisign.partner.id') || $model->bkg_agent_id == null))
+			if (in_array($model->bkg_booking_type, [4, 12]) && $model->bkg_transfer_type == 1 && ($model->bkg_agent_id == Config::get('Mobisign.partner.id') || $model->bkg_agent_id == null))
 			{
 				$isAllowedCash = true; //airport pickup b2c and mobisign
 			}
-			if($model->bkg_agent_id == null && (Tags::isVIPBooking($model->bkg_id)>0 || Tags::isVVIPBooking($model->bkg_id)>0))
+			if ($model->bkg_agent_id == null && (Tags::isVIPBooking($model->bkg_id) > 0 || Tags::isVVIPBooking($model->bkg_id) > 0))
 			{
 				$isAllowedCash = true; //vip tagged customer
 			}
-			if($model->bkgPref->bpr_rescheduled_from > 0)
+			if ($model->bkgPref->bpr_rescheduled_from > 0)
 			{
 				$isAllowedCash = false; // rescheduled booking
 			}
@@ -2015,4 +2030,52 @@ class BookingPref extends CActiveRecord
 			'rescheduleCharge'	 => $charge];
 		return $params;
 	}
+
+	public function applyAddonBenefit($adnType,$adnId,$defCanPolicyId = 0)
+	{
+		$bkgModel = $this->bprBkg;
+		switch ($adnType)
+		{
+			case 1:
+				$this->bkg_cancel_rule_id = ($adnId > 0) ? AddonCancellationPolicy::getCancelRuleById($adnId) : $defCanPolicyId;
+				$success = $this->save();
+				break;
+			case 2:
+				if ($adnId > 0)
+				{
+					$cabType	 = AddonCabModels::model()->findByPk($adnId)->acm_svc_id_to;
+				}
+				$bkgModel->bkg_vehicle_type_id	 = ($cabType > 0) ? $cabType : SvcClassVhcCat::model()->findByPk($bkgModel->bkg_vehicle_type_id)->scv_parent_id;
+				$bkgModel->bkg_vht_id			 = SvcClassVhcCat::model()->findByPk($cabType)->scv_model;
+				$success = $bkgModel->save();
+
+				break;
+			default:
+				break;
+		}
+		return $success;
+	}
+	
+	public static function getRescheduledBkgIdsByUserId($userId)
+	{
+		$arrRescheduledBookings = [];
+
+		$sql = "SELECT bkg_id, bkg_booking_id, bpr_rescheduled_from, bkg_status  
+				FROM booking 
+				INNER JOIN booking_user ON bkg_id = bui_bkg_id 
+				INNER JOIN booking_pref ON bpr_bkg_id = bkg_id AND bpr_rescheduled_from > 0 
+				WHERE 1 AND bkg_pickup_date >= '2018-04-01 00:00:00' AND bkg_user_id = {$userId} 
+				AND (`bkg_status` IN (2,3,5,6,7,9) OR (bkg_pickup_date > NOW() AND `bkg_status` IN (1,15)))";
+		$row = DBUtil::query($sql);
+		if ($res)
+		{
+			foreach ($res as $row)
+			{
+				$arrRescheduledBookings[$row['bpr_rescheduled_from']] = ['bkg_id' => $row['bkg_id'], 'bkg_booking_id' => $row['bkg_booking_id'], 'bkg_status' => $row['bkg_status']];
+			}
+		}
+
+		return false;
+	}
+
 }

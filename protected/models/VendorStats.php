@@ -61,6 +61,7 @@
  * @property integer $vrs_rejected_drivers
  * @property string $vrs_last_loc_lat
  * @property string $vrs_last_loc_long
+ * @property string $vrs_last_loc_zone_id
  * @property string $vrs_last_loc_device_id
  * @property string $vrs_last_loc_date
  * @property integer $vrs_OW_Count
@@ -129,8 +130,28 @@ class VendorStats extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('vrs_security_receive_date1', 'date', 'format' => 'dd/MM/yyyy'),
-			array('vrs_id, vrs_vnd_id, vrs_last_logged_in, vrs_credit_limit, vrs_security_amount, vrs_security_receive_date, vrs_credit_throttle_level, vrs_vnd_overall_rating, vrs_vnd_total_trip, vrs_count_driver, vrs_count_car,  vrs_approve_driver_count, vrs_approve_car_count, vrs_car_reg_compact_cnt, vrs_car_reg_sedan_cnt, vrs_car_reg_suv_cnt, vrs_car_reg_tempo9_cnt, vrs_car_reg_tempo12_cnt, vrs_car_reg_tempo15_cnt, vrs_drivers_reg_cnt, vrs_car_compact_avail_cnt, vrs_car_suv_avail_cnt, vrs_car_sedan_avail_cnt, vrs_car_tempo12_avail_cnt, vrs_car_tempo15_avail_cnt, vrs_car_tempo9_avail_cnt, vrs_trust_score, vrs_docs_score, vrs_overall_score, vrs_avg_cab_used, vrs_no_of_star, vrs_denied_duty_cnt, vrs_use_drv_app, vrs_drv_app_last10_trps, vrs_outstanding, vrs_total_trips, vrs_last_thirtyday_trips, vrs_total_amount, vrs_last_thirtyday_amount, vrs_last_trip_datetime, vrs_first_trip_datetime, vrs_mark_vend_count, vrs_effective_credit_limit, vrs_effective_overdue_days, vrs_driver_mismatch_count, vrs_avg10, vrs_avg30', 'safe', 'on' => 'search'),
-			array('vrs_id, vrs_vnd_id, vrs_last_logged_in, vrs_credit_limit, vrs_security_amount, vrs_security_receive_date, vrs_credit_throttle_level, vrs_vnd_overall_rating, vrs_vnd_total_trip, vrs_count_driver, vrs_count_car,  vrs_approve_driver_count, vrs_approve_car_count, vrs_car_reg_compact_cnt, vrs_car_reg_sedan_cnt, vrs_car_reg_suv_cnt, vrs_car_reg_tempo9_cnt, vrs_car_reg_tempo12_cnt, vrs_car_reg_tempo15_cnt, vrs_drivers_reg_cnt, vrs_car_compact_avail_cnt, vrs_car_suv_avail_cnt, vrs_car_sedan_avail_cnt, vrs_car_tempo12_avail_cnt, vrs_car_tempo15_avail_cnt, vrs_car_tempo9_avail_cnt, vrs_trust_score, vrs_docs_score, vrs_overall_score, vrs_avg_cab_used, vrs_no_of_star, vrs_denied_duty_cnt, vrs_use_drv_app, vrs_drv_app_last10_trps, vrs_outstanding, vrs_total_trips, vrs_last_thirtyday_trips, vrs_total_amount, vrs_last_thirtyday_amount, vrs_last_trip_datetime, vrs_first_trip_datetime, vrs_mark_vend_count, vrs_effective_credit_limit, vrs_effective_overdue_days, vrs_driver_mismatch_count, vrs_avg10, vrs_avg30, vrs_locked_amount, vrs_withdrawable_balance, vrs_docs_r4a, vrs_last_bkg_cmpleted, vrs_trip_status_pending_count,vrs_pending_cars,vrs_pending_drivers,vrs_rejected_cars,vrs_rejected_drivers,vrs_last_loc_lat, vrs_last_loc_long, vrs_last_loc_device_id ,vrs_last_loc_date,vrs_OW_Count,vrs_RT_Count,vrs_AT_Count,vrs_PT_Count,vrs_FL_Count,vrs_SH_Count,vrs_CT_Count,vrs_DR_4HR_Count,vrs_DR_8HR_Count,vrs_DR_12HR_Count,vrs_AP_Count,vrs_coin,vrs_platform,vrs_margin,vrs_bid_win_percentage,vrs_dependency,vrs_boost_percentage,vrs_first_approve_date,vrs_last_approve_date,vrs_delivered_cnt,vrs_delivered_at,vrs_received_cnt,vrs_received_at,vrs_read_cnt,vrs_read_at', 'safe'),
+			array('vrs_id, vrs_vnd_id, vrs_last_logged_in, vrs_credit_limit, vrs_security_amount, vrs_security_receive_date, vrs_credit_throttle_level, 
+ 				vrs_vnd_overall_rating, vrs_vnd_total_trip, vrs_count_driver, vrs_count_car,  vrs_approve_driver_count, vrs_approve_car_count, vrs_car_reg_compact_cnt, vrs_car_reg_sedan_cnt, 
+ 				vrs_car_reg_suv_cnt, vrs_car_reg_tempo9_cnt, vrs_car_reg_tempo12_cnt, vrs_car_reg_tempo15_cnt, vrs_drivers_reg_cnt, 
+ 				vrs_car_compact_avail_cnt, vrs_car_suv_avail_cnt, vrs_car_sedan_avail_cnt, vrs_car_tempo12_avail_cnt, vrs_car_tempo15_avail_cnt, 
+ 				vrs_car_tempo9_avail_cnt, vrs_trust_score, vrs_docs_score, vrs_overall_score, vrs_avg_cab_used, vrs_no_of_star, vrs_denied_duty_cnt, 
+				vrs_use_drv_app, vrs_drv_app_last10_trps, vrs_outstanding, vrs_total_trips, vrs_last_thirtyday_trips, vrs_total_amount, 
+				vrs_last_thirtyday_amount, vrs_last_trip_datetime, vrs_first_trip_datetime, vrs_mark_vend_count, vrs_effective_credit_limit, 
+				vrs_effective_overdue_days, vrs_driver_mismatch_count, vrs_avg10, vrs_avg30', 'safe', 'on' => 'search'),
+			array('vrs_id, vrs_vnd_id, vrs_last_logged_in, vrs_credit_limit, vrs_security_amount, vrs_security_receive_date, 
+				vrs_credit_throttle_level, vrs_vnd_overall_rating, vrs_vnd_total_trip, vrs_count_driver, vrs_count_car,  
+				vrs_approve_driver_count, vrs_approve_car_count, vrs_car_reg_compact_cnt, vrs_car_reg_sedan_cnt, vrs_car_reg_suv_cnt, 
+				vrs_car_reg_tempo9_cnt, vrs_car_reg_tempo12_cnt, vrs_car_reg_tempo15_cnt, vrs_drivers_reg_cnt, vrs_car_compact_avail_cnt, 
+				vrs_car_suv_avail_cnt, vrs_car_sedan_avail_cnt, vrs_car_tempo12_avail_cnt, vrs_car_tempo15_avail_cnt, vrs_car_tempo9_avail_cnt, 
+				vrs_trust_score, vrs_docs_score, vrs_overall_score, vrs_avg_cab_used, vrs_no_of_star, vrs_denied_duty_cnt, vrs_use_drv_app, 
+				vrs_drv_app_last10_trps, vrs_outstanding, vrs_total_trips, vrs_last_thirtyday_trips, vrs_total_amount, vrs_last_thirtyday_amount, 
+				vrs_last_trip_datetime, vrs_first_trip_datetime, vrs_mark_vend_count, vrs_effective_credit_limit, vrs_effective_overdue_days, 
+				vrs_driver_mismatch_count, vrs_avg10, vrs_avg30, vrs_locked_amount, vrs_withdrawable_balance, vrs_docs_r4a, vrs_last_bkg_cmpleted, 
+				vrs_trip_status_pending_count,vrs_pending_cars,vrs_pending_drivers,vrs_rejected_cars,vrs_rejected_drivers,vrs_last_loc_lat, 
+				vrs_last_loc_long, vrs_last_loc_device_id ,vrs_last_loc_date,vrs_OW_Count,vrs_RT_Count,vrs_AT_Count,vrs_PT_Count,vrs_FL_Count,
+				vrs_SH_Count,vrs_CT_Count,vrs_DR_4HR_Count,vrs_DR_8HR_Count,vrs_DR_12HR_Count,vrs_AP_Count,vrs_coin,vrs_platform,vrs_margin,
+				vrs_bid_win_percentage,vrs_dependency,vrs_boost_percentage,vrs_first_approve_date,vrs_last_approve_date,vrs_delivered_cnt,
+				vrs_delivered_at,vrs_received_cnt,vrs_received_at,vrs_read_cnt,vrs_read_at,vrs_last_loc_zone_id', 'safe'),
 			//array('vrs_security_amount', 'validateSecurityDate', 'on' => 'insert,update'),
 			array('vrs_credit_throttle_level', 'length', 'max' => 100, 'on' => 'update'),
 		);
@@ -992,22 +1013,27 @@ class VendorStats extends CActiveRecord
 		$success = false;
 		try
 		{
-			$vendorId						 = $this->vrs_vnd_id;
-			$rating							 = ($this->vrs_vnd_overall_rating > 0) ? round($this->vrs_vnd_overall_rating) : 4;
+			$vendorId				 = $this->vrs_vnd_id;
+			$rating					 = ($this->vrs_vnd_overall_rating > 0) ? round($this->vrs_vnd_overall_rating) : 4;
 			/*
 			 * logic,Get value of Vendors existing rating = VR and round it
 			 * A = % of VendorTripAmount of all bookings he has completed in the last n days.  
 			 * A = [ ( [ 5 - Round(VR,0) ] 10% ) +5% ] of VendorTripAmount of all bookings he has completed in the last 
 			 * [ (Round([5 - VR ],0) 1 ) + 4 ] days.
 			 */
-			$percentage						 = (((5 - $rating) * 0.1) + 0.05);
-			$days							 = (((5 - $rating) * 1) + 4);
-			$pendingSettlementAmount		 = AccountTransactions::model()->getTotalVendorAmount($vendorId) | 0;
-			$vendorRow						 = AccountTransDetails::model()->calAmountByVendorId($vendorId);
+			$percentage				 = (((5 - $rating) * 0.1) + 0.05);
+			$days					 = (((5 - $rating) * 1) + 4);
+			$pendingSettlementAmount = AccountTransactions::model()->getTotalVendorAmount($vendorId) | 0;
+			Logger::trace("getTotalVendorAmount: " . json_encode($pendingSettlementAmount));
+			$vendorRow				 = AccountTransDetails::model()->calAmountByVendorId($vendorId);
+			Logger::trace("calAmountByVendorId: " . json_encode($vendorRow));
+
 			$vendorBalance					 = -1 * $vendorRow['vendor_amount'];
 			$getLast5daysVendorAmount		 = AccountTransDetails::getVendorAmountforLastNDays($vendorId, $days, $percentage) | 0;
+			Logger::trace("getVendorAmountforLastNDays: " . json_encode($getLast5daysVendorAmount));
 			$nextDays						 = 3;
 			$getNext3daysGozoAmount			 = AccountTransDetails::getNextNdaysGozoAmount($vendorId, $nextDays);
+			Logger::trace("getNextNdaysGozoAmount: " . json_encode($getNext3daysGozoAmount));
 			$maxval							 = max([$pendingSettlementAmount, $getLast5daysVendorAmount]);
 			$totalSum						 = max([($maxval + $getNext3daysGozoAmount), $maxval]);
 			$lockbalance					 = max([$totalSum - $vendorRow['vnd_security_amount'], 0]);
@@ -1017,12 +1043,12 @@ class VendorStats extends CActiveRecord
 			$success						 = $this->save();
 			if (!$success)
 			{
-				throw new Exception();
+				throw new Exception(json_encode($this->getErrors()));
 			}
 		}
 		catch (Exception $ex)
 		{
-			$ex->getMessage();
+			ReturnSet::setException($ex);
 		}
 		return $success;
 	}
@@ -2518,7 +2544,7 @@ class VendorStats extends CActiveRecord
 	 * @param int $vendorId
 	 * @return \ReturnSet
 	 */
-	public static function updateLastLocationDCO($locObj, $deviceId, $vendorId = 0)
+	public static function updateLastLocationDCO($locObj, $deviceId, $vendorId = 0, $drvId = 0)
 	{
 		$returnSet	 = new ReturnSet();
 		/** @var \Beans\common\Location $locObj */
@@ -2531,9 +2557,13 @@ class VendorStats extends CActiveRecord
 		}
 		$cData		 = ['lat' => $coordinates->lat, 'lon' => $coordinates->lng, 'loc_device_uuid' => $deviceId];
 		$userInfo	 = UserInfo::getInstance();
-		Location::addLocation($cData, $userInfo);
 
-		if ($vendorId > 0 && UserInfo::getUserType() == UserInfo::TYPE_VENDOR)
+		$cityId	 = Cities::getCityByLatLng($coordinates->lat, $coordinates->lng);
+		$zoneId	 = ($cityId == null || $cityId == 0) ? 0 : Zones::model()->getNearestZonebyCity($cityId)['zon_id'];
+
+		
+
+		if ($vendorId > 0)
 		{
 			$model = VendorStats::model()->getbyVendorId($vendorId);
 			if (!$model)
@@ -2546,8 +2576,30 @@ class VendorStats extends CActiveRecord
 			$model->vrs_last_loc_long		 = $coordinates->lng;
 			$model->vrs_last_loc_date		 = new CDbExpression("now()");
 			$model->vrs_last_loc_device_id	 = $deviceId;
+			$model->vrs_last_loc_zone_id	 = $zoneId;
 			$model->save();
 		}
+
+		if ($drvId > 0)
+		{
+			Location::addLocation($cData, $userInfo, $drvId);
+			$model = DriverStats::model()->getbyDriverId($drvId);
+			if (!$model)
+			{
+				$model				 = new DriverStats();
+				$model->drs_drv_id	 = $drvId;
+			}
+			/** @var \Beans\common\Coordinates $coordinates */
+			$model->drv_last_loc_lat		 = $coordinates->lat;
+			$model->drv_last_loc_long		 = $coordinates->lng;
+			$model->drv_last_loc_date		 = new CDbExpression("now()");
+			$model->drv_last_loc_device_id	 = $deviceId;
+			$model->drv_last_loc_zone_id	 = $zoneId;
+			$model->save();
+		}
+
+
+
 		$returnSet->setStatus(true);
 		$returnSet->setMessage('Last location updated');
 		skipAll:
@@ -2729,4 +2781,36 @@ class VendorStats extends CActiveRecord
 		return $totalTrips;
 	}
 
+	public function dependencyBoost($vndId)
+	{
+		$vndStatsModel		 = VendorStats::model()->getbyVendorId($vndId);
+		$vrsBoostDependency	 = $vndStatsModel->vrs_boost_dependency;
+		if ($vrsBoostDependency > 0)
+		{
+			return false;
+		}
+		$res = self::addBoostDependency($vndId);
+
+		return $res;
+	}
+
+	public static function getByLatestZoneIds($zoneIds)
+	{
+		$key = "zone:{$zoneIds}";
+
+		$sql	 = "SELECT COUNT(DISTINCT vrs.vrs_vnd_id) AS cntVendor,
+						GROUP_CONCAT(DISTINCT vrs.vrs_vnd_id) AS vendorIds 
+					FROM vendors vnd
+					INNER JOIN  vendor_stats vrs ON vrs.vrs_vnd_id = vnd.vnd_id
+					INNER JOIN  vendor_pref vnp ON vnp.vnp_vnd_id = vnd.vnd_id                
+					WHERE 1  AND vnd.vnd_active = 1 AND vnd.vnd_id = vnd.vnd_ref_code
+						AND (vrs.vrs_last_logged_in  > DATE_SUB(NOW(), INTERVAL 6 MONTH) 
+								OR  vrs.vrs_last_loc_date > DATE_SUB(NOW(), INTERVAL 1 WEEK))
+						AND (vrs.vrs_last_loc_date > DATE_SUB(NOW(), INTERVAL 1 WEEK) 
+							AND ((vrs.vrs_last_loc_zone_id IN ($zoneIds) AND vrs.vrs_last_loc_zone_id>0)) 
+								OR  (vnp.vnp_home_zone IN ($zoneIds) AND vnp.vnp_home_zone>0))";
+		$result	 = DBUtil::queryRow($sql, DBUtil::SDB());
+		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("zones"));
+		return $result;
+	}
 }

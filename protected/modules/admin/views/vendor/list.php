@@ -10,6 +10,9 @@
     .table{
         margin-bottom: 5px;
     }
+	.nowrap{
+		white-space: nowrap;
+	}
 </style>
 <?php
 $vendorCity			 = (Cities::model()->getCityOnlyByBooking1());
@@ -439,9 +442,9 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 												// 'value' => '$data["vnd_name"]', 
 												'value'	 => function ($data) {
 													$vndName = $data["vnd_name"];
-													if ($data["ctt_first_name"] != "" && $data["ctt_last_name"] != "")
+													if ($data["ctt_name"] != "")
 													{
-														$vndName = $data["ctt_first_name"] . $data["ctt_last_name"];
+														$vndName = $data['cntVendors'] . $data["ctt_name"];
 													}
 													else if ($data["ctt_business_name"] != "")
 													{
@@ -450,7 +453,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 													$icon				 = '<img src="/images/icon/eye.png"  style="cursor:pointer ;height:16px; width:16px;" title="Value">';
 													echo CHtml::link($vndName, Yii::app()->createUrl("admin/vendor/view", ["id" => $data['vnd_id']]), ["class" => "", "onclick" => "", 'target' => '_blank']);
 													//echo CHtml::link($icon, Yii::app()->createUrl("admin/vendor/profile", ["id" => $data['vnd_id']]), ["class" => "viewBooking", "onclick" => "", 'target' => '_blank']);
-													echo ($data['vnd_code'] != '') ? "<br>( " . $data['vnd_code'] . " )" : '';
+													echo ($data['vnd_code'] != '') ? "<br><span class='nowrap'>( " . $data['vnd_code'] . " )</span>" : '';
 													if ($data["ctt_is_name_dl_matched"] == 2)
 													{
 														echo ' <span class="label label-danger ">DL Mismatch</span><br><br>';
@@ -458,6 +461,17 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 													if ($data["ctt_is_name_pan_matched"] == 2)
 													{
 														echo ' <span class="label label-danger ">Pan Mismatch</span><br>';
+													}
+													if ($data["cntMergedVnd"] > 0)
+													{
+														$mergedList = explode(',', trim($data['codeMergedVnd']));
+														//$mergedShow	 = '';
+														echo "</br><span style='font-size:0.9em'><br>Merged:  ";
+														foreach ($mergedList as $val)
+														{
+															echo '<br>' . CHtml::link(trim($val), Yii::app()->createUrl("admin/vendor/view", ["code" => trim($val)]), ["class" => "", "onclick" => "", 'target' => '_blank']);
+														}
+														echo "</span>";
 													}
 												},
 												'sortable'			 => true, 'headerHtmlOptions'	 => array(), 'header'			 => $model->getAttributeLabel('vnd_name')),
@@ -583,12 +597,18 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 														echo "Blocked";
 													}
 												}, 'sortable'			 => true, 'headerHtmlOptions'	 => array(), 'header'			 => $model->getAttributeLabel('vnd_active')),
-											array('name'	 => 'security', 'value'	 => function ($data) {
-													if ($data['vrs_security_amount'] > 0)
-													{
-														echo '<i class="fa fa-inr"></i>' . $data['vrs_security_amount'] . ' on ' . DateTimeFormat::DateToDatePicker($data["vrs_security_receive_date"]);
-													}
-												}, 'sortable'			 => false, 'filter'			 => FALSE, 'headerHtmlOptions'	 => array('class' => 'col-xs-1 text-center'), 'htmlOptions'		 => array('class' => 'text-center'), 'header'			 => 'Security Deposit'),
+//											array('name'	 => 'security', 'value'	 => function ($data) {
+////													$relVendorList	 = \Vendors::getRelatedIds($data['vnd_id']);
+////													$securityAmount	 = AccountTransactions::getSecurityAmount($relVendorList);
+////													if ($securityAmount > 0)
+////													{
+////														echo '<i class="fa fa-inr"></i>' . $securityAmount . ' on ' . DateTimeFormat::DateToDatePicker($data["vrs_security_receive_date"]);
+////													}
+//													if ($data['vrs_security_amount'] > 0)
+//													{
+//														echo '<i class="fa fa-inr"></i>' . $data['vrs_security_amount'] . ' on ' . DateTimeFormat::DateToDatePicker($data["vrs_security_receive_date"]);
+//													}
+//												}, 'sortable'			 => false, 'filter'			 => FALSE, 'headerHtmlOptions'	 => array('class' => 'col-xs-1 text-center'), 'htmlOptions'		 => array('class' => 'text-center'), 'header'			 => 'Security Deposit'),
 											array('name'	 => 'drivers_approved', 'value'	 => function ($data) {
 													if ($data['vrs_count_driver'] > 0)
 													{
@@ -680,7 +700,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 												'class'				 => 'CButtonColumn',
 												'htmlOptions'		 => array('style' => 'white-space:nowrap;text-align: center', 'class' => 'action_box'),
 												'headerHtmlOptions'	 => array('class' => 'col-xs-1 text-center', 'style' => 'min-width: 100px;'),
-												'template'			 => '{showaccount}{docview}{vehicleverify}{edit}{log}<br>{addremark}{markedbadlist}{resetmarkedbad}{vendorassign}{vendorunassign}{active}{inactive}{admfreeze}{admunfreeze}{cod_active}{cod_inactive}{agreement}{duplicateuser}{linkuser}', //{delete}
+												'template'			 => '{showaccount}{docview}{vehicleverify}{edit}{log}{addremark}<br>{markedbadlist}{resetmarkedbad}{vendorassign}{vendorunassign}{active}{inactive}{admfreeze}{admunfreeze}{cod_active}{cod_inactive}{agreement}{duplicateuser}{linkuser}', //{delete}
 												'buttons'			 => array(
 													'showaccount'	 => array(
 														'url'		 => 'Yii::app()->createUrl("admin/vendor/vendoraccount", array("vnd_id" => $data["vnd_id"]))',

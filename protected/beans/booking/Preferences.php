@@ -28,7 +28,7 @@ class Preferences
 	public $isGozoNow, $isCritical, $isManual, $isDutySlipRequired, $isDriverAppRequired, $tripOTP;
 	public $autoAssignFlag, $isCngAllowed, $isAgent, $isFlexxi, $isAssured, $isPaymentDue,
 			$isNightPickupIncluded, $isNightDropIncluded, $paymentMsg;
-	public $isTollTaxIncluded, $isStateTaxIncluded, $isParkingIncluded, $carrierRequired , $extraParkingCharge, $extraPerKmCharge , $extraPerMinCharge, $vendorExtraPerKmCharge;
+	public $isTollTaxIncluded, $isStateTaxIncluded, $isParkingIncluded, $carrierRequired, $extraParkingCharge, $extraPerKmCharge, $extraPerMinCharge, $vendorExtraPerKmCharge;
 
 	public static function setData($data)
 	{
@@ -66,7 +66,6 @@ class Preferences
 		return $obj;
 	}
 
-	
 	/** @var \Booking $model */
 	public static function setByModelHornOk($model)
 	{
@@ -81,6 +80,13 @@ class Preferences
 		$obj->extraPerKmCharge		 = $model->bkgInvoice->bkg_extra_km_charge;
 		$obj->extraPerMinCharge		 = $model->bkgInvoice->bkg_extra_per_min_charge;
 		//$obj->vendorExtraPerKmCharge  = $model->bkgInvoice->bkg_vendor_collected;
+		return $obj;
+	}
+
+	public static function setGNowData($data)
+	{
+		$obj			 = new Preferences();
+		$obj->isGozoNow	 = (int) $data;
 		return $obj;
 	}
 }

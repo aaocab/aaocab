@@ -622,7 +622,7 @@ class ChatLog extends CActiveRecord
 
 			$var			 = $active['bkg_booking_id'] . " (" . $active['cht_unread_count_for_admin'] . ") " . "<br> " . $active['owner_name'] . " (" . $active['created'] . ")" . "<br> " . $active['entity_name'];
 			//	$messageLeftHtml .= '<li id=left_' . $active['cht_ref_id'] . ' onclick="$chat.setMessageBox(' . $active['cht_ref_id'] . ', ' . $active['cht_ref_type'] . ', ' . $active['cht_owner_id'] . ', ' . $userId . ', ' . $userType . ')" style="cursor:pointer;" class="' . $classAttReq . '">' . $var . '</li>';
-			$messageLeftHtml .= '<li id=left_' . $active['cht_ref_id'] . ' onclick="$chat.setMessageBox(' . $active['cht_ref_id'] . ', ' . $active['cht_ref_type'] . ', ' . $active['cht_owner_id'] . ', ' . $userId . ', ' . $userType //. ', ' . $active['entity_id'] . ',' . $active['entity_type'] 
+			$messageLeftHtml .= '<li id=left_' . $active['cht_ref_id'] . ' onclick="$chat.setMessageBox(' . $active['cht_ref_id'] . ', ' . $active['cht_ref_type'] . ', ' . $active['cht_owner_id'] . ', ' . $userId . ', ' . $userType. ', 1' //. ', ' . $active['entity_id'] . ',' . $active['entity_type'] 
 					. ')" style="cursor:pointer;" class="' . $classAttReq . '">' . $var . '</li>';
 		}
 		return $messageLeftHtml;

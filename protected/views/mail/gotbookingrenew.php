@@ -718,7 +718,7 @@ if (sizeof($rtInfoArr) > 0 && $rtInfoArr[0]['rut_special_remarks'])
 						?>
 						<tr>
 							<td align="left"><strong style="color:#7a7a7a">Return  Date Time</strong></td>
-							<td align="left"><?= date('jS M Y (D) h:i A', strtotime($model->bkg_return_date)); ?></td>
+							<td align="left"><?php ($model->bkg_return_date!='')? date('jS M Y (D) h:i A', strtotime($model->bkg_return_date)):""; ?></td>
 						</tr>
 	<?php }
 	?> 

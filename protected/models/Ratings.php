@@ -2740,4 +2740,58 @@ ORDER BY cnt ASC";
 		}
 	}
 
+	/***
+	 * this function is used to given rating to customer from driver
+	 */
+	public static function driverGivenRating($data)
+	{
+		$bookingId		  = $data['id'];
+		try
+		{
+			$model		 = Ratings::model()->find("rtg_booking_id=$bookingId");
+			if ($model == null)
+			{
+				$model = new Ratings();
+				$model->rtg_booking_id = $bookingId;
+			}
+			if($model->rtg_vendor_customer >0)
+			{
+				throw new Exception("Rating already given", ReturnSet::ERROR_INVALID_DATA);
+			}
+			$success				 = false;
+			$model->rtg_vendor_customer = $data['cusRating'];
+			if($data['csrRating']!="")
+			{
+			$model->rtg_vendor_csr    = $data['csrRating'];
+			}
+
+			$model->rtg_vendor_review = $data['review'];
+			$model->rtg_vendor_date	 = new CDbExpression('NOW()');
+			if ($model->validate())
+			{
+				$success = $model->save();
+				$Data	 = ['model' => $model];
+				$bkgid	 = $booking_id;
+				$bkgmodel	 = Booking::model()->findByPk($booking_id);
+				$desc		 = "Ratings given by driver";
+				$userInfo	 = UserInfo::getInstance();
+				$userInfo->userType =$userInfo::TYPE_DRIVER;
+				$userInfo->entityType = $userInfo::TYPE_DRIVER;
+				$eventId	 = BookingLog::BOOKING_REVIEWED_BY_DRIVER;
+				$success = BookingLog::model()->createLog($bookingId, $desc, $userInfo, $eventId);
+				return true;
+			}
+		}
+		catch (Exception $ex)
+		{
+			$ex->getMessage();
+		}
+		return false;
+		//$result = ['success' => $success] + $Data;
+		
+	}
+
+	
+	
+
 }

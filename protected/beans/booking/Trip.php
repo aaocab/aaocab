@@ -35,7 +35,6 @@ class Trip
 
 	public $id;
 	public $routeName;
-	
 
 	/** @var \Beans\Vendor $vendor */
 	public $vendor;
@@ -58,7 +57,7 @@ class Trip
 	public $isOTPRequired;
 	public $bidAlertMsg;
 	public $bidInfo;
-	
+
 	/** @var \Beans\Booking $bookings */
 	public $bookings;
 
@@ -90,19 +89,19 @@ class Trip
 		$bidInfo	 = new \Beans\booking\BidInfo();
 		$bidInfo->setAcceptAmount($data);
 	}
-	
-	public static function setTrip($tripId,$panaltySlab=null)
+
+	public static function setTrip($tripId, $panaltySlab = null)
 	{
-	
-		$obj						 = new Trip();
-		$obj->id					 = (int) $tripId;
-		$bcbModel		             = \BookingCab::model()->findByPk($tripId);
-		
-		$vendorAmount				 = $bcbModel->bcb_vendor_amount;
-		$obj->vendorAmount			 = (int) $vendorAmount;
-		$obj->startTime				 = $bcbModel->bcb_start_time;
-		$obj->endTime				 = $bcbModel->bcb_end_time;
-		
+
+		$obj		 = new Trip();
+		$obj->id	 = (int) $tripId;
+		$bcbModel	 = \BookingCab::model()->findByPk($tripId);
+
+		$vendorAmount		 = $bcbModel->bcb_vendor_amount;
+		$obj->vendorAmount	 = (int) $vendorAmount;
+		$obj->startTime		 = $bcbModel->bcb_start_time;
+		$obj->endTime		 = $bcbModel->bcb_end_time;
+
 		$durationInMinutes	 = \Filter::getTimeDiff($bcbModel->bcb_end_time, $bcbModel->bcb_start_time);
 		$timeDuration		 = \Filter::getTimeDurationbyMinute($durationInMinutes);
 
@@ -114,29 +113,27 @@ class Trip
 
 		$tripDayString			 = $daysCount . (($daysCount > 1) ? " days" : " day");
 		$obj->totalTripDuration	 = $timeDuration . ' (' . $tripDayString . ')';
-		$obj->routeName = \BookingCab::getRouteNameListById($tripId);
-		$obj->penaltySlabs	 = $panaltySlab;
-		$bkgModels		 = $bcbModel->bookings;
-		foreach($bkgModels  as $key => $bkg)
+		$obj->routeName			 = \BookingCab::getRouteNameListById($tripId);
+		$obj->penaltySlabs		 = $panaltySlab;
+		$bkgModels				 = $bcbModel->bookings;
+		foreach ($bkgModels as $key => $bkg)
 		{
-		
-		$obj->bookings[]	 = \Beans\Booking::setData($bkg);
+
+			$obj->bookings[] = \Beans\Booking::setData($bkg);
 		}
-		if ($bcbModel['bcb_driver_id']>0)
+		if ($bcbModel['bcb_driver_id'] > 0)
 		{
-			$cttId				 = \ContactProfile::getByEntityId($bcbModel->bcb_driver_id, \UserInfo::TYPE_DRIVER);
-			if($cttId>0)
+			$cttId = \ContactProfile::getByEntityId($bcbModel->bcb_driver_id, \UserInfo::TYPE_DRIVER);
+			if ($cttId > 0)
 			{
-			$obj->driver = \Beans\Driver::setByContact($cttId,false);
+				$obj->driver = \Beans\Driver::setByContact($cttId, false);
 			}
-			
 		}
-		
-		if ($bcbModel->bcb_cab_id>0 )
+
+		if ($bcbModel->bcb_cab_id > 0)
 		{
 			//$obj->cab	 = \Beans\common\Cab::setPrefferedByContact($cttId, $bcbModel->bcb_cab_id);
-			$obj->cab	 = \Beans\common\Cab::setcab($bcbModel->bcb_cab_id);
-			
+			$obj->cab = \Beans\common\Cab::setcab($bcbModel->bcb_cab_id, $bcbModel);
 		}
 		return $obj;
 	}
@@ -146,13 +143,13 @@ class Trip
 	/** @var \Booking $bkgModel */
 	public static function setByModel($bcbModel, $bkgModel, $view = '', $cttid = '', $hideDocDetails = false)
 	{
-		$obj						 = new Trip();
-		$hideDocDetails				 = ($view == 'driver');
-		$obj->id					 = (int) $bcbModel->bcb_id;
-		$vendorAmount				 = $bcbModel->bcb_vendor_amount;
-		$obj->vendorAmount			 = (int) $vendorAmount;
-		$obj->startTime				 = $bcbModel->bcb_start_time;
-		$obj->endTime				 = $bcbModel->bcb_end_time;
+		$obj				 = new Trip();
+		$hideDocDetails		 = ($view == 'driver');
+		$obj->id			 = (int) $bcbModel->bcb_id;
+		$vendorAmount		 = $bcbModel->bcb_vendor_amount;
+		$obj->vendorAmount	 = (int) $vendorAmount;
+		$obj->startTime		 = $bcbModel->bcb_start_time;
+		$obj->endTime		 = $bcbModel->bcb_end_time;
 
 		$durationInMinutes	 = \Filter::getTimeDiff($bcbModel->bcb_end_time, $bcbModel->bcb_start_time);
 		$timeDuration		 = \Filter::getTimeDurationbyMinute($durationInMinutes);
@@ -167,12 +164,12 @@ class Trip
 		$obj->totalTripDuration	 = $timeDuration . ' (' . $tripDayString . ')';
 		$obj->isMatched			 = (int) $bcbModel->bcb_trip_type;
 		$obj->isOTPRequired		 = (int) $bkgModel->bkgPref->bkg_trip_otp_required;
-		
-		if($bkgModel->bkg_booking_type == 2 || $bkgModel->bkg_booking_type == 3)
+
+		if ($bkgModel->bkg_booking_type == 2 || $bkgModel->bkg_booking_type == 3)
 		{
 			$obj->bidAlertMsg = "Customers have the freedom to enhance their journey by modifying their route or including new locations, cities or sightseeing spots or local attractions during the ride within the designated timeframe. Customers will not be charged extra for any travel within the quoted distance. If the total distance exceed the initial quoted distance, an extra km charge will be applied.";
 		}
-		
+
 		if ($bkgModel->bkg_status == 2 && $bkgModel->bkgPref->bkg_is_gozonow == 1 && $cttid > 0)
 		{
 			$obj->driver = \Beans\Driver::setByContact($cttid);
@@ -194,10 +191,10 @@ class Trip
 			$pickupTime		 = $bcbModel->bcb_start_time;
 			$acceptType		 = $bcbModel->bcb_assign_mode;
 			$dependencyScore = $bcbModel->bcbVendor->vendorStats->vrs_dependency | 0;
-			if($assignedTime!="")
+			if ($assignedTime != "")
 			{
-			//$unassignPenaltySlabs		 = $bcbModel->GetUnassignPenaltySlabs($unassignedTime, $assignedTime, $pickupTime, $vendorAmount, $acceptType, $dependencyScore);
-			//$obj->unassignPenaltySlabs	 = json_decode($unassignPenaltySlabs);
+				//$unassignPenaltySlabs		 = $bcbModel->GetUnassignPenaltySlabs($unassignedTime, $assignedTime, $pickupTime, $vendorAmount, $acceptType, $dependencyScore);
+				//$obj->unassignPenaltySlabs	 = json_decode($unassignPenaltySlabs);
 			}
 			if ($view != 'driver')
 			{
@@ -217,26 +214,25 @@ class Trip
 		}
 		return $obj;
 	}
-	
+
 	public static function actionFlag(\Booking $model)
 	{
-		$isGozonow = $model->bkgPref->bkg_is_gozonow;
-		$flags	 = [];
-		$typeList = [
+		$isGozonow	 = $model->bkgPref->bkg_is_gozonow;
+		$flags		 = [];
+		$typeList	 = [
 			1	 => "canceledAllowed",
 			2	 => "Reassign"
-			
 		];
 		foreach ($typeList as $key => $type)
 		{
-			$obj		 = new Trip();
-			
+			$obj = new Trip();
+
 			switch ($type)
 			{
 				case "canceledAllowed":
 					$obj->canAllowed($isGozonow);
 					break;
-				
+
 				case "Reassign":
 					$obj->Reassign($isGozonow);
 					break;
@@ -247,47 +243,77 @@ class Trip
 			$addItional[] = $obj;
 		}
 		return $addItional;
-		
 	}
-	
+
 	public function canAllowed($isGozonow)
 	{
 		$this->label = "canceledAllowed";
 		$this->id	 = (int) (($isGozonow == 1) ? 0 : 1);
 	}
+
 	public function Reassign($isGozonow)
 	{
 		$this->label = "reassign";
 		$this->id	 = (int) (($isGozonow == 1) ? 0 : 1);
-	}			
+	}
 
-	
 	public function setCabDriver($data)
 	{
-		$data = $data->trip;
+		$data		 = $data->trip;
 		$obj->tripId = (int) $data->id;
 		if ($data->cab)
 		{
 			$obj->cab = \Beans\common\Cab::setCabId($data->cab->id);
 		}
-		if ($data->driver && $data->driver->phone[0]->number!="")
+		if ($data->driver && $data->driver->phone[0]->number != "")
 		{
 			$obj->driver = \Beans\Driver::setDataForGNow($data->driver->id, $data->driver->phone[0]->number);
 		}
 		return $obj;
-		
 	}
-	
+
 	public function setTripList($recordSet)
 	{
 		foreach ($recordSet as $data)
 		{
-			
-			$tripId = $data['bcb_id'];
-			$penaltySlabs = $data['cancelSlabs'];
-			$datalist[] = self::setTrip($tripId,$penaltySlabs);
-		
+			$tripId			 = $data['bcb_id'];
+			$penaltySlabs	 = $data['cancelSlabs'];
+			$datalist[]		 = self::setTrip($tripId, $penaltySlabs);
 		}
 		return $datalist;
+	}
+
+	public static function getBidList($data)
+	{
+		$dataList = [];
+		foreach ($data as $row)
+		{
+			$obj		 = new Trip();
+			$obj->getBidData($row);
+			$dataList[]	 = $obj;
+		}
+		return $dataList;
+	}
+
+	public function getBidData($v)
+	{
+		$val = (is_array($v)) ? \Filter::convertToObject($v) : $v;
+
+		$objBid					 = new \Beans\booking\BidInfo();
+		$isGozoNow				 = ($val->bkg_is_gozonow != 0) ? 1 : 0;
+		$objBid->setDataByBidModel($val, $val->bkg_status, $val->bcb_vendor_id, $isGozoNow);
+		$this->bidInfo			 = $objBid;
+		$timeDurationInMinutes	 = \Filter::getTimeDiff($val->bcb_end_time, $val->bkg_pickup_date);
+		$timeDuration			 = \Filter::getTimeDurationbyMinute($timeDurationInMinutes);
+		$this->id				 = (int) $val->bkg_bcb_id;
+//		$routeName				 = \BookingRoute::getRouteFullNameByBcb($val->bvr_bcb_id);
+//		$this->routeName		 = $routeName;
+		$this->startTime		 = $val->bkg_pickup_date;
+		$this->endTime			 = $val->bcb_end_time;
+		$this->totalDays		 = (int) ceil(($val->bkg_trip_duration / 60) / 24);
+		$tripDay				 = \Filter::getTripDayByRoute($val->bkg_id);
+		$this->totalTripDuration = $timeDuration . '( ' . $tripDay . ' day )';
+
+		$this->bookings[] = \Beans\Booking::setData($val, false);
 	}
 }

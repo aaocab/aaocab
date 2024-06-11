@@ -54,7 +54,7 @@ $arrSheetType = $model->arrSheetType;
                             </div>
 							<div class="row">
                                 <div class="col-xs-12 col-md-6">
-									<?= $form->textFieldGroup($model, 'prs_title', array('label' => 'Title')); ?>
+									<?= $form->textFieldGroup($model, 'prs_title', array('label' => 'Title', 'widgetOptions' => array('htmlOptions' => array('placeholder' => 'Title')))); ?>
 								</div>
 								<div class="col-xs-12 col-md-6">
 									<?= $form->dropDownListGroup($model, 'prs_sheet_type', array('label' => 'Sheet Type','widgetOptions' => array('data' => $arrSheetType)));?>
@@ -62,11 +62,31 @@ $arrSheetType = $model->arrSheetType;
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-md-6">
+									<?php
+										$daterang	 = "Pickup Date Range";
+										$pickupdate1 = ($model->prs_pickup_from_date == '') ? '' : $model->prs_pickup_from_date;
+										$pickupdate2 = ($model->prs_pickup_to_date == '') ? '' : $model->prs_pickup_to_date;
+										if ($pickupdate1 != '' && $pickupdate2 != '')
+										{
+											$daterang = date('F d, Y', strtotime($pickupdate1)) . " - " . date('F d, Y', strtotime($pickupdate2));
+										}
+										?>
+										<label  class="control-label">Pickup Date Range</label>
+										<div id="bkgPickupDate" class="" style="background: #fff; cursor: pointer; padding: 7px 10px; border: 1px solid #ccc; width: 100%">
+											<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+											<span><?= $daterang ?></span> <b class="caret"></b>
+										</div>
+										<?php
+										echo $form->hiddenField($model, 'prs_pickup_from_date');
+										echo $form->hiddenField($model, 'prs_pickup_to_date');
+									?>
+								</div>
+								<div class="col-xs-12 col-md-6">
 									<label class="control-label mb5">Choose File</label>
 									<input type="file" name="file" id="file" accept=".csv" required="required" />
 								</div>
 							</div>
-							<div class="row">
+							<div class="row pt20">
 								<div class="col-xs-12 col-md-12" style="text-align: center">
 									<?php echo CHtml::submitButton('Save', array('class' => 'btn btn-primary')); ?>
 								</div>
@@ -117,4 +137,41 @@ $arrSheetType = $model->arrSheetType;
 		}
 		return true;
 	});
+	
+	var start = '<?= date('d/m/Y', strtotime($model->prs_pickup_from_date)); ?>';
+	var end = '<?= date('d/m/Y', strtotime($model->prs_pickup_to_date)); ?>';
+	
+	$('#bkgPickupDate').daterangepicker({
+			locale: {
+				format: 'DD/MM/YYYY',
+				cancelLabel: 'Clear'
+			},
+			"showDropdowns": true,
+			"alwaysShowCalendars": true,
+			startDate: start,
+			endDate: end,
+			ranges: {
+				'Today': [moment(), moment()],
+				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+				'This Month': [moment().startOf('month'), moment().endOf('month')],
+				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+				'Last 6 Month': [moment().subtract(6, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+			}
+		},
+		function(start1, end1)
+		{
+			$('#PartnerReconciliationSheet_prs_pickup_from_date').val(start1.format('YYYY-MM-DD'));
+			$('#PartnerReconciliationSheet_prs_pickup_to_date').val(end1.format('YYYY-MM-DD'));
+
+			$('#bkgPickupDate span').html(start1.format('MMMM D, YYYY') + ' - ' + end1.format('MMMM D, YYYY'));
+		});
+		$('#bkgPickupDate').on('cancel.daterangepicker', function(ev, picker)
+		{
+			$('#bkgPickupDate span').html('Select Date Range');
+			$('#PartnerReconciliationSheet_prs_pickup_from_date').val('');
+			$('#PartnerReconciliationSheet_prs_pickup_to_date').val('');
+
+		});
 </script>

@@ -31,9 +31,9 @@ class UsersController extends BaseController
 	{
 //		Yii::log("Google sign in data1: " . serialize($_REQUEST), CLogger::LEVEL_WARNING, 'system.api.images');
 //		Yii::log("Google sign in data2: " . serialize($_REQUEST), CLogger::LEVEL_ERROR, "system.api.images");
-		$pass		 = uniqid(rand(), TRUE);
-		$isVendor	 = Yii::app()->request->cookies['isVendor']->value;
-		$telegramId	 = Yii::app()->request->cookies['telegramId']->value;
+		$pass		= uniqid(rand(), TRUE);
+		$isVendor	= Yii::app()->request->cookies['isVendor']->value;
+		$telegramId = Yii::app()->request->cookies['telegramId']->value;
 		if ($_REQUEST['isFlexxi'])
 		{
 			setcookie('isFlexxi', true);
@@ -41,33 +41,33 @@ class UsersController extends BaseController
 		return array(
 			'oauth'		 => array(
 // the list of additional properties of this action is below
-				'class'				 => 'ext.hoauth.HOAuthAction',
+				'class'			  => 'ext.hoauth.HOAuthAction',
 				// Yii alias for your user's model, or simply class name, when it already on yii's import path
 // default value of this property is: User
-				'model'				 => 'Users',
-				'alwaysCheckPass'	 => false,
-				'useYiiUser'		 => false,
+				'model'			  => 'Users',
+				'alwaysCheckPass' => false,
+				'useYiiUser'	  => false,
 				// map model attributes to attributes of user's social profile
 // model attribute => profile attribute
 // the list of avaible attributes is below
-				'attributes'		 => array(
-					'usr_email'				 => 'email',
-					'email'					 => 'email',
-					'gender'				 => 'gender',
-					'usr_name'				 => 'firstName',
-					'usr_lname'				 => 'lastName',
-					'usr_create_platform'	 => 1,
-					'usr_country'			 => 'country',
-					'usr_mobile'			 => 'phone',
-					'usr_address1'			 => 'address',
-					'usr_address2'			 => 'region',
-					'usr_city'				 => 'city',
-					'usr_zip'				 => 'zip',
-					'usr_profile_pic_path'	 => 'photoURL',
-					'usr_email_verify'		 => 1,
-					'usr_password'			 => $pass,
-					'new_password'			 => $pass,
-					'repeat_password'		 => $pass,
+				'attributes'	  => array(
+					'usr_email'			   => 'email',
+					'email'				   => 'email',
+					'gender'			   => 'gender',
+					'usr_name'			   => 'firstName',
+					'usr_lname'			   => 'lastName',
+					'usr_create_platform'  => 1,
+					'usr_country'		   => 'country',
+					'usr_mobile'		   => 'phone',
+					'usr_address1'		   => 'address',
+					'usr_address2'		   => 'region',
+					'usr_city'			   => 'city',
+					'usr_zip'			   => 'zip',
+					'usr_profile_pic_path' => 'photoURL',
+					'usr_email_verify'	   => 1,
+					'usr_password'		   => $pass,
+					'new_password'		   => $pass,
+					'repeat_password'	   => $pass,
 				),
 			),
 			// this is an admin action that will help you to configure HybridAuth
@@ -104,16 +104,16 @@ class UsersController extends BaseController
 			$picdata	 = $profileData->photoURL;
 			if ($user->usr_gender == '' && $profileData->gender != '')
 			{
-				$genderList			 = Users::model()->reverseGenderList;
-				$user->usr_gender	 = $genderList[$profileData->gender];
+				$genderList		  = Users::model()->reverseGenderList;
+				$user->usr_gender = $genderList[$profileData->gender];
 			}
 
 			if (((!file_exists(PUBLIC_PATH . DIRECTORY_SEPARATOR . $user->usr_profile_pic)) || $user->usr_profile_pic == '' || filesize(PUBLIC_PATH . DIRECTORY_SEPARATOR . $user->usr_profile_pic) == 0) && $picdata != '')
 			{
 				$arrContextOptions = array(
 					"ssl" => array(
-						"verify_peer"		 => false,
-						"verify_peer_name"	 => false,
+						"verify_peer"	   => false,
+						"verify_peer_name" => false,
 					),
 				);
 				if ($user->usr_profile_pic_path == '' && $picdata != '')
@@ -122,11 +122,11 @@ class UsersController extends BaseController
 				}
 				if ($user->usr_profile_pic_path)
 				{
-					$profilePic				 = strtolower('images/profiles/' . $user->user_id . str_replace(' ', '', $user->usr_name)) . rand(10000, 99999) . '.jpg';
+					$profilePic			   = strtolower('images/profiles/' . $user->user_id . str_replace(' ', '', $user->usr_name)) . rand(10000, 99999) . '.jpg';
 					file_put_contents(
 							$profilePic, file_get_contents($user->usr_profile_pic_path, false, stream_context_create($arrContextOptions))
 					);
-					$user->usr_profile_pic	 = '/' . $profilePic;
+					$user->usr_profile_pic = '/' . $profilePic;
 				}
 			}
 		}
@@ -138,9 +138,9 @@ class UsersController extends BaseController
 		}
 		if (isset($_COOKIE['datavalpost']))
 		{
-			$cookie	 = $_COOKIE['datavalpost'];
-			$cookie	 = stripslashes($cookie);
-			$arr	 = json_decode($cookie, true);
+			$cookie = $_COOKIE['datavalpost'];
+			$cookie = stripslashes($cookie);
+			$arr	= json_decode($cookie, true);
 			if ($arr['returnUrl'] != '')
 			{
 				$this->redirect($arr['returnUrl']);
@@ -153,8 +153,8 @@ class UsersController extends BaseController
 			$this->redirect(['index/index', 'isFlexxi' => 1]);
 		}
 
-		$isVendor	 = Yii::app()->request->cookies['isVendor']->value;
-		$telegramId	 = Yii::app()->request->cookies['telegramId']->value;
+		$isVendor	= Yii::app()->request->cookies['isVendor']->value;
+		$telegramId = Yii::app()->request->cookies['telegramId']->value;
 		if ($isVendor == 1)
 		{
 			$this->redirect(['index/VendorAuthentication', 'isVendor' => $isVendor, 'telegramId' => $telegramId, 'fetchdata' => $fetchdata, 'contactId' => $contactId]);
@@ -167,22 +167,22 @@ class UsersController extends BaseController
 	{
 		return array(
 			array('allow', // allow all users to perform 'index' and 'view' actions
-				'actions'	 => array('creditlist', 'index', 'create', 'logout', 'logoutv3', 'refreshuserdata',
+				'actions' => array('creditlist', 'index', 'create', 'logout', 'logoutv3', 'refreshuserdata',
 					'sideprofile', 'countrytostate', 'profile', 'redeemgiftcard', 'usewallet', 'transfer', 'savebankdetails', 'paytransfer'),
-				'users'		 => array('@'),
+				'users'	  => array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'	 => array('fbShareTemplate', 'refer', 'fbShareTemplate1', 'fbShareLink', 'gsharetemplate', 'index', 'refreshNav', 'signin', 'signup', 'createLog', 'view', 'changePassword', 'confirmsignup', 'forgotpass', 'oauthadmin', 'oauth',
+				'actions' => array('fbShareTemplate', 'refer', 'fbShareTemplate1', 'fbShareLink', 'gsharetemplate', 'index', 'refreshNav', 'signin', 'signup', 'createLog', 'view', 'changePassword', 'confirmsignup', 'forgotpass', 'oauthadmin', 'oauth',
 					'forgotpassword', 'userforgotpassword', 'resetpassword', 'VerifyAndResetPassword', 'partialsignin',
 					'partialsignup', 'verifyemail', 'validateemail', 'userdata', 'agentapi', 'validategenderflexxi',
 					'sociallogin', 'linkVendor', 'getUserIdAfterSocialLogin', 'sosUrl', 'loginVO', 'auth', 'deactive', 'deactiveV1', 'partnerDeactiveV1', 'partnerDeactive',
 					'otpVerify', 'regVisitor', 'ResendOtp', 'sendOTP', 'VerifyPass', 'SignupOTP', 'ProcessSignup', 'verifyOTP', 'GetQRPathById', 'GetQRCode', 'captchaVerify', 'captchaVerifySignup', 'verifyUserName', 'verifyPassword', 'signupOTPNew', 'CreateOTPObj', 'captchaVerifyNew', 'resendOtpForForgotPassword', 'captchaskiplogin',
 					'REST.GET', 'REST.PUT', 'REST.POST', 'REST.DELETE', 'REST.OPTIONS'),
-				'users'		 => array('*'),
+				'users'	  => array('*'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'	 => array('admin', 'delete'),
-				'users'		 => array('admin'),
+				'actions' => array('admin', 'delete'),
+				'users'	  => array('admin'),
 			),
 			array('deny', // deny all users
 				'users' => array('*'),
@@ -214,30 +214,30 @@ class UsersController extends BaseController
 		});
 
 		$this->onRest('req.get.devicetokenregister.render', function () {
-			$successDeviceToken	 = false;
-			$errorsDeviceToken	 = "";
-			$process_sync_data	 = Yii::app()->request->getParam('data');
-			$dataDeviceToken	 = array_filter(CJSON::decode($process_sync_data, true));
-			$token				 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
-			$appToken			 = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
+			$successDeviceToken = false;
+			$errorsDeviceToken	= "";
+			$process_sync_data	= Yii::app()->request->getParam('data');
+			$dataDeviceToken	= array_filter(CJSON::decode($process_sync_data, true));
+			$token				= $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
+			$appToken			= AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
 			if (!$appToken)
 			{
 				$appToken = new AppTokens();
 			}
 			if (count($dataDeviceToken) > 0)
 			{
-				$appToken->apt_device		 = $dataDeviceToken['device_info'];
-				$appToken->apt_last_login	 = new CDbExpression('NOW()');
-				$appToken->apt_user_type	 = 1;
-				$appToken->apt_apk_version	 = $dataDeviceToken['apk_version'];
-				$appToken->apt_ip_address	 = \Filter::getUserIP();
-				$appToken->apt_os_version	 = $dataDeviceToken['version'];
-				$appToken->apt_device_token	 = $dataDeviceToken['apt_device_token'];
-				$appToken->apt_device_uuid	 = $dataDeviceToken['apt_device_uuid'];
-				$appToken->scenario			 = 'gcm';
-				$appToken->apt_user_type	 = 1;
-				$successDeviceToken			 = $appToken->save();
-				$errorsDeviceToken			 = $appToken->getErrors();
+				$appToken->apt_device		= $dataDeviceToken['device_info'];
+				$appToken->apt_last_login	= new CDbExpression('NOW()');
+				$appToken->apt_user_type	= 1;
+				$appToken->apt_apk_version	= $dataDeviceToken['apk_version'];
+				$appToken->apt_ip_address	= \Filter::getUserIP();
+				$appToken->apt_os_version	= $dataDeviceToken['version'];
+				$appToken->apt_device_token = $dataDeviceToken['apt_device_token'];
+				$appToken->apt_device_uuid	= $dataDeviceToken['apt_device_uuid'];
+				$appToken->scenario			= 'gcm';
+				$appToken->apt_user_type	= 1;
+				$successDeviceToken			= $appToken->save();
+				$errorsDeviceToken			= $appToken->getErrors();
 			}
 			$emailGroup		 = Yii::app()->request->getParam('emailgroup', "");
 			$success		 = "";
@@ -248,8 +248,8 @@ class UsersController extends BaseController
 			$corporateModel	 = "";
 			if ($emailGroup != "")
 			{
-				$data	 = CJSON::decode($emailGroup, true);
-				$emails	 = [];
+				$data	= CJSON::decode($emailGroup, true);
+				$emails = [];
 				foreach ($data as $value)
 				{
 					$okay = filter_var($value, FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $value);
@@ -261,29 +261,29 @@ class UsersController extends BaseController
 				$exist = $this->isEmailAlreadyExist1($emails, $dataDeviceToken);
 				if ($exist)
 				{
-					$success	 = 'existlogin';
-					$userId		 = Yii::app()->user->getId();
-					$sessionId	 = Yii::app()->getSession()->getSessionId();
-					$userModel	 = Users::model()->findByPk($userId);
-					$userName	 = $userModel->usr_name;
-					$msg		 = "Login Successfull";
+					$success   = 'existlogin';
+					$userId	   = Yii::app()->user->getId();
+					$sessionId = Yii::app()->getSession()->getSessionId();
+					$userModel = Users::model()->findByPk($userId);
+					$userName  = $userModel->usr_name;
+					$msg	   = "Login Successfull";
 				}
 				else
 				{
 					$registeremail = $this->registernew($data);
 					if ($registeremail != '')
 					{
-						$exist1		 = Users::model()->findByEmail($registeremail);
-						$emailGroup	 = $exist1->usr_email;
-						$password	 = $exist1->usr_password;
-						$identity	 = new UserIdentity($emailGroup, $password);
+						$exist1		= Users::model()->findByEmail($registeremail);
+						$emailGroup = $exist1->usr_email;
+						$password	= $exist1->usr_password;
+						$identity	= new UserIdentity($emailGroup, $password);
 						if ($identity->authenticate())
 						{
-							$userID		 = $identity->getId();
-							$userModel	 = Users::model()->findByPk($userID);
+							$userID	   = $identity->getId();
+							$userModel = Users::model()->findByPk($userID);
 							Yii::app()->user->login($identity);
-							$sessionId	 = Yii::app()->getSession()->getSessionId();
-							$msg		 = "Login Successfull";
+							$sessionId = Yii::app()->getSession()->getSessionId();
+							$msg	   = "Login Successfull";
 
 							$appTokenModel1 = AppTokens::model()->findAll('apt_device_uuid=:device AND apt_device_token<>:token AND apt_status=1', array('device' => $dataDeviceToken['apt_device_uuid'], 'token' => $dataDeviceToken['apt_device_token']));
 							foreach ($appTokenModel1 as $appTokenM)
@@ -335,8 +335,8 @@ class UsersController extends BaseController
 //                $corporateModel = Corporate::model()->findByPk($userModel->usr_corporate_id);
 //            }
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
+				'type' => 'raw',
+				'data' => array(
 					'successAutoLogin'	 => $success,
 					'successDeviceToken' => $successDeviceToken,
 					'userID'			 => $userId,
@@ -350,36 +350,36 @@ class UsersController extends BaseController
 		});
 
 		$this->onRest('req.get.devicetokenregister1.render', function () {
-			$success			 = false;
-			$errors				 = "";
-			$process_sync_data	 = Yii::app()->request->getParam('data');
-			$data				 = array_filter(CJSON::decode($process_sync_data, true));
-			$token				 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
-			$appToken			 = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
+			$success		   = false;
+			$errors			   = "";
+			$process_sync_data = Yii::app()->request->getParam('data');
+			$data			   = array_filter(CJSON::decode($process_sync_data, true));
+			$token			   = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
+			$appToken		   = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
 			if (!$appToken)
 			{
 				$appToken = new AppTokens();
 			}
 			if (count($data) > 0)
 			{
-				$appToken->apt_device		 = $data['device_info'];
-				$appToken->apt_last_login	 = new CDbExpression('NOW()');
-				$appToken->apt_user_type	 = 1;
-				$appToken->apt_apk_version	 = $data['apk_version'];
-				$appToken->apt_ip_address	 = \Filter::getUserIP();
-				$appToken->apt_os_version	 = $data['version'];
-				$appToken->apt_device_token	 = $data['apt_device_token'];
-				$appToken->apt_device_uuid	 = $data['apt_device_uuid'];
-				$appToken->apt_token_id		 = $token;
-				$appToken->scenario			 = 'gcm';
-				$success					 = $appToken->save();
-				$errors						 = $appToken->getErrors();
+				$appToken->apt_device		= $data['device_info'];
+				$appToken->apt_last_login	= new CDbExpression('NOW()');
+				$appToken->apt_user_type	= 1;
+				$appToken->apt_apk_version	= $data['apk_version'];
+				$appToken->apt_ip_address	= \Filter::getUserIP();
+				$appToken->apt_os_version	= $data['version'];
+				$appToken->apt_device_token = $data['apt_device_token'];
+				$appToken->apt_device_uuid	= $data['apt_device_uuid'];
+				$appToken->apt_token_id		= $token;
+				$appToken->scenario			= 'gcm';
+				$success					= $appToken->save();
+				$errors						= $appToken->getErrors();
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'errors'	 => $errors,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $success,
+					'errors'  => $errors,
 				)
 			]);
 		});
@@ -387,19 +387,19 @@ class UsersController extends BaseController
 		$this->onRest('req.post.registration.render', function () {
 			if ($_REQUEST != '')
 			{
-				$register_data		 = Yii::app()->request->getParam('data');
-				$isSocialLogin		 = Yii::app()->request->getParam('isSocialLogin');
+				$register_data	   = Yii::app()->request->getParam('data');
+				$isSocialLogin	   = Yii::app()->request->getParam('isSocialLogin');
 				Logger::create("isSocialLogin :: " . $isSocialLogin, CLogger::LEVEL_INFO);
-				$provider			 = Yii::app()->request->getParam('provider');
-				$process_sync_data	 = Yii::app()->request->getParam('social_data');
-				$profile_image_url	 = Yii::app()->request->getParam('social_profile_image_url', '');
+				$provider		   = Yii::app()->request->getParam('provider');
+				$process_sync_data = Yii::app()->request->getParam('social_data');
+				$profile_image_url = Yii::app()->request->getParam('social_profile_image_url', '');
 				Logger::create("provider :: " . $provider, CLogger::LEVEL_INFO);
 				Logger::create("social_data :: " . $process_sync_data, CLogger::LEVEL_INFO);
 				Logger::create("profile_image_url :: " . $profile_image_url, CLogger::LEVEL_INFO);
 				Logger::create("data1 params register_data :: " . $register_data, CLogger::LEVEL_INFO);
-				$type				 = 'signup';
-				$data				 = CJSON::decode($register_data, true);
-				$userModel			 = Users::model()->getByEmail($data['usr_email']);
+				$type			   = 'signup';
+				$data			   = CJSON::decode($register_data, true);
+				$userModel		   = Users::model()->getByEmail($data['usr_email']);
 				if (!$userModel)
 				{
 
@@ -432,10 +432,10 @@ class UsersController extends BaseController
 							$success = false;
 							$msg	 = "Invalid Username/Password";
 						}
-						return CJSON::encode(['success'		 => $success, 'get'			 => $_GET, 'message'		 => $msg,
-									'refer_message'	 => $refMsg,
-									'sessionId'		 => $sessionId, 'userId'		 => $userId,
-									'userModel'		 => $userModel, 'userName'		 => $userName]);
+						return CJSON::encode(['success'		=> $success, 'get'			=> $_GET, 'message'		=> $msg,
+									'refer_message' => $refMsg,
+									'sessionId'		=> $sessionId, 'userId'		=> $userId,
+									'userModel'		=> $userModel, 'userName'		=> $userName]);
 					}
 				}
 				else
@@ -457,39 +457,39 @@ class UsersController extends BaseController
 		$this->onRest('req.get.login.render', function () {
 			if ($_REQUEST != '')
 			{
-				$login_data	 = Yii::app()->request->getParam('data');
+				$login_data = Yii::app()->request->getParam('data');
 				Logger::create("data1 params :: " . $login_data, CLogger::LEVEL_INFO);
-				$type		 = 'login';
+				$type		= 'login';
 
 				$data = CJSON::decode($login_data, true);
 
 				$result = $this->loginpost($data, $type);
 				if ($result['success'] == true)
 				{
-					$success					 = true;
-					$userId						 = Yii::app()->user->getId();
-					$refArr						 = Users::model()->getRefercode($userId);
-					$refMsg						 = $refArr['refMessage'];
-					$userModel					 = Users::model()->findByPk($userId);
-					$userName					 = $userModel->usr_name;
-					$userModel->usr_password	 = '';
-					$msg						 = "Login Successful";
-					$sessionId					 = $result['sessionId'];
-					$userModel->usr_profile_pic	 = Users::getImageUrl($userModel->usr_profile_pic);
+					$success					= true;
+					$userId						= Yii::app()->user->getId();
+					$refArr						= Users::model()->getRefercode($userId);
+					$refMsg						= $refArr['refMessage'];
+					$userModel					= Users::model()->findByPk($userId);
+					$userName					= $userModel->usr_name;
+					$userModel->usr_password	= '';
+					$msg						= "Login Successful";
+					$sessionId					= $result['sessionId'];
+					$userModel->usr_profile_pic = Users::getImageUrl($userModel->usr_profile_pic);
 				}
 				else
 				{
 					$success = false;
 					$msg	 = ($result['message']) ? $result['message'] : "Invalid Username/Password";
 				}
-				return CJSON::encode(['success'		 => $success,
+				return CJSON::encode(['success'		=> $success,
 //					'get' => $_GET,
-							'message'		 => $msg,
-							'refer_message'	 => $refMsg,
-							'sessionId'		 => $sessionId,
-							'userId'		 => $userId,
-							'userModel'		 => $userModel,
-							'userName'		 => $userName,
+							'message'		=> $msg,
+							'refer_message' => $refMsg,
+							'sessionId'		=> $sessionId,
+							'userId'		=> $userId,
+							'userModel'		=> $userModel,
+							'userName'		=> $userName,
 				]);
 			}
 		});
@@ -497,11 +497,11 @@ class UsersController extends BaseController
 		$this->onRest('req.get.changepassword.render', function () {
 			$status = $this->changePassword();
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $status['status'],
-					'message'	 => $status['message']
-					, 'data'		 => Yii::app()->getSession()->getSessionId()
+				'type' => 'raw',
+				'data' => array(
+					'success' => $status['status'],
+					'message' => $status['message']
+					, 'data'	  => Yii::app()->getSession()->getSessionId()
 				),
 			]);
 		});
@@ -512,26 +512,26 @@ class UsersController extends BaseController
 		});
 
 		$this->onRest('req.get.userlogout.render', function () {
-			$token		 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
-			$applogout	 = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
+			$token	   = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
+			$applogout = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
 			if ($applogout)
 			{
-				$applogout->apt_status	 = 0;
-				$applogout->apt_logout	 = new CDbExpression('NOW()');
+				$applogout->apt_status = 0;
+				$applogout->apt_logout = new CDbExpression('NOW()');
 				$applogout->save();
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => true,
-					'message'	 => "User logged out successfully",
+				'type' => 'raw',
+				'data' => array(
+					'success' => true,
+					'message' => "User logged out successfully",
 				)
 			]);
 		});
 
 		$this->onRest('req.post.source_citylist.render', function () {
-			$last_updated	 = Yii::app()->request->getParam('last_update');
-			$cities			 = Cities::model()->getSourceCityList($last_updated);
+			$last_updated = Yii::app()->request->getParam('last_update');
+			$cities		  = Cities::model()->getSourceCityList($last_updated);
 			if ($cities)
 			{
 				$result = ['success' => true, 'cities' => $cities];
@@ -541,16 +541,16 @@ class UsersController extends BaseController
 				$result = ['success' => false, 'errors' => ['1' => 'Something went wrong']];
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
+				'type' => 'raw',
+				'data' => array(
 					'result' => $result,
 				)
 			]);
 		});
 
 		$this->onRest('req.get.destination_citylist.render', function () {
-			$scity	 = Yii::app()->request->getParam('scity');
-			$cities	 = Cities::model()->getDestinationCityList($scity);
+			$scity	= Yii::app()->request->getParam('scity');
+			$cities = Cities::model()->getDestinationCityList($scity);
 			if ($cities)
 			{
 				$result = ['success' => true, 'cities' => $cities];
@@ -560,8 +560,8 @@ class UsersController extends BaseController
 				$result = ['success' => false, 'errors' => ['1' => 'Something went wrong']];
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
+				'type' => 'raw',
+				'data' => array(
 					'result' => $result,
 				)
 			]);
@@ -570,20 +570,20 @@ class UsersController extends BaseController
 		$this->onRest('req.post.profile.render', function () {
 			try
 			{
-				$success	 = false;
-				$saved_path	 = "";
-				$adrs1		 = Yii::app()->request->getParam('address1');
-				$adrs2		 = Yii::app()->request->getParam('address2');
-				$adrs3		 = Yii::app()->request->getParam('address3');
-				$zip		 = Yii::app()->request->getParam('zipcode');
-				$city		 = Yii::app()->request->getParam('city');
-				$phonecode	 = Yii::app()->request->getParam('usr_country_code');
-				$phone		 = Yii::app()->request->getParam('phone');
-				$gender		 = Yii::app()->request->getParam('gender');
-				$username	 = Yii::app()->request->getParam('name');
-				$lastname	 = Yii::app()->request->getParam('lname');
-				$userId		 = Yii::app()->user->getId();
-				$userModel	 = Users::model()->findByPk($userId);
+				$success	= false;
+				$saved_path = "";
+				$adrs1		= Yii::app()->request->getParam('address1');
+				$adrs2		= Yii::app()->request->getParam('address2');
+				$adrs3		= Yii::app()->request->getParam('address3');
+				$zip		= Yii::app()->request->getParam('zipcode');
+				$city		= Yii::app()->request->getParam('city');
+				$phonecode	= Yii::app()->request->getParam('usr_country_code');
+				$phone		= Yii::app()->request->getParam('phone');
+				$gender		= Yii::app()->request->getParam('gender');
+				$username	= Yii::app()->request->getParam('name');
+				$lastname	= Yii::app()->request->getParam('lname');
+				$userId		= Yii::app()->user->getId();
+				$userModel	= Users::model()->findByPk($userId);
 				if ($userModel != '')
 				{
 					$userModel->usr_address1	 = $adrs1;
@@ -600,17 +600,17 @@ class UsersController extends BaseController
 					$imagetmp					 = $_FILES['image']['tmp_name'];
 					if ($image != '')
 					{
-						$image		 = $userId . "_" . date('Ymd_His') . $image;
-						$file_path	 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'uploadedFiles' . DIRECTORY_SEPARATOR . $userId;
+						$image	   = $userId . "_" . date('Ymd_His') . $image;
+						$file_path = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'uploadedFiles' . DIRECTORY_SEPARATOR . $userId;
 						if (!is_dir($file_path))
 						{
 							mkdir($file_path);
 						}
-						$file_name	 = basename($image);
-						$f			 = $file_path;
-						$file_path	 = $file_path . DIRECTORY_SEPARATOR . $file_name;
+						$file_name = basename($image);
+						$f		   = $file_path;
+						$file_path = $file_path . DIRECTORY_SEPARATOR . $file_name;
 						file_put_contents(PUBLIC_PATH . '/testFile.txt', $f . ' ==== ' . $file_name);
-						$efile		 = $file_path . DIRECTORY_SEPARATOR . $file_name;
+						$efile	   = $file_path . DIRECTORY_SEPARATOR . $file_name;
 						Yii::log("Image Path: \n\t Temp: " . $imagetmp . "\n\t Path: " . $f, CLogger::LEVEL_INFO, 'system.api.images');
 						if ($this->img_resize($imagetmp, 1200, $f, $file_name))
 						{
@@ -629,32 +629,32 @@ class UsersController extends BaseController
 				throw $e;
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'message'	 => $message,
-					'img_path'	 => $saved_path,
-					'data'		 => Yii::app()->getSession()->getSessionId()
+				'type' => 'raw',
+				'data' => array(
+					'success'  => $success,
+					'message'  => $message,
+					'img_path' => $saved_path,
+					'data'	   => Yii::app()->getSession()->getSessionId()
 				),
 			]);
 		});
 
 		$this->onRest('req.post.profileupdate.render', function () {
-			$success	 = false;
-			$saved_path	 = "";
-			$adrs1		 = Yii::app()->request->getParam('address1');
-			$adrs2		 = Yii::app()->request->getParam('address2');
-			$adrs3		 = Yii::app()->request->getParam('address3');
-			$zip		 = Yii::app()->request->getParam('zipcode');
-			$city		 = Yii::app()->request->getParam('city');
-			$phonecode	 = Yii::app()->request->getParam('usr_country_code');
-			$phone		 = Yii::app()->request->getParam('phone');
-			$gender		 = Yii::app()->request->getParam('gender');
-			$username	 = Yii::app()->request->getParam('fname');
-			$lastname	 = Yii::app()->request->getParam('lname');
-			$userInfo	 = UserInfo::getInstance();
-			$userId		 = $userInfo->getUserId();
-			$userModel	 = Users::model()->findByPk($userId);
+			$success	= false;
+			$saved_path = "";
+			$adrs1		= Yii::app()->request->getParam('address1');
+			$adrs2		= Yii::app()->request->getParam('address2');
+			$adrs3		= Yii::app()->request->getParam('address3');
+			$zip		= Yii::app()->request->getParam('zipcode');
+			$city		= Yii::app()->request->getParam('city');
+			$phonecode	= Yii::app()->request->getParam('usr_country_code');
+			$phone		= Yii::app()->request->getParam('phone');
+			$gender		= Yii::app()->request->getParam('gender');
+			$username	= Yii::app()->request->getParam('fname');
+			$lastname	= Yii::app()->request->getParam('lname');
+			$userInfo	= UserInfo::getInstance();
+			$userId		= $userInfo->getUserId();
+			$userModel	= Users::model()->findByPk($userId);
 			Logger::create("userId :: " . $userId);
 
 			if ($userModel)
@@ -683,11 +683,11 @@ class UsersController extends BaseController
 					//$image = base64_decode($imagetmp);
 					if ($image != '')
 					{
-						$name		 = $userId . "_" . date('Ymd_His') . $image;
-						$file_path	 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'profiles';
-						$file_name	 = basename($name);
-						$f			 = $file_path;
-						$file_path	 = $file_path . DIRECTORY_SEPARATOR . $file_name;
+						$name	   = $userId . "_" . date('Ymd_His') . $image;
+						$file_path = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'profiles';
+						$file_name = basename($name);
+						$f		   = $file_path;
+						$file_path = $file_path . DIRECTORY_SEPARATOR . $file_name;
 						file_put_contents($file_path, $image);
 						Yii::log("Image Path: \n\t Temp: " . $image . "\n\t Path: " . $f, CLogger::LEVEL_INFO, 'system.api.images');
 						if ($this->img_resize($imagetmp, 1200, $f, $name))
@@ -706,11 +706,11 @@ class UsersController extends BaseController
 					{
 						Yii::log(" profile not saved :: " . $userModel->error, CLogger::LEVEL_INFO);
 					}
-					$saved_path					 = $userModel->usr_profile_pic_path;
-					$success					 = true;
-					$userModel->usr_password	 = '';
-					$userModel->usr_profile_pic	 = Users::getImageUrl($userModel->usr_profile_pic);
-					$saved_path					 = $userModel->usr_profile_pic;
+					$saved_path					= $userModel->usr_profile_pic_path;
+					$success					= true;
+					$userModel->usr_password	= '';
+					$userModel->usr_profile_pic = Users::getImageUrl($userModel->usr_profile_pic);
+					$saved_path					= $userModel->usr_profile_pic;
 				}
 				catch (Exception $e)
 				{
@@ -722,19 +722,19 @@ class UsersController extends BaseController
 				}
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'message'	 => $message,
-					'img_path'	 => $saved_path,
-					'data'		 => $userModel,
+				'type' => 'raw',
+				'data' => array(
+					'success'  => $success,
+					'message'  => $message,
+					'img_path' => $saved_path,
+					'data'	   => $userModel,
 				),
 			]);
 		});
 
 		$this->onRest('req.post.profiledetails1.render', function () {
-			$userInfo	 = UserInfo::getInstance();
-			$userId		 = $userInfo->getUserId();
+			$userInfo = UserInfo::getInstance();
+			$userId	  = $userInfo->getUserId();
 
 			Logger::create("userId :: " . $userId);
 			$userModel = Users::model()->profiledetails($userId);
@@ -755,11 +755,11 @@ class UsersController extends BaseController
 
 //			$data = JSONUtil::convertModelToArray($userModel);
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'error'		 => $error,
-					'data'		 => $userModel,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $success,
+					'error'	  => $error,
+					'data'	  => $userModel,
 				)
 			]);
 		});
@@ -768,66 +768,66 @@ class UsersController extends BaseController
 			$success = false;
 			$active	 = 0;
 
-			$msg					 = "Invalid Version";
-			$sessioncheck			 = '';
-			$process_sync_data		 = Yii::app()->request->getParam('data');
-			$data1					 = CJSON::decode($process_sync_data, true);
-			$data					 = array_filter($data1);
-			$plateform				 = Yii::app()->request->getParam('platform');
-			$activeAndroidVersion	 = Config::get("Version.Android.consumer"); // Yii::app()->params['versionCheck']['consumer'];
-			$activeIOSVersion		 = Config::get("Version.Ios.consumer"); //Yii::app()->params['versionCheck']['consumerios'];
-			$apt_apk_version		 = $data['apt_apk_version'];
-			$activeVersion			 = ($plateform == 'IOS') ? $activeIOSVersion : $activeAndroidVersion;
+			$msg				  = "Invalid Version";
+			$sessioncheck		  = '';
+			$process_sync_data	  = Yii::app()->request->getParam('data');
+			$data1				  = CJSON::decode($process_sync_data, true);
+			$data				  = array_filter($data1);
+			$plateform			  = Yii::app()->request->getParam('platform');
+			$activeAndroidVersion = Config::get("Version.Android.consumer"); // Yii::app()->params['versionCheck']['consumer'];
+			$activeIOSVersion	  = Config::get("Version.Ios.consumer"); //Yii::app()->params['versionCheck']['consumerios'];
+			$apt_apk_version	  = $data['apt_apk_version'];
+			$activeVersion		  = ($plateform == 'IOS') ? $activeIOSVersion : $activeAndroidVersion;
 			if (version_compare($apt_apk_version, $activeVersion) >= 0)
 			{
-				$active			 = 1;
-				$success		 = true;
-				$msg			 = "Valid Version";
-				$sessioncheck	 = Yii::app()->params['consumerappsessioncheck'];
+				$active		  = 1;
+				$success	  = true;
+				$msg		  = "Valid Version";
+				$sessioncheck = Yii::app()->params['consumerappsessioncheck'];
 			}
 			$result = array('active' => $active, 'success' => $success, 'message' => $msg, 'sessioncheck' => $sessioncheck);
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'		 => $result['success'],
-					'message'		 => $result['message'],
-					'active'		 => $result['active'],
-					'sessioncheck'	 => $result['sessioncheck'],
-					'version'		 => $activeVersion,
-					'sessionId'		 => Yii::app()->getSession()->getSessionId(),
+				'type' => 'raw',
+				'data' => array(
+					'success'	   => $result['success'],
+					'message'	   => $result['message'],
+					'active'	   => $result['active'],
+					'sessioncheck' => $result['sessioncheck'],
+					'version'	   => $activeVersion,
+					'sessionId'	   => Yii::app()->getSession()->getSessionId(),
 				)
 			]);
 		});
 
 		$this->onRest('req.get.validate.render', function () {
-			$process_sync_data	 = Yii::app()->request->getParam('data');
+			$process_sync_data = Yii::app()->request->getParam('data');
 //			$process_sync_data	 ='{"apt_os_version":25,"apt_apk_version":"3.7.81127","apt_ip_address":"","apt_token_id":"8e75008e1d8113705ab2fae08cc676ee"}';
-			$data1				 = CJSON::decode($process_sync_data, true);
-			$data				 = array_filter($data1);
-			$activeVersion		 = Config::get("Version.Android.consumer"); //Yii::app()->params['versionCheck']['consumer'];
-			$id					 = Yii::app()->user->id;
-			$result				 = $this->getValidationApp($data, $id, $activeVersion);
+			$data1			   = CJSON::decode($process_sync_data, true);
+			$data			   = array_filter($data1);
+			$activeVersion	   = Config::get("Version.Android.consumer"); //Yii::app()->params['versionCheck']['consumer'];
+			$id				   = Yii::app()->user->id;
+			$result			   = $this->getValidationApp($data, $id, $activeVersion);
 			if ($result['success'])
 			{
 				$model = Users::model()->findByPk($id);
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $result['success'],
-					'message'	 => $result['message'],
-					'active'	 => $result['active'],
-					'version'	 => $activeVersion,
-					'data'		 => $model,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $result['success'],
+					'message' => $result['message'],
+					'active'  => $result['active'],
+					'version' => $activeVersion,
+					'data'	  => $model,
 				)
 			]);
 		});
 
 		$this->onRest('req.get.credit_history.render', function () {
-			$decision					 = Yii::app()->request->getParam('decision');
-			$creditModel				 = new UserCredits();
-			$creditModel->ucr_user_id	 = Yii::app()->user->getId();
-			$success					 = false;
+			$decision				  = Yii::app()->request->getParam('decision');
+			$creditModel			  = new UserCredits();
+			$creditModel->ucr_user_id = Yii::app()->user->getId();
+			$success				  = false;
 			if ($decision == 'active')
 			{
 				$data	 = $creditModel->getCreditsList('1');
@@ -846,21 +846,21 @@ class UsersController extends BaseController
 			}
 			$totalAmount = $creditModel->getTotalActiveCredits();
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'recordSet'		 => $data['recordSet'],
-					'count'			 => $data['count'],
-					'totalAmount'	 => $totalAmount,
-					'success'		 => $success
+				'type' => 'raw',
+				'data' => array(
+					'recordSet'	  => $data['recordSet'],
+					'count'		  => $data['count'],
+					'totalAmount' => $totalAmount,
+					'success'	  => $success
 				)
 			]);
 		});
 
 		$this->onRest('req.get.notification_credit.render', function () {
-			$userId		 = Yii::app()->user->getId();
-			$ntfId		 = Yii::app()->request->getParam('ntf_id');
-			$coinValue	 = UserNotification::model()->findByUserAndNtf($userId, $ntfId)->unfNtf->ntf_coin_value;
-			$success	 = UserCredits::model()->addCreditsForNotification($userId, $ntfId, $coinValue);
+			$userId	   = Yii::app()->user->getId();
+			$ntfId	   = Yii::app()->request->getParam('ntf_id');
+			$coinValue = UserNotification::model()->findByUserAndNtf($userId, $ntfId)->unfNtf->ntf_coin_value;
+			$success   = UserCredits::model()->addCreditsForNotification($userId, $ntfId, $coinValue);
 			if ($success)
 			{
 				$result = ['success' => $success, 'message' => 'Congratulations! You have earned ₹' . $coinValue . ' gozo coins'];
@@ -870,8 +870,8 @@ class UsersController extends BaseController
 				$result = ['success' => $success, 'errors' => 'Sorry you have already got gozo coins for this notification'];
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
+				'type' => 'raw',
+				'data' => array(
 					'result' => $result,
 				)
 			]);
@@ -889,16 +889,16 @@ class UsersController extends BaseController
 				{
 					if ($corporateModel->crp_contact != '')
 					{
-						$otp								 = rand(100100, 999999);
-						$userModel->usr_verification_code	 = $otp;
+						$otp							  = rand(100100, 999999);
+						$userModel->usr_verification_code = $otp;
 						$userModel->save();
-						$msgCom								 = new smsWrapper();
-						$username							 = $userModel->usr_name . " " . $userModel->usr_lname . "(" . $userModel->usr_email . ")";
+						$msgCom							  = new smsWrapper();
+						$username						  = $userModel->usr_name . " " . $userModel->usr_lname . "(" . $userModel->usr_email . ")";
 						$msgCom->linkCorporateOTP($corporateModel->crp_country_code, $corporateModel->crp_contact, $otp, $username);
-						$emailCom							 = new emailWrapper();
+						$emailCom						  = new emailWrapper();
 						$emailCom->linkCorporateOTP($userModel, $corporateModel->crp_email);
-						$success							 = true;
-						$message							 = 'OTP sent successfully';
+						$success						  = true;
+						$message						  = 'OTP sent successfully';
 					}
 					else
 					{
@@ -912,20 +912,20 @@ class UsersController extends BaseController
 			}
 
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'message'	 => $message,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $success,
+					'message' => $message,
 				)
 			]);
 		});
 
 		$this->onRest('req.get.verifycorporate.render', function () {
-			$code			 = Yii::app()->request->getParam('verification_code');
-			$CorporateCode	 = Yii::app()->request->getParam('corporate_code');
-			$success		 = false;
-			$message		 = 'Something went wrong';
-			$id				 = Yii::app()->user->id;
+			$code		   = Yii::app()->request->getParam('verification_code');
+			$CorporateCode = Yii::app()->request->getParam('corporate_code');
+			$success	   = false;
+			$message	   = 'Something went wrong';
+			$id			   = Yii::app()->user->id;
 			if ($id != '')
 			{
 				$userModel = Users::model()->findByPk($id);
@@ -933,13 +933,13 @@ class UsersController extends BaseController
 				{
 					if ($userModel->usr_verification_code == $code)
 					{
-						$userModel->usr_verification_code	 = '';
-						$corporateModel						 = Corporate::model()->find('crp_code=:code', ['code' => $CorporateCode]);
-						$userModel->usr_corporate_id		 = $corporateModel->crp_id;
+						$userModel->usr_verification_code = '';
+						$corporateModel					  = Corporate::model()->find('crp_code=:code', ['code' => $CorporateCode]);
+						$userModel->usr_corporate_id	  = $corporateModel->crp_id;
 						$userModel->save();
-						$success							 = true;
-						$message							 = 'Verification Success';
-						$corporateData						 = JSONUtil::convertModelToArray($corporateModel, ['crp_company', 'crp_owner', 'crp_contact', 'crp_email', 'crp_address']);
+						$success						  = true;
+						$message						  = 'Verification Success';
+						$corporateData					  = JSONUtil::convertModelToArray($corporateModel, ['crp_company', 'crp_owner', 'crp_contact', 'crp_email', 'crp_address']);
 					}
 					else
 					{
@@ -949,27 +949,27 @@ class UsersController extends BaseController
 			}
 
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'message'	 => $message,
-					'data'		 => $corporateData,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $success,
+					'message' => $message,
+					'data'	  => $corporateData,
 				)
 			]);
 		});
 
 		$this->onRest('req.get.statusdetails.render', function () {
-			$userInfo		 = UserInfo::model();
-			$userId			 = $userInfo->getUserId();
-			$success		 = false;
-			$isSosFlag		 = 0;
-			$isLastReview	 = 0;
-			$message		 = "";
+			$userInfo	  = UserInfo::model();
+			$userId		  = $userInfo->getUserId();
+			$success	  = false;
+			$isSosFlag	  = 0;
+			$isLastReview = 0;
+			$message	  = "";
 			try
 			{
-				$isRating	 = 1;
-				$lastBkgId	 = null;
-				$lastRoute	 = null;
+				$isRating  = 1;
+				$lastBkgId = null;
+				$lastRoute = null;
 				if ($userId)
 				{
 					//get bookingId (on the way) 
@@ -980,9 +980,9 @@ class UsersController extends BaseController
 						if ($value['bkg_id'] != '' && ($value['bkg_ride_start'] == 1) && $value['iscompleted'] == 0)
 						{
 							//is sosSMS Send then isSosFlag = 2 Or resolve issue isSosFlag = 1
-							$isSosFlag		 = ($value['bkg_sos_sms_trigger'] == 2) ? 2 : 1;
-							$sosBookingId	 = $value['bkg_booking_id'];
-							$sosBkgId		 = $value['bkg_id'];
+							$isSosFlag	  = ($value['bkg_sos_sms_trigger'] == 2) ? 2 : 1;
+							$sosBookingId = $value['bkg_booking_id'];
+							$sosBkgId	  = $value['bkg_id'];
 						}
 						//if completed return 0
 						if ($value['iscompleted'] == 1)
@@ -990,12 +990,12 @@ class UsersController extends BaseController
 							$isSosFlag = 0;
 						}
 					}
-					$result			 = Users::model()->findLastBookingReviewById($userId);
-					$lastBkgId		 = $result['bkg_id'];
-					$lastBookingId	 = $result['bkg_booking_id'];
-					$isRated		 = $result['isRated'];
-					$lastRoute		 = $result['route'];
-					$success		 = true;
+					$result		   = Users::model()->findLastBookingReviewById($userId);
+					$lastBkgId	   = $result['bkg_id'];
+					$lastBookingId = $result['bkg_booking_id'];
+					$isRated	   = $result['isRated'];
+					$lastRoute	   = $result['route'];
+					$success	   = true;
 				}
 				else
 				{
@@ -1008,28 +1008,28 @@ class UsersController extends BaseController
 			}
 
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'			 => $success,
-					'sos_flag'			 => $isSosFlag,
-					'sos_booking_id'	 => $sosBookingId,
-					'sos_bkg_id'		 => $sosBkgId,
-					'sosContactAlert'	 => $sosContactAlert,
-					'bkg_bkg_id'		 => $lastBkgId,
-					'bkg_booking_id'	 => $lastBookingId,
-					'isRated'			 => $isRated,
-					'route'				 => $lastRoute,
-					'message'			 => $message
+				'type' => 'raw',
+				'data' => array(
+					'success'		  => $success,
+					'sos_flag'		  => $isSosFlag,
+					'sos_booking_id'  => $sosBookingId,
+					'sos_bkg_id'	  => $sosBkgId,
+					'sosContactAlert' => $sosContactAlert,
+					'bkg_bkg_id'	  => $lastBkgId,
+					'bkg_booking_id'  => $lastBookingId,
+					'isRated'		  => $isRated,
+					'route'			  => $lastRoute,
+					'message'		  => $message
 				)
 			]);
 		});
 
 		$this->onRest('req.post.addSOSContact.render', function () {
-			$data		 = Yii::app()->request->getParam('data');
+			$data	  = Yii::app()->request->getParam('data');
 			Logger::create("check Data  ::" . $data, CLogger::LEVEL_TRACE);
-			$userInfo	 = UserInfo::model();
-			$userId		 = $userInfo->getUserId();
-			$success	 = false;
+			$userInfo = UserInfo::model();
+			$userId	  = $userInfo->getUserId();
+			$success  = false;
 			if ($data != '' && $userId > 0)
 			{
 				$userModel = Users::model()->findByPk($userId);
@@ -1038,10 +1038,10 @@ class UsersController extends BaseController
 					$userModel->usr_sos = null;
 					if ($userModel->save())
 					{
-						$userModel->usr_sos	 = trim($data);
+						$userModel->usr_sos = trim($data);
 						$userModel->update();
-						$success			 = true;
-						$message			 = 'Contacts Saved Successfully';
+						$success			= true;
+						$message			= 'Contacts Saved Successfully';
 					}
 				}
 			}
@@ -1051,52 +1051,52 @@ class UsersController extends BaseController
 				$message = 'Contacts Not Saved';
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'message'	 => $message,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $success,
+					'message' => $message,
 				),
 			]);
 		});
 
 		$this->onRest('req.get.sosContactList.render', function () {
-			$success	 = false;
-			$userInfo	 = UserInfo::model();
-			$userId		 = $userInfo->getUserId();
-			$success	 = false;
+			$success  = false;
+			$userInfo = UserInfo::model();
+			$userId	  = $userInfo->getUserId();
+			$success  = false;
 			Logger::create("UserID-->" . $userId, CLogger::LEVEL_TRACE);
 			if ($userId)
 			{
-				$sosContactList	 = Users::model()->getSosContactList($userId);
-				$success		 = ($sosContactList != NULL) ? 'true' : 'false';
+				$sosContactList = Users::model()->getSosContactList($userId);
+				$success		= ($sosContactList != NULL) ? 'true' : 'false';
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'	 => $success,
-					'data'		 => $sosContactList,
+				'type' => 'raw',
+				'data' => array(
+					'success' => $success,
+					'data'	  => $sosContactList,
 				)
 			]);
 		});
 
 		$this->onRest('req.post.sosSmsTrigger.render', function () {
-			$process_sync_data	 = Yii::app()->request->getParam('data');
-			$data				 = CJSON::decode($process_sync_data, true);
+			$process_sync_data = Yii::app()->request->getParam('data');
+			$data			   = CJSON::decode($process_sync_data, true);
 			Logger::create("PROCESS DATA  sosSMSTrigger ::" . $process_sync_data, CLogger::LEVEL_TRACE);
-			$userInfo			 = UserInfo::model();
-			$userId				 = $userInfo->getUserId(); //48024;
-			$bModel				 = Booking::model()->findByPk($data['bkg_id']);
-			$deviceId			 = $bModel->bkgTrack->bkg_sos_device_id;
-			$transaction		 = DBUtil::beginTransaction();
+			$userInfo		   = UserInfo::model();
+			$userId			   = $userInfo->getUserId(); //48024;
+			$bModel			   = Booking::model()->findByPk($data['bkg_id']);
+			$deviceId		   = $bModel->bkgTrack->bkg_sos_device_id;
+			$transaction	   = DBUtil::beginTransaction();
 			try
 			{
 				if ($data != '')
 				{
 					if ($deviceId == null)
 					{
-						$sosContactList	 = Users::model()->sendNotificationToSosContact($userId, $data);
+						$sosContactList = Users::model()->sendNotificationToSosContact($userId, $data);
 						Logger::create("SOS contact List ::" . CJSON::encode($sosContactList), CLogger::LEVEL_TRACE);
-						$success		 = ($sosContactList['sosContactList'] != Null) ? true : false;
+						$success		= ($sosContactList['sosContactList'] != Null) ? true : false;
 						if ($success == true)
 						{
 							$isSosSmsTrigger = BookingTrack::model()->saveSosLocation($sosContactList['sosSmsTrigger'], $data, $userId);
@@ -1119,32 +1119,32 @@ class UsersController extends BaseController
 				Logger::create("Errors.\n\t\t" . $message, CLogger::LEVEL_ERROR);
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array(
-					'success'			 => $success,
-					'sos_sms_trigger'	 => $isSosSmsTrigger,
+				'type' => 'raw',
+				'data' => array(
+					'success'		  => $success,
+					'sos_sms_trigger' => $isSosSmsTrigger,
 				)
 			]);
 		});
 
 		$this->onRest('req.post.updateSosTriggers.render', function () {
-			$process_sync_data	 = Yii::app()->request->getParam('data');
+			$process_sync_data = Yii::app()->request->getParam('data');
 			Logger::create("data ::" . $process_sync_data, CLogger::LEVEL_TRACE);
-			$data				 = CJSON::decode($process_sync_data, true);
+			$data			   = CJSON::decode($process_sync_data, true);
 			/* @var $btrackModel BookingTrack  */
-			$btrackModel		 = BookingTrack::model()->getByBkgId($data['bkg_id']);
+			$btrackModel	   = BookingTrack::model()->getByBkgId($data['bkg_id']);
 			if ($btrackModel->bkg_sos_sms_trigger == 1)
 			{
 				$resultSet = ['success' => true, 'message' => 'The SOS has been already turn off by GozoTeam'];
 			}
 			else
 			{
-				$userInfo	 = UserInfo::getInstance();
-				$userId		 = $userInfo->getUserId();
-				$UserModel	 = Users::model()->findByPk($userId);
-				$userName	 = $UserModel->usr_name . " " . $UserModel->usr_lname;
+				$userInfo  = UserInfo::getInstance();
+				$userId	   = $userInfo->getUserId();
+				$UserModel = Users::model()->findByPk($userId);
+				$userName  = $UserModel->usr_name . " " . $UserModel->usr_lname;
 				Logger::create("user ::" . json_encode($userInfo), CLogger::LEVEL_INFO);
-				$result		 = BookingTrack::model()->updateSosTriggerFlag($data, $userInfo, $userName);
+				$result	   = BookingTrack::model()->updateSosTriggerFlag($data, $userInfo, $userName);
 				if ($result['success'] == true)
 				{
 					$resultSet = ['success' => $result['success'], 'message' => $result['message']];
@@ -1158,22 +1158,22 @@ class UsersController extends BaseController
 			Logger::create("resultSet ::" . json_encode($resultSet), CLogger::LEVEL_INFO);
 			$success = $result['success'];
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => $resultSet
+				'type' => 'raw',
+				'data' => $resultSet
 			]);
 		});
 
 		$this->onRest('req.get.custbookingdetails.render', function () {
-			$userInfo			 = UserInfo::getInstance();
-			$userId				 = $userInfo->getUserId();
-			$process_sync_data	 = Yii::app()->request->getParam('data');
+			$userInfo		   = UserInfo::getInstance();
+			$userId			   = $userInfo->getUserId();
+			$process_sync_data = Yii::app()->request->getParam('data');
 			Logger::create('Customer Booking Details  ' . $process_sync_data, CLogger::LEVEL_TRACE);
-			$credit_amount		 = Yii::app()->request->getParam('credit_amount') | 0;
-			$data				 = CJSON::decode($process_sync_data, true);
-			$id					 = $data['bkg_id'];
-			$datareturn			 = array();
-			$booking1			 = array();
-			$success			 = false;
+			$credit_amount	   = Yii::app()->request->getParam('credit_amount') | 0;
+			$data			   = CJSON::decode($process_sync_data, true);
+			$id				   = $data['bkg_id'];
+			$datareturn		   = array();
+			$booking1		   = array();
+			$success		   = false;
 			try
 			{
 				$count = 1;
@@ -1196,85 +1196,85 @@ class UsersController extends BaseController
 					$model->trip_distance_format = $model->bkg_trip_distance . ' Km';
 				}
 
-				$datareturn['route']						 = BookingRoute::model()->getRouteName($model->bkg_id);
-				$modelRating								 = Ratings::model()->getCustRatingbyBookingId($model->bkg_id);
-				$datareturn['name']							 = $model->bkgUserInfo->bkg_user_fname;
-				$datareturn['bkg_id']						 = $model->bkg_id;
-				$datareturn['bkg_booking_id']				 = $model->bkg_booking_id;
-				$datareturn['bkg_create_date']				 = $model->bkg_create_date;
-				$datareturn['bkg_user_id']					 = $model->bkgUserInfo->bkg_user_id;
-				$datareturn['bkg_user_name']				 = $model->bkgUserInfo->bkg_user_fname;
-				$datareturn['bkg_user_lname']				 = $model->bkgUserInfo->bkg_user_lname;
-				$datareturn['bkg_country_code']				 = $model->bkgUserInfo->bkg_country_code;
-				$datareturn['bkg_contact_no']				 = $model->bkgUserInfo->bkg_contact_no;
-				$datareturn['bkg_alternate_contact']		 = $model->bkgUserInfo->bkg_alt_contact_no;
-				$datareturn['bkg_alt_country_code']			 = $model->bkgUserInfo->bkg_alt_country_code;
-				$datareturn['bkg_user_email']				 = $model->bkgUserInfo->bkg_user_email;
-				$datareturn['bcb_driver_phone']				 = $model->bkgBcb->bcb_driver_phone;
-				$datareturn['cab_type']						 = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label . '(' . $model->bkgSvcClassVhcCat->scc_ServiceClass->scc_label . ')';
-				$datareturn['bkg_pickup_address']			 = $model->bkg_pickup_address;
-				$datareturn['bkg_drop_address']				 = $model->bkg_drop_address;
-				$datareturn['no_of_days']					 = $model->no_of_days;
-				$datareturn['trip_duration_format']			 = $model->trip_duration_format;
-				$datareturn['trip_distance_format']			 = $model->trip_distance_format;
-				$datareturn['bkg_bcb_id']					 = $model->bkg_bcb_id;
-				$datareturn['bkg_pickup_date']				 = $model->bkg_pickup_date;
-				$datareturn['bkg_pickup_time']				 = date('h:i:s', strtotime($model->bkg_pickup_date));
-				$datareturn['bkg_booking_type']				 = $model->bkg_booking_type;
-				$datareturn['bkg_transfer_type']			 = $model->bkg_transfer_type;
-				$datareturn['bkg_ride_start']				 = $model->bkgTrack->bkg_ride_start;
-				$datareturn['bkg_from_city_id']				 = $model->bkg_from_city_id;
-				$datareturn['bkg_to_city_id']				 = $model->bkg_to_city_id;
-				$datareturn['bkg_user_trip_type']			 = $model->bkgAddInfo->bkg_user_trip_type;
-				$datareturn['bkg_trip_distance']			 = $model->bkg_trip_distance;
-				$datareturn['bkg_trip_duration']			 = $model->bkg_trip_duration;
-				$datareturn['bkg_flexxi_type']				 = $model->bkg_flexxi_type;
-				$datareturn['bkg_send_email']				 = $model->bkgPref->bkg_send_email;
-				$datareturn['bkg_send_sms']					 = $model->bkgPref->bkg_send_sms;
-				$datareturn['bkg_gozo_base_amount']			 = $model->bkgInvoice->bkg_gozo_base_amount;
-				$datareturn['bkg_base_amount']				 = $model->bkgInvoice->bkg_base_amount;
-				$datareturn['bkg_flexxi_base_amount']		 = $model->bkgInvoice->bkg_flexxi_base_amount;
-				$datareturn['bkg_discount_amount']			 = $model->bkgInvoice->bkg_discount_amount;
-				$datareturn['bkg_corporate_credit']			 = $model->bkgInvoice->bkg_corporate_credit;
-				$datareturn['bkg_total_amount']				 = $model->bkgInvoice->bkg_total_amount;
-				$datareturn['bkg_vendor_amount']			 = $model->bkgInvoice->bkg_vendor_amount;
-				$datareturn['bkg_quoted_vendor_amount']		 = $model->bkgInvoice->bkg_quoted_vendor_amount;
-				$datareturn['bkg_vendor_collected']			 = $model->bkgInvoice->bkg_vendor_collected;
-				$datareturn['bkg_gozo_amount']				 = $model->bkgInvoice->bkg_gozo_amount;
-				$datareturn['bkg_due_amount']				 = $model->bkgInvoice->bkg_due_amount;
-				$datareturn['bkg_advance_amount']			 = $model->bkgInvoice->bkg_advance_amount;
-				$datareturn['bkg_refund_amount']			 = $model->bkgInvoice->bkg_refund_amount;
-				$datareturn['bkg_chargeable_distance']		 = $model->bkgInvoice->bkg_chargeable_distance;
-				$datareturn['bkg_driver_allowance_amount']	 = $model->bkgInvoice->bkg_driver_allowance_amount;
-				$datareturn['bkg_additional_charge']		 = $model->bkgInvoice->bkg_additional_charge;
-				$datareturn['bkg_is_toll_tax_included']		 = $model->bkgInvoice->bkg_is_toll_tax_included;
-				$datareturn['bkg_is_state_tax_included']	 = $model->bkgInvoice->bkg_is_state_tax_included;
-				$datareturn['bkg_is_parking_included']		 = $model->bkgInvoice->bkg_is_parking_included;
-				$datareturn['bkg_toll_tax']					 = $model->bkgInvoice->bkg_toll_tax;
-				$datareturn['bkg_state_tax']				 = $model->bkgInvoice->bkg_state_tax;
-				$datareturn['bkg_service_tax']				 = $model->bkgInvoice->bkg_service_tax;
-				$datareturn['bkg_service_tax_rate']			 = $model->bkgInvoice->bkg_service_tax_rate;
-				$datareturn['bkg_extra_km_charge']			 = $model->bkgInvoice->bkg_extra_km_charge;
-				$datareturn['bkg_extra_km']					 = $model->bkgInvoice->bkg_extra_km;
-				$datareturn['bkg_parking_charge']			 = $model->bkgInvoice->bkg_parking_charge;
-				$datareturn['bkg_status']					 = $model->bkg_status;
-				$datareturn['bkg_active']					 = $model->bkg_active;
-				$datareturn['bkg_trip_otp']					 = $model->bkgTrack->bkg_trip_otp;
-				$datareturn['bkg_account_flag']				 = $model->bkgPref->bkg_account_flag;
-				$datareturn['bkg_credits_used']				 = $model->bkgInvoice->bkg_credits_used;
-				$datareturn['bkg_trip_status']				 = $model->bkgBcb->bcb_trip_status;
-				$datareturn['bkg_corporate_discount']		 = $model->bkgInvoice->bkg_corporate_discount;
-				$datareturn['bkg_convenience_charge']		 = $model->bkgInvoice->bkg_convenience_charge;
-				$datareturn['bkg_arrived_for_pickup']		 = $model->bkgTrack->bkg_arrived_for_pickup;
-				$datareturn['is_rated']						 = ($modelRating['rtg_id'] > 0) ? '1' : '0';
-				$datareturn['rtg_customer_overall']			 = $modelRating['rtg_customer_overall'];
-				$success									 = true;
-				$driver										 = [];
-				$vehicle									 = [];
+				$datareturn['route']					   = BookingRoute::model()->getRouteName($model->bkg_id);
+				$modelRating							   = Ratings::model()->getCustRatingbyBookingId($model->bkg_id);
+				$datareturn['name']						   = $model->bkgUserInfo->bkg_user_fname;
+				$datareturn['bkg_id']					   = $model->bkg_id;
+				$datareturn['bkg_booking_id']			   = $model->bkg_booking_id;
+				$datareturn['bkg_create_date']			   = $model->bkg_create_date;
+				$datareturn['bkg_user_id']				   = $model->bkgUserInfo->bkg_user_id;
+				$datareturn['bkg_user_name']			   = $model->bkgUserInfo->bkg_user_fname;
+				$datareturn['bkg_user_lname']			   = $model->bkgUserInfo->bkg_user_lname;
+				$datareturn['bkg_country_code']			   = $model->bkgUserInfo->bkg_country_code;
+				$datareturn['bkg_contact_no']			   = $model->bkgUserInfo->bkg_contact_no;
+				$datareturn['bkg_alternate_contact']	   = $model->bkgUserInfo->bkg_alt_contact_no;
+				$datareturn['bkg_alt_country_code']		   = $model->bkgUserInfo->bkg_alt_country_code;
+				$datareturn['bkg_user_email']			   = $model->bkgUserInfo->bkg_user_email;
+				$datareturn['bcb_driver_phone']			   = $model->bkgBcb->bcb_driver_phone;
+				$datareturn['cab_type']					   = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label . '(' . $model->bkgSvcClassVhcCat->scc_ServiceClass->scc_label . ')';
+				$datareturn['bkg_pickup_address']		   = $model->bkg_pickup_address;
+				$datareturn['bkg_drop_address']			   = $model->bkg_drop_address;
+				$datareturn['no_of_days']				   = $model->no_of_days;
+				$datareturn['trip_duration_format']		   = $model->trip_duration_format;
+				$datareturn['trip_distance_format']		   = $model->trip_distance_format;
+				$datareturn['bkg_bcb_id']				   = $model->bkg_bcb_id;
+				$datareturn['bkg_pickup_date']			   = $model->bkg_pickup_date;
+				$datareturn['bkg_pickup_time']			   = date('h:i:s', strtotime($model->bkg_pickup_date));
+				$datareturn['bkg_booking_type']			   = $model->bkg_booking_type;
+				$datareturn['bkg_transfer_type']		   = $model->bkg_transfer_type;
+				$datareturn['bkg_ride_start']			   = $model->bkgTrack->bkg_ride_start;
+				$datareturn['bkg_from_city_id']			   = $model->bkg_from_city_id;
+				$datareturn['bkg_to_city_id']			   = $model->bkg_to_city_id;
+				$datareturn['bkg_user_trip_type']		   = $model->bkgAddInfo->bkg_user_trip_type;
+				$datareturn['bkg_trip_distance']		   = $model->bkg_trip_distance;
+				$datareturn['bkg_trip_duration']		   = $model->bkg_trip_duration;
+				$datareturn['bkg_flexxi_type']			   = $model->bkg_flexxi_type;
+				$datareturn['bkg_send_email']			   = $model->bkgPref->bkg_send_email;
+				$datareturn['bkg_send_sms']				   = $model->bkgPref->bkg_send_sms;
+				$datareturn['bkg_gozo_base_amount']		   = $model->bkgInvoice->bkg_gozo_base_amount;
+				$datareturn['bkg_base_amount']			   = $model->bkgInvoice->bkg_base_amount;
+				$datareturn['bkg_flexxi_base_amount']	   = $model->bkgInvoice->bkg_flexxi_base_amount;
+				$datareturn['bkg_discount_amount']		   = $model->bkgInvoice->bkg_discount_amount;
+				$datareturn['bkg_corporate_credit']		   = $model->bkgInvoice->bkg_corporate_credit;
+				$datareturn['bkg_total_amount']			   = $model->bkgInvoice->bkg_total_amount;
+				$datareturn['bkg_vendor_amount']		   = $model->bkgInvoice->bkg_vendor_amount;
+				$datareturn['bkg_quoted_vendor_amount']	   = $model->bkgInvoice->bkg_quoted_vendor_amount;
+				$datareturn['bkg_vendor_collected']		   = $model->bkgInvoice->bkg_vendor_collected;
+				$datareturn['bkg_gozo_amount']			   = $model->bkgInvoice->bkg_gozo_amount;
+				$datareturn['bkg_due_amount']			   = $model->bkgInvoice->bkg_due_amount;
+				$datareturn['bkg_advance_amount']		   = $model->bkgInvoice->bkg_advance_amount;
+				$datareturn['bkg_refund_amount']		   = $model->bkgInvoice->bkg_refund_amount;
+				$datareturn['bkg_chargeable_distance']	   = $model->bkgInvoice->bkg_chargeable_distance;
+				$datareturn['bkg_driver_allowance_amount'] = $model->bkgInvoice->bkg_driver_allowance_amount;
+				$datareturn['bkg_additional_charge']	   = $model->bkgInvoice->bkg_additional_charge;
+				$datareturn['bkg_is_toll_tax_included']	   = $model->bkgInvoice->bkg_is_toll_tax_included;
+				$datareturn['bkg_is_state_tax_included']   = $model->bkgInvoice->bkg_is_state_tax_included;
+				$datareturn['bkg_is_parking_included']	   = $model->bkgInvoice->bkg_is_parking_included;
+				$datareturn['bkg_toll_tax']				   = $model->bkgInvoice->bkg_toll_tax;
+				$datareturn['bkg_state_tax']			   = $model->bkgInvoice->bkg_state_tax;
+				$datareturn['bkg_service_tax']			   = $model->bkgInvoice->bkg_service_tax;
+				$datareturn['bkg_service_tax_rate']		   = $model->bkgInvoice->bkg_service_tax_rate;
+				$datareturn['bkg_extra_km_charge']		   = $model->bkgInvoice->bkg_extra_km_charge;
+				$datareturn['bkg_extra_km']				   = $model->bkgInvoice->bkg_extra_km;
+				$datareturn['bkg_parking_charge']		   = $model->bkgInvoice->bkg_parking_charge;
+				$datareturn['bkg_status']				   = $model->bkg_status;
+				$datareturn['bkg_active']				   = $model->bkg_active;
+				$datareturn['bkg_trip_otp']				   = $model->bkgTrack->bkg_trip_otp;
+				$datareturn['bkg_account_flag']			   = $model->bkgPref->bkg_account_flag;
+				$datareturn['bkg_credits_used']			   = $model->bkgInvoice->bkg_credits_used;
+				$datareturn['bkg_trip_status']			   = $model->bkgBcb->bcb_trip_status;
+				$datareturn['bkg_corporate_discount']	   = $model->bkgInvoice->bkg_corporate_discount;
+				$datareturn['bkg_convenience_charge']	   = $model->bkgInvoice->bkg_convenience_charge;
+				$datareturn['bkg_arrived_for_pickup']	   = $model->bkgTrack->bkg_arrived_for_pickup;
+				$datareturn['is_rated']					   = ($modelRating['rtg_id'] > 0) ? '1' : '0';
+				$datareturn['rtg_customer_overall']		   = $modelRating['rtg_customer_overall'];
+				$success								   = true;
+				$driver									   = [];
+				$vehicle								   = [];
 				if ($model->bkgBcb->bcb_driver_id > 0)
 				{
-					$driverModel		 = Drivers::model()->findByPk($model->bkgBcb->bcb_driver_id);
-					$driverStatsModel	 = DriverStats::model()->getOverallRatingbyDriverId($model->bkgBcb->bcb_driver_id);
+					$driverModel	  = Drivers::model()->findByPk($model->bkgBcb->bcb_driver_id);
+					$driverStatsModel = DriverStats::model()->getOverallRatingbyDriverId($model->bkgBcb->bcb_driver_id);
 				}
 				if ($model->bkgBcb->bcb_cab_id > 0)
 				{
@@ -1282,9 +1282,9 @@ class UsersController extends BaseController
 				}
 				if (in_array($model->bkg_status, [5, 6, 7]))
 				{
-					$driver['bcb_driver_phone']	 = $model->bkgBcb->bcb_driver_phone;
-					$driver['driver_name']		 = $driverModel->drv_name;
-					$driver['driver_code']		 = $driverModel->drv_code;
+					$driver['bcb_driver_phone'] = $model->bkgBcb->bcb_driver_phone;
+					$driver['driver_name']		= $driverModel->drv_name;
+					$driver['driver_code']		= $driverModel->drv_code;
 					if ($driverModel->drvContact->ctt_profile_path != null)
 					{
 						$driver['driver_profile_path'] = $driverModel->drvContact->ctt_profile_path;
@@ -1308,8 +1308,8 @@ class UsersController extends BaseController
 				Logger::create('Data : --------  ' . json_encode($datareturn), CLogger::LEVEL_INFO);
 			}
 			return $this->renderJSON([
-				'type'	 => 'raw',
-				'data'	 => array_filter(array(
+				'type' => 'raw',
+				'data' => array_filter(array(
 					'success'	 => $success,
 					'model'		 => $datareturn,
 					'driverInfo' => $driver,
@@ -1319,12 +1319,12 @@ class UsersController extends BaseController
 		});
 
 		$this->onRest('req.post.devicetokenfcm.render', function () {
-			$process_sync_data	 = Yii::app()->request->getParam('data');
+			$process_sync_data = Yii::app()->request->getParam('data');
 			Logger::create('process_sync_data======>' . $process_sync_data, CLogger::LEVEL_TRACE);
-			$data1				 = CJSON::decode($process_sync_data, true);
-			$data				 = array_filter($data1);
-			$token				 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
-			$appToken1			 = AppTokens::model()->find('apt_device_token = :token', array('token' => $data['apt_device_token']));
+			$data1			   = CJSON::decode($process_sync_data, true);
+			$data			   = array_filter($data1);
+			$token			   = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
+			$appToken1		   = AppTokens::model()->find('apt_device_token = :token', array('token' => $data['apt_device_token']));
 			Logger::create('Token' . CJSON::encode($token) . "|||", CLogger::LEVEL_TRACE);
 			Logger::create('AppTokem======>' . CJSON::encode($appToken1) . "|||", CLogger::LEVEL_TRACE);
 			if ($appToken1 != '')
@@ -1334,19 +1334,19 @@ class UsersController extends BaseController
 			}
 			if ($token == "" || $token == NULL)
 			{
-				$appToken	 = new AppTokens();
-				$token		 = Yii::app()->getSession()->getSessionId();
+				$appToken = new AppTokens();
+				$token	  = Yii::app()->getSession()->getSessionId();
 			}
 			else
 			{
 				$appToken = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
 			}
-			$appToken->apt_device_token	 = $data['apt_device_token'];
-			$appToken->apt_device_uuid	 = $data['apt_device_uuid'];
-			$appToken->scenario			 = 'fcm';
-			$appToken->apt_user_type	 = 1;
-			$appToken->apt_token_id		 = $token;
-			$success					 = $appToken->save();
+			$appToken->apt_device_token = $data['apt_device_token'];
+			$appToken->apt_device_uuid	= $data['apt_device_uuid'];
+			$appToken->scenario			= 'fcm';
+			$appToken->apt_user_type	= 1;
+			$appToken->apt_token_id		= $token;
+			$success					= $appToken->save();
 			Logger::create("Response : " . CJSON::encode(['type' => 'raw', 'data' => ['success' => $success, 'sessionId' => $token, 'errors' => $appToken->getErrors()]]), CLogger::LEVEL_INFO);
 			return $this->renderJSON(['type' => 'raw', 'data' => ['success' => $success, 'sessionId' => $token, 'errors' => $appToken->getErrors()]]);
 		});
@@ -1356,33 +1356,33 @@ class UsersController extends BaseController
 	{
 		foreach ($data as $value)
 		{
-			$email	 = $value;
-			$exist	 = Users::model()->findByEmail($email);
+			$email = $value;
+			$exist = Users::model()->findByEmail($email);
 			if (!empty($exist))
 			{
-				$email		 = $exist->usr_email;
-				$password	 = $exist->usr_password;
-				$identity	 = new UserIdentity($email, $password);
+				$email	  = $exist->usr_email;
+				$password = $exist->usr_password;
+				$identity = new UserIdentity($email, $password);
 				if ($identity->authenticate())
 				{
-					$userID		 = $identity->getId();
+					$userID	   = $identity->getId();
 					//$userModel	 = Users::model()->findByPk($userID);
 					Yii::app()->user->login($identity);
-					$sessionId	 = Yii::app()->getSession()->getSessionId();
-					$msg		 = "Login Successfull";
-					$appToken	 = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
+					$sessionId = Yii::app()->getSession()->getSessionId();
+					$msg	   = "Login Successfull";
+					$appToken  = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
 					if (count($appToken) > 0)
 					{
 						$appToken->apt_status = 0;
 						$appToken->update();
 					}
-					$appTokenModel					 = new AppTokens();
-					$appTokenModel->apt_user_id		 = $userID;
-					$appTokenModel->apt_token_id	 = Yii::app()->getSession()->getSessionId();
-					$appTokenModel->apt_last_login	 = new CDbExpression('NOW()');
-					$appTokenModel->apt_user_type	 = 1;
+					$appTokenModel				   = new AppTokens();
+					$appTokenModel->apt_user_id	   = $userID;
+					$appTokenModel->apt_token_id   = Yii::app()->getSession()->getSessionId();
+					$appTokenModel->apt_last_login = new CDbExpression('NOW()');
+					$appTokenModel->apt_user_type  = 1;
 					$appTokenModel->insert();
-					$success						 = 'true';
+					$success					   = 'true';
 					return true;
 				}
 			}
@@ -1398,21 +1398,21 @@ class UsersController extends BaseController
 	{
 		foreach ($data as $value)
 		{
-			$email	 = $value;
-			$exist	 = Users::model()->findByEmail($email);
+			$email = $value;
+			$exist = Users::model()->findByEmail($email);
 			if (!empty($exist))
 			{
-				$email		 = $exist->usr_email;
-				$password	 = $exist->usr_password;
-				$identity	 = new UserIdentity($email, $password);
+				$email	  = $exist->usr_email;
+				$password = $exist->usr_password;
+				$identity = new UserIdentity($email, $password);
 				if ($identity->authenticate())
 				{
-					$userID			 = $identity->getId();
+					$userID			= $identity->getId();
 					//$userModel		 = Users::model()->findByPk($userID);
 					Yii::app()->user->login($identity);
-					$sessionId		 = Yii::app()->getSession()->getSessionId();
-					$msg			 = "Login Successfull";
-					$appTokenModel1	 = AppTokens::model()->findAll('apt_device_uuid=:device AND apt_device_token<>:token AND apt_status=1', array('device' => $dataDeviceToken['apt_device_uuid'], 'token' => $dataDeviceToken['apt_device_token']));
+					$sessionId		= Yii::app()->getSession()->getSessionId();
+					$msg			= "Login Successfull";
+					$appTokenModel1 = AppTokens::model()->findAll('apt_device_uuid=:device AND apt_device_token<>:token AND apt_status=1', array('device' => $dataDeviceToken['apt_device_uuid'], 'token' => $dataDeviceToken['apt_device_token']));
 					foreach ($appTokenModel1 as $appTokenM)
 					{
 						if (count($appTokenM) > 0)
@@ -1458,21 +1458,21 @@ class UsersController extends BaseController
 	{
 		foreach ($data as $value)
 		{
-			$email	 = $value;
-			$exist	 = Users::model()->findByEmail($email);
+			$email = $value;
+			$exist = Users::model()->findByEmail($email);
 			if (!empty($exist))
 			{
-				$email		 = $exist->usr_email;
-				$password	 = $exist->usr_password;
-				$identity	 = new UserIdentity($email, $password);
+				$email	  = $exist->usr_email;
+				$password = $exist->usr_password;
+				$identity = new UserIdentity($email, $password);
 				if ($identity->authenticate())
 				{
-					$userID		 = $identity->getId();
-					$userModel	 = Users::model()->findByPk($userID);
+					$userID	   = $identity->getId();
+					$userModel = Users::model()->findByPk($userID);
 					Yii::app()->user->login($identity);
-					$sessionId	 = Yii::app()->getSession()->getSessionId();
-					$msg		 = "Login Successfull";
-					$appToken	 = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
+					$sessionId = Yii::app()->getSession()->getSessionId();
+					$msg	   = "Login Successfull";
+					$appToken  = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
 					if (count($appToken) > 0)
 					{
 						$appToken->apt_status = 0;
@@ -1535,28 +1535,28 @@ class UsersController extends BaseController
 	{
 
 
-		$email		 = Yii::app()->request->getParam('usr_email');
-		$password	 = Yii::app()->request->getParam('usr_password');
+		$email	  = Yii::app()->request->getParam('usr_email');
+		$password = Yii::app()->request->getParam('usr_password');
 // $type = Yii::app()->request->getParam('ect_type', 1);
-		$deviceID	 = Yii::app()->request->getParam('deviceid');
+		$deviceID = Yii::app()->request->getParam('deviceid');
 // $macAddress = Yii::app()->request->getParam('mac_address');
 // $deviceSerial = Yii::app()->request->getParam('serial');
 
-		$deviceVersion	 = Yii::app()->request->getParam('version');
+		$deviceVersion = Yii::app()->request->getParam('version');
 //$IMEI = Yii::app()->request->getParam('IMEI');
-		$apkVersion		 = Yii::app()->request->getParam('apk_version');
-		$ipAddress		 = Yii::app()->request->getParam('ip_address');
-		$deviceInfo		 = Yii::app()->request->getParam('device_info');
+		$apkVersion	   = Yii::app()->request->getParam('apk_version');
+		$ipAddress	   = Yii::app()->request->getParam('ip_address');
+		$deviceInfo	   = Yii::app()->request->getParam('device_info');
 
 		$identity = new UserIdentity($email, md5($password));
 
 		if ($identity->authenticate())
 		{
 
-			$userID		 = $identity->getId();
+			$userID	   = $identity->getId();
 			Yii::app()->user->login($identity);
-			$sessionId	 = Yii::app()->getSession()->getSessionId();
-			$msg		 = "Login Successfull";
+			$sessionId = Yii::app()->getSession()->getSessionId();
+			$msg	   = "Login Successfull";
 
 			$appToken = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
 			if (count($appToken) > 0)
@@ -1564,18 +1564,18 @@ class UsersController extends BaseController
 				$appToken->apt_status = 0;
 				$appToken->update();
 			}
-			$appTokenModel					 = new AppTokens();
-			$appTokenModel->apt_user_id		 = $userID;
-			$appTokenModel->apt_token_id	 = Yii::app()->getSession()->getSessionId();
-			$appTokenModel->apt_device		 = $deviceInfo;
-			$appTokenModel->apt_last_login	 = new CDbExpression('NOW()');
-			$appTokenModel->apt_device_uuid	 = $deviceID;
-			$appTokenModel->apt_user_type	 = 1;
-			$appTokenModel->apt_apk_version	 = $apkVersion;
-			$appTokenModel->apt_ip_address	 = $ipAddress;
-			$appTokenModel->apt_os_version	 = $deviceVersion;
+			$appTokenModel					= new AppTokens();
+			$appTokenModel->apt_user_id		= $userID;
+			$appTokenModel->apt_token_id	= Yii::app()->getSession()->getSessionId();
+			$appTokenModel->apt_device		= $deviceInfo;
+			$appTokenModel->apt_last_login	= new CDbExpression('NOW()');
+			$appTokenModel->apt_device_uuid = $deviceID;
+			$appTokenModel->apt_user_type	= 1;
+			$appTokenModel->apt_apk_version = $apkVersion;
+			$appTokenModel->apt_ip_address	= $ipAddress;
+			$appTokenModel->apt_os_version	= $deviceVersion;
 			$appTokenModel->insert();
-			$success						 = 'true';
+			$success						= 'true';
 		}
 		else
 		{
@@ -1589,16 +1589,16 @@ class UsersController extends BaseController
 	public function loginpost($data, $type)
 	{
 		Logger::create("callType :: " . $type, CLogger::LEVEL_INFO);
-		$email				 = $data['usr_email'];
-		$password			 = $data['usr_password'];
-		$deviceID			 = $data['deviceid'];
-		$deviceVersion		 = $data['version'];
-		$apkVersion			 = $data['apk_version'];
-		$ipAddress			 = \Filter::getUserIP();
-		$deviceInfo			 = $data['device_info'];
-		$apt_device_token	 = $data['apt_device_token'];
-		$isSocialLogin		 = Yii::app()->request->getParam('isSocialLogin', 0);
-		$social_data		 = Yii::app()->request->getParam('social_data', '');
+		$email			  = $data['usr_email'];
+		$password		  = $data['usr_password'];
+		$deviceID		  = $data['deviceid'];
+		$deviceVersion	  = $data['version'];
+		$apkVersion		  = $data['apk_version'];
+		$ipAddress		  = \Filter::getUserIP();
+		$deviceInfo		  = $data['device_info'];
+		$apt_device_token = $data['apt_device_token'];
+		$isSocialLogin	  = Yii::app()->request->getParam('isSocialLogin', 0);
+		$social_data	  = Yii::app()->request->getParam('social_data', '');
 		Logger::create("isSocialLogin :: " . $isSocialLogin, CLogger::LEVEL_INFO);
 		if ($isSocialLogin == 1)
 		{
@@ -1616,16 +1616,16 @@ class UsersController extends BaseController
 			else
 			{
 				Logger::create(" SocialLogin :: Entered", CLogger::LEVEL_INFO);
-				$provider			 = Yii::app()->request->getParam('provider');
-				$process_sync_data	 = Yii::app()->request->getParam('social_data');
-				$userData			 = CJSON::decode($process_sync_data, true);
-				$email				 = $userData['email'];
+				$provider		   = Yii::app()->request->getParam('provider');
+				$process_sync_data = Yii::app()->request->getParam('social_data');
+				$userData		   = CJSON::decode($process_sync_data, true);
+				$email			   = $userData['email'];
 				Logger::create("provider :: " . $provider, CLogger::LEVEL_INFO);
 				Logger::create("social_data :: " . $process_sync_data, CLogger::LEVEL_INFO);
 				Logger::create("email :: " . $email, CLogger::LEVEL_INFO);
 
-				$result['success']	 = true;
-				$userModel			 = Users::model()->getByEmail($email);
+				$result['success'] = true;
+				$userModel		   = Users::model()->getByEmail($email);
 				if (!$userModel)
 				{
 					$result = ['success' => false, 'message' => 'User not found'];
@@ -1635,16 +1635,16 @@ class UsersController extends BaseController
 				else
 				{
 
-					$userid			 = $userModel->user_id;
+					$userid			= $userModel->user_id;
 					Logger::create("message :: User exists with userid : $userid", CLogger::LEVEL_INFO);
-					$isSocialLinked	 = Users::model()->checkSocialLinking($userModel->user_id, $provider);
+					$isSocialLinked = Users::model()->checkSocialLinking($userModel->user_id, $provider);
 
 					Logger::create("isSocialLinked :: " . ($isSocialLinked), CLogger::LEVEL_INFO);
 
 					if (!$isSocialLinked)
 					{
-						$result	 = Users::model()->linkAppUser($userid);
-						$userid	 = $result['user_id'];
+						$result = Users::model()->linkAppUser($userid);
+						$userid = $result['user_id'];
 						Logger::create("isSocialLinked result :: " . $result['success'], CLogger::LEVEL_INFO);
 					}
 					if ($result['success'])
@@ -1665,10 +1665,10 @@ class UsersController extends BaseController
 		$identity = new UserIdentity($email, $md5password);
 		if ($identity->authenticate())
 		{
-			$userID		 = $identity->getId();
+			$userID	  = $identity->getId();
 			Yii::app()->user->login($identity);
-			$token		 = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
-			$appToken	 = AppTokens::model()->findAll('((apt_device_uuid=:device AND apt_device_uuid<>\'\') OR (apt_device_token=:gcmtoken AND apt_device_token<>\'\')) AND apt_token_id<>:token', array('device' => $deviceID, 'gcmtoken' => $apt_device_token, 'token' => $token));
+			$token	  = $this->emitRest(ERestEvent::REQ_AUTH_USERNAME);
+			$appToken = AppTokens::model()->findAll('((apt_device_uuid=:device AND apt_device_uuid<>\'\') OR (apt_device_token=:gcmtoken AND apt_device_token<>\'\')) AND apt_token_id<>:token', array('device' => $deviceID, 'gcmtoken' => $apt_device_token, 'token' => $token));
 			if ($appToken != '')
 			{
 				foreach ($appToken as $value)
@@ -1707,39 +1707,39 @@ class UsersController extends BaseController
 
 	public function loginvendor()
 	{
-		$email			 = Yii::app()->request->getParam('vnd_username');
-		$password		 = Yii::app()->request->getParam('vnd_password');
-		$deviceID		 = Yii::app()->request->getParam('deviceid');
-		$deviceVersion	 = Yii::app()->request->getParam('version');
-		$apkVersion		 = Yii::app()->request->getParam('apk_version');
-		$ipAddress		 = Yii::app()->request->getParam('ip_address');
-		$deviceInfo		 = Yii::app()->request->getParam('device_info');
-		$identity		 = new VendorIdentity($email, md5($password));
+		$email		   = Yii::app()->request->getParam('vnd_username');
+		$password	   = Yii::app()->request->getParam('vnd_password');
+		$deviceID	   = Yii::app()->request->getParam('deviceid');
+		$deviceVersion = Yii::app()->request->getParam('version');
+		$apkVersion	   = Yii::app()->request->getParam('apk_version');
+		$ipAddress	   = Yii::app()->request->getParam('ip_address');
+		$deviceInfo	   = Yii::app()->request->getParam('device_info');
+		$identity	   = new VendorIdentity($email, md5($password));
 
 		if ($identity->authenticate())
 		{
-			$userID		 = $identity->getId();
-			$userModel	 = Vendors::model()->findByPk($userID);
+			$userID	   = $identity->getId();
+			$userModel = Vendors::model()->findByPk($userID);
 			Yii::app()->user->login($identity);
-			$sessionId	 = Yii::app()->getSession()->getSessionId();
-			$appToken	 = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
+			$sessionId = Yii::app()->getSession()->getSessionId();
+			$appToken  = AppTokens::model()->find('apt_device_uuid=:device', array('device' => $deviceID));
 			if (count($appToken) > 0)
 			{
 				$appToken->apt_status = 0;
 				$appToken->update();
 			}
-			$appTokenModel					 = new AppTokens();
-			$appTokenModel->apt_user_id		 = $userID;
-			$appTokenModel->apt_token_id	 = Yii::app()->getSession()->getSessionId();
-			$appTokenModel->apt_device		 = $deviceInfo;
-			$appTokenModel->apt_last_login	 = new CDbExpression('NOW()');
-			$appTokenModel->apt_device_uuid	 = $deviceID;
-			$appTokenModel->apt_user_type	 = 2;
-			$appTokenModel->apt_apk_version	 = $apkVersion;
-			$appTokenModel->apt_ip_address	 = $ipAddress;
-			$appTokenModel->apt_os_version	 = $deviceVersion;
+			$appTokenModel					= new AppTokens();
+			$appTokenModel->apt_user_id		= $userID;
+			$appTokenModel->apt_token_id	= Yii::app()->getSession()->getSessionId();
+			$appTokenModel->apt_device		= $deviceInfo;
+			$appTokenModel->apt_last_login	= new CDbExpression('NOW()');
+			$appTokenModel->apt_device_uuid = $deviceID;
+			$appTokenModel->apt_user_type	= 2;
+			$appTokenModel->apt_apk_version = $apkVersion;
+			$appTokenModel->apt_ip_address	= $ipAddress;
+			$appTokenModel->apt_os_version	= $deviceVersion;
 			$appTokenModel->insert();
-			$success						 = 'true';
+			$success						= 'true';
 		}
 		else
 		{
@@ -1752,16 +1752,16 @@ class UsersController extends BaseController
 	public function registerpost($data)
 	{
 
-		$model						 = new Users();
-		$model->attributes			 = $data;
-		$model->usr_device			 = $data['deviceid'];
-		$model->usr_create_platform	 = Users::Platform_App;
-		$model->usr_acct_type		 = Users::AcctType_Verify;
-		$model->usr_ip				 = \Filter::getUserIP();
-		$model->new_password		 = $data['usr_password'];
-		$model->repeat_password		 = $data['repeat_password'];
-		$code						 = $data['usr_referred_code'];
-		$success					 = true;
+		$model						= new Users();
+		$model->attributes			= $data;
+		$model->usr_device			= $data['deviceid'];
+		$model->usr_create_platform = Users::Platform_App;
+		$model->usr_acct_type		= Users::AcctType_Verify;
+		$model->usr_ip				= \Filter::getUserIP();
+		$model->new_password		= $data['usr_password'];
+		$model->repeat_password		= $data['repeat_password'];
+		$code						= $data['usr_referred_code'];
+		$success					= true;
 		if ($code != '')
 		{
 			$userModel = Users::model()->getByReferCode($data['usr_referred_code']);
@@ -1815,13 +1815,13 @@ class UsersController extends BaseController
 
 		Yii::log("lname: " . $model->usr_lname, CLogger::LEVEL_INFO, 'system.api.inspection');
 		$model->usr_password = '';
-		$result				 = array('success'	 => $success,
-			'errors'	 => $errors,
-			'error'		 => $errMsg,
-			'get'		 => $data,
-			'userID'	 => $user_id,
-			'data'		 => $model,
-			'code'		 => $code
+		$result				 = array('success' => $success,
+			'errors'  => $errors,
+			'error'	  => $errMsg,
+			'get'	  => $data,
+			'userID'  => $user_id,
+			'data'	  => $model,
+			'code'	  => $code
 		);
 
 		return $result;
@@ -1830,22 +1830,22 @@ class UsersController extends BaseController
 	public function register()
 	{
 
-		$model						 = new Users();
+		$model						= new Users();
 // $code = rand(999, 99999);
-		$lname						 = Yii::app()->request->getParam('usr_lname');
-		$model->usr_name			 = Yii::app()->request->getParam('usr_name');
-		$model->usr_lname			 = $lname;
-		$model->repeat_password		 = Yii::app()->request->getParam('repeat_password');
-		$model->new_password		 = Yii::app()->request->getParam('usr_password');
-		$model->usr_email			 = Yii::app()->request->getParam('usr_email');
-		$model->usr_password		 = Yii::app()->request->getParam('usr_password');
-		$model->usr_mobile			 = Yii::app()->request->getParam('usr_mobile');
-		$model->usr_country_code	 = Yii::app()->request->getParam('usr_country_code');
-		$deviceInfo					 = Yii::app()->request->getParam('device_info');
-		$ipAddress					 = Yii::app()->request->getParam('ip_address');
-		$model->usr_create_platform	 = Users::Platform_App;
-		$model->usr_ip				 = $ipAddress;
-		$model->usr_device			 = $deviceInfo;
+		$lname						= Yii::app()->request->getParam('usr_lname');
+		$model->usr_name			= Yii::app()->request->getParam('usr_name');
+		$model->usr_lname			= $lname;
+		$model->repeat_password		= Yii::app()->request->getParam('repeat_password');
+		$model->new_password		= Yii::app()->request->getParam('usr_password');
+		$model->usr_email			= Yii::app()->request->getParam('usr_email');
+		$model->usr_password		= Yii::app()->request->getParam('usr_password');
+		$model->usr_mobile			= Yii::app()->request->getParam('usr_mobile');
+		$model->usr_country_code	= Yii::app()->request->getParam('usr_country_code');
+		$deviceInfo					= Yii::app()->request->getParam('device_info');
+		$ipAddress					= Yii::app()->request->getParam('ip_address');
+		$model->usr_create_platform = Users::Platform_App;
+		$model->usr_ip				= $ipAddress;
+		$model->usr_device			= $deviceInfo;
 		Yii::log("lname: " . $model->usr_lname, CLogger::LEVEL_INFO, 'system.api.inspection');
 
 		if ($model->validate())
@@ -1878,12 +1878,12 @@ class UsersController extends BaseController
 			$success = 'false';
 		}
 
-		$result = array('success'	 => $success,
-			'message'	 => $msg,
-			'get'		 => $data,
-			'userID'	 => $user_id,
-			'data'		 => $model,
-			'code'		 => $code
+		$result = array('success' => $success,
+			'message' => $msg,
+			'get'	  => $data,
+			'userID'  => $user_id,
+			'data'	  => $model,
+			'code'	  => $code
 		);
 		return $result;
 	}
@@ -1894,25 +1894,25 @@ class UsersController extends BaseController
 		$model = new Users();
 // $code = rand(999, 99999);
 
-		$model->usr_name		 = Yii::app()->request->getParam('usr_name');
-		$model->repeat_password	 = Yii::app()->request->getParam('repeat_password');
+		$model->usr_name		= Yii::app()->request->getParam('usr_name');
+		$model->repeat_password = Yii::app()->request->getParam('repeat_password');
 
 		$model->usr_email		 = Yii::app()->request->getParam('usr_email');
 		$model->usr_password	 = trim(md5(Yii::app()->request->getParam('usr_password')));
 		$model->usr_mobile		 = Yii::app()->request->getParam('usr_mobile');
 		$model->usr_country_code = Yii::app()->request->getParam('usr_country_code');
 
-		$deviceID		 = Yii::app()->request->getParam('deviceid');
+		$deviceID	   = Yii::app()->request->getParam('deviceid');
 //$macAddress = Yii::app()->request->getParam('mac_address');
-		$deviceSerial	 = Yii::app()->request->getParam('serial');
-		$deviceInfo		 = Yii::app()->request->getParam('device_info');
-		$deviceVersion	 = Yii::app()->request->getParam('version');
+		$deviceSerial  = Yii::app()->request->getParam('serial');
+		$deviceInfo	   = Yii::app()->request->getParam('device_info');
+		$deviceVersion = Yii::app()->request->getParam('version');
 // $IMEI = Yii::app()->request->getParam('IMEI');
-		$apkVersion		 = Yii::app()->request->getParam('apk_version');
-		$ipAddress		 = Yii::app()->request->getParam('ip_address');
+		$apkVersion	   = Yii::app()->request->getParam('apk_version');
+		$ipAddress	   = Yii::app()->request->getParam('ip_address');
 
-		$model->usr_ip		 = $ipAddress;
-		$model->usr_device	 = $deviceInfo;
+		$model->usr_ip	   = $ipAddress;
+		$model->usr_device = $deviceInfo;
 
 		if ($model->validate())
 		{
@@ -1949,11 +1949,11 @@ class UsersController extends BaseController
 			$msg	 = $model->errors;
 			$success = 'false';
 		}
-		$result = array('success'	 => $success,
-			'message'	 => $msg,
-			'userID'	 => $user_id,
-			'data'		 => $model,
-			'code'		 => $code
+		$result = array('success' => $success,
+			'message' => $msg,
+			'userID'  => $user_id,
+			'data'	  => $model,
+			'code'	  => $code
 		);
 		return $result;
 	}
@@ -1963,8 +1963,8 @@ class UsersController extends BaseController
 		$this->checkV3Theme();
 		$this->layout = 'column2';
 
-		$userId	 = Yii::app()->user->getId();
-		$model	 = Users::model()->findByPk($userId);
+		$userId = Yii::app()->user->getId();
+		$model	= Users::model()->findByPk($userId);
 
 		if (isset($_REQUEST['Users']))
 		{
@@ -1979,17 +1979,17 @@ class UsersController extends BaseController
 			}
 			else
 			{
-				$model->old_password	 = $oldPassword;
-				$model->new_password	 = $newPassword;
-				$model->repeat_password	 = $rePassword;
-				$status					 = 'false';
+				$model->old_password	= $oldPassword;
+				$model->new_password	= $newPassword;
+				$model->repeat_password = $rePassword;
+				$status					= 'false';
 				if ($model->validate())
 				{
 					$model->scenario = 'change';
 					if ($model->usr_password == md5($model->old_password))
 					{
-						$model->usr_password		 = md5($model->new_password);
-						$model->usr_changepassword	 = 2;
+						$model->usr_password	   = md5($model->new_password);
+						$model->usr_changepassword = 2;
 						if ($model->save())
 						{
 							$status	 = 'true';
@@ -2036,10 +2036,10 @@ class UsersController extends BaseController
 
 		$rePassword = Yii::app()->request->getParam('repeat_password');
 
-		$model->old_password	 = $oldPassword;
-		$model->new_password	 = $newPassword;
-		$model->repeat_password	 = $rePassword;
-		$status					 = 'false';
+		$model->old_password	= $oldPassword;
+		$model->new_password	= $newPassword;
+		$model->repeat_password = $rePassword;
+		$status					= 'false';
 		if ($model->validate())
 		{
 			$model->scenario = 'change';
@@ -2065,9 +2065,9 @@ class UsersController extends BaseController
 			}
 		}
 
-		$result = array('type'		 => 'raw',
-			'message'	 => $message,
-			'status'	 => $status);
+		$result = array('type'	  => 'raw',
+			'message' => $message,
+			'status'  => $status);
 		return $result;
 	}
 
@@ -2084,10 +2084,10 @@ class UsersController extends BaseController
 
 		$rePassword = Yii::app()->request->getParam('repeat_password');
 
-		$model->old_password	 = $oldPassword;
-		$model->new_password	 = $newPassword;
-		$model->repeat_password	 = $rePassword;
-		$status					 = 'false';
+		$model->old_password	= $oldPassword;
+		$model->new_password	= $newPassword;
+		$model->repeat_password = $rePassword;
+		$status					= 'false';
 		if ($model->validate())
 		{
 			$model->scenario = 'change';
@@ -2130,16 +2130,16 @@ class UsersController extends BaseController
 //            $message = "The current password you have entered is incorrect.Please enter correct password";
 //            $status = 'false';
 //        }
-		$result = array('type'		 => 'raw',
-			'message'	 => $message,
-			'status'	 => $status);
+		$result = array('type'	  => 'raw',
+			'message' => $message,
+			'status'  => $status);
 		return $result;
 	}
 
 	public function forgetPassword()
 	{
-		$email		 = Yii::app()->request->getParam('email');
-		$insSerch	 = Yii::app()->db->createCommand()
+		$email	  = Yii::app()->request->getParam('email');
+		$insSerch = Yii::app()->db->createCommand()
 				->select('*')
 				->from('users')
 				->where('usr_email=' . "'" . $email . "'" . ' AND usr_active >0')
@@ -2154,9 +2154,9 @@ class UsersController extends BaseController
 			$mail->setView('fmail');
 			$mail->setData(
 					array(
-						'username'	 => $insSerch['usr_name'],
-						'link'		 => $link,
-						'email'		 => $email
+						'username' => $insSerch['usr_name'],
+						'link'	   => $link,
+						'email'	   => $email
 					)
 			);
 
@@ -2177,8 +2177,8 @@ class UsersController extends BaseController
 				{
 					$mobile = '+91' . $mobile;
 				}
-				$mobile	 = '+91' . $mobile;
-				$code	 = rand(999, 99999);
+				$mobile = '+91' . $mobile;
+				$code	= rand(999, 99999);
 //  $response = file_get_contents('https://rest.nexmo.com/sms/json?api_key=040da76e&api_secret=b6e9b34b&from=NEXMO&to=' . $mobile . '&text=Your+verification+code+is+:+' . $code);
 			}
 			$success = true;
@@ -2187,32 +2187,32 @@ class UsersController extends BaseController
 		{
 			$success = false;
 		}
-		$result = array('type'		 => 'raw',
-			'success'	 => $success,
-			'code'		 => $code);
+		$result = array('type'	  => 'raw',
+			'success' => $success,
+			'code'	  => $code);
 		return $result;
 	}
 
 	public function addbooking()
 	{
-		$model						 = new Booking();
-		$model->bkg_user_id			 = Yii::app()->user->getId();
-		$model->bkg_journey_date	 = Yii::app()->request->getParam('bkg_journey_date');
-		$model->bkg_journey_time	 = Yii::app()->request->getParam('bkg_journey_time');
-		$model->bkg_route_id		 = Yii::app()->request->getParam('bkg_route_id');
-		$model->bkg_amount			 = Yii::app()->request->getParam('bkg_amount');
-		$model->bkg_pickup_location	 = Yii::app()->request->getParam('bkg_pickup_location');
-		$model->bkg_pickup_lat		 = Yii::app()->request->getParam('bkg_pickup_lat');
-		$model->bkg_pickup_long		 = Yii::app()->request->getParam('bkg_pickup_long');
-		$model->bkg_contact_no		 = Yii::app()->request->getParam('bkg_contact_no');
-		$model->bkg_vehicle_type_id	 = Yii::app()->request->getParam('bkg_vehicle_type_id');
-		$model->bkg_no_person		 = Yii::app()->request->getParam('bkg_no_person');
-		$model->bkg_user_ip			 = Yii::app()->request->getParam('ip_address');
-		$model->bkg_user_device		 = Yii::app()->request->getParam('device_info');
-		$model->bkg_create_date		 = new CDbExpression('NOW()');
-		$model->bkg_is_approved		 = 2;
+		$model						= new Booking();
+		$model->bkg_user_id			= Yii::app()->user->getId();
+		$model->bkg_journey_date	= Yii::app()->request->getParam('bkg_journey_date');
+		$model->bkg_journey_time	= Yii::app()->request->getParam('bkg_journey_time');
+		$model->bkg_route_id		= Yii::app()->request->getParam('bkg_route_id');
+		$model->bkg_amount			= Yii::app()->request->getParam('bkg_amount');
+		$model->bkg_pickup_location = Yii::app()->request->getParam('bkg_pickup_location');
+		$model->bkg_pickup_lat		= Yii::app()->request->getParam('bkg_pickup_lat');
+		$model->bkg_pickup_long		= Yii::app()->request->getParam('bkg_pickup_long');
+		$model->bkg_contact_no		= Yii::app()->request->getParam('bkg_contact_no');
+		$model->bkg_vehicle_type_id = Yii::app()->request->getParam('bkg_vehicle_type_id');
+		$model->bkg_no_person		= Yii::app()->request->getParam('bkg_no_person');
+		$model->bkg_user_ip			= Yii::app()->request->getParam('ip_address');
+		$model->bkg_user_device		= Yii::app()->request->getParam('device_info');
+		$model->bkg_create_date		= new CDbExpression('NOW()');
+		$model->bkg_is_approved		= 2;
 		$model->save();
-		$error						 = $model->errors;
+		$error						= $model->errors;
 		if ($error)
 		{
 			$message = "Not inserted";
@@ -2265,8 +2265,8 @@ class UsersController extends BaseController
 
 	public function actionView()
 	{
-		$returnSet	 = new ReturnSet();
-		$request	 = yii::app()->request;
+		$returnSet = new ReturnSet();
+		$request   = yii::app()->request;
 		if (Yii::app()->user->isGuest)
 		{
 			$this->redirect('/index');
@@ -2310,21 +2310,21 @@ class UsersController extends BaseController
 			if ($request->getPost('Users'))
 			{
 				//unset($request->getPost('ContactEmail')['eml_email_address']);
-				$arr1				 = $request->getParam('Users');
-				$contactArray		 = $request->getParam('Contact');
-				$phoneIsArray		 = $request->getParam('ContactPhone');
-				$emailIsArray		 = $request->getParam('ContactEmail');
-				$phoneArray			 = $phoneIsArray[0];
-				$emailArray			 = $emailIsArray[0];
-				$model->attributes	 = $arr1;
+				$arr1			   = $request->getParam('Users');
+				$contactArray	   = $request->getParam('Contact');
+				$phoneIsArray	   = $request->getParam('ContactPhone');
+				$emailIsArray	   = $request->getParam('ContactEmail');
+				$phoneArray		   = $phoneIsArray[0];
+				$emailArray		   = $emailIsArray[0];
+				$model->attributes = $arr1;
 
-				$model							 = Users::userContactItem($model, $contactArray, $phoneArray, $emailArray);
-				$model->scenario				 = 'updateProfile';
-				$phoneModel->phn_phone_no		 = $phoneArray['phn_phone_no'];
-				$emailModel->eml_email_address	 = $emailArray['eml_email_address'];
-				$contactModel->ctt_state		 = $contactArray['ctt_state'];
-				$contactModel->ctt_city			 = $contactArray['ctt_city'];
-				$contactModel->ctt_address		 = $contactArray['ctt_address'];
+				$model						   = Users::userContactItem($model, $contactArray, $phoneArray, $emailArray);
+				$model->scenario			   = 'updateProfile';
+				$phoneModel->phn_phone_no	   = $phoneArray['phn_phone_no'];
+				$emailModel->eml_email_address = $emailArray['eml_email_address'];
+				$contactModel->ctt_state	   = $contactArray['ctt_state'];
+				$contactModel->ctt_city		   = $contactArray['ctt_city'];
+				$contactModel->ctt_address	   = $contactArray['ctt_address'];
 
 				//  $contactModel->ctt_last_name   = $contactArray['ctt_last_name'];
 				//   Logger::trace("After POST getting contact ==================".$contactArray['ctt_first_name'].$contactArray['ctt_last_name']);
@@ -2363,8 +2363,8 @@ class UsersController extends BaseController
 				{
 					throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
-				$response	 = Contact::userContact($contactArray, $phoneArray, $emailArray, '', $contactModel);
-				$result		 = Users::userData($model, $arr1, $response, $contactModel);
+				$response = Contact::userContact($contactArray, $phoneArray, $emailArray, '', $contactModel);
+				$result	  = Users::userData($model, $arr1, $response, $contactModel);
 
 				if ($model->save())
 				{
@@ -2375,8 +2375,8 @@ class UsersController extends BaseController
 			}
 			if ($contactModel->ctt_city)
 			{
-				$city	 = Cities::model()->getCityNameById($contactModel->ctt_city);
-				$city	 = $city[0];
+				$city = Cities::model()->getCityNameById($contactModel->ctt_city);
+				$city = $city[0];
 			}
 			$returnSet->setStatus(true);
 		}
@@ -2387,13 +2387,13 @@ class UsersController extends BaseController
 		}
 
 		$this->render('view', [
-			'returnSet'		 => $returnSet,
-			'model'			 => $model,
-			'contactModel'	 => $contactModel,
-			'emailModel'	 => $emailModel,
-			'phoneModel'	 => $phoneModel,
-			'city'			 => $city,
-			'flag'			 => $flag]);
+			'returnSet'	   => $returnSet,
+			'model'		   => $model,
+			'contactModel' => $contactModel,
+			'emailModel'   => $emailModel,
+			'phoneModel'   => $phoneModel,
+			'city'		   => $city,
+			'flag'		   => $flag]);
 	}
 
 	public function actionSignup1()
@@ -2404,14 +2404,14 @@ class UsersController extends BaseController
 		{
 			$this->redirect(array('view'));
 		}
-		$model			 = new Users('insert');
-		$contactModel	 = new Contact();
-		$phoneModel		 = new ContactPhone();
-		$emailModel		 = new ContactEmail();
-		$isPartial		 = Yii::app()->request->getParam('is_partial');
-		$success		 = false;
-		$userId			 = '';
-		$rNav			 = '';
+		$model		  = new Users('insert');
+		$contactModel = new Contact();
+		$phoneModel	  = new ContactPhone();
+		$emailModel	  = new ContactEmail();
+		$isPartial	  = Yii::app()->request->getParam('is_partial');
+		$success	  = false;
+		$userId		  = '';
+		$rNav		  = '';
 		if (yii::app()->request->getPost('Users'))
 		{
 			$contactData = Yii::app()->request->getParam('Contact');
@@ -2419,19 +2419,19 @@ class UsersController extends BaseController
 			$phoneData	 = Yii::app()->request->getParam('ContactPhone');
 			$emailData	 = Yii::app()->request->getParam('ContactEmail');
 
-			$signupObj	 = new \Stub\consumer\SignUpRequest();
-			$obj		 = $signupObj->setModelData($contactData, $emailData, $phoneData, $userData);
-			$contactSet	 = Contact::createContact($obj, 0, UserInfo::TYPE_CONSUMER);
-			$contactId	 = $contactSet->getData()['id'];
-			$userSet	 = Users::create($obj->getSocialModel(), true, Users::Platform_Web, $contactId, null, $userData);
+			$signupObj	= new \Stub\consumer\SignUpRequest();
+			$obj		= $signupObj->setModelData($contactData, $emailData, $phoneData, $userData);
+			$contactSet = Contact::createContact($obj, 0, UserInfo::TYPE_CONSUMER);
+			$contactId	= $contactSet->getData()['id'];
+			$userSet	= Users::create($obj->getSocialModel(), true, Users::Platform_Web, $contactId, null, $userData);
 			if ($userSet->isSuccess())
 			{
 				if ($isPartial == 1)
 				{
-					$userId		 = $userSet->getData()['userId'];
+					$userId	   = $userSet->getData()['userId'];
 					/* @var $userModel Users */
-					$userModel	 = Users::model()->findByPk($userId);
-					$identity	 = new UserIdentity($userModel->usr_email, $userModel->usr_password);
+					$userModel = Users::model()->findByPk($userId);
+					$identity  = new UserIdentity($userModel->usr_email, $userModel->usr_password);
 					/// Automatic Login  After Registration /// 
 					if ($identity->authenticate())
 					{
@@ -2461,17 +2461,17 @@ class UsersController extends BaseController
 		}
 		if ($isPartial == 1)
 		{
-			$outputJs	 = Yii::app()->request->isAjaxRequest;
-			$method		 = "render" . ($outputJs ? "Partial" : "");
+			$outputJs = Yii::app()->request->isAjaxRequest;
+			$method	  = "render" . ($outputJs ? "Partial" : "");
 			$this->$method('partialsignup', array('model' => $model, 'contactModel' => $contactModel, 'phoneModel' => $phoneModel, 'emailModel' => $emailModel, 'errors' => $errors), false, $outputJs);
 		}
 		else
 		{
 
-			$this->render('signup', array('model'			 => $model,
-				'contactModel'	 => $contactModel,
-				'phoneModel'	 => $phoneModel,
-				'emailModel'	 => $emailModel, 'errors'		 => $errors));
+			$this->render('signup', array('model'		   => $model,
+				'contactModel' => $contactModel,
+				'phoneModel'   => $phoneModel,
+				'emailModel'   => $emailModel, 'errors'	   => $errors));
 		}
 	}
 
@@ -2484,12 +2484,12 @@ class UsersController extends BaseController
 		{
 			$this->redirect(array('view'));
 		}
-		$model			 = new Users('insert');
-		$contactModel	 = new Contact();
-		$phoneModel		 = new ContactPhone();
-		$emailModel		 = new ContactEmail();
-		$isPartial		 = 0;
-		$partialCall	 = Yii::app()->request->getParam('is_partial');
+		$model		  = new Users('insert');
+		$contactModel = new Contact();
+		$phoneModel	  = new ContactPhone();
+		$emailModel	  = new ContactEmail();
+		$isPartial	  = 0;
+		$partialCall  = Yii::app()->request->getParam('is_partial');
 		if ($partialCall == 1)
 		{
 			$isPartial = 1;
@@ -2498,8 +2498,8 @@ class UsersController extends BaseController
 		Yii::app()->request->cookies['gozo_refferal_id']->value = null;
 		if (Yii::app()->request->getParam('refcode') != '')
 		{
-			$referredCode	 = Yii::app()->request->getParam('refcode');
-			$userModel		 = Users::model()->getByReferCode($referredCode);
+			$referredCode = Yii::app()->request->getParam('refcode');
+			$userModel	  = Users::model()->getByReferCode($referredCode);
 			if ($userModel != '')
 			{
 				if ($_COOKIE['invite_clicked_per_user'] != 1)
@@ -2512,18 +2512,18 @@ class UsersController extends BaseController
 			Yii::app()->request->cookies['gozo_refferal_id'] = new CHttpCookie('gozo_refferal_id', $referredCode);
 		}
 
-		$statusreferral	 = false;
-		$refid			 = '';
-		$success		 = false;
-		$userId			 = '';
+		$statusreferral = false;
+		$refid			= '';
+		$success		= false;
+		$userId			= '';
 		if (yii::app()->request->getPost('Users'))
 		{
-			$contactArray				 = Yii::app()->request->getParam('Contact');
-			$arr1						 = Yii::app()->request->getParam('Users');
-			$phoneArray					 = Yii::app()->request->getParam('ContactPhone');
-			$emailArray					 = Yii::app()->request->getParam('ContactEmail');
-			$model->attributes			 = $arr1;
-			$contactModel->attributes	 = $contactArray;
+			$contactArray			  = Yii::app()->request->getParam('Contact');
+			$arr1					  = Yii::app()->request->getParam('Users');
+			$phoneArray				  = Yii::app()->request->getParam('ContactPhone');
+			$emailArray				  = Yii::app()->request->getParam('ContactEmail');
+			$model->attributes		  = $arr1;
+			$contactModel->attributes = $contactArray;
 			if (trim($arr1['new_password']) != trim($arr1['repeat_password']))
 			{
 				$status = 'errors';
@@ -2533,25 +2533,25 @@ class UsersController extends BaseController
 			$actualPhoneNumber;
 			$phoneCode;
 			Filter::parsePhoneNumber($phoneArray['phn_phone_no'], $phoneCode, $actualPhoneNumber);
-			$phoneArray['phn_phone_no']				 = $actualPhoneNumber;
-			$phoneArray['phn_phone_country_code']	 = $phoneCode;
+			$phoneArray['phn_phone_no']			  = $actualPhoneNumber;
+			$phoneArray['phn_phone_country_code'] = $phoneCode;
 
-			$isPhoneDuplicate	 = ContactPhone::model()->validatePhoneEmail($phoneArray['phn_phone_no'], $params				 = '');
-			$isEmailDuplicate	 = ContactEmail::model()->validatePhoneEmail($emailArray['eml_email_address'], $params				 = '');
+			$isPhoneDuplicate = ContactPhone::model()->validatePhoneEmail($phoneArray['phn_phone_no'], $params			  = '');
+			$isEmailDuplicate = ContactEmail::model()->validatePhoneEmail($emailArray['eml_email_address'], $params			  = '');
 			if ($isPhoneDuplicate && $isEmailDuplicate)
 			{
 				// This fuction has to be removed in future (userContactItem)
-				$model					 = Users::userContactItem($model, $contactArray, $phoneArray, $emailArray);
-				$model					 = Users::userData($model, $arr1);
-				$model->usr_refer_code	 = Users::getUniqueReferCode($model);
-				$model->scenario		 = 'captchaRequired';
-				$status					 = '';
+				$model				   = Users::userContactItem($model, $contactArray, $phoneArray, $emailArray);
+				$model				   = Users::userData($model, $arr1);
+				$model->usr_refer_code = Users::getUniqueReferCode($model);
+				$model->scenario	   = 'captchaRequired';
+				$status				   = '';
 
 				if ($model->validate())
 				{
-					$response				 = Contact::userContact($contactArray, $phoneArray, $emailArray);
-					$model->usr_contact_id	 = $response->getData()['id'];
-					$result					 = $model->save('insert');
+					$response			   = Contact::userContact($contactArray, $phoneArray, $emailArray);
+					$model->usr_contact_id = $response->getData()['id'];
+					$result				   = $model->save('insert');
 					if (Yii::app()->request->cookies['gozo_refferal_id']->value != '')
 					{
 						$refferalCode = Yii::app()->request->cookies['gozo_refferal_id']->value;
@@ -2612,8 +2612,8 @@ class UsersController extends BaseController
 		}
 		if ($isPartial == 1)
 		{
-			$outputJs	 = Yii::app()->request->isAjaxRequest;
-			$method		 = "render" . ($outputJs ? "Partial" : "");
+			$outputJs = Yii::app()->request->isAjaxRequest;
+			$method	  = "render" . ($outputJs ? "Partial" : "");
 			$this->$method('partialsignup', array('model' => $model, 'contactModel' => $contactModel, 'phoneModel' => $phoneModel, 'emailModel' => $emailModel), false, $outputJs);
 		}
 		else
@@ -2633,11 +2633,11 @@ class UsersController extends BaseController
 		{
 			$this->redirect(array('view'));
 		}
-		$contactModel	 = new Contact();
-		$phoneModel		 = new ContactPhone();
-		$emailModel		 = new ContactEmail();
-		$userid			 = Yii::app()->request->getParam('id');
-		$hash			 = Yii::app()->request->getParam('hash');
+		$contactModel = new Contact();
+		$phoneModel	  = new ContactPhone();
+		$emailModel	  = new ContactEmail();
+		$userid		  = Yii::app()->request->getParam('id');
+		$hash		  = Yii::app()->request->getParam('hash');
 		if ($userid != Yii::app()->shortHash->unhash($hash))
 		{
 			throw new CHttpException(400, 'Invalid Request');
@@ -2666,10 +2666,10 @@ class UsersController extends BaseController
 			$model->usr_password = $model->encrypt($arr1['new_password'] . '');
 			if ($model->validate())
 			{
-				$response				 = Contact::userContact($contactArray, $phoneArray, $emailArray);
-				$model->usr_contact_id	 = $response->getData()['id'];
-				$model->usr_acct_type	 = '0';
-				$result					 = $model->save();
+				$response			   = Contact::userContact($contactArray, $phoneArray, $emailArray);
+				$model->usr_contact_id = $response->getData()['id'];
+				$model->usr_acct_type  = '0';
+				$result				   = $model->save();
 				if ($result)
 				{
 					$email = new emailWrapper();
@@ -2690,8 +2690,8 @@ class UsersController extends BaseController
 		{
 			$this->redirect(array('view'));
 		}
-		$model	 = new Users;
-		$refid	 = '';
+		$model = new Users;
+		$refid = '';
 		if (isset($_REQUEST['Users']))
 		{
 			$model->attributes	 = Yii::app()->request->getParam('Users');
@@ -2732,20 +2732,20 @@ class UsersController extends BaseController
 		{
 			$this->redirect(array('view'));
 		}
-		$model			 = new Users;
-		$emailModel		 = new ContactEmail();
-		$contactModel	 = new Contact();
-		$phoneModel		 = new ContactPhone();
-		$email			 = Yii::app()->request->getParam('usr_email');
-		$password		 = Yii::app()->request->getParam('usr_password');
+		$model		  = new Users;
+		$emailModel	  = new ContactEmail();
+		$contactModel = new Contact();
+		$phoneModel	  = new ContactPhone();
+		$email		  = Yii::app()->request->getParam('usr_email');
+		$password	  = Yii::app()->request->getParam('usr_password');
 
 		if (($email != '' && $password != '') || (yii::app()->request->getPost('Users')))
 		{
-			$arr1			 = Yii::app()->request->getParam('Users');
-			$emailArray		 = Yii::app()->request->getParam('ContactEmail');
-			$email			 = ($email != '') ? $email : $emailArray['eml_email_address'];
-			$contactId		 = ContactEmail::findById($email);
-			$emailDetails	 = Users::findByEmailId($email);
+			$arr1		  = Yii::app()->request->getParam('Users');
+			$emailArray	  = Yii::app()->request->getParam('ContactEmail');
+			$email		  = ($email != '') ? $email : $emailArray['eml_email_address'];
+			$contactId	  = ContactEmail::findById($email);
+			$emailDetails = Users::findByEmailId($email);
 			foreach ($emailDetails as $emailDetail)
 			{
 				if ($emailDetail["usr_contact_id"] == $contactId)
@@ -2757,9 +2757,9 @@ class UsersController extends BaseController
 					Users::inactiveStatus($emailDetail["usr_contact_id"], $email);
 				}
 			}
-			$userModel		 = Users::model()->findByContactID($contactId);
-			$contactModel	 = Contact::model()->findByPk($contactId);
-			$pass			 = ($password != '') ? $password : $arr1['usr_password'];
+			$userModel	  = Users::model()->findByContactID($contactId);
+			$contactModel = Contact::model()->findByPk($contactId);
+			$pass		  = ($password != '') ? $password : $arr1['usr_password'];
 
 			if (count($userModel) > 0)
 			{
@@ -2769,21 +2769,21 @@ class UsersController extends BaseController
 					$identity = new UserIdentity($email, md5($pass));
 					if ($identity->authenticate())
 					{
-						$userID	 = $identity->getId();
+						$userID = $identity->getId();
 						Yii::app()->user->login($identity);
 						$this->createLog($identity);
 						//$this->checkValidAttempt(1, $email);
-						$data	 = $this->checkValidAttempt(1, $email);
+						$data	= $this->checkValidAttempt(1, $email);
 						if (Yii::app()->request->isAjaxRequest)
 						{
-							$userData				 = [];
-							$userData['usr_name']	 = $userModel[0]->usr_name;
-							$userData['usr_lname']	 = $userModel[0]->usr_lname;
+							$userData			   = [];
+							$userData['usr_name']  = $userModel[0]->usr_name;
+							$userData['usr_lname'] = $userModel[0]->usr_lname;
 
 							if ($userModel[0]->usr_mobile != '')
 							{
-								$userData['usr_mobile']			 = $userModel[0]->usr_mobile;
-								$userData['usr_country_code']	 = $userModel[0]->usr_country_code;
+								$userData['usr_mobile']		  = $userModel[0]->usr_mobile;
+								$userData['usr_country_code'] = $userModel[0]->usr_country_code;
 							} if ($userModel[0]->usr_email != '')
 							{
 								$userData['usr_email'] = $userModel[0]->usr_email;
@@ -2873,20 +2873,20 @@ class UsersController extends BaseController
 		$this->checkForMobileTheme();
 		$user_id = Yii::app()->user->getId();
 
-		$this->pageTitle	 = "My Profile";
-		$this->current_page	 = "my_profile";
+		$this->pageTitle	= "My Profile";
+		$this->current_page = "my_profile";
 
-		$umodel						 = Users::model()->findByPk($user_id);
-		$umodel->scenario			 = "profile";
-		$umodel->usr_country_code	 = ($umodel->usr_country_code == '') ? Yii::app()->params['countrycode'] : $umodel->usr_country_code;
+		$umodel					  = Users::model()->findByPk($user_id);
+		$umodel->scenario		  = "profile";
+		$umodel->usr_country_code = ($umodel->usr_country_code == '') ? Yii::app()->params['countrycode'] : $umodel->usr_country_code;
 
 		if (isset($_POST['Users']))
 		{
 
-			$umodel->attributes	 = $_POST['Users'];
-			$char				 = array("(", ")", "-", "_", " ");
-			$phone				 = str_replace($char, "", $_POST['Users']['mobile']);
-			$output				 = CActiveForm::validate($umodel);
+			$umodel->attributes = $_POST['Users'];
+			$char				= array("(", ")", "-", "_", " ");
+			$phone				= str_replace($char, "", $_POST['Users']['mobile']);
+			$output				= CActiveForm::validate($umodel);
 			if ($output == '[]')
 			{
 
@@ -2896,8 +2896,8 @@ class UsersController extends BaseController
 				}
 				/* @var $umodel Users */
 
-				$umodel->attributes	 = $_POST['Users'];
-				$umodel->usr_mobile	 = $phone;
+				$umodel->attributes = $_POST['Users'];
+				$umodel->usr_mobile = $phone;
 				$umodel->save();
 				Yii::app()->user->setFlash('success', 'Your profile has been successfully updated!');
 			}
@@ -2927,14 +2927,14 @@ class UsersController extends BaseController
 	private function createLog($identity)
 	{
 		// Logger::info("entry createlog for user create" . $identity->getId());
-		$ip							 = \Filter::getUserIP();
-		$sessionid					 = Yii::app()->getSession()->getSessionId();
-		$logModel					 = new UserLog();
-		$logModel->log_in_time		 = new CDbExpression('Now()');
-		$logModel->log_ip			 = $ip;
-		$logModel->log_session		 = $sessionid;
-		$logModel->log_device_info	 = $_SERVER['HTTP_USER_AGENT'];
-		$logModel->log_user			 = $identity->getId();
+		$ip						   = \Filter::getUserIP();
+		$sessionid				   = Yii::app()->getSession()->getSessionId();
+		$logModel				   = new UserLog();
+		$logModel->log_in_time	   = new CDbExpression('Now()');
+		$logModel->log_ip		   = $ip;
+		$logModel->log_session	   = $sessionid;
+		$logModel->log_device_info = $_SERVER['HTTP_USER_AGENT'];
+		$logModel->log_user		   = $identity->getId();
 		$logModel->save();
 		//	Logger::info("createlog entry errors" . CJSON::encode($logModel->errors));
 		return true;
@@ -2959,24 +2959,24 @@ class UsersController extends BaseController
 	{
 		if ($email != '' && $status == 1)
 		{
-			$model				 = Users::model()->resetScope()->getByEmail($email);
-			$model->usr_active	 = 2;
+			$model			   = Users::model()->resetScope()->getByEmail($email);
+			$model->usr_active = 2;
 			$model->update();
-			$success			 = true;
+			$success		   = true;
 		}
 	}
 
 	public function actionLogout($status = null)
 	{
 
-		$sessionid	 = Yii::app()->getSession()->getSessionId();
+		$sessionid = Yii::app()->getSession()->getSessionId();
 //        $logModel = new UserLog();
 //        $logModel = $logModel->getLogBySession($sessionid);
 //        $logModel->log_out_time = new CDbExpression('Now()');
 //        $logModel->update();
 		Yii::app()->user->logout();
 		VoucherOrder::unsetCartSession();
-		$status		 = ($status == '') ? 'logout' : $status;
+		$status	   = ($status == '') ? 'logout' : $status;
 		//$this->redirect(array('users/signin', 'status' => $status));
 		$this->redirect('/index');
 	}
@@ -2990,45 +2990,45 @@ class UsersController extends BaseController
 
 	function img_resize($tmpname, $size, $save_dir, $save_name, $maxisheight = 0)
 	{
-		$arr		 = array();
-		$save_dir	 .= ( substr($save_dir, -1) != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : "";
-		$arr[1]		 = $save_dir;
-		$gis		 = getimagesize($tmpname);
-		$arr[21]	 = $tmpname;
-		$type		 = $gis[2];
-		$arr[2]		 = $gis;
+		$arr	  = array();
+		$save_dir .= ( substr($save_dir, -1) != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : "";
+		$arr[1]	  = $save_dir;
+		$gis	  = getimagesize($tmpname);
+		$arr[21]  = $tmpname;
+		$type	  = $gis[2];
+		$arr[2]	  = $gis;
 		switch ($type)
 		{
-			case "1": $imorig	 = imagecreatefromgif($tmpname);
+			case "1": $imorig = imagecreatefromgif($tmpname);
 				break;
-			case "2": $imorig	 = imagecreatefromjpeg($tmpname);
+			case "2": $imorig = imagecreatefromjpeg($tmpname);
 				break;
-			case "3": $imorig	 = imagecreatefrompng($tmpname);
+			case "3": $imorig = imagecreatefrompng($tmpname);
 				break;
-			default: $imorig	 = imagecreatefromjpeg($tmpname);
+			default: $imorig = imagecreatefromjpeg($tmpname);
 		}
 
-		$x	 = imagesx($imorig);
-		$y	 = imagesy($imorig);
+		$x = imagesx($imorig);
+		$y = imagesy($imorig);
 
 		$woh = (!$maxisheight) ? $gis[0] : $gis[1];
 
 		if ($woh <= $size)
 		{
-			$aw	 = $x;
-			$ah	 = $y;
+			$aw = $x;
+			$ah = $y;
 		}
 		else
 		{
 			if (!$maxisheight)
 			{
-				$aw	 = $size;
-				$ah	 = $size * $y / $x;
+				$aw = $size;
+				$ah = $size * $y / $x;
 			}
 			else
 			{
-				$aw	 = $size * $x / $y;
-				$ah	 = $size;
+				$aw = $size * $x / $y;
+				$ah = $size;
 			}
 		}
 		$im = imagecreatetruecolor($aw, $ah);
@@ -3049,11 +3049,11 @@ class UsersController extends BaseController
 	public function getTotalBooking($status)
 	{
 
-		$criteria			 = new CDbCriteria;
-		$criteria->select	 = "count(*) as total";
+		$criteria		  = new CDbCriteria;
+		$criteria->select = "count(*) as total";
 		$criteria->compare('bkg_active', 1);
 		$criteria->compare('bkg_status', $status);
-		$count				 = $this->find($criteria);
+		$count			  = $this->find($criteria);
 		return $count->total;
 	}
 
@@ -3065,16 +3065,16 @@ class UsersController extends BaseController
 	public function actionSideprofile()
 	{
 
-		$model	 = new Booking();
-		$umodel	 = new Users();
+		$model	= new Booking();
+		$umodel = new Users();
 		$this->renderPartial('sideprofile', ['model' => $model, 'umodel' => $umodel]);
 	}
 
 	public function actionCountrytostate()
 	{
-		$countryId	 = Yii::app()->request->getParam('countryid') != "" ? Yii::app()->request->getParam('countryid') : '99';
-		$stateList	 = CHtml::listData(States::model()->findAll(array("condition" => "stt_country_id = $countryId")), 'stt_id', 'stt_name');
-		$data		 = VehicleTypes::model()->getJSON($stateList);
+		$countryId = Yii::app()->request->getParam('countryid') != "" ? Yii::app()->request->getParam('countryid') : '99';
+		$stateList = CHtml::listData(States::model()->findAll(array("condition" => "stt_country_id = $countryId")), 'stt_id', 'stt_name');
+		$data	   = VehicleTypes::model()->getJSON($stateList);
 		echo $data;
 	}
 
@@ -3105,8 +3105,8 @@ class UsersController extends BaseController
 
 		if (isset($_REQUEST['signup']) && $user_id > 0 || Yii::app()->request->isAjaxRequest)
 		{
-			$password	 = $request->getParam('txtuserPass');
-			$cpassword	 = $request->getParam('cpassword');
+			$password  = $request->getParam('txtuserPass');
+			$cpassword = $request->getParam('cpassword');
 			if ($password == $cpassword)
 			{
 				$arr->usr_password		 = md5($cpassword);
@@ -3120,9 +3120,9 @@ class UsersController extends BaseController
 			}
 		}
 		$this->render('resetpassword', array(
-			'status'	 => $status,
-			'user_id'	 => $user_id,
-			'username'	 => $arr->usr_name
+			'status'   => $status,
+			'user_id'  => $user_id,
+			'username' => $arr->usr_name
 		));
 	}
 
@@ -3154,12 +3154,12 @@ class UsersController extends BaseController
 			$param = ['user_id' => $user_id, 'username' => $userModel->usr_name, 'redirectBy' => 'page'];
 			if (isset($_REQUEST['signup']) && $user_id > 0 || Yii::app()->request->isAjaxRequest)
 			{
-				$password	 = $request->getParam('txtuserPass');
-				$cpassword	 = $request->getParam('cpassword');
+				$password  = $request->getParam('txtuserPass');
+				$cpassword = $request->getParam('cpassword');
 				if ($password == $cpassword)
 				{
-					$userModel->usr_password		 = md5($cpassword);
-					$userModel->usr_changepassword	 = 2;
+					$userModel->usr_password	   = md5($cpassword);
+					$userModel->usr_changepassword = 2;
 					if (!$userModel->save())
 					{
 						throw new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
@@ -3196,31 +3196,31 @@ class UsersController extends BaseController
 		$email	 = Yii::app()->request->getParam('forgotemail');
 		if ($email == '')
 		{
-			$users	 = $request->getParam("Users");
-			$email	 = $users['username'];
+			$users = $request->getParam("Users");
+			$email = $users['username'];
 		}
-		$contactId		 = ContactEmail::findById($email);
-		$contactModel	 = Contact::model()->findByPk($contactId);
+		$contactId	  = ContactEmail::findById($email);
+		$contactModel = Contact::model()->findByPk($contactId);
 //$users			 = Users::model()->findByEmail($email);
-		$users			 = ($contactId == null || $contactId == "") ? array() : Users::model()->findByContactID($contactId);
+		$users		  = ($contactId == null || $contactId == "") ? array() : Users::model()->findByContactID($contactId);
 		if (count($users) > 0)
 		{
-			$user_id				 = $users[0]->user_id;
-			$hash					 = Yii::app()->shortHash->hash($user_id);
+			$user_id				= $users[0]->user_id;
+			$hash					= Yii::app()->shortHash->hash($user_id);
 //$username				 = $users->usr_name;
-			$username				 = $contactModel->ctt_first_name;
-			$key					 = md5($users[0]->usr_password);
-			$link					 = Yii::app()->createAbsoluteUrl('users/resetpassword', array('key' => $key, 'uid' => $hash));
-			$this->email_receipient	 = $email;
-			$mail					 = new YiiMailer();
-			$mail					 = EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
+			$username				= $contactModel->ctt_first_name;
+			$key					= md5($users[0]->usr_password);
+			$link					= Yii::app()->createAbsoluteUrl('users/resetpassword', array('key' => $key, 'uid' => $hash));
+			$this->email_receipient = $email;
+			$mail					= new YiiMailer();
+			$mail					= EIMailer::getInstance(EmailLog::SEND_SERVICE_EMAIL);
 			$mail->setView('fmailweb');
 			$mail->setData(
 					array(
-						'username'			 => $username,
-						'link'				 => $link,
-						'userId'			 => $user_id,
-						'email_receipient'	 => $email
+						'username'		   => $username,
+						'link'			   => $link,
+						'userId'		   => $user_id,
+						'email_receipient' => $email
 			));
 
 			$mail->setLayout('mail');
@@ -3235,13 +3235,13 @@ class UsersController extends BaseController
 			{
 				$delivered = "Email not sent";
 			}
-			$body		 = $mail->Body;
-			$usertype	 = EmailLog::Consumers;
-			$subject	 = 'Reset your Password';
-			$refId		 = $user_id;
-			$refType	 = EmailLog::REF_USER_ID;
+			$body	  = $mail->Body;
+			$usertype = EmailLog::Consumers;
+			$subject  = 'Reset your Password';
+			$refId	  = $user_id;
+			$refType  = EmailLog::REF_USER_ID;
 			emailWrapper::createLog($email, $subject, $body, "", $usertype, $delivered, '', $refType, $refId, EmailLog::SEND_SERVICE_EMAIL);
-			$status		 = 'true';
+			$status	  = 'true';
 		}
 		else
 		{
@@ -3253,38 +3253,38 @@ class UsersController extends BaseController
 
 	public function actionForgotpassword()
 	{
-		$request			 = Yii::app()->request;
-		$this->pageRequest	 = BookFormRequest::createInstance();
-		$users				 = $request->getParam("Users");
-		$isEmailOrPhone		 = Users::isEmailOrPhone($users['username']);
-		$typeUsr			 = $isEmailOrPhone['type'];
-		$returnSet			 = new ReturnSet();
+		$request		   = Yii::app()->request;
+		$this->pageRequest = BookFormRequest::createInstance();
+		$users			   = $request->getParam("Users");
+		$isEmailOrPhone	   = Users::isEmailOrPhone($users['username']);
+		$typeUsr		   = $isEmailOrPhone['type'];
+		$returnSet		   = new ReturnSet();
 		try
 		{
 			if ($isEmailOrPhone['type'] == 1)
 			{
 				$objEmailContact = $this->pageRequest->getContact($isEmailOrPhone['type'], $isEmailOrPhone['value']);
 				Contact::verifyOTP($objEmailContact, true, null, false);
-				$arrVerifyData	 = ["type"			 => $objEmailContact->type,
-					"value"			 => $objEmailContact->value,
-					'otp'			 => $objEmailContact->otp, 'otpValidTill'	 => $objEmailContact->otpValidTill, 'otpLastSent'	 => $objEmailContact->otpLastSent];
+				$arrVerifyData	 = ["type"		   => $objEmailContact->type,
+					"value"		   => $objEmailContact->value,
+					'otp'		   => $objEmailContact->otp, 'otpValidTill' => $objEmailContact->otpValidTill, 'otpLastSent'  => $objEmailContact->otpLastSent];
 				$arrTime		 = ['otpValidTill' => $objEmailContact->otpValidTill, 'otpLastSent' => $objEmailContact->otpLastSent];
 				$otpObj			 = $objEmailContact;
 
-				$email			 = $isEmailOrPhone['value'];
-				$contactId		 = ContactEmail::findById($email);
-				$contactModel	 = Contact::model()->findByPk($contactId);
-				$contactProfile	 = ContactProfile::model()->findByContactId($contactId);
+				$email			= $isEmailOrPhone['value'];
+				$contactId		= ContactEmail::findById($email);
+				$contactModel	= Contact::model()->findByPk($contactId);
+				$contactProfile = ContactProfile::model()->findByContactId($contactId);
 
 				$user_id = $contactProfile->cr_is_consumer;
 
-				$userModel	 = Users::model()->findByPk($user_id);
-				$key		 = md5($userModel->usr_password);
-				$hash		 = Yii::app()->shortHash->hash($user_id);
-				$link		 = Yii::app()->createAbsoluteUrl('users/resetpassword', array('key' => $key, 'uid' => $hash));
-				$username	 = $contactModel->ctt_first_name;
-				$emailCom	 = new emailWrapper();
-				$isSend		 = $emailCom->sendResetPasswordLinkWithOTP($otpObj->value, $otpObj->otp, $link, $username, $user_id);
+				$userModel = Users::model()->findByPk($user_id);
+				$key	   = md5($userModel->usr_password);
+				$hash	   = Yii::app()->shortHash->hash($user_id);
+				$link	   = Yii::app()->createAbsoluteUrl('users/resetpassword', array('key' => $key, 'uid' => $hash));
+				$username  = $contactModel->ctt_first_name;
+				$emailCom  = new emailWrapper();
+				$isSend	   = $emailCom->sendResetPasswordLinkWithOTP($otpObj->value, $otpObj->otp, $link, $username, $user_id);
 			}
 			else
 			{
@@ -3295,8 +3295,8 @@ class UsersController extends BaseController
 				$smsLogType		 = SmsLog::SMS_FORGET_PASSWORD;
 				Contact::verifyOTP($objPhoneContact, $canSendSMS, $smstextType, false, $smsLogType);
 				//   , 'otpLastSent'  => $objPhoneContact->otpLastSent, 'otp'          => $objPhoneContact->otp, 'otpValidTill' => $objPhoneContact->otpValidTill
-				$arrVerifyData	 = ["type"		 => $objPhoneContact->type, "value"		 => $objPhoneContact->value,
-					"isSendSMS"	 => $objPhoneContact->isSendSMS];
+				$arrVerifyData	 = ["type"		=> $objPhoneContact->type, "value"		=> $objPhoneContact->value,
+					"isSendSMS" => $objPhoneContact->isSendSMS];
 				$arrTime		 = ['otpValidTill' => $objPhoneContact->otpValidTill, 'otpLastSent' => $objPhoneContact->otpLastSent];
 				$otpObj			 = $objPhoneContact;
 				$isSend			 = $objPhoneContact->isSendSMS;
@@ -3334,12 +3334,12 @@ class UsersController extends BaseController
 
 	public function actionAgentapi()
 	{
-		$sql		 = "SELECT bkg_id, bkg_pickup_date FROM booking WHERE bkg_agent_id = 450 and bkg_status IN (2,3,5,6,7,9) and bkg_agent_ref_code IS NULL";
-		$resultset	 = Yii::app()->db->createCommand($sql)->queryAll();
+		$sql	   = "SELECT bkg_id, bkg_pickup_date FROM booking WHERE bkg_agent_id = 450 and bkg_status IN (2,3,5,6,7,9) and bkg_agent_ref_code IS NULL";
+		$resultset = Yii::app()->db->createCommand($sql)->queryAll();
 		foreach ($resultset as $result)
 		{
-			$query	 = "SELECT aat_response FROM agent_api_tracking WHERE aat_type = 8 and aat_response LIKE " . "'" . '%"hold_key":"' . $result['bkg_id'] . '"%' . "'" . " and aat_created_at < " . "'" . $result['bkg_pickup_date'] . "' LIMIT 0,1";
-			$data	 = Yii::app()->db->createCommand($query)->queryRow();
+			$query = "SELECT aat_response FROM agent_api_tracking WHERE aat_type = 8 and aat_response LIKE " . "'" . '%"hold_key":"' . $result['bkg_id'] . '"%' . "'" . " and aat_created_at < " . "'" . $result['bkg_pickup_date'] . "' LIMIT 0,1";
+			$data  = Yii::app()->db->createCommand($query)->queryRow();
 			if ($data)
 			{
 				$request = CJSON::decode($data['aat_response'], true);
@@ -3375,23 +3375,23 @@ class UsersController extends BaseController
 			$this->checkForDesktopTheme();
 		}
 		$this->checkForMobileTheme();
-		$request		 = Yii::app()->request;
-		$model			 = new Users('login');
-		$emailModel		 = new ContactEmail();
-		$contactModel	 = new Contact();
-		$phoneModel		 = new ContactPhone();
-		$uemail			 = $request->getParam('uemail');
+		$request	  = Yii::app()->request;
+		$model		  = new Users('login');
+		$emailModel	  = new ContactEmail();
+		$contactModel = new Contact();
+		$phoneModel	  = new ContactPhone();
+		$uemail		  = $request->getParam('uemail');
 		if ($uemail != '')
 		{
 			$model->email = $uemail;
 		}
 		if ($request->isPostRequest)
 		{
-			$model						 = new Users('login');
-			$model->attributes			 = $request->getParam('Users'); //$_REQUEST['Users'];
-			$success					 = false;
-			$userId						 = '';
-			$model->usr_create_platform	 = Users::Platform_Web;
+			$model						= new Users('login');
+			$model->attributes			= $request->getParam('Users'); //$_REQUEST['Users'];
+			$success					= false;
+			$userId						= '';
+			$model->usr_create_platform = Users::Platform_Web;
 
 			$model->email = $request->getParam('ContactEmail')['eml_email_address'];
 
@@ -3411,30 +3411,30 @@ class UsersController extends BaseController
 			echo CJSON::encode(array('id' => $userId, 'success' => $success, 'data' => CJSON::decode($result), 'userdata' => CJSON::encode($userData), 'rNav' => $rNav));
 			Yii::app()->end();
 		}
-		$outputJs	 = Yii::app()->request->isAjaxRequest;
-		$method		 = "render" . ($outputJs ? "Partial" : "");
+		$outputJs = Yii::app()->request->isAjaxRequest;
+		$method	  = "render" . ($outputJs ? "Partial" : "");
 		$this->$method('partialsignin' . $this->layoutSufix, array('model' => $model, 'emailModel' => $emailModel, 'contactModel' => $contactModel, 'phoneModel' => $phoneModel, 'status' => $status), false, $outputJs);
 	}
 
 	public function actionPartialsignup()
 	{
-		$model			 = new Users('insert');
-		$contactModel	 = new Contact();
-		$phoneModel		 = new ContactPhone();
-		$emailModel		 = new ContactEmail();
+		$model		  = new Users('insert');
+		$contactModel = new Contact();
+		$phoneModel	  = new ContactPhone();
+		$emailModel	  = new ContactEmail();
 
 		if (yii::app()->request->getPost('Users'))
 		{
-			$userModel				 = new Users('insert');
-			$contactArray			 = Yii::app()->request->getParam('Contact');
-			$arr1					 = Yii::app()->request->getParam('Users');
-			$phoneArray				 = Yii::app()->request->getParam('ContactPhone');
-			$emailArray				 = Yii::app()->request->getParam('ContactEmail');
-			$userModel->attributes	 = $arr1;
-			$emailModel->attributes	 = $emailArray;
+			$userModel				= new Users('insert');
+			$contactArray			= Yii::app()->request->getParam('Contact');
+			$arr1					= Yii::app()->request->getParam('Users');
+			$phoneArray				= Yii::app()->request->getParam('ContactPhone');
+			$emailArray				= Yii::app()->request->getParam('ContactEmail');
+			$userModel->attributes	= $arr1;
+			$emailModel->attributes = $emailArray;
 
-			$userModel	 = Users::userContactItem($userModel, $contactArray, $phoneArray, $emailArray);
-			$userModel	 = Users::userData($userModel, $arr1);
+			$userModel = Users::userContactItem($userModel, $contactArray, $phoneArray, $emailArray);
+			$userModel = Users::userData($userModel, $arr1);
 
 			$pass	 = $userModel->usr_password;
 			$success = false;
@@ -3443,9 +3443,9 @@ class UsersController extends BaseController
 
 			if ($result == '[]')
 			{
-				$response					 = Contact::userContact($contactArray, $phoneArray, $emailArray);
-				$userModel->usr_contact_id	 = $response->getData()['id'];
-				$userModel->usr_password	 = md5($pass);
+				$response				   = Contact::userContact($contactArray, $phoneArray, $emailArray);
+				$userModel->usr_contact_id = $response->getData()['id'];
+				$userModel->usr_password   = md5($pass);
 				if ($userModel->save())
 				{
 					ContactProfile::setProfile($response->getData()['id'], UserInfo::TYPE_CONSUMER);
@@ -3473,8 +3473,8 @@ class UsersController extends BaseController
 			Yii::app()->end();
 		}
 
-		$outputJs	 = Yii::app()->request->isAjaxRequest;
-		$method		 = "render" . ($outputJs ? "Partial" : "");
+		$outputJs = Yii::app()->request->isAjaxRequest;
+		$method	  = "render" . ($outputJs ? "Partial" : "");
 		$this->$method('partialsignup', array('model' => $model, 'contactModel' => $contactModel, 'phoneModel' => $phoneModel, 'emailModel' => $emailModel), false, $outputJs);
 	}
 
@@ -3494,9 +3494,9 @@ class UsersController extends BaseController
 					$umodel = Users::model()->find('user_id=:id', ['id' => $id]);
 					if ($umodel != '')
 					{
-						return $result = array('active'	 => 2,
-							'success'	 => true,
-							'message'	 => "Validation Done");
+						return $result = array('active'  => 2,
+							'success' => true,
+							'message' => "Validation Done");
 					}
 				}
 			}
@@ -3506,16 +3506,16 @@ class UsersController extends BaseController
 
 	public function actionUserdata()
 	{
-		$user		 = Yii::app()->user->loadUser();
-		$userData	 = [];
+		$user	  = Yii::app()->user->loadUser();
+		$userData = [];
 
-		$userData['usr_name']	 = $user->usr_name;
-		$userData['usr_lname']	 = $user->usr_lname;
+		$userData['usr_name']  = $user->usr_name;
+		$userData['usr_lname'] = $user->usr_lname;
 
 		if ($user->usr_mobile != '')
 		{
-			$userData['usr_mobile']			 = $user->usr_mobile;
-			$userData['usr_country_code']	 = $user->usr_country_code;
+			$userData['usr_mobile']		  = $user->usr_mobile;
+			$userData['usr_country_code'] = $user->usr_country_code;
 		} if ($user->usr_email != '')
 		{
 			$userData['usr_email'] = $user->usr_email;
@@ -3535,11 +3535,11 @@ class UsersController extends BaseController
 			{
 				$this->redirect(array('/refer-friend'));
 			}
-			$userId						 = Yii::app()->user->getId();
-			$userModel					 = Users::model()->findByPk($userId);
-			$refCode					 = Users::getUniqueReferCode($userModel);
-			$userModel->usr_refer_code	 = $refCode;
-			$userModel->scenario		 = 'refcode';
+			$userId					   = Yii::app()->user->getId();
+			$userModel				   = Users::model()->findByPk($userId);
+			$refCode				   = Users::getUniqueReferCode($userModel);
+			$userModel->usr_refer_code = $refCode;
+			$userModel->scenario	   = 'refcode';
 			if ($userModel->validate())
 			{
 				if (!$userModel->update())
@@ -3614,22 +3614,22 @@ class UsersController extends BaseController
 	{
 		$this->checkV3Theme();
 
-		$this->layout				 = 'column2';
-		$this->pageTitle			 = 'Gozo Wallet History';
+		$this->layout			  = 'column2';
+		$this->pageTitle		  = 'Gozo Wallet History';
 		/* var $model UserCredits */
-		$creditModel				 = new UserCredits();
-		$userId						 = Yii::app()->user->getId();
-		$creditModel->ucr_user_id	 = $userId;
-		$status						 = '1';
+		$creditModel			  = new UserCredits();
+		$userId					  = Yii::app()->user->getId();
+		$creditModel->ucr_user_id = $userId;
+		$status					  = '1';
 		// Active Credits
-		$data						 = $creditModel->getCreditsList('1');
+		$data					  = $creditModel->getCreditsList('1');
 		// Pending Credits
-		$data2						 = $creditModel->getCreditsList('2');
+		$data2					  = $creditModel->getCreditsList('2');
 		//Total Active Credits
-		$totalAmount				 = $creditModel->getTotalActiveCredits($creditModel->ucr_user_id);
+		$totalAmount			  = $creditModel->getTotalActiveCredits($creditModel->ucr_user_id);
 
-		$walletBallance	 = UserWallet::model()->getBalance($userId);
-		$dataProvider3	 = UserWallet::model()->getTransHistory($userId, Accounting::LI_WALLET);
+		$walletBallance = UserWallet::model()->getBalance($userId);
+		$dataProvider3	= UserWallet::model()->getTransHistory($userId, Accounting::LI_WALLET);
 
 		$this->render('creditlist', ['model'			 => $creditModel,
 			'dataProvider'	 => $data['dataProvider'],
@@ -3650,13 +3650,13 @@ class UsersController extends BaseController
 
 	public function actionVerifyemail()
 	{
-		$email		 = Yii::app()->request->getParam('email');
-		$code		 = Yii::app()->request->getParam('code');
-		$userModel	 = Users::model()->find('usr_email=:email', ['email' => $email]);
+		$email	   = Yii::app()->request->getParam('email');
+		$code	   = Yii::app()->request->getParam('code');
+		$userModel = Users::model()->find('usr_email=:email', ['email' => $email]);
 		if ($userModel != '' && $userModel->usr_verification_code == $code)
 		{
-			$userModel->usr_verification_code	 = '';
-			$userModel->usr_email_verify		 = 1;
+			$userModel->usr_verification_code = '';
+			$userModel->usr_email_verify	  = 1;
 			if ($userModel->update())
 			{
 				echo json_encode(['success' => true]);
@@ -3669,8 +3669,8 @@ class UsersController extends BaseController
 
 	public function actionValidateemail()
 	{
-		$email		 = Yii::app()->request->getParam('email');
-		$userModel	 = Users::model()->find('usr_email=:email', ['email' => $email]);
+		$email	   = Yii::app()->request->getParam('email');
+		$userModel = Users::model()->find('usr_email=:email', ['email' => $email]);
 		if ($userModel)
 		{
 
@@ -3692,20 +3692,20 @@ class UsersController extends BaseController
 	public function getUserNavData()
 	{
 		$this->checkForDesktopTheme();
-		$user		 = Yii::app()->user->loadUser();
-		$userData	 = [];
+		$user	  = Yii::app()->user->loadUser();
+		$userData = [];
 		if ($user->usr_contact_id)
 		{
-			$contactModel			 = Contact::model()->findByPk($user->usr_contact_id);
-			$emailModel				 = ContactEmail::model()->findByConId($user->usr_contact_id);
-			$phoneModel				 = ContactPhone::model()->findByConId($user->usr_contact_id);
-			$userData['usr_name']	 = $contactModel->ctt_first_name;
-			$userData['usr_lname']	 = $contactModel->ctt_last_name;
+			$contactModel		   = Contact::model()->findByPk($user->usr_contact_id);
+			$emailModel			   = ContactEmail::model()->findByConId($user->usr_contact_id);
+			$phoneModel			   = ContactPhone::model()->findByConId($user->usr_contact_id);
+			$userData['usr_name']  = $contactModel->ctt_first_name;
+			$userData['usr_lname'] = $contactModel->ctt_last_name;
 
 			if ($phoneModel[0]->phn_phone_no != '')
 			{
-				$userData['usr_mobile']			 = $phoneModel[0]->phn_phone_no;
-				$userData['usr_country_code']	 = $phoneModel[0]->phn_phone_country_code;
+				$userData['usr_mobile']		  = $phoneModel[0]->phn_phone_no;
+				$userData['usr_country_code'] = $phoneModel[0]->phn_phone_country_code;
 			} if ($emailModel[0]->eml_email_address != '')
 			{
 				$userData['usr_email'] = $emailModel[0]->eml_email_address;
@@ -3714,8 +3714,8 @@ class UsersController extends BaseController
 			{
 				$userData['usr_gender'] = $user->usr_gender;
 			}
-			$rNav	 = $this->renderPartial('navbarsign', [], true);
-			$result	 = ['rNav' => $rNav, 'userData' => $userData];
+			$rNav	= $this->renderPartial('navbarsign', [], true);
+			$result = ['rNav' => $rNav, 'userData' => $userData];
 			return $result;
 		}
 	}
@@ -3724,9 +3724,9 @@ class UsersController extends BaseController
 	{
 		echo json_encode(['success' => TRUE, 'message' => 'Sorry. This Flexxi share is offered only to ' . Users::model()->genderList[$fpBooking->bkgUser->usr_gender] . ' passengers. Please go back to search for a Flexxi that is offered for ' . Users::model()->genderList[$fsUser->usr_gender] . ' co-passengers.']);
 		Yii::app()->end();
-		$fpId	 = Yii::app()->request->getParam('fpId');
-		$fsId	 = Yii::app()->request->getParam('fsId');
-		$hash	 = Yii::app()->request->getParam('hash');
+		$fpId = Yii::app()->request->getParam('fpId');
+		$fsId = Yii::app()->request->getParam('fsId');
+		$hash = Yii::app()->request->getParam('hash');
 		if (Yii::app()->user->isGuest)
 		{
 			echo json_encode(['success' => FALSE, 'message' => 'Please login to facebook to continue booking.']);
@@ -3738,8 +3738,8 @@ class UsersController extends BaseController
 		}
 		$fsBooking = BookingTemp::model()->findByPk($fsId);
 
-		$fsuserId		 = Users::model()->getFbLogin($fsBooking->bkg_user_id, $fsBooking->bkg_user_email, $fsBooking->bkg_contact_no, true);
-		$isFbLoggedIn	 = Users::model()->getFbLogin($fsBooking->bkg_user_id, $fsBooking->bkg_user_email, $fsBooking->bkg_contact_no, false);
+		$fsuserId	  = Users::model()->getFbLogin($fsBooking->bkg_user_id, $fsBooking->bkg_user_email, $fsBooking->bkg_contact_no, true);
+		$isFbLoggedIn = Users::model()->getFbLogin($fsBooking->bkg_user_id, $fsBooking->bkg_user_email, $fsBooking->bkg_contact_no, false);
 		if (!$isFbLoggedIn)
 		{
 			echo json_encode(['success' => FALSE, 'message' => 'Please login to facebook to continue booking.']);
@@ -3749,8 +3749,8 @@ class UsersController extends BaseController
 		{
 			if ($fpId != '')
 			{
-				$fpBooking	 = Booking::model()->with('bkgUserInfo.bkgUser')->findByPk($fpId);
-				$fsUser		 = Users::model()->findByPk($fsuserId);
+				$fpBooking = Booking::model()->with('bkgUserInfo.bkgUser')->findByPk($fpId);
+				$fsUser	   = Users::model()->findByPk($fsuserId);
 				if ($fpBooking->bkgUserInfo->bkgUser->usr_gender == $fsUser->usr_gender)
 				{
 					echo json_encode(['success' => TRUE, 'message' => 'Gender matched']);
@@ -3787,33 +3787,33 @@ class UsersController extends BaseController
 	{
 		try
 		{
-			$isNew		 = false;
-			$auth		 = new Google_Client();
+			$isNew	   = false;
+			$auth	   = new Google_Client();
 			$auth->setAuthConfig(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'client_secret_google.json');
-			$payload	 = $auth->verifyIdToken($_REQUEST['response']['credential']);
-			$email		 = $payload["email"];
-			$contactId	 = Contact::getByEmailPhone($email, '', false);
+			$payload   = $auth->verifyIdToken($_REQUEST['response']['credential']);
+			$email	   = $payload["email"];
+			$contactId = Contact::getByEmailPhone($email, '', false);
 			if (!$contactId)
 			{
-				$socialProfile					 = new Hybrid_User_Profile();
-				$socialProfile->firstName		 = $payload['given_name'];
-				$socialProfile->lastName		 = $payload['family_name'];
-				$socialProfile->email			 = $payload['email'];
-				$socialProfile->emailVerified	 = $payload['email'];
-				$socialProfile->photoURL		 = $payload['picture'];
-				$returnSet						 = Contact::createBySocialProfile($socialProfile, SocialAuth::Eml_Google);
+				$socialProfile				  = new Hybrid_User_Profile();
+				$socialProfile->firstName	  = $payload['given_name'];
+				$socialProfile->lastName	  = $payload['family_name'];
+				$socialProfile->email		  = $payload['email'];
+				$socialProfile->emailVerified = $payload['email'];
+				$socialProfile->photoURL	  = $payload['picture'];
+				$returnSet					  = Contact::createBySocialProfile($socialProfile, SocialAuth::Eml_Google);
 				if (!$returnSet->getStatus())
 				{
 					throw new Exception($returnSet->getMessage(), $returnSet->getErrorCode());
 				}
-				$isNew		 = true;
-				$contactId	 = $returnSet->getData()["contactId"];
+				$isNew	   = true;
+				$contactId = $returnSet->getData()["contactId"];
 			}
 			$userModel = Users::createbyContact($contactId);
 			if ($userModel)
 			{
-				$identity			 = new UserIdentity($userModel->usr_name, null);
-				$identity->userId	 = $userModel->user_id;
+				$identity		  = new UserIdentity($userModel->usr_name, null);
+				$identity->userId = $userModel->user_id;
 				if ($identity->authenticate())
 				{
 					Yii::app()->user->login($identity);
@@ -3847,8 +3847,8 @@ class UsersController extends BaseController
 		$isExist = 0;
 		if ($id == $vndId)
 		{
-			$vndModel	 = Vendors::model()->findByPk($vndId);
-			$userModel	 = Users::model()->find('usr_email=:email', ['email' => $email]);
+			$vndModel  = Vendors::model()->findByPk($vndId);
+			$userModel = Users::model()->find('usr_email=:email', ['email' => $email]);
 
 			if ($vndModel != '' && $userModel != '')
 			{
@@ -3882,8 +3882,8 @@ class UsersController extends BaseController
 
 	public function actionGetUserIdAfterSocialLogin()
 	{
-		$email		 = Yii::app()->request->getParam('email');
-		$userModel	 = Users::model()->find('usr_email=:email', ['email' => $email]);
+		$email	   = Yii::app()->request->getParam('email');
+		$userModel = Users::model()->find('usr_email=:email', ['email' => $email]);
 		if ($userModel != '')
 		{
 			$isExistVendor = Vendors::model()->checkExistingVendor($userModel->user_id);
@@ -3910,28 +3910,28 @@ class UsersController extends BaseController
 
 	public function actionSosUrl()
 	{
-		$this->layout	 = 'sos_layout';
-		$urlHash		 = Yii::app()->request->getParam('v');
-		$urlArr			 = Users::model()->unhashSOSUrl($urlHash);
-		$bkgId			 = $urlArr['bkgId'];
-		$userId			 = $urlArr['userId'];
-		$bModel			 = Booking::model()->findByPk($bkgId);
-		$bookingId		 = $bModel->bkg_booking_id;
-		$UserModel		 = Users::model()->findByPk($userId);
-		$userName		 = $UserModel->usr_name;
+		$this->layout = 'sos_layout';
+		$urlHash	  = Yii::app()->request->getParam('v');
+		$urlArr		  = Users::model()->unhashSOSUrl($urlHash);
+		$bkgId		  = $urlArr['bkgId'];
+		$userId		  = $urlArr['userId'];
+		$bModel		  = Booking::model()->findByPk($bkgId);
+		$bookingId	  = $bModel->bkg_booking_id;
+		$UserModel	  = Users::model()->findByPk($userId);
+		$userName	  = $UserModel->usr_name;
 		if ($bModel->bkgTrack->bkg_sos_sms_trigger == 1 || $bModel->bkgTrack->bkg_sos_sms_trigger == 2)
 		{
-			$coordinate		 = explode(',', $bModel->bkgTrack->bkg_trip_end_coordinates);
-			$sosLatitude	 = $coordinate[0];
-			$sosLongitude	 = $coordinate[1];
+			$coordinate	  = explode(',', $bModel->bkgTrack->bkg_trip_end_coordinates);
+			$sosLatitude  = $coordinate[0];
+			$sosLongitude = $coordinate[1];
 			//	$dateTime		 = $bModel->bkgTrack->bkg_sos_enable_datetime;
 		}
 		if ($bModel->bkgTrack->bkg_drv_sos_sms_trigger == 1 || $bModel->bkgTrack->bkg_drv_sos_sms_trigger == 2)
 		{
-			$coordinate		 = explode(',', $bModel->bkgTrack->bkg_trip_end_coordinates);
-			$coordinate		 = explode(',', $bModel->bkgTrack->bkg_trip_end_coordinates);
-			$sosLatitude	 = $coordinate[0];
-			$sosLongitude	 = $coordinate[1];
+			$coordinate	  = explode(',', $bModel->bkgTrack->bkg_trip_end_coordinates);
+			$coordinate	  = explode(',', $bModel->bkgTrack->bkg_trip_end_coordinates);
+			$sosLatitude  = $coordinate[0];
+			$sosLongitude = $coordinate[1];
 //			$sosLatitude	 = $bModel->bkgTrack->bkg_drv_sos_latitude;
 //			$sosLongitude	 = $bModel->bkgTrack->bkg_drv_sos_longitude;
 //			$dateTime		 = $bModel->bkgTrack->bkg_drv_sos_enable_datetime;
@@ -3955,8 +3955,8 @@ class UsersController extends BaseController
 		$success		 = false;
 		if (isset($_POST['btnRedeem']) && isset($_POST['gcc1']))
 		{
-			$GiftCard	 = md5($_POST['gcc1']);
-			$success	 = GiftCardSubscriber::model()->redeemGiftCard($GiftCard, UserInfo::getUserId());
+			$GiftCard = md5($_POST['gcc1']);
+			$success  = GiftCardSubscriber::model()->redeemGiftCard($GiftCard, UserInfo::getUserId());
 			if (!$success)
 			{
 				Yii::app()->user->setFlash('error', 'Sorry! Invalid gift card code.Please try again.');
@@ -3980,8 +3980,8 @@ class UsersController extends BaseController
 
 		if ($bkgId != '' && $bkghash != '' && Yii::app()->shortHash->hash($bkgId) == $bkghash)
 		{
-			$returnSet	 = UserWallet::useWallet(UserInfo::getUserId(), $bkgId, $flagUseOrRemove, false, $amount, $credit_amount);
-			$data		 = [];
+			$returnSet = UserWallet::useWallet(UserInfo::getUserId(), $bkgId, $flagUseOrRemove, false, $amount, $credit_amount);
+			$data	   = [];
 			if ($returnSet->getStatus())
 			{
 				$data = $returnSet->getData();
@@ -4027,8 +4027,8 @@ class UsersController extends BaseController
 		$data			 = $bank->setData($model);
 		if (($data->accountNumber == '' || $data->ifsc == '') || $showBankDetails == 1)
 		{
-			$view		 = 'bankdetails';
-			$pagetitle	 = 'Please provide your bank account details';
+			$view	   = 'bankdetails';
+			$pagetitle = 'Please provide your bank account details';
 		}
 		else
 		{
@@ -4039,8 +4039,8 @@ class UsersController extends BaseController
 				{
 					$amount = 1;
 				}
-				$pagetitle	 = 'Transfer from Gozo wallet to your bank';
-				$view		 = 'transferForm';
+				$pagetitle = 'Transfer from Gozo wallet to your bank';
+				$view	   = 'transferForm';
 			}
 			else
 			{
@@ -4049,18 +4049,18 @@ class UsersController extends BaseController
 				Yii::app()->end();
 			}
 		}
-		$outputJs	 = Yii::app()->request->isAjaxRequest;
-		$method		 = "render" . ($outputJs ? "Partial" : "");
+		$outputJs = Yii::app()->request->isAjaxRequest;
+		$method	  = "render" . ($outputJs ? "Partial" : "");
 		$this->$method($view . $this->layoutSufix, array('model' => $data, 'amount' => $amount, 'bank' => $bank, 'pagetitle' => $pagetitle), false, $outputJs);
 	}
 
 	public function actionSavebankdetails()
 	{
-		$userId		 = Yii::app()->user->getId();
-		$modeldata	 = Contact::model()->getByUserId($userId);
-		$model		 = Contact::model()->findbyPk($modeldata->ctt_id);
-		$bank		 = new \Stub\common\Bank();
-		$req		 = Yii::app()->request->getParam('Bank');
+		$userId	   = Yii::app()->user->getId();
+		$modeldata = Contact::model()->getByUserId($userId);
+		$model	   = Contact::model()->findbyPk($modeldata->ctt_id);
+		$bank	   = new \Stub\common\Bank();
+		$req	   = Yii::app()->request->getParam('Bank');
 		if (isset($req))
 		{
 			foreach ($req as $k => $val)
@@ -4069,10 +4069,10 @@ class UsersController extends BaseController
 			}
 			$data = CJSON::encode($req);
 
-			$jsonMapper	 = new JsonMapper();
-			$jsonObj	 = CJSON::decode($data, false);
-			$obj		 = $jsonMapper->map($jsonObj, $bank);
-			$model		 = $obj->getData($model);
+			$jsonMapper = new JsonMapper();
+			$jsonObj	= CJSON::decode($data, false);
+			$obj		= $jsonMapper->map($jsonObj, $bank);
+			$model		= $obj->getData($model);
 			$model->save();
 			$this->redirect('creditlist');
 			Yii::app()->end();
@@ -4087,34 +4087,34 @@ class UsersController extends BaseController
 		{
 			$view = 'transferForm';
 		}
-		$outputJs	 = Yii::app()->request->isAjaxRequest;
-		$method		 = "render" . ($outputJs ? "Partial" : "");
+		$outputJs = Yii::app()->request->isAjaxRequest;
+		$method	  = "render" . ($outputJs ? "Partial" : "");
 		$this->$method($view . $this->layoutSufix, array('model' => $data), false, $outputJs);
 	}
 
 	public function actionPaytransfer()
 	{
-		$userId		 = Yii::app()->user->getId();
-		$modeldata	 = Contact::model()->getByUserId($userId);
-		$model		 = Contact::model()->findbyPk($modeldata->ctt_id);
-		$bank		 = new \Stub\common\Bank();
-		$data		 = $bank->setData($model);
-		$req		 = Yii::app()->request->getParam('Pay');
+		$userId	   = Yii::app()->user->getId();
+		$modeldata = Contact::model()->getByUserId($userId);
+		$model	   = Contact::model()->findbyPk($modeldata->ctt_id);
+		$bank	   = new \Stub\common\Bank();
+		$data	   = $bank->setData($model);
+		$req	   = Yii::app()->request->getParam('Pay');
 		if (isset($req))
 		{
-			$amount			 = $req['AMOUNT'];
-			$remarks		 = substr(trim($req['REMARKS']), 0, 35);
-			$walletbalance	 = UserWallet::getBalance($userId);
+			$amount		   = $req['AMOUNT'];
+			$remarks	   = substr(trim($req['REMARKS']), 0, 35);
+			$walletbalance = UserWallet::getBalance($userId);
 			if ($amount > $walletbalance || $amount <= 0)
 			{
 				return false;
 			}
 			$uniqueId = round(microtime(true) * 1000) . '';
 
-			$entityArr['entity_type']	 = 1;
-			$entityArr['entity_id']		 = $userId;
-			$userInfo					 = UserInfo::getInstance();
-			$added						 = Yii::app()->icici->registerRequest($bank, $uniqueId, $amount, $entityArr, $remarks, $userInfo);
+			$entityArr['entity_type'] = 1;
+			$entityArr['entity_id']	  = $userId;
+			$userInfo				  = UserInfo::getInstance();
+			$added					  = Yii::app()->icici->registerRequest($bank, $uniqueId, $amount, $entityArr, $remarks, $userInfo);
 
 			if ($added)
 			{
@@ -4137,8 +4137,8 @@ class UsersController extends BaseController
 		{
 			$view = 'transferForm';
 		}
-		$outputJs	 = Yii::app()->request->isAjaxRequest;
-		$method		 = "render" . ($outputJs ? "Partial" : "");
+		$outputJs = Yii::app()->request->isAjaxRequest;
+		$method	  = "render" . ($outputJs ? "Partial" : "");
 		$this->$method($view . $this->layoutSufix, array('model' => $data), false, $outputJs);
 	}
 
@@ -4172,8 +4172,8 @@ class UsersController extends BaseController
 		}
 		if (Yii::app()->request->getPost('signup'))
 		{
-			$password	 = Yii::app()->request->getParam('txtuserPass');
-			$cpassword	 = Yii::app()->request->getParam('cpassword');
+			$password  = Yii::app()->request->getParam('txtuserPass');
+			$cpassword = Yii::app()->request->getParam('cpassword');
 			if ($password == $cpassword)
 			{
 				if (filter_var($value, FILTER_VALIDATE_EMAIL))
@@ -4201,10 +4201,10 @@ class UsersController extends BaseController
 		}
 
 		$this->render('resetpassword', array(
-			'status'	 => $status,
-			'user_id'	 => $user_id,
-			'username'	 => $userName,
-			'link'		 => $expiredLink
+			'status'   => $status,
+			'user_id'  => $user_id,
+			'username' => $userName,
+			'link'	   => $expiredLink
 		));
 	}
 
@@ -4219,12 +4219,12 @@ class UsersController extends BaseController
 		$contactId		 = '';
 
 		/** @var HttpRequest $request */
-		$request	 = Yii::app()->request;
-		$showPhone	 = $request->getParam("phone", 0);
+		$request   = Yii::app()->request;
+		$showPhone = $request->getParam("phone", 0);
 		if ($this->pageRequest == null)
 		{
-			$rData				 = Yii::app()->request->getParam("rdata");
-			$this->pageRequest	 = BookFormRequest::createInstance($rData);
+			$rData			   = Yii::app()->request->getParam("rdata");
+			$this->pageRequest = BookFormRequest::createInstance($rData);
 		}
 		$vAttach = $request->getParam("vAttach", null);
 
@@ -4242,16 +4242,16 @@ class UsersController extends BaseController
 
 		try
 		{
-			$userModel		 = new Users("userLogin");
-			$contactModel	 = new Contact();
-			$phoneModel		 = new ContactPhone();
-			$emailModel		 = new ContactEmail();
-			$params			 = [
-				"userModel"		 => $userModel,
-				'contactModel'	 => $contactModel,
-				'phoneModel'	 => $phoneModel,
-				'emailModel'	 => $emailModel,
-				"showPhone"		 => $showPhone
+			$userModel	  = new Users("userLogin");
+			$contactModel = new Contact();
+			$phoneModel	  = new ContactPhone();
+			$emailModel	  = new ContactEmail();
+			$params		  = [
+				"userModel"	   => $userModel,
+				'contactModel' => $contactModel,
+				'phoneModel'   => $phoneModel,
+				'emailModel'   => $emailModel,
+				"showPhone"	   => $showPhone
 			];
 		}
 		catch (Exception $e)
@@ -4263,12 +4263,12 @@ class UsersController extends BaseController
 				echo json_encode($returnSet);
 				Yii::app()->end();
 			}
-			$params['hasErrors']	 = true;
-			$params['errorMessage']	 = $e->getMessage();
+			$params['hasErrors']	= true;
+			$params['errorMessage'] = $e->getMessage();
 		}
 
-		$sessSkipLoginCnt		 = Yii::app()->session['_gz_skip_login_count'];
-		$skipLoginContactLimit	 = json_decode(Config::get('quote.guest'))->contactLimit;
+		$sessSkipLoginCnt	   = Yii::app()->session['_gz_skip_login_count'];
+		$skipLoginContactLimit = json_decode(Config::get('quote.guest'))->contactLimit;
 		if ($sessSkipLoginCnt > 0 && $sessSkipLoginCnt > $skipLoginContactLimit)
 		{
 			$params['hideSkipLogin'] = 1;
@@ -4412,13 +4412,13 @@ class UsersController extends BaseController
 		$request = Yii::app()->request;
 		try
 		{
-			$returnset			 = new ReturnSet();
-			$verifyData			 = $request->getParam('verifyData');
-			$rdata				 = $request->getParam('rdata');
-			$this->pageRequest	 = BookFormRequest::createInstance($rdata);
-			$objPage			 = $this->pageRequest;
-			$data				 = Yii::app()->JWT->decode($verifyData);
-			$curOtp				 = $request->getParam('otp');
+			$returnset		   = new ReturnSet();
+			$verifyData		   = $request->getParam('verifyData');
+			$rdata			   = $request->getParam('rdata');
+			$this->pageRequest = BookFormRequest::createInstance($rdata);
+			$objPage		   = $this->pageRequest;
+			$data			   = Yii::app()->JWT->decode($verifyData);
+			$curOtp			   = $request->getParam('otp');
 
 			if (!$data)
 			{
@@ -4433,8 +4433,8 @@ class UsersController extends BaseController
 				throw new Exception("Invalid Request", ReturnSet::ERROR_INVALID_DATA);
 			}
 
-			$objSignUp	 = $objPage->signupRequest;
-			$objProfile	 = $objSignUp->profile;
+			$objSignUp	= $objPage->signupRequest;
+			$objProfile = $objSignUp->profile;
 
 			$objEmailContact = $objPage->getContact(Stub\common\ContactVerification::TYPE_EMAIL, $objProfile->primaryEmail->value);
 			$objPhoneContact = $objPage->getContact(Stub\common\ContactVerification::TYPE_PHONE, $objProfile->primaryContact->getFullNumber());
@@ -4464,8 +4464,8 @@ class UsersController extends BaseController
 				$objProfile->primaryEmail->isVerified = true;
 			}
 
-			$cttModel	 = $objProfile->getContactModel();
-			$returnSet	 = $cttModel->create(true, UserInfo::TYPE_CONSUMER);
+			$cttModel  = $objProfile->getContactModel();
+			$returnSet = $cttModel->create(true, UserInfo::TYPE_CONSUMER);
 			if (!$returnSet->isSuccess())
 			{
 				throw new Exception("Sorry, unable to create your accounts", ReturnSet::ERROR_FAILED);
@@ -4477,8 +4477,8 @@ class UsersController extends BaseController
 
 				Users::processReferralCode($userModel, $objSignUp->referredCode);
 
-				$identity			 = new UserIdentity($userModel->user_email, null);
-				$identity->userId	 = $userModel->user_id;
+				$identity		  = new UserIdentity($userModel->user_email, null);
+				$identity->userId = $userModel->user_id;
 				if ($identity->authenticate())
 				{
 
@@ -4508,13 +4508,13 @@ class UsersController extends BaseController
 			$request = Yii::app()->request;
 			if ($this->pageRequest == null)
 			{
-				$rData				 = Yii::app()->request->getParam("rdata");
-				$this->pageRequest	 = BookFormRequest::createInstance($rData);
+				$rData			   = Yii::app()->request->getParam("rdata");
+				$this->pageRequest = BookFormRequest::createInstance($rData);
 			}
 
-			$objPage	 = $this->pageRequest;
-			$users		 = $request->getParam('Users');
-			$userModel	 = new Users("userLogin");
+			$objPage   = $this->pageRequest;
+			$users	   = $request->getParam('Users');
+			$userModel = new Users("userLogin");
 			$userModel->setAttributes($users);
 
 			if (!$userModel->validate())
@@ -4522,8 +4522,8 @@ class UsersController extends BaseController
 				throw new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
-			$contactId	 = $userModel->usr_contact_id;
-			$userId		 = ContactProfile::getUserId($contactId);
+			$contactId = $userModel->usr_contact_id;
+			$userId	   = ContactProfile::getUserId($contactId);
 			if (!$userId)
 			{
 				$userId = Users::getByContactId($contactId);
@@ -4567,13 +4567,13 @@ class UsersController extends BaseController
 			VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_SIGNINBYOTP);
 			if ($this->pageRequest == null)
 			{
-				$rData				 = Yii::app()->request->getParam("rdata");
-				$this->pageRequest	 = BookFormRequest::createInstance($rData);
+				$rData			   = Yii::app()->request->getParam("rdata");
+				$this->pageRequest = BookFormRequest::createInstance($rData);
 			}
-			$ref		 = Yii::app()->request->getParam("ref", null);
-			$objPage	 = $this->pageRequest;
-			$users		 = $request->getParam('Users');
-			$userModel	 = new Users("userLogin");
+			$ref	   = Yii::app()->request->getParam("ref", null);
+			$objPage   = $this->pageRequest;
+			$users	   = $request->getParam('Users');
+			$userModel = new Users("userLogin");
 			$userModel->setAttributes($users);
 
 			if (!$userModel->validate())
@@ -4595,25 +4595,25 @@ class UsersController extends BaseController
 				if ($code != 91)
 				{
 
-					$params	 = [
-						'userModel'	 => $userModel,
-						'verifyURL'	 => $this->getURL("users/captchaVerify")
+					$params = [
+						'userModel' => $userModel,
+						'verifyURL' => $this->getURL("users/captchaVerify")
 					];
-					$view	 = "captchaVerifyLogin";
+					$view	= "captchaVerifyLogin";
 					goto result;
 				}
 			}
-			$smstextType	 = "webOTP";
+			$smstextType	= "webOTP";
 			Contact::verifyOTP($objCttVerify, $canSendSMS, $smstextType);
-			$contactDetails	 = Yii::app()->JWT->encode([["type" => $objCttVerify->type, "value" => $objCttVerify->value, "isSendSMS" => $objCttVerify->isSendSMS]]);
+			$contactDetails = Yii::app()->JWT->encode([["type" => $objCttVerify->type, "value" => $objCttVerify->value, "isSendSMS" => $objCttVerify->isSendSMS]]);
 			$objPage->updatePostData();
-			$params			 = [
+			$params			= [
 				'verifyData' => $contactDetails,
 				'verifyotp'	 => $objCttVerify->otp,
 				'verifyURL'	 => $this->getURL("users/verifyOTP"),
 				'ref'		 => $ref
 			];
-			$view			 = "otpVerify";
+			$view			= "otpVerify";
 		}
 		catch (Exception $exc)
 		{
@@ -4648,8 +4648,8 @@ class UsersController extends BaseController
 		$request = Yii::app()->request;
 		if ($this->pageRequest == null)
 		{
-			$rData				 = Yii::app()->request->getParam("rdata");
-			$this->pageRequest	 = BookFormRequest::createInstance($rData);
+			$rData			   = Yii::app()->request->getParam("rdata");
+			$this->pageRequest = BookFormRequest::createInstance($rData);
 		}
 		$objPage = $this->pageRequest;
 		$signup	 = $request->getParam('signup', 1);
@@ -4714,8 +4714,8 @@ class UsersController extends BaseController
 			{
 				$sessPhone = $data->value;
 			}
-			$createIfNotExist	 = ($signup == 2);
-			$contactId			 = Contact::getByEmailPhone($sessEmail, $sessPhone, $createIfNotExist);
+			$createIfNotExist = ($signup == 2);
+			$contactId		  = Contact::getByEmailPhone($sessEmail, $sessPhone, $createIfNotExist);
 			if (!$contactId)
 			{
 				throw new Exception("Sorry, we couldn't find this data in our records", ReturnSet::ERROR_NO_RECORDS_FOUND);
@@ -4736,8 +4736,8 @@ class UsersController extends BaseController
 			if (count($userModel) > 0)
 			{
 				//Logger::info("get user model".$userModel->user_id);
-				$identity			 = new UserIdentity($userModel->usr_name, null);
-				$identity->userId	 = $userModel->user_id;
+				$identity		  = new UserIdentity($userModel->usr_name, null);
+				$identity->userId = $userModel->user_id;
 
 				if ($newContactComponent != "")
 				{
@@ -4794,15 +4794,15 @@ class UsersController extends BaseController
 		$request		 = Yii::app()->request;
 		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType());
 
-		$verifyData		 = $request->getParam('verifyData');
-		$arrVerifyData	 = Yii::app()->JWT->decode($verifyData);
+		$verifyData	   = $request->getParam('verifyData');
+		$arrVerifyData = Yii::app()->JWT->decode($verifyData);
 		try
 		{
 			$request = Yii::app()->request;
 			if ($this->pageRequest == null)
 			{
-				$rData				 = Yii::app()->request->getParam("rdata");
-				$this->pageRequest	 = BookFormRequest::createInstance($rData);
+				$rData			   = Yii::app()->request->getParam("rdata");
+				$this->pageRequest = BookFormRequest::createInstance($rData);
 			}
 			$objPage = $this->pageRequest;
 			foreach ($arrVerifyData as $data)
@@ -4847,9 +4847,9 @@ class UsersController extends BaseController
 		}
 		if (!$visitorCookie)
 		{
-			$sessionid	 = Yii::app()->getSession()->getSessionId();
-			$date		 = date('Y-m-d H:i:s');
-			$vistorId	 = md5($sessionid . $date . SERVER_ID);
+			$sessionid = Yii::app()->getSession()->getSessionId();
+			$date	   = date('Y-m-d H:i:s');
+			$vistorId  = md5($sessionid . $date . SERVER_ID);
 
 			$visitorCookie			 = new CHttpCookie('gvid', $vistorId);
 			//$visitorCookie->domain	 = Yii::app()->params['domain'];
@@ -4874,21 +4874,21 @@ class UsersController extends BaseController
 
 		if ($this->pageRequest == null)
 		{
-			$rData				 = Yii::app()->request->getParam("rdata");
-			$this->pageRequest	 = BookFormRequest::createInstance($rData);
+			$rData			   = Yii::app()->request->getParam("rdata");
+			$this->pageRequest = BookFormRequest::createInstance($rData);
 		}
 
 		//$canSendSMS		 = Yii::app()->request->getParam("canSendSMS");
-		$objPage		 = $this->pageRequest;
-		$att			 = BookFormRequest::decryptData($rData);
-		$objCttVerify	 = $att->contactVerifications[0];
-		$users			 = Yii::app()->request->getParam("Users");
-		$verifyCode		 = $users['verifyCode'];
-		$userModel		 = new Users("captchaRequired");
+		$objPage	  = $this->pageRequest;
+		$att		  = BookFormRequest::decryptData($rData);
+		$objCttVerify = $att->contactVerifications[0];
+		$users		  = Yii::app()->request->getParam("Users");
+		$verifyCode	  = $users['verifyCode'];
+		$userModel	  = new Users("captchaRequired");
 		try
 		{
-			$userModel->verifyCode			 = $verifyCode;
-			$userModel->usr_create_platform	 = 1;
+			$userModel->verifyCode			= $verifyCode;
+			$userModel->usr_create_platform = 1;
 
 			if (!$userModel->validate())
 			{
@@ -4897,24 +4897,24 @@ class UsersController extends BaseController
 			$contactDetails = Yii::app()->JWT->encode([["type" => $objCttVerify->type, "value" => $objCttVerify->value]]);
 			Contact::verifyOTP($objCttVerify);
 
-			$objPage->contactVerifications[0]	 = $objCttVerify;
+			$objPage->contactVerifications[0] = $objCttVerify;
 			$objPage->updatePostData();
-			$params								 = [
+			$params							  = [
 				'verifyData' => $contactDetails,
 				'verifyotp'	 => $objCttVerify->otp,
 				'verifyURL'	 => $this->getURL("users/verifyOTP")
 			];
-			$view								 = "otpVerify";
+			$view							  = "otpVerify";
 		}
 		catch (Exception $exc)
 		{
-			$returnset	 = ReturnSet::setException($exc);
+			$returnset = ReturnSet::setException($exc);
 			ReturnSet::renderJSONException($exc);
-			$params		 = [
-				'userModel'	 => $userModel,
-				'verifyURL'	 => $this->getURL("users/captchaVerify")
+			$params	   = [
+				'userModel' => $userModel,
+				'verifyURL' => $this->getURL("users/captchaVerify")
 			];
-			$view		 = "captchaVerifyLogin";
+			$view	   = "captchaVerifyLogin";
 		}
 
 		$this->renderAuto($view, $params, false, true);
@@ -4922,34 +4922,134 @@ class UsersController extends BaseController
 
 	public function actionGetQRPathById()
 	{
-		$userId		 = Yii::app()->request->getParam('userId');
-		$userModel	 = Users::model()->findByPk($userId);
-		$s3data		 = $userModel->usr_s3_data;
-		$imgPath	 = $userModel->usr_qr_code_path;
+		$userId	   = Yii::app()->request->getParam('userId');
+		$userModel = Users::model()->findByPk($userId);
+		$s3data	   = $userModel->usr_s3_data;
+		$imgPath   = $userModel->usr_qr_code_path;
 
 		if ($imgPath == '' || $imgPath == NULL)
 		{
-			$returnSet	 = QrCode::processData($userId);
-			$success	 = $returnSet->getStatus();
+			$returnSet = QrCode::processData($userId);
+			$success   = $returnSet->getStatus();
 			if ($success)
 			{
-				$userModel	 = Users::model()->findByPk($userId);
-				$s3data		 = $userModel->usr_s3_data;
-				$imgPath	 = $userModel->usr_qr_code_path;
+				$userModel = Users::model()->findByPk($userId);
+				$s3data	   = $userModel->usr_s3_data;
+				$imgPath   = $userModel->usr_qr_code_path;
 			}
 		}
 
 		$filePath = APPLICATION_PATH . DIRECTORY_SEPARATOR . $imgPath;
 		if (file_exists($filePath))
 		{
+			if (!file_exists($filePath))
+			{
+				return false;
+			}
+			$mimeType = CFileHelper::getMimeType($filePath);
+			if ($fileName == "")
+			{
+				$fileName = basename($filePath);
+			}
+			$ext = CFileHelper::getExtension($filePath);
+			if ($ext == "")
+			{
+				$ext	  = CFileHelper::getExtensionByMimeType($filePath);
+				$fileName .= "." . $ext;
+			}
+			$content = file_get_contents($filePath);
+			$size = filesize($filePath);
+			Logger::trace("FileSize: {$size}");
 			#$content = file_get_contents($filePath);
-			echo Yii::app()->request->downloadFile($filePath);
+			if ($mimeType === null)
+			{
+				if (($mimeType = CFileHelper::getMimeTypeByExtension($fileName)) === null)
+					$mimeType = 'text/plain';
+			}
+
+			$fileSize	  = (function_exists('mb_strlen') ? mb_strlen($content, '8bit') : strlen($content));
+			$contentStart = 0;
+			$contentEnd	  = $fileSize - 1;
+
+			$httpVersion = Yii::app()->request->getHttpVersion();
+			if (isset($_SERVER['HTTP_RANGE']))
+			{
+				$terminate = true;	
+
+				header('Accept-Ranges: bytes');
+
+				//client sent us a multibyte range, can not hold this one for now
+				if (strpos($_SERVER['HTTP_RANGE'], ',') !== false)
+				{
+					header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
+					throw new CHttpException(416, 'Requested Range Not Satisfiable');
+				}
+
+				$range = str_replace('bytes=', '', $_SERVER['HTTP_RANGE']);
+
+				//range requests starts from "-", so it means that data must be dumped the end point.
+				if ($range[0] === '-')
+					$contentStart = $fileSize - substr($range, 1);
+				else
+				{
+					$range		  = explode('-', $range);
+					$contentStart = $range[0];
+
+					// check if the last-byte-pos presents in header
+					if ((isset($range[1]) && is_numeric($range[1])))
+						$contentEnd = $range[1];
+				}
+
+				/* Check the range and make sure it's treated according to the specs.
+				 * https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+				 */
+				// End bytes can not be larger than $end.
+				$contentEnd = ($contentEnd > $fileSize) ? $fileSize - 1 : $contentEnd;
+
+				// Validate the requested range and return an error if it's not correct.
+				$wrongContentStart = ($contentStart > $contentEnd || $contentStart > $fileSize - 1 || $contentStart < 0);
+
+				if ($wrongContentStart)
+				{
+					header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
+					throw new CHttpException(416, 'Requested Range Not Satisfiable');
+				}
+
+				header("HTTP/$httpVersion 206 Partial Content");
+				header("Content-Range: bytes $contentStart-$contentEnd/$fileSize");
+			}
+			else
+				header("HTTP/$httpVersion 200 OK");
+
+			$length = $contentEnd - $contentStart + 1; // Calculate new content length
+
+			header('Pragma: public');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header("Content-Type: $mimeType");
+			header("Content-Disposition: attachment; filename=\"$fileName\"");
+			header('Content-Transfer-Encoding: binary');
+			$content = function_exists('mb_substr') ? mb_substr($content, $contentStart, $length, '8bit') : substr($content, $contentStart, $length);
+			Logger::trace(json_encode(headers_list()));
+			Logger::warning("QR Download requested", true);
+			if ($terminate)
+			{
+				// clean up the application first because the file downloading could take long time
+				// which may cause timeout of some resources (such as DB connection)
+				ob_start();
+				Yii::app()->end(0, false);
+				ob_end_clean();
+				echo $content;
+				exit(0);
+			}
+			else
+				echo $content;
 			#echo $content;
 		}
 		else if ($s3data != '')
 		{
-			$spaceFile	 = Stub\common\SpaceFile::populate($s3data);
-			$url		 = $spaceFile->getURL();
+			$spaceFile = Stub\common\SpaceFile::populate($s3data);
+			$url	   = $spaceFile->getURL();
 			Yii::app()->request->redirect($url);
 		}
 	}
@@ -4958,17 +5058,17 @@ class UsersController extends BaseController
 	{
 		try
 		{
-			$errMsg			 = '';
+			$errMsg		  = '';
 			$this->checkV3Theme();
-			$this->layout	 = 'column2';
+			$this->layout = 'column2';
 			if (Yii::app()->user->isGuest)
 			{
 				$this->redirect(array('users/view'));
 			}
-			$this->current_page	 = 'QR Code';
-			$this->pageTitle	 = 'QR Code';
-			$userId				 = Yii::app()->user->getId();
-			$userModel			 = Users::model()->findByPk($userId);
+			$this->current_page = 'QR Code';
+			$this->pageTitle	= 'QR Code';
+			$userId				= Yii::app()->user->getId();
+			$userModel			= Users::model()->findByPk($userId);
 			if ($userModel->usr_qr_code_path == '')
 			{
 				$ret = QrCode::processData($userId);
@@ -4998,41 +5098,41 @@ class UsersController extends BaseController
 
 		if ($this->pageRequest == null)
 		{
-			$rData				 = Yii::app()->request->getParam("rdata");
-			$this->pageRequest	 = BookFormRequest::createInstance($rData);
+			$rData			   = Yii::app()->request->getParam("rdata");
+			$this->pageRequest = BookFormRequest::createInstance($rData);
 		}
-		$objPage		 = $this->pageRequest;
-		$att			 = BookFormRequest::decryptData($rData);
-		$objCttVerify	 = $att->contactVerifications[1];
-		$users			 = Yii::app()->request->getParam("Users");
-		$verifyCode		 = $users['verifyCode'];
-		$userModel		 = new Users("captchaRequired");
+		$objPage	  = $this->pageRequest;
+		$att		  = BookFormRequest::decryptData($rData);
+		$objCttVerify = $att->contactVerifications[1];
+		$users		  = Yii::app()->request->getParam("Users");
+		$verifyCode	  = $users['verifyCode'];
+		$userModel	  = new Users("captchaRequired");
 		try
 		{
-			$userModel->verifyCode			 = $verifyCode;
-			$userModel->usr_create_platform	 = 1;
+			$userModel->verifyCode			= $verifyCode;
+			$userModel->usr_create_platform = 1;
 			if (!$userModel->validate())
 			{
 				throw new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
-			$params	 = [
+			$params = [
 				'verifyData' => Yii::app()->request->getParam("verifyData"),
 				'verifyotp'	 => $objCttVerify->otp,
 				'verifyURL'	 => $this->getURL("users/processSignup")
 			];
-			$view	 = "otpVerify";
+			$view	= "otpVerify";
 		}
 		catch (Exception $exc)
 		{
-			$returnset	 = ReturnSet::setException($exc);
+			$returnset = ReturnSet::setException($exc);
 			ReturnSet::renderJSONException($exc);
-			$params		 = [
+			$params	   = [
 				'verifyData' => $contactDetails,
 				'userModel'	 => $userModel,
 				'verifyURL'	 => $this->getURL("users/CaptchaVerifySignup")
 			];
-			$view		 = "captchaVerify";
+			$view	   = "captchaVerify";
 		}
 
 		$this->renderAuto($view, $params, false, true);
@@ -5046,13 +5146,13 @@ class UsersController extends BaseController
 		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_SIGNINBYPASSWORD);
 		try
 		{
-			$returnSet	 = new ReturnSet();
+			$returnSet = new ReturnSet();
 			$returnSet->setStatus(true);
-			$request	 = Yii::app()->request;
+			$request   = Yii::app()->request;
 			if ($this->pageRequest == null)
 			{
-				$rData				 = Yii::app()->request->getParam("rdata");
-				$this->pageRequest	 = BookFormRequest::createInstance($rData);
+				$rData			   = Yii::app()->request->getParam("rdata");
+				$this->pageRequest = BookFormRequest::createInstance($rData);
 			}
 			$objPage = $this->pageRequest;
 			$users	 = $request->getParam('Users');
@@ -5068,15 +5168,15 @@ class UsersController extends BaseController
 				//	throw new Exception("Sorry, You are not registered with us and please enter valid username", ReturnSet:://ERROR_NO_RECORDS_FOUND);
 			}
 
-			($isEmailOrPhone['type'] != 1) ? ($isEmailOrPhone['number']						 = $isEmailOrPhone['value']) : ($isEmailOrPhone['email']						 = $isEmailOrPhone['value']);
-			$usrDt											 = \Beans\contact\Person::setBasicInfoFromData($isEmailOrPhone);
-			$travellerCookie								 = new CHttpCookie('travellerCookie', $usrDt);
-			Yii::app()->request->cookies['travellerCookie']	 = $travellerCookie;
+			($isEmailOrPhone['type'] != 1) ? ($isEmailOrPhone['number']						= $isEmailOrPhone['value']) : ($isEmailOrPhone['email']						= $isEmailOrPhone['value']);
+			$usrDt											= \Beans\contact\Person::setBasicInfoFromData($isEmailOrPhone);
+			$travellerCookie								= new CHttpCookie('travellerCookie', $usrDt);
+			Yii::app()->request->cookies['travellerCookie'] = $travellerCookie;
 
-			$userModel	 = new Users("userLoginEmailPhone");
+			$userModel = new Users("userLoginEmailPhone");
 			$userModel->setAttributes($users);
 			Logger::trace("UsersController::VerifyUserName :: " . $users['username']);
-			$ref		 = Yii::app()->request->getParam("ref", null);
+			$ref	   = Yii::app()->request->getParam("ref", null);
 			if (!$userModel->validate())
 			{
 				$returnSet->setStatus(false);
@@ -5093,13 +5193,13 @@ class UsersController extends BaseController
 
 
 			Logger::create("UsersController::not validate :: " . json_encode($userModel->getErrors()), CLogger::LEVEL_INFO);
-			$arrVerifyData		 = [];
-			$isCaptchaVerify	 = 0;
-			$verifyURL			 = '';
+			$arrVerifyData	   = [];
+			$isCaptchaVerify   = 0;
+			$verifyURL		   = '';
 			//throw new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			//else
 			//{
-			$this->pageRequest	 = BookFormRequest::createInstance();
+			$this->pageRequest = BookFormRequest::createInstance();
 			if ($userModel->usernameType == Stub\common\ContactVerification::TYPE_EMAIL)
 			{
 				Logger::create("UsersController:: not isEmailOrPhone type 1", CLogger::LEVEL_INFO);
@@ -5127,14 +5227,14 @@ class UsersController extends BaseController
 					goto captcha;
 				}
 
-				$smstextType	 = "webOTP";
+				$smstextType   = "webOTP";
 				Contact::verifyOTP($objPhoneContact, $canSendSMS, $smstextType);
 				Logger::create("Contact::verifyOTP", CLogger::LEVEL_INFO);
-				$arrVerifyData	 = ["type" => $objPhoneContact->type, "value" => $objPhoneContact->value, "isSendSMS" => $objPhoneContact->isSendSMS, 'otp' => $objPhoneContact->otp];
-				$otpObj			 = $objPhoneContact;
+				$arrVerifyData = ["type" => $objPhoneContact->type, "value" => $objPhoneContact->value, "isSendSMS" => $objPhoneContact->isSendSMS, 'otp' => $objPhoneContact->otp];
+				$otpObj		   = $objPhoneContact;
 			}
-			$otpObjectEnp	 = Yii::app()->JWT->encode($otpObj);
-			$verifyData		 = Yii::app()->JWT->encode($arrVerifyData);
+			$otpObjectEnp = Yii::app()->JWT->encode($otpObj);
+			$verifyData	  = Yii::app()->JWT->encode($arrVerifyData);
 
 			captcha:
 			if ($isCaptchaVerify)
@@ -5148,8 +5248,8 @@ class UsersController extends BaseController
 			Yii::app()->end();
 
 			validationSuccess:
-			$contactId	 = $userModel->usr_contact_id;
-			$userId		 = ContactProfile::getUserId($contactId);
+			$contactId = $userModel->usr_contact_id;
+			$userId	   = ContactProfile::getUserId($contactId);
 			Logger::create("ContactProfile::getUserId " . $contactId, CLogger::LEVEL_INFO);
 			if (!$userId)
 			{
@@ -5179,13 +5279,13 @@ class UsersController extends BaseController
 
 			$returnSet->setData(
 					[
-						'userName'		 => $users['username'],
-						'consumerName'	 => ($userModel->usr_name != " ") ? (ucfirst($userModel->usr_name)) : ("to Gozocabs"),
-						'isNewUser'		 => 0,
-						'userNameCode'	 => $isEmailOrPhone['phCode'],
-						'userNamePhone'	 => $isEmailOrPhone['phNumber'],
-						'type'			 => $isEmailOrPhone['type'],
-						'ref'			 => $ref
+						'userName'		=> $users['username'],
+						'consumerName'	=> ($userModel->usr_name != " ") ? (ucfirst($userModel->usr_name)) : ("to Gozocabs"),
+						'isNewUser'		=> 0,
+						'userNameCode'	=> $isEmailOrPhone['phCode'],
+						'userNamePhone' => $isEmailOrPhone['phNumber'],
+						'type'			=> $isEmailOrPhone['type'],
+						'ref'			=> $ref
 			]);
 			Logger::create("Users:: 4907 " . json_encode($returnSet->getData()), CLogger::LEVEL_INFO);
 		}
@@ -5207,18 +5307,18 @@ class UsersController extends BaseController
 		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_SIGNINBYPASSWORD);
 		try
 		{
-			$returnSet	 = new ReturnSet();
-			$request	 = Yii::app()->request;
+			$returnSet = new ReturnSet();
+			$request   = Yii::app()->request;
 			if ($this->pageRequest == null)
 			{
-				$rData				 = Yii::app()->request->getParam("rdata");
-				$this->pageRequest	 = BookFormRequest::createInstance($rData);
+				$rData			   = Yii::app()->request->getParam("rdata");
+				$this->pageRequest = BookFormRequest::createInstance($rData);
 			}
 			$ref = Yii::app()->request->getParam("ref", null);
 
-			$objPage	 = $this->pageRequest;
-			$users		 = $request->getParam('Users');
-			$userModel	 = new Users("userLogin");
+			$objPage   = $this->pageRequest;
+			$users	   = $request->getParam('Users');
+			$userModel = new Users("userLogin");
 			$userModel->setAttributes($users);
 
 			if (!$userModel->validate())
@@ -5299,19 +5399,19 @@ class UsersController extends BaseController
 		$request = Yii::app()->request;
 		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_SIGNUP);
 
-		$isEmail			 = false;
-		$this->pageRequest	 = BookFormRequest::createInstance();
-		$contactData		 = Yii::app()->request->getParam('Contact');
-		$userData			 = Yii::app()->request->getParam('Users');
-		$phoneData			 = Yii::app()->request->getParam('ContactPhone');
-		$emailData			 = Yii::app()->request->getParam('ContactEmail');
-		$curOtp				 = $request->getParam('otp');
-		$data				 = ($request->getParam('verifyData')) ? (Yii::app()->JWT->decode($request->getParam('verifyData'))) : '';
-		$otpObject			 = ($request->getParam('otpObject')) ? (Yii::app()->JWT->decode($request->getParam('otpObject'))) : '';
+		$isEmail		   = false;
+		$this->pageRequest = BookFormRequest::createInstance();
+		$contactData	   = Yii::app()->request->getParam('Contact');
+		$userData		   = Yii::app()->request->getParam('Users');
+		$phoneData		   = Yii::app()->request->getParam('ContactPhone');
+		$emailData		   = Yii::app()->request->getParam('ContactEmail');
+		$curOtp			   = $request->getParam('otp');
+		$data			   = ($request->getParam('verifyData')) ? (Yii::app()->JWT->decode($request->getParam('verifyData'))) : '';
+		$otpObject		   = ($request->getParam('otpObject')) ? (Yii::app()->JWT->decode($request->getParam('otpObject'))) : '';
 
-		$rData				 = Yii::app()->request->getParam("rdata");
-		$this->pageRequest	 = BookFormRequest::createInstance($rData);
-		$objPage			 = $this->pageRequest;
+		$rData			   = Yii::app()->request->getParam("rdata");
+		$this->pageRequest = BookFormRequest::createInstance($rData);
+		$objPage		   = $this->pageRequest;
 		try
 		{
 			$ref = Yii::app()->request->getParam("ref", null);
@@ -5322,8 +5422,8 @@ class UsersController extends BaseController
 				throw new Exception("Invalid Request", ReturnSet::ERROR_INVALID_DATA);
 			}
 
-			$signupObj	 = new \Stub\consumer\SignUpRequest();
-			$obj		 = $signupObj->setModelData($contactData, $emailData, $phoneData, $userData);
+			$signupObj = new \Stub\consumer\SignUpRequest();
+			$obj	   = $signupObj->setModelData($contactData, $emailData, $phoneData, $userData);
 
 			if ($obj->profile->primaryEmail->value)
 			{
@@ -5333,8 +5433,8 @@ class UsersController extends BaseController
 					throw new Exception("Please enter valid email address", ReturnSet::ERROR_VALIDATION);
 				}
 			}
-			$phNumber	 = $obj->profile->primaryContact->code . $obj->profile->primaryContact->number;
-			$isPhone	 = Filter::processPhoneNumber($obj->profile->primaryContact->number, $obj->profile->primaryContact->code);
+			$phNumber = $obj->profile->primaryContact->code . $obj->profile->primaryContact->number;
+			$isPhone  = Filter::processPhoneNumber($obj->profile->primaryContact->number, $obj->profile->primaryContact->code);
 			if (!$isPhone)
 			{
 				throw new Exception("Please enter valid phone number", ReturnSet::ERROR_VALIDATION);
@@ -5342,11 +5442,11 @@ class UsersController extends BaseController
 
 			if ($isEmail)
 			{
-				$emailModel						 = new ContactEmail();
-				$type							 = Stub\common\ContactVerification::TYPE_EMAIL;
-				$emailModel->eml_email_address	 = $obj->profile->primaryEmail->value;
-				$value							 = $emailModel->eml_email_address;
-				$contactId						 = Contact::getByEmailPhone($value);
+				$emailModel					   = new ContactEmail();
+				$type						   = Stub\common\ContactVerification::TYPE_EMAIL;
+				$emailModel->eml_email_address = $obj->profile->primaryEmail->value;
+				$value						   = $emailModel->eml_email_address;
+				$contactId					   = Contact::getByEmailPhone($value);
 				if ($contactId != '')
 				{
 					if ($otpObject->type == $type)
@@ -5359,27 +5459,27 @@ class UsersController extends BaseController
 				$objEmailContact = $this->pageRequest->getContact($type, $value);
 				if ($otpObject->type == $type)
 				{
-					$objEmailContact->otp			 = $otpObject->otp;
-					$objEmailContact->otpValidTill	 = $otpObject->otpValidTill;
-					$objEmailContact->otpRetry		 = $otpObject->otpRetry;
-					$objEmailContact->otpLastSent	 = $otpObject->otpLastSent;
-					$objEmailContact->status		 = $otpObject->status;
-					$objEmailContact->captcha		 = $otpObject->captcha;
-					$objEmailContact->isSendSMS		 = $otpObject->isSendSMS;
+					$objEmailContact->otp		   = $otpObject->otp;
+					$objEmailContact->otpValidTill = $otpObject->otpValidTill;
+					$objEmailContact->otpRetry	   = $otpObject->otpRetry;
+					$objEmailContact->otpLastSent  = $otpObject->otpLastSent;
+					$objEmailContact->status	   = $otpObject->status;
+					$objEmailContact->captcha	   = $otpObject->captcha;
+					$objEmailContact->isSendSMS	   = $otpObject->isSendSMS;
 				}
 			}
 
 			if ($isPhone)
 			{
-				$phoneModel	 = new ContactPhone();
-				$type		 = Stub\common\ContactVerification::TYPE_PHONE;
+				$phoneModel = new ContactPhone();
+				$type		= Stub\common\ContactVerification::TYPE_PHONE;
 				Filter::parsePhoneNumber($isPhone, $code, $phone);
 
-				$phoneModel->phn_phone_country_code	 = $code;
-				$phoneModel->phn_phone_no			 = $phone;
+				$phoneModel->phn_phone_country_code = $code;
+				$phoneModel->phn_phone_no			= $phone;
 
-				$value		 = "+" . $code . $phone;
-				$contactId	 = Contact::getByEmailPhone('', $value);
+				$value	   = "+" . $code . $phone;
+				$contactId = Contact::getByEmailPhone('', $value);
 				if ($contactId != '')
 				{
 					if ($otpObject->type == $type)
@@ -5393,19 +5493,19 @@ class UsersController extends BaseController
 				if ($otpObject->type == $type)
 				{
 
-					$objPhoneContact->otp			 = $otpObject->otp;
-					$objPhoneContact->otpValidTill	 = $otpObject->otpValidTill;
-					$objPhoneContact->otpRetry		 = $otpObject->otpRetry;
-					$objPhoneContact->otpLastSent	 = $otpObject->otpLastSent;
-					$objPhoneContact->status		 = $otpObject->status;
-					$objPhoneContact->captcha		 = $otpObject->captcha;
-					$objPhoneContact->isSendSMS		 = $otpObject->isSendSMS;
+					$objPhoneContact->otp		   = $otpObject->otp;
+					$objPhoneContact->otpValidTill = $otpObject->otpValidTill;
+					$objPhoneContact->otpRetry	   = $otpObject->otpRetry;
+					$objPhoneContact->otpLastSent  = $otpObject->otpLastSent;
+					$objPhoneContact->status	   = $otpObject->status;
+					$objPhoneContact->captcha	   = $otpObject->captcha;
+					$objPhoneContact->isSendSMS	   = $otpObject->isSendSMS;
 				}
 			}
 
-			$this->pageRequest->signupRequest	 = $obj;
-			$objSignUp							 = $objPage->signupRequest;
-			$objProfile							 = $objSignUp->profile;
+			$this->pageRequest->signupRequest = $obj;
+			$objSignUp						  = $objPage->signupRequest;
+			$objProfile						  = $objSignUp->profile;
 
 			$objEmailContact = $objPage->getContact(Stub\common\ContactVerification::TYPE_EMAIL, $objProfile->primaryEmail->value);
 			$objPhoneContact = $objPage->getContact(Stub\common\ContactVerification::TYPE_PHONE, $objProfile->primaryContact->getFullNumber());
@@ -5444,19 +5544,19 @@ class UsersController extends BaseController
 			{
 				if ($otpObject->type == 1)
 				{
-					$existValue		 = "+" . $objProfile->primaryContact->code . $objProfile->primaryContact->number;
-					$existType		 = "Phone Number";
-					$existTypeInt	 = 2;
-					$errorCode		 = ReturnSet::ERROR_PHONEEXIST;
-					$exitstRecord	 = ContactPhone::getByPhone($objProfile->primaryContact->getFullNumber());
+					$existValue	  = "+" . $objProfile->primaryContact->code . $objProfile->primaryContact->number;
+					$existType	  = "Phone Number";
+					$existTypeInt = 2;
+					$errorCode	  = ReturnSet::ERROR_PHONEEXIST;
+					$exitstRecord = ContactPhone::getByPhone($objProfile->primaryContact->getFullNumber());
 				}
 				else
 				{
-					$existValue		 = $objProfile->primaryEmail->value;
-					$existType		 = "Email Address";
-					$existTypeInt	 = 1;
-					$errorCode		 = ReturnSet::ERROR_EMAILEXIST;
-					$exitstRecord	 = ContactEmail::getByEmail($objProfile->primaryEmail->value);
+					$existValue	  = $objProfile->primaryEmail->value;
+					$existType	  = "Email Address";
+					$existTypeInt = 1;
+					$errorCode	  = ReturnSet::ERROR_EMAILEXIST;
+					$exitstRecord = ContactEmail::getByEmail($objProfile->primaryEmail->value);
 				}
 
 				foreach ($exitstRecord as $contactRow)
@@ -5482,8 +5582,8 @@ class UsersController extends BaseController
 				Logger::warning($ex, true);
 				throw $ex;
 			}
-			$sendPassword	 = 1;
-			$userModel		 = Users::createbyContact($cttModel->ctt_id, $sendPassword);
+			$sendPassword = 1;
+			$userModel	  = Users::createbyContact($cttModel->ctt_id, $sendPassword);
 
 			$valueToVerified = ($otpObject->type == 1) ? ($obj->profile->primaryEmail->value) : ($obj->profile->primaryContact->number);
 			$dataArr		 = ['otp' => $otpObject->otp, 'type' => $otpObject->type, 'value' => $valueToVerified];
@@ -5495,8 +5595,8 @@ class UsersController extends BaseController
 				{
 					Users::processReferralCode($userModel, $objSignUp->referredCode);
 				}
-				$identity			 = new UserIdentity($userModel->user_email, null);
-				$identity->userId	 = $userModel->user_id;
+				$identity		  = new UserIdentity($userModel->user_email, null);
+				$identity->userId = $userModel->user_id;
 				if ($identity->authenticate())
 				{
 					Yii::app()->user->login($identity);
@@ -5514,8 +5614,8 @@ class UsersController extends BaseController
 		}
 		catch (Exception $exc)
 		{
-			$returnSet	 = ReturnSet::setException($exc);
-			$view		 = "signin";
+			$returnSet = ReturnSet::setException($exc);
+			$view	   = "signin";
 			if ($exc->getCode() == ReturnSet::ERROR_VALIDATION)
 			{
 				$message = $exc->getMessage();
@@ -5553,23 +5653,23 @@ class UsersController extends BaseController
 
 		if ($this->pageRequest == null)
 		{
-			$rData				 = Yii::app()->request->getParam("rdata");
-			$this->pageRequest	 = BookFormRequest::createInstance($rData);
+			$rData			   = Yii::app()->request->getParam("rdata");
+			$this->pageRequest = BookFormRequest::createInstance($rData);
 		}
 		Yii::app()->request->getParam("rdata");
 
-		$objPage		 = $this->pageRequest;
-		$att			 = BookFormRequest::decryptData($rData);
-		$objCttVerify	 = $att->contactVerifications[0];
+		$objPage	  = $this->pageRequest;
+		$att		  = BookFormRequest::decryptData($rData);
+		$objCttVerify = $att->contactVerifications[0];
 
-		$users		 = Yii::app()->request->getParam("Users");
-		$verifyCode	 = $users['verifyCode'];
+		$users		= Yii::app()->request->getParam("Users");
+		$verifyCode = $users['verifyCode'];
 
 		$userModel = new Users("captchaRequired");
 		try
 		{
-			$userModel->verifyCode			 = $verifyCode;
-			$userModel->usr_create_platform	 = 1;
+			$userModel->verifyCode			= $verifyCode;
+			$userModel->usr_create_platform = 1;
 //$userModel->usr_country_code= 
 			if (!$userModel->validate())
 			{
@@ -5586,14 +5686,14 @@ class UsersController extends BaseController
 			//$otpObjectEnp						 = Yii::app()->JWT->encode($otpObj);
 			$objPage->updatePostData();
 
-			$params	 = [
+			$params = [
 				'userModel'	 => $userModel,
 				'fullNumber' => $objCttVerify->value,
 				'verifyData' => Yii::app()->JWT->encode($objCttVerify), //$contactDetails,
 				'verifyotp'	 => $objCttVerify->otp,
 				'verifyURL'	 => $this->getURL("users/signupOTPNew")
 			];
-			$view	 = "signUpByOtp";
+			$view	= "signUpByOtp";
 //            	$this->renderAuto("signUpByOtp", 
 //                    ["otpObj" => $otpObjectEnp,
 //                        "verifyData" => $verifyData,
@@ -5602,14 +5702,14 @@ class UsersController extends BaseController
 		}
 		catch (Exception $exc)
 		{
-			$returnSet	 = ReturnSet::setException($exc);
+			$returnSet = ReturnSet::setException($exc);
 			ReturnSet::renderJSONException($exc);
-			$params		 = [
+			$params	   = [
 				'verifyData' => $contactDetails,
 				'userModel'	 => $userModel,
 				'verifyURL'	 => $this->getURL("users/captchaVerifyNew")
 			];
-			$view		 = "captchaVerify";
+			$view	   = "captchaVerify";
 		}
 
 		$this->renderAuto($view, $params, false, true);
@@ -5633,10 +5733,10 @@ class UsersController extends BaseController
 			Yii::app()->user->setReturnUrl(Yii::app()->request->getUrl());
 			$this->redirect(array('/signin'));
 		}
-		$res		 = JWTokens::validateAppToken($jwt);
-		$authToken	 = $res->token;
+		$res	   = JWTokens::validateAppToken($jwt);
+		$authToken = $res->token;
 		/* @var $appModel AppTokens */
-		$appModel	 = AppTokens::model()->getByToken($authToken);
+		$appModel  = AppTokens::model()->getByToken($authToken);
 		if (!$appModel)
 		{
 			throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
@@ -5652,8 +5752,8 @@ class UsersController extends BaseController
 		{
 			try
 			{
-				$userData	 = Yii::app()->request->getParam("Users");
-				$reason		 = $userData['usr_deactivate_reason'];
+				$userData = Yii::app()->request->getParam("Users");
+				$reason	  = $userData['usr_deactivate_reason'];
 
 				$returnSet = Users::deactivate($userId, $reason, UserInfo::TYPE_CONSUMER);
 
@@ -5681,8 +5781,8 @@ class UsersController extends BaseController
 
 	public function actionPartnerDeactive()
 	{
-		$this->layout	 = 'head';
-		$rData			 = Yii::app()->request->getParam("rdata");
+		$this->layout = 'head';
+		$rData		  = Yii::app()->request->getParam("rdata");
 		if (!Yii::app()->user->isGuest && $rData == '')
 		{
 			$userId = UserInfo::getUserId();
@@ -5698,10 +5798,10 @@ class UsersController extends BaseController
 			Yii::app()->user->setReturnUrl(Yii::app()->request->getUrl());
 			$this->redirect(array('/signin'));
 		}
-		$res		 = JWTokens::validateAppToken($jwt);
-		$authToken	 = $res->token;
+		$res	   = JWTokens::validateAppToken($jwt);
+		$authToken = $res->token;
 		/* @var $appModel AppTokens */
-		$appModel	 = AppTokens::model()->getByToken($authToken);
+		$appModel  = AppTokens::model()->getByToken($authToken);
 		if (!$appModel)
 		{
 			throw new Exception("Invalid Request: ", ReturnSet::ERROR_INVALID_DATA);
@@ -5720,13 +5820,13 @@ class UsersController extends BaseController
 				$model->addError("bkg_id", "User does not exist or already deactivated");
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_NO_RECORDS_FOUND);
 			}
-			$message = '';
-			$errorMessage	 = null;
+			$message	  = '';
+			$errorMessage = null;
 			if (Yii::app()->request->isAjaxRequest)
 			{
-				$userData	 = Yii::app()->request->getParam("Users");
-				$reason		 = $userData['usr_deactivate_reason'];
-				$returnSet	 = Users::deactivate($userId, $reason, UserInfo::TYPE_VENDOR);
+				$userData  = Yii::app()->request->getParam("Users");
+				$reason	   = $userData['usr_deactivate_reason'];
+				$returnSet = Users::deactivate($userId, $reason, UserInfo::TYPE_VENDOR);
 				echo json_encode($returnSet);
 				if ($returnSet->getStatus() == true)
 				{
@@ -5761,9 +5861,9 @@ class UsersController extends BaseController
 
 	public function actionPartnerDeactiveV1()
 	{
-		$entityId	 = Yii::app()->request->getParam("entityId");
-		$entityType	 = Yii::app()->request->getParam("entityType");
-		$message	 = Yii::app()->request->getParam("message");
+		$entityId	= Yii::app()->request->getParam("entityId");
+		$entityType = Yii::app()->request->getParam("entityType");
+		$message	= Yii::app()->request->getParam("message");
 
 		$model = Users::model()->findByPk($userId);
 
@@ -5793,8 +5893,8 @@ class UsersController extends BaseController
 
 		// $verifyData          = Yii::app()->request->getParam("verifyData");
 
-		$objPage			 = $this->pageRequest;
-		$objSignUp->profile	 = $obj->profile;
+		$objPage			= $this->pageRequest;
+		$objSignUp->profile = $obj->profile;
 
 		$userModel					 = new Users();
 		$userModel->usr_name		 = $objSignUp->profile->firstName;
@@ -5804,19 +5904,19 @@ class UsersController extends BaseController
 		$userModel->usr_mobile		 = $objSignUp->profile->primaryContact->number;
 		try
 		{
-			$returnSet		 = new ReturnSet();
-			$arrVerifyData	 = [];
+			$returnSet	   = new ReturnSet();
+			$arrVerifyData = [];
 			if ($notContinueWidExist == 1)
 			{
-				$otpObjectEnp	 = Yii::app()->JWT->encode($objContact);
-				$existingOTPobj	 = json_decode($newContactComponent);
+				$otpObjectEnp	= Yii::app()->JWT->encode($objContact);
+				$existingOTPobj = json_decode($newContactComponent);
 
-				$objContact					 = $this->pageRequest->getContact($existingOTPobj->type, $existingOTPobj->value);
-				$objContact->otp			 = $existingOTPobj->otp;
-				$objContact->isSendSMS		 = $existingOTPobj->isSendSMS;
-				$objContact->otpValidTill	 = $existingOTPobj->otpValidTill;
-				$objContact->isSendSMS		 = $existingOTPobj->isSendSMS;
-				$otpObjectEnp				 = Yii::app()->JWT->encode($objContact);
+				$objContact				  = $this->pageRequest->getContact($existingOTPobj->type, $existingOTPobj->value);
+				$objContact->otp		  = $existingOTPobj->otp;
+				$objContact->isSendSMS	  = $existingOTPobj->isSendSMS;
+				$objContact->otpValidTill = $existingOTPobj->otpValidTill;
+				$objContact->isSendSMS	  = $existingOTPobj->isSendSMS;
+				$otpObjectEnp			  = Yii::app()->JWT->encode($objContact);
 				// $arrVerifyData       = ["otpValidTill" => $existingOTPobj->otpValidTill,"type" => $existingOTPobj->type, "value" => $existingOTPobj->value, "isSendSMS" => $existingOTPobj->isSendSMS, 'otp' => $existingOTPobj->otp];
 				$this->renderAuto("signUpByOtp", ['notContinueWidExist' => $notContinueWidExist, "otpType" => $existingOTPobj->type, "otp" => $existingOTPobj->otp, "otpObj" => $otpObjectEnp, "verifyData" => Yii::app()->JWT->encode($request->getParam('verifyData')), "userModel" => $userModel, 'rdata' => $this->pageRequest->getEncrptedData()]);
 				Yii::app()->end();
@@ -5874,8 +5974,8 @@ class UsersController extends BaseController
 
 
 			$this->pageRequest->updatePostData();
-			$otpObjectEnp	 = Yii::app()->JWT->encode($otpObj);
-			$verifyData		 = Yii::app()->JWT->encode([$arrVerifyData]);
+			$otpObjectEnp = Yii::app()->JWT->encode($otpObj);
+			$verifyData	  = Yii::app()->JWT->encode([$arrVerifyData]);
 
 			$userModel->usr_country_code = $objSignUp->profile->primaryContact->code;
 			$userModel->usr_mobile		 = $objSignUp->profile->primaryContact->number;
@@ -5889,19 +5989,19 @@ class UsersController extends BaseController
 
 			$returnSet->setData(
 					[
-						'userName'				 => $objEmailContact->value,
-						'otpObject'				 => $otpObjectEnp,
+						'userName'			  => $objEmailContact->value,
+						'otpObject'			  => $otpObjectEnp,
 						//'isCaptchaVerify'	 => $isCaptchaVerify,
-						'rdata'					 => $this->pageRequest->getEncrptedData(),
-						'userNameCode'			 => $objSignUp->profile->primaryContact->code,
-						'userNamePhone'			 => $objSignUp->profile->primaryContact->number,
-						'isNewUser'				 => 1,
-						'verifyData'			 => $verifyData,
-						'verifyURL'				 => $verifyURL,
+						'rdata'				  => $this->pageRequest->getEncrptedData(),
+						'userNameCode'		  => $objSignUp->profile->primaryContact->code,
+						'userNamePhone'		  => $objSignUp->profile->primaryContact->number,
+						'isNewUser'			  => 1,
+						'verifyData'		  => $verifyData,
+						'verifyURL'			  => $verifyURL,
 						// 'otpPh'               => ($objPhoneContact->otp != '') ? ($objPhoneContact->otp) : '',
 						//  'otpEml'              => ($objEmailContact->otp != '') ? ($objEmailContact->otp) : '',
-						'userType'				 => $type,
-						'newContactComponent'	 => $newContactComponent
+						'userType'			  => $type,
+						'newContactComponent' => $newContactComponent
 			]);
 
 			$returnSet->setStatus(true);
@@ -5924,15 +6024,15 @@ class UsersController extends BaseController
 		$request		 = Yii::app()->request;
 
 		//$otpValidTill  = $request->getParam('otpValidTill');
-		$verifyData		 = $request->getParam('verifyData');
-		$arrVerifyData	 = Yii::app()->JWT->decode($verifyData);
+		$verifyData	   = $request->getParam('verifyData');
+		$arrVerifyData = Yii::app()->JWT->decode($verifyData);
 		try
 		{
 			$request = Yii::app()->request;
 			if ($this->pageRequest == null)
 			{
-				$rData				 = Yii::app()->request->getParam("rdata");
-				$this->pageRequest	 = BookFormRequest::createInstance($rData);
+				$rData			   = Yii::app()->request->getParam("rdata");
+				$this->pageRequest = BookFormRequest::createInstance($rData);
 			}
 			$objPage = $this->pageRequest;
 			//  $att          = BookFormRequest::decryptData($rData);
@@ -5958,28 +6058,28 @@ class UsersController extends BaseController
 					$objEmailContact = Contact::verifyOTP($objCttVerify, true, null, false);
 
 					//  Contact::verifyOTP($objEmailContact, true, null, false);
-					$arrVerifyData	 = ["type"			 => $objEmailContact->type,
-						"value"			 => $objEmailContact->value,
-						'otp'			 => $objEmailContact->otp, 'otpValidTill'	 => $objEmailContact->otpValidTill, 'otpLastSent'	 => $objEmailContact->otpLastSent];
-					$otpObj			 = $objEmailContact;
-					$arrTime		 = ['otpValidTill'	 => $objEmailContact->otpValidTill,
-						'otpLastSent'	 => $objEmailContact->otpLastSent,
-						"type"			 => $objEmailContact->type,
-						"value"			 => $objEmailContact->value];
-					$email			 = $objEmailContact->value;
-					$contactId		 = ContactEmail::findById($email);
-					$contactModel	 = Contact::model()->findByPk($contactId);
-					$contactProfile	 = ContactProfile::model()->findByContactId($contactId);
+					$arrVerifyData	= ["type"		   => $objEmailContact->type,
+						"value"		   => $objEmailContact->value,
+						'otp'		   => $objEmailContact->otp, 'otpValidTill' => $objEmailContact->otpValidTill, 'otpLastSent'  => $objEmailContact->otpLastSent];
+					$otpObj			= $objEmailContact;
+					$arrTime		= ['otpValidTill' => $objEmailContact->otpValidTill,
+						'otpLastSent'  => $objEmailContact->otpLastSent,
+						"type"		   => $objEmailContact->type,
+						"value"		   => $objEmailContact->value];
+					$email			= $objEmailContact->value;
+					$contactId		= ContactEmail::findById($email);
+					$contactModel	= Contact::model()->findByPk($contactId);
+					$contactProfile = ContactProfile::model()->findByContactId($contactId);
 
 					$user_id = $contactProfile->cr_is_consumer;
 
-					$userModel	 = Users::model()->findByPk($user_id);
-					$key		 = md5($userModel->usr_password);
-					$hash		 = Yii::app()->shortHash->hash($user_id);
-					$link		 = Yii::app()->createAbsoluteUrl('users/resetpassword', array('key' => $key, 'uid' => $hash));
-					$username	 = $contactModel->ctt_first_name;
-					$emailCom	 = new emailWrapper();
-					$isSend		 = $emailCom->sendResetPasswordLinkWithOTP($otpObj->value, $otpObj->otp, $link, $username, $user_id);
+					$userModel = Users::model()->findByPk($user_id);
+					$key	   = md5($userModel->usr_password);
+					$hash	   = Yii::app()->shortHash->hash($user_id);
+					$link	   = Yii::app()->createAbsoluteUrl('users/resetpassword', array('key' => $key, 'uid' => $hash));
+					$username  = $contactModel->ctt_first_name;
+					$emailCom  = new emailWrapper();
+					$isSend	   = $emailCom->sendResetPasswordLinkWithOTP($otpObj->value, $otpObj->otp, $link, $username, $user_id);
 				}
 				else
 				{
@@ -5989,12 +6089,12 @@ class UsersController extends BaseController
 					$smstextType	 = "webOTP";
 					$smsLogType		 = SmsLog::SMS_FORGET_PASSWORD;
 					$objPhoneContact = Contact::verifyOTP($objCttVerify, $canSendSMS, $smstextType, false, $smsLogType);
-					$arrVerifyData	 = ["type"			 => $objPhoneContact->type, "value"			 => $objPhoneContact->value,
-						"isSendSMS"		 => $objPhoneContact->isSendSMS, 'otp'			 => $objPhoneContact->otp, 'otpValidTill'	 => $objPhoneContact->otpValidTill, 'otpLastSent'	 => $objPhoneContact->otpLastSent];
-					$arrTime		 = ['otpValidTill'	 => $objPhoneContact->otpValidTill,
-						'otpLastSent'	 => $objPhoneContact->otpLastSent,
-						"type"			 => $objEmailContact->type,
-						"value"			 => $objEmailContact->value];
+					$arrVerifyData	 = ["type"		   => $objPhoneContact->type, "value"		   => $objPhoneContact->value,
+						"isSendSMS"	   => $objPhoneContact->isSendSMS, 'otp'		   => $objPhoneContact->otp, 'otpValidTill' => $objPhoneContact->otpValidTill, 'otpLastSent'  => $objPhoneContact->otpLastSent];
+					$arrTime		 = ['otpValidTill' => $objPhoneContact->otpValidTill,
+						'otpLastSent'  => $objPhoneContact->otpLastSent,
+						"type"		   => $objEmailContact->type,
+						"value"		   => $objEmailContact->value];
 					$otpObj			 = $objPhoneContact;
 					$isSend			 = $objPhoneContact->isSendSMS;
 				}
@@ -6035,15 +6135,15 @@ class UsersController extends BaseController
 
 	public function actionCaptchaskiplogin()
 	{
-		$verifyCode	 = Yii::app()->request->getParam('Users')['verifyCode'];
-		$userModel	 = new Users();
+		$verifyCode = Yii::app()->request->getParam('Users')['verifyCode'];
+		$userModel	= new Users();
 		if ($verifyCode != '')
 		{
 			$userModel = new Users("captchaRequired");
 			try
 			{
-				$userModel->verifyCode			 = $verifyCode;
-				$userModel->usr_create_platform	 = 1;
+				$userModel->verifyCode			= $verifyCode;
+				$userModel->usr_create_platform = 1;
 				if (!$userModel->validate())
 				{
 					throw new Exception(json_encode($userModel->getErrors()), ReturnSet::ERROR_VALIDATION);
@@ -6059,8 +6159,8 @@ class UsersController extends BaseController
 		}
 		else
 		{
-			$sessSkipLoginCnt	 = Yii::app()->session['_gz_skip_login_count'];
-			$skipLoginCntVal	 = 1;
+			$sessSkipLoginCnt = Yii::app()->session['_gz_skip_login_count'];
+			$skipLoginCntVal  = 1;
 			if ($sessSkipLoginCnt > 0)
 			{
 				if (Yii::app()->user->getState('skipLoginSessionTimeout') < time())
@@ -6069,9 +6169,9 @@ class UsersController extends BaseController
 				}
 				else
 				{
-					$sessSkipLoginCnt							 = $sessSkipLoginCnt + 1;
-					Yii::app()->session['_gz_skip_login_count']	 = $sessSkipLoginCnt;
-					$skipLoginCntVal							 = $sessSkipLoginCnt;
+					$sessSkipLoginCnt							= $sessSkipLoginCnt + 1;
+					Yii::app()->session['_gz_skip_login_count'] = $sessSkipLoginCnt;
+					$skipLoginCntVal							= $sessSkipLoginCnt;
 				}
 			}
 			else
@@ -6093,9 +6193,8 @@ class UsersController extends BaseController
 
 	public function setInitialSkipLoginCnt()
 	{
-		$resetTime									 = json_decode(Config::get('quote.guest'))->resetTime;
+		$resetTime									= json_decode(Config::get('quote.guest'))->resetTime;
 		Yii::app()->user->setState('skipLoginSessionTimeout', time() + ($resetTime * 60));
-		Yii::app()->session['_gz_skip_login_count']	 = 1;
+		Yii::app()->session['_gz_skip_login_count'] = 1;
 	}
-
 }

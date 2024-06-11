@@ -672,6 +672,8 @@ class BookFormRequest
 		{
 			$model->bkg_return_date = date('Y-m-d H:i:s', strtotime($model->bookingRoutes[0]->brt_pickup_datetime . ' + ' . $this->quote->estimatedDuration . ' MINUTE'));
 		}
+        $model->bkg_user_name = $cttModel->ctt_first_name;
+        $model->bkg_user_lname = $cttModel->ctt_last_name;
 		$model->createLead();
 		//unset(Yii::app()->request->cookies['gozo_agent_id']);
 		Yii::app()->session->remove("_gz_rdata_skiplogin");

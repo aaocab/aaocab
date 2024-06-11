@@ -83,7 +83,7 @@ class Vendors extends CActiveRecord
 	public $filterType	 = [1 => 'Yes', 0 => 'No'];
 	public $bookingType	 = [1 => 'Yes', 2 => 'No'];
 	public $vnd_vehicle_type;
-	public $vendorStatus = [1 => 'Approved', 3 => 'Pending', 2 => 'Blocked / InActive / Rejected'];
+	public $vendorStatus = [0 => 'Deleted', 1 => 'Approved', 2 => 'Blocked / InActive / Rejected', 3 => 'Pending', 4 => 'Ready to Approve'];
 	public $vnd_bkg_agent_id, $dayRange, $bkg_create_date1, $bkg_create_date2;
 
 //0 => 'Deleted',
@@ -173,11 +173,11 @@ class Vendors extends CActiveRecord
 
 	public function beforeValidate()
 	{
-		if($this->vnd_agreement_date1 != NULL)
+		if ($this->vnd_agreement_date1 != NULL)
 		{
 			$this->vnd_agreement_date = DateTimeFormat::DatePickerToDate($this->vnd_agreement_date1);
 		}
-		if($this->vnd_contact_id != '')
+		if ($this->vnd_contact_id != '')
 		{
 			$arrEmails					 = ContactEmail::model()->findByContactID($this->vnd_contact_id);
 			$this->locale_contact_email	 = $arrEmails[0];
@@ -338,7 +338,7 @@ class Vendors extends CActiveRecord
 			3	 => "Vendor was previously blocked",
 			4	 => "Duplicate Vendor",
 			5	 => "Other"];
-		if($type != '')
+		if ($type != '')
 		{
 			$value = $reasons[$type];
 			return $value;
@@ -351,19 +351,19 @@ class Vendors extends CActiveRecord
 
 	public function checkDuplicateVendor()
 	{
-		if($this->vnd_contact_id != '')
+		if ($this->vnd_contact_id != '')
 		{
 			$cnt = Vendors::model()->checkDuplicateContactByVendor($this->vnd_contact_id, $this->vnd_ref_code);
-			if($cnt > 0)
+			if ($cnt > 0)
 			{
 				$this->addError('vnd_contact_id', "This contact is taken by another vendor.");
 				return false;
 			}
 		}
-		if($this->vndContact->ctt_pan_no != '' && $this->isNewRecord)
+		if ($this->vndContact->ctt_pan_no != '' && $this->isNewRecord)
 		{
 			$cnt = Vendors::model()->checkDuplicateContactByVendorPan($this->vndContact->ctt_pan_no, $this->vnd_ref_code);
-			if($cnt > 0)
+			if ($cnt > 0)
 			{
 				$this->addError('vnd_contact_id', "This Pan no is taken by another vendor.");
 				return false;
@@ -387,14 +387,14 @@ class Vendors extends CActiveRecord
 		{
 			$result = CActiveForm::validate($this, null, false);
 
-			if($result == '[]')
+			if ($result == '[]')
 			{
-				if($isNew)
+				if ($isNew)
 				{
 					$phone		 = $this->vndContact->contactPhones[0]->phn_phone_no;
 					$ext		 = $this->vndContact->contactPhones[0]->phn_phone_country_code;
 					$phoneModel	 = $this->vndContact->contactPhones;
-					foreach($phoneModel as $value)
+					foreach ($phoneModel as $value)
 					{
 						$value->phn_otp = $otp;
 						$value->save();
@@ -402,13 +402,13 @@ class Vendors extends CActiveRecord
 //$this->vndContact->contactPhones[0]->phn_otp = $verify_code;
 //$this->vndContact->contactPhones[0]->save();
 				}
-				if(!$this->save())
+				if (!$this->save())
 				{
 					throw new Exception('Failed to save vendor.');
 				}
 				$this->vnd_ref_code	 = $this->vnd_id;
 				$arr				 = Filter::getCodeById($this->vnd_id, "vendor");
-				if($arr['success'] == 1)
+				if ($arr['success'] == 1)
 				{
 					$this->vnd_code = $arr['code'];
 					$this->save();
@@ -416,7 +416,7 @@ class Vendors extends CActiveRecord
 
 				$this->vendorPrefs->setAttribute('vnp_vnd_id', $this->vnd_id);
 				$this->vendorStats->setAttribute('vrs_vnd_id', $this->vnd_id);
-				if($this->vendorDevices != NULL)
+				if ($this->vendorDevices != NULL)
 				{
 					$this->vendorDevices->setAttribute('vdc_vnd_id', $this->vnd_id);
 				}
@@ -424,31 +424,31 @@ class Vendors extends CActiveRecord
 
 				$resultStats = CActiveForm::validate($this->vendorStats, null, false);
 
-				if($resultPrefs != '[]' || $resultStats != '[]')
+				if ($resultPrefs != '[]' || $resultStats != '[]')
 				{
-					if($resultPrefs != '[]' && $resultStats != '[]')
+					if ($resultPrefs != '[]' && $resultStats != '[]')
 					{
 						$arrResult = array_merge($resultPrefs, $resultStats);
 					}
-					else if($resultPrefs != '[]')
+					else if ($resultPrefs != '[]')
 					{
 						$arrResult = $resultPrefs;
 					}
-					else if($resultStats != '[]')
+					else if ($resultStats != '[]')
 					{
 						$arrResult = $resultStats;
 					}
 					throw new Exception($arrResult);
 				}
 
-				if(!$this->vendorPrefs->save() || !$this->vendorStats->save())
+				if (!$this->vendorPrefs->save() || !$this->vendorStats->save())
 				{
 //$this->vendorPrefs->errors;
 					throw new Exception('Failed to save vendor.');
 				}
-				if($this->vendorDevices != NULL)
+				if ($this->vendorDevices != NULL)
 				{
-					if(!$this->vendorDevices->save())
+					if (!$this->vendorDevices->save())
 					{
 						throw new Exception('Failed to save vendor.');
 					}
@@ -468,30 +468,30 @@ class Vendors extends CActiveRecord
 //					$this->createUserByVendor($this->vnd_id, $contEmailPhone, md5($password), 2);
 //				}
 
-				if($agreement_file != '' && $agreement_file_tmp != '')
+				if ($agreement_file != '' && $agreement_file_tmp != '')
 				{
 					$uploadedFile = CUploadedFile::getInstance($this, "vnd_agreement_file_link");
-					if($uploadedFile != '')
+					if ($uploadedFile != '')
 					{
 						$path	 = $this->uploadVendorFiles($uploadedFile, $this->vnd_id, 'agreement');
 						$success = VendorAgreement::model()->saveDocument($this->vnd_id, $path, $userInfo, 'agreement', $this->vnd_agreement_date);
-						if(!$success)
+						if (!$success)
 						{
 							throw new Exception('Failed to save vendor agreement.');
 						}
 					}
 				}
-				if($this->vnd_uvr_id > 0 && $type == 'unreg')
+				if ($this->vnd_uvr_id > 0 && $type == 'unreg')
 				{
 					$uvrmodel				 = UnregVendorRequest::model()->findByPk($this->vnd_uvr_id);
 					$uvrmodel->uvr_active	 = 0;
-					if($uvrmodel->save())
+					if ($uvrmodel->save())
 					{
 						Document::model()->transferUnregData($uvrmodel, $this->vnd_id, $contactId);
 					}
 				}
 
-				if($isNew)
+				if ($isNew)
 				{
 					$emailWrapper	 = new emailWrapper();
 					$emailWrapper->adminVendorSignupEmail($this, $contactId);
@@ -509,7 +509,7 @@ class Vendors extends CActiveRecord
 					$changesNewForLog	 = " New Values: " . $this->getModificationMSG($getNewDifference, false) . " " . $this->getModificationZonesMSG($getOldDifference, $oldData['pref'], $this->vendorPrefs->attributes, 2);
 					$desc				 .= $changesForLog . '<br />' . $changesNewForLog;
 					$event				 = VendorsLog::VENDOR_MODIFIED;
-					if($type == 'approve')
+					if ($type == 'approve')
 					{
 
 						Vendors::accountApproveVendor($this->vnd_id);
@@ -542,22 +542,22 @@ class Vendors extends CActiveRecord
 
 
 				VendorsLog::model()->createLog($this->vnd_id, $desc, $userInfo, $event, false, false);
-				if($contactId)
+				if ($contactId)
 				{
 					ContactProfile::updateEntity($contactId, $this->vnd_id, UserInfo::TYPE_VENDOR);
 				}
 
 //Added this DCO
-				if($this->vnd_cat_type == 1)
+				if ($this->vnd_cat_type == 1)
 				{
 					$contactModel	 = Contact::model()->findByPk($contactId);
 					$drvName		 = $contactModel->ctt_first_name . ' ' . $contactModel->ctt_last_name;
 //$driverModel	 = Drivers::model()->isIdExists($contactId);
 					$contactPrfModel = ContactProfile::findByContactId($contactId);
-					if($contactPrfModel->cr_is_driver == '' || $contactPrfModel->cr_is_driver == NULL)
+					if ($contactPrfModel->cr_is_driver == '' || $contactPrfModel->cr_is_driver == NULL)
 					{
 						$res = Drivers::addDriverDetails($contactId, $drvName);
-						if($res->getStatus())
+						if ($res->getStatus())
 						{
 							$data		 = ['vendor' => $this->vnd_id, 'driver' => $res->getData()];
 							$resLinked	 = VendorDriver::model()->checkAndSave($data);
@@ -568,16 +568,16 @@ class Vendors extends CActiveRecord
 					{
 						$drvId = $contactPrfModel->cr_is_driver;
 					}
-					if($drvId)
+					if ($drvId)
 					{
 						ContactProfile::updateEntity($contactId, $drvId, UserInfo::TYPE_DRIVER);
 					}
 				}
-				if($this->vnd_code != '')
+				if ($this->vnd_code != '')
 				{
 					$this->vnd_name = $this->generateName();
 //For DCO
-					if($this->vnd_cat_type == 1)
+					if ($this->vnd_cat_type == 1)
 					{
 						$this->vnd_cat_type	 = 1;
 						$this->vnd_is_dco	 = 1;
@@ -599,7 +599,7 @@ class Vendors extends CActiveRecord
 				throw new Exception('Validation Failed.');
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$returnSet->setStatus(false);
 			$this->addError("vnd_id", $e->getMessage());
@@ -614,18 +614,18 @@ class Vendors extends CActiveRecord
 
 	public function getModificationZonesMSG($diff, $oldData, $newData, $type)
 	{
-		if($diff['vnp_accepted_zone'])
+		if ($diff['vnp_accepted_zone'])
 		{
 			$arrOld		 = explode(",", $oldData['vnp_accepted_zone']);
 			$arrNew		 = explode(",", $newData['vnp_accepted_zone']);
 			$commonList	 = array_intersect($arrOld, $arrNew);
 
-			if($commonList != [])
+			if ($commonList != [])
 			{
-				if($type == 1)
+				if ($type == 1)
 				{
 					$arrZoneData = array_diff($arrOld, $commonList);
-					if(count($arrZoneData) == 0)
+					if (count($arrZoneData) == 0)
 					{
 						goto skip;
 					}
@@ -633,13 +633,13 @@ class Vendors extends CActiveRecord
 				else
 				{
 					$arrZoneData = array_diff($arrNew, $commonList);
-					if(count($arrZoneData) == 0)
+					if (count($arrZoneData) == 0)
 					{
 						goto skip;
 					}
 				}
 				$arrZone = Zones::model()->getZoneList1();
-				foreach($arrZoneData as $key)
+				foreach ($arrZoneData as $key)
 				{
 					$arrLable[] = $arrZone[$key];
 				}
@@ -656,7 +656,7 @@ class Vendors extends CActiveRecord
 		$model				 = Vendors::model()->findByPk($vndId);
 		$model->vnd_active	 = 1;
 		$model->scenario	 = 'isApprove';
-		if($model->save())
+		if ($model->save())
 		{
 			$params	 = ['vnd_id'			 => $model->vnd_id,
 				'full_name'			 => $model->vndContact->getName(),
@@ -685,19 +685,19 @@ class Vendors extends CActiveRecord
 	{
 		$fileName	 = $vendor_id . "-" . $type . "-" . date('YmdHis') . "." . pathinfo($uploadedFile, PATHINFO_EXTENSION);
 		$dir		 = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'attachments';
-		if(!is_dir($dir))
+		if (!is_dir($dir))
 		{
 			mkdir($dir);
 		}
 		$dirByVendorId = $dir . DIRECTORY_SEPARATOR . $vendor_id;
-		if(!is_dir($dirByVendorId))
+		if (!is_dir($dirByVendorId))
 		{
 			mkdir($dirByVendorId);
 		}
 
 		$foldertoupload	 = $dirByVendorId . DIRECTORY_SEPARATOR . $fileName;
 		$extention		 = pathinfo($uploadedFile, PATHINFO_EXTENSION);
-		if(strtolower($extention) == 'png' || strtolower($extention) == 'jpg' || strtolower($extention) == 'jpeg' || strtolower($extention) == 'gif')
+		if (strtolower($extention) == 'png' || strtolower($extention) == 'jpg' || strtolower($extention) == 'jpeg' || strtolower($extention) == 'gif')
 		{
 			Vehicles::model()->img_resize($uploadedFile->tempName, 1200, $dirByVendorId . DIRECTORY_SEPARATOR, $fileName);
 		}
@@ -721,7 +721,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	public function getList($command = false, $qry)
 	{
 		$homeCity = ($this->vnd_city != '') ? $this->vnd_city : '';
-		if($this->vndContact->ctt_city != '')
+		if ($this->vndContact->ctt_city != '')
 		{
 			$homeCity = ($this->vndContact->ctt_city != '') ? $this->vndContact->ctt_city : '';
 		}
@@ -730,13 +730,13 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		$vendorActive	 = ($this->vnd_active != '') ? $this->vnd_active : '';
 		$vendorActive	 = implode(',', $vendorActive);
 		$sql			 = " ";
-		if($this->vnd_service_class != '')
+		if ($this->vnd_service_class != '')
 		{
 			$strVehicleClass = " AND FIND_IN_SET({$this->vnd_service_class}, vendor_pref.vnp_is_allowed_tier)";
 		}
-		if($this->vnd_vehicle_category != '')
+		if ($this->vnd_vehicle_category != '')
 		{
-			switch($this->vnd_vehicle_category)
+			switch ($this->vnd_vehicle_category)
 			{
 				case 1 :
 					$strVehicleCategory	 = " AND vendor_stats.vrs_car_reg_compact_cnt > 0";
@@ -750,7 +750,8 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			}
 		}
 		$sqlCount = "SELECT   v1.vnd_id
-					FROM `vendors` v1 
+					FROM `vendors` v2 
+					INNER JOIN vendors v1 ON v2.vnd_ref_code = v1.vnd_id
 					INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = v1.vnd_id $strVehicleClass
 					INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = v1.vnd_id $strVehicleCategory
 					INNER JOIN contact_profile ON contact_profile.cr_is_vendor = v1.vnd_id AND cr_status=1 AND v1.vnd_id = v1.vnd_ref_code 
@@ -759,40 +760,44 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					LEFT JOIN contact_phone ON contact.ctt_id = contact_phone.phn_contact_id AND contact_phone.phn_active = 1 ";
 
 		$sqlData = "SELECT v1.vnd_id, v1.vnd_name, v1.vnd_contact_id,
-								v1.vnd_user_id, v1.vnd_code, v1.vnd_rel_tier,
-								v1.vnd_cat_type, v1.vnd_type, v1.vnd_create_date,
-								v1.vnd_active, vendor_pref.vnp_is_attached, vendor_pref.vnp_is_freeze,
-								vendor_pref.vnp_oneway, vendor_pref.vnp_round_trip, vendor_pref.vnp_cod_freeze,
-								vendor_pref.vnp_boost_enabled, vendor_pref.vnp_vhc_boost_count, vendor_stats.vrs_vnd_overall_rating,
-								vendor_stats.vrs_security_amount, vendor_stats.vrs_security_receive_date,vendor_stats.vrs_last_logged_in, vendor_stats.vrs_car_reg_compact_cnt,
-								vendor_stats.vrs_car_reg_sedan_cnt, vendor_stats.vrs_car_reg_suv_cnt, vendor_stats.vrs_approve_driver_count,vendor_stats.vrs_last_bkg_cmpleted,
-								" . ($this->vnd_source == 232 ? 'IFNULL(lock_payment.bkg_pickup_date,"-")' : '"-"') . " as last_lock_date, 
-								vendor_stats.vrs_approve_car_count, contact.ctt_city, contact.ctt_is_name_dl_matched,
-								contact.ctt_is_name_pan_matched, contact.ctt_first_name, contact.ctt_last_name,
-								contact.ctt_business_name, contact.ctt_address, contact_phone.phn_phone_no,contact_email.eml_email_address, 
-								GROUP_CONCAT(DISTINCT CONCAT(phn_phone_no, '|', phn_is_primary, '|', phn_is_verified)) phn_phone_no, 
-								GROUP_CONCAT(DISTINCT CONCAT(eml_email_address, '|', eml_is_primary, '|', eml_is_verified)) eml_email_address, 
-								contact_profile.cr_contact_id 
-								, vrs_pending_drivers, vrs_rejected_drivers, vrs_count_driver 
-								, vrs_pending_cars, vrs_rejected_cars, vrs_count_car 
-								, doc.vnd_agreement_lnk, doc.vnd_agreement_dt 
-						 FROM   `vendors` v2
-								INNER JOIN vendors v1 ON v2.vnd_ref_code = v1.vnd_id
-								INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = v1.vnd_id $strVehicleClass
-								INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = v1.vnd_id $strVehicleCategory
-								INNER JOIN contact_profile ON contact_profile.cr_is_vendor = v1.vnd_id AND cr_status=1 
-								INNER JOIN contact ON contact.ctt_id = contact_profile.cr_contact_id AND contact.ctt_active = 1
-								LEFT JOIN contact_email ON contact.ctt_id = contact_email.eml_contact_id AND contact_email.eml_active = 1 
-								LEFT JOIN contact_phone ON contact.ctt_id = contact_phone.phn_contact_id AND contact_phone.phn_active = 1 
-								LEFT JOIN (SELECT   vendor_agreement.vag_vnd_id, vendor_agreement.vag_soft_path AS vnd_agreement_lnk, vendor_agreement.vag_soft_date AS vnd_agreement_dt
-										   FROM     `vendor_agreement`
-										   WHERE    `vendor_agreement`.vag_soft_date IN (SELECT   MAX(vendor_agreement.vag_soft_date) AS vnd_agreement_dt
-																						 FROM     `vendor_agreement`
-																						 GROUP BY vendor_agreement.vag_vnd_id)
-										   GROUP BY vendor_agreement.vag_vnd_id) AS doc
-								  ON doc.vag_vnd_id = v1.vnd_id ";
+			v1.vnd_user_id, v1.vnd_code, v1.vnd_rel_tier,
+			v1.vnd_cat_type, v1.vnd_type, v1.vnd_create_date,
+			count(DISTINCT v3.vnd_id) cntMergedVnd,GROUP_CONCAT(DISTINCT v3.vnd_code) codeMergedVnd, 
+			v1.vnd_active, vendor_pref.vnp_is_attached, vendor_pref.vnp_is_freeze,
+			vendor_pref.vnp_oneway, vendor_pref.vnp_round_trip, vendor_pref.vnp_cod_freeze,
+			vendor_pref.vnp_boost_enabled, vendor_pref.vnp_vhc_boost_count, vendor_stats.vrs_vnd_overall_rating,
+			vendor_stats.vrs_security_amount, vendor_stats.vrs_security_receive_date,vendor_stats.vrs_last_logged_in, vendor_stats.vrs_car_reg_compact_cnt,
+			vendor_stats.vrs_car_reg_sedan_cnt, vendor_stats.vrs_car_reg_suv_cnt, vendor_stats.vrs_approve_driver_count,vendor_stats.vrs_last_bkg_cmpleted,
+			" . ($this->vnd_source == 232 ? 'IFNULL(lock_payment.bkg_pickup_date,"-")' : '"-"') . " as last_lock_date, 
+			vendor_stats.vrs_approve_car_count, contact.ctt_city, contact.ctt_is_name_dl_matched,
+			contact.ctt_is_name_pan_matched,contact.ctt_id,contact.ctt_name, contact.ctt_first_name, contact.ctt_last_name,
+			contact.ctt_business_name, contact.ctt_address, contact_phone.phn_phone_no,contact_email.eml_email_address, 
+			GROUP_CONCAT(DISTINCT CONCAT(phn_phone_no, '|', phn_is_primary, '|', phn_is_verified)) phn_phone_no, 
+			GROUP_CONCAT(DISTINCT CONCAT(eml_email_address, '|', eml_is_primary, '|', eml_is_verified)) eml_email_address, 
+			contact_profile.cr_contact_id 
+			, vrs_pending_drivers, vrs_rejected_drivers, vrs_count_driver 
+			, vrs_pending_cars, vrs_rejected_cars, vrs_count_car 
+			, doc.vnd_agreement_lnk, doc.vnd_agreement_dt 
+			FROM   `vendors` v2
+				INNER JOIN vendors v1 ON v2.vnd_ref_code = v1.vnd_id AND v1.vnd_ref_code = v1.vnd_id
+				INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = v1.vnd_id $strVehicleClass
+				INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = v1.vnd_id $strVehicleCategory
+				INNER JOIN contact_profile ON contact_profile.cr_is_vendor = v1.vnd_id AND cr_status=1 
+				INNER JOIN contact ON contact.ctt_id = contact_profile.cr_contact_id AND contact.ctt_active = 1
+				LEFT JOIN vendors v3 ON v3.vnd_ref_code = v1.vnd_ref_code AND v3.vnd_id<>v3.vnd_ref_code
+				LEFT JOIN contact_email ON contact.ctt_id = contact_email.eml_contact_id AND contact_email.eml_active = 1 
+				LEFT JOIN contact_phone ON contact.ctt_id = contact_phone.phn_contact_id AND contact_phone.phn_active = 1 
+				LEFT JOIN 
+					(SELECT   vendor_agreement.vag_vnd_id, vendor_agreement.vag_soft_path AS vnd_agreement_lnk, vendor_agreement.vag_soft_date AS vnd_agreement_dt
+						FROM     `vendor_agreement`
+						WHERE    `vendor_agreement`.vag_soft_date IN 
+							(SELECT   MAX(vendor_agreement.vag_soft_date) AS vnd_agreement_dt
+								FROM     `vendor_agreement`
+								GROUP BY vendor_agreement.vag_vnd_id)
+					GROUP BY vendor_agreement.vag_vnd_id) AS doc
+				ON doc.vag_vnd_id = v1.vnd_id ";
 
-		if($this->vnd_vehicle_type != '')
+		if ($this->vnd_vehicle_type != '')
 		{
 			$strVehicleType = "INNER JOIN vendor_vehicle ON vendor_vehicle.vvhc_vnd_id = v1.vnd_id AND vvhc_active = 1 
 								INNER JOIN vehicles ON vehicles.vhc_id = vendor_vehicle.vvhc_vhc_id AND vhc_active = 1 AND vhc_type_id = {$this->vnd_vehicle_type}";
@@ -800,10 +805,10 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			$sqlCount	 .= $strVehicleType;
 			$sqlData	 .= $strVehicleType;
 		}
-		if($this->vnd_source == 232)
+		if ($this->vnd_source == 232)
 		{
 			$agentWhere = '';
-			if($this->vnd_bkg_agent_id != '')
+			if ($this->vnd_bkg_agent_id != '')
 			{
 				$agentWhere = " AND bkg.bkg_agent_id  = $this->vnd_bkg_agent_id";
 			}
@@ -821,133 +826,137 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		$sqlCount	 .= " WHERE cr_created = (SELECT MAX(cr_created) FROM contact_profile AS cp WHERE cp.cr_is_vendor = v1.vnd_id AND cr_status=1 AND cp.cr_contact_id=contact.ctt_ref_code)";
 		$sqlData	 .= " WHERE cr_created = (SELECT MAX(cr_created) FROM contact_profile AS cp WHERE cp.cr_is_vendor = v1.vnd_id AND cr_status=1 AND cp.cr_contact_id=contact.ctt_ref_code)";
 
-		if($qry['searchdlmismatch'] != '')
+		if ($qry['searchdlmismatch'] != '')
 		{
 			$dlMismatchedVal = $qry['searchdlmismatch'];
 			$sqlCondition	 .= "  AND contact.ctt_is_name_dl_matched  = $dlMismatchedVal";
 			$sql			 .= "  AND contact.ctt_is_name_dl_matched  = $dlMismatchedVal";
 		}
-		if($qry['searchpanmismatch'] != '')
+		if ($qry['searchpanmismatch'] != '')
 		{
 			$panMismatchedVal	 = $qry['searchpanmismatch'];
 			$sqlCondition		 .= "  AND contact.ctt_is_name_pan_matched  = $panMismatchedVal";
 			$sql				 .= "  AND contact.ctt_is_name_pan_matched  = $panMismatchedVal";
 		}
-		if($qry['searchvndpaymentlock'] != '')
+		if ($qry['searchvndpaymentlock'] != '')
 		{
 			$vndPaymentLockVal	 = $qry['searchvndpaymentlock'];
 			$sqlCondition		 .= "  AND lock_payment.bcb_lock_vendor_payment = $vndPaymentLockVal";
 			$sql				 .= "  AND lock_payment.bcb_lock_vendor_payment = $vndPaymentLockVal";
 		}
-		if($this->vendorPrefs->vnp_home_zone != '')
+		if ($this->vendorPrefs->vnp_home_zone != '')
 		{
 			$sql .= " AND vendor_pref.vnp_home_zone IN ({$this->vendorPrefs->vnp_home_zone})";
 		}
 
-		if($this->vnd_registered_platform == 1)
+		if ($this->vnd_registered_platform == 1)
 		{
-			$sql .= " AND v1.vnd_registered_platform IN ({$this->vnd_registered_platform})";
+			$sql .= " AND v2.vnd_registered_platform IN ({$this->vnd_registered_platform})";
 		}
-		if($this->vnd_cat_type == 1)
+		if ($this->vnd_cat_type == 1)
 		{
 			$sql .= " AND v1.vnd_cat_type = 1";
 		}
 
-		if($this->vendorPrefs->vnp_accepted_zone != '')
+		if ($this->vendorPrefs->vnp_accepted_zone != '')
 		{
 			$sql .= " AND vendor_pref.vnp_accepted_zone IN ({$this->vendorPrefs->vnp_accepted_zone})";
 		}
-		if($homeCity != '')
+		if ($homeCity != '')
 		{
 			$sql .= " AND contact.ctt_city='$homeCity'";
 		}
-		if($this->vnd_name != '')
+		if ($this->vnd_name != '')
 		{
-			$sql .= " AND (v1.vnd_name LIKE '%{$this->vnd_name}%' || v1.vnd_code LIKE '%{$this->vnd_name}%' || contact.ctt_first_name LIKE '%{$this->vnd_name}%' || contact.ctt_last_name LIKE '%{$this->vnd_name}%' || contact.ctt_business_name LIKE '%{$this->vnd_name}%')";
+			$sql .= " AND (v2.vnd_name LIKE '%{$this->vnd_name}%' || 
+		v2.vnd_code LIKE '%{$this->vnd_name}%' || 
+		contact.ctt_first_name LIKE '%{$this->vnd_name}%' || 
+		contact.ctt_last_name LIKE '%{$this->vnd_name}%' || 
+		contact.ctt_business_name LIKE '%{$this->vnd_name}%')";
 		}
 
 
-		if($this->vnd_owner != '')
+		if ($this->vnd_owner != '')
 		{
 			$sql .= " AND (contact.ctt_first_name LIKE '%{$this->vnd_owner}%' || contact.ctt_last_name LIKE '%{$this->vnd_owner}%')";
 		}
-		if($this->vnd_company != '')
+		if ($this->vnd_company != '')
 		{
 			$sql .= " AND contact.ctt_business_name LIKE '%{$this->vnd_company}%'";
 		}
-		if($this->vndContact->contactPhones->phn_phone_no != '')
+		if ($this->vndContact->contactPhones->phn_phone_no != '')
 		{
 			$sql .= " AND contact_phone.phn_phone_no='{$this->vndContact->contactPhones->phn_phone_no}' AND contact_phone.phn_active = 1";
 		}
-		if($this->vndContact->contactEmails->eml_email_address != '')
+		if ($this->vndContact->contactEmails->eml_email_address != '')
 		{
 			$sql .= " AND contact_email.eml_email_address='{$this->vndContact->contactEmails->eml_email_address}' AND contact_email.eml_active = 1";
 		}
-		if($this->vndContact->ctt_address != '')
+		if ($this->vndContact->ctt_address != '')
 		{
 			$sql .= " AND contact.ctt_address LIKE '%{$this->vndContact->ctt_address}%'";
 		}
-		if(isset($this->vnd_id) && $this->vnd_id != "")
+		if (isset($this->vnd_id) && $this->vnd_id != "")
 		{
 			$sql .= " AND (vnd_id = {$this->vnd_id})";
 		}
-		if($this->vndContact->ctt_id != "")
+		if ($this->vndContact->ctt_id != "")
 		{
 			$sql .= " AND (contact.ctt_id = {$this->vndContact->ctt_id})";
 		}
 
 		$or = "";
-		if(in_array(1, $this->bkgtypes) != '')
+		if (in_array(1, $this->bkgtypes) != '')
 		{
 			$query	 .= "  vendor_pref.vnp_oneway = 1";
 			$or		 = " OR ";
 		}
-		if(in_array(2, $this->bkgtypes) != '')
+		if (in_array(2, $this->bkgtypes) != '')
 		{
 			$query	 .= $or . " vendor_pref.vnp_round_trip = 1";
 			$or		 = " OR ";
 		}
-		if(in_array(3, $this->bkgtypes) != '')
+		if (in_array(3, $this->bkgtypes) != '')
 		{
 			$query	 .= $or . " vendor_pref.vnp_airport = 1";
 			$or		 = " OR ";
 		}
-		if(in_array(4, $this->bkgtypes) != '')
+		if (in_array(4, $this->bkgtypes) != '')
 		{
 			$query	 .= $or . " vendor_pref.vnp_package = 1";
 			$or		 = " OR ";
 		}
-		if(in_array(5, $this->bkgtypes) != '')
+		if (in_array(5, $this->bkgtypes) != '')
 		{
 			$query	 .= $or . " vendor_pref.vnp_daily_rental = 1";
 			$or		 = " OR ";
 		}
-		if(in_array(14, $this->bkgtypes) != '')
+		if (in_array(14, $this->bkgtypes) != '')
 		{
 			$query	 .= $or . " vendor_pref.vnp_lastmin_booking = 1";
 			$or		 = " OR ";
 		}
-		if(in_array(6, $this->bkgtypes) != '')
+		if (in_array(6, $this->bkgtypes) != '')
 		{
 			$query .= $or . " vendor_pref.vnp_tempo_traveller = 1";
 		}
-		if($query != '')
+		if ($query != '')
 		{
 			$sql .= " AND (" . $query . ")";
 		}
 
-		if($this->vnd_rel_tier > 0)
+		if ($this->vnd_rel_tier > 0)
 		{
 			$tier	 = ($this->vnd_rel_tier == 2) ? 0 : $this->vnd_rel_tier;
-			$sql	 .= " AND v1.vnd_rel_tier='{$tier}'";
+			$sql	 .= " AND v2.vnd_rel_tier='{$tier}'";
 		}
-		if($this->vnd_platform == 2)
+		if ($this->vnd_platform == 2)
 		{
 			$sql .= " AND vendor_stats.vrs_platform=2";
 		}
-		if($this->vendorStats->vrs_vnd_overall_rating != '')
+		if ($this->vendorStats->vrs_vnd_overall_rating != '')
 		{
-			switch($this->vendorStats->vrs_vnd_overall_rating)
+			switch ($this->vendorStats->vrs_vnd_overall_rating)
 			{
 				case 1 :
 					$sql .= " AND (vendor_stats.vrs_vnd_overall_rating BETWEEN 0 AND 0.9)";
@@ -967,30 +976,30 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			}
 		}
 
-		if($this->vnd_source == 221 || $this->vnd_source == 232)
+		if ($this->vnd_source == 221 || $this->vnd_source == 232)
 		{
-			$sql .= " AND v1.vnd_active IN (1,2,3,4)";
+			$sql .= " AND v2.vnd_active IN (1,2,3,4)";
 		}
 		else
 		{
-			if($this->vnd_status != '')
+			if ($this->vnd_status != '')
 			{
-				switch($this->vnd_status)
+				switch ($this->vnd_status)
 				{
 					case 1:
-						$sql .= " AND v1.vnd_active=1";
+						$sql .= " AND v2.vnd_active=1";
 						break;
 					case 2:
-						$sql .= " AND v1.vnd_active=2";
+						$sql .= " AND v2.vnd_active=2";
 						break;
 					case 3:
 						$sql .= " AND vendor_pref.vnp_is_freeze=1";
 						break;
 					case 4:
-						$sql .= " AND vendor_pref.vnp_is_freeze=1 AND v1.vnd_active IN (1,2)";
+						$sql .= " AND vendor_pref.vnp_is_freeze=1 AND v2.vnd_active IN (1,2)";
 						break;
 					case 5:
-						$sql .= " AND vendor_pref.vnp_is_freeze=2 AND v1.vnd_active IN (1,2)";
+						$sql .= " AND vendor_pref.vnp_is_freeze=2 AND v2.vnd_active IN (1,2)";
 						break;
 				}
 			}
@@ -1001,9 +1010,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		}
 
 
-		if($this->vnd_source != '')
+		if ($this->vnd_source != '')
 		{
-			switch($this->vnd_source)
+			switch ($this->vnd_source)
 			{
 				case 210:
 					$sql .= " AND v1.vnd_id NOT IN (
@@ -1034,20 +1043,20 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					break;
 			}
 		}
-		if($this->vnd_security_paid == 1)
+		if ($this->vnd_security_paid == 1)
 		{
 			$sql .= " AND vendor_stats.vrs_security_amount > 0 ";
 		}
-		if($this->vnd_security_paid == 2)
+		if ($this->vnd_security_paid == 2)
 		{
 			$sql .= " AND vendor_stats.vrs_security_amount <= 0 ";
 		}
-		$sql .= " GROUP BY v1.vnd_ref_code";
+		$sql .= " GROUP BY v2.vnd_ref_code";
 
 #echo $sqlData . $sql;
 #die();
 
-		if($command == false)
+		if ($command == false)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sqlCount$sql) abc", DBUtil::SDB());
 			$dataprovider	 = new CSqlDataProvider("$sqlData$sql", [
@@ -1118,7 +1127,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			$modelContact	 = new Contact();
 			$cityModel		 = Cities::model()->findByPk($city);
 			$model->vnd_name = $name . "-" . $cityModel->cty_name;
-			if($isdriver == 1 && $vndown == 1)
+			if ($isdriver == 1 && $vndown == 1)
 			{
 				$modelContact->ctt_license_no = $driverlicense[0];
 			}
@@ -1145,7 +1154,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 
 			$modelVendPref->vnp_cars_own = $vndown;
 			$model->vnd_cat_type		 = $isdriver;
-			if(isset($city) && $city != '')
+			if (isset($city) && $city != '')
 			{
 				$zoneData						 = Zones::model()->getNearestZonebyCity($city);
 				$modelVendPref->vnp_home_zone	 = $zoneData['zon_id'];
@@ -1153,9 +1162,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			$model->vnd_active	 = 3;
 			$result				 = [];
 			$result				 = CActiveForm::validate($model, null, false);
-			if($result == '[]')
+			if ($result == '[]')
 			{
-				if($model->save())
+				if ($model->save())
 				{
 					$modelVendPref->setAttribute('vnp_vnd_id', $model->vnd_id);
 					$modelVendPref->save();
@@ -1165,7 +1174,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$modelVendDevice->save();
 
 					$isContactDriver = Drivers::model()->getContactByDrivers($email, $phone);
-					if(!$isContactDriver)
+					if (!$isContactDriver)
 					{
 						$modelContact->contactEmails = $modelContact->convertToContactEmailObjects($email);
 						$modelContact->contactPhones = $modelContact->convertToContactPhoneObjects($phone);
@@ -1181,7 +1190,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$model->vnd_contact_id	 = ($isContactDriver['drv_contact_id']) ? $isContactDriver['drv_contact_id'] : $modelContact->ctt_id;
 					$model->update();
 					$usersId				 = Users::model()->linkUserid($email, $phone);
-					if($usersId != "")
+					if ($usersId != "")
 					{
 						$model->vnd_user_id = $usersId;
 						$model->update();
@@ -1193,47 +1202,47 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					}
 
 					$vndCode = Filter::getCodeById($model->vnd_id, "vendor");
-					if($vndCode['success'] == 1)
+					if ($vndCode['success'] == 1)
 					{
 						$model->vnd_code = $vndCode['code'];
 						$model->save();
 					}
-					if($modelContact->ctt_id)
+					if ($modelContact->ctt_id)
 					{
 						ContactProfile::updateEntity($modelContact->ctt_id, $model->vnd_id, UserInfo::TYPE_VENDOR);
 					}
-					if($model->vnd_code != '')
+					if ($model->vnd_code != '')
 					{
 						$model->vnd_name = $this->generateName();
 						$model->save();
 					}
-					for($i = 0; $i < $vndown; $i++)
+					for ($i = 0; $i < $vndown; $i++)
 					{
 
-						if($vndown == 1 && $isdriver == 1 && !$isContactDriver)
+						if ($vndown == 1 && $isdriver == 1 && !$isContactDriver)
 						{
 							$driverModel				 = new Drivers();
 							$driverModel->drv_name		 = $drivername[$i];
 							$driverModel->drv_contact_id = $modelContact->ctt_id;
 							$socialUserClount			 = Drivers::model()->getAllDriverIdsByUserId($socialuserid);
-							if($socialUserClount == null)
+							if ($socialUserClount == null)
 							{
 								$driverModel->drv_user_id = $socialuserid;
 							}
-							if(!$driverModel->save())
+							if (!$driverModel->save())
 							{
 								throw new Exception('Driver not saved correctly');
 							}
 						}
 
 						$vehicleExist = VendorVehicle::model()->getVehiclebyVehicleNumber($carnumber[$i]);
-						if(!$vehicleExist)
+						if (!$vehicleExist)
 						{
 							$vehiclesModel				 = new Vehicles();
 							$vehiclesModel->vhc_type_id	 = $carmodel[$i];
 							$vehiclesModel->vhc_number	 = $carnumber[$i];
 							$vehiclesModel->vhc_year	 = $caryear[$i];
-							if(!$vehiclesModel->save())
+							if (!$vehiclesModel->save())
 							{
 								throw new Exception('Vehicles not saved correctly');
 							}
@@ -1248,7 +1257,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 						$vendorVehicleModel->vvhc_vnd_id = $model->vnd_id;
 						$vendorVehicleModel->save();
 
-						if($vndown == 1 && $isdriver == 1 && !$isContactDriver)
+						if ($vndown == 1 && $isdriver == 1 && !$isContactDriver)
 						{
 							$driverId						 = ($driverModel->drv_id) ? $driverModel->drv_id : $isContactDriver['drv_id'];
 							$vendorDriverModel				 = new VendorDriver();
@@ -1265,7 +1274,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					VendorStats::model()->updateCountDrivers($model->vnd_id);
 					VendorStats::model()->updateCarTypeCount($model->vnd_id);
 					$modelAgmt = VendorAgreement::model()->findByVndId($model->vnd_id);
-					if(!$modelAgmt)
+					if (!$modelAgmt)
 					{
 						$modelAgmt2				 = new VendorAgreement();
 						$modelAgmt2->vag_vnd_id	 = $model->vnd_id;
@@ -1288,7 +1297,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				return $result['success'] = false;
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$message			 = $e->getMessage();
@@ -1298,9 +1307,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 
 	public function passwordResetForVendor($vendorModel, $vendorModel1)
 	{
-		if($vendorModel != '')
+		if ($vendorModel != '')
 		{
-			if($vendorModel->vnd_email != "")
+			if ($vendorModel->vnd_email != "")
 			{
 				$chars						 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 				$password					 = substr(str_shuffle($chars), 0, 4);
@@ -1310,9 +1319,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				$emailObj->attachTaxiMail($vendorModel->vnd_id, $password);
 			}
 		}
-		else if($vendorModel1 != '')
+		else if ($vendorModel1 != '')
 		{
-			if($vendorModel1->vnd_email != "")
+			if ($vendorModel1->vnd_email != "")
 			{
 				$chars						 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 				$password					 = substr(str_shuffle($chars), 0, 4);
@@ -1326,7 +1335,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 
 	public function getViewDetailbyId($vndId)
 	{
-		$sql	 = "SELECT
+		$sql	 = "SELECT contact.ctt_id,contact.ctt_ref_code,
 				`vnd_id`,
 				 vendors.vnd_rel_tier,
 				`vnd_name`,
@@ -1337,19 +1346,20 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				`phn_phone_no` as vnd_phone, 
 				`eml_email_address` as vnd_email, 
 				cr_contact_id, 
-				 ctt_name as vnd_contact_person, 
+					 contact.ctt_name as vnd_contact_person, 
 				`vnp_preferred_time_slots` as vnd_preferred_time,
 				`phn_phone_country_code` as vnd_phone_country_code,
 				`phn_phone_no` as vnd_contact_number,
 				`phn_phone_no` as vnd_alt_contact_number, 
-				`ctt_address` as vnd_address,
+					contact.`ctt_address` as vnd_address,
 				 NULL as `vnd_route_served`,
-				`ctt_business_name` as business_name,
-				`ctt_user_type` ,
-				ctt_business_type as business_type,
-				ctt_first_name , 
-				ctt_last_name , 
-				(SELECT CONCAT(ctt_first_name,' ',ctt_last_name) FROM contact WHERE ctt_id = ctt_owner_id) as vnd_owner, 
+					contact.`ctt_business_name` as business_name,
+					contact.`ctt_user_type` ,
+					contact.ctt_business_type as business_type,
+					contact.ctt_first_name , 
+					contact.ctt_last_name , 
+					(SELECT CONCAT(contact.ctt_first_name,' ',contact.ctt_last_name) 
+					FROM contact WHERE ctt_id = ctt_owner_id) as vnd_owner, 
 				`vnp_sedan_count` as vnd_sedan_count,
 				`vnp_compact_count` as vnd_compact_count,
 				`vnp_suv_count` as vnd_suv_count,
@@ -1359,7 +1369,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				`vnp_oneway` as vnd_booking_type,
 				 vcty.cty_id as`vnd_city`,
 				 stt_id,stt_name,
-				 ctt_city,vcty.cty_name,ctt_state,
+				 contact.ctt_city,vcty.cty_name,contact.ctt_state,
 				`vnd_active`,
 				`vnd_modified_date`,
 				`vnd_create_date`,
@@ -1383,13 +1393,13 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				`vrs_total_trips` as vnd_total_trips,
 				`vrs_last_thirtyday_trips` as vnd_last_thirtyday_trips,
 				 NULL as vnd_total_drivers,
-				`ctt_bank_name` as vnd_bank_name,
-				`ctt_bank_branch` as vnd_bank_branch,
-				`ctt_beneficiary_name` as vnd_beneficiary_name,
-				`ctt_account_type` as vnd_account_type,
-				`ctt_bank_ifsc` as vnd_bank_ifsc,
-				`ctt_bank_account_no` as vnd_bank_account_no,
-				`ctt_beneficiary_id` as vnd_beneficiary_id,
+				contact.`ctt_bank_name` as vnd_bank_name,
+				contact.`ctt_bank_branch` as vnd_bank_branch,
+				contact.`ctt_beneficiary_name` as vnd_beneficiary_name,
+				contact.`ctt_account_type` as vnd_account_type,
+				contact.`ctt_bank_ifsc` as vnd_bank_ifsc,
+				contact.`ctt_bank_account_no` as vnd_bank_account_no,
+				contact.`ctt_beneficiary_id` as vnd_beneficiary_id,
 				`vrs_total_amount` as vnd_total_amount,
 				`vrs_last_thirtyday_amount` as vnd_last_thirtyday_amount,
 				`vrs_last_trip_datetime` as vnd_last_trip_datetime,
@@ -1401,7 +1411,6 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				 NULL  as`vnd_log`,
 				`vnp_notes` as vnd_notes,
 				`vrs_credit_limit` as vnd_credit_limit,
-				`ctt_pan_no` as vnd_pan_no,
 				`vrs_security_amount` as vnd_security_amount,
 				`vrs_security_receive_date` as vnd_security_receive_date,
 				 0 as `vnd_deposited`,
@@ -1426,7 +1435,8 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				`vrs_car_mismatch_count` as vnd_car_mismatch_count,
 				`vrs_withdrawable_balance` as withdrawable_balance,
 				`vnp_cod_freeze` AS vnd_cod_freeze,
-				 vnp_oneway,vnp_round_trip,vnp_multi_trip,vnp_airport,vnp_package,vnp_flexxi,vnp_daily_rental,vnp_lastmin_booking,vnp_tempo_traveller,
+				 vnp_oneway, vnp_round_trip,vnp_multi_trip, vnp_airport,vnp_package,vnp_flexxi,
+                 vnp_daily_rental, vnp_lastmin_booking,vnp_tempo_traveller,
 				`vnd_application_aborted`,
 				`vnp_mod_day` as vnd_mod_day,
 				`vnp_invoice_date` as vnd_invoice_date,
@@ -1435,18 +1445,19 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				hzon.zon_id,hzon.zon_name,
 				hzon.zon_name vnd_home_zone,
 				NULL as  vnd_return_zone_name,
-				ctt_license_no as vnd_license_no,
-				ctt_license_exp_date as vnd_license_exp_date,
-				ctt_aadhaar_no as vnd_aadhaar_no,
-				ctt_voter_no as vnd_voter_no,
-				ctt_pan_no as vnd_pan_no,
-				ctt_dl_issue_authority as vnd_license_issue_auth,
+				contact.ctt_license_no as vnd_license_no,
+				contact.ctt_license_exp_date as vnd_license_exp_date,
+				contact.ctt_aadhaar_no as vnd_aadhaar_no,
+				contact.ctt_voter_no as vnd_voter_no,
+				contact.ctt_pan_no as vnd_pan_no,
+				contact.ctt_dl_issue_authority as vnd_license_issue_auth,
                 vendor_pref.vnp_boost_enabled,vendor_pref.vnp_vhc_boost_count
 				FROM vendors 
 				INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = vendors.vnd_id
 				INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = vendors.vnd_id
 				LEFT JOIN contact_profile ON contact_profile.cr_is_vendor=vendors.vnd_id AND cr_status=1
-                LEFT JOIN contact ON ctt_id=cr_contact_id AND ctt_active = 1 
+                LEFT JOIN contact ctt ON ctt.ctt_id=cr_contact_id AND ctt.ctt_active = 1 
+				LEFT JOIN contact ON contact.ctt_id=ctt.ctt_ref_code AND contact.ctt_active = 1  
 			    LEFT JOIN contact_email ON contact_email.eml_contact_id = contact.ctt_id AND  contact_email.eml_is_verified=1 AND contact_email.eml_active =1
                 LEFT JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id AND contact_phone.phn_is_verified=1 AND contact_phone.phn_active =1 
 				LEFT JOIN vendor_device ON vendor_device.vdc_vnd_id = vendors.vnd_id
@@ -1455,11 +1466,12 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				LEFT JOIN cities vcty ON vcty.cty_id = contact.ctt_city
 				LEFT JOIN states stt ON stt.stt_id = vcty.cty_state_id
 				LEFT JOIN zones hzon ON hzon.zon_id = vendor_pref.vnp_home_zone   
-				WHERE vendors.vnd_id=:vndId AND ctt_id=ctt_ref_code
+				WHERE vendors.vnd_id=:vndId 
+                AND contact.ctt_id=contact.ctt_ref_code
 				GROUP BY vendors.vnd_id,cr_created DESC";
 		$data	 = DBUtil::queryRow($sql, DBUtil::SDB(), ['vndId' => $vndId]);
 
-		if($data['vnd_accepted_zone'] != null)
+		if ($data['vnd_accepted_zone'] != null)
 		{
 			DBUtil::getINStatement($data['vnd_accepted_zone'], $bindString2, $params2);
 			$vnd_accepted_sql				 = "SELECT GROUP_CONCAT(DISTINCT acczon.zon_name ORDER BY acczon.zon_name ASC SEPARATOR ', ') vnd_accepted_zone_name   FROM  zones acczon WHERE acczon.zon_id IN ($bindString2) ";
@@ -1470,7 +1482,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			$data['vnd_accepted_zone_name'] = "";
 		}
 
-		if($data['vnd_excluded_cities'] != null)
+		if ($data['vnd_excluded_cities'] != null)
 		{
 			DBUtil::getINStatement($data['vnd_excluded_cities'], $bindString3, $params3);
 			$vnd_excluded_sql					 = "SELECT GROUP_CONCAT(DISTINCT exc.cty_name ORDER BY exc.cty_name ASC SEPARATOR ', ') vnd_excluded_cities_name   FROM  cities exc WHERE exc.cty_id IN ($bindString3) ";
@@ -1480,7 +1492,10 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		{
 			$data['vnd_excluded_cities_name'] = "";
 		}
-		$data['vnd_security_amount'] = AccountTransDetails::model()->calAmntByVendorReffBoth($vndId);
+		$vndIds = Vendors::getRelatedIds($vndId);
+
+		$data['vnd_security_amount'] = AccountTransactions::getSecurityAmount($vndIds);
+// AccountTransDetails::model()->calAmntByVendorReffBoth($vndId);
 		return $data;
 	}
 
@@ -1501,7 +1516,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	{
 		$vndCode = '';
 		$vndId	 = ($vndId > 0) ? $vndId : $this->vnd_id;
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$arr = [
 				'0'	 => 'Z',
@@ -1514,7 +1529,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 				'7'	 => 'G',
 				'8'	 => 'H',
 				'9'	 => 'I'];
-			foreach(str_split(str_pad($vndId, 6, 0, STR_PAD_LEFT)) as $v)
+			foreach (str_split(str_pad($vndId, 6, 0, STR_PAD_LEFT)) as $v)
 			{
 				$vndCode .= $arr[$v];
 			}
@@ -1528,7 +1543,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		return self::model()->findByAttributes(array('vnd_code' => $vndCode));
 	}
 
-	public function getCollectionReport($qry = [], $command = false)
+	public static function getCollectionReport($qry = [], $command = false)
 	{
 		$order		 = ($qry['order'] != '') ? $qry['order'] : '';
 		$name		 = ($qry['name'] != '') ? $qry['name'] : '';
@@ -1542,40 +1557,40 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		$dayRange	 = ($qry['dayRange'] != '') ? $qry['dayRange'] : '';
 
 		$where = "";
-		if($zone != '')
+		if ($zone != '')
 		{
 			$where .= " AND vnp.vnp_home_zone IN ($zone)";
 		}
-		if($name != '')
+		if ($name != '')
 		{
 			$where .= " AND (vnd.vnd_name LIKE '%$name%')";
 			#$vndName .= " AND (v1.vnd_name LIKE '%$name%')";
 		}
-		if($city != '')
+		if ($city != '')
 		{
 			$where .= " AND ctt.ctt_city=$city";
 		}
-		if($admin != '')
+		if ($admin != '')
 		{
 			$where .= " AND vnd.vnd_rm=$admin";
 		}
-		if($vndid != '')
+		if ($vndid != '')
 		{
 			$where .= " AND vnd.vnd_id=$vndid";
 		}
-		if($modDay != '')
+		if ($modDay != '')
 		{
 			$where .= " AND vnp.vnp_mod_day=$modDay";
 		}
 
-		if($payableFor != '')
+		if ($payableFor != '')
 		{
-			if($payableFor == 1)
+			if ($payableFor == 1)
 			{
 				$amt	 = ($amount > 0) ? -$amount : 0;
 				$having	 = "totTrans<$amt";
 			}
-			else if($payableFor == 2)
+			else if ($payableFor == 2)
 			{
 				$amt	 = ($amount > 0) ? $amount : 0;
 				$having	 = "totTrans>$amt";
@@ -1586,7 +1601,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			$having = "totTrans<100000";
 		}
 
-		if($dayRange != null)
+		if ($dayRange != null)
 		{
 			$range = "vrs.vrs_last_trip_datetime BETWEEN DATE_SUB(NOW(), INTERVAL $dayRange DAY) AND NOW()";
 		}
@@ -1594,38 +1609,60 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		{
 			$range = "vrs.vrs_last_trip_datetime >= '2018-04-01 00:00:00' OR vrs.vrs_last_trip_datetime IS NULL";
 		}
-
 		$sql = "SELECT vnd.vnd_ref_code as vnd_id, vnd.vnd_name, vnd.vnd_code, vnd.vnd_contact_id, ctt.ctt_id as contact_id, 
 				CONCAT(adm.adm_fname, ' ', adm.adm_lname) AS relation_manager, 
 				vrs.vrs_credit_limit AS vnd_credit_limit, GROUP_CONCAT(DISTINCT(ctt_beneficiary_id) SEPARATOR ' | ') AS vnd_beneficiary_id, 
-				vrs.vrs_effective_credit_limit AS vnd_effective_credit_limit, vrs.vrs_effective_overdue_days AS vnd_effective_overdue_days, 
-				vrs.vrs_security_amount AS vnd_security_amount, vrs.vrs_security_receive_date, vrs.vrs_locked_amount, 
+				vrs.vrs_effective_credit_limit AS vnd_effective_credit_limit, 
+				vrs.vrs_effective_overdue_days AS vnd_effective_overdue_days, 
+				vrs.vrs_security_amount AS vnd_security_amount1, 
+				vrs.vrs_security_receive_date, vrs.vrs_locked_amount, 
 				vrs_avg30 AS vsm_avg30, vrs_avg10 AS vsm_avg10, vrs.vrs_last_bkg_cmpleted  last_trip_completed_date, 
 				vnp.vnp_is_freeze AS vnd_is_freeze, vnp.vnp_home_zone, ctt.ctt_city, vnd.vnd_rm, vnd_active, 
 				vnp.vnp_cod_freeze AS vnd_cod_freeze, vrs.vrs_total_trips AS trips, vrs.vrs_vnd_overall_rating AS rating, 
-				MAX(ctt.ctt_bank_details_modify_date) as bankdetails_modify_date, COUNT(DISTINCT ctt.ctt_id) cntContact, 
-				a.totTrans, 
+				MAX(ctt.ctt_bank_details_modify_date) as bankdetails_modify_date, 
+				COUNT(DISTINCT ctt.ctt_id) cntContact, 
+				a.totTrans,b.securityAmount AS vnd_security_amount,
 				IF(vnp.vnp_is_freeze <> 0 OR vnd.vnd_active <> 1, 0, GREATEST((  (-1 * totTrans) - vrs.vrs_locked_amount), 0)) withdrawable_balance,
 				MAX(apt_last_login) apt_last_login,
-				cty_name,
-				vrs_dependency
+				cty_name, vrs_dependency,
+                IF(b.securityAmount <> vrs.vrs_security_amount,1,0) hasDifferentSecurityAmount
 				FROM vendors vnd 
 				INNER JOIN vendor_stats vrs ON vrs.vrs_vnd_id = vnd.vnd_id 
-				INNER JOIN contact_profile AS ctp ON ctp.cr_is_vendor = vnd.vnd_id AND ctp.cr_status = 1 
+				INNER JOIN contact_profile AS ctp ON ctp.cr_is_vendor = vnd.vnd_id 
+					AND ctp.cr_status = 1 
 				INNER JOIN contact AS ctt ON ctt.ctt_id = ctp.cr_contact_id AND ctt.ctt_active = 1  
 				INNER JOIN vendor_pref vnp ON vnp.vnp_vnd_id = vnd.vnd_id 
 				INNER JOIN 
 				(
 					SELECT v1.vnd_ref_code, SUM(atd.adt_amount) totTrans 
 					FROM vendors v1 
-					INNER JOIN account_trans_details atd ON atd.adt_trans_ref_id = v1.vnd_id AND atd.adt_active = 1 AND atd.adt_status = 1 
-					INNER JOIN account_transactions act ON act.act_id = atd.adt_trans_id AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 AND act.act_active = 1 AND act.act_status = 1 
+					INNER JOIN account_trans_details atd ON atd.adt_trans_ref_id = v1.vnd_id 
+						AND atd.adt_active = 1 AND atd.adt_status = 1 
+					INNER JOIN account_transactions act ON act.act_id = atd.adt_trans_id 
+						AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 AND act.act_active = 1 
+						AND act.act_status = 1 
 					WHERE 1 AND act.act_date >= '2021-04-01 00:00:00'  
 					GROUP BY v1.vnd_ref_code 
 					HAVING {$having} 
 				) a ON vnd.vnd_ref_code = a.vnd_ref_code 
+				LEFT JOIN 
+				(
+					SELECT v1.vnd_ref_code, IFNULL(SUM(adt.adt_amount), 0) securityAmount
+						FROM vendors v1
+					INNER JOIN account_trans_details adt ON
+						adt.adt_trans_ref_id = v1.vnd_id AND adt.adt_ledger_id IN(57, 14) 
+						AND adt.adt_active = 1 AND adt.adt_status = 1
+					INNER JOIN account_transactions act ON
+						adt.adt_trans_id = act.act_id AND act.act_active = 1 AND act.act_status = 1
+					INNER JOIN account_trans_details adt1 ON
+						adt1.adt_trans_id = act.act_id AND adt1.adt_active = 1 AND adt1.adt_status = 1 
+						AND adt1.adt_ledger_id = 34
+					WHERE act.act_date >= '2021-04-01 00:00:00'
+					GROUP BY v1.vnd_ref_code 
+				) b ON vnd.vnd_ref_code = b.vnd_ref_code 
 				LEFT JOIN admins adm ON adm.adm_id = vnd.vnd_rm 
-				LEFT JOIN app_tokens apt ON apt.apt_entity_id = vnd.vnd_id AND apt.apt_status = 1 AND apt.apt_user_type = 2
+				LEFT JOIN app_tokens apt ON apt.apt_entity_id = vnd.vnd_id AND apt.apt_status = 1 
+					AND apt.apt_user_type = 2
 				LEFT JOIN cities ON cty_id = ctt_city
 				WHERE ({$range}) {$where} 
 				GROUP BY vnd.vnd_ref_code 
@@ -1633,7 +1670,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 
 		$sqlCount = $sql;
 
-		if($command == false)
+		if ($command == false)
 		{
 			$pageSize		 = 50;
 			$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB3())->queryScalar();
@@ -1672,40 +1709,40 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		$dayRange	 = ($qry['dayRange'] != '') ? $qry['dayRange'] : '';
 
 		$where = "";
-		if($zone != '')
+		if ($zone != '')
 		{
 			$where .= " AND vnp.vnp_home_zone IN ($zone)";
 		}
-		if($name != '')
+		if ($name != '')
 		{
 			$where	 .= " AND (vnd.vnd_name LIKE '%$name%')";
 			$vndName .= " AND (v1.vnd_name LIKE '%$name%')";
 		}
-		if($city != '')
+		if ($city != '')
 		{
 			$where .= " AND ctt.ctt_city=$city";
 		}
-		if($admin != '')
+		if ($admin != '')
 		{
 			$where .= " AND vnd.vnd_rm=$admin";
 		}
-		if($vndid != '')
+		if ($vndid != '')
 		{
 			$where .= " AND vnd.vnd_id=$vndid";
 		}
-		if($modDay != '')
+		if ($modDay != '')
 		{
 			$where .= " AND vnp.vnp_mod_day=$modDay";
 		}
 
-		if($payableFor != '')
+		if ($payableFor != '')
 		{
-			if($payableFor == 1)
+			if ($payableFor == 1)
 			{
 				$amt	 = ($amount > 0) ? -$amount : 0;
 				$having	 = "totTrans<$amt";
 			}
-			else if($payableFor == 2)
+			else if ($payableFor == 2)
 			{
 				$amt	 = ($amount > 0) ? $amount : 0;
 				$having	 = "totTrans>$amt";
@@ -1716,7 +1753,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 			$having = "totTrans<100000";
 		}
 
-		if($dayRange != null)
+		if ($dayRange != null)
 		{
 			$range = "vrs.vrs_last_trip_datetime BETWEEN DATE_SUB(NOW(), INTERVAL $dayRange DAY) AND NOW()";
 		}
@@ -1763,7 +1800,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 
 		$sqlCount = $sql;
 
-		if($command == false)
+		if ($command == false)
 		{
 			$pageSize		 = 50;
 			$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB3())->queryScalar();
@@ -1960,38 +1997,38 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		$modDay		 = ($qry['modDay'] != '') ? $qry['modDay'] : '';
 
 		$where = "";
-		if($zone != '')
+		if ($zone != '')
 		{
 			$where .= " AND vnp.vnp_home_zone IN ($zone)";
 		}
-		if($name != '')
+		if ($name != '')
 		{
 			$where .= " AND (vnd.vnd_name LIKE '%$name%')";
 		}
-		if($city != '')
+		if ($city != '')
 		{
 			$where .= " AND ctt.ctt_city=$city";
 		}
-		if($admin != '')
+		if ($admin != '')
 		{
 			$where .= " AND vnd.vnd_rm=$admin";
 		}
-		if($vndid != '')
+		if ($vndid != '')
 		{
 			$where .= " AND vnd.vnd_id=$vndid";
 		}
-		if($modDay != '')
+		if ($modDay != '')
 		{
 			$where .= " AND vnp.vnp_mod_day=$modDay";
 		}
-		if($payableFor != '')
+		if ($payableFor != '')
 		{
-			if($payableFor == 1)
+			if ($payableFor == 1)
 			{
 				$amt	 = ($amount > 0) ? -$amount : 0;
 				$having	 = "totTrans<$amt";
 			}
-			else if($payableFor == 2)
+			else if ($payableFor == 2)
 			{
 				$amt	 = ($amount > 0) ? $amount : 0;
 				$having	 = "totTrans>$amt";
@@ -2001,7 +2038,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		{
 			$having = "totTrans<100000";
 		}
-		if($command == true)
+		if ($command == true)
 		{
 			$having = "totTrans <> 0";
 		}
@@ -2090,7 +2127,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		$sql		 = $sql . " ) as a ";
 		$sqlCount	 = $sqlCount;
 		DBUtil::dropTempTable($createTempTable);
-		if($command == false)
+		if ($command == false)
 		{
 //$defaultOrder	 = ($order != '') ? $order : 'vnd_name ASC';
 			$pageSize		 = 500;
@@ -2147,7 +2184,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 							WHERE act_date BETWEEN '$date1' AND '$date2 23:59:59' AND act.act_type = 5
 						GROUP BY v1.vnd_id";
 
-		if($type == 'data')
+		if ($type == 'data')
 		{
 			$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB())->queryScalar();
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -2158,7 +2195,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 
 			return $dataprovider;
 		}
-		else if($type == 'command')
+		else if ($type == 'command')
 		{
 			$sql		 .= " ORDER BY totalTds DESC";
 			$recordset	 = DBUtil::queryAll($sql, DBUtil::SDB());
@@ -2170,7 +2207,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	{
 		$param	 = ['cttId' => $ctcId];
 		$cond	 = "";
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$param['refCode']	 = $vndId;
 			$cond				 = " AND vnd_ref_code<>:refCode";
@@ -2188,7 +2225,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	{
 		$param	 = ['panId' => $panId];
 		$cond	 = "";
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$param['refCode']	 = $vndId;
 			$cond				 = " AND vnd_ref_code<>:refCode";
@@ -2213,15 +2250,15 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	public function getModificationMSG($diff)
 	{
 		$model	 = $msg	 = '';
-		if(count($diff) > 0)
+		if (count($diff) > 0)
 		{
-			if($diff['vnd_contact_id'])
+			if ($diff['vnd_contact_id'])
 			{
 				$msg .= ' Contact ID: ' . $diff['vnd_contact_id'] . ',';
 			}
-			if($diff['vnd_cat_type'])
+			if ($diff['vnd_cat_type'])
 			{
-				if($diff['vnd_cat_type'] == 1)
+				if ($diff['vnd_cat_type'] == 1)
 				{
 					$msg .= ' Type: DCO ,';
 				}
@@ -2230,21 +2267,21 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$msg .= ' Type: Vendor ,';
 				}
 			}
-			if($diff['vnd_firm_pan'])
+			if ($diff['vnd_firm_pan'])
 			{
 				$msg .= ' Vendor Firm Pan: ' . $diff['vnd_firm_pan'] . ',';
 			}
-			if($diff['vnd_firm_ccin'])
+			if ($diff['vnd_firm_ccin'])
 			{
 				$msg .= ' Vendor Firm CCIN: ' . $diff['vnd_firm_ccin'] . ',';
 			}
-			if($diff['firm_type'])
+			if ($diff['firm_type'])
 			{
 				$msg .= ' Vendor Firm Type: ' . $diff['firm_type'] . ',';
 			}
-			if($diff['vnp_home_zone'] || $diff['vnd_home_zone'])
+			if ($diff['vnp_home_zone'] || $diff['vnd_home_zone'])
 			{
-				if($diff['vnd_home_zone'] != '')
+				if ($diff['vnd_home_zone'] != '')
 				{
 					$msg .= ' Home Zone: ' . $diff['vnd_home_zone'] . ',';
 				}
@@ -2253,9 +2290,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$msg .= ' Home Zone: ' . $diff['vnp_home_zone'] . ',';
 				}
 			}
-			if($diff['vnp_sedan_count'] || $diff['vnd_sedan_count'])
+			if ($diff['vnp_sedan_count'] || $diff['vnd_sedan_count'])
 			{
-				if($diff['vnd_sedan_count'] != '')
+				if ($diff['vnd_sedan_count'] != '')
 				{
 					$msg .= ' Sedan Count: ' . $diff['vnd_sedan_count'] . ',';
 				}
@@ -2264,9 +2301,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$msg .= ' Sedan Count: ' . $diff['vnp_sedan_count'] . ',';
 				}
 			}
-			if($diff['vnp_compact_count'] || $diff['vnd_compact_count'])
+			if ($diff['vnp_compact_count'] || $diff['vnd_compact_count'])
 			{
-				if($diff['vnd_compact_count'] != '')
+				if ($diff['vnd_compact_count'] != '')
 				{
 					$msg .= ' Compact Count: ' . $diff['vnd_compact_count'] . ',';
 				}
@@ -2275,9 +2312,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$msg .= ' Compact Count: ' . $diff['vnp_compact_count'] . ',';
 				}
 			}
-			if($diff['vnp_suv_count'] || $diff['vnd_suv_count'])
+			if ($diff['vnp_suv_count'] || $diff['vnd_suv_count'])
 			{
-				if($diff['vnd_suv_count'] != '')
+				if ($diff['vnd_suv_count'] != '')
 				{
 					$msg .= ' SUV Count: ' . $diff['vnd_suv_count'] . ',';
 				}
@@ -2286,9 +2323,9 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$msg .= ' SUV Count: ' . $diff['vnp_suv_count'] . ',';
 				}
 			}
-			if($diff['vnp_notes'] || $diff['vnd_notes'])
+			if ($diff['vnp_notes'] || $diff['vnd_notes'])
 			{
-				if($diff['vnd_notes'] != '')
+				if ($diff['vnd_notes'] != '')
 				{
 					$msg .= ' Notes: ' . $diff['vnd_notes'] . ',';
 				}
@@ -2297,95 +2334,95 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 					$msg .= ' Notes: ' . $diff['vnp_notes'] . ',';
 				}
 			}
-			if($diff['booking_type'])
+			if ($diff['booking_type'])
 			{
 				$msg .= ' Booking Type(One Way): ' . $diff['booking_type'] . ',';
 			}
-			if($diff['vrs_credit_limit'])
+			if ($diff['vrs_credit_limit'])
 			{
 				$msg .= ' Credit Limit: ' . $diff['vrs_credit_limit'] . ',';
 			}
-			if($diff['vrs_security_amount'])
+			if ($diff['vrs_security_amount'])
 			{
 				$msg .= ' Security Amount: ' . $diff['vrs_security_amount'] . ',';
 			}
-			if($diff['vnp_oneway'] || $diff['vnp_round_trip'] || $diff['vnp_round_trip'] || $diff['vnp_package'] || $diff['vnp_daily_rental'] || $diff['vnp_airport'] || $diff['vnp_tempo_traveller'] || $diff['vnp_lastmin_booking'])
+			if ($diff['vnp_oneway'] || $diff['vnp_round_trip'] || $diff['vnp_round_trip'] || $diff['vnp_package'] || $diff['vnp_daily_rental'] || $diff['vnp_airport'] || $diff['vnp_tempo_traveller'] || $diff['vnp_lastmin_booking'])
 			{
 				$msg .= ' Services: ';
 			}
-			if($diff['vnp_oneway'])
+			if ($diff['vnp_oneway'])
 			{
-				if($diff['vnp_oneway'] == 1)
+				if ($diff['vnp_oneway'] == 1)
 				{
 					$msg .= ' One Way ,';
 				}
 			}
-			if($diff['vnp_round_trip'])
+			if ($diff['vnp_round_trip'])
 			{
-				if($diff['vnp_round_trip'] == 1)
+				if ($diff['vnp_round_trip'] == 1)
 				{
 					$msg .= ' Round Trip ,';
 				}
 			}
-			if($diff['vnp_round_trip'])
+			if ($diff['vnp_round_trip'])
 			{
-				if($diff['vnp_round_trip'] == 1)
+				if ($diff['vnp_round_trip'] == 1)
 				{
 					$msg .= ' Round Trip ,';
 				}
 			}
-			if($diff['vnp_package'])
+			if ($diff['vnp_package'])
 			{
-				if($diff['vnp_package'] == 1)
+				if ($diff['vnp_package'] == 1)
 				{
 					$msg .= ' Package ,';
 				}
 			}
-			if($diff['vnp_daily_rental'])
+			if ($diff['vnp_daily_rental'])
 			{
-				if($diff['vnp_daily_rental'] == 1)
+				if ($diff['vnp_daily_rental'] == 1)
 				{
 					$msg .= ' Day Rental ,';
 				}
 			}
-			if($diff['vnp_airport'])
+			if ($diff['vnp_airport'])
 			{
-				if($diff['vnp_airport'] == 1)
+				if ($diff['vnp_airport'] == 1)
 				{
 					$msg .= ' Airport Transfer ,';
 				}
 			}
-			if($diff['vnp_tempo_traveller'])
+			if ($diff['vnp_tempo_traveller'])
 			{
-				if($diff['vnp_tempo_traveller'] == 1)
+				if ($diff['vnp_tempo_traveller'] == 1)
 				{
 					$msg .= ' Tempo Traveller ,';
 				}
 			}
-			if($diff['vnp_lastmin_booking'])
+			if ($diff['vnp_lastmin_booking'])
 			{
-				if($diff['vnp_lastmin_booking'] == 1)
+				if ($diff['vnp_lastmin_booking'] == 1)
 				{
 					$msg .= ' Last Min Booking ,';
 				}
 			}
-			if($diff['vnd_bank_name'])
+			if ($diff['vnd_bank_name'])
 			{
 				$msg .= ' Bank Name ' . $diff['vnd_bank_name'] . ',';
 			}
-			if($diff['vnd_bank_branch'])
+			if ($diff['vnd_bank_branch'])
 			{
 				$msg .= ' Branch Name ' . $diff['vnd_bank_branch'] . ',';
 			}
-			if($diff['vnd_bank_account_no'])
+			if ($diff['vnd_bank_account_no'])
 			{
 				$msg .= ' Account No ' . $diff['vnd_bank_account_no'] . ',';
 			}
-			if($diff['vnd_bank_ifsc'])
+			if ($diff['vnd_bank_ifsc'])
 			{
 				$msg .= ' IFSC ' . $diff['vnd_bank_ifsc'] . ',';
 			}
-			if($diff['vnd_beneficiary_name'])
+			if ($diff['vnd_beneficiary_name'])
 			{
 				$msg .= ' Beneficiary name ' . $diff['vnd_beneficiary_name'] . ',';
 			}
@@ -2398,7 +2435,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	{
 		$sqlvndIds	 = "select group_concat(v3.vnd_id SEPARATOR ',')   FROM vendors v1 INNER JOIN vendors v2 ON v2.vnd_id = v1.vnd_ref_code INNER JOIN vendors v3 ON v2.vnd_ref_code = v3.vnd_id  WHERE v1.vnd_id = '" . $vndId . "'";
 		$vndIds		 = DBUtil::command($sqlvndIds)->queryScalar();
-		if(!empty($vndIds))
+		if (!empty($vndIds))
 		{
 			$arrTotal = Vehicles::model()->findBySql("SELECT count(1) total_vehicle,sum(IF(vhc_approved=1,1,0)) total_approved,
 				sum(IF(vhc_approved=3,1,0)) total_rejected,
@@ -2413,7 +2450,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 	{
 		$sqlvndIds	 = "select group_concat(v3.vnd_id SEPARATOR ',')   FROM vendors v1 INNER JOIN vendors v2 ON v2.vnd_id = v1.vnd_ref_code INNER JOIN vendors v3 ON v2.vnd_ref_code = v3.vnd_id  WHERE v1.vnd_id = '" . $vndId . "'";
 		$vndIds		 = DBUtil::command($sqlvndIds)->queryScalar();
-		if(!empty($vndIds))
+		if (!empty($vndIds))
 		{
 			$arrTotal = Drivers::model()->findBySql("SELECT count(DISTINCT d2.drv_id) total_driver,sum(IF(d2.drv_approved=1,1,0)) total_approved,
 				sum(IF(d2.drv_approved=3,1,0)) total_rejected,sum(IF(d2.drv_approved=2,1,0)) total_pending_approval 
@@ -2423,11 +2460,14 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
 		return $arrTotal;
 	}
 
-	public function getDrillDownInfo($vnd_id)
+	public function getDrillDownInfo($vndId)
 	{
-		$date		 = date('Y-m-d h:i:s');
-		$params		 = array("vnd_id" => trim($vnd_id), "date" => $date);
-		$qry		 = "SELECT  vnd_name,
+		$relVndIds = \Vendors::getRelatedIds($vndId);
+
+//		$date		 = date('Y-m-d h:i:s');
+		$date	 = Filter::getDBDateTime();
+		$params	 = array("date" => $date);
+		$qry	 = "SELECT DISTINCT vnd_name,
                             ctt_user_type,
                             ctt_business_name,
                             ctt_address,
@@ -2441,6 +2481,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
                             vrs_vnd_overall_rating,
                             eml_email_address,
                             ctt_beneficiary_id,
+							IF(ctt_ref_code=ctt_id,1,0) cttRank,
   (SELECT ROUND(((ROUND(AVG(IF(overall_rating IN (5,4), overall_rating, rtg_customer_driver)),1) + ROUND(AVG(IF(overall_rating IN (5,4),overall_rating,rtg_customer_car)),1) + ROUND(AVG(IF(rtg_csr_vendor IS NULL,5,rtg_csr_vendor)),1))/3),1)
    FROM
      (SELECT bcb_vendor_id,
@@ -2453,13 +2494,10 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
        JOIN booking_cab ON bcb_id = bkg_bcb_id
       WHERE rtg_active=1
         AND bkg_active=1
-        AND bkg_status IN (3,
-                           5,
-                           6,
-                           7)
+        AND bkg_status IN (3, 5, 6, 7)
         AND bkg_pickup_date>='2015-10-25 00:00:00'
         AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 90 DAY) AND :date) agtRating
-   WHERE agtRating.bcb_vendor_id = :vnd_id) AS vnd_last_three_month_rating,
+   WHERE agtRating.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_three_month_rating,
 
   (SELECT ROUND(((ROUND(AVG(IF(overall_rating IN (5,4), overall_rating, rtg_customer_driver)),1) + ROUND(AVG(IF(overall_rating IN (5,4),overall_rating,rtg_customer_car)),1) + ROUND(AVG(IF(rtg_csr_vendor IS NULL,5,rtg_csr_vendor)),1))/3),1)
    FROM
@@ -2473,13 +2511,10 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
        JOIN booking_cab ON bcb_id=bkg_bcb_id
       WHERE rtg_active=1
         AND bkg_active=1
-        AND bkg_status IN (3,
-                           5,
-                           6,
-                           7)
+        AND bkg_status IN (3, 5, 6, 7)
         AND bkg_pickup_date>='2015-10-25 00:00:00'
         AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 180 DAY) AND :date) agtRating
-   WHERE agtRating.bcb_vendor_id = :vnd_id) AS vnd_last_six_month_rating,
+   WHERE agtRating.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_six_month_rating,
 
   (SELECT ROUND(((ROUND(AVG(IF(overall_rating IN (5,4), overall_rating, rtg_customer_driver)),1) + ROUND(AVG(IF(overall_rating IN (5,4),overall_rating,rtg_customer_car)),1) + ROUND(AVG(IF(rtg_csr_vendor IS NULL,5,rtg_csr_vendor)),1))/3),1)
    FROM
@@ -2491,25 +2526,19 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
       FROM ratings
       JOIN booking ON bkg_id = rtg_booking_id
       JOIN booking_cab ON bcb_id=bkg_bcb_id
-      WHERE rtg_active=1
-        AND bkg_active=1
-        AND bkg_status IN (3,
-                           5,
-                           6,
-                           7)
+      WHERE rtg_active=1 AND bkg_active=1
+        AND bkg_status IN (3, 5, 6, 7)
         AND bkg_pickup_date>='2015-10-25 00:00:00'
         AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 365 DAY) AND :date) agtRating
-        WHERE agtRating.bcb_vendor_id = :vnd_id) AS vnd_last_twelve_month_rating,
+        WHERE agtRating.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_twelve_month_rating,
         cty_name AS vnd_home_city,
 
   (SELECT DISTINCT GROUP_CONCAT(zon_name)
    FROM zones
    WHERE FIND_IN_SET(zon_id,
-                       (SELECT DISTINCT CONCAT(IF(vnp_home_zone IS NULL,'',vnp_home_zone),',',IF(vnp_accepted_zone IS NULL,'',vnp_accepted_zone))
+			(SELECT DISTINCT GROUP_CONCAT(CONCAT_WS(',' ,vnp_home_zone ,vnp_accepted_zone ))
                         FROM vendors INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = vendors.vnd_id
-                        WHERE vnd_id = :vnd_id))) AS vnd_zones,
-       vrs_total_trips,
-
+			 WHERE vnd_id IN ({$relVndIds})))) AS vnd_zones, vrs_total_trips,
   (SELECT COUNT(*) AS total_trips
    FROM booking
    RIGHT JOIN booking_cab ON bcb_id = bkg_bcb_id
@@ -2517,7 +2546,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
      AND bkg_status<8
      AND bkg_pickup_date>='2015-10-25 00:00:00'
      AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 10 DAY) AND :date
-     AND booking_cab.bcb_vendor_id = :vnd_id) AS vnd_last_ten_day_trips,
+     AND booking_cab.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_ten_day_trips,
 
   (SELECT COUNT(*) AS total_trips
    FROM booking
@@ -2526,7 +2555,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
      AND bkg_status<8
      AND bkg_pickup_date>='2015-10-25 00:00:00'
      AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 30 DAY) AND :date
-     AND booking_cab.bcb_vendor_id = :vnd_id) AS vnd_last_one_month_trips,
+     AND booking_cab.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_one_month_trips,
 
   (SELECT COUNT(*) AS total_trips
    FROM booking
@@ -2535,7 +2564,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
      AND bkg_status<8
      AND bkg_pickup_date>='2015-10-25 00:00:00'
      AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 90 DAY) AND :date
-     AND booking_cab.bcb_vendor_id = :vnd_id) AS vnd_last_three_month_trips,
+     AND booking_cab.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_three_month_trips,
 
   (SELECT COUNT(*) AS total_trips
    FROM booking
@@ -2544,7 +2573,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
      AND bkg_status<8
      AND bkg_pickup_date>='2015-10-25 00:00:00'
      AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 180 DAY) AND :date
-     AND booking_cab.bcb_vendor_id = :vnd_id) AS vnd_last_six_month_trips,
+     AND booking_cab.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_six_month_trips,
 
   (SELECT COUNT(*) AS total_trips
    FROM booking
@@ -2553,7 +2582,7 @@ WHERE  v1.vnd_code = '$code' AND v2.vnd_active > 0";
      AND bkg_status<8
      AND bkg_pickup_date>='2015-10-25 00:00:00'
      AND bkg_pickup_date BETWEEN DATE_SUB(:date, INTERVAL 365 DAY) AND :date
-     AND booking_cab.bcb_vendor_id = :vnd_id) AS vnd_last_twelve_month_trips
+     AND booking_cab.bcb_vendor_id IN ({$relVndIds})) AS vnd_last_twelve_month_trips
 FROM vendors
 INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = vendors.vnd_id INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = vendors.vnd_id 
 INNER JOIN contact_profile ON contact_profile.cr_is_vendor=vendors.vnd_id AND cr_status=1
@@ -2562,8 +2591,9 @@ INNER JOIN contact ON ctt_id=cr_contact_id AND ctt_active = 1
 LEFT JOIN contact_email ON contact_email.eml_contact_id = contact.ctt_id  AND (eml_active = 1)
 LEFT JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id  AND (phn_active = 1)
 LEFT JOIN cities ON cty_id = ctt_city
-WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
-		$recordset	 = DBUtil::queryRow($qry, DBUtil::SDB(), $params);
+WHERE vnd_id IN ({$relVndIds})  ORDER BY cttRank DESC";
+
+		$recordset = DBUtil::queryRow($qry, DBUtil::SDB(), $params);
 		return $recordset;
 	}
 
@@ -2650,11 +2680,11 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 	public function getName()
 	{
 		$vendorName = '';
-		if($this->vndContact->ctt_user_type == 1)
+		if ($this->vndContact->ctt_user_type == 1)
 		{
 			$vendorName = $this->vndContact->ctt_first_name . '' . $this->vndContact->ctt_last_name;
 		}
-		else if($this->vndContact->ctt_user_type == 2)
+		else if ($this->vndContact->ctt_user_type == 2)
 		{
 			$vendorName = $this->vndContact->ctt_business_name;
 		}
@@ -2693,86 +2723,87 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 			LEFT JOIN contact_email eml ON eml.eml_contact_id=ctt.ctt_id AND eml.eml_active=1 
 			LEFT JOIN cities cty ON cty.cty_id = ctt.ctt_city " . $join;
 
-		$whereClause = " WHERE vnd.vnd_active=$active AND vnd.vnd_id = vnd.vnd_ref_code ";
+		//$whereClause = " WHERE vnd.vnd_active=$active AND vnd.vnd_id = vnd.vnd_ref_code ";
+		$whereClause = " WHERE vnd.vnd_active IN(3,4) AND vnd.vnd_id = vnd.vnd_ref_code ";
 
-		if($this->vendorPrefs->vnp_home_zone != '')
+		if ($this->vendorPrefs->vnp_home_zone != '')
 		{
 #$sql		 .= " AND vnp.vnp_home_zone IN ({$this->vendorPrefs->vnp_home_zone})";
 #$sqlCount	 .= " AND (vnp.vnp_home_zone IN ({$this->vendorPrefs->vnp_home_zone}))";
 
 			$whereClause .= " AND vnp.vnp_home_zone IN ({$this->vendorPrefs->vnp_home_zone})";
 		}
-		if($this->vnd_city != '')
+		if ($this->vnd_city != '')
 		{
 #$sql		 .= " AND ctt.ctt_city='$this->vnd_city'";
 #$sqlCount	 .= " AND ctt.ctt_city='$this->vnd_city'";
 
 			$whereClause .= " AND ctt.ctt_city='$this->vnd_city'";
 		}
-		if(isset($this->vnd_name) && $this->vnd_name != "")
+		if (isset($this->vnd_name) && $this->vnd_name != "")
 		{
 #$sql		 .= " AND (vnd.vnd_name LIKE '%" . $this->vnd_name . "%')";
 #$sqlCount	 .= " AND (vnd.vnd_name LIKE '%" . $this->vnd_name . "%')";
 
 			$whereClause .= " AND (vnd.vnd_name LIKE '%" . $this->vnd_name . "%')";
 		}
-		if($this->vnd_vehicle_type != '')
+		if ($this->vnd_vehicle_type != '')
 		{
 #$sql		 .= " AND vehicles.vhc_type_id  = $this->vnd_vehicle_type";
 #$sqlCount	 .= " AND vehicles.vhc_type_id  = $this->vnd_vehicle_type";
 
 			$whereClause .= " AND vehicles.vhc_type_id  = $this->vnd_vehicle_type";
 		}
-		if(isset($this->vnd_id) && $this->vnd_id != "")
+		if (isset($this->vnd_id) && $this->vnd_id != "")
 		{
 #$sql		 .= " AND (vnd.vnd_id = {$this->vnd_id})";
 #$sqlCount	 .= " AND (vnd.vnd_id = {$this->vnd_id})";
 
 			$whereClause .= " AND (vnd.vnd_id = {$this->vnd_id})";
 		}
-		if(isset($this->vnd_registered_platform) && $this->vnd_registered_platform == 1)
+		if (isset($this->vnd_registered_platform) && $this->vnd_registered_platform == 1)
 		{
 #$sql		 .= " AND (vnd.vnd_id = {$this->vnd_id})";
 #$sqlCount	 .= " AND (vnd.vnd_id = {$this->vnd_id})";
 
 			$whereClause .= " AND (vnd.vnd_registered_platform = {$this->vnd_registered_platform})";
 		}
-		if(isset($this->vnd_create_date) && $this->vnd_create_date != "")
+		if (isset($this->vnd_create_date) && $this->vnd_create_date != "")
 		{
 #$sql		 .= " AND (vnd.vnd_create_date LIKE '%" . $this->vnd_create_date . "%')";
 #$sqlCount	 .= " AND (vnd.vnd_create_date LIKE '%" . $this->vnd_create_date . "%')";
 
 			$whereClause .= " AND (vnd.vnd_create_date LIKE '%" . $this->vnd_create_date . "%')";
 		}
-		if($this->vndContact->contactPhones->phn_phone_no != "")
+		if ($this->vndContact->contactPhones->phn_phone_no != "")
 		{
 #$sql		 .= " AND (phn.phn_phone_no LIKE '%{$this->vndContact->contactPhones->phn_phone_no}%')";
 #$sqlCount	 .= " AND (phn.phn_phone_no LIKE '%{$this->vndContact->contactPhones->phn_phone_no}%')";
 
 			$whereClause .= " AND (phn.phn_phone_no LIKE '%{$this->vndContact->contactPhones->phn_phone_no}%')";
 		}
-		if($this->vndContact->ctt_business_name != "")
+		if ($this->vndContact->ctt_business_name != "")
 		{
 #$sql		 .= " AND (ctt.ctt_business_name LIKE '%{$this->vndContact->ctt_business_name}%')";
 #$sqlCount	 .= " AND (ctt.ctt_business_name LIKE '%{$this->vndContact->ctt_business_name}%')";
 
 			$whereClause .= " AND (ctt.ctt_business_name LIKE '%{$this->vndContact->ctt_business_name}%')";
 		}
-		if($this->vndContact->ctt_id != "")
+		if ($this->vndContact->ctt_id != "")
 		{
 #$sql		 .= " AND (ctt.ctt_id = {$this->vndContact->ctt_id})";
 #$sqlCount	 .= " AND (ctt.ctt_id = {$this->vndContact->ctt_id})";
 
 			$whereClause .= " AND (ctt.ctt_id = {$this->vndContact->ctt_id})";
 		}
-		if($this->vndContact->contactEmails->eml_email_address != "")
+		if ($this->vndContact->contactEmails->eml_email_address != "")
 		{
 #$sql		 .= " AND (eml.eml_email_address LIKE '%{$this->vndContact->contactEmails->eml_email_address}%')";
 #$sqlCount	 .= " AND (eml.eml_email_address LIKE '%{$this->vndContact->contactEmails->eml_email_address}%')";
 
 			$whereClause .= " AND (eml.eml_email_address LIKE '%{$this->vndContact->contactEmails->eml_email_address}%')";
 		}
-		if($this->vnd_is_nmi == 1)
+		if ($this->vnd_is_nmi == 1)
 		{
 			$nmiZone = InventoryRequest::getNMIZoneId();
 #$sql		 .= " AND (vnp.vnp_home_zone  IN ($nmiZone))";
@@ -2787,14 +2818,16 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$whereClause .= " GROUP BY vnd.vnd_ref_code";
 
 		$sql		 = $sql . $joinClause . $whereClause;
+		//echo $sql;
+		//exit;
 		$sqlCount	 = $sqlCount . $joinClause . $whereClause;
 
 		$count = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB())->queryScalar();
-		if($type == 'count')
+		if ($type == 'count')
 		{
 			return $count;
 		}
-		if($type == 'query')
+		if ($type == 'query')
 		{
 			return $sql;
 		}
@@ -2842,7 +2875,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 						JOIN booking_cab ON booking_cab.bcb_id = booking.bkg_bcb_id AND bcb_active = 1
 						WHERE 1 AND  booking.bkg_active=1 AND booking.bkg_create_date >= '2015-11-01 00:00:00' and booking.bkg_status in (3,5,6,7)
 						GROUP BY booking_cab.bcb_vendor_id";
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			return DBUtil::query($sql, DBUtil::SDB());
 		}
@@ -2904,41 +2937,41 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 				LEFT JOIN `states` ON cty.cty_state_id = states.stt_id 
 				" . $join . "
 				WHERE  1 AND cr_created = (SELECT MAX(cr_created) FROM contact_profile AS cp WHERE cp.cr_is_vendor = vendors.vnd_id AND cp.cr_status=1) AND vendors.vnd_active > 0";
-		if($zone != '')
+		if ($zone != '')
 		{
 			$sql .= " AND vendor_pref.vnp_home_zone=$zone";
 		}
-		if($this->vnd_is_voterid != '')
+		if ($this->vnd_is_voterid != '')
 		{
 			$isVoterSql	 = ($this->vnd_is_voterid > 0) ? " AND (contact.ctt_voter_doc_id IS NOT NULL OR contact.ctt_voter_doc_id <>'')" : " AND (contact.ctt_voter_doc_id IS NULL OR contact.ctt_voter_doc_id ='')";
 			$sql		 .= $isVoterSql;
 		}
-		if($this->vnd_is_pan != '')
+		if ($this->vnd_is_pan != '')
 		{
 			$isPanSql	 = ($this->vnd_is_pan > 0) ? " AND (contact.ctt_pan_doc_id IS NOT NULL OR contact.ctt_pan_doc_id <>'')" : " AND (contact.ctt_pan_doc_id IS NULL OR contact.ctt_pan_doc_id ='')";
 			$sql		 .= $isPanSql;
 		}
-		if($this->vnd_is_aadhar != '')
+		if ($this->vnd_is_aadhar != '')
 		{
 			$isAadharSql = ($this->vnd_is_aadhar > 0) ? " AND (contact.ctt_aadhar_doc_id IS NOT NULL OR contact.ctt_aadhar_doc_id <>'')" : " AND (contact.ctt_aadhar_doc_id IS NULL OR contact.ctt_aadhar_doc_id ='')";
 			$sql		 .= $isAadharSql;
 		}
-		if($this->vnd_is_license != '')
+		if ($this->vnd_is_license != '')
 		{
 			$isLicenseSql	 = ($this->vnd_is_license > 0) ? " AND (contact.ctt_license_doc_id IS NOT NULL OR contact.ctt_license_doc_id <>'')" : " AND (contact.ctt_license_doc_id IS NULL OR contact.ctt_license_doc_id ='')";
 			$sql			 .= $isLicenseSql;
 		}
-		if($this->vnd_is_agreement != '')
+		if ($this->vnd_is_agreement != '')
 		{
 			$isAgreementSql	 = ($this->vnd_is_agreement > 0) ? " AND (vendor_agreement.vag_soft_path IS NOT NULL OR vendor_agreement.vag_soft_path <>'')" : " AND (vendor_agreement.vag_soft_path IS NULL OR vendor_agreement.vag_soft_path ='')";
 			$sql			 .= $isAgreementSql;
 		}
-		if($this->vnd_operator != '')
+		if ($this->vnd_operator != '')
 		{
 			$isOperatorSql	 = " AND (vendors.vnd_name LIKE '%$this->vnd_operator%' OR vendors.vnd_code = '$this->vnd_operator')";
 			$sql			 .= $isOperatorSql;
 		}
-		if($this->vnd_is_bank != '')
+		if ($this->vnd_is_bank != '')
 		{
 			$isBankSql	 = ($this->vnd_is_bank > 0) ? " AND (ctt_bank_name <>'' AND ctt_bank_branch <>'' AND ctt_beneficiary_name <>'' AND ctt_bank_ifsc <>'')" : " AND (ctt_bank_name IS NULL AND 	ctt_bank_branch IS NULL AND ctt_beneficiary_name IS NULL AND ctt_bank_ifsc IS NULL)";
 			$sql		 .= $isBankSql;
@@ -2949,37 +2982,37 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		  $sql			 .= $isApproveSql;
 		  } */
 
-		if($this->vnd_city != '')
+		if ($this->vnd_city != '')
 		{
 			$citysql = ($this->vnd_city > 0) ? ' AND contact.ctt_city = ' . $this->vnd_city : '';
 			$sql	 .= $citysql;
 		}
-		if($this->vnd_vehicle_type != '')
+		if ($this->vnd_vehicle_type != '')
 		{
 			$sql .= " AND vehicles.vhc_type_id  = $this->vnd_vehicle_type";
 //$sqlCount	 .= " AND vehicles.vhc_type_id  = $this->vnd_vehicle_type";
 		}
-		if($this->vnd_phone != "")
+		if ($this->vnd_phone != "")
 		{
 			$sql .= " AND (contact_phone.phn_phone_no LIKE '%{$this->vnd_phone}%')";
 //$sqlCount	 .= " AND (contact_phone.phn_phone_no LIKE '%{$this->vnd_phone}%')";
 		}
-		if($this->vnd_email != "")
+		if ($this->vnd_email != "")
 		{
 			$sql .= " AND (contact_email.eml_email_address LIKE '%{$this->vnd_email}%')";
 //$sqlCount	 .= " AND (contact_email.eml_email_address LIKE '%{$this->vnd_email}%')";
 		}
-		if(isset($this->vnd_create_date1) && $this->vnd_create_date1 != "")
+		if (isset($this->vnd_create_date1) && $this->vnd_create_date1 != "")
 		{
 			$sql .= " AND (vendors.vnd_create_date LIKE '" . $this->vnd_create_date1 . "%')";
 //$sqlCount	 .= " AND (vendors.vnd_create_date LIKE '%" . $this->vnd_create_date1 . "%')";
 		}
-		if(isset($this->vnd_active) && $this->vnd_active != "")
+		if (isset($this->vnd_active) && $this->vnd_active != "")
 		{
 			$sql .= " AND (vendors.vnd_active = " . $this->vnd_active . ")";
 //$sqlCount	 .= " AND (vnd.vnd_create_date LIKE '%" . $this->vnd_create_date . "%')";
 		}
-		if($this->vnd_is_nmi == 1)
+		if ($this->vnd_is_nmi == 1)
 		{
 			$nmiZone = InventoryRequest::getNMIZoneId();
 			$sql	 .= " AND (vendor_pref.vnp_home_zone  IN ($nmiZone))";
@@ -2987,26 +3020,26 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		}
 
 
-		if($this->vnd_id != '')
+		if ($this->vnd_id != '')
 		{
 			$sql .= " AND vendors.vnd_id=$this->vnd_id";
 		}
 		$groupBy = " GROUP BY vendors.vnd_ref_code";
 		$orderBy = " ORDER BY vendor_pref.vnp_is_orientation DESC, vendor_stats.vrs_docs_r4a DESC";
-		if($this->vnd_is_loggedin != '')
+		if ($this->vnd_is_loggedin != '')
 		{
 			$isLoggedSql = ($this->vnd_is_loggedin > 0) ? " AND (vrs_last_logged_in IS NOT NULL OR vrs_last_logged_in <>'')" : " AND (vrs_last_logged_in IS NULL OR vrs_last_logged_in ='')";
 			$sql		 .= $isLoggedSql;
 		}
-		if($region != '')
+		if ($region != '')
 		{
 			$sql .= " AND stt_zone=$region";
 		}
 		$query = $select . $sql . $groupBy;
 //echo "<pre>";echo $query; dd($this);die;
-		if($type == 'command')
+		if ($type == 'command')
 		{
-			if($this->vnd_id != '')
+			if ($this->vnd_id != '')
 			{
 				return DBUtil::queryRow($query, DBUtil::SDB());
 			}
@@ -3036,7 +3069,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 
 	public function getRegistrationProgressCSVReport($data)
 	{
-		if(isset($_REQUEST['export1']) && $_REQUEST['export1'] == true)
+		if (isset($_REQUEST['export1']) && $_REQUEST['export1'] == true)
 		{
 			header('Content-type: text/csv');
 			header("Content-Disposition: attachment; filename=\"RegProgress_" . date('Ymdhis') . ".csv\"");
@@ -3047,24 +3080,24 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 				'Registered', 'Last Logged In', 'Digital Agreement Date', 'R4A score(Ready for Approval Score)',
 				'Bank Details', 'Drivers Added', 'Cars Added', 'Vendor Status']);
 
-			if(count($data) > 0)
+			if (count($data) > 0)
 			{
-				foreach($data as $row)
+				foreach ($data as $row)
 				{
 
-					if($row['vnd_active'] == '1')
+					if ($row['vnd_active'] == '1')
 					{
 						$vendor_status = 'Approved';
 					}
-					else if($row['vnd_active'] == '3')
+					else if ($row['vnd_active'] == '3')
 					{
 						$vendor_status = 'Pending';
 					}
-					else if($row['vnd_active'] == '2')
+					else if ($row['vnd_active'] == '2')
 					{
 						$vendor_status = 'Blocked / InActive / Rejected';
 					}
-					else if($row['vnd_active'] == '0')
+					else if ($row['vnd_active'] == '0')
 					{
 						$vendor_status = 'Deleted';
 					}
@@ -3097,7 +3130,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 				}
 			}
 			fclose($handle);
-			if(!$data)
+			if (!$data)
 			{
 				die('Could not take data backup: ' . mysql_error());
 			}
@@ -3141,7 +3174,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 	public static function getTypeByVendorType($vendorType)
 	{
 		$type = '';
-		if($vendorType > 0)
+		if ($vendorType > 0)
 		{
 			$list	 = self::getCatTypeList();
 			$type	 = $list[$vendorType];
@@ -3152,7 +3185,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 	public function countVendorDocMissing()
 	{
 		$returnSet = Yii::app()->cache->get('countVendorDocMissing');
-		if($returnSet === false)
+		if ($returnSet === false)
 		{
 			$sql		 = "SELECT count(1) FROM vendors 
 				INNER JOIN vendor_agreement ON vendor_agreement.vag_vnd_id=vendors.vnd_id 
@@ -3174,7 +3207,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 	public function countVendorBankMissing()
 	{
 		$returnSet = Yii::app()->cache->get('countVendorBankMissing');
-		if($returnSet === false)
+		if ($returnSet === false)
 		{
 			$sql		 = "SELECT COUNT(1) FROM   vendors vnd 
                             INNER JOIN contact_profile cp ON cp.cr_is_vendor = vnd.vnd_id AND cp.cr_status=1 
@@ -3197,7 +3230,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 	public static function fetchApprovedList($contact = false)
 	{
 		$contactJoin = "";
-		if($contact == true)
+		if ($contact == true)
 		{
 			$contactJoin = " INNER JOIN `contact` ON contact.ctt_id=vendors.vnd_contact_id AND (((contact.ctt_first_name!='' OR contact.ctt_last_name!='') AND contact.ctt_user_type=1) OR (contact.ctt_user_type=2 AND contact.ctt_business_name!=''))";
 		}
@@ -3210,7 +3243,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$sql			 = "SELECT vnd_id,vnd_name FROM vendors WHERE vnd_active > 0 AND vnd_active IN (1,2) ORDER BY vnd_name";
 		$vendorModels	 = DBUtil::command($sql)->queryAll($sql);
 		$arrList		 = [];
-		foreach($vendorModels as $vendorModel)
+		foreach ($vendorModels as $vendorModel)
 		{
 			$arrList[$vendorModel['vnd_id']] = $vendorModel['vnd_name'];
 		}
@@ -3222,9 +3255,9 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$arrVendor	 = $this->getApprovedList();
 		$arrJSON	 = [];
 		$arrJSON[]	 = array_merge(array("id" => '0', "text" => "All"), $arrJSON);
-		foreach($arrVendor as $key => $val)
+		foreach ($arrVendor as $key => $val)
 		{
-			if($val != '')
+			if ($val != '')
 			{
 				$arrJSON[] = array("id" => $key, "text" => $val);
 			}
@@ -3237,7 +3270,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 	{
 		$rows		 = $this->getAllVendorsbyQuery($query, $vnd, $showInactive);
 		$arrCities	 = array();
-		foreach($rows as $row)
+		foreach ($rows as $row)
 		{
 			$arrCities[] = array("id" => $row['vnd_id'], "text" => $row['vnd_name']);
 		}
@@ -3251,13 +3284,13 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$limitNum	 = 30;
 		$params		 = array();
 
-		if($vnd != '')
+		if ($vnd != '')
 		{
 			$params['vnd']	 = $vnd;
 			$qry1			 = " AND 1 OR vnd_id=:vnd";
 			$limitNum		 = 29;
 		}
-		if($query == '')
+		if ($query == '')
 		{
 			$qry .= " AND vnd_id IN (SELECT bcb_vendor_id FROM (SELECT bcb_vendor_id, COUNT(*) as cnt FROM booking_cab
                     WHERE bcb_active = 1 AND bcb_created > DATE_SUB(NOW(), INTERVAL 4 MONTH)
@@ -3269,7 +3302,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 			$params	 = array_merge($params, $params1);
 			$qry	 .= " AND vnd_name LIKE $bindString";
 		}
-		if($onlyActive == '1')
+		if ($onlyActive == '1')
 		{
 			$qry .= " AND vnd.vnd_active = 1";
 		}
@@ -3308,12 +3341,12 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$includeUnapproved	 = ($this->vndUnApproved == 1) ? true : false;
 		$vndActive			 = " (vnd_active=1";
 		$agtvndActive		 = " (agt.vnd_active = 1";
-		if($includeBlocked)
+		if ($includeBlocked)
 		{
 			$vndActive		 .= " OR vnd_active=2";
 			$agtvndActive	 .= " OR agt.vnd_active=2";
 		}
-		if($includeUnapproved)
+		if ($includeUnapproved)
 		{
 			$vndActive		 .= " OR (vnd_active=3 AND vnd_create_date >= DATE_SUB(NOW(), INTERVAL +36 HOUR))";
 			$agtvndActive	 .= " OR (agt.vnd_active=3 AND agt.vnd_create_date >= DATE_SUB(NOW(), INTERVAL +36 HOUR))";
@@ -3325,7 +3358,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$bcb_vendor_amount	 = $model->bkgBcb->bcb_vendor_amount;
 		$bcbVendorDues		 = $model->bkgBcb->getVendorDues();
 		$creditScore		 = "0";
-		if($bcbVendorDues > ($bcb_vendor_amount * 0.2))
+		if ($bcbVendorDues > ($bcb_vendor_amount * 0.2))
 		{
 			$creditScore = "20";
 		}
@@ -3336,7 +3369,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$toCity			 = $model->bkg_to_city_id;
 		$bkgType		 = $model->bkg_booking_type;
 		$ret			 = '';
-		if(!$findReturn)
+		if (!$findReturn)
 		{
 			$ret = ' AND 1<>1';
 		}
@@ -3436,7 +3469,7 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 			WHERE bkg_active=1 AND bkg_status IN (3,5,6,7) AND bkg_pickup_date>DATE_SUB(NOW(), INTERVAL 30 DAY)
 			GROUP BY bcb_vendor_id";
 
-		if($type == 1)
+		if ($type == 1)
 		{
 			$select = "	agt.`vnd_id`,
 						agt.vnd_active,
@@ -3532,42 +3565,42 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 			LEFT JOIN booking_vendor_request bvr ON agt.vnd_id=bvr.bvr_vendor_id AND bvr.bvr_bcb_id='$model->bkg_bcb_id'
 			WHERE  $agtvndActive AND (agtPref.vnp_cod_freeze=0 OR (agtPref.vnp_cod_freeze=1 AND $advance>0))";
 
-		if($where != '')
+		if ($where != '')
 		{
 			$sql .= " AND $where";
 		}
 
-		if($this->vnd_name != '')
+		if ($this->vnd_name != '')
 		{
 			$sql				 .= " AND agt.vnd_name LIKE :vndName";
 			$params[':vndName']	 = "%$this->vnd_name%";
 		}
-		if($this->vnd_phone != '')
+		if ($this->vnd_phone != '')
 		{
 			$sql				 .= " AND agtPhone.phn_phone_no LIKE :vndPhone";
 			$params[':vndPhone'] = "%$this->vnd_phone%";
 		}
 
-		if($onlyExclusive)
+		if ($onlyExclusive)
 		{
 			$sql .= " AND agtPref.vnp_is_attached=1";
 		}
 
-		if($onlyFreeze)
+		if ($onlyFreeze)
 		{
 			$sql		 .= " AND agtPref.vnp_is_freeze=1";
 			$advance	 = $model->bkgInvoice->getAdvanceReceived();
 			$bkgAmount	 = ($model->bkg_total_amount == 0) ? 1 : $model->bkg_total_amount;
 
 			$paymentRatio = round(($advance / $bkgAmount) * 100);
-			if($paymentRatio < 30)
+			if ($paymentRatio < 30)
 			{
 				$sql .= " AND 1<>1";
 			}
 		}
 		else
 		{
-			if($includeFreezed)
+			if ($includeFreezed)
 			{
 				$sql .= " AND  vnp_is_freeze >= 0";
 			}
@@ -3581,12 +3614,12 @@ WHERE vnd_id = :vnd_id AND ctt_ref_code=ctt_id";
 		$sql .= " AND (IFNULL(agtStats.vrs_overall_score,0) + IFNULL(tScore,0) +
 			 IFNULL(cScore,0) +IF(IFNULL(vrs_outstanding,0) > 0, $creditScore, IF(IFNULL(vrs_outstanding,0) < 1000,5,0))) > 0 ";
 
-		if($order != '')
+		if ($order != '')
 		{
 			$sql .= " ORDER BY bidding DESC, rank DESC, agtStats.vrs_overall_score DESC, tScore DESC";
 		}
 
-		if($limit != '')
+		if ($limit != '')
 		{
 			$sql .= " LIMIT " . $limit;
 		}
@@ -3664,14 +3697,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                 WHERE vnd_active=$venActive";
 		$sql	 .= " GROUP BY vendors.vnd_id";
 		$rows	 = DBUtil::queryAll($sql);
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
-				if($row['vnd_active'] == 2)
+				if ($row['vnd_active'] == 2)
 				{
 					$subject = 'Complete your Car and Driver paperwork today';
-					if(($row['total_vehicle'] > $row['total_vehicle_approved']) || ($row['total_driver'] > $row['total_driver_approved']))
+					if (($row['total_vehicle'] > $row['total_vehicle_approved']) || ($row['total_driver'] > $row['total_driver_approved']))
 					{
 						$incompleteVehicle	 = ($row['total_vehicle'] - $row['total_vehicle_approved']);
 						$incompleteDriver	 = ($row['total_driver'] - $row['total_driver_approved']);
@@ -3706,10 +3739,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					$msgCom		 = new smsWrapper();
 //$msgCom->sentPaperworkSmsVendor('91', $phone, $Id, $smsChanges);
 				}
-				else if($row['vnd_active'] == 1)
+				else if ($row['vnd_active'] == 1)
 				{
 					$subject = 'Complete your Car and Driver paperwork today';
-					if(($row['total_vehicle'] > $row['total_vehicle_approved']) || ($row['total_driver'] > $row['total_driver_approved']))
+					if (($row['total_vehicle'] > $row['total_vehicle_approved']) || ($row['total_driver'] > $row['total_driver_approved']))
 					{
 						$incompleteVehicle	 = ($row['total_vehicle'] - $row['total_vehicle_approved']);
 						$incompleteDriver	 = ($row['total_driver'] - $row['total_driver_approved']);
@@ -3751,22 +3784,22 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		}
 	}
 
-	public function getCollectionList($days = 0, $limit = 0, $vndId = 0)
+	public static function getCollectionList($days = 0, $limit = 0, $vndId = 0)
 	{
 		$limit = " ";
-		if($days > 0)
+		if ($days > 0)
 		{
 			$where = " AND act_created > DATE_SUB(NOW(), INTERVAL $days DAY)";
 		}
-		if($limit > 0)
+		if ($limit > 0)
 		{
 			$limit = " LIMIT 0,1";
 		}
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 // Getting Merged VendorIds
 			$vndIds = Vendors::getVndIdsByRefCode($vndId);
-			if($vndIds == null || $vndIds == "")
+			if ($vndIds == null || $vndIds == "")
 			{
 				throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -3778,13 +3811,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				SUM(adt.adt_amount) totTrans 
 				FROM `vendors` vnd 
 				INNER JOIN vendor_stats vrs ON vrs.vrs_vnd_id = vnd.vnd_id AND vnd_active IN (1,2) 
-				INNER JOIN account_trans_details adt ON vnd.vnd_id = adt.adt_trans_ref_id AND adt.adt_active = 1 AND adt.adt_status = 1 AND adt.adt_ledger_id = 14 AND adt.adt_type = 2
-				INNER JOIN account_transactions act ON act.act_id = adt.adt_trans_id AND act.act_active = 1 AND act.act_status = 1 
+				INNER JOIN account_trans_details adt ON vnd.vnd_id = adt.adt_trans_ref_id AND adt.adt_active = 1 
+					AND adt.adt_status = 1 AND adt.adt_ledger_id = 14 AND adt.adt_type = 2
+				INNER JOIN account_transactions act ON act.act_id = adt.adt_trans_id 
+					AND act.act_active = 1 AND act.act_status = 1 
 				WHERE 1 $where
 				GROUP BY vnd.vnd_ref_code  
-				ORDER BY vnd.vnd_id DESC 
+				ORDER BY vnd.vnd_ref_code DESC 
 				$limit";
-		return DBUtil::queryAll($sql, DBUtil::SDB());
+		Logger::writeToConsole("SQL: " . $sql);
+		return DBUtil::query($sql, DBUtil::SDB());
 	}
 
 	public function getDueByPickupDate($vndId, $hr = 24)
@@ -3851,17 +3887,17 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						LEFT JOIN `zones` ON zones.zon_id=zone_cities.zct_zon_id
 						LEFT JOIN `states` ON cities.cty_state_id=states.stt_id
 						WHERE	cities.cty_active = 1";
-		if($region <> '')
+		if ($region <> '')
 		{
 			$sql		 .= " AND states.stt_zone=$region";
 			$sqlCount	 .= " AND states.stt_zone=$region";
 		}
-		if($zone <> '')
+		if ($zone <> '')
 		{
 			$sql		 .= " AND zones.zon_id=$zone";
 			$sqlCount	 .= " AND zones.zon_id=$zone";
 		}
-		if($city <> '')
+		if ($city <> '')
 		{
 			$sql		 .= " AND cities.cty_id=$city";
 			$sqlCount	 .= " AND cities.cty_id=$city";
@@ -3869,7 +3905,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$sql		 .= " GROUP BY cities.cty_id ";
 		$sqlCount	 .= " GROUP BY cities.cty_id ";
 
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			$sql .= " ORDER BY cities.cty_name ASC";
 			return DBUtil::queryAll($sql);
@@ -3934,7 +3970,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model	 = Vendors::model()->findByPk($vendorId);
 
 			$dir = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
-			if(!is_dir($dir))
+			if (!is_dir($dir))
 			{
 				mkdir($dir);
 			}
@@ -3965,11 +4001,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$attachments2		 = json_encode($fileArray2);
 			Logger::create($attachments2, CLogger::LEVEL_TRACE);
 
-			if($digitalAgreementUrl != '' && $draftAgreement != '')
+			if ($digitalAgreementUrl != '' && $draftAgreement != '')
 			{
 				$agmtModel->vag_digital_agreement	 = $digitalAgreementUrl;
 				$agmtModel->vag_draft_agreement		 = $draftAgreement;
-				if($agmtModel->save())
+				if ($agmtModel->save())
 				{
 					Logger::create("Agreements has been created", CLogger::LEVEL_INFO);
 					$success = true;
@@ -3984,7 +4020,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				throw new Exception("Agreements creation failed. Digital or draft agreement not created. \n");
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::create("Agreements not sent.\n\t\t" . $e->getMessage(), CLogger::LEVEL_ERROR);
 		}
@@ -3999,7 +4035,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$contactId	 = ContactProfile::getByEntityId($vendorId, UserInfo::TYPE_VENDOR);
 		$contactId	 = ($contactId == '') ? $model->vnd_contact_id : $contactId;
 		$email		 = ContactEmail::getContactEmailById($contactId);
-		if($email != '')
+		if ($email != '')
 		{
 			$agmtModel = VendorAgreement::model()->findByVndId($vendorId);
 
@@ -4208,23 +4244,23 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			$rows	 = DBUtil::queryAll($sql, DBUtil::SDB());
 			$ctr	 = 0;
-			if(count($rows) > 0)
+			if (count($rows) > 0)
 			{
-				foreach($rows as $row)
+				foreach ($rows as $row)
 				{
 					$vndArray[$ctr] = $row['vnd_id'];
 					$ctr++;
 				}
 				$sqlFreeze	 = "UPDATE `vendor_pref` SET vendor_pref.vnp_doc_pending_freeze = 1 WHERE vendor_pref.vnp_vnd_id IN (  SELECT vnd_id FROM ($sql)a  )";
 				$return		 = DBUtil::command($sqlFreeze)->execute();
-				if(count($vndArray) > 0 && $return > 0)
+				if (count($vndArray) > 0 && $return > 0)
 				{
-					if(count($vndArray) == $return)
+					if (count($vndArray) == $return)
 					{
-						foreach($vndArray as $vnd_id)
+						foreach ($vndArray as $vnd_id)
 						{
 							$success = Vendors::model()->updateFreeze($vnd_id);
-							if($success)
+							if ($success)
 							{
 								/* @var $vndLog VendorsLog */
 								$vndLog		 = new VendorsLog();
@@ -4251,7 +4287,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				throw new Exception($errors);
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			Logger::create("Not Freeze.\n\t\t" . $e->getMessage(), CLogger::LEVEL_ERROR);
 			DBUtil::rollbackTransaction($transaction);
@@ -4300,16 +4336,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$result = $this->ratingFreezeList();
 
-		foreach($result as $res)
+		foreach ($result as $res)
 		{
 			$vendorId	 = $res['vnd_id'];
 			$status		 = 0;
 			$sucess		 = VendorPref::updateLowRatingFreeze($vendorId, $status);
-			if($sucess)
+			if ($sucess)
 			{
 				$success			 = Vendors::model()->updateFreeze($vendorId);
 				$chekFrozenStatus	 = VendorPref::checkfrozen($vendorId);
-				if($success && $chekFrozenStatus == 0)
+				if ($success && $chekFrozenStatus == 0)
 				{
 					$event_id	 = VendorsLog::VENDOR_UNFREEZE;
 					$desc		 = "Vendor Unfreezed (due to vendor rating increased)";
@@ -4375,7 +4411,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 // zone wise update
 		$results = self::getStatsByZone();
 		$ctr	 = 0;
-		foreach($results as $val)
+		foreach ($results as $val)
 		{
 			$areaType	 = 1;
 			$areaId		 = $val['vnp_home_zone'];
@@ -4409,16 +4445,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			END as ratezz
 			FROM vendor_stats where 1 AND vrs_modified_date > DATE_SUB(NOW(), INTERVAL 5 DAY) $whereQry1";
 			$resultqry1			 = DBUtil::query($selectqry1, DBUtil::SDB());
-			foreach($resultqry1 as $val)
+			foreach ($resultqry1 as $val)
 			{
-				if($val['ratezz'] != null && $val['ratezz'] != "" && $val['vrs_vnd_overall_rating'] != null && $val['vrs_vnd_overall_rating'] != "")
+				if ($val['ratezz'] != null && $val['ratezz'] != "" && $val['vrs_vnd_overall_rating'] != null && $val['vrs_vnd_overall_rating'] != "")
 				{
 					try
 					{
 						$updateqry1 = "UPDATE vendor_stats SET vrs_overall_score ={$val['ratezz']} WHERE vrs_vnd_overall_rating = {$val['vrs_vnd_overall_rating']} and vrs_vnd_id={$val['vrs_vnd_id']} $whereQry1";
 						DBUtil::execute($updateqry1);
 					}
-					catch(Exception $ex)
+					catch (Exception $ex)
 					{
 						Logger::writeToConsole($ex->getMessage());
 					}
@@ -4436,11 +4472,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					{$whereSecurityQry} 
 				GROUP BY atd.adt_trans_ref_id";
 			$resVndSecurity		 = DBUtil::query($sqlVndSecurity, DBUtil::SDB());
-			foreach($resVndSecurity as $valVndSecurity)
+			foreach ($resVndSecurity as $valVndSecurity)
 			{
 				$secVndId = $valVndSecurity['atd1.adt_trans_ref_id'];
 
-				if($secVndId > 0)
+				if ($secVndId > 0)
 				{
 					$ledgerSecurityBalance	 = AccountTransactions::getSecurityAmount($secVndId);
 					$ledgerSecurityBalance	 = ((is_null($ledgerSecurityBalance) || $ledgerSecurityBalance == '') ? 0 : $ledgerSecurityBalance);
@@ -4456,14 +4492,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 							INNER JOIN vendors ON vnd_id=bcb_vendor_id AND vnd_active IN (1,2) $whereQry2 
 							WHERE bkg_active=1 AND bkg_status IN (6,7) AND bkg_create_date>='2015-10-01' GROUP BY code";
 			$resultqry2	 = DBUtil::query($selectqry2, DBUtil::SDB());
-			foreach($resultqry2 as $val)
+			foreach ($resultqry2 as $val)
 			{
 				try
 				{
 					$updateqry2 = "UPDATE vendor_stats SET vrs_total_trips = {$val['total']} WHERE  vendor_stats.vrs_vnd_id={$val['code']}";
 					DBUtil::execute($updateqry2);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4480,14 +4516,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 							GROUP BY code
 							";
 			$resultqry3	 = DBUtil::query($selectqry3, DBUtil::SDB());
-			foreach($resultqry3 as $val)
+			foreach ($resultqry3 as $val)
 			{
 				try
 				{
 					$updateqry3 = "UPDATE vendor_stats SET vrs_last_thirtyday_trips = {$val['total']} WHERE  vendor_stats.vrs_vnd_id={$val['code']}";
 					DBUtil::execute($updateqry3);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4505,14 +4541,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 								GROUP BY vnd_ref_code 
 							";
 			$resultqry4	 = DBUtil::query($selectqry4, DBUtil::SDB());
-			foreach($resultqry4 as $val)
+			foreach ($resultqry4 as $val)
 			{
 				try
 				{
 					$updateqry4 = "UPDATE vendor_stats SET vrs_last_thirtyday_amount = {$val['total']} WHERE  vendor_stats.vrs_vnd_id={$val['vnd_ref_code']}";
 					DBUtil::execute($updateqry4);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4530,14 +4566,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 							GROUP BY vnd_ref_code
 							";
 			$resultqry5	 = DBUtil::query($selectqry5, DBUtil::SDB());
-			foreach($resultqry5 as $val)
+			foreach ($resultqry5 as $val)
 			{
 				try
 				{
 					$updateqry5 = "UPDATE vendor_stats SET vrs_total_amount = {$val['total']} WHERE  vendor_stats.vrs_vnd_id={$val['vnd_ref_code']}";
 					DBUtil::execute($updateqry5);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4552,14 +4588,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 							AND vnd_active IN (1,2) AND bkg_pickup_date<NOW() 
 							GROUP BY vnd_ref_code";
 			$resultqry6	 = DBUtil::query($selectqry6, DBUtil::SDB());
-			foreach($resultqry6 as $val)
+			foreach ($resultqry6 as $val)
 			{
 				try
 				{
 					$updateqry6 = "UPDATE vendor_stats SET vrs_last_trip_datetime = '{$val['date_time']}' WHERE  vendor_stats.vrs_vnd_id={$val['vnd_ref_code']}";
 					DBUtil::execute($updateqry6);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4588,7 +4624,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                                             AND bkg_create_date>='2015-10-01'
                                             GROUP BY vnd_ref_code";
 			$resultqry7	 = DBUtil::query($selectqry7, DBUtil::SDB());
-			foreach($resultqry7 as $val)
+			foreach ($resultqry7 as $val)
 			{
 				try
 				{
@@ -4607,7 +4643,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                                                     WHERE  vendor_stats.vrs_vnd_id={$val['vnd_ref_code']}";
 					DBUtil::execute($updateqry7);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4639,14 +4675,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 							GROUP BY
 							  vnd_ref_code";
 			$resultqry8	 = DBUtil::query($selectqry8, DBUtil::SDB());
-			foreach($resultqry8 as $val)
+			foreach ($resultqry8 as $val)
 			{
 				try
 				{
 					$updateqry8 = "UPDATE `vendor_stats` SET vendor_stats.vrs_count_car ={$val['coutCars']}  , vendor_stats.vrs_count_driver ={$val['coutDrivers']}  WHERE 1 AND vendor_stats.vrs_vnd_id  ={$val['vnd_code']}";
 					DBUtil::execute($updateqry8);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4661,14 +4697,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 							FROM `app_tokens` INNER JOIN vendors ON vnd_id=app_tokens.apt_entity_id AND app_tokens.apt_user_type = 2 $whereQry91
 							WHERE vnd_active IN(1,2) AND app_tokens.apt_entity_id IS NOT NULL AND app_tokens.apt_status=1 GROUP BY vnd_id";
 			$resultqry9	 = DBUtil::query($selectqry9, DBUtil::SDB());
-			foreach($resultqry9 as $val)
+			foreach ($resultqry9 as $val)
 			{
 				try
 				{
 					$updateqry9 = "UPDATE `vendor_stats` SET vendor_stats.vrs_last_logged_in='{$val['last_login']}'  where 1 AND vendor_stats.vrs_vnd_id={$val['vnd_id']}";
 					DBUtil::execute($updateqry9);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4700,14 +4736,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						INNER JOIN `vendor_stats` ON vendor_stats.vrs_vnd_id = vendors.vnd_id
 						WHERE vnd_active IN(1,2) AND vehicles.vhc_active > 0 $whereQry101 GROUP BY vnd_ref_code HAVING (coutCars > 0)";
 			$resultqry10 = DBUtil::query($selectqry10, DBUtil::SDB());
-			foreach($resultqry10 as $val)
+			foreach ($resultqry10 as $val)
 			{
 				try
 				{
 					$updateqry10 = "UPDATE `vendor_stats` SET vendor_stats.vrs_approve_car_count = {$val['coutApproveCars']},vendor_stats.vrs_count_car={$val['coutCars']},vendor_stats.vrs_pending_cars = {$val['vehicles_pending_approval']},vendor_stats.vrs_rejected_cars = {$val['vehicles_rejected']} WHERE 1 AND vendor_stats.vrs_vnd_id = {$val['code']}";
 					DBUtil::execute($updateqry10);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4743,7 +4779,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						GROUP BY vnd_ref_code
 						HAVING (coutDrivers>0)";
 			$resultqry11 = DBUtil::query($selectqry11, DBUtil::SDB());
-			foreach($resultqry11 as $val)
+			foreach ($resultqry11 as $val)
 			{
 				try
 				{
@@ -4751,7 +4787,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					SET  vendor_stats.vrs_approve_driver_count ={$val['coutApproveDrivers']},vendor_stats.vrs_count_driver={$val['coutDrivers']},vendor_stats.vrs_pending_drivers={$val['drivers_pending_approval']},vendor_stats.vrs_rejected_drivers={$val['drivers_rejected']} WHERE 1 AND vendor_stats.vrs_vnd_id ={$val['code']}";
 					DBUtil::execute($updateqry11);
 				}
-				catch(Exception $ex)
+				catch (Exception $ex)
 				{
 					Logger::writeToConsole($ex->getMessage());
 				}
@@ -4759,7 +4795,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$returnset->setStatus(true);
 			$returnset->setMessage("Vendor Statistical Data Update Successfully");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::exception($ex);
 			$returnset->setStatus(false);
@@ -4784,9 +4820,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                 INNER JOIN `admins` ON admins.adm_id=vendors.vnd_rm
                 GROUP BY relation_manager ORDER BY relation_manager";
 		$rows	 = DBUtil::queryAll($sql);
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$relationData[] = array("id" => $row['adm_id'], "text" => $row['relation_manager']);
 			}
@@ -4801,7 +4837,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function getActionButton($data, $booking_id, $booking2_id = 0)
 	{
 		$btn = '<div class="btn-group1">';
-		if($data["vhc_ids"] != "")
+		if ($data["vhc_ids"] != "")
 		{
 			$btnView1	 = "<i class='fa fa-bookmark'></i>";
 			$href		 = Yii::app()->createUrl("/admin/booking/listbyvhc", array("ids" => $data["vhc_ids"], "agtid" => $data["vnd_id"], "bkid" => $booking_id));
@@ -4812,7 +4848,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						"vendorId"	 => $data["vnd_id"]
 			]);
 		}
-		if($data["bkids"] != "")
+		if ($data["bkids"] != "")
 		{
 			$btnView1	 = "<i class='fa fa-exchange'></i>";
 			$href		 = Yii::app()->createUrl("/admin/booking/listbyids", array("ids" => $data["bkids"], "bkid" => $booking_id));
@@ -4825,7 +4861,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		}
 		$forbidden	 = $data['vnd_forbidden'];
 		$btnView1	 = "<i class='fa fa-check'></i> Assign";
-		if(Yii::app()->controller->module->id == 'rcsr')
+		if (Yii::app()->controller->module->id == 'rcsr')
 		{
 			$href = Yii::app()->createUrl("rcsr/booking/assignvendor", array('agtid' => $data["vnd_id"], 'bkid' => $booking_id, 'bid_amount' => $data["bvr_bid_amount"], "forbiddenVendor" => $forbidden));
 		}
@@ -4848,17 +4884,17 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function isApproved($vnd_id, $msg = '0')
 	{
 		$approve = 0;
-		if(isset($vnd_id) && $vnd_id > 0)
+		if (isset($vnd_id) && $vnd_id > 0)
 		{
 			$statusArr = Vendors::model()->getAllStatusByVnd($vnd_id);
 //$statusArr['is_agmt'] = 1;//static value should be deleted.
-			switch($msg)
+			switch ($msg)
 			{
 				case 0:
 					$approve = ($statusArr['is_agmt'] == 1 && $statusArr['is_doc'] == 1 && $statusArr['is_car'] == 1 && $statusArr['is_driver'] == 1) ? 1 : 0;
 				case 1:
 //$approve = '';
-					if($statusArr['is_agmt'] == 1 && $statusArr['vnd_row']['cout_doc_rejected'] > 0)
+					if ($statusArr['is_agmt'] == 1 && $statusArr['vnd_row']['cout_doc_rejected'] > 0)
 					{
 						$approve = 'Fixed and re-upload the document.';
 					}
@@ -4878,7 +4914,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function isApprovedCnt($vnd_id)
 	{
 		$approve = 0;
-		if(isset($vnd_id) && $vnd_id > 0)
+		if (isset($vnd_id) && $vnd_id > 0)
 		{
 			$statusArr	 = Vendors::model()->getAllStatusByVnd($vnd_id);
 			$approve	 = ($statusArr['is_agmt'] == 1 && $statusArr['is_doc'] == 1 && $statusArr['is_car'] == 1 && $statusArr['is_driver'] == 1) ? 1 : 0;
@@ -4894,10 +4930,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function isApprovedMessage($vnd_id)
 	{
 		$approve = '';
-		if(isset($vnd_id) && $vnd_id > 0)
+		if (isset($vnd_id) && $vnd_id > 0)
 		{
 			$statusArr = Vendors::model()->getAllStatusByVnd($vnd_id);
-			if($statusArr['is_agmt'] == 1 && $statusArr['vnd_row']['cout_doc_rejected'] > 0)
+			if ($statusArr['is_agmt'] == 1 && $statusArr['vnd_row']['cout_doc_rejected'] > 0)
 			{
 				$approve = 'Fixed and re-upload the document.';
 			}
@@ -4925,7 +4961,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$requiredSDAmount		 = $prefModel->vnp_min_sd_req_amt;
 		$statModel				 = $vendorModel->vendorStats;
 		$currentSecurityAmount	 = $statModel->vrs_security_amount;
-		if($currentSecurityAmount < $requiredSDAmount)
+		if ($currentSecurityAmount < $requiredSDAmount)
 		{
 			$securityFlag	 = 1;
 			$securityAmount	 = $requiredSDAmount - $currentSecurityAmount;
@@ -4934,15 +4970,15 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$outstandingBalence	 = $statModel->vrs_outstanding;
 		$withdraw			 = $statModel->vrs_withdrawable_balance;
-		if($outstandingBalence > 0 && $withdraw < 1)
+		if ($outstandingBalence > 0 && $withdraw < 1)
 		{
 			$outstandingFlag = 1;
 			$outstandingMsg	 = "Please pay your outstanding balance ₹" . $outstandingBalence;
 		}
-		if($securityFlag == 1 || $outstandingFlag == 1)
+		if ($securityFlag == 1 || $outstandingFlag == 1)
 		{
 			$flag = 1;
-			if($securityFlag == 1 && $outstandingFlag == 1)
+			if ($securityFlag == 1 && $outstandingFlag == 1)
 			{
 				$message = "Please pay your security amount ₹$securityAmount" . " and outstanding balence ₹" . $outstandingBalence . " to increase the chance of winning bid.";
 			}
@@ -4977,7 +5013,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$user_type			 = $contact_val->attributes['ctt_user_type'];
 //$is_agreement				 =1;// static data should be changed
 		$is_memoLicense		 = 0;
-		if($user_type == 1)
+		if ($user_type == 1)
 		{
 			$is_memoLicense	 = 1;
 			$is_bussiness	 = 0;
@@ -4987,21 +5023,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 // check memo licence
 			$is_bussiness	 = 1;
 			$licence_id		 = $contact_val->attributes['ctt_license_doc_id'];
-			if($licence_id != "")
+			if ($licence_id != "")
 			{
 //check approval
 				$licenceStatus = Document::model()->checkDocumentStatus($licence_id);
-				if($licenceStatus != 2)
+				if ($licenceStatus != 2)
 				{
 					$is_memoLicense = 1;
 				}
 			}
 			$memo_id = $contact_val->attributes['ctt_memo_doc_id'];
-			if($memo_id != "")
+			if ($memo_id != "")
 			{
 //check approval
 				$memoStatus = Document::model()->checkDocumentStatus($memo_id);
-				if($memoStatus != 2)
+				if ($memoStatus != 2)
 				{
 					$is_memoLicense = 1;
 				}
@@ -5026,11 +5062,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function checkSocialLinking($vnd_id)
 	{
 		$result = false;
-		if($vnd_id > 0)
+		if ($vnd_id > 0)
 		{
 			$sql	 = "SELECT v2.vnd_user_id from vendors v1 INNER JOIN vendors v2 ON v2.vnd_id = v1.vnd_ref_code where v1.vnd_id = $vnd_id";
 			$userid	 = DBUtil::command($sql)->queryScalar();
-			if($userid > 0)
+			if ($userid > 0)
 			{
 				$result = Users::model()->checkSocialLinking($userid);
 			}
@@ -5200,9 +5236,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			<th width="25%" align="right">Last Payment Receive Amount</th>
 			</tr>';
 
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$html .= '<tr>
                             <th align="left">' . $row['name'] . '</th>
@@ -5320,21 +5356,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$sql	 .= " GROUP BY vendors.vnd_id";
 		$sql	 .= " HAVING ((total_vehicle>total_vehicle_approved) OR (total_driver>total_driver_approved))";
 		$rows	 = DBUtil::queryAll($sql, DBUtil::SDB());
-		if(count($rows) > 0)
+		if (count($rows) > 0)
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
-				if($row['vnd_active'] == 2)
+				if ($row['vnd_active'] == 2)
 				{
 					$payLoadData = ['vendorId' => $row['vnd_id'], 'EventCode' => Booking::CODE_MISSING_PAPERWORK];
 					$message	 = "Your account has 0 cars and drivers active.";
 					$success	 = AppTokens::model()->notifyVendor($row['vnd_id'], $payLoadData, $message, "Pending Car and Driver paperwork.");
 				}
-				else if($row['vnd_active'] == 1)
+				else if ($row['vnd_active'] == 1)
 				{
 					$incompleteVehicle	 = ($row['total_vehicle'] - $row['total_vehicle_approved']);
 					$incompleteDriver	 = ($row['total_driver'] - $row['total_driver_approved']);
-					if($incompleteVehicle > 0 || $incompleteDriver > 0)
+					if ($incompleteVehicle > 0 || $incompleteDriver > 0)
 					{
 						$message = "Your account has " . $incompleteVehicle . " cars and " . $incompleteDriver . "drivers with incomplete paperwork.";
 					}
@@ -5359,7 +5395,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$model->scenario		 = 'updatetnc';
 		$result					 = CActiveForm::validate($model);
 
-		if($result == '[]')
+		if ($result == '[]')
 		{
 			$model->save();
 			return $model;
@@ -5396,7 +5432,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$appToken1 = AppTokens::model()->find('apt_token_id = :token and apt_status = 1', array('token' => $token));
 
-		if(empty($appToken1))
+		if (empty($appToken1))
 		{
 			return false;
 		}
@@ -5411,7 +5447,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$appToken1 = AppTokens::model()->find('apt_token_id = :token', array('token' => $token));
 
-		if(empty($appToken1))
+		if (empty($appToken1))
 		{
 			return false;
 		}
@@ -5453,7 +5489,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					) a ORDER BY rank DESC";
 		$row	 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 
-		if($row)
+		if ($row)
 		{
 			$vendorId	 = $row['vnd_id'];
 			$model		 = self::model()->findByPk($vendorId);
@@ -5477,23 +5513,23 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		try
 		{
-			if(!in_array($provider, ['Google', 'Facebook']))
+			if (!in_array($provider, ['Google', 'Facebook']))
 			{
 				throw new Exception("Invalid provider", 400);
 			}
 			$identifier	 = $userData['id'];
 			$userRow	 = Users::getBySocialAccount($identifier);
-			if(!$userRow)
+			if (!$userRow)
 			{
 				throw new Exception("Invalid Social Login", 401);
 			}
 			$model = self::getByUserId($userRow['user_id']);
-			if(!$model)
+			if (!$model)
 			{
 				throw new Exception("User not linked to Partner Account", 401);
 			}
 
-			if($model->vendorPrefs->vnp_multi_link == 1)
+			if ($model->vendorPrefs->vnp_multi_link == 1)
 			{
 				throw new Exception("Already linked with another Vendor", 401);
 			}
@@ -5504,13 +5540,13 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$email				 = $userRow['usr_email'];
 			$identity			 = new UserIdentity($email, $passWord);
 			$identity->userId	 = $userRow['user_id'];
-			if(!$identity->authenticate())
+			if (!$identity->authenticate())
 			{
 				throw new Exception("Unable to authenticate", 400);
 			}
 			$identity->setEntityID($model->vnd_id);
 			$identity->setUserType(2);
-			if($model->vnd_tnc == 0)
+			if ($model->vnd_tnc == 0)
 			{
 				$model->vnd_tnc_datetime = new CDbExpression('NOW()');
 				$model->vnd_tnc			 = 1;
@@ -5518,7 +5554,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$model->vnd_tnc_id		 = $tmodel->tnc_id;
 				$model->scenario		 = 'updatetnc';
 				$result					 = CActiveForm::validate($model);
-				if($result == '[]')
+				if ($result == '[]')
 				{
 					$model->save();
 				}
@@ -5527,7 +5563,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$webUser	 = Yii::app()->user;
 			$webUser->login($identity);
 			$aptModel	 = AppTokens::Add($webUser->getId(), 2, Yii::app()->user->getEntityID(), $deviceData);
-			if(!$aptModel)
+			if (!$aptModel)
 			{
 				Yii::log('vendor login failed: ', CLogger::LEVEL_INFO);
 				throw new Exception("Failed to create session", 500);
@@ -5537,7 +5573,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$tmodel		 = Terms::model()->getText(5);
 			$tnc_check	 = false;
 			$new_tnc_id	 = $tmodel->tnc_id;
-			if($model->vnd_tnc_id == $tmodel->tnc_id)
+			if ($model->vnd_tnc_id == $tmodel->tnc_id)
 			{
 				$tnc_check	 = true;
 				$new_tnc_id	 = '';
@@ -5557,7 +5593,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$contact_id		 = $vendor_details[attributes]['vnd_contact_id'];
 			$vndName		 = $vendor_details[attributes]['vnd_name'];
 			$vnd_rel_tier	 = $vendor_details->vnd_rel_tier;
-			if($contact_id != "")
+			if ($contact_id != "")
 			{
 				$contact_details = Contact::model()->getContactDetails($contact_id);
 				$email			 = $contact_details['eml_email_address'];
@@ -5586,7 +5622,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				'vendor_level'		 => $vendorLavel];
 			$msg	 = "Login Successful";
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$msg = $e->getMessage();
 		}
@@ -5605,7 +5641,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		Logger::trace("<===User Id===>" . $userModel->user_id);
 		$model = self::getByUserId($userModel->user_id);
-		if(empty($model))
+		if (empty($model))
 		{
 			throw new Exception("Vendor account not signed up with this user", ReturnSet::ERROR_UNAUTHORISED);
 //$model->addError("authentication", "Vendor account not signed up with this user");
@@ -5614,7 +5650,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$identity->userId	 = $userModel->user_id;
 		$identity->setEntityID($model->vnd_id);
 		$identity->setUserType(2);
-		if($model->vnd_tnc == 0)
+		if ($model->vnd_tnc == 0)
 		{
 			$model->vnd_tnc_datetime = new CDbExpression('NOW()');
 			$model->vnd_tnc			 = 1;
@@ -5622,7 +5658,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model->vnd_tnc_id		 = $tmodel->tnc_id;
 			$model->scenario		 = 'updatetnc';
 			$result					 = CActiveForm::validate($model);
-			if($result == '[]')
+			if ($result == '[]')
 			{
 				$model->save();
 			}
@@ -5631,7 +5667,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$webUser	 = Yii::app()->user;
 		$webUser->login($identity);
 		$aptModel	 = AppTokens::Add($webUser->getId(), 2, Yii::app()->user->getEntityID(), $deviceData);
-		if(!$aptModel)
+		if (!$aptModel)
 		{
 			throw new Exception("Failed to create token", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
@@ -5639,20 +5675,20 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$tmodel		 = Terms::model()->getText(5);
 		$tnc_check	 = false;
 		$new_tnc_id	 = $tmodel->tnc_id;
-		if($model->vnd_tnc_id == $tmodel->tnc_id)
+		if ($model->vnd_tnc_id == $tmodel->tnc_id)
 		{
 			$tnc_check	 = true;
 			$new_tnc_id	 = '';
 		}
 		$code		 = $model->vnd_code;
 		$contactId	 = ContactProfile::getByEntityId($model->vnd_id, UserInfo::TYPE_VENDOR);
-		if(!$contactId)
+		if (!$contactId)
 		{
 			throw new Exception("Issue in contact profile", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
 		/** @var Contact $cttModel */
 		$cttModel = Contact::model()->findByPk($contactId);
-		if(!$contactId)
+		if (!$contactId)
 		{
 			throw new Exception("Issue in contact model", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 		}
@@ -5823,7 +5859,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function getFirmType($firmid = 0)
 	{
 		$firmType = $this->firm_type;
-		if($firmid > 0)
+		if ($firmid > 0)
 		{
 			return $firmType[$firmid];
 		}
@@ -5836,7 +5872,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function getAccountType($accid = 0)
 	{
 		$accType = $this->accType;
-		if($accid > 0)
+		if ($accid > 0)
 		{
 			return $accType[$accid];
 		}
@@ -5848,7 +5884,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public function getZoneNameById($vndid, $type)
 	{
-		if($type == 'accepted')
+		if ($type == 'accepted')
 		{
 			$sql = "SELECT GROUP_CONCAT(zones.zon_name) znames
                     FROM vendor_pref join zones on find_in_set(zones.zon_id,replace(vnp_accepted_zone,', ',','))
@@ -5905,9 +5941,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$arrVendor	 = $this->getApprovedList();
 		$arrJSON	 = [];
 
-		foreach($arrVendor as $key => $val)
+		foreach ($arrVendor as $key => $val)
 		{
-			if($val != '')
+			if ($val != '')
 			{
 				$arrJSON[] = array("id" => $key, "text" => $val);
 			}
@@ -5948,18 +5984,18 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                                         JOIN contact_profile cp ON cp.cr_is_vendor = vendors.vnd_id AND cp.cr_status = 1
 					JOIN contact ON contact.ctt_id = cp.cr_contact_id AND contact.ctt_id = contact.ctt_ref_code AND contact.ctt_active = 1
 					JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id';
-		if($this->from_city != '')
+		if ($this->from_city != '')
 		{
 			$query		 .= " INNER JOIN zone_cities z1 ON (FIND_IN_SET(z1.zct_zon_id, vendor_pref.vnp_accepted_zone) OR FIND_IN_SET(z1.zct_zon_id, vendor_pref.vnp_home_zone)) AND z1.zct_cty_id=" . $this->from_city;
 			$query1[]	 = "FIND_IN_SET(" . $this->from_city . ", vendor_pref.vnp_excluded_cities)";
 		}
-		if($this->to_city != '')
+		if ($this->to_city != '')
 		{
 			$query		 .= " INNER JOIN zone_cities z2 ON (FIND_IN_SET(z2.zct_zon_id, vendor_pref.vnp_accepted_zone) OR FIND_IN_SET(z2.zct_zon_id, vendor_pref.vnp_home_zone)) AND z2.zct_cty_id=" . $this->to_city;
 			$query1[]	 = "FIND_IN_SET(" . $this->to_city . ", vendor_pref.vnp_excluded_cities
 )";
 		}
-		if(!empty($query1))
+		if (!empty($query1))
 		{
 			$query2 = " AND vnd_id NOT IN (SELECT vnd_id FROM vendors WHERE " . implode(" OR ", $query1) . ")";
 		}
@@ -5993,11 +6029,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$sqlByDate	 = '';
 		$sqlRegion1	 = '';
 		$sqlRegion2	 = '';
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$sqlByDate .= "AND booking.bkg_create_date BETWEEN '$date1' AND '$date2'";
 		}
-		if(isset($region) && $region != '')
+		if (isset($region) && $region != '')
 		{
 			$sqlRegion1	 .= "AND state1.stt_zone=$region";
 			$sqlRegion2	 .= " AND stt_zone =$region";
@@ -6066,7 +6102,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                     WHERE vendors.vnd_active=1 $sqlRegion2
                     GROUP BY vendors.vnd_id ";
 
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			return DBUtil::queryAll($sql, DBUtil::SDB());
 		}
@@ -6087,7 +6123,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function getJSON($arr = [])
 	{
 		$arrJSON = array();
-		foreach($arr as $key => $val)
+		foreach ($arr as $key => $val)
 		{
 			$arrJSON[] = array("id" => $key, "text" => $val);
 		}
@@ -6120,28 +6156,28 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$modelContact->ctt_license_no	 = $arr['vnd_license_no'];
 			$modelContact->ctt_address		 = $arr['vnd_address'];
 			$modelContact->ctt_user_type	 = 1;
-			if(!$modelContact->save())
+			if (!$modelContact->save())
 			{
 				throw new Exception('failed to save to contact');
 			}
-			if($arr['vnd_phone'] != '')
+			if ($arr['vnd_phone'] != '')
 			{
 				$modelContactPhone					 = new ContactPhone();
 				$modelContactPhone->phn_phone_no	 = $arr['vnd_phone'];
 				$modelContactPhone->phn_contact_id	 = $modelContact->ctt_id;
 				$modelContactPhone->phn_is_primary	 = 1;
-				if(!$modelContactPhone->save())
+				if (!$modelContactPhone->save())
 				{
 					throw new Exception('failed to save');
 				}
 			}
-			if($arr['vnd_email'] != '')
+			if ($arr['vnd_email'] != '')
 			{
 				$modelContactEmail						 = new ContactEmail();
 				$modelContactEmail->eml_email_address	 = $arr['vnd_email'];
 				$modelContactEmail->eml_is_primary		 = 1;
 				$modelContactEmail->eml_contact_id		 = $modelContact->ctt_id;
-				if(!$modelContactEmail->save())
+				if (!$modelContactEmail->save())
 				{
 					throw new Exception('failed to save');
 				}
@@ -6154,7 +6190,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			$contEmailPhone	 = Contact::model()->getContactDetails($model->vnd_contact_id);
 			$usersId		 = Users::model()->linkUserid($contEmailPhone['eml_email_address'], $contEmailPhone['phn_phone_no']);
-			if($usersId != "")
+			if ($usersId != "")
 			{
 				$model->vnd_user_id = $usersId;
 			}
@@ -6163,16 +6199,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$this->createUserByVendor($model->vnd_id, $contEmailPhone, $arr['vnd_password'], 2);
 			}
 
-			if($model->validate())
+			if ($model->validate())
 			{
-				if($model->save())
+				if ($model->save())
 				{
 					$vendorId		 = $model->vnd_id;
 					$codeArray		 = Filter::getCodeById($vendorId, 'vendor');
 					$model->vnd_code = $codeArray['code'];
 					$model->vnd_name = $model->vnd_name . "-" . $codeArray['code'] . "-" . $cityName;
 					$model->scenario = 'unregUpdateVendorJoin';
-					if($model->save())
+					if ($model->save())
 					{
 						$modelStats->vrs_vnd_id	 = $model->vnd_id;
 						$modelPref->vnp_vnd_id	 = $model->vnd_id;
@@ -6183,9 +6219,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						$desc					 = "New Vendor created";
 
 						VendorsLog::model()->createLog($model->vnd_id, $desc, $userInfo, VendorsLog::VENDOR_CREATED, false, false);
-						if($docTrans == 1)
+						if ($docTrans == 1)
 						{
-							if($arr['vnd_voter_front_path'] != '')
+							if ($arr['vnd_voter_front_path'] != '')
 							{
 								$modelDocumentV						 = new Document();
 								$modelDocumentV->doc_file_front_path = $arr['vnd_voter_front_path'];
@@ -6194,7 +6230,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 								$modelDocumentV->save();
 								$modelContact->ctt_voter_doc_id		 = $modelDocumentV->doc_id;
 							}
-							if($arr['vnd_aadhaar_front_path'] != '')
+							if ($arr['vnd_aadhaar_front_path'] != '')
 							{
 								$modelDocumentA						 = new Document();
 								$modelDocumentA->doc_file_front_path = $arr['vnd_aadhaar_front_path'];
@@ -6203,7 +6239,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 								$modelDocumentA->save();
 								$modelContact->ctt_aadhar_doc_id	 = $modelDocumentA->doc_id;
 							}
-							if($arr['vnd_pan_front_path'] != '')
+							if ($arr['vnd_pan_front_path'] != '')
 							{
 								$modelDocumentP						 = new Document();
 								$modelDocumentP->doc_file_front_path = $arr['vnd_pan_front_path'];
@@ -6212,7 +6248,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 								$modelDocumentP->save();
 								$modelContact->ctt_pan_doc_id		 = $modelDocumentP->doc_id;
 							}
-							if($arr['vnd_licence_front_path'] != '')
+							if ($arr['vnd_licence_front_path'] != '')
 							{
 								$modelDocumentL						 = new Document();
 								$modelDocumentL->doc_file_front_path = $arr['vnd_licence_front_path'];
@@ -6247,7 +6283,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				throw new Exception($msg);
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 //DBUtil::rollbackTransaction($transaction);
 			$errors = $ex->getMessage();
@@ -6278,18 +6314,18 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$where	 = "";
 		$where0	 = "";
-		if($arr['name'])
+		if ($arr['name'])
 		{
 			$name	 = $arr['name'];
 			$where	 = " AND  ( (t.ctt_business_name LIKE '%" . $name . "%') OR (t.ctt_first_name LIKE '%" . $name . "%') OR (t.ctt_last_name LIKE '%" . $name . "%'))";
 			$where0	 = " AND ( (cntt.ctt_business_name LIKE '%" . $name . "%') OR (cntt.ctt_first_name LIKE '%" . $name . "%') OR (cntt.ctt_last_name LIKE '%" . $name . "%'))";
 		}
-		if($arr['email_address'])
+		if ($arr['email_address'])
 		{
 			$cntemail	 = $arr['email_address'];
 			$where		 = "  AND (cnte.eml_email_address LIKE '%" . $cntemail . "%')";
 		}
-		if($arr['phone_no'])
+		if ($arr['phone_no'])
 		{
 			$cntph	 = $arr['phone_no'];
 			$where	 = "  AND (cntp.phn_phone_no LIKE '%" . $cntph . "%')";
@@ -6356,7 +6392,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$param[':city']	 = $city;
 		$row			 = DBUtil::queryRow($sql, DBUtil::SDB(), $param, 60 * 60 * 24, CacheDependency::Type_Vendor);
-		if(!$row)
+		if (!$row)
 		{
 			$row = null;
 		}
@@ -6383,7 +6419,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$param[':city']	 = $city;
 		$row			 = DBUtil::queryRow($sql, DBUtil::SDB(), $param, 60 * 60 * 24, CacheDependency::Type_Vendor);
-		if(!$row)
+		if (!$row)
 		{
 			$row = null;
 		}
@@ -6392,7 +6428,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public static function getHomeZonesCount($zones)
 	{
-		if(empty($zones))
+		if (empty($zones))
 		{
 			return 0;
 		}
@@ -6406,7 +6442,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				GROUP BY vnp_home_zone ORDER BY cnt DESC
 				";
 		$count	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params, 60 * 60 * 24, CacheDependency::Type_Vendor);
-		if(!$count)
+		if (!$count)
 		{
 			$count = 0;
 		}
@@ -6421,10 +6457,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$success	 = false;
 		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$contactId	 = ($contactId == '') ? $model->vnd_contact_id : $contactId;
-		if($freezeType == 1) // COD Freeze/Unfreeze
+		if ($freezeType == 1) // COD Freeze/Unfreeze
 		{
 			$modelPrefs->vnp_cod_freeze = ($value == 0 ? 1 : 0);
-			if($modelPrefs->save())
+			if ($modelPrefs->save())
 			{
 				$event_id	 = VendorsLog::VENDOR_COD_FREEZE;
 				$desc		 = ($value == 0 ? "COD freeze." : "COD Unfreezed.");
@@ -6432,12 +6468,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				Vendors::notifyFreezeUnfreezeVendor($vndId, $event_id, $desc, $modelPrefs->vnp_cod_freeze);
 			}
 		}
-		else if($freezeType == 2) // Credit Limit Freeze
+		else if ($freezeType == 2) // Credit Limit Freeze
 		{
-			if($modelPrefs->vnp_credit_limit_freeze != $value)
+			if ($modelPrefs->vnp_credit_limit_freeze != $value)
 			{
 				$modelPrefs->vnp_credit_limit_freeze = $value;
-				if($modelPrefs->save())
+				if ($modelPrefs->save())
 				{
 					$event_id	 = ($value == 1 ? VendorsLog::VENDOR_FREEZE : VendorsLog::VENDOR_UNFREEZE);
 					$desc1		 = ($value == 1 ? "Credit Freezed (Eff. Cr. limit exceeded)" : "Credit Unfreezed (Eff. Cr. limit restored)");
@@ -6447,10 +6483,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				}
 			}
 		}
-		else if($freezeType == 3) // Low Rating
+		else if ($freezeType == 3) // Low Rating
 		{
 			$modelPrefs->vnp_low_rating_freeze = 1;
-			if($modelPrefs->save())
+			if ($modelPrefs->save())
 			{
 				$event_id	 = VendorsLog::VENDOR_ADMINISTRATIVE_FREEZE;
 				$desc		 = "Vendor freezed. [Low Ratings (" . $model->vendorStats->vrs_vnd_overall_rating . ") ]";
@@ -6458,10 +6494,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				Vendors::notifyFreezeUnfreezeVendor($vndId, $event_id, $desc, 1);
 			}
 		}
-		else if($freezeType == 4) // No Agreement/Document pending
+		else if ($freezeType == 4) // No Agreement/Document pending
 		{
 			$modelPrefs->vnp_doc_pending_freeze = 1;
-			if($modelPrefs->save())
+			if ($modelPrefs->save())
 			{
 				$event_id	 = VendorsLog::VENDOR_ADMINISTRATIVE_FREEZE;
 				$desc		 = "Vendor freezed (Incomplete or missing docs)";
@@ -6469,16 +6505,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				Vendors::notifyFreezeUnfreezeVendor($vndId, $event_id, $desc, 1);
 			}
 		}
-		else if($freezeType == 5) // Manual Freeze/Unfreeze
+		else if ($freezeType == 5) // Manual Freeze/Unfreeze
 		{
-			if($modelPrefs->vnp_is_freeze == 0)
+			if ($modelPrefs->vnp_is_freeze == 0)
 			{
 				$modelPrefs->vnp_manual_freeze	 = 1;
 				$message						 = 'Your vendor account is Freezed.';
 				$event_id						 = VendorsLog::VENDOR_ADMINISTRATIVE_FREEZE;
 				$desc							 = "Vendor is Administrative Freezed. Reason -->" . trim($reason);
 			}
-			else if($modelPrefs->vnp_is_freeze > 0)
+			else if ($modelPrefs->vnp_is_freeze > 0)
 			{
 				//remove all freezes when we do manual unfreeze
 				$modelPrefs->vnp_credit_limit_freeze = 0;
@@ -6495,7 +6531,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$event_id	 = VendorsLog::VENDOR_ADMINISTRATIVE_UNFREEZE;
 				$desc		 = "Vendor account now unblocked. Reason -->" . trim($reason);
 			}
-			if($modelPrefs->save())
+			if ($modelPrefs->save())
 			{
 				$success = true;
 				Vendors::notifyFreezeUnfreezeVendor($vndId, $event_id, $desc, $modelPrefs->vnp_manual_freeze);
@@ -6513,7 +6549,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 //				}
 //			}
 		}
-		if($success)
+		if ($success)
 		{
 			$result = Vendors::model()->updateFreeze($vndId);
 		}
@@ -6523,7 +6559,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function updateFreeze($vndId = 0)
 	{
 		$userInfo = UserInfo::getInstance();
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$model		 = Vendors::model()->resetScope()->findByPk($vndId);
 			$modelPrefs	 = $model->vendorPrefs;
@@ -6531,7 +6567,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$success	 = false;
 
 			$modelPrefs->vnp_is_freeze = ($sum > 0 ? 1 : 0);
-			if($modelPrefs->save())
+			if ($modelPrefs->save())
 			{
 				$success = true;
 			}
@@ -6545,9 +6581,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					WHERE ((vendor_pref.vnp_credit_limit_freeze + vendor_pref.vnp_low_rating_freeze + vendor_pref.vnp_doc_pending_freeze + vendor_pref.vnp_manual_freeze) > 0) AND vendor_pref.vnp_is_freeze = 0";
 
 			$success = DBUtil::command($sql)->execute();
-			if($success)
+			if ($success)
 			{
-				foreach($makeVndFreezeList as $key => $value)
+				foreach ($makeVndFreezeList as $key => $value)
 				{
 					$vendorId	 = $value['vnp_vnd_id'];
 					$event_id	 = VendorsLog::VENDOR_FREEZE;
@@ -6567,7 +6603,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$transaction = DBUtil::beginTransaction();
 
 		$arrcontact = Contact::model()->getContactDetails($arr['vnd_contact_id']);
-		if(!($this->vnd_id))
+		if (!($this->vnd_id))
 		{
 			$arr['vnd_name'] = $arr['vnd_name'] . '-' . Cities::getName($arrcontact['ctt_city']) . '-' . $arrcontact['ctt_business_name'];
 		}
@@ -6580,9 +6616,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		try
 		{
 			$result = CActiveForm::validate($this, null, false);
-			if($result == '[]')
+			if ($result == '[]')
 			{
-				if($this->save())
+				if ($this->save())
 				{
 					$this->vendorPrefs->setAttribute('vnp_vnd_id', $this->vnd_id);
 					$this->vendorPrefs->save();
@@ -6590,15 +6626,15 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					$this->vendorStats->setAttribute('vrs_vnd_id', $this->vnd_id);
 					$this->vendorStats->save();
 
-					if($agreement_file != '' && $agreement_file_tmp != '')
+					if ($agreement_file != '' && $agreement_file_tmp != '')
 					{
 						$agreement_date = DateTimeFormat::DatePickerToDate($agreement_date);
-						if($agreement_date == '1970-01-01')
+						if ($agreement_date == '1970-01-01')
 						{
 							$agreement_date = date("Y-m-d");
 						}
 						$uploadedFile = CUploadedFile::getInstance($this, "vnd_agreement_file_link");
-						if($uploadedFile != '')
+						if ($uploadedFile != '')
 						{
 							$path	 = $this->uploadVendorFiles($uploadedFile, $this->vnd_id, 'agreement');
 							$success = $this->saveDocument($this->vnd_id, $path, $userInfo, 'agreement', $agreement_date);
@@ -6606,7 +6642,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					}
 
 					VendorAgreement::model()->saveAgreement($this->vnd_id);
-					if($vndid > 0)
+					if ($vndid > 0)
 					{
 						$desc				 = "Vendor modified |";
 						$getOldDifference	 = array_merge(array_diff_assoc($oldData, $newData) + array_diff_assoc($oldDataStats, $newStatsData) + array_diff_assoc($oldDataPref, $newPrefData));
@@ -6618,7 +6654,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				}
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$this->addError("vnd_id", $e->getMessage());
 			DBUtil::rollbackTransaction($transaction);
@@ -6657,7 +6693,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$sql = "Update `vendors` set vnd_active=2 WHERE vnd_id  in ($vendorarr)";
 		$cnt = DBUtil::command($sql)->execute();
-		foreach($vendorarr as $value)
+		foreach ($vendorarr as $value)
 		{
 			$event_id	 = VendorsLog::VENDOR_INACTIVE;
 			$desc		 = "Vendor is Blocked. Reason: Vendor Mergerd";
@@ -6754,7 +6790,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				order by vhc_approved,vhc_created_at desc";
 		$result	 = DBUtil::queryAll($sql);
 
-		if(count($result) > 0)
+		if (count($result) > 0)
 		{
 			$this->local_vehicle_year	 = $result[0]['vhc_year'];
 			$this->local_vehicle_model	 = $result[0]['vht_model'];
@@ -6768,18 +6804,18 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		Logger::trace("vendor id" . $vendorId);
 		$success = false;
-		if($path != '' && $vendorId != '')
+		if ($path != '' && $vendorId != '')
 		{
 			try
 			{
-				if($doc_type == 'agreement')
+				if ($doc_type == 'agreement')
 				{
 					Logger::trace("type id" . $doc_type);
 					/* @var $model Vendors */
 					$model		 = Vendors::model()->findByPk($vendorId);
 					/* @var $modelAgmt VendorAgreement */
 					$modelAgmt	 = VendorAgreement::model()->findByVndId($vendorId);
-					if($modelAgmt == '')
+					if ($modelAgmt == '')
 					{
 						/* @var $modelAgmt2 VendorAgreement */
 						$modelAgmt2					 = new VendorAgreement();
@@ -6811,7 +6847,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				DBUtil::commitTransaction($transaction);
 				return $success;
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				$model->addError('vnd_id', $e->getMessage());
 				DBUtil::rollbackTransaction($transaction);
@@ -6834,11 +6870,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                     INNER JOIN contact_profile cpr ON cpr.cr_is_vendor = v2.vnd_id AND cpr.cr_status = 1
                     JOIN contact ON contact.ctt_id = cpr.cr_contact_id
 					JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id";
-		if($fcity)
+		if ($fcity)
 		{
 			$query .= " INNER JOIN zone_cities z1 ON (FIND_IN_SET(z1.zct_zon_id, vendor_pref.vnp_accepted_zone) OR FIND_IN_SET(z1.zct_zon_id, vendor_pref.vnp_home_zone)) AND z1.zct_cty_id=" . $fcity;
 		}
-		if($tcity)
+		if ($tcity)
 		{
 			$query .= " INNER JOIN zone_cities z2 ON (FIND_IN_SET(z2.zct_zon_id, vendor_pref.vnp_accepted_zone) OR FIND_IN_SET(z2.zct_zon_id, vendor_pref.vnp_home_zone)) AND z2.zct_cty_id=" . $tcity;
 		}
@@ -6865,7 +6901,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						LEFT JOIN zones ON zones.zon_id = vendor_pref.vnp_home_zone 
 						WHERE vendor_pref.vnp_is_freeze <> 1 AND v2.vnd_active > 0 AND v2.vnd_id = v2.vnd_ref_code";
 
-		if($search_txt != '')
+		if ($search_txt != '')
 		{
 			$search_txt	 = str_replace(' ', '%', $search_txt);
 			$qry		 .= " AND (v2.vnd_name LIKE '%$search_txt%' OR v2.vnd_code LIKE '%$search_txt%' 
@@ -6915,7 +6951,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$payLoadData = ['EventCode' => Booking::CODE_VENDOR_TIER];
 		$success	 = AppTokens::model()->notifyVendor($vndId, $payLoadData, $message, $title);
-		if($success == true)
+		if ($success == true)
 		{
 			$result = json_encode($payLoadData) . " / " . $message . " / " . $title;
 //echo $result."\n";
@@ -6942,14 +6978,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model			 = $this->findByPk($vndId);
 			$model->vnd_name = $this->generateName($vndId);
 			$model->scenario = 'upgradeName';
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData(['name' => $model->vnd_name]);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = $returnSet->setException($ex);
 		}
@@ -6970,7 +7006,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		{
 			/* @var $model Vendors */
 			$model = $this->findByPk($vndId);
-			if(isset($vndType) && $vndType != '')
+			if (isset($vndType) && $vndType != '')
 			{
 				$model->vnd_cat_type = $vndType;
 				goto ApprovedCar;
@@ -6978,14 +7014,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model->vnd_cat_type = Vendors::setVendorType($model->vnd_id);
 			ApprovedCar:
 			$model->scenario	 = 'upgradeType';
-			if(!$model->save())
+			if (!$model->save())
 			{
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			$returnSet->setStatus(true);
 			$returnSet->setData(['vnd_type' => $model->vnd_cat_type]);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			$returnSet = $returnSet->setException($ex);
 		}
@@ -7017,12 +7053,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$contactModel	 = Contact::model()->findByPk($cttId);
 		$vndInfo[]		 = Filter::strReplace($contactModel->getName());
 
-		if(isset($this->vnd_code) && $this->vnd_code != '')
+		if (isset($this->vnd_code) && $this->vnd_code != '')
 		{
 			$vndInfo[] = $this->vnd_code;
 		}
 
-		if($this->vendorPrefs->vnp_home_zone != '')
+		if ($this->vendorPrefs->vnp_home_zone != '')
 		{
 			$vndInfo[] = Zones::model()->getZoneById($this->vendorPrefs->vnp_home_zone);
 		}
@@ -7046,15 +7082,15 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
-			if($tier > 0)
+			if ($tier > 0)
 			{
 				/* @var $model Vendors */
 				$model				 = $this->findByPk($vndId);
 				$model->vnd_rel_tier = $tier;
 				$model->scenario	 = 'upgradeTire';
-				if($model->validate() && $model->save())
+				if ($model->validate() && $model->save())
 				{
-					if(isset($tier) && $tier == 1)
+					if (isset($tier) && $tier == 1)
 					{
 						$message = "You have been upgraded to Golden tier.";
 						$eventId = VendorsLog::VENDOR_GOLDEN_TIER;
@@ -7072,7 +7108,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				/* @var $model VendorPref */
 				$model							 = VendorPref::model()->getByVendorId($vndId);
 				$model->vnp_deny_tire_upgrade	 = 1;
-				if($model->validate() && $model->save())
+				if ($model->validate() && $model->save())
 				{
 					$message = "You denied tier upgrade.";
 					$eventId = VendorsLog::VENDOR_TIER_DENY;
@@ -7086,7 +7122,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			}
 			$result = ['success' => $success, 'message' => $message];
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$errorCode	 = $ex->getCode();
@@ -7107,7 +7143,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$sql		 = "UPDATE `vendors` SET vendors.vnd_rm = $newRmId WHERE vendors.vnd_rm = $oldRmId";
 		$recordset	 = DBUtil::command($sql)->execute();
 
-		if($recordset != '')
+		if ($recordset != '')
 		{
 			return true;
 		}
@@ -7128,7 +7164,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				WHERE
 					bkg_status IN(3, 5) AND bkg_pickup_date > NOW() + INTERVAL 1 HOUR";
 		$result	 = DBUtil::queryAll($sql, DBUtil::SDB());
-		foreach($result as $key => $value)
+		foreach ($result as $key => $value)
 		{
 			$reason		 = 'Vendor has been blocked.';
 			$reasonId	 = 20;
@@ -7138,7 +7174,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public function getBlockedVendorList($param = '')
 	{
-		if($param == '')
+		if ($param == '')
 		{
 			$param = ' vlg1.vlg_created BETWEEN(NOW() - INTERVAL 90 DAY) AND NOW()';
 		}
@@ -7207,7 +7243,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public function blockedVendorExportList($date1, $date2)
 	{
-		if($date1 != null && $date2 != null)
+		if ($date1 != null && $date2 != null)
 		{
 			$param = " vlg1.vlg_created BETWEEN '" . $date1 . "' AND '" . $date2 . "'";
 		}
@@ -7270,7 +7306,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$estimateComplete	 = date("Y-m-d H:i:s", strtotime($pickupDate . "+ $tripDuration minutes"));
 		$arrivedCoordinates	 = BookingTrackLog::model()->getCoordinatesByEvent($bkgId, BookingTrack::DRIVER_ARRIVED);
 		$arrived			 = explode(',', $arrivedCoordinates['btl_coordinates']);
-		if(($arrivedCoordinates['btl_coordinates'] == "" || $arrivedCoordinates['btl_coordinates'] == NULL ) && $trackLogModel->btl_event_type_id == 203)
+		if (($arrivedCoordinates['btl_coordinates'] == "" || $arrivedCoordinates['btl_coordinates'] == NULL ) && $trackLogModel->btl_event_type_id == 203)
 		{
 
 			$arrived = explode(',', $trackLogModel->btl_coordinates);
@@ -7279,7 +7315,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$arrivedLong = (float) $arrived[1];
 
 		$eventTriggeredCoordinates = explode(",", $model->bkg_trip_start_coordinates);
-		if($model->bkg_trip_start_coordinates == NULL || $model->bkg_trip_start_coordinates == "")
+		if ($model->bkg_trip_start_coordinates == NULL || $model->bkg_trip_start_coordinates == "")
 		{
 			$eventTriggeredCoordinates = explode(",", $model->btkBkg->bookingRoutes[0]->brt_from_latitude . ',' . $model->btkBkg->bookingRoutes[0]->brt_from_longitude);
 		}
@@ -7288,7 +7324,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$qry		 = "SELECT CalcDistance($arrivedLat,$arrivedLong,$startLat,$startLong) AS `CalcDistance`";
 		$distance	 = ((DBUtil::command($qry)->queryScalar()));
 
-		if($pickupDate >= $eventTriggeredTime)
+		if ($pickupDate >= $eventTriggeredTime)
 		{
 			$returnSet->setMessage("No Overdue penalties");
 			goto end;
@@ -7310,21 +7346,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 //			$returnSet->setMessage($message);
 //			goto end;
 //		}
-		if($event == 203)
+		if ($event == 203)
 		{
 
 			$sepatater		 = " ";
 			$vendorAmount	 = $model->btkBkg->bkgBcb->bcb_vendor_amount;
 			/* <=3km: No penalty 3 and <6: Rs 50 =6km: 10% of VA (As per trello) */
-			if($trackLogModel->btl_is_discrepancy == 1 && ($arrivedLat != 0 && $arrivedLong != 0) && ($startLat != 0 && $startLong != 0))
+			if ($trackLogModel->btl_is_discrepancy == 1 && ($arrivedLat != 0 && $arrivedLong != 0) && ($startLat != 0 && $startLong != 0))
 			{
 				$discrepenciesPenaltyAmount = BookingTrack::getDiscrepancyPenality($distance, $vendorAmount, PenaltyRules::PTYPE_DRIVER_ARRIVED_FAR_FROM_LOCATION);
-				if($discrepenciesPenaltyAmount > 0)
+				if ($discrepenciesPenaltyAmount > 0)
 				{
 					$discrepenciesRemarks	 = "Driver arrived {$distance}km far from location for booking #$bookingId";
 					$penaltyType			 = PenaltyRules::PTYPE_DRIVER_ARRIVED_FAR_FROM_LOCATION;
 					$result					 = AccountTransactions::checkAppliedPenaltyByType($bkgId, $penaltyType);
-					if($result)
+					if ($result)
 					{
 						AccountTransactions::model()->addVendorPenalty($bkgId, $vendorId, $discrepenciesPenaltyAmount, $discrepenciesRemarks, '', $penaltyType);
 					}
@@ -7332,17 +7368,17 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			}
 			$penaltyAmount	 = BookingTrack::getLateArrivePenality($bkgId, $model->bkg_trip_arrive_time, PenaltyRules::PTYPE_DRIVER_ARRIVED_LATE);
 			$transferzId	 = Config::get('transferz.partner.id');
-			if($penaltyAmount > 0 && $transferzId != $model->btkBkg->bkg_agent_id)
+			if ($penaltyAmount > 0 && $transferzId != $model->btkBkg->bkg_agent_id)
 			{
 				$lateArriveRemarks	 = "Driver arrived late for booking #$bookingId";
 				$penaltyType		 = PenaltyRules::PTYPE_DRIVER_ARRIVED_LATE;
 				$result				 = AccountTransactions::checkAppliedPenaltyByType($bkgId, $penaltyType);
-				if($result)
+				if ($result)
 				{
 					AccountTransactions::model()->addVendorPenalty($bkgId, $vendorId, $penaltyAmount, $lateArriveRemarks, '', $penaltyType);
 				}
 			}
-			if($discrepenciesRemarks != "" && $lateArriveRemarks != "")
+			if ($discrepenciesRemarks != "" && $lateArriveRemarks != "")
 			{
 				$sepatater = "|";
 			}
@@ -7379,7 +7415,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$returnset = new ReturnSet();
 		try
 		{
-			if(empty($receivedData))
+			if (empty($receivedData))
 			{
 				throw new Exception("Data missing", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -7387,16 +7423,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$requestData = json_decode($receivedData);
 
 			$drvLicenseNo = $requestData->driverLicenseNo;
-			if(!empty($drvLicenseNo))
+			if (!empty($drvLicenseNo))
 			{
 				$isExists = Contact::model()->checkLicenseNo($drvLicenseNo);
-				if($isExists->getStatus())
+				if ($isExists->getStatus())
 				{
 					$contactId = Contact::getContactIdByLicense($drvLicenseNo);
-					if($contactId)
+					if ($contactId)
 					{
 						$contactProfile = ContactProfile::getProfileByCttId($contactId);
-						if(empty($contactProfile['cr_is_vendor']))
+						if (empty($contactProfile['cr_is_vendor']))
 						{
 							$requestData->contactId = $contactId;
 							goto add;
@@ -7408,7 +7444,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			}
 			add:
 			$isNewFlag = 0;
-			if($requestData->contactId > 0)
+			if ($requestData->contactId > 0)
 			{
 				$contactId						 = $requestData->contactId;
 				/**
@@ -7425,7 +7461,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				 */
 				Contact::model()->updateRefCode($contactId, $contactId);
 
-				if(!$contactModel->save())
+				if (!$contactModel->save())
 				{
 					throw new Exception(json_encode($contactModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 				}
@@ -7444,13 +7480,13 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$phoneData	 = $contactDetails->phone->getData();
 			}
 
-			if($requestData->telegramId != null)
+			if ($requestData->telegramId != null)
 			{
 				Users::updateIreadVal($requestData->socialLoginUserId, $requestData->telegramId);
 			}
 
 
-			if(!$contactId)
+			if (!$contactId)
 			{
 				$returnset->setErrors("Failed to create contact", ReturnSet::ERROR_REQUEST_CANNOT_PROCEED);
 				goto skipAll;
@@ -7470,7 +7506,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			$vendorModel->vnd_active = 3; //Save in pending for approval state
 
-			if(!$vendorModel->save())
+			if (!$vendorModel->save())
 			{
 				throw new Exception(json_encode($vendorModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -7483,14 +7519,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$updateModel->vnd_ref_code	 = $updateModel->vnd_id;
 			$updateModel->vnd_name		 = $updateModel->vnd_name . "_" . $codeArray["code"];
 
-			if(!$updateModel->save())
+			if (!$updateModel->save())
 			{
 				throw new Exception(json_encode($updateModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
 
 			$zoneData = Zones::model()->getNearestZonebyCity($requestData->cityId, 60);
-			if(!$zoneData)
+			if (!$zoneData)
 			{
 				$zoneData = [];
 			}
@@ -7505,7 +7541,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 //Create vendor profile
 			$model = Vendors::model()->findByPk($vendorModel->vnd_id);
-			if($model->vnd_contact_id)
+			if ($model->vnd_contact_id)
 			{
 				ContactProfile::setProfile($model->vnd_contact_id, UserInfo::TYPE_VENDOR);
 			}
@@ -7513,7 +7549,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			/**
 			 * Send verification OTP and SMS
 			 */
-			if($isNewFlag)
+			if ($isNewFlag)
 			{
 //Send phone verification OTP
 //$phoneNo = ContactPhone::model()->getContactPhoneById($contactId);
@@ -7523,17 +7559,17 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 //Send email verification link
 
 				$contactModel = ContactEmail::model()->findEmailIdByEmail($requestData->emailId);
-				if(!$contactModel->eml_is_verified)
+				if (!$contactModel->eml_is_verified)
 				{
 					$isEmailSend = Contact::sendVerification($requestData->emailId, Contact::TYPE_EMAIL, $contactId, Contact::NEW_CON_TEMPLATE, Contact::MODE_LINK, UserInfo::TYPE_VENDOR);
 				}
 
 				$socialUserId	 = UserInfo::getUserId();
 				$userModel		 = Users::model()->findByPk($socialUserId);
-				if(!empty($userModel))
+				if (!empty($userModel))
 				{
 					$userModel->usr_contact_id = $contactId;
-					if($userModel->save())
+					if ($userModel->save())
 					{
 						ContactProfile::setProfile($contactId, UserInfo::TYPE_CONSUMER);
 					}
@@ -7544,7 +7580,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$returnset->setData($contactId, false);
 			$returnset->setMessage("Congratulations!. Your account is created successfully, we have sent a verification link to your mail and mobile number.Please verify it");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnset->setException($ex);
@@ -7565,7 +7601,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($contactId))
+			if (empty($contactId))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -7582,22 +7618,22 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$vendorModel->vnd_tnc_id		 = 6;
 			$vendorModel->vnd_tnc_datetime	 = new CDbExpression('NOW()');
 
-			if($regPlatform != '')
+			if ($regPlatform != '')
 			{
 				$vendorModel->vnd_registered_platform = $regPlatform;
 			}
-			if($isDco)
+			if ($isDco)
 			{
 				$vendorModel->vnd_cat_type = 1;
 			}
-			if($vendorModel->scenario == 'insert')
+			if ($vendorModel->scenario == 'insert')
 			{
 				$vendorModel->vnd_active = 3;
 			}
 			$active					 = ($vendorModel->vnd_active > 0) ? $vendorModel->vnd_active : 3;
 			$vendorModel->vnd_active = $active; //Save in pending for approval state
 
-			if(!$vendorModel->save())
+			if (!$vendorModel->save())
 			{
 				throw new Exception(json_encode($vendorModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -7609,24 +7645,24 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$updateModel->vnd_ref_code	 = $updateModel->vnd_id;
 			$updateModel->vnd_name		 = str_replace(' ', '', $updateModel->vnd_name . "_" . $codeArray["code"]);
 
-			if(!$updateModel->save())
+			if (!$updateModel->save())
 			{
 				throw new Exception(json_encode($updateModel->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 			$zoneData = null;
-			if($cityId > 0)
+			if ($cityId > 0)
 			{
 				$zoneData = Zones::model()->getNearestZonebyCity($cityId);
 			}
-			if(empty($zoneData))
+			if (empty($zoneData))
 			{
 				throw new Exception("Invalid data", ReturnSet::ERROR_VALIDATION);
 			}
-			if(!VendorPref::model()->getByVendorId($updateModel->vnd_id))
+			if (!VendorPref::model()->getByVendorId($updateModel->vnd_id))
 			{
 				VendorPref::addVendorPref($updateModel->vnd_id, $zoneData, 0);
 			}
-			if(!VendorStats::model()->getByVendorId($updateModel->vnd_id))
+			if (!VendorStats::model()->getByVendorId($updateModel->vnd_id))
 			{
 				$model				 = new VendorStats();
 				$model->vrs_vnd_id	 = $updateModel->vnd_id;
@@ -7635,7 +7671,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$returnSet->setStatus(true);
 			$returnSet->setData($vendorModel->vnd_id);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnSet->setException($ex);
@@ -7662,7 +7698,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$vendorPhone = $vModel["vnd_phone"];
 		$vendorEmail = $vModel["vnd_email"];
 		$vendorName	 = $vModel["vnd_owner"];
-		if($eventId == BookingTrack::SOS_START)
+		if ($eventId == BookingTrack::SOS_START)
 		{
 			$msg = "$driverName has pressed panic button and wants to notify you of the emergency. Track their location at $url urgently contact them. Gozo is also taking action.";
 		}
@@ -7674,7 +7710,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$sendSms	 = $msgCom->sendSmsToEmergencyContact($bkgId, $vendorPhone, $msg);
 		$emailModel	 = new emailWrapper();
 		$sendEmail	 = $emailModel->sendEmailToEmergencyContact($bkgId, $driverName, $vendorName, $vendorEmail, $msg, 1);
-		if(!empty($sendSms) && !empty($sendEmail))
+		if (!empty($sendSms) && !empty($sendEmail))
 		{
 			$returnSet->setStatus(true);
 			$returnSet->setMessage($msg);
@@ -7691,10 +7727,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$success = false;
 		$message = "Error deleting vendor.";
-		if($vndId > 0 && $canReason != '')
+		if ($vndId > 0 && $canReason != '')
 		{
 			$vndRow = VendorStats::model()->getBookingByVendorID($vndId);
-			if($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
+			if ($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
 			{
 
 				$success = false;
@@ -7705,7 +7741,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model->vnd_delete_reason	 = $canReason;
 			$model->vnd_delete_other	 = ($canReasonOther != '') ? $canReasonOther : NULL;
 			$model->vnd_active			 = 0;
-			if($model->save())
+			if ($model->save())
 			{
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor deleted successfully.", $userInfo, VendorsLog::VENDOR_DELETED);
@@ -7721,10 +7757,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$success = false;
 		$message = "Error rejecting vendor.";
-		if($vndId > 0 && $canReason != '')
+		if ($vndId > 0 && $canReason != '')
 		{
 			$vndRow = VendorStats::model()->getBookingByVendorID($vndId);
-			if($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
+			if ($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
 			{
 
 				$success = false;
@@ -7735,7 +7771,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model->vnd_delete_reason	 = $canReason;
 			$model->vnd_delete_other	 = ($canReasonOther != '') ? $canReasonOther : NULL;
 			$model->vnd_active			 = 2;
-			if($model->save())
+			if ($model->save())
 			{
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor rejected successfully.", $userInfo, VendorsLog::VENDOR_DELETED);
@@ -7751,10 +7787,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$success = false;
 		$message = "Error reverting vendor.";
-		if($vndId > 0 && $canReasonOther != '')
+		if ($vndId > 0 && $canReasonOther != '')
 		{
 			$vndRow = VendorStats::model()->getBookingByVendorID($vndId);
-			if($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
+			if ($vndRow['coutBooking'] > 0 || $vndRow['coutTrans'] > 0)
 			{
 
 				$success = false;
@@ -7764,7 +7800,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model					 = Vendors::model()->findByPk($vndId);
 			$model->vnd_delete_other = ($canReasonOther != '') ? $canReasonOther : NULL;
 			$model->vnd_active		 = 3;
-			if($model->save())
+			if ($model->save())
 			{
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor reverted successfully.", $userInfo, VendorsLog::VENDOR_APPROVE);
@@ -7785,7 +7821,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public function mergeConIds($primaryContactId, $duplicateContactId, $source = null)
 	{
 		$userInfo = UserInfo::getInstance();
-		if(empty($primaryContactId) || empty($duplicateContactId))
+		if (empty($primaryContactId) || empty($duplicateContactId))
 		{
 			throw new Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -7793,9 +7829,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$sql				 = "SELECT * FROM `vendors` WHERE `vnd_contact_id` =:id";
 		$arrDupVendorData	 = DBUtil::command($sql, DBUtil::MDB())->query(['id' => $duplicateContactId]);
 
-		if(!empty($arrDupVendorData))
+		if (!empty($arrDupVendorData))
 		{
-			foreach($arrDupVendorData as $vndData)
+			foreach ($arrDupVendorData as $vndData)
 			{
 				$vndId = $vndData["vnd_id"];
 
@@ -7808,7 +7844,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				ContactMerged::updateReferenceIds($primaryContactId, $duplicateContactId, ContactMerged::TYPE_VENDOR, $vndId);
 
 				$docType = "";
-				if($source == Document::Document_Licence)
+				if ($source == Document::Document_Licence)
 				{
 					$docType = "(Driving License matched)";
 				}
@@ -7820,7 +7856,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public function mergedVendorId($vendorId = "")
 	{
-		if($vendorId != "")
+		if ($vendorId != "")
 		{
 			$sql				 = "WITH RECURSIVE tree (vnd_ref_code,vnd_id,level) AS 
 					(
@@ -7843,7 +7879,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$cond	 = "";
 		$params	 = [];
-		if($sccId > 1)
+		if ($sccId > 1)
 		{
 			$cond .= " AND vhc.vhc_has_cng != 1 ";
 		}
@@ -7861,7 +7897,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					WHERE 1 AND (NOT FIND_IN_SET(:sccId, vnp.vnp_is_allowed_tier) OR vnp.vnp_is_allowed_tier IS NULL) $cond
 					GROUP BY vnp.vnp_id";
 		$row	 = DBUtil::query($sql, DBUtil::SDB(), ['sccId' => $sccId] + $params);
-		foreach($row as $value)
+		foreach ($row as $value)
 		{
 			try
 			{
@@ -7871,7 +7907,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 				DBUtil::execute($sqlUpdate, $param);
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::writeToConsole($ex->getMessage());
 			}
@@ -7913,15 +7949,15 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 										  GROUP BY vnp_home_zone, vhc_id) a
 									GROUP BY vnp_home_zone) vhcle
 								ON vhcle.vhz = vndr.zon_id";
-		if($this->vendorPrefs->vnp_home_zone != '')
+		if ($this->vendorPrefs->vnp_home_zone != '')
 		{
 			$sql .= " AND zon_id IN ({$this->vendorPrefs->vnp_home_zone})";
 		}
-		if($this->zonRegion != '')
+		if ($this->zonRegion != '')
 		{
 			$sql .= " AND zon_region LIKE '%{$this->zonRegion}%'";
 		}
-		if($type == 'Command')
+		if ($type == 'Command')
 		{
 			$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount$sql) abc", DBUtil::SDB())->queryScalar();
 			$dataprovider	 = new CSqlDataProvider("$sqlCount$sql", [
@@ -7977,7 +8013,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$returnSet = new ReturnSet();
 		try
 		{
-			if(empty($entityId))
+			if (empty($entityId))
 			{
 				$entityId = UserInfo::getEntityId();
 			}
@@ -7990,7 +8026,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$modelPhone		 = ContactPhone::model()->findPhoneIdByPhoneNumber($phoneNo);
 
 			$arrProfile = ContactProfile::getEntityById($contactId, $entityType);
-			if(!empty($arrProfile["id"]))
+			if (!empty($arrProfile["id"]))
 			{
 				$returnSet = ContactTemp::processData($contactModel, UserInfo::TYPE_VENDOR, $entityId);
 				goto skipAll;
@@ -7998,7 +8034,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$response	 = Vendors::add($contactId, $name, $contactModel->isDco, $contactModel->ctt_city);
 			$vndId		 = $response->getData();
 
-			if(!$response->getStatus())
+			if (!$response->getStatus())
 			{
 				$returnSet->setMessage("Failed to create vendor");
 				goto skipAll;
@@ -8006,11 +8042,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 //Create vendor profile
 			ContactProfile::setProfile($contactId, UserInfo::TYPE_VENDOR);
-			if($contactModel->isDco)
+			if ($contactModel->isDco)
 			{
 				$driverName	 = $this->ctt_first_name . " " . $this->ctt_last_name;
 				$res		 = Drivers::addDriverDetails($contactId, $driverName);
-				if($res->getStatus())
+				if ($res->getStatus())
 				{
 					ContactProfile::setProfile($contactId, UserInfo::TYPE_DRIVER);
 					$data		 = ['vendor' => $vndId, 'driver' => $res->getData()];
@@ -8028,7 +8064,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$returnSet->setData($obj);
 			$returnSet->setMessage("Vendor account is created successfully, we have sent a verification link to vendor mail and mobile number.Please verify it");
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::error($ex->getMessage());
 			$returnSet->setException($ex);
@@ -8046,7 +8082,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public static function getCreditLimit($vendorId = 0)
 	{
-		if($vendorId > 0)
+		if ($vendorId > 0)
 		{
 			$where = " and vnd_id='$vendorId' ";
 		}
@@ -8059,7 +8095,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public static function getPayableList($qry = '')
 	{
-		if($qry != '')
+		if ($qry != '')
 		{
 			$condition = " and vnd.vnd_id  IN ($qry) ";
 		}
@@ -8079,7 +8115,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function getPayDetailsByIds($ids = '0')
 	{
 		$condition = " AND 1=2 ";
-		if($ids != '0')
+		if ($ids != '0')
 		{
 			$condition = " AND vnd.vnd_id  IN ($ids) ";
 		}
@@ -8127,7 +8163,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public static function processPayment($vendor_id, $amount = 0, $islogable = false)
 	{
-		if($amount > 0 && $islogable)
+		if ($amount > 0 && $islogable)
 		{
 			$message = "Withdrawable amount of Rs.$amount transferred to bank account";
 			VendorsLog::model()->createLog($vendor_id, $message, $userInfo, VendorsLog::PAYMENT_MADE, false, false);
@@ -8139,7 +8175,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function getVendorCancellation($date1, $date2, $type = '')
 	{
 		$cond = '';
-		if($date1 == '' || $date2 == '')
+		if ($date1 == '' || $date2 == '')
 		{
 			$date1	 = date('Y-m-01') . " 00:00:00";
 			$date2	 = date("Y-m-t") . ' 23:59:59';
@@ -8181,7 +8217,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					INNER JOIN vendors vnd ON bcb_vendor_id =vnd_id 
 					WHERE 1 AND booking_cab.bcb_vendor_id IS NOT NULL  $cond
 					GROUP BY booking_cab.bcb_vendor_id";
-		if($type == 'Command')
+		if ($type == 'Command')
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sqlCount) temp", DBUtil::SDB());
 			$dataprovider	 = new CSqlDataProvider($sql, array(
@@ -8243,7 +8279,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
                 WHERE
                     bkg.bkg_status IN(5, 6, 7) AND bcb.bcb_vendor_id IN ($bindString)";
 
-		if($isRating == 1)
+		if ($isRating == 1)
 		{
 			$sql .= " AND rtg_customer_overall IS NOT NULL";
 		}
@@ -8273,10 +8309,10 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		 */
 		$model		 = Booking::model()->findByPk($bkgId);
 		$tripmodel	 = BookingCab::model()->findByPk($model->bkg_bcb_id);
-		if($tripmodel->bcb_lock_vendor_payment == 0)
+		if ($tripmodel->bcb_lock_vendor_payment == 0)
 		{
 			$tripmodel->bcb_lock_vendor_payment = 1;
-			if(!$tripmodel->save())
+			if (!$tripmodel->save())
 			{
 				throw new Exception($tripmodel->hasErrors(), ReturnSet::ERROR_INVALID_DATA);
 			}
@@ -8352,52 +8388,39 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		];
 
 		$select = 'SELECT 
-					vnd_id,
-					vnd_name,
-					IFNULL(bvr.bvr_bid_amount, 0)
-					   AS bidAmount,
-					IF(bvr.bvr_bid_amount IS NOT NULL AND bvr.bvr_bid_amount>0,1,0) AS bidFlag,
-					MAX(
-					   CalculateSMT(
-						  :maxVendorAmount,
-						  :bcbVendorAmount,
-						  IFNULL(
-							 bvr.bvr_bid_amount,
-							 IF(
-									cav.cav_total_amount IS NOT NULL
-								AND vhc.vhc_id IS NOT NULL,
-								cav.cav_total_amount,
-								:bcbVendorAmount)),
-						  vrs.vrs_vnd_overall_rating,
-						  vrs.vrs_sticky_score,
-						  vrs.vrs_penalty_count,
-						  vrs.vrs_driver_app_used,
-						  vrs.vrs_dependency,
-						  vrs.vrs_boost_percentage))  AS smtScore,
-						IF(FIND_IN_SET(vendor_pref.vnp_home_zone, :zones), 1, 0) AS homeZoneScore,
-						IF( CONCAT(",", IFNULL(vendor_pref.vnp_accepted_zone, "0"), ",") REGEXP CONCAT(",(", REPLACE(:zones,",", "|"), "),"),1,0) AS acceptedZone,
-						cav.cav_id,
-						IF(cav.cav_id IS NULL, 0, 1) AS cavScore,
-						vrs.vrs_vnd_overall_rating as vnd_overall_rating,
-						vrs.vrs_dependency as dependencyScore,
-						bvr.bvr_bid_amount,
-						bvr.bvr_created_at,
-						vnd_active,
-						vnp_is_freeze as vnd_is_freeze,
-						IF(bvr.bvr_accepted=1 AND bvr.bvr_bid_amount > 0 AND bvr.bvr_bid_amount IS NOT NULL ,1,IF(bvr.bvr_accepted=2,-1,0)) AS bidding,
-						IF((vnd_active IN(2, 3) OR vnp_is_freeze != 0),1,0) vnd_forbidden';
+				vendors.vnd_id, vendors.vnd_name,
+				IFNULL(bvr.bvr_bid_amount, 0) AS bidAmount,
+				IF(bvr.bvr_bid_amount IS NOT NULL AND bvr.bvr_bid_amount>0,1,0) AS bidFlag,
+				MAX(CalculateSMT( :maxVendorAmount, :bcbVendorAmount,
+			   IFNULL( bvr.bvr_bid_amount,
+					IF( cav.cav_total_amount IS NOT NULL
+						AND vhc.vhc_id IS NOT NULL, cav.cav_total_amount, :bcbVendorAmount)),
+					vrs.vrs_vnd_overall_rating, vrs.vrs_sticky_score,
+					vrs.vrs_penalty_count, vrs.vrs_driver_app_used,
+					vrs.vrs_dependency, vrs.vrs_boost_percentage))  AS smtScore,
+				 IF(FIND_IN_SET(vendor_pref.vnp_home_zone, :zones), 1, 0) AS homeZoneScore,
+				 IF( CONCAT(",", IFNULL(vendor_pref.vnp_accepted_zone, "0"), ",") REGEXP CONCAT(",(", REPLACE(:zones,",", "|"), "),"),1,0) AS acceptedZone,
+				 cav.cav_id, IF(cav.cav_id IS NULL, 0, 1) AS cavScore,
+				 vrs.vrs_vnd_overall_rating as vnd_overall_rating,
+				 vrs.vrs_dependency as dependencyScore,
+				 bvr.bvr_bid_amount, bvr.bvr_created_at,
+				 vendors.vnd_active,
+				 vnp_is_freeze as vnd_is_freeze,
+				 IF(bvr.bvr_accepted=1 AND bvr.bvr_bid_amount > 0 AND bvr.bvr_bid_amount IS NOT NULL ,1,IF(bvr.bvr_accepted=2,-1,0)) AS bidding,
+				 IF((vendors.vnd_active IN(2, 3) OR vnp_is_freeze != 0),1,0) vnd_forbidden';
 
-		$selectCount = " SELECT  DISTINCT vnd_id ";
+		$selectCount = " SELECT  DISTINCT vendors.vnd_id ";
 		$orderby	 = " ORDER BY bidAmount ASC,smtScore DESC,cavScore DESC, homeZoneScore DESC ";
-		$groupby	 = " GROUP BY vendors.vnd_id ";
+		$groupby	 = " GROUP BY vendors.vnd_ref_code ";
 
-		$sql = ' FROM vendors
+		$sql = ' FROM vendors v1
+				INNER JOIN vendors ON vendors.vnd_id = v1.vnd_ref_code
 				INNER JOIN vendor_pref  ON vendor_pref.vnp_vnd_id = vendors.vnd_id AND vendors.vnd_active = 1
 				INNER JOIN vendor_stats vrs ON vrs.vrs_vnd_id = vendors.vnd_id
 				LEFT JOIN booking_vendor_request bvr ON     bvr.bvr_vendor_id = vendors.vnd_id AND bvr.bvr_active = 1 AND bvr.bvr_bcb_id = :bcbId
 				LEFT JOIN cab_availabilities cav  ON     cav.cav_vendor_id = vendors.vnd_id AND cav.cav_from_city = :fromCity   AND FIND_IN_SET(:toCity, cav.cav_to_cities) AND :pickupDate BETWEEN cav.cav_date_time AND DATE_ADD(cav.cav_date_time, INTERVAL cav.cav_duration MINUTE)
 				LEFT JOIN vehicles vhc  ON     vhc.vhc_id = cav.cav_cab_id  AND FIND_IN_SET(vhc.vhc_type_id, :cabTypes)
-				WHERE 1 AND
+				WHERE 1 AND					 
 					((bvr_bid_amount>0 AND bvr_accepted=1) OR
 						(
 						FIND_IN_SET(vendor_pref.vnp_home_zone, :homeZones)
@@ -8409,21 +8432,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				';
 
 		$includeBlocked	 = ($this->vndIsBlocked == 1) ? true : false;
-		$sql			 .= " AND (vnd_active=1";
-		if($includeBlocked)
+		$sql			 .= " AND (v1.vnd_active=1";
+		if ($includeBlocked)
 		{
-			$sql .= " OR vnd_active=2";
+			$sql .= " OR v1.vnd_active=2";
 		}
 
 		$includeUnapproved = ($this->vndUnApproved == 1) ? true : false;
-		if($includeUnapproved)
+		if ($includeUnapproved)
 		{
-			$sql .= " OR (vnd_active=3 AND vnd_create_date >= DATE_SUB(NOW(), INTERVAL +36 HOUR))";
+			$sql .= " OR (v1.vnd_active=3 AND v1.vnd_create_date >= DATE_SUB(NOW(), INTERVAL +36 HOUR))";
 		}
 		$sql .= ") ";
 
 		$includeFreezed = ($this->vndIsFreezed == 1) ? true : false;
-		if($includeFreezed)
+		if ($includeFreezed)
 		{
 			$sql .= " AND  vnp_is_freeze >= 0";
 		}
@@ -8432,15 +8455,15 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$sql .= " AND  vnp_is_freeze=0";
 		}
 
-		if($this->vnd_name != '')
+		if ($this->vnd_name != '')
 		{
-			$sql .= " AND vnd_name LIKE '%$this->vnd_name%'";
+			$sql .= " AND v1.vnd_name LIKE '%$this->vnd_name%'";
 		}
 
-		if($this->vnd_phone != '')
+		if ($this->vnd_phone != '')
 		{
 			$vendorIds	 = Vendors::getVendorIds($this->vnd_phone);
-			$sql		 .= " AND vnd_id IN ($vendorIds) ";
+			$sql		 .= " AND v1.vnd_id IN ($vendorIds) ";
 		}
 		$count			 = DBUtil::queryScalar("SELECT COUNT(1) FROM ($selectCount $sql) a", DBUtil::SDB(), $paramsCount);
 		$dataprovider	 = new CSqlDataProvider("$select$sql$groupby", [
@@ -8513,13 +8536,13 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function getVendorusageDetails($arr = [], $command = DBUtil::ReturnType_Provider)
 	{
 		$where = '';
-		if($arr['bkg_pickup_date1'] != '' && $arr['bkg_pickup_date2'] != '')
+		if ($arr['bkg_pickup_date1'] != '' && $arr['bkg_pickup_date2'] != '')
 		{
 			$fromDate	 = $arr['bkg_pickup_date1'];
 			$toDate		 = $arr['bkg_pickup_date2'];
 			$where		 .= " AND bkg_pickup_date>= '" . $fromDate . "' AND bkg_pickup_date < '" . $toDate . "'";
 		}
-		if($arr['bcb_vendor_id'] != '' && $arr['bcb_vendor_id'] != '0')
+		if ($arr['bcb_vendor_id'] != '' && $arr['bcb_vendor_id'] != '0')
 		{
 			$where		 .= "  AND bcb_vendor_id=" . $arr['bcb_vendor_id'];
 			$agtwhere	 = "  AND bcb_vendor_id=" . $arr['bcb_vendor_id'];
@@ -8552,7 +8575,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 								GROUP BY DATE,v.vnd_ref_code
 								ORDER BY v.vnd_ref_code 
 							";
-		if($command == DBUtil::ReturnType_Provider)
+		if ($command == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB());
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -8577,9 +8600,8 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	 */
 	public static function getByPickupCitynCabType($fcity, $tcity, $cabTypeList, $excludeVendors = '', $distance = 200, $onlyGozoNow = false)
 	{
-		$homeZone = ZoneCities::getZonesByCity($fcity);
-
-		$tcityZone = ZoneCities::getZonesByCity($tcity);
+		$homeZone	 = ZoneCities::getZonesByCity($fcity);
+		$tcityZone	 = ZoneCities::getZonesByCity($tcity);
 
 		$acceptedZones	 = Zones::getServiceZoneList($homeZone, $distance);
 		$hzoneArr		 = explode(',', $homeZone);
@@ -8603,49 +8625,50 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$params	 = ['homeZone' => $homeZone, 'tcityZone' => $tcityZone, 'allZone' => $allZone, 'cabTypeList' => $cabTypeList];
 		$where	 = '';
-		if($excludeVendors != '')
+		if ($excludeVendors != '')
 		{
 			$params['excludeVendors']	 = $excludeVendors;
 			$where						 = " AND v2.vnd_id NOT IN($excludeVendors)";
 		}
-		if($onlyGozoNow)
+		if ($onlyGozoNow)
 		{
 			$where .= " AND vnp.vnp_gozonow_enabled <2";
 		}
 
 		$sql = "SELECT DISTINCT v2.vnd_id, v2.vnd_name, vrs.vrs_trust_score,  
-						contact_phone.phn_phone_no AS vnd_phone,
-						vnp_home_zone, vrs.vrs_last_logged_in, 
-						IF(v2.vnd_create_date > DATE_SUB(NOW(),INTERVAL 3 MONTH), 40, 0) AS joinScore,
-						IF(FIND_IN_SET(vnp_home_zone, :homeZone), 40, IF(FIND_IN_SET(vnp_home_zone, :tcityZone), 20, 0)) AS zoneScore,
-						IF(FIND_IN_SET(vnp_home_zone, :homeZone), 1, IF(FIND_IN_SET(vnp_home_zone, :tcityZone), 2, 3)) AS isHomeZone,
-						IF(FIND_IN_SET(vhc.vhc_type_id,:cabTypeList), 20, 0) AS cabTypeScore,
-						CASE  						
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 1 MONTH) THEN 40
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 3 MONTH) THEN 25
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 6 MONTH) THEN 20
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 9 MONTH) THEN 15
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 12 MONTH) THEN 10
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 18 MONTH) THEN 5
-						   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 24 MONTH) THEN 1
-						   ELSE 0
-						 END  AS loginScore
-					FROM vendors v1
-					INNER JOIN vendors v2 ON v2.vnd_id = v1.vnd_ref_code
-					INNER JOIN vendor_pref vnp ON vnp.vnp_vnd_id = v2.vnd_id AND vnp.vnp_gnow_status=1
-					INNER JOIN vendor_stats vrs ON vrs.vrs_vnd_id = v2.vnd_id
-					LEFT JOIN vendor_vehicle vvhc ON vvhc.vvhc_vnd_id = v2.vnd_id
-					INNER JOIN vehicles vhc ON vhc.vhc_id = vvhc.vvhc_vhc_id		
-					INNER JOIN contact_profile cpr ON cpr.cr_is_vendor = v2.vnd_id
-					INNER JOIN contact_phone ON contact_phone.phn_contact_id = cpr.cr_contact_id
-						   AND contact_phone.phn_is_verified = 1 AND contact_phone.phn_is_primary = 1 				 
-					WHERE v2.vnd_active = 1 AND v2.vnd_id = v2.vnd_ref_code AND vnp.vnp_manual_freeze = 0
-							AND (FIND_IN_SET(vnp_home_zone, :allZone))
-							$where 						 
-						AND ((vrs.vrs_last_logged_in IS NULL AND v2.vnd_create_date > DATE_SUB(NOW(),INTERVAL 12 MONTH))  OR vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 2 YEAR))
-							 
-					GROUP BY v2.vnd_id
-					ORDER BY (joinScore + cabTypeScore + loginScore + zoneScore + (vrs.vrs_trust_score*2)) DESC LIMIT 0, 300		 
+			contact_phone.phn_phone_no AS vnd_phone,
+			vnp_home_zone, vrs.vrs_last_logged_in, 
+			IF(v2.vnd_create_date > DATE_SUB(NOW(),INTERVAL 3 MONTH), 40, 0) AS joinScore,
+			IF(FIND_IN_SET(vnp_home_zone, :homeZone), 40, IF(FIND_IN_SET(vnp_home_zone, :tcityZone), 20, 0)) AS zoneScore,
+			IF(FIND_IN_SET(vnp_home_zone, :homeZone), 1, IF(FIND_IN_SET(vnp_home_zone, :tcityZone), 2, 3)) AS isHomeZone,
+			IF(FIND_IN_SET(vhc.vhc_type_id,:cabTypeList), 20, 0) AS cabTypeScore,
+			CASE  						
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 1 MONTH) THEN 40
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 3 MONTH) THEN 25
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 6 MONTH) THEN 20
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 9 MONTH) THEN 15
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 12 MONTH) THEN 10
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 18 MONTH) THEN 5
+			   WHEN vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 24 MONTH) THEN 1
+			   ELSE 0
+			 END  AS loginScore
+			FROM vendors v1
+			INNER JOIN vendors v2 ON v2.vnd_id = v1.vnd_ref_code AND v2.vnd_id = v2.vnd_ref_code
+			INNER JOIN vendor_pref vnp ON vnp.vnp_vnd_id = v2.vnd_id AND vnp.vnp_gnow_status=1
+			INNER JOIN vendor_stats vrs ON vrs.vrs_vnd_id = v2.vnd_id
+			LEFT JOIN vendor_vehicle vvhc ON vvhc.vvhc_vnd_id = v2.vnd_id
+			INNER JOIN vehicles vhc ON vhc.vhc_id = vvhc.vvhc_vhc_id		
+			INNER JOIN contact_profile cpr ON cpr.cr_is_vendor = v2.vnd_id
+			INNER JOIN contact_phone ON contact_phone.phn_contact_id = cpr.cr_contact_id
+				   AND contact_phone.phn_is_verified = 1 AND contact_phone.phn_is_primary = 1 				 
+			WHERE v2.vnd_active = 1 AND v2.vnd_id = v2.vnd_ref_code 
+				AND vnp.vnp_manual_freeze = 0
+				AND (FIND_IN_SET(vnp_home_zone, :allZone))
+				$where 						 
+				AND ((vrs.vrs_last_logged_in IS NULL AND v2.vnd_create_date > DATE_SUB(NOW(),INTERVAL 12 MONTH))  
+						OR vrs.vrs_last_logged_in > DATE_SUB(NOW(), INTERVAL 2 YEAR))							 
+			GROUP BY v2.vnd_ref_code
+			ORDER BY (joinScore + cabTypeScore + loginScore + zoneScore + (vrs.vrs_trust_score*2)) DESC LIMIT 0, 300		 
 				";
 
 		$data = DBUtil::query($sql, DBUtil::SDB(), $params);
@@ -8660,7 +8683,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function getVndIdByCode($code)
 	{
 		$find = "-";
-		if(!preg_match("/{$find}/i", $code))
+		if (!preg_match("/{$find}/i", $code))
 		{
 			$code = substr_replace($code, '-', 1, 0);
 		}
@@ -8783,7 +8806,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				WHERE (ctt.ctt_license_exp_date BETWEEN $beforeTenDays AND $afterOneMonth) AND vnd.vnd_active = 1 ";
 
 		$results = DBUtil::queryAll($sql, DBUtil::SDB());
-		if($results)
+		if ($results)
 		{
 			self::expiredDocNotification($results, 30);
 		}
@@ -8801,7 +8824,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				WHERE (ctt.ctt_license_exp_date BETWEEN $today AND $afterTenDay) AND vnd.vnd_active = 1 ";
 
 		$results = DBUtil::queryAll($sql, DBUtil::SDB());
-		if($results)
+		if ($results)
 		{
 			self::expiredDocNotification($results, 10);
 		}
@@ -8809,7 +8832,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public static function expiredDocNotification($vendorData, $days = 0)
 	{
-		foreach($vendorData as $vendor)
+		foreach ($vendorData as $vendor)
 		{
 			$currentDate		 = date("Y-m-d", strtotime(date('Y-m-d')));
 			$licenseDate		 = date("Y-m-d", strtotime($vendor['ctt_license_exp_date']));
@@ -8933,11 +8956,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$params	 = ['cabTypeList' => $cabTypeList];
 		$where	 = '';
-		if($includeVendors != '')
+		if ($includeVendors != '')
 		{
 			$where = " AND v2.vnd_id IN($includeVendors)";
 		}
-		if($onlyGozoNow)
+		if ($onlyGozoNow)
 		{
 			$where .= " AND vnp.vnp_gozonow_enabled <2";
 		}
@@ -9021,7 +9044,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function getVendorBookingCount($vndId, $days = null)
 	{
 		$params = ['vndId' => $vndId];
-		if($days != null)
+		if ($days != null)
 		{
 			$condition = " AND bkg.bkg_pickup_date BETWEEN (NOW() - INTERVAL $days DAY) AND NOW()";
 		}
@@ -9044,42 +9067,49 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$sql	 = "SELECT
                 vnd_id, vnd_name, vnd_code, eml_email_address as vnd_email,
-                cr_contact_id,  ctt_name as vnd_contact_person,
+                cr_contact_id,  contact.ctt_name as vnd_contact_person,
                 phn_phone_no as vnd_contact_number,
-                phn_phone_no as vnd_alt_contact_number, ctt_address as vnd_address,                 
-                ctt_business_name, ctt_user_type ,                
-                ctt_first_name , ctt_last_name ,
+                phn_phone_no as vnd_alt_contact_number, contact.ctt_address as vnd_address,                 
+                contact.ctt_business_name, contact.ctt_user_type ,                
+                contact.ctt_first_name , contact.ctt_last_name ,
                 (SELECT CONCAT(ctt_first_name,' ',ctt_last_name) FROM contact WHERE ctt_id = ctt_owner_id) as vnd_owner,  
-                vnd_active,  vnd_create_date, vnd_type,               
+                vnd_active, vnd_create_date, vnd_type,               
                 vrs_vnd_overall_rating as vnd_overall_rating,
                 vrs_overall_score as vnd_overall_score,                
+				vrs_dependency,
                 vrs_total_trips as vnd_total_trips, 
 				vrs_first_approve_date,
 				vrs_last_approve_date,
-                ctt_bank_name as vnd_bank_name,
-                ctt_bank_branch as vnd_bank_branch,
-                ctt_beneficiary_name as vnd_beneficiary_name,
-                ctt_account_type as vnd_account_type,
-                ctt_bank_ifsc as vnd_bank_ifsc,
-                ctt_bank_account_no as vnd_bank_account_no,
-                ctt_beneficiary_id as vnd_beneficiary_id,                
+                contact.ctt_bank_name as vnd_bank_name,
+                contact.ctt_bank_branch as vnd_bank_branch,
+                contact.ctt_beneficiary_name as vnd_beneficiary_name,
+                contact.ctt_account_type as vnd_account_type,
+                contact.ctt_bank_ifsc as vnd_bank_ifsc,
+                contact.ctt_bank_account_no as vnd_bank_account_no,
+                contact.ctt_beneficiary_id as vnd_beneficiary_id,                
                 vnp_home_zone as vnd_home_zone,
                 vnp_accepted_zone as vnd_accepted_zone,               
-                vrs_credit_limit as vnd_credit_limit, ctt_pan_no as vnd_pan_no,                
-                vnp_is_freeze as vnd_is_freeze,  vnp_cod_freeze AS vnd_cod_freeze, vcty.cty_name vnd_city_name, hzon.zon_name vnd_home_zone,
+                vrs_credit_limit as vnd_credit_limit, 
+				contact.ctt_pan_no as vnd_pan_no,                
+                vnp_is_freeze as vnd_is_freeze,  vnp_cod_freeze AS vnd_cod_freeze, vnp_credit_limit_freeze,vnp_low_rating_freeze,vnp_doc_pending_freeze,vnp_manual_freeze,
+				vcty.cty_name vnd_city_name, hzon.zon_name vnd_home_zone,
 				vnp_is_attached,vendor_pref.vnp_boost_enabled,vendor_pref.vnp_vhc_boost_count,vnp_oneway,vnp_round_trip,vnp_multi_trip,vnp_airport,
 				vnp_package,vnp_flexxi,vnp_daily_rental,vnp_lastmin_booking,vnp_tempo_traveller,vnd_firm_type                
                 FROM vendors
                 INNER JOIN vendor_pref ON vendor_pref.vnp_vnd_id = vendors.vnd_id
                 INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = vendors.vnd_id
                 LEFT JOIN contact_profile ON contact_profile.cr_is_vendor=vendors.vnd_id AND cr_status=1
-                LEFT JOIN contact ON ctt_id=cr_contact_id AND ctt_active = 1
+                
+				LEFT JOIN contact ctt ON ctt.ctt_id=cr_contact_id AND ctt.ctt_active = 1 
+				LEFT JOIN contact ON contact.ctt_id=ctt.ctt_ref_code AND contact.ctt_active = 1 
+
                 LEFT JOIN contact_email ON contact_email.eml_contact_id = contact.ctt_id AND  contact_email.eml_is_verified=1 AND contact_email.eml_active =1
                 LEFT JOIN contact_phone ON contact_phone.phn_contact_id = contact.ctt_id AND contact_phone.phn_is_verified=1 AND contact_phone.phn_active =1                  
                 LEFT JOIN cities vcty ON vcty.cty_id = contact.ctt_city
                 LEFT JOIN zones hzon ON hzon.zon_id = vendor_pref.vnp_home_zone  
-                WHERE vendors.vnd_id IN (:vndId) AND ctt_id=ctt_ref_code
-                GROUP BY vendors.vnd_id,cr_created DESC;";
+                WHERE vendors.vnd_id IN (:vndId) 
+				AND contact.ctt_id=contact.ctt_ref_code
+                GROUP BY vendors.vnd_id,cr_created DESC";
 		$params	 = ["vndId" => $vndId];
 		return DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 	}
@@ -9102,7 +9132,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$model				 = Vendors::model()->findByPk($vndId);
 			$model->vnd_rel_tier = $tier;
 			$model->scenario	 = 'upgradeTire';
-			if($model->validate() && $model->save())
+			if ($model->validate() && $model->save())
 			{
 				$message = $tier > 0 ? "You have been upgraded to Golden tier." : "You have been degraded from Golden tier";
 				$eventId = $tier > 0 ? VendorsLog::VENDOR_GOLDEN_TIER : VendorsLog::VENDOR_TIER_DENY;
@@ -9116,7 +9146,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				throw new Exception("Errors : " . $model->getErrors());
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
@@ -9129,7 +9159,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$criteria			 = new CDbCriteria();
 		$criteria->select	 = "vnd_id , vnd_code";
 		$criteria->compare('vnd_active', 1);
-		if($query != null)
+		if ($query != null)
 		{
 			$criteria->compare('vnd_code', $query);
 		}
@@ -9148,7 +9178,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$params	 = [];
 		$where	 = '';
-		if($vehicleTypeId > 0)
+		if ($vehicleTypeId > 0)
 		{
 			$cabTypeList = Vehicles::getVhcTypeFromScv($vehicleTypeId);
 
@@ -9156,7 +9186,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			$where = " AND FIND_IN_SET(vhc.vhc_type_id,:cabTypeList) ";
 		}
-		if($includeVendors != '')
+		if ($includeVendors != '')
 		{
 			$where		 = " AND v2.vnd_id IN($includeVendors)";
 			$whereAPt	 = " AND apt.apt_entity_id IN($includeVendors)";
@@ -9166,12 +9196,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$where		 = " AND 1=2";
 			$whereAPt	 = " AND 1=2";
 		}
-		if($onlyGozoNow)
+		if ($onlyGozoNow)
 		{
 			$where .= " AND vnp.vnp_gozonow_enabled <2";
 		}
 
-		if($bkgType == 14)
+		if ($bkgType == 14)
 		{
 			$where .= " AND  vnp.vnp_airport =1 OR vnp.vnp_daily_rental =1";
 		}
@@ -9255,7 +9285,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$params	 = ['zoneList' => $zoneList];
 		$where	 = '';
-		if($excludeVendors != '')
+		if ($excludeVendors != '')
 		{
 			$params['excludeVendors']	 = $excludeVendors;
 			$where						 = " AND v2.vnd_id NOT IN(:excludeVendors)";
@@ -9300,14 +9330,27 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	 */
 	public static function getSD($vndID)
 	{
+		$relVendorList = \Vendors::getRelatedIds($vndID);
+		if ($relVendorList)
+		{
+			$primaryVnd	 = \Vendors::getPrimaryByIds($relVendorList);
+			$vndID		 = $primaryVnd['vnd_id'];
+		}
+
 		$amount		 = 0;
-		$vndSetting	 = "SELECT vnp_min_sd_req_amt,vrs_security_amount,vrs_security_receive_date,vrs_outstanding FROM `vendors`
+		$vndSetting	 = "SELECT 
+						vnp_min_sd_req_amt,vrs_security_amount,vrs_security_receive_date,vrs_outstanding 
+							FROM `vendors`
 							   INNER JOIN vendor_pref ON vnd_id = vendor_pref.vnp_vnd_id 
 							   INNER JOIN vendor_stats ON vnd_id = vrs_vnd_id 
 							   WHERE vnd_id = $vndID ";
 		$result		 = DBUtil::queryRow($vndSetting, DBUtil::SDB());
-		if($result['vnp_min_sd_req_amt'] > $result['vrs_security_amount'])
+
+		$securityAmount					 = AccountTransactions::getSecurityAmount($relVendorList);
+		$result['vrs_security_amount']	 = $securityAmount;
+		if ($result['vnp_min_sd_req_amt'] > $result['vrs_security_amount'])
 		{
+
 			$amountPending = $result['vnp_min_sd_req_amt'] - $result['vrs_security_amount'];
 
 			$totTrans = $result['vrs_outstanding'];
@@ -9317,7 +9360,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$validDateArr	 = json_decode($ruleSD);
 
 			$security_receive_date = strtotime($result['vrs_security_receive_date']);
-			if($security_receive_date == null)
+			if ($security_receive_date == null)
 			{
 				$security_receive_date = strtotime("-6 day");
 			}
@@ -9327,9 +9370,9 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			Logger::writeToConsole("Difference: {$difference}, SDinstallmentIntervalDay: {$validDateArr->SDinstallmentIntervalDay}");
 
-			if($difference > $validDateArr->SDinstallmentIntervalDay)
+			if ($difference > $validDateArr->SDinstallmentIntervalDay)
 			{
-				if($validDateArr->SDinstallmentAmt > $amountPending)
+				if ($validDateArr->SDinstallmentAmt > $amountPending)
 				{
 					$amount = $amountPending;
 				}
@@ -9340,7 +9383,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 				Logger::writeToConsole("Amount: {$amount}");
 
-				if($totTrans * -1 < $amount)
+				if ($totTrans * -1 < $amount)
 				{
 					$amount = 0;
 					goto skip;
@@ -9352,7 +9395,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$crTrans		 = AccountTransDetails::getInstance(Accounting::LI_SECURITY_DEPOSIT, Accounting::AT_OPERATOR, $vndID, '', $remarks);
 				$drTrans		 = AccountTransDetails::getInstance(Accounting::LI_OPERATOR, Accounting::AT_OPERATOR, $vndID, '', $remarks);
 				$status			 = $accTransModel->processReceipt($drTrans, $crTrans, Accounting::AT_OPERATOR);
-				if(!$status)
+				if (!$status)
 				{
 					throw new Exception('Failed to save accounts.');
 				}
@@ -9379,12 +9422,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$sql	 = "SELECT tpc.tpc_fname fname,tpc.tpc_lname lname,tpc.tpc_email email,tpc.tpc_phone as number FROM test.temp_contacts tpc WHERE tpc.tpc_phone = :phone";
 			$resQ	 = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
 
-			if(!is_null($resQ) && $resQ != '')
+			if (!is_null($resQ) && $resQ != '')
 			{
 				return $resQ;
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -9399,7 +9442,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	 */
 	public static function updateTempContactsRegisteredByPhone($phone, $cttId)
 	{
-		if($phone != '' && $cttId > 0)
+		if ($phone != '' && $cttId > 0)
 		{
 			try
 			{
@@ -9411,7 +9454,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$resQ	 = DBUtil::execute($sql, $param);
 				return $resQ;
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::trace($ex->getMessage());
 			}
@@ -9426,7 +9469,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	 */
 	public static function updateTempContactsAttemptedByPhone($phone)
 	{
-		if($phone != '')
+		if ($phone != '')
 		{
 			try
 			{
@@ -9437,7 +9480,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$resQ	 = DBUtil::execute($sql, $param);
 				return $resQ;
 			}
-			catch(Exception $ex)
+			catch (Exception $ex)
 			{
 				Logger::trace($ex->getMessage());
 			}
@@ -9458,12 +9501,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$sql	 = "SELECT tpc.tpc_id FROM test.temp_contacts tpc WHERE tpc.tpc_phone = :phone";
 			$resQ	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $param);
 
-			if(!is_null($resQ) && $resQ != '')
+			if (!is_null($resQ) && $resQ != '')
 			{
 				return $resQ;
 			}
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -9474,11 +9517,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$where	 = '';
 		$vndId	 = $this->vnd_id;
-		if($vndId != '')
+		if ($vndId != '')
 		{
 			$where .= " AND vnd.vnd_id = $vndId";
 		}
-		if(isset($this->vnd_active) && $this->vnd_active != "")
+		if (isset($this->vnd_active) && $this->vnd_active != "")
 		{
 			$where .= " AND (vnd.vnd_active = " . $this->vnd_active . ")";
 		}
@@ -9506,7 +9549,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 						INNER JOIN vendor_stats vrs ON vrs.vrs_vnd_id = vnd.vnd_id   
 						WHERE 1 $where
 						GROUP BY vnd_id";
-		if($type == DBUtil::ReturnType_Provider)
+		if ($type == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB())->queryScalar();
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -9531,7 +9574,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$toTime		 = ' 23:59:59';
 		$where		 = "";
 		$join		 = " LEFT JOIN app_tokens ON app_tokens.apt_entity_id=vendors.vnd_id  AND app_tokens.apt_platform =7	AND app_tokens.apt_user_type=2 ";
-		if($bkgFromDate != '' && $bkgToDate != '')
+		if ($bkgFromDate != '' && $bkgToDate != '')
 		{
 			$params['bkgFromDate']	 = $bkgFromDate . $fromTime;
 			$params['bkgToDate']	 = $bkgToDate . $toTime;
@@ -9539,24 +9582,24 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$join					 = " INNER JOIN app_tokens ON app_tokens.apt_entity_id=vendors.vnd_id  AND app_tokens.apt_platform =7	AND app_tokens.apt_user_type=2 ";
 		}
 
-		if($fromDate != '' && $toDate != '')
+		if ($fromDate != '' && $toDate != '')
 		{
 			$params['fromDate']	 = $fromDate . $fromTime;
 			$params['toDate']	 = $toDate . $toTime;
 			$where				 .= " AND vnd_create_date BETWEEN  :fromDate AND :toDate ";
 		}
 
-		if($isDCOApp == 1)
+		if ($isDCOApp == 1)
 		{
 			$where .= 'AND vendors.vnd_registered_platform=1';
 		}
 
-		if($bkgFromDate != '' && $bkgToDate != '')
+		if ($bkgFromDate != '' && $bkgToDate != '')
 		{
 			$startDate	 = $bkgFromDate . $fromTime;
 			$endsDate	 = $bkgToDate . $toTime;
 		}
-		else if($fromDate != '' && $toDate != '')
+		else if ($fromDate != '' && $toDate != '')
 		{
 			$startDate	 = $fromDate . $fromTime;
 			$endsDate	 = $toDate . $toTime;
@@ -9639,7 +9682,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				WHERE 1				
 				AND vnd_active=1	
 				$where GROUP BY vendors.vnd_id";
-		if($command == DBUtil::ReturnType_Provider)
+		if ($command == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB(), $params);
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -9685,7 +9728,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					AND blg_created BETWEEN  :fromDate AND :toDate ";
 			return DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -9711,7 +9754,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					WHERE 1 AND booking_vendor_request.bvr_vendor_id=:vendorId";
 			return DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -9729,7 +9772,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 					WHERE `bcb_vendor_id` =:vendorId 	AND bcb_assign_mode IN (0,1,2)";
 			return DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		}
-		catch(Exception $ex)
+		catch (Exception $ex)
 		{
 			Logger::trace($ex->getMessage());
 		}
@@ -9740,7 +9783,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$dcoFlag		 = 0;
 		$receivedData	 = ContactProfile::getEntitybyUserId($userId);
-		if($receivedData['cr_is_vendor'] != null && $receivedData['cr_is_vendor'] > 0 && $receivedData['cr_is_driver'] != null && $receivedData['cr_is_driver'] > 0)
+		if ($receivedData['cr_is_vendor'] != null && $receivedData['cr_is_vendor'] > 0 && $receivedData['cr_is_driver'] != null && $receivedData['cr_is_driver'] > 0)
 		{
 			$dcoFlag = 1;
 		}
@@ -9770,7 +9813,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$remainingAmount = 0;
 		$success		 = false;
 		$locked			 = $amount;
-		if($totTrans >= 0)
+		if ($totTrans >= 0)
 		{
 			$remainingAmount = $amount;
 			goto skip;
@@ -9778,13 +9821,13 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$totTrans = $totTrans * -1; // outstanding negetive gozo will pay to vendor
 
-		if($totTrans < $amount)
+		if ($totTrans < $amount)
 		{
 
 			$remainingAmount = $amount - $totTrans;
 			$amount			 = $totTrans;
 		}
-		if($amount > 0)
+		if ($amount > 0)
 		{
 			$deductedAmount						 = $amount * -1;
 			$vndStatsModel						 = VendorStats::model()->getbyVendorId($vndID);
@@ -9801,7 +9844,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		  $crTrans		 = AccountTransDetails::getInstance(Accounting::LI_SECURITY_DEPOSIT, Accounting::AT_OPERATOR, $vndID, '', $remarks);
 		  $drTrans		 = AccountTransDetails::getInstance(Accounting::LI_OPERATOR, Accounting::AT_OPERATOR, $vndID, '', $remarks);
 		  $status			 = $accTransModel->processReceipt($drTrans, $crTrans, Accounting::AT_OPERATOR); */
-		if($status)
+		if ($status)
 		{
 			$success = true;
 		}
@@ -9829,7 +9872,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$modelVendStats->vrs_security_amount		 = $modelVendStats->vrs_security_amount + $amount;
 		$modelVendStats->vrs_security_receive_date	 = new CDbExpression('NOW()');
 
-		if($modelVendStats->save())
+		if ($modelVendStats->save())
 		{
 			$desc = 'Security deposit ' . $amount . " transfered from vendor account";
 
@@ -9849,7 +9892,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function getProfileReport($zone, $scvIds, $type = DBUtil::ReturnType_Provider)
 	{
 		DBUtil::getINStatement($scvIds, $bindString1, $params);
-		if($scvIds != null)
+		if ($scvIds != null)
 		{
 			$sqlSvcClass = "AND svc_class_vhc_cat.scv_id IN ($bindString1)";
 		}
@@ -9906,7 +9949,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$command		 = DBUtil::command($sql, DBUtil::SDB3());
 		$command->params = $params;
-		if($type == DBUtil::ReturnType_Provider)
+		if ($type == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ({$command->getText()} ) temp", DBUtil::SDB3(), $command->params);
 			$dataprovider	 = new CSqlDataProvider($command, array(
@@ -9925,13 +9968,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		}
 	}
 
-	public static function getVndIdsByRefCode($refCode)
+	public static function getVndIdsByRefCode($vendorId)
 	{
-		$params				 = array();
-		$params['refCode']	 = $refCode;
 
-		$sql = "SELECT GROUP_CONCAT(vnd_id) vndIds FROM vendors WHERE vnd_active > 0 AND vnd_ref_code = :refCode";
-		return DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+		$relVndIds = \Vendors::getRelatedIds($vendorId);
+		return $relVndIds;
+//		$params				 = array();
+//		$params['refCode']	 = $refCode;
+//
+//		$sql = "SELECT GROUP_CONCAT(DISTINCT vnd_id) vndIds FROM vendors WHERE vnd_active > 0 AND vnd_ref_code = :refCode";
+//		return DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 	}
 
 	/**
@@ -9941,7 +9987,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	 */
 	public static function getLowRatingCabDriver($vendorId = null, $type = DBUtil::ReturnType_Provider)
 	{
-		if($vendorId > 0)
+		if ($vendorId > 0)
 		{
 			$sqlSearch		 = " AND vendors.vnd_id=:vndId";
 			$params["vndId"] = $vendorId;
@@ -9963,7 +10009,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				AND (driver_stats.drs_drv_overall_rating<=3 OR vhc_overall_rating<=3)";
 		$sql .= $sqlSearch;
 		$sql .= " GROUP BY vendors.vnd_id";
-		if($type == DBUtil::ReturnType_Provider)
+		if ($type == DBUtil::ReturnType_Provider)
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql ) temp", DBUtil::SDB3(), $params);
 			$dataprovider	 = new CSqlDataProvider($sql, array(
@@ -10044,7 +10090,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$region	 = $qry['vnd_region'];
 		$state	 = $qry['vnd_state'];
 
-		if(!$model->from_date || !$model->to_date)
+		if (!$model->from_date || !$model->to_date)
 		{
 			$dateRange = "  AND vnd.vnd_create_date > DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ";
 		}
@@ -10055,16 +10101,16 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$dateRange	 = " AND vnd.vnd_create_date<= '$toDate 23:59:59' AND vnd.vnd_create_date>= '$fromDate 00:00:00' ";
 		}
 
-		if(count($qry['vnd_zone']) > 0)
+		if (count($qry['vnd_zone']) > 0)
 		{
 			$zonesStr	 = implode(",", $qry['vnd_zone']);
 			$where		 .= " AND z.zon_id IN ($zonesStr) ";
 		}
-		if($region != '' || $state != '')
+		if ($region != '' || $state != '')
 		{
-			if($region != '')
+			if ($region != '')
 			{
-				if(is_array($region) && array_search("4", $region) !== false && array_search("7", $region) === false)
+				if (is_array($region) && array_search("4", $region) !== false && array_search("7", $region) === false)
 				{
 					$region[] = "7";
 				}
@@ -10072,7 +10118,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$strRegion	 = implode(',', $region);
 				$where		 .= " AND stt.stt_zone IN ($strRegion) ";
 			}
-			if($state != '')
+			if ($state != '')
 			{
 				$strState	 = implode(',', $state);
 				$where		 .= " AND stt.stt_id IN ($strState) ";
@@ -10139,18 +10185,18 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		Logger::trace("TripId: $tripId");
 		$success = false;
-		if($tripId == '')
+		if ($tripId == '')
 		{
 			Logger::trace("TripId skipAll: $tripId");
 			goto skipAll;
 		}
 		$model = BookingCab::model()->findByPk($tripId);
-		if(!$model)
+		if (!$model)
 		{
 			Logger::trace("TripId model skipall");
 			goto skipAll;
 		}
-		if($model->bookings[0]->bkg_booking_id == null)
+		if ($model->bookings[0]->bkg_booking_id == null)
 		{
 			Logger::trace("Booking  model skipall: {$model->bookings[0]->bkg_booking_id}");
 			goto skipAll;
@@ -10158,29 +10204,31 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$remainingWorkingHrs = BookingCab::model()->getRemainingWorkingHours($tripId);
 		$nowTime			 = DBUtil::getCurrentTime();
-		if($remainingWorkingHrs['hours'] > 12)
+		if ($remainingWorkingHrs['hours'] > 12)
 		{
 			$endTime = date('d/M/Y-h:iA', strtotime($nowTime . ' + 3 HOUR'));
 		}
-		else if($remainingWorkingHrs['hours'] < 12 && $remainingWorkingHrs['hours'] >= 8)
+		else if ($remainingWorkingHrs['hours'] < 12 && $remainingWorkingHrs['hours'] >= 8)
 		{
 			$endTime = date('d/M/Y-h:iA', strtotime($nowTime . ' + 2 HOUR'));
 		}
-		else if($remainingWorkingHrs['hours'] < 8 && $remainingWorkingHrs['hours'] >= 4)
+		else if ($remainingWorkingHrs['hours'] < 8 && $remainingWorkingHrs['hours'] >= 4)
 		{
 			$endTime = date('d/M/Y-h:iA', strtotime($nowTime . ' + 1 HOUR'));
 		}
-		else if($remainingWorkingHrs['hours'] < 4)
+		else if ($remainingWorkingHrs['hours'] < 4)
 		{
 			$endTime = date('d/M/Y-h:iA', strtotime($nowTime . ' + 30 MINUTE'));
 		}
-		$contentParams				 = array();
+		$contentParams = array();
+
+		$contentParams['eventId']	 = 1;
 		$contentParams['tripId']	 = $tripId;
 		$contentParams['primaryId']	 = $tripId;
 		$contentParams['endTime']	 = $endTime;
 		$contactId					 = ContactProfile::getByEntityId($model->bcb_vendor_id, UserInfo::TYPE_VENDOR);
 		$row						 = ContactPhone::getNumber($contactId);
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			Logger::trace("TripId phone skipall");
 			goto skipAll;
@@ -10188,14 +10236,14 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $model->bcb_vendor_id, WhatsappLog::REF_TYPE_TRIP, $tripId, $model->bookings[0]->bkg_booking_id, $row['code'], $row['number'], null, 0, Booking::CODE_VENDOR_ASSIGNED, SmsLog::SMS_VENDOR_ASSIGNED);
 		$eventScheduleParams = EventSchedule::setData($tripId, ScheduleEvent::TRIP_REF_TYPE, ScheduleEvent::BOOKING_CAB_DRIVER_ASSIGNMNET, "Cab/Driver Assigned", $isSchedule, CJSON::encode(array('tripId' => $tripId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(1, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 				// whatsapp
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success						 = true;
 				// sms
@@ -10207,12 +10255,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				$param['blg_ref_id']			 = $response['id'];
 				BookingLog::model()->createLog($model->bookings[0]->bkg_id, "Sms sent to vendor for new assigned booking", UserInfo::getInstance(), BookingLog::SMS_SENT, null, $param);
 			}
-			else if($response['success'] && $response['type'] == 3)
+			else if ($response['success'] && $response['type'] == 3)
 			{
 				$success = true;
 				// email
 			}
-			else if($response['success'] && $response['type'] == 4)
+			else if ($response['success'] && $response['type'] == 4)
 			{
 				$success	 = true;
 				$msg1		 = BookingVendorRequest::showBidRankForWinner($tripId, $model->bcb_vendor_id);
@@ -10232,11 +10280,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	 */
 	public static function unassignedTripFromVendor($bkgId, $isSchedule = 0, $schedulePlatform = null)
 	{
-		if($bkgId > 0)
+		if ($bkgId > 0)
 		{
 			$bkgModel = Booking::model()->findByPk($bkgId);
 		}
-		if(!$bkgModel)
+		if (!$bkgModel)
 		{
 			goto skipAll;
 		}
@@ -10244,7 +10292,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$vndId		 = $bkgModel->bkgBcb->bcb_vendor_id;
 		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$row		 = ContactPhone::getNumber($contactId);
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
@@ -10273,7 +10321,8 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			'time'				 => $time,
 			'date'				 => $date,
 			'distance'			 => $tripDistance,
-			'amountToCollect'	 => $amtToCollect
+			'amountToCollect'	 => $amtToCollect,
+			'eventId'			 => 14
 		);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bookingId, $row['code'], $row['number'], null, 0, null, SmsLog::REF_BOOKING_ID);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::UNASSIGNED_TRIP_DETAILS_TO_VENDOR, "Unassigned trip details to vendor", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
@@ -10292,12 +10341,12 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$success	 = false;
 		$contactId	 = ContactProfile::getByVendorId($vndId);
 		$phoneNo	 = ContactPhone::getContactPhoneById($contactId);
-		if($phoneNo == "")
+		if ($phoneNo == "")
 		{
 			goto skipAll;
 		}
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
-		$contentParams		 = array();
+		$contentParams		 = array('eventId' => 9);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, Booking::CODE_VENDOR_BROADCAST, null);
 		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::DEPENDENCY_BOOST_TO_VENDOR, "vendor dependency boost", $isSchedule, CJSON::encode(array('vndId' => $vndId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(9, $contentParams, $receiverParams, $eventScheduleParams);
@@ -10315,7 +10364,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$success	 = false;
 		$vndModel	 = Vendors::model()->findByPk($vndId);
-		if(!$vndModel)
+		if (!$vndModel)
 		{
 			goto skipAll;
 		}
@@ -10324,16 +10373,17 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$objPhoneNumber	 = ContactPhone::getPrimaryNumber($contactId);
 		$email			 = ContactEmail::getPrimaryEmail($contactId);
 		$row			 = array();
-		if($objPhoneNumber)
+		if ($objPhoneNumber)
 		{
 			$row['code']	 = $objPhoneNumber->getCountryCode();
 			$row['number']	 = $objPhoneNumber->getNationalNumber();
 		}
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
 		$contentParams = array(
+			'eventId'		 => 8,
 			'userName'		 => trim($contactModel['ctt_business_name']) != null ? $contactModel['ctt_business_name'] : $contactModel['ctt_first_name'] . ' ' . $contactModel['ctt_last_name'],
 			'link'			 => 'https://play.google.com/store/apps/details?id=com.gozocabs.vendor&amp;hl=en&amp;gl=US',
 			'videoLink'		 => 'https://youtu.be/AfbwgIJN0H0',
@@ -10344,30 +10394,30 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $row['code'], $row['number'], $email, 0, Booking::CODE_VENDOR_BROADCAST, SmsLog::SMS_APPROVE_VENDOR, $buttonUrl			 = null, $emailLayout		 = "mail2", $emailReplyTo		 = "vendors@gozocabs.in", $emailReplyName		 = 'Gozo Operator Team', $emailType			 = EmailLog::EMAIL_VENDOR_APPROVE, $emailUserType		 = EmailLog::Vendor, $emailRefType		 = EmailLog::REF_VENDOR_ID, $emailRefId			 = null, $emailLogInstance	 = EmailLog::SEND_ACCOUNT_EMAIL);
 		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_APPROVED, "Vendor Approval", $isSchedule, CJSON::encode(array('vndId' => $vndId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(8, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success	 = true;
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor approved manually.", $userInfo, VendorsLog::VENDOR_APPROVE, false, false);
 				break;
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success	 = true;
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor approved manually.", $userInfo, VendorsLog::VENDOR_APPROVE, false, false);
 				break;
 			}
-			else if($response['success'] && $response['type'] == 3)
+			else if ($response['success'] && $response['type'] == 3)
 			{
 				$success	 = true;
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, "Vendor approved manually.", $userInfo, VendorsLog::VENDOR_APPROVE, false, false);
 				break;
 			}
-			else if($response['success'] && $response['type'] == 4)
+			else if ($response['success'] && $response['type'] == 4)
 			{
 				$success	 = true;
 				$userInfo	 = UserInfo::getInstance();
@@ -10388,21 +10438,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function notifyToAccountBlocked($vndId, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$success = false;
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			/* @var $model Vendors */
 			$model = Vendors::model()->findByPk($vndId);
 		}
-		if(!$model)
+		if (!$model)
 		{
 			goto skipAll;
 		}
 		$contactId		 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$cttModel		 = Contact::model()->findByPk($contactId);
 		$userName		 = (!empty(trim($cttModel->ctt_business_name)) ? trim($cttModel->ctt_business_name) : ($cttModel->ctt_first_name . ' ' . $cttModel->ctt_last_name));
-		$contentParams	 = ['name' => $userName];
+		$contentParams	 = ['eventId' => 16, 'name' => $userName];
 		$row			 = ContactPhone::getNumber($contactId);
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
@@ -10410,19 +10460,19 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $model->vnd_id, null, null, null, $row['code'], $row['number'], null, 0, Booking::CODE_VENDOR_BROADCAST, SmsLog::Vendor);
 		$eventScheduleParams = EventSchedule::setData($model->vnd_id, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_ACCOUNT_BLOCKED, "Account Blocked", $isSchedule, CJSON::encode(array('vndId' => $model->vnd_id)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(16, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 				break;
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success = true;
 				break;
 			}
-			else if($response['success'] && $response['type'] == 4)
+			else if ($response['success'] && $response['type'] == 4)
 			{
 				$success = true;
 				break;
@@ -10441,25 +10491,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function notifyToAccountUnblocked($vndId, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$success = false;
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			/* @var $model Vendors */
 			$model = Vendors::model()->findByPk($vndId);
 		}
-		if(!$model)
+		if (!$model)
 		{
 			goto skipAll;
 		}
 		$contactId		 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$cttModel		 = Contact::model()->findByPk($contactId);
 		$userName		 = (!empty(trim($cttModel->ctt_business_name)) ? trim($cttModel->ctt_business_name) : ($cttModel->ctt_first_name . ' ' . $cttModel->ctt_last_name));
-		$contentParams	 = ['name' => $userName];
+		$contentParams	 = ['eventId' => 17, 'name' => $userName];
 		$row			 = ContactPhone::getNumber($contactId);
-		if($number > 0)
-		{
-			$row['number'] = $number;
-		}
-		if(!$row || empty($row))
+		if (!$row || empty($row))
 		{
 			goto skipAll;
 		}
@@ -10467,19 +10513,19 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $model->vnd_id, null, null, null, $row['code'], $row['number'], null, null, Booking::CODE_VENDOR_BROADCAST, SmsLog::VENDOR_ADMINISTRATIVE_UNFREEZED);
 		$eventScheduleParams = EventSchedule::setData($model->vnd_id, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_ACCOUNT_UNBLOCKED, "Account Unblocked", $isSchedule, CJSON::encode(array('vndId' => $model->vnd_id)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(17, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 				break;
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success = true;
 				break;
 			}
-			else if($response['success'] && $response['type'] == 4)
+			else if ($response['success'] && $response['type'] == 4)
 			{
 				$success = true;
 				break;
@@ -10496,7 +10542,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function notifyVendorDuesWaivedOff($vndId, $phoneNo, $isSchedule = 0, $schedulePlatform = null)
 	{
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
-		$contentParams		 = array();
+		$contentParams		 = array('eventId' => 19);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, null, null);
 		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_DUES_WAIVED_OFF, "vendor dues waived off", $isSchedule, CJSON::encode(array('vndId' => $vndId)), 10, $schedulePlatform);
 		MessageEventMaster::processPlatformSequences(19, $contentParams, $receiverParams, $eventScheduleParams);
@@ -10509,45 +10555,46 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function notifyFreezeUnfreezeVendor($vndId, $event, $desc, $status, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$success = false;
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$model = Vendors::model()->findByPk($vndId);
 		}
-		if(!$model)
+		if (!$model)
 		{
 			goto skipAll;
 		}
 		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$phoneNo	 = ContactPhone::getContactPhoneById($contactId);
-		if($phoneNo == "")
+		if ($phoneNo == "")
 		{
 			goto skipAll;
 		}
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
 		$cttModel	 = Contact::model()->findByPk($contactId);
 		$userName	 = (!empty(trim($cttModel->ctt_business_name)) ? trim($cttModel->ctt_business_name) : ($cttModel->ctt_first_name . ' ' . $cttModel->ctt_last_name));
-		if($userName == null || trim($userName) == "")
+		if ($userName == null || trim($userName) == "")
 		{
 			goto skipAll;
 		}
-		$type					 = $status == 1 ? "freezed" : "un-freezed";
-		$contentParams			 = array("userName" => $userName, "type" => $type);
-		$receiverParams			 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, Booking::CODE_VENDOR_BROADCAST, SmsLog::VENDOR_FROZEN);
-		$scheduleEventType		 = $status == 1 ? ScheduleEvent::VENDOR_FREEZE : ScheduleEvent::VENDOR_UNFREEZE;
-		$scheduleEventMessage	 = $status == 1 ? "Vendor Freeze" : "Vendor UnFreeze";
-		$messageEventId			 = $status == 1 ? 22 : 23;
-		$eventScheduleParams	 = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, $scheduleEventType, $scheduleEventMessage, $isSchedule, CJSON::encode(array('vndId' => $vndId)), 10, $schedulePlatform);
-		$responseArr			 = MessageEventMaster::processPlatformSequences($messageEventId, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		$type						 = $status == 1 ? "freezed" : "un-freezed";
+		$contentParams				 = array("userName" => $userName, "type" => $type);
+		$receiverParams				 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, Booking::CODE_VENDOR_BROADCAST, SmsLog::VENDOR_FROZEN);
+		$scheduleEventType			 = $status == 1 ? ScheduleEvent::VENDOR_FREEZE : ScheduleEvent::VENDOR_UNFREEZE;
+		$scheduleEventMessage		 = $status == 1 ? "Vendor Freeze" : "Vendor UnFreeze";
+		$messageEventId				 = $status == 1 ? 22 : 23;
+		$contentParams['eventId']	 = $messageEventId;
+		$eventScheduleParams		 = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, $scheduleEventType, $scheduleEventMessage, $isSchedule, CJSON::encode(array('vndId' => $vndId)), 10, $schedulePlatform);
+		$responseArr				 = MessageEventMaster::processPlatformSequences($messageEventId, $contentParams, $receiverParams, $eventScheduleParams);
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success	 = true;
 				$userInfo	 = UserInfo::getInstance();
 				VendorsLog::model()->createLog($vndId, $desc, $userInfo, $event, false, false);
 				break;
 			}
-			else if($response['success'] && $response['type'] == 2)
+			else if ($response['success'] && $response['type'] == 2)
 			{
 				$success	 = true;
 				$userInfo	 = UserInfo::getInstance();
@@ -10566,39 +10613,39 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	public static function notifyVendorPaymentRelease($vndId, $amount, $isSchedule = 0, $schedulePlatform = null)
 	{
 		$success = false;
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$model = Vendors::model()->findByPk($vndId);
 		}
-		if(!$model)
+		if (!$model)
 		{
 			goto skipAll;
 		}
 		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
 		$phoneNo	 = ContactPhone::getContactPhoneById($contactId);
-		if($phoneNo == "")
+		if ($phoneNo == "")
 		{
 			goto skipAll;
 		}
 		Filter::parsePhoneNumber($phoneNo, $code, $number);
 		$cttModel	 = Contact::model()->findByPk($contactId);
 		$userName	 = (!empty(trim($cttModel->ctt_business_name)) ? trim($cttModel->ctt_business_name) : ($cttModel->ctt_first_name . ' ' . $cttModel->ctt_last_name));
-		if($userName == null || trim($userName) == "")
+		if ($userName == null || trim($userName) == "")
 		{
 			goto skipAll;
 		}
-		$contentParams		 = array("userName" => $userName, "amount" => "Rs. " . $amount);
+		$contentParams		 = array('eventId' => 26, "userName" => $userName, "amount" => "Rs. " . $amount);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, Booking::CODE_VENDOR_BROADCAST, null, null);
 		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_PAYMENT_RELEASE, "vendor payment release", $isSchedule, CJSON::encode(array('vndId' => $vndId, 'amount' => $amount)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(26, $contentParams, $receiverParams, $eventScheduleParams);
-		foreach($responseArr as $response)
+		foreach ($responseArr as $response)
 		{
-			if($response['success'] && $response['type'] == 1)
+			if ($response['success'] && $response['type'] == 1)
 			{
 				$success = true;
 				break;
 			}
-			else if($response['success'] && $response['type'] == 4)
+			else if ($response['success'] && $response['type'] == 4)
 			{
 				$success = true;
 				break;
@@ -10614,7 +10661,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		$uberAgentId = Yii::app()->params['uberAgentId'];
 		$pickup		 = '';
 
-		if($time != '')
+		if ($time != '')
 		{
 			$pickup = ' AND bkg.bkg_pickup_date <= DATE_ADD(NOW(), INTERVAL 960 MINUTE)';
 		}
@@ -10631,15 +10678,15 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		  ORDER BY
 		  bkg.bkg_pickup_date"; */
 
-		$qry = "SELECT bcb_id,bkg.bkg_pickup_date,GetUnassignPenaltySlabs(bkgtrail.bkg_assigned_at, bkg.bkg_pickup_date, bcb.bcb_vendor_amount, bcb.bcb_assign_mode, vrs_dependency) as cancelSlabs
+		$qry		 = "SELECT bcb_id,bkg.bkg_pickup_date,GetUnassignPenaltySlabs(bkgtrail.bkg_assigned_at, bkg.bkg_pickup_date, bcb.bcb_vendor_amount, bcb.bcb_assign_mode, vrs_dependency) as cancelSlabs
 						FROM `booking_cab` bcb 
 						INNER JOIN booking bkg ON bcb.bcb_id = bkg.bkg_bcb_id AND bcb.bcb_active = 1 AND bkg.bkg_active = 1 
 						INNER JOIN booking_trail bkgtrail ON bkg.bkg_id = bkgtrail.btr_bkg_id
 						INNER JOIN booking_track bkgtrack ON bkgtrack.btk_bkg_id= bkg.bkg_id AND bkgtrack.bkg_ride_complete=0
 						LEFT JOIN vendor_stats ON vrs_vnd_id=bcb.bcb_vendor_id
 						WHERE bcb_vendor_id = $vendorId AND bkg.bkg_status IN ('$status') GROUP BY bcb_id ORDER BY bkg_pickup_date DESC";
-
-		$recordset = DBUtil::query($qry, DBUtil::SDB());
+		Logger::trace($qry);
+		$recordset	 = DBUtil::query($qry, DBUtil::SDB());
 		return $recordset;
 	}
 
@@ -10647,7 +10694,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$where	 = '';
 		$param	 = [];
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$where			 = " AND vnd.vnd_ref_code =:vndId";
 			$param['vndId']	 = $vndId;
@@ -10676,7 +10723,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$where	 = '';
 		$param	 = [];
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$where			 = " AND vnd.vnd_ref_code =:vndId";
 			$param['vndId']	 = $vndId;
@@ -10706,16 +10753,27 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 		return $resQ;
 	}
 
+	public function actionGetDuplicateContacts($start = 0)
+	{
+		$check = Filter::checkProcess("system getDuplicateContacts");
+		if (!$check)
+		{
+			return;
+		}
+		Contact::getDuplicateContacts($start);
+	}
+
 	public static function getBalanceDetailsByRange($fromDate, $toDate, $vndId = 0)
 	{
 		$whereDate			 = " AND (act_date BETWEEN '{$fromDate} 00:00:00' AND '{$toDate} 23:59:59') ";
 		$whereOpeningDate	 = " AND act_date < '{$fromDate} 00:00:00' ";
 		$whereClosingDate	 = " AND act_date <= '{$toDate} 23:59:59' ";
 
-		if($vndId > 0)
+		if ($vndId > 0)
 		{
 			$whereDate .= " AND atd.adt_trans_ref_id=$vndId";
 		}
+
 
 		// Transaction VendorIDs
 		$sqlVndIds = "SELECT GROUP_CONCAT(DISTINCT atd.adt_trans_ref_id) vndIds 
@@ -10728,7 +10786,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 		$vndIds		 = DBUtil::queryScalar($sqlVndIds, DBUtil::SDB());
 		$rowVendors	 = false;
-		if(!$vndIds)
+		if (!$vndIds)
 		{
 			goto skipAll;
 		}
@@ -10849,13 +10907,13 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 	{
 		$data['isVendor']	 = VendorStats::model()->statusCheckDocument($vndId);
 		$data['isCar']		 = VendorStats::vehicleStatus($vndId);
-		if($drvId > 0)
+		if ($drvId > 0)
 		{
 			$result = Drivers::checkDrvStatus($drvId);
 
 			$data['isDriver'] = ($result['licenseDoc'] > 0 ? 1 : 0);
 		}
-		$vndStatsModel		 = VendorStats::model()->getbyVendorId($vndid);
+		$vndStatsModel		 = VendorStats::model()->getbyVendorId($vndId);
 		$data['oustanding']	 = $vndStatsModel->vrs_outstanding;
 		$data['appVersion']	 = self::getApkVersion($vndId);
 		return $data;
@@ -10877,20 +10935,30 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 	public static function getRelatedByCttIds($relCttIds)
 	{
-		$sql	 = "SELECT GROUP_CONCAT(DISTINCT CONCAT(vnd.vnd_id,',',vnd.vnd_ref_code))
+		$sql	 = "SELECT GROUP_CONCAT(CONCAT_WS(',',vnd.vnd_id,vnd.vnd_ref_code  )) 
 				FROM contact_profile cp 
-				INNER JOIN vendors vnd ON vnd.vnd_id = cp.cr_is_vendor  
+				INNER JOIN vendors vnd1 ON vnd1.vnd_id = cp.cr_is_vendor 
+				INNER JOIN vendors vnd ON vnd.vnd_ref_code = vnd1.vnd_ref_code
 				WHERE cp.cr_contact_id IN ({$relCttIds}) 
 				AND cp.cr_status = 1 
 				AND cp.cr_is_vendor IS NOT NULL";
-		$relIds	 = DBUtil::queryScalar($sql, DBUtil::SDB());
+		$relIds	 = \DBUtil::queryScalar($sql, DBUtil::SDB());
 
-		return $relIds;
+		$relIdArr = explode(',', $relIds);
+
+		$distinctRelIds = implode(',', array_unique($relIdArr));
+		return $distinctRelIds;
 	}
 
-	public static function getPrimaryByIds($vndIds)
+	public static function getPrimaryByIds($vndIds, $onlyPrimary = true)
 	{
-		$sql = "SELECT vnd.vnd_id,vnd.vnd_ref_code,ctt.ctt_id,ctt.ctt_ref_code, 
+
+		$where = '';
+		if ($onlyPrimary)
+		{
+			$where = ' AND vnd.vnd_active IN (1,2,3,4)';
+		}
+		$sql = "SELECT DISTINCT vnd.vnd_id,vnd.vnd_ref_code,ctt.ctt_id,ctt.ctt_ref_code, 
 			IF(ctt.ctt_id =ctt.ctt_ref_code,1,0) contactWeight	,
 			IF(vnd.vnd_id =vnd.vnd_ref_code,1,0) selfWeight	, 
 			IF((ctt.ctt_aadhaar_no <> ''  AND ctt.ctt_aadhaar_no IS NOT NULL 
@@ -10902,15 +10970,21 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			IF((ctt.ctt_pan_no <> ''  AND ctt.ctt_pan_no IS NOT NULL 
 				AND LENGTH(ctt.ctt_pan_no) =10 ),2,0) hasPan,
 			IF(TRIM(ctt.ctt_bank_account_no)<> '' AND ctt.ctt_bank_account_no IS NOT NULL,1,0) hasBankRef,
-
 			IF(ctt.ctt_license_exp_date > CURRENT_DATE AND doclicence.doc_status =1 
-				AND doclicence.doc_id IS NOT NULL ,3,0) hasValidLicense,
+				AND ctt.ctt_license_exp_date IS NOT NULL
+				AND doclicence.doc_id IS NOT NULL,3,0) hasValidLicense,
 			IF(docvoter.doc_status =1 AND docvoter.doc_id IS NOT NULL ,1,0) hasValidVoter,
 			IF(docaadhar.doc_status =1 AND docaadhar.doc_id IS NOT NULL ,1,0) hasValidAdhaar,
 			IF(docpan.doc_status =1 AND docpan.doc_id IS NOT NULL ,2,0) hasValidPan,
 			IF(docpolicever.doc_status =1 AND docpolicever.doc_id IS NOT NULL ,1,0) hasValidPV,		
-
 			vnd_active,
+			CASE
+				WHEN  vnd_active =1 THEN 6
+				WHEN  vnd_active =4 THEN 4	
+				WHEN  vnd_active =3 THEN 3
+				WHEN  vnd_active =2 THEN 2
+				ELSE 0
+			END as activeRank,
 			CASE
 				WHEN MAX(phn.phn_is_primary)=1 AND MAX(phn.phn_is_verified)=1 
 					AND MAX(phn.phn_verified_date)= phn.phn_verified_date THEN 6
@@ -10921,11 +10995,11 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 				ELSE 0
 			END as phoneRank,
 			CASE
-				WHEN MAX(eml.eml_is_primary)=1 AND MAX(eml.eml_is_verified)=1 
-					AND MAX(eml.eml_verified_date)= eml.eml_verified_date THEN 6
-				WHEN MAX(eml.eml_is_primary)=1 AND MAX(eml.eml_is_verified)=1 THEN 4
-				WHEN MAX(eml.eml_is_verified)=1 THEN 3
-				WHEN MAX(eml.eml_is_primary)=1 THEN 2
+				WHEN eml.eml_is_primary=1 AND eml.eml_is_verified=1 
+					AND eml.eml_verified_date= eml.eml_verified_date THEN 6
+				WHEN eml.eml_is_primary=1 AND eml.eml_is_verified=1 THEN 4
+				WHEN eml.eml_is_verified=1 THEN 3
+				WHEN eml.eml_is_primary=1 THEN 2
 				WHEN eml_id IS NOT NULL THEN 1
 				ELSE 0
 			END as emailRank 
@@ -10949,14 +11023,531 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			AND doclicence.doc_type = 5 AND doclicence.doc_active = 1 
 			AND doclicence.doc_file_front_path IS NOT NULL
 		LEFT JOIN document as docpolicever ON ctt.ctt_police_doc_id = docpolicever.doc_id 
-			AND  docpolicever.doc_type = 7 AND docpolicever.doc_active = 1 				
-		
-		WHERE vnd.vnd_ref_code IN ({$vndIds}) AND vnd.vnd_active IN (1,2)
-		GROUP BY ctt.ctt_id
-		ORDER BY selfWeight DESC, contactWeight DESC,hasBankRef DESC, 
-			(hasLicense+hasAdhaar+hasPan+hasVoter) DESC,(hasValidLicense +hasValidVoter+hasValidAdhaar+hasValidPan+hasValidPV) DESC,hasValidLicense DESC ";
+			AND  docpolicever.doc_type = 7 AND docpolicever.doc_active = 1 		
+		WHERE vnd.vnd_ref_code IN ({$vndIds}) $where
+		GROUP BY ctt.ctt_id,vnd.vnd_ref_code,vnd.vnd_id
+		ORDER BY selfWeight DESC, contactWeight DESC,activeRank DESC,hasBankRef DESC, 
+			(hasLicense+hasAdhaar+hasPan+hasVoter) DESC,
+			(hasValidLicense +hasValidVoter+hasValidAdhaar+hasValidPan+hasValidPV) DESC,hasValidLicense DESC ";
 
-		$relData = DBUtil::queryRow($sql, DBUtil::SDB());
+		if ($onlyPrimary)
+		{
+			$relData = DBUtil::queryRow($sql, DBUtil::SDB());
+		}
+		else
+		{
+			$relData = DBUtil::query($sql, DBUtil::SDB());
+		}
 		return $relData;
+	}
+
+	public static function getAllExpiryDocs()
+	{
+		$sql = "SELECT 
+				vnd.vnd_id AS vendorIds,
+				IF(ctt.ctt_license_exp_date>= CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59'),1,0) AS license_status
+			FROM vendors vnd
+				INNER JOIN contact_profile cop ON cop.cr_is_vendor=vnd.vnd_id AND cop.cr_status=1 
+				INNER JOIN contact ctt ON ctt.ctt_id=cop.cr_contact_id AND ctt.ctt_active = 1
+				INNER JOIN document doc ON ctt.ctt_license_doc_id=doc.doc_id  AND doc.doc_status = 1
+			WHERE 1
+			AND (ctt.ctt_license_exp_date BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59'))
+			AND vnd.vnd_active = 1
+			GROUP BY vnd.vnd_id ";
+		return DBUtil::query($sql, DBUtil::SDB());
+	}
+
+	public static function notifyExpiryDocs($vndId, $fileType, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+		if ($vndId > 0)
+		{
+			$model = Vendors::model()->findByPk($vndId);
+		}
+		if (!$model)
+		{
+			goto skipAll;
+		}
+		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
+		$phoneNo	 = ContactPhone::getContactPhoneById($contactId);
+		if ($phoneNo == "")
+		{
+			goto skipAll;
+		}
+		Filter::parsePhoneNumber($phoneNo, $code, $number);
+		if (!Filter::processPhoneNumber($number, $code))
+		{
+			goto skipAll;
+		}
+		$contentParams		 = array("fileType" => $fileType, 'eventId' => 38);
+		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, null, null, null);
+		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_EXPIRY_DOCS, "vendor expiry docs", $isSchedule, CJSON::encode(array('vndId' => $vndId, "fileType" => $fileType)), 10, $schedulePlatform);
+		$responseArr		 = MessageEventMaster::processPlatformSequences(38, $contentParams, $receiverParams, $eventScheduleParams);
+		foreach ($responseArr as $response)
+		{
+			if ($response['success'] && $response['type'] == 1)
+			{
+				$success = true;
+				break;
+			}
+		}
+		skipAll:
+		return $success;
+	}
+
+	public static function getAllRejectedDocs()
+	{
+		$sql = "SELECT
+					vendors.vnd_id AS vendorIds,
+					IF(docvoter.doc_id IS NOT NULL,0,1) AS voterId,
+					IF(docaadhar.doc_id IS NOT NULL,0,1) AS aadharId,
+					IF(docpan.doc_id IS NOT NULL,0,1) AS panId,
+					IF(doclicence.doc_id IS NOT NULL,0,1) AS licenceId,
+					IF(docpolicever.doc_id IS NOT NULL,0,1) AS policeverId
+				FROM vendors
+					INNER JOIN contact_profile AS cp ON cp.cr_is_vendor = vendors.vnd_id AND vendors.vnd_id = vendors.vnd_ref_code AND vnd_active > 0
+					INNER JOIN contact AS contact ON contact.ctt_id = cp.cr_contact_id AND contact.ctt_id = contact.ctt_ref_code AND contact.ctt_active = 1
+					LEFT JOIN document AS docvoter	ON contact.ctt_voter_doc_id = docvoter.doc_id AND contact.ctt_voter_doc_id > 0 AND docvoter.doc_type = 2 AND docvoter.doc_active = 1 AND docvoter.doc_status = 2
+					LEFT JOIN document AS docaadhar ON	contact.ctt_aadhar_doc_id = docaadhar.doc_id AND contact.ctt_aadhar_doc_id > 0 AND docaadhar.doc_type = 3 AND docaadhar.doc_active = 1 AND docaadhar.doc_status = 2 AND docaadhar.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+					LEFT JOIN document AS docpan    ON	contact.ctt_pan_doc_id = docpan.doc_id AND contact.ctt_pan_doc_id > 0 AND docpan.doc_type = 4 AND docpan.doc_active = 1 AND docpan.doc_status = 2 AND docpan.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+					LEFT JOIN document AS doclicence ON contact.ctt_license_doc_id = doclicence.doc_id AND contact.ctt_license_doc_id > 0 AND doclicence.doc_type = 5 AND doclicence.doc_active = 1 AND doclicence.doc_status = 2 AND doclicence.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+					LEFT JOIN document AS docpolicever ON contact.ctt_police_doc_id = docpolicever.doc_id AND contact.ctt_police_doc_id > 0 AND docpolicever.doc_type = 7 AND docpolicever.doc_active = 1 AND docpolicever.doc_status = 2 AND docpolicever.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+				WHERE 1 
+				AND
+				(
+					(
+						(docvoter.doc_id IS NOT NULL) AND docvoter.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+						AND
+						(
+							(
+								docvoter.doc_file_front_path IS NOT NULL AND docvoter.doc_file_front_path != ''
+							) 
+							OR
+							(
+								docvoter.doc_file_back_path IS NOT NULL AND docvoter.doc_file_back_path != ''
+							)
+						)
+					)
+					OR
+					(
+						(docaadhar.doc_id IS NOT NULL) AND docaadhar.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+						AND
+						(
+							(
+							  docaadhar.doc_file_front_path IS NOT NULL AND docaadhar.doc_file_front_path != ''
+							) 
+							OR
+							(
+								docaadhar.doc_file_back_path IS NOT NULL AND docaadhar.doc_file_back_path != ''
+							)
+						)
+					) 
+					OR
+					(
+						(docpan.doc_id IS NOT NULL) AND docpan.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+						AND
+						(
+							(
+								docpan.doc_file_front_path IS NOT NULL AND docpan.doc_file_front_path != ''
+							) 
+							OR
+							(
+								docpan.doc_file_back_path IS NOT NULL AND docpan.doc_file_back_path != ''
+							)
+						)
+					) 
+					OR
+					(
+						(doclicence.doc_id IS NOT NULL) AND doclicence.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+							AND
+							(
+								(
+									doclicence.doc_file_front_path IS NOT NULL AND doclicence.doc_file_front_path != ''
+								) 
+								OR
+								(
+									doclicence.doc_file_back_path IS NOT NULL AND doclicence.doc_file_back_path != ''
+								)
+							)
+					) 
+					OR
+					(
+						(
+							docpolicever.doc_id IS NOT NULL
+						)   
+						AND docpolicever.doc_approved_at BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+						AND
+						(
+							docpolicever.doc_file_front_path IS NOT NULL AND docpolicever.doc_file_front_path != ''
+						)
+					)
+				)
+				GROUP BY vendors.vnd_id";
+		return DBUtil::query($sql, DBUtil::SDB());
+	}
+
+	public static function notifyRejectedDocs($vndId, $fileType, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+		if ($vndId > 0)
+		{
+			$model = Vendors::model()->findByPk($vndId);
+		}
+		if (!$model)
+		{
+			goto skipAll;
+		}
+		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
+		$phoneNo	 = ContactPhone::getContactPhoneById($contactId);
+		if ($phoneNo == "")
+		{
+			goto skipAll;
+		}
+		Filter::parsePhoneNumber($phoneNo, $code, $number);
+		if (!Filter::processPhoneNumber($number, $code))
+		{
+			goto skipAll;
+		}
+		$contentParams		 = array("fileType" => $fileType, 'eventId' => 39);
+		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, null, null, null);
+		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_REJECTED_DOCS, "vendor rejected docs", $isSchedule, CJSON::encode(array('vndId' => $vndId, "fileType" => $fileType)), 10, $schedulePlatform);
+		$responseArr		 = MessageEventMaster::processPlatformSequences(39, $contentParams, $receiverParams, $eventScheduleParams);
+		foreach ($responseArr as $response)
+		{
+			if ($response['success'] && $response['type'] == 1)
+			{
+				$success = true;
+				break;
+			}
+		}
+		skipAll:
+		return $success;
+	}
+
+	public static function getNotWorkingVendor()
+	{
+		$sql = "SELECT
+					vnd_id,
+					IF(MAX(bcb_created)>= CONCAT(DATE_SUB(CURDATE(),INTERVAL 30 DAY),' 23:59:59'),1,NULL) AS bcb_created,
+					IF(MAX(bvr_created_at)>= CONCAT(DATE_SUB(CURDATE(),INTERVAL 30 DAY),' 23:59:59'),1,NULL) AS bvr_created_at
+				FROM vendors
+					INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = vendors.vnd_id
+					LEFT JOIN booking_cab ON booking_cab.bcb_vendor_id = vendors.vnd_id
+					LEFT JOIN  booking_vendor_request ON booking_vendor_request.bvr_vendor_id = vendors.vnd_id
+				WHERE 1 
+					AND vendors.vnd_active = 1
+					AND vrs_last_approve_date BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 30 DAY),' 00:00:00') AND  CONCAT(DATE_SUB(CURDATE(),INTERVAL 30 DAY),' 23:59:59')
+				GROUP BY vnd_id  
+				HAVING (bcb_created IS NULL AND bvr_created_at IS NULL)";
+		return DBUtil::query($sql, DBUtil::SDB());
+	}
+
+	public static function notifyNotWorkingVendor($vndId, $isSchedule = 0, $schedulePlatform = null)
+	{
+		$success = false;
+		if ($vndId > 0)
+		{
+			$model = Vendors::model()->findByPk($vndId);
+		}
+		if (!$model)
+		{
+			goto skipAll;
+		}
+		$contactId	 = ContactProfile::getByEntityId($vndId, UserInfo::TYPE_VENDOR);
+		$phoneNo	 = ContactPhone::getContactPhoneById($contactId);
+		if ($phoneNo == "")
+		{
+			goto skipAll;
+		}
+		Filter::parsePhoneNumber($phoneNo, $code, $number);
+		if (!Filter::processPhoneNumber($number, $code))
+		{
+			goto skipAll;
+		}
+		$contentParams		 = array('eventId' => 40);
+		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_VENDOR, $vndId, WhatsappLog::REF_TYPE_VENDOR, $vndId, null, $code, $number, null, 0, null, null, null);
+		$eventScheduleParams = EventSchedule::setData($vndId, ScheduleEvent::VENDOR_REF_TYPE, ScheduleEvent::VENDOR_NOT_LOGIN, "vendor not login ", $isSchedule, CJSON::encode(array('vndId' => $vndId, "fileType" => $fileType)), 10, $schedulePlatform);
+		$responseArr		 = MessageEventMaster::processPlatformSequences(40, $contentParams, $receiverParams, $eventScheduleParams);
+		foreach ($responseArr as $response)
+		{
+			if ($response['success'] && $response['type'] == 1)
+			{
+				$success = true;
+				break;
+			}
+		}
+		skipAll:
+		return $success;
+	}
+
+	/**
+	 * This function is used to get  primary vendor id by contact id
+	 * @param integer $cttId
+	 * @return array
+	 */
+	public static function getVendorPrimaryEntitiesByContact($cttId)
+	{
+		$relCttIds = Contact::getRelatedIds($cttId);
+		if ($relCttIds)
+		{
+			$primaryCtt	 = Contact::getPrimaryByIds($relCttIds);
+			$cttId		 = (int) $primaryCtt['ctt_id'];
+		}
+		$relVendorList = Vendors::getRelatedByCttIds($relCttIds);
+		if ($relVendorList)
+		{
+			$primaryVnd = Vendors::getPrimaryByIds($relVendorList);
+		}
+		$data = [
+			'primaryContact' => $cttId,
+			'cr_contact_id'	 => $cttId,
+			'cr_is_vendor'	 => (int) $primaryVnd['vnd_id'],
+			'vnd_active'	 => (int) $primaryVnd['vnd_active']];
+		return $data;
+	}
+
+	public static function getCttIdsById($vndIds)
+	{
+		if ($vndIds == '')
+		{
+			throw new \Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
+		}
+		$sql = " SELECT GROUP_CONCAT( DISTINCT CONCAT_WS(',',ctt.ctt_id,ctt.ctt_ref_code)) FROM contact_profile cp1 
+JOIN vendors vnd1 ON vnd1.vnd_id =cp1.cr_is_vendor
+JOIN vendors vnd ON vnd.vnd_ref_code =vnd1.vnd_ref_code
+JOIN contact_profile cp ON cp.cr_is_vendor=vnd.vnd_id AND cp.cr_status =1
+JOIN contact ctt1 ON ctt1.ctt_id=cp.cr_contact_id AND ctt1.ctt_active =1
+JOIN contact ctt ON ctt.ctt_ref_code=ctt1.ctt_ref_code AND ctt.ctt_active =1
+WHERE cp1.cr_is_vendor IN ({$vndIds}) AND cp1.cr_status =1";
+
+		$relIds = \DBUtil::queryScalar($sql, DBUtil::SDB());
+
+		if (!$relIds)
+		{
+			$sql = "SELECT GROUP_CONCAT(cr_contact_id)  FROM `contact_profile` 
+		WHERE `cr_is_vendor` IN ({$vndIds}) AND cr_status =1";
+		}
+		$relIds = \DBUtil::queryScalar($sql, DBUtil::SDB());
+
+		$relIdArr = explode(',', $relIds);
+
+		$distinctRelIds = implode(',', array_unique($relIdArr));
+		return $distinctRelIds;
+	}
+
+	public static function getRelatedIds($vndId, $showActive = true)
+	{
+		if (empty($vndId))
+		{
+			return false;
+		}
+		$vndIds	 = \Vendors::getByRefIds($vndId, $showActive);
+		$cttIds	 = \Vendors::getCttIdsById($vndIds);
+
+		if (empty($cttIds))
+		{
+			return 0;
+		}
+		$relCttIds	 = \Contact::getRelatedIds($cttIds);
+		$relVndList	 = \Vendors::getRelatedByCttIds($relCttIds);
+		return $relVndList;
+	}
+
+	public static function getPrimaryId($vndId)
+	{
+		$relVendorList = \Vendors::getRelatedIds($vndId);
+		if ($relVendorList)
+		{
+			$primaryVnd = \Vendors::getPrimaryByIds($relVendorList);
+		}
+		return $primaryVnd['vnd_id'];
+	}
+
+	public static function getByRefIds($vndIds, $showActive = true)
+	{
+		if ($vndIds == '')
+		{
+			throw new \Exception("Invalid data", ReturnSet::ERROR_INVALID_DATA);
+		}
+		$where = "";
+		if ($showActive)
+		{
+			$where .= ' AND vnd_active>0';
+		}
+		$sql = "SELECT GROUP_CONCAT(DISTINCT vnd_id)
+                FROM vendors
+                WHERE 1 $where AND vnd_ref_code IN (
+                    SELECT vnd_ref_code FROM vendors
+                        WHERE vnd_id IN ({$vndIds}) $where)";
+
+		return \DBUtil::queryScalar($sql, DBUtil::MDB());
+	}
+
+	public static function updateStatus($vndId, $status)
+	{
+		$params	 = ['status' => $status, 'vndId' => $vndId];
+		$sql	 = "UPDATE vendors SET vnd_active=:status WHERE vnd_id =:vndId";
+		$resQ	 = DBUtil::execute($sql, $params);
+		return $resQ;
+	}
+
+	public static function modifyReadytoApprove($vndId)
+	{
+		$vndDocStat	 = Document::checkReadyToApproveDocument($vndId);
+		$vndmodel	 = Vendors::model()->findByPk($vndId);
+		if ($vndDocStat == 1 && $vndmodel->vnd_active == 3)
+		{
+			$status = 4; //ready to approve
+			self::updateStatus($vndId, $status);
+		}
+	}
+
+	public static function checkVndStatus($vendorId)
+	{
+		$block		 = 0;
+		$vndModel	 = Vendors::model()->findByPk($vendorId);
+		if (!$vndModel || $vndModel->vnd_active != 1)
+		{
+			$block = 1;
+		}
+		return $block;
+	}
+
+	public static function dumpTdsData()
+	{
+		$sql	 = "SELECT atd.adt_trans_ref_id vndId, sum(atd.adt_amount) tdsAmount 
+		FROM `account_trans_details` atd 
+		INNER JOIN account_transactions act ON act.act_id = atd.adt_trans_id 
+			AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 
+		INNER JOIN account_trans_details atd1 ON atd1.adt_trans_id = act.act_id AND atd1.adt_ledger_id = 55 AND atd1.adt_type = 5 
+			AND ((atd.adt_amount>0 AND atd1.adt_amount<0) OR (atd1.adt_amount>0 AND atd.adt_amount<0)) 
+		INNER JOIN vendors vnd ON vnd.vnd_id=atd.adt_trans_ref_id AND vnd.vnd_id > 0 
+		WHERE act.act_active=1 AND act.act_status=1 AND atd.adt_active=1 AND atd.adt_status=1 AND atd1.adt_active=1 AND atd1.adt_status=1 
+			AND (act.act_date BETWEEN '2023-04-01 00:00:00' AND '2024-03-31 23:59:59') 			 
+		GROUP BY vndId 		
+		HAVING tdsAmount > 0";
+		$data	 = DBUtil::query($sql, DBUtil::SDB());
+		$i		 = 0;
+		foreach ($data as $row)
+		{
+			$vndId		 = $row['vndId'];
+			$amount		 = $row['tdsAmount'];
+			$selSql		 = "SELECT vtds_id from test.vendor_tds_data_2023_24 
+					WHERE vtds_vendor_id=$vndId";
+			$isRowExist	 = DBUtil::queryScalar($selSql, DBUtil::MDB());
+			if ($isRowExist)
+			{
+				continue;
+			}
+			try
+			{
+				$showActive	 = false;
+				$relVenIds	 = Vendors::getRelatedIds($vndId, $showActive);
+
+				$sqlVnd			 = "SELECT sum(atd.adt_amount) tripAmount 
+		FROM `account_trans_details` atd 
+		INNER JOIN account_transactions act ON act.act_id = atd.adt_trans_id 
+			AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 
+		INNER JOIN account_trans_details atd1 ON atd1.adt_trans_id = act.act_id 
+			AND atd1.adt_ledger_id = 22 AND atd1.adt_type = 5 
+			AND ((atd.adt_amount>0 AND atd1.adt_amount<0) OR (atd1.adt_amount>0 AND atd.adt_amount<0)) 
+		INNER JOIN vendors vnd ON vnd.vnd_id=atd.adt_trans_ref_id 
+		WHERE act.act_active=1 AND act.act_status=1 AND atd.adt_active=1 AND atd.adt_status=1 
+			AND atd1.adt_active=1 AND atd1.adt_status=1 
+			AND (act.act_date BETWEEN '2023-04-01 00:00:00' AND '2024-03-31 23:59:59') 
+			AND atd.adt_trans_ref_id IN ({$vndId})  ";
+				$tripAmountVal	 = DBUtil::queryScalar($sqlVnd, DBUtil::MDB());
+
+				$tripAmount	 = $tripAmountVal | 0;
+				$insSql		 = "INSERT INTO test.vendor_tds_data_2023_24 
+		(vtds_vendor_id,vtds_amount,vtds_total_trip_amount,vtds_merged_id_list) 
+		VALUES ($vndId, $amount,$tripAmount,'$relVenIds');";
+				$res		 = DBUtil::execute($insSql);
+				$i++;
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+				echo "Error in data insert for vnd:$vndId ";
+			}
+		}
+		echo "Total $i data processed";
+	}
+
+	public static function populateOutstandingData()
+	{
+		$sql	 = "SELECT vtds_vendor_id vndId from test.vendor_tds_data_2023_24";
+		$data	 = DBUtil::query($sql, DBUtil::SDB());
+		$i		 = 0;
+		foreach ($data as $row)
+		{
+			$vndId	 = $row['vndId'];
+			$sqlVnd	 = "SELECT vnd.vnd_id, sum(atd.adt_amount) totalOutstanding,
+			max(act.act_date) lastTransactionDate ,
+			max(IF(atd1.adt_ledger_id = 22,act.act_date,null)) lastTripTransDate
+        FROM `account_trans_details` atd 
+        INNER JOIN account_transactions act ON act.act_id = atd.adt_trans_id 
+            AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 
+        INNER JOIN account_trans_details atd1 ON atd1.adt_trans_id = act.act_id  
+            AND ((atd.adt_amount>0 AND atd1.adt_amount<0) OR (atd1.adt_amount>0 AND atd.adt_amount<0)) 
+        INNER JOIN vendors vnd ON vnd.vnd_id=atd.adt_trans_ref_id 
+        WHERE act.act_active=1 AND act.act_status=1 AND atd.adt_active=1 AND atd.adt_status=1 
+            AND atd1.adt_active=1 AND atd1.adt_status=1  
+            AND atd.adt_trans_ref_id IN ({$vndId})  ";
+			try
+			{
+				$rowOutstanding		 = DBUtil::queryRow($sqlVnd, DBUtil::MDB());
+				$totalOutstanding	 = $rowOutstanding['totalOutstanding'];
+				$lastTransactionDate = $rowOutstanding['lastTransactionDate'];
+				$lastTripTransDate	 = $rowOutstanding['lastTripTransDate'];
+
+				$insSql	 = "UPDATE test.vendor_tds_data_2023_24 
+		SET vtds_total_outstanding = '$totalOutstanding',
+			vtds_last_overall_trans_date= '$lastTransactionDate',
+			vtds_last_trip_trans_date= '$lastTripTransDate' 
+		WHERE vtds_vendor_id = $vndId ;";
+				$res	 = DBUtil::execute($insSql);
+				$i++;
+			}
+			catch (Exception $ex)
+			{
+				Logger::exception($ex);
+				echo "Error in data insert for vnd:$vndId ";
+			}
+		}
+		echo "Total $i data processed";
+	}
+
+	public static function checkDriverCountForDCO($vndId = 0)
+	{
+		$where	 = '';
+		$param	 = [];
+		if ($vndId > 0)
+		{
+			$where			 = " AND vnd.vnd_ref_code =:vndId";
+			$param['vndId']	 = $vndId;
+		}
+		else
+		{
+			return false;
+		}
+		$sql	 = "SELECT   vnd.vnd_id,vnd.vnd_ref_code,vnd.vnd_is_dco,
+				GROUP_CONCAT(distinct vdrv.vdrv_drv_id) drvList,
+				cpr.cr_is_driver selfDrvid,
+				count( distinct vdrv.vdrv_drv_id) drvCount,
+				IF(cpr.cr_is_driver > 0,1,0) isSelfDriver,
+				IF(MAX(cpr.cr_is_driver IN (vdrv.vdrv_drv_id)),1,0) isSelfInDriverList,
+				IF(vnd.vnd_cat_type=1,1,0) catDCOType
+			FROM vendors vnd 
+			INNER JOIN contact_profile cpr ON cpr.cr_is_vendor = vnd.vnd_id AND cpr.cr_status=1
+			INNER JOIN vendor_driver vdrv ON vdrv.vdrv_vnd_id = vnd.vnd_id AND vdrv.vdrv_active = 1
+			INNER JOIN drivers drv ON drv.drv_id = vdrv.vdrv_drv_id AND drv.drv_active=1 AND drv.drv_approved=1
+			WHERE  vnd.vnd_is_dco = 1 AND  vnd.vnd_ref_code = vnd.vnd_id 
+				$where
+			GROUP BY vnd.vnd_ref_code
+			HAVING drvCount > isSelfInDriverList AND drvCount > 0
+			ORDER BY isSelfDriver DESC, isSelfInDriverList DESC, drvCount DESC";
+		$resQ	 = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
+		return $resQ;
 	}
 }

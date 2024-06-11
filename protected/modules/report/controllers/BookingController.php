@@ -68,7 +68,7 @@ class BookingController extends Controller
 					'listTotalAmountByPickup', 'listTotalAmountByCreate', 'regionWiseBookingCount', 'zoneZoneBookingCount',
 					'zoneWiseBookingCount', 'referralTrack', 'salesAssistedPercentByTier', 'bookingCountByStates', 'salesAssistedBookings', 
 					'monthlyVolumeByServiceTier', 'salesAssistedByTier', 'assignmentSummary', 'manualReport', 'showbidlog', 'trfzOffers', 
-					'mmtCancelReport', 'partnerBookings', 'accountingFlagSet'),
+					'mmtCancelReport', 'partnerBookings', 'accountingFlagSet','trackTrip'),
 				'roles'		 => array('GeneralReport'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -5306,5 +5306,51 @@ class BookingController extends Controller
 			'model'			 => $model),
 				false, $outputJs);
 	}
+public function actionTrackTrip()
+	{
+		$this->pageTitle = "Booking Track";
+		$from_date		 = $to_date		 = '';
+		$request		 = Yii::app()->request;
+	
+        $model			 = new BookingSub();
+        
+		if ($request->getParam('BookingSub'))
+		{
+			$arr		 = $request->getParam('BookingSub');
+			$from_date	 = $arr['bkg_pickup_date1'];
+			$to_date	 = $arr['bkg_pickup_date2'];
+			           
+		}
+		else
+		{
+			$from_date	 = date("Y-m-d", strtotime("-2 day", time()));
+			$to_date	 = date('Y-m-d', strtotime("-1 day", time()));
+          
+		}
 
+		$model->bkg_pickup_date1 = $from_date;
+		$model->bkg_pickup_date2 = $to_date;
+
+		
+
+		$params			 = [
+			'from_date'	 => $from_date,
+			'to_date'	 => $to_date,
+		];
+		
+		$dataProvider	 = BookingSub::getTrackTrip($params);
+		$dataProvider->setSort(['params' => array_filter($_GET + $_POST)]);
+		$dataProvider->setPagination(['params' => array_filter($_GET + $_POST)]);
+		$from_date		 = ($from_date != '') ? date('d/m/Y', strtotime($from_date)) : '';
+		$to_date		 = ($to_date != '') ? date('d/m/Y', strtotime($to_date)) : '';
+
+		skipAll:
+		$this->render('trackTrip', array(
+			'model'			 => $model,
+			'dataProvider'	 => $dataProvider,
+			'from_date'		 => $from_date,
+			'to_date'		 => $to_date
+				)
+		);
+	}
 }

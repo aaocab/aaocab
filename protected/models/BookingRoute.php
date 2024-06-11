@@ -49,7 +49,7 @@ class BookingRoute extends CActiveRecord
 	public $bkg_ext_route_data	 = [];
 	public $brt_from_location_cpy, $brt_to_location_cpy, $brt_is_copy_booking	 = 0;
 	public $agentId;
-
+	public $useHyperLocation = true;
 	/**
 	 * @var BookingRoute $firstRoute
 	 */
@@ -514,7 +514,7 @@ class BookingRoute extends CActiveRecord
 			{
 
 //$this->fillDetails();
-				$this->calculateDistance();
+				$this->calculateDistance($this->useHyperLocation);
 				$success = $this->validateTripType();
 			}
 		}
@@ -715,7 +715,7 @@ class BookingRoute extends CActiveRecord
 		return false;
 	}
 
-	public function calculateDistance($api = false, $airportTransfer = false, $isAdrsUpdate = false)
+	public function calculateDistance($useMAPAPI = true, $airportTransfer = false, $isAdrsUpdate = false)
 	{
 		Logger::beginProfile("BookingRoute::calculateDistance");
 		$json		 = json_encode(Filter::removeNull($this->getAttributes()));
@@ -727,8 +727,7 @@ class BookingRoute extends CActiveRecord
 		{
 			goto end;
 		}
-
-
+		$dmxModel = null;
 		if ($this->brt_from_longitude > 0 && $this->brt_to_longitude > 0 && $this->brt_from_latitude > 0 && $this->brt_to_latitude > 0)
 		{
 			$lat1	 = $this->brt_from_latitude;
@@ -736,28 +735,18 @@ class BookingRoute extends CActiveRecord
 			$lon1	 = $this->brt_from_longitude;
 			$lon2	 = $this->brt_to_longitude;
 
-	    //	$clat1 = Cities::getColumnValue('cty_lat', $this->brt_from_city_id);
-		//	$clon1 = Cities::getColumnValue('cty_long', $this->brt_from_city_id);
-		//	$cIsAirport1 = Cities::getColumnValue('cty_is_airport', $this->brt_from_city_id);
-		//	$clat2 = Cities::getColumnValue('cty_lat', $this->brt_to_city_id);
-		//	$clon2 = Cities::getColumnValue('cty_long', $this->brt_to_city_id);
-		//	$cIsAirport2 = Cities::getColumnValue('cty_is_airport', $this->brt_to_city_id);
-		//	if($clat1 == $lat1 && $clon1 == $lon1 && $clat2 == $lat2 && $clon2 == $lon2 && $cIsAirport1 != 1 && $cIsAirport2 != 1 && $this->brt_from_city_id != $this->brt_to_city_id)
-		//	{
-		//		goto skipDistanceMatrix;
-		//	}
-			$dmxModel = DistanceMatrix::getByCoordinates(Stub\common\Place::init($lat1, $lon1), Stub\common\Place::init($lat2, $lon2));
+			$dmxModel = DistanceMatrix::getByCoordinates(Stub\common\Place::init($lat1, $lon1), Stub\common\Place::init($lat2, $lon2), $useMAPAPI);
 			if ($dmxModel)
 			{
 				Logger::info("Distance fetched  via DistanceMatrix::getByCoordinates");
 				$success	 = true;
 				$distance	 = $dmxModel->dmx_distance;
 				$time		 = $dmxModel->dmx_duration;
+				goto skipAPI;
 			}
-			goto skipAPI;
 		}
 		skipDistanceMatrix:
-		if ($this->brt_from_city_id != $this->brt_to_city_id)
+		if ($this->brt_from_city_id != $this->brt_to_city_id || !$dmxModel)
 		{
 
 			$result = Route::model()->populate($this->brt_from_city_id, $this->brt_to_city_id);
@@ -1278,6 +1267,16 @@ class BookingRoute extends CActiveRecord
 						$rModel->brt_to_city_id			 = $routesArr[$i]->drop_city;
 						$rModel->brt_from_location		 = $routesArr[$i]->pickup_address;
 						$rModel->brt_to_location		 = $routesArr[$i]->drop_address;
+
+						if(Cities::checkAirport($rModel->brt_from_city_id))
+						{
+							$rModel->brt_from_location		 = Cities::getDisplayName($rModel->brt_from_city_id);
+						}
+						if(Cities::checkAirport($rModel->brt_to_city_id))
+						{
+							$rModel->brt_to_location		 = Cities::getDisplayName($rModel->brt_to_city_id);
+						}
+
 						$rModel->brt_pickup_datetime	 = $routesArr[$i]->date;
 						$rModel->brt_pickup_date_date	 = DateTimeFormat::DateTimeToDatePicker($routesArr[$i]->date);
 						$rModel->brt_pickup_date_time	 = date('h:i A', strtotime($routesArr[$i]->date));
@@ -2768,5 +2767,21 @@ class BookingRoute extends CActiveRecord
 		}
 		return $routes;
 	}
+    public function getRouteName_V1($bkgid)
+    {
+        $qry    = "SELECT brt_from_city_id, brt_to_city_id from booking_route where brt_bkg_id = $bkgid AND brt_active = 1";
+        $routes = DBUtil::query($qry);
+        $ctr    = 0;
+        foreach ($routes as $route)
+        {
+            $ctr = ($ctr + 1);
+            $rut .= Cities::getName($route['brt_from_city_id']) . ' - ';
+            if (count($routes) == $ctr)
+            {
+                $rut .= Cities::getName($route['brt_to_city_id']);
+            }
+        }
+        return $rut;
+    }
 
 }

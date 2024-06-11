@@ -810,7 +810,7 @@ class CabAvailabilities extends CActiveRecord
 			LEFT JOIN route rut ON rut.rut_from_city_id = cav.cav_from_city AND rut.rut_to_city_id = cav.cav_to_cities AND rut.rut_active = 1
 			LEFT JOIN rate ON rut.rut_id = rate.rte_route_id AND rte_status=1 AND rate.rte_vehicletype_id= vct_id
 			WHERE cav_status = 1 AND cav_duration > 0 AND cav_is_local_trip = 0
-			AND  cav_date_time > NOW() 
+			AND  cav_date_time > NOW() GROUP BY cav.cav_id
          ";
 		if($sourceCity != "")
 		{
@@ -900,6 +900,11 @@ class CabAvailabilities extends CActiveRecord
 		$return	 = false;
 		if($cavId > 0)
 		{
+			$cavModel = CabAvailabilities::model()->findByPk($cavId);
+			if($cavModel->cav_status == 0)
+			{
+				$return = false;
+			}
 			$bkgModel = Booking::model()->findByPk($bkgId);
 			if($bkgModel->bkg_status == 2 && ($bkgModel->bkgInvoice->bkg_advance_amount > 0 || $bkgModel->bkgPref->bkg_is_confirm_cash == 1) && $bkgModel->bkgPref->bpr_is_flash == 1)
 			{
@@ -925,6 +930,7 @@ class CabAvailabilities extends CActiveRecord
 					$cab_type	 = $bkgModel->bkgSvcClassVhcCat->scv_vct_id;
 					$assigned	 = $bcabModel->assigncabdriver($bcabModel->bcb_cab_id, $bcabModel->bcb_driver_id, $cab_type, UserInfo::getInstance());
 					$return		 = $assigned;
+					CabAvailabilities::deactivateById($bkgModel->bkg_cav_id);
 				}
 
 				################# Notification to vendor regardiing trip confirmed Start for Flash sale booking #####################################
@@ -974,8 +980,10 @@ class CabAvailabilities extends CActiveRecord
                 LEFT JOIN rate ON rut.rut_id = rate.rte_route_id AND rte_status=1 AND rate.rte_vehicletype_id= vct_id
                 WHERE cav_status = 1 AND cav_duration > 0 AND cav_is_local_trip = 0 AND cav_is_oneway = 1
                 AND cav.cav_from_city = '{$fromCity}' AND cav.cav_to_cities = '{$toCity}' AND cav_date_time >= DATE_ADD(NOW(), INTERVAL 45 MINUTE) 
-                AND (cav_date_time >= DATE_SUB('{$pickupDate}', INTERVAL 4 HOUR) AND cav_date_time <= DATE_ADD('{$pickupDate}', INTERVAL 4 HOUR)) ";
-
+				AND ('{$pickupDate}' BETWEEN cav_date_time AND DATE_ADD(cav_date_time, INTERVAL (if(cav_duration > 0, cav_duration, 3)) HOUR)) 
+                GROUP BY cav.cav_id";
+                // AND (cav_date_time >= DATE_SUB('{$pickupDate}', INTERVAL 4 HOUR) AND cav_date_time <= DATE_ADD('{$pickupDate}', INTERVAL 4 HOUR)) ";
+ // echo $sql;exit;
 		$result = DBUtil::query($sql);
 		return $result;
 	}

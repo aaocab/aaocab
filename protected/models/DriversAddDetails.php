@@ -137,7 +137,9 @@ class DriversAddDetails extends CActiveRecord
 	{
 		$criteria	 = new CDbCriteria;
 		$criteria->compare('dad_drv_id', $drv_id);
+		$criteria->order = 'dad_id DESC';
 		$model		 = $this->find($criteria);
+		
 		if ($model)
 		{
 			return $model;

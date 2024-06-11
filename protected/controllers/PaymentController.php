@@ -126,7 +126,7 @@ class PaymentController extends BaseController
 
 		$view		 = $pgObject->view;
 		$param_list	 = $pgObject->initiateRequest($payRequest);
-		
+
 		$this->render($view, array('param_list' => $param_list));
 	}
 
@@ -148,7 +148,7 @@ class PaymentController extends BaseController
 		{
 			return $result;
 		}
-		if ($bolt == 1)
+		if ($bolt == 1 && $result['bkid'] > 0)
 		{
 			if (Yii::app()->request->isAjaxRequest)
 			{
@@ -191,12 +191,13 @@ class PaymentController extends BaseController
 		}
 		if ($result['agtId'] > 0)
 		{
-			if ($result['success'])
+			if ($bolt == 1)
 			{
-				$this->redirect(array('agent/recharge/add/' . '/tinfo/' . $result['tinfo']));
+				$result['url'] = Yii::app()->createAbsoluteUrl('agent/recharge/add/tinfo/' . $result['tinfo']);
+				echo CJSON::encode($result);
+				Yii::app()->end();
 			}
-			$this->redirect(array('agent/recharge/add/' . '/tinfo/' . $result['tinfo']));
+			$this->redirect(array('agent/recharge/add/tinfo/' . $result['tinfo']));
 		}
 	}
-
 }

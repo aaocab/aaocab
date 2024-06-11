@@ -23,6 +23,7 @@
  */
 class Location extends CActiveRecord
 {
+
 	const REF_TYPE_BOOKING = 1;
 
 	/**
@@ -67,21 +68,21 @@ class Location extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'loc_id'			 => 'Location Id',
-			'loc_entity_id'		 => 'Location Entity Id',
-			'loc_entity_type'	 => 'Location Entity Type',
-			'loc_ref_id'		 => 'Location Ref Id',
-			'loc_ref_type'		 => 'Location Ref Type',
-			'loc_time'			 => 'Location Time',
-			'loc_lat'			 => 'Location Latitude',
-			'loc_lng'			 => 'Location Longitude',
-			'loc_city_id'		 => 'Location City ',
-			'loc_zone_id'		 => 'Location Zone',
-			'loc_event_id'		 => 'Location Event Id',
-			'loc_desc'			 => 'Location Desc ',
-			'loc_device_uuid'	 => 'Location Device UUID',
-			'loc_create_date'	 => 'Location Create At',
-			'loc_status'		 => 'Location Status',
+			'loc_id'		  => 'Location Id',
+			'loc_entity_id'	  => 'Location Entity Id',
+			'loc_entity_type' => 'Location Entity Type',
+			'loc_ref_id'	  => 'Location Ref Id',
+			'loc_ref_type'	  => 'Location Ref Type',
+			'loc_time'		  => 'Location Time',
+			'loc_lat'		  => 'Location Latitude',
+			'loc_lng'		  => 'Location Longitude',
+			'loc_city_id'	  => 'Location City ',
+			'loc_zone_id'	  => 'Location Zone',
+			'loc_event_id'	  => 'Location Event Id',
+			'loc_desc'		  => 'Location Desc ',
+			'loc_device_uuid' => 'Location Device UUID',
+			'loc_create_date' => 'Location Create At',
+			'loc_status'	  => 'Location Status',
 		);
 	}
 
@@ -136,12 +137,23 @@ class Location extends CActiveRecord
 	}
 
 	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Location the static model class
+	 */
+	public function afterSave()
+	{
+		parent::afterSave();
+	}
+
+	/**
 	 * This function is used for saving all entity type Latitude and Longitude
 	 * @param type $data
 	 * @param type $userInfo
 	 * @return type boolean 
 	 */
-	public static function addLocation($data, UserInfo $userInfo = null)
+	public static function addLocation($data, UserInfo $userInfo = null, $drvId = 0)
 	{
 		$success = false;
 		if ($userInfo == null)
@@ -149,48 +161,62 @@ class Location extends CActiveRecord
 			$userInfo = UserInfo::model();
 		}
 
-		$model					 = new Location();
-		$model->loc_entity_type	 = $userInfo->getUserType();
-		$model->loc_entity_id	 = $userInfo->getUserType() == 4 ? $userInfo->getUserId() : $userInfo->getEntityId();
-		$model->loc_time		 = $data['timeStamp'] != null ? date('Y-m-d H:i:s', $data['timeStamp'] / 1000) : DBUtil::getCurrentTime();
-		$model->loc_create_date	 = DBUtil::getCurrentTime();
-		$model->loc_lat			 = $data['lat'];
-		$model->loc_lng			 = $data['lon'];
-		$cityId					 = Cities::getCityByLatLng($data['lat'], $data['lon']);
-		$model->loc_city_id		 = ($cityId == null || $cityId == 0) ? 0 : $cityId;
-		$model->loc_zone_id		 = ($cityId == null || $cityId == 0) ? 0 : Zones::model()->getNearestZonebyCity($cityId)['zon_id'];
-		$vnd_home_zone			 = $userInfo->getUserType() == 2 ? VendorPref::model()->getByVendorId($userInfo->getEntityId())->vnp_home_zone : 0;
-		$model->loc_hzone_id	 = trim($vnd_home_zone) != "" && is_int((int) $vnd_home_zone) ? $vnd_home_zone : 0;
+		if ($drvId == 0 || $drvId == null)
+		{
+			return;
+		}
+
+		$checkList = Drivers::checkUpcomingOngoigTrip($drvId);
+		if (!$checkList)
+		{
+			return;
+		}
+
+
+
+		$model					= new Location();
+		$model->loc_entity_type = $userInfo->getUserType();
+		$model->loc_entity_id	= $userInfo->getUserType() == 4 ? $userInfo->getUserId() : $userInfo->getEntityId();
+
+		if ($drvId > 0 && $userInfo->getUserType() == UserInfo::TYPE_VENDOR)
+		{
+			$model->loc_entity_type = UserInfo::TYPE_DRIVER;
+			$model->loc_entity_id	= $drvId;
+		}
+		$model->loc_time		= $data['timeStamp'] != null ? date('Y-m-d H:i:s', $data['timeStamp'] / 1000) : DBUtil::getCurrentTime();
+		$model->loc_create_date = new CDbExpression("NOW()");
+		$model->loc_lat			= $data['lat'];
+		$model->loc_lng			= $data['lon'];
+		$cityId					= Cities::getCityByLatLng($data['lat'], $data['lon']);
+		$model->loc_city_id		= ($cityId == null || $cityId == 0) ? 0 : $cityId;
+		$model->loc_zone_id		= ($cityId == null || $cityId == 0) ? 0 : Zones::model()->getNearestZonebyCity($cityId)['zon_id'];
+		$vnd_home_zone			= $userInfo->getUserType() == 2 ? VendorPref::model()->getByVendorId($userInfo->getEntityId())->vnp_home_zone : 0;
+		$model->loc_hzone_id	= trim($vnd_home_zone) != "" && is_int((int) $vnd_home_zone) ? $vnd_home_zone : 0;
 
 		self::mapTripEvents($data, $model);
 
-		if ($model->validate())
+		if ($model->save())
 		{
-			if ($model->save())
+			$latitude			= $data['lat'];
+			$longtitude			= $data['lon'];
+			$entityId			= $userInfo->getUserType == 4 ? $userInfo->getUserId() : $userInfo->getEntityId();
+			$entityType			= $userInfo->getUserType();
+			$contactId			= $userInfo->getUserType() == 4 ? 0 : ContactProfile::getByEntityId($userInfo->getEntityId(), $userInfo->getUserType());
+			$lastActiveStat		= new Stub\common\LastActiveStats();
+			$lastActiveData		= $lastActiveStat->setData($latitude, $longtitude, $entityId, $entityType, $contactId);
+			$lastActiveresponse = Filter::removeNull($lastActiveData);
+			if ((int) $latitude != 0 && (int) $longtitude != 0)
 			{
-				$latitude			 = $data['lat'];
-				$longtitude			 = $data['lon'];
-				$entityId			 = $userInfo->getUserType == 4 ? $userInfo->getUserId() : $userInfo->getEntityId();
-				$entityType			 = $userInfo->getUserType();
-				$contactId			 = $userInfo->getUserType() == 4 ? 0 : ContactProfile::getByEntityId($userInfo->getEntityId(), $userInfo->getUserType());
-				$lastActiveStat		 = new Stub\common\LastActiveStats();
-				$lastActiveData		 = $lastActiveStat->setData($latitude, $longtitude, $entityId, $entityType, $contactId);
-				$lastActiveresponse	 = Filter::removeNull($lastActiveData);
-				if ((int) $latitude != 0 && (int) $longtitude != 0)
-				{
-					IRead::setLocationRequest($lastActiveresponse);
-				}
-				$success = true;
+				IRead::setLocationRequest($lastActiveresponse);
 			}
-			else
-			{
-				$getErrors = json_encode($model->getErrors());
-			}
+			$success = true;
 		}
 		else
 		{
-			$getErrors = json_encode($model->getErrors());
+			$exception = ReturnSet::getModelValidationException($model);
+			Logger::exception($exception);
 		}
+
 		return $success;
 	}
 
@@ -281,13 +307,13 @@ class Location extends CActiveRecord
 	 */
 	public static function getVendorDriverByLatLong($city, $lat, $lng)
 	{
-		$key	 = "city:{$city}";
+		$key	= "city:{$city}";
 //        $result = Yii::app()->cache->get($key);
 //        if ($result !== false)
 //        {
 //            goto result;
 //        }
-		$sql	 = "SELECT 
+		$sql	= "SELECT 
                 COUNT(DISTINCT IF(location.loc_entity_type = 2 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntVendor,
                 GROUP_CONCAT(DISTINCT IF(location.loc_entity_type = 2, loc_entity_id, NULL)) AS vendorIds,
                 COUNT( DISTINCT IF(location.loc_entity_type = 3 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntDriver,
@@ -296,8 +322,8 @@ class Location extends CActiveRecord
                 WHERE  1 
                 AND loc_time BETWEEN DATE_SUB(NOW(),INTERVAL 1 HOUR) AND NOW()
                 AND (location.loc_lat BETWEEN (:lat - 0.125) AND (:lat  + 0.125)) 
-                AND (location.loc_lng BETWEEN (:lng - 0.125) AND(:lng + 0.125))";
-		$result	 = DBUtil::queryRow($sql, DBUtil::SDB(), ['lat' => $lat, 'lng' => $lng], 60 * 30, CacheDependency::Type_Cities);
+                AND (location.loc_lng BETWEEN (:lng - 0.125) AND (:lng + 0.125))";
+		$result = DBUtil::queryRow($sql, DBUtil::SDB(), ['lat' => $lat, 'lng' => $lng], 60 * 30, CacheDependency::Type_Cities);
 		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("cities"));
 		result:
 		return $result;
@@ -310,8 +336,8 @@ class Location extends CActiveRecord
 	 */
 	public static function getVendorDriverByZone($zoneId)
 	{
-		$key	 = "zone:{$zoneId}";
-		$sql	 = "SELECT 
+		$key	= "zone:{$zoneId}";
+		$sql	= "SELECT 
                 COUNT(DISTINCT IF(location.loc_entity_type = 2 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntVendor,
                 GROUP_CONCAT(DISTINCT IF(location.loc_entity_type = 2, loc_entity_id, NULL)) AS vendorIds,
                 COUNT( DISTINCT IF(location.loc_entity_type = 3 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntDriver,
@@ -320,7 +346,7 @@ class Location extends CActiveRecord
                 WHERE  1 
                 AND loc_time BETWEEN DATE_SUB(NOW(),INTERVAL 1 HOUR) AND NOW()
                 AND ((loc_zone_id=:zoneId AND loc_zone_id>0) OR  (loc_hzone_id=:zoneId AND loc_hzone_id>0))";
-		$result	 = DBUtil::queryRow($sql, DBUtil::SDB(), ['zoneId' => $zoneId], 60 * 30, CacheDependency::Type_Zones);
+		$result = DBUtil::queryRow($sql, DBUtil::SDB(), ['zoneId' => $zoneId], 60 * 30, CacheDependency::Type_Zones);
 		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("zones"));
 		result:
 		return $result;
@@ -333,8 +359,8 @@ class Location extends CActiveRecord
 	 */
 	public static function getVendorDriverByCity($cityId, $durationHour = 1)
 	{
-		$key	 = "city:{$cityId}";
-		$sql	 = "SELECT 
+		$key	= "city:{$cityId}";
+		$sql	= "SELECT 
                 COUNT(DISTINCT IF(location.loc_entity_type = 2 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntVendor,
                 GROUP_CONCAT(DISTINCT IF(location.loc_entity_type = 2, loc_entity_id, NULL)) AS vendorIds,
                 COUNT( DISTINCT IF(location.loc_entity_type = 3 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntDriver,
@@ -343,7 +369,7 @@ class Location extends CActiveRecord
                 WHERE  1 
                 AND loc_time BETWEEN DATE_SUB(NOW(),INTERVAL $durationHour HOUR) AND NOW()
                 AND loc_city_id=:cityId";
-		$result	 = DBUtil::queryRow($sql, DBUtil::SDB(), ['cityId' => $cityId], 60 * 30, CacheDependency::Type_Cities);
+		$result = DBUtil::queryRow($sql, DBUtil::SDB(), ['cityId' => $cityId], 60 * 30, CacheDependency::Type_Cities);
 		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("cities"));
 		result:
 		return $result;
@@ -356,8 +382,8 @@ class Location extends CActiveRecord
 	 */
 	public static function getVendorDriverByZoneIds($zoneIds)
 	{
-		$key	 = "zone:{$zoneIds}";
-		$sql	 = "SELECT 
+		$key	= "zone:{$zoneIds}";
+		$sql	= "SELECT 
                 COUNT(DISTINCT IF(location.loc_entity_type = 2 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntVendor,
                 GROUP_CONCAT(DISTINCT IF(location.loc_entity_type = 2, loc_entity_id, NULL)) AS vendorIds,
                 COUNT( DISTINCT IF(location.loc_entity_type = 3 AND loc_entity_id IS NOT NULL, loc_entity_id,NULL)) AS cntDriver,
@@ -366,7 +392,7 @@ class Location extends CActiveRecord
                 WHERE  1 
                 AND loc_time BETWEEN DATE_SUB(NOW(),INTERVAL 5 HOUR) AND NOW()
                 AND ((loc_zone_id IN ($zoneIds) AND loc_zone_id>0) OR  (loc_hzone_id  IN ($zoneIds) AND loc_hzone_id>0))";
-		$result	 = DBUtil::queryRow($sql, DBUtil::SDB());
+		$result = DBUtil::queryRow($sql, DBUtil::SDB());
 		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("zones"));
 		result:
 		return $result;
@@ -379,8 +405,8 @@ class Location extends CActiveRecord
 	 */
 	public static function getVendorDriverByZoneIds_V1($zoneIds)
 	{
-		$key	 = "zone:{$zoneIds}";
-		$sql	 = "SELECT 
+		$key	= "zone:{$zoneIds}";
+		$sql	= "SELECT 
                    temp.vendorIds,temp.locType
                    FROM 
                     (
@@ -417,7 +443,7 @@ class Location extends CActiveRecord
                         AND loc_entity_type=2 
                         AND loc_zone_id IN ($zoneIds) AND loc_zone_id>0
 	            ) temp  WHERE 1 GROUP BY temp.vendorIds ORDER BY temp.locType ASC";
-		$result	 = DBUtil::query($sql, DBUtil::SDB());
+		$result = DBUtil::query($sql, DBUtil::SDB());
 		Yii::app()->cache->set($key, $result, 60 * 30, new CacheDependency("zones"));
 		result:
 		return $result;
@@ -428,17 +454,17 @@ class Location extends CActiveRecord
 	 */
 	public function archiveData($archiveDB, $upperLimit = 1000000, $lowerLimit = 1000)
 	{
-		$i			 = 0;
-		$chk		 = true;
-		$totRecords	 = $upperLimit;
-		$limit		 = $lowerLimit;
+		$i			= 0;
+		$chk		= true;
+		$totRecords = $upperLimit;
+		$limit		= $lowerLimit;
 		while ($chk)
 		{
 			$transaction = "";
 			try
 			{
-				$sql	 = "SELECT GROUP_CONCAT(loc_id) AS loc_id FROM (SELECT loc_id FROM location WHERE 1 AND loc_create_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), ' 00:00:00') ORDER BY loc_id  LIMIT 0, $limit) as temp";
-				$resQ	 = DBUtil::queryScalar($sql);
+				$sql  = "SELECT GROUP_CONCAT(loc_id) AS loc_id FROM (SELECT loc_id FROM location WHERE 1 AND loc_create_date < CONCAT(DATE_SUB(CURDATE(), INTERVAL 15 DAY), ' 00:00:00') ORDER BY loc_id  LIMIT 0, $limit) as temp";
+				$resQ = DBUtil::queryScalar($sql);
 				if (!is_null($resQ) && $resQ != '')
 				{
 					$transaction = DBUtil::beginTransaction();
@@ -472,4 +498,16 @@ class Location extends CActiveRecord
 		}
 	}
 
+	/**
+	 * This function is used return all the vendor/driver that are present within  given zone id and 1 hour time range
+	 * @param type $zoneId
+	 * @return type row array 
+	 */
+	public static function getVendorDriverByLastZoneIds($zoneIds)
+	{
+		$resultVendor = VendorStats::getByLatestZoneIds($zoneIds);
+		$resultDriver = DriverStats::getByLatestZoneIds($zoneIds);
+		$result		  = array_merge($resultVendor, $resultDriver);
+		return $result;
+	}
 }

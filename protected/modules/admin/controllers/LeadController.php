@@ -3074,9 +3074,18 @@ class LeadController extends Controller
 		$statusCount		 = $model1->getStatusCount($csr, '', $custUserId, 'mycall');
 		$statusCount [70]	 = ($leadType == 3) ? 1 : ServiceCallQueue::getCountByRefId($leadID);
 		$bid				 = Yii::app()->request->getParam('bid', 10);
-		$vndData			 = Vendors::model()->getViewDetailbyId($assignModel['scq_to_be_followed_up_with_entity_id']);
-		$calAmount			 = AccountTransDetails::model()->calAmountByVendorId($assignModel['scq_to_be_followed_up_with_entity_id']);
-
+		if ($assignModel['scq_to_be_followed_up_with_contact'] != null)
+		{
+			$cttId = $assignModel['scq_to_be_followed_up_with_contact'];
+		}
+		else
+		{
+			$cttId = ContactProfile::getByEntityId($assignModel['scq_to_be_followed_up_with_entity_id'], UserInfo::TYPE_VENDOR);
+		}
+		$contactData = Vendors::getVendorPrimaryEntitiesByContact($cttId);
+		$vndId		 = $contactData['cr_is_vendor'] != null ? $contactData['cr_is_vendor'] : $assignModel['scq_to_be_followed_up_with_entity_id'];
+		$vndData	 = Vendors::model()->getViewDetailbyId($vndId);
+		$calAmount	 = AccountTransDetails::model()->calAmountByVendorId($vndId);
 		skip:
 		$this->renderAuto('mycallvendorpayment', array(
 			'model'				 => $assignModel,
@@ -3101,6 +3110,7 @@ class LeadController extends Controller
 			'cc'				 => $this,
 			'csr'				 => $csr,
 			'vndData'			 => $vndData,
+			'vendorId'			 => $vndId,
 			'calAmount'			 => $calAmount,
 				), false, $outputJs);
 	}

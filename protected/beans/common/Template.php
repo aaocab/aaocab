@@ -25,6 +25,8 @@ namespace Beans\common;
  * @property string $status
  * @property string $dtlId
  * @property string $provider_type
+ * @property integer $policy_reminder
+ *
  */
 class Template
 {
@@ -41,6 +43,7 @@ class Template
 	public $status;
 	public $dtlId;
 	public $provider_type;
+	public $policy_reminder;
 
 	public static function setTemplateData($eventId, $sequenceCode)
 	{

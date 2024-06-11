@@ -529,6 +529,7 @@ class notificationWrapper
 					goto skipAll;
 				}
 				$contentParams		 = array(
+					'eventId'		 => "25",
 					'cabType'		 => $cabType,
 					'fromCityName'	 => $fromCityName,
 					'toCityName'	 => $toCityName,
@@ -579,7 +580,7 @@ class notificationWrapper
 		$arrButton		 = Whatsapp::buildComponentButton([]);
 		WhatsappLog::send($phoneNo, $templateName, $arrDBData, $arrBody, $arrButton, $lang);
 		notify:
-		$payLoadData = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
+		$payLoadData	 = ['EventCode' => Booking::CODE_VENDOR_BROADCAST];
 		AppTokens::model()->notifyVendor($vndId, $payLoadData, $message, "Dependency Boost");
 	}
 
@@ -649,6 +650,7 @@ class notificationWrapper
 		}
 
 		$contentParams		 = array(
+			'eventId'			 => "7",
 			'userName'			 => $bkgModel->bkgUserInfo->bkg_user_fname,
 			'paymentAmount'		 => $paymentAmount,
 			'bookingId'			 => Filter::formatBookingId($bookingId),

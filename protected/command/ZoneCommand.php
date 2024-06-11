@@ -193,6 +193,12 @@ class ZoneCommand extends BaseCommand
 
 	public function actionInsertDZPPGlobal()
 	{
+		$check = Filter::checkProcess("InsertDZPPGlobal");
+		if (!$check)
+		{
+			return;
+		}
+		
 		Logger::info("\n*********************************** InsertDZPPGlobal Start *********************************************\n");
 		$j				 = 0;
 		$chkGolbally	 = true;
@@ -285,17 +291,12 @@ class ZoneCommand extends BaseCommand
 				}
 				catch (Exception $ex)
 				{
-					Logger::exception($ex);
-					Logger::info("\n*********************************** zone_surge_global Error Start *********************************************\n");
 					Logger::info($ex->getMessage());
-					Logger::info("\n*********************************** zone_surge_global Error Ends *********************************************\n");
-					Logger::writeToConsole($ex->getMessage());
+					Logger::exception($ex);
 				}
 			}
 			$j += $limitGlobally;
-			Logger::info("\n*********************************** InsertDZPPGlobal Count Start *********************************************\n");
 			Logger::info($j);
-			Logger::info("\n***********************************InsertDZPPGlobal Count Ends *********************************************\n");
 			if ($detailsGlobally->rowCount == 0)
 			{
 				break;
@@ -306,6 +307,12 @@ class ZoneCommand extends BaseCommand
 
 	public function actionInsertDZPP90Day()
 	{
+		$check = Filter::checkProcess("InsertDZPP90Day");
+		if (!$check)
+		{
+			return;
+		}
+		
 		$i				 = 0;
 		$chk			 = true;
 		$limit			 = 500;
@@ -531,6 +538,12 @@ class ZoneCommand extends BaseCommand
 
 	public function actionInsertDZPP1DayHist()
 	{
+		$check = Filter::checkProcess("InsertDZPP1Day");
+		if (!$check)
+		{
+			return;
+		}
+		
 		$begin	 = new DateTime("2021-01-01");
 		$end	 = new DateTime("2022-04-25");
 		for ($i = $begin; $i <= $end; $i->modify('+1 day'))
@@ -1137,6 +1150,10 @@ class ZoneCommand extends BaseCommand
 
 	public function actionUpdateZoneCapacity()
 	{
+		Logger::warning('ZoneCommand actionUpdateZoneCapacity', true);
+		
+		return false;
+		
 		$i		 = 0;
 		$chk	 = true;
 		$limit	 = 500;

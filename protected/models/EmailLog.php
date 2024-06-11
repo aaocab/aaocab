@@ -79,13 +79,17 @@ class EmailLog extends CActiveRecord
 	const EMAIL_REFUND_WALLET_TO_SOURCE		 = 42;
 	const EMAIL_REFUND_WALLET_TO_BANK			 = 43;
 	const EMAIL_CUSTOM						 = 44;
+	const EMAIL_GOZOCOIN						 = 45;
+	const EMAIL_GOZOCOIN_EXPIRY				 = 46;
+	const EMAIL_UPDATE_ADDRESS_REMINDER		 = 47;
+	const EMAIL_BOOKING_REMINDER				 = 48;
 	//elg_ref_type
-	const REF_BOOKING_ID						 = 1;
-	const REF_USER_ID							 = 2;
-	const REF_VENDOR_ID						 = 3;
-	const REF_DRIVER_ID						 = 4;
-	const REF_ADMIN_ID						 = 5;
-	const REF_AGENT_ID						 = 6;
+	const REF_BOOKING_ID	 = 1;
+	const REF_USER_ID		 = 2;
+	const REF_VENDOR_ID	 = 3;
+	const REF_DRIVER_ID	 = 4;
+	const REF_ADMIN_ID	 = 5;
+	const REF_AGENT_ID	 = 6;
 	//elg_ref_type
 
 	const SEND_ACCOUNT_EMAIL			 = 1;   // sendAccountsEmail()
@@ -519,12 +523,12 @@ class EmailLog extends CActiveRecord
 	public static function checkBookingConfirmed($bkgId)
 	{
 		$params	 = ['id' => $bkgId];
-		$sql = "SELECT COUNT(1) as chkConfirmMail 
+		$sql	 = "SELECT COUNT(1) as chkConfirmMail 
 				FROM `booking`
                 INNER JOIN `email_log` ON email_log.elg_ref_id=booking.bkg_id AND email_log.elg_type=4
                 WHERE booking.bkg_active=1 AND email_log.elg_status=1
 				AND booking.bkg_id='$id'";
-		return DBUtil::command($sql, DBUtil::SDB())->queryScalar($params);	
+		return DBUtil::command($sql, DBUtil::SDB())->queryScalar($params);
 	}
 
 	/**

@@ -178,7 +178,7 @@ class DistanceMatrix extends CActiveRecord
 		return $model;
 	}
 
-	public static function getDetails($srcLtLngModel, $dstLtLngModel)
+	public static function getDetails($srcLtLngModel, $dstLtLngModel, $useMAPAPI = true)
 	{
 		Logger::profile("DistanceMatrix::getDetails {$srcLtLngModel->ltg_id}, {$dstLtLngModel->ltg_id}  Started");
 
@@ -188,7 +188,7 @@ class DistanceMatrix extends CActiveRecord
 			goto result;
 		}
 		$distMatrixModel = DistanceMatrix::getBySourceDestPoints($srcLtLngModel->ltg_id, $dstLtLngModel->ltg_id);
-		if (!$distMatrixModel)
+		if (!$distMatrixModel && $useMAPAPI)
 		{
 			$result = GoogleMapAPI::getInstance()->getDrivingDistancebyLatLong($srcLtLngModel->ltg_lat, $srcLtLngModel->ltg_long, $dstLtLngModel->ltg_lat, $dstLtLngModel->ltg_long);
 			if ($result["success"])
@@ -256,7 +256,7 @@ class DistanceMatrix extends CActiveRecord
 	 * @param Stub\common\Place $destPlace - Destination Place object with coordinates
 	 * @return DistanceMatrix|null the record found. Null if none is found.
 	 *  */
-	public static function getByCoordinates($sourcePlace, $destPlace)
+	public static function getByCoordinates($sourcePlace, $destPlace, $useMAPAPI = true)
 	{
 		if ($sourcePlace->coordinates->latitude == null || $destPlace->coordinates->latitude == null)
 		{
@@ -269,6 +269,11 @@ class DistanceMatrix extends CActiveRecord
 			$dModel = DistanceMatrix::model()->findByPk($row['dmx_id']);
 			goto result;
 		}
+		
+		if(!$useMAPAPI)
+		{
+			goto result;
+		}
 
 		skipNearest:
 		$srcLtLngModel	 = LatLong::model()->getDetailsByPlace($sourcePlace);
@@ -276,7 +281,7 @@ class DistanceMatrix extends CActiveRecord
 		$dModel			 = null;
 		if ($srcLtLngModel && $dstLtLngModel)
 		{
-			$dModel = self::getDetails($srcLtLngModel, $dstLtLngModel);
+			$dModel = self::getDetails($srcLtLngModel, $dstLtLngModel, $useMAPAPI);
 		}
 		result:
 		return $dModel;

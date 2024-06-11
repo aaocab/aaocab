@@ -490,7 +490,11 @@ class OperatorController extends BaseController
 		}
 
 		$success = Document::uploadDocumentByContact($documents, $contact);
-
+		//check applicable to ready for approve or not.
+		if($vndId>0)
+		{
+			Vendors::modifyReadytoApprove($vndId);
+		}
 		if (!$success)
 		{
 			return false;
@@ -506,6 +510,7 @@ class OperatorController extends BaseController
 
 	public function actionUploadlicense()
 	{
+		
 		$request	 = Yii::app()->request;
 		$contact	 = $request->getParam("Contact");
 		$documents	 = $request->getParam('Document', null);
@@ -558,6 +563,11 @@ class OperatorController extends BaseController
 			$formType = 'lic';
 		}
 
+		if($vndId>0)
+		{
+			Vendors::modifyReadytoApprove($vndId);
+		
+		}
 		$this->redirect(['register', 'formType' => $formType, 'errorMsg' => $errorMsg]);
 	}
 

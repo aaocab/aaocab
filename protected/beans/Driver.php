@@ -268,4 +268,32 @@ class Driver extends \Beans\contact\Person
 		$obj->phone			 = \Beans\contact\Phone::setFullNumber($dataArr['number']);
 		return \Filter::removeNull($obj);
 	}
+
+	public function setTransactionData($row)
+	{
+		$this->booking_id		 = $row['booking_id'];
+		$this->drv_trans_date	= $row['drv_trans_date'];
+		$this->drv_createdate	 = $row['drv_createdate'];
+		$this->drv_bonus_amount	 = -1 * ($row['drv_bonus_amount']);
+		$this->drv_remarks		 = $row['drv_remarks'];
+		$this->adm_name			 = $row['adm_name'];
+		$this->ledgerNames		 = $row['ledgerNames'];
+		$this->openBalance		 = $row['openBalance'];
+		$this->runningBalance	 = -1 * ($row['runningBalance']);
+		//return $data;
+	}
+
+	public function getTransactionList($dataArr)
+	{
+		$data = 0;
+		foreach ($dataArr as $row)
+		{
+			
+			$obj	 = new \Beans\driver;
+			$obj->setTransactionData($row);
+			$this->dataList[]	 = $obj;
+		}
+	}
+	
+	
 }

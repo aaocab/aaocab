@@ -772,4 +772,24 @@ class CalendarEvent extends CActiveRecord
 		}
 	}
 
+	/**
+	 * This function is used to revert the mapping of event by recurring rule
+	 * @param string $eventId.
+	 * @return None
+	 */
+	public static function revertEventById($eventId)
+	{
+		//remove 2,5,6 or 2,6,5
+		$sqlAfterComma = "UPDATE calendar_event SET cle_event_id = REPLACE(cle_event_id , ',$eventId', '') WHERE `cle_dt` >=DATE_FORMAT(NOW(),'%Y-01-01 00:00:00')  AND cle_event_id LIKE '%,$eventId'";
+		DBUtil::execute($sqlAfterComma);
+
+		//remove 5,6,2 or 2,5,6
+		$sqlBeforeComma = "UPDATE calendar_event SET cle_event_id = REPLACE(cle_event_id , '$eventId,', '') WHERE `cle_dt` >=DATE_FORMAT(NOW(),'%Y-01-01 00:00:00')  AND cle_event_id LIKE '%$eventId,'";
+		DBUtil::execute($sqlBeforeComma);
+
+		//remove 5
+		$sqlNormal = "UPDATE calendar_event SET cle_event_id = null,cle_is_event=0 WHERE `cle_dt` >=DATE_FORMAT(NOW(),'%Y-01-01 00:00:00') AND cle_event_id='$eventId'";
+		DBUtil::execute($sqlNormal);
+	}
+
 }

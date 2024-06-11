@@ -33,7 +33,7 @@ else
         </div>
         <div class="header-line-2 header-scroll-effect">
             <a href="#" class="header-pretitle color-highlight"><!--Date will Appear Here --></a>
-            <a href="#" class="header-title logoClass"><img src="<?= ASSETS_URL ?>images/mobile/logo_outstation.png" alt="" ></a>
+            <a href="#" class="header-title logoClass"><img src="<?= IMAGE_URL ?>/mobile/logo_outstation.png" alt="" ></a>
 <!--            <a href="#" data-menu="menu-list" class="header-icon header-icon-1"><i class="fa fa-bars"></i></a>-->
             <a href="#" data-menu="sidebar-right-over" class="header-icon header-icon-1"><i class="fa fa-bars"></i></a>
             <input type="hidden" name="loging_stat" id="loging_stat" value="<? if (Yii::app()->user->isGuest){echo '0';}else{echo '1';} ?>">

@@ -297,7 +297,7 @@ class Booking extends CActiveRecord
 	public $ids;
 	public $diffCollectionType;
 	public $local, $outstation, $weekDays, $restricted;
-	public $countbvr;
+	public $countbvr,$confirmDate1,$confirmDate2,$autoAssignDate1,$autoAssignDate2;
 	public $max_bvr_date;
 	public $min_bvr_date, $compensationCond;
 	public $bkg_assigned_date1, $bkg_assigned_date2, $b2btfrbookings, $incB2Btfrbookings;
@@ -428,7 +428,11 @@ class Booking extends CActiveRecord
 	public $bkg_arrived;
 	public $bkg_trip_start, $bkg_trip_end, $bkg_extra_km_charge, $bkg_extra_km, $bkg_extra_toll_tax, $bkg_extra_state_tax, $bkg_extra_min, $bkg_extra_total_min_charge, $bkg_vendor_collected, $bkg_end_odometer, $bkg_start_odometer, $bkg_trip_otp, $createQuotePartner		 = 1;
 	public $userCategories;
+	public $requestType;
 
+	const SEARCH_REQUEST	 = 'SEARCH';
+	const HOLD_REQUEST	 = 'CREATE';
+	const CONFIRM_REQUEST = 'CONFIRM';
 	const CODE_VENDOR_ASSIGNED						 = 500;
 	const CODE_CABDRIVER_ASSIGNED						 = 501;
 	const CODE_COMPLETED								 = 502;
@@ -928,9 +932,9 @@ class Booking extends CActiveRecord
 			$workingMinDiff	 = Filter::CalcWorkingMinutes($currDateTime, $this->bkg_pickup_date);
 			$spiceId		 = Config::get('spicejet.partner.id');
 			$sugerboxId		 = Config::get('sugerbox.partner.id');
-			if ($workingMinDiff <= 60 && $this->bkgPref->bkg_is_gozonow != 1 && $this->bkg_agent_id != $spiceId && $this->bkg_agent_id != $sugerboxId)
+			if ($workingMinDiff <= Config::get('working.minute.difference') && $this->bkgPref->bkg_is_gozonow != 1 && $this->bkg_agent_id != $spiceId && $this->bkg_agent_id != $sugerboxId)
 			{
-				$durationStartDate = Filter::addWorkingMinutes(60, $this->bkg_pickup_date);
+				$durationStartDate = Filter::addWorkingMinutes(Config::get('working.minute.difference'), $this->bkg_pickup_date);
 				$this->addError($attribute, 'Departure time should be after ' . $durationStartDate);
 				return false;
 			}
@@ -988,8 +992,14 @@ class Booking extends CActiveRecord
 		$isAllowedCity = GoMmt::isAllowedCity($this->bkg_from_city_id, $this->bkg_agent_id);
 		if (UserInfo::getUserType() == UserInfo::TYPE_ADMIN || $isAllowedCity == true) //|| $isAllowedCity == true
 		{
-			$response->timeDifference = 60;
+			$response->timeDifference = 75;
 		}
+
+		if (($this->bkg_agent_id > 0 && $this->bkg_agent_id <> 1249) && ($model->requestType == GoMmt::HOLD_REQUEST))
+		{
+			$response->timeDifference = $response->timeDifference - Config::get('instantsearch.pickup.mintime');
+		}
+
 		$response->isAllowed = true;
 		if ($diff < $response->timeDifference)
 		{
@@ -1947,7 +1957,12 @@ class Booking extends CActiveRecord
 
 // Link Booking User
 			$user_id = (Yii::app()->user->getId() > 0) ? Yii::app()->user->getId() : '';
-			$user_id = ($this->bkgPref->bpr_rescheduled_from > 0) ? $this->bkgUserInfo->bkg_user_id : $user_id;
+
+			if ($this->bkgPref->bpr_rescheduled_from > 0)
+			{
+				$rbuiModel	 = BookingUser::model()->getByBkgId($this->bkgPref->bpr_rescheduled_from);
+				$user_id	 = ($rbuiModel) ? $rbuiModel->bkg_user_id : $user_id;
+			}
 			if ($user_id == '')
 			{
 				$userModel = Users::model()->linkUserByEmail($this->bkg_id, Booking::Platform_User);
@@ -2060,7 +2075,12 @@ class Booking extends CActiveRecord
 			$refModel->bkg_is_related_booking	 = (($isRealtedBooking) ? 1 : 0);
 			if ($this->bkgUserInfo->bkg_contact_no != '')
 			{
-				$cttId = Contact::getByEmailPhone($this->bkgUserInfo->bkg_user_email, $this->bkgUserInfo->bkg_contact_no, false);
+				$phoneNo = $this->bkgUserInfo->bkg_contact_no;
+				if ($this->bkg_agent_id == 30228)
+				{
+					$phoneNo = $this->bkgUserInfo->bkg_country_code . $this->bkgUserInfo->bkg_contact_no;
+				}
+				$cttId = Contact::getByEmailPhone($this->bkgUserInfo->bkg_user_email, $phoneNo, false);
 				if ($cttId > 0)
 				{
 					$refModel->bkg_tags = Contact::getTags($cttId);
@@ -2317,7 +2337,29 @@ class Booking extends CActiveRecord
 		}
 	}
 
-	public function fetchListbyUser($userId, $status = 1)
+	public function fetchListByUser($userId)
+	{
+		$sql = "SELECT bkg_id, vct_id, vct_image 
+				FROM booking 
+				INNER JOIN booking_user ON bkg_id = bui_bkg_id 
+				INNER JOIN svc_class_vhc_cat ON scv_id = bkg_vehicle_type_id 
+				INNER JOIN service_class ON scc_id = scv_scc_id 
+				INNER JOIN vehicle_category ON scv_vct_id = vct_id AND vct_active = 1
+				WHERE 1 AND bkg_pickup_date >= '2018-04-01 00:00:00' AND bkg_user_id = {$userId} 
+				AND (`bkg_status` IN (2,3,5,6,7,9) OR (bkg_pickup_date > NOW() AND `bkg_status` IN (1,15)))";
+
+		$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc", DBUtil::SDB());
+		$dataprovider	 = new CSqlDataProvider($sql, [
+			'db'			 => DBUtil::SDB(),
+			'totalItemCount' => $count,
+			'sort'			 => [
+				'defaultOrder' => 'bkg_create_date DESC, bkg_pickup_date DESC'
+			], 'pagination'	 => ['pageSize' => 10],
+		]);
+		return $dataprovider;
+	}
+
+	public function fetchListbyUser_OLD($userId, $status = 1)
 	{
 		if ($status != 0)
 		{
@@ -2335,8 +2377,9 @@ class Booking extends CActiveRecord
 		  `bkgBcb`.`bcb_driver_phone`, `bkgBcb`.`bcb_cab_id`, `bkgBcb`.`bcb_cab_rating`, `bkgBcb`.`bcb_cab_trips`, `bkgBcb`.`bcb_vhc_number`, `bkgBcb`.`bcb_cab_number`, `bkgBcb`.`bcb_start_time`,
 		  `bkgBcb`.`bcb_end_time`, `bkgBcb`.`bcb_trip_kms`, `bkgBcb`.`bcb_start_lat`, `bkgBcb`.`bcb_start_long`, `bkgBcb`.`bcb_end_lat`, `bkgBcb`.`bcb_end_long`, `bkgBcb`.`bcb_active`, `bkgBcb`.`bcb_denied_reason_id`,
 		  `bkgBcb`.`bcb_trip_type`, `bkgBcb`.`bcb_matched_type`, `bkgBcb`.`bcb_pending_status`, `bkgBcb`.`bcb_created`,
-          `bcbCab`.`vhc_id`, `bcbCab`.`vhc_type_id`, `bcbCab`.`vhc_number`,bkgPref.bkg_is_gozonow,
-		  `bkgVehicleCat`.`vct_id`, `bkgVehicleCat`.`vct_image`, `bkgVehicleCat`.`vct_desc`, `bkgVehicleCat`.`vct_label`, scc_label,scv.scv_model bkg_vht_id
+          `bcbCab`.`vhc_id`, `bcbCab`.`vhc_type_id`, `bcbCab`.`vhc_number`,bkgPref.bkg_is_gozonow,bkgPref.bpr_rescheduled_from,
+		  `bkgVehicleCat`.`vct_id`, `bkgVehicleCat`.`vct_image`, `bkgVehicleCat`.`vct_desc`, `bkgVehicleCat`.`vct_label`, scc_label,scv.scv_model
+          ,bkg_vht_id,vht.vht_model,vht.vht_make
 
                 FROM `booking` b
 				JOIN `booking_add_info` `bkgAddInfo` ON (`b`.`bkg_id`=`bkgAddInfo`.`bad_bkg_id`)
@@ -2350,6 +2393,11 @@ class Booking extends CActiveRecord
 				JOIN `booking_route` `bookingRoutes` ON (`bookingRoutes`.`brt_bkg_id`=`b`.`bkg_id`) AND (`bookingRoutes`.brt_active=1)
 				JOIN `booking_cab` `bkgBcb` ON (`b`.`bkg_bcb_id`=`bkgBcb`.`bcb_id`) AND (`bkgBcb`.bcb_active = 1 )
                 LEFT OUTER JOIN `vehicles` `bcbCab` ON (`bkgBcb`.`bcb_cab_id`=`bcbCab`.`vhc_id`) AND (`vhc_active` IN (1,2,3))
+                
+             
+                LEFT JOIN `vehicle_types` vht ON vht.vht_id=bcbCab.vhc_type_id
+
+
 				JOIN svc_class_vhc_cat scv ON scv.scv_id = b.bkg_vehicle_type_id
 				INNER JOIN service_class ON scc_id = scv.scv_scc_id
                 JOIN `vehicle_category` `bkgVehicleCat` ON (`scv`.`scv_vct_id`=`bkgVehicleCat`.`vct_id`) AND (`vct_active`=1)
@@ -4117,7 +4165,7 @@ ORDER BY $s1";
 				$bcb_row	 = BookingCab::model()->getBkgIdByTripId($bcbid);
 				$bookingIDs	 = $bcb_row['bkg_ids'];
 //Logger::create('$bookingIDsSSS ===>' . $bookingIDs, CLogger::LEVEL_TRACE);
-				$reasonArray = [2, 3, 5, 7, 9, 12, 13, 14, 15, 16];
+				$reasonArray = [2, 3, 5, 7, 9, 12, 13, 14, 15, 16, 17]; // added  new reasonId =17
 
 				if ($cabmodel->bcb_trip_type != 1)
 				{
@@ -4846,6 +4894,26 @@ ORDER BY $s1";
 			}
 			Logger::info("after reconfirmation booking status" . $model->bkg_id);
 
+			$bookingPhone	 = $model->bkgUserInfo->bkg_country_code . $model->bkgUserInfo->bkg_contact_no;
+			$bookingEmail	 = $model->bkgUserInfo->bkg_user_email;
+			$ustID			 = UsersSourceTracking::model()->getUstByContact($bookingPhone, $bookingEmail);
+			// Logger::info('599==UST==ERROR:' .'==bookingPhone=='.$bookingPhone.'==bookingEmail=='.$bookingEmail.'==bookingID=='.$model->bkg_id."==SESSID==".Yii::app()->request->cookies['tkrid']->value."==UST==".$ustID."|||");
+			if ($ustID && $model->bkg_agent_id != 18190)
+			{
+//                if($ustID == 599)
+//                {
+//                   Logger::info('==bookingPhone=='.$bookingPhone.'==bookingEmail=='.$bookingEmail.'==bookingID=='.$model->bkg_id."==SESSID==".Yii::app()->request->cookies['tkrid']->value."==UST==".$ustID."++|||++");
+//                }
+				$model->bkgPref->bpr_ust_id = $ustID;
+				$model->bkgPref->save();
+			}
+
+
+
+
+
+
+
 			/*
 			 * GozoDoubleBack type booking check
 			 */
@@ -4932,9 +5000,6 @@ ORDER BY $s1";
 			}
 
 			BookingTrail::impBookingFollowup($model->bkg_id, true, false);
-
-//Zones::checkForBlockedZones($model);
-//Logger::info("after Zones checkForBlockedZones" . $model->bkg_id);
 		}
 		catch (Exception $ex)
 		{
@@ -5992,6 +6057,7 @@ ORDER BY $s1";
 						IF(bkg_agent_id IS NULL,'B2C',agents.agt_company) as PartnerName,
 						stt_name, SUM(IF(bkg_status<>9,bkg_service_tax,0)) as GST,
 						SUM(IF(bkg_status<>9,bkg_net_base_amount + bkg_driver_allowance_amount,0)) as BaseFare,
+						SUM(IF(bkg_status IN (2, 3, 5, 6, 7), bkg_net_base_amount + IFNULL(bkg_convenience_charge,0) + IFNULL(bkg_extra_total_min_charge,0), 0)) as netBaseAmount,
 						SUM(ROUND(IF(bkg_status=9,bkg_advance_amount-bkg_refund_amount,0)/1.05)) as CancelBaseFare,
 						SUM(IF(bkg_status=9,bkg_advance_amount-bkg_refund_amount,0) - ROUND(IF(bkg_status=9,bkg_advance_amount-bkg_refund_amount,0)/1.05)) as CancelGST
 						FROM booking
@@ -7223,15 +7289,16 @@ ORDER BY $s1";
 				$recordset[$key]['pickup_long']			 = $recordset[$key]['pickup_long'];
 			}
 
-			$customerShow = Filter::customerDataShow($recordset[$key]['bkg_pickup_date']);
-			if ($customerShow < 1)
-			{
-				$recordset[$key]['bkg_user_name']	 = "";
-				$recordset[$key]['bkg_user_fname']	 = "";
-				$recordset[$key]['bkg_user_lname']	 = "";
-				$recordset[$key]['bkg_contact_no']	 = "";
-				$recordset[$key]['bkg_user_email']	 = "";
-			}
+			/* $customerShow = Filter::customerDataShow($recordset[$key]['bkg_pickup_date']);
+
+			  if ($customerShow < 1)
+			  {
+			  //$recordset[$key]['bkg_user_name']	 = "";
+			  //	$recordset[$key]['bkg_user_fname']	 = "";
+			  //	$recordset[$key]['bkg_user_lname']	 = "";
+			  //$recordset[$key]['bkg_contact_no']	 = "";
+			  //$recordset[$key]['bkg_user_email']	 = "";
+			  } */
 
 			Logger::create("IS OVER DUE ==>" . $recordset[$key]['is_start_overDue'] . " bkgID ==>" . $recordset[$key]['bkg_id']);
 		}
@@ -11772,32 +11839,14 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 
 	public static function getUnverifiedFollowup()
 	{
-//		$sql = "SELECT
-//					booking.bkg_id,
-//					booking.bkg_create_date,
-//					booking_user.bkg_contact_no,
-//					booking_user.bkg_user_email,
-//					booking.bkg_status
-//					FROM `booking`
-//					JOIN `booking_user` ON booking.bkg_id = booking_user.bui_bkg_id
-//					JOIN `booking_trail` ON booking_trail.btr_bkg_id = booking_user.bui_bkg_id
-//					WHERE booking.bkg_pickup_date > DATE_ADD(NOW(),INTERVAL 5 HOUR)
-//						AND
-//						(
-//							booking.bkg_create_date BETWEEN DATE_SUB(NOW(), INTERVAL 12 HOUR) AND DATE_SUB(NOW(), INTERVAL 30 MINUTE)
-//						)
-//					AND booking.bkg_status IN (1,15)
-//						AND ( bkg_agent_id = 0 OR bkg_agent_id IS NULL )
-//						AND booking_trail.btr_cron_unv_followup_ctr = 0
-//						GROUP BY booking.bkg_id
-//						ORDER BY `bkg_id` DESC";
-
-		$sql = "SELECT bkg_id FROM `booking` 
-				INNER JOIN `booking_user` ON booking.bkg_id = bui_bkg_id 
-				INNER JOIN `booking_trail` ON btr_bkg_id = bui_bkg_id 
-				WHERE bkg_status = 15 AND btr_cron_unv_followup_ctr = 0 
-				AND bkg_agent_id <> 18190 AND (booking_user.bkg_contact_no IS NOT NULL OR booking_user.bkg_user_email IS NOT NULL) 
-				AND (bkg_quote_expire_date BETWEEN DATE_ADD(NOW(),INTERVAL 1 HOUR) AND DATE_ADD(NOW(),INTERVAL 12 HOUR)) ";
+		$sql = "SELECT bkg_id 
+				FROM `booking` 
+				INNER JOIN `booking_user` ON bkg_id = bui_bkg_id 
+				INNER JOIN `booking_trail` ON bkg_id = btr_bkg_id 
+				WHERE bkg_status = 15 AND btr_cron_unv_followup_ctr = 0 AND bkg_quote_expire_date IS NOT NULL 
+				AND (bkg_agent_id IS NULL OR bkg_agent_id = 1249) 
+				AND (bkg_contact_no IS NOT NULL OR bkg_user_email IS NOT NULL) 
+				AND (bkg_quote_expire_date BETWEEN DATE_ADD(NOW(),INTERVAL 2 HOUR) AND DATE_ADD(NOW(), INTERVAL 3 HOUR))";
 
 		return DBUtil::query($sql);
 	}
@@ -13828,10 +13877,6 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 
 						$this->bkgUserInfo->save();
 						$agtmodel = Agents::model()->findByPk($this->bkg_agent_id);
-//$prefmodel							 = BookingPref::model()->getByBooking($this->bkg_id);
-//$prefmodel->bkg_trip_otp_required	 = $agtmodel->agt_otp_required;
-//$prefmodel->save();
-//$this->bkgPref->bkg_trip_otp_required	 = $agtmodel->agt_otp_required;
 						$this->bkgPref->save();
 
 						if ($this->agentNotifyData != '' && $this->agentNotifyData != null && $this->agentNotifyData != 'null')
@@ -14022,14 +14067,9 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 					$isGozonow		 = $this->bkgPref->bkg_is_gozonow;
 					$cancelRuleId	 = CancellationPolicy::getCancelRuleId($this->bkg_agent_id, $svcModelCat->scv_id, $this->bkg_from_city_id, $this->bkg_to_city_id, $this->bkg_booking_type, $isGozonow);
 				}
-				$this->bkgPref->bkg_cancel_rule_id = $cancelRuleId;
+				$this->bkgPref->bkg_cancel_rule_id	 = $cancelRuleId;
 				Logger::profile("Cancellation Policy");
-				/* bkg_cancel_rule_id acc to addon selected    by ramala */
-
-//                $cancelRuleId = CancellationPolicyRule::getCancellationRuleId($this->bkg_vehicle_type_id, $this->bkg_agent_id);
-//                $this->bkgPref->bkg_cancel_rule_id = $cancelRuleId;
-
-				$this->bkg_admin_id = $userInfo->userId;
+				$this->bkg_admin_id					 = $userInfo->userId;
 				if (!$this->save())
 				{
 					throw new Exception("Failed to create booking");
@@ -14065,17 +14105,6 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 				}
 
 				$this->bkgTrail->save();
-				/* cancel rule id according to addonID */
-//				if ($this->bkgInvoice->bkg_addon_ids != '' && $this->bkgInvoice->bkg_addon_ids > 0)
-//				{
-//					$addonIds = explode(',', $this->bkgInvoice->bkg_addon_ids);
-//					foreach ($addonIds as $addonId)
-//					{
-//						$addOn								 = Addons::model()->findByPk($addonId);
-//						$this->bkgPref->bkg_cancel_rule_id	 = $addOn->adn_cancel_rule_id;
-//					}
-//				}
-				/* cancel rule id according to addonID */
 				if ($this->bkgPref->save() && $this->bkgPref->bkg_block_autoassignment == 1)
 				{
 					BookingLog::model()->createLog($this->bkg_id, 'BookingID: ' . $this->bkg_booking_id . ' is blocked for auto assignment', $userInfo, BookingLog:: BLOCK_AUTOASSIGNMENT, false, false);
@@ -14087,7 +14116,7 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 
 				$this->bkgUserInfo = $bkgBookingUser;
 				DBUtil::commitTransaction($transaction);
-				if ($this->bkg_agent_id > 0)
+				if ($this->bkg_agent_id > 0 && $this->bkg_status == 15)
 				{
 					Logger::create('Agent booking assignment test 2:\t' . $this->bkg_agent_id, CLogger::LEVEL_PROFILE);
 					$emailCom = new emailWrapper();
@@ -14119,9 +14148,6 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 						$msgCom = new smsWrapper();
 						$msgCom->gotCreateQuoteBookingsms($this->bkg_id, BookingLog::System);
 					}
-
-
-					//self::notifyQuoteBookingB2C($this->bkg_id);
 				}
 				BookingTrail::impBookingFollowup($this->bkg_id, true, true);
 			}
@@ -18020,7 +18046,7 @@ FROM   booking
 		}
 
 		$distance				 = ROUND(SQRT(POW(69.1 * ($newRoutes[0]['brt_from_latitude'] - $newRoutes[1]['brt_to_latitude']), 2) + POW(69.1 * ($newRoutes[1]['brt_to_longitude'] - $newRoutes[0]['brt_from_longitude']) * COS($newRoutes[0]['brt_from_latitude'] / 57.3), 2)), 2);
-		$dis					 = $distance * 1.60934;
+		$dis					 = round($distance * 1.60934);
 		$result['errors']		 = '';
 		$result['booking_type']	 = '4';
 		if ($dis > $airportRadius)
@@ -22369,9 +22395,20 @@ FROM   booking
 	 */
 	public static function getTransferzActiveBookingList()
 	{
-		$partnerId	 = Config::get('transferz.partner.id');
-		$sql		 = "SELECT *  FROM `booking` WHERE `bkg_agent_id` = $partnerId AND bkg_agent_ref_code IS NOT NULL 
-						AND bkg_status IN(2,3,5) AND bkg_active= 1 AND bkg_agent_ref_code REGEXP '^[0-9]+$'";
+		$partnerId = Config::get('transferz.partner.id');
+
+		$sql = "SELECT bkg_id 
+				FROM `booking` 
+				INNER JOIN transferz_offers ON bkg_id = trb_bkg_id 
+				WHERE bkg_status IN (2,3,5) AND bkg_agent_id = {$partnerId} AND bkg_active = 1 
+				AND bkg_agent_ref_code IS NOT NULL AND bkg_agent_ref_code REGEXP '^[0-9]+$' 
+				AND bkg_pickup_date > NOW() 
+				AND (
+					trb_data_last_pull_date IS NULL 
+					OR (TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) > 2880 AND TIMESTAMPDIFF(MINUTE, trb_data_last_pull_date, NOW()) >= 480) 
+					OR ((TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) BETWEEN 1440 AND 2880) AND TIMESTAMPDIFF(MINUTE, trb_data_last_pull_date, NOW()) >= 60) 
+					OR (TIMESTAMPDIFF(MINUTE, NOW(), bkg_pickup_date) < 1440 AND TIMESTAMPDIFF(MINUTE, trb_data_last_pull_date, NOW()) >= 10) 
+				)";
 
 		$results = DBUtil::query($sql);
 		return $results;
@@ -23778,7 +23815,7 @@ FROM   booking
 		$reviewHostString	 = 'https://gozo.cab/';
 		$reviewUrl			 = $reviewHostString . $reviewQueryString;
 		$sLink				 = Filter::shortUrl($reviewUrl);
-		$contentParams		 = array('userName' => $userName, 'reviewUrl' => $reviewUrl, 'bookingId' => Filter::formatBookingId($bkgModel->bkg_booking_id), 'sLink' => $sLink);
+		$contentParams		 = array('eventId' => "3", 'userName' => $userName, 'reviewUrl' => $reviewUrl, 'bookingId' => Filter::formatBookingId($bkgModel->bkg_booking_id), 'sLink' => $sLink);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bkgModel->bkg_booking_id, $row['code'], $row['number'], null, 1, null, null, $reviewQueryString);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::BOOKING_REVIEW, "Customer Booking Review", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
 		MessageEventMaster::processPlatformSequences(3, $contentParams, $receiverParams, $eventScheduleParams);
@@ -23825,7 +23862,7 @@ FROM   booking
 		}
 		$promoCode			 = $promoModel->prm_code;
 		$discount			 = $promoModel->prm_desc;
-		$contentParams		 = array('userName' => $userName, 'code' => $promoCode, 'discount' => $discount);
+		$contentParams		 = array('eventId' => "4", 'userName' => $userName, 'code' => $promoCode, 'discount' => $discount);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bkgModel->bkg_booking_id, $row['code'], $row['number'], null, 0, null, null);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::BOOKING_REVIEW_OTHER, "booking review to customer other links", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
 		$responseArr		 = MessageEventMaster::processPlatformSequences(4, $contentParams, $receiverParams, $eventScheduleParams);
@@ -23865,6 +23902,7 @@ FROM   booking
 			goto skipAll;
 		}
 		$contentParams = array(
+			'eventId'	 => "5",
 			'bookingId'	 => Filter::formatBookingId($bookingId),
 			'tripType'	 => $tripType,
 			'cabType'	 => $cabType,
@@ -23927,6 +23965,7 @@ FROM   booking
 			goto skipAll;
 		}
 		$contentParams		 = array(
+			'eventId'			 => "6",
 			'bookingId'			 => Filter::formatBookingId($bookingId),
 			'bookingtype'		 => $tripType,
 			'cabType'			 => $cabType,
@@ -23998,6 +24037,7 @@ FROM   booking
 			goto skipAll;
 		}
 		$contentParams		 = array(
+			'eventId'			 => "7",
 			'bookingId'			 => Filter::formatBookingId($bookingId),
 			'bookingtype'		 => $tripType,
 			'cabType'			 => $cabType,
@@ -24132,7 +24172,8 @@ FROM   booking
 			'primaryId'		 => $bkgId,
 			'tripStartTime'	 => $tripStartTime,
 			'tripEndTime'	 => $tripEndTime,
-			'tripDistance'	 => $tripDistance
+			'tripDistance'	 => $tripDistance,
+			'eventId'		 => "15"
 		);
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bookingId, $code, $number, $email, 1, null, SmsLog::SMS_UNVERIFIED_FOLLOWUP, $buttonUrl, $emailLayout		 = "mail1", $emailReplyTo		 = null, $emailReplyName		 = null, $emailType			 = EmailLog::EMAIL_UNVERIFIED_FOLLOWUP, $emailUserType		 = EmailLog::Consumers, $emailRefType		 = EmailLog::REF_BOOKING_ID, $emailRefId			 = $bkgId, $emailLogInstance	 = EmailLog::SEND_CONSUMER_BATCH_EMAIL, $emailDelayTime		 = 0);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::BOOKING_QUOTE_EXPIRY_REMINDER_TO_CUSTOMER, "Send Quote Expiry Reminder To Customer", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
@@ -24213,6 +24254,7 @@ FROM   booking
 				'tripDistance'	 => $tripDistance,
 				'bookingAmount'	 => $bookingAmount,
 				'skipPermission' => true,
+				'eventId'		 => "24"
 			);
 			if ($bkgId > 0)
 			{
@@ -24342,6 +24384,7 @@ FROM   booking
 		$returnSet = new ReturnSet();
 		try
 		{
+			Logger::writeToConsole("XXBkgId: " . $bkgId);
 			$success = false;
 			if ($bkgId > 0)
 			{
@@ -24356,12 +24399,17 @@ FROM   booking
 			$arrUserDetails	 = WhatsappLog::getUserByBooking($bkgId);
 			$userId			 = $arrUserDetails['userId'];
 			$userName		 = $arrUserDetails['userName'];
+
+			Logger::writeToConsole("User: " . $userId . " - " . $userName);
+
 			// Phone No
-			$phoneNo		 = WhatsappLog::getPhoneNoByBookingId($bkgId);
+			$phoneNo = WhatsappLog::getPhoneNoByBookingId($bkgId);
 			if (!$phoneNo)
 			{
 				goto skipAll;
 			}
+
+			Logger::writeToConsole("Phone: " . $phoneNo);
 
 			Filter::parsePhoneNumber($phoneNo, $code, $number);
 			$row = array('code' => $code, 'number' => $number);
@@ -24377,6 +24425,8 @@ FROM   booking
 				$emailReplyName	 = $response->getData()->email['userName'];
 			}
 
+			Logger::writeToConsole("Email: " . $email . " - " . $emailReplyName);
+
 			$hash			 = Yii::app()->shortHash->hash($bkgId);
 			$bookingId		 = $bkgModel->bkg_booking_id;
 			$cabType		 = $bkgModel->bkgSvcClassVhcCat->scv_label;
@@ -24390,6 +24440,8 @@ FROM   booking
 
 			$drvId	 = $bkgModel->bkgBcb->bcb_driver_id;
 			$cabId	 = $bkgModel->bkgBcb->bcb_cab_id;
+
+			Logger::writeToConsole("Driver: " . $drvId . " - " . $cabId);
 
 			$cabNumber		 = 'Not allocated yet';
 			$driverName		 = 'Not allocated yet';
@@ -24417,10 +24469,10 @@ FROM   booking
 				}
 			}
 
-			$link				 = Yii::app()->params['fullBaseURL'] . '/bkpn/' . $bkgId . '/' . $hash;
-			$buttonUrl			 = 'bkpn/' . $bkgId . '/' . $hash;
-			$primaryId			 = $bkgModel->bkg_id;
-			$contentParams		 = [
+			$link			 = Yii::app()->params['fullBaseURL'] . '/bkpn/' . $bkgId . '/' . $hash;
+			$buttonUrl		 = 'bkpn/' . $bkgId . '/' . $hash;
+			$primaryId		 = $bkgModel->bkg_id;
+			$contentParams	 = [
 				'userName'		 => $userName,
 				'bookingId'		 => Filter::formatBookingId($bookingId),
 				'cabType'		 => $cabType,
@@ -24435,11 +24487,17 @@ FROM   booking
 				'driverName'	 => $driverName,
 				'driverPhone'	 => $driverNumber,
 				'link'			 => $link,
-				'primaryId'		 => $bkgId
+				'primaryId'		 => $bkgId,
+				'eventId'		 => "31"
 			];
+
+			Logger::writeToConsole("Json: " . json_encode($contentParams));
+
 			$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bkgModel->bkg_booking_id, $row['code'], $row['number'], $email, 1, null, null, $buttonUrl, 'mail1', null, null, EmailLog::EMAIL_BOOKING_CONFIRM, EmailLog::Consumers, EmailLog::REF_USER_ID, $bkgModel->bkg_booking_id, EmailLog::SEND_SERVICE_EMAIL, null, $bkgModel->bkg_booking_id);
 			$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::BOOKING_CONFIRM, "Booking Details To Customer", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
 			$responseArr		 = MessageEventMaster::processPlatformSequences(31, $contentParams, $receiverParams, $eventScheduleParams);
+
+			Logger::writeToConsole("Respo: " . json_encode($responseArr));
 
 			foreach ($responseArr as $res)
 			{
@@ -24511,17 +24569,16 @@ FROM   booking
 
 		$lastPaymentReceived = AccountTransactions::getLastPaymentReceived($bkgId);
 		$paymentAmount		 = ($lastPaymentReceived > 0) ? 'Rs. ' . $lastPaymentReceived : 'Rs. ' . $bkgModel->bkgInvoice->bkg_advance_amount;
-
 		$bookingId			 = $bkgModel->bkg_booking_id;
 		$totalAmount		 = 'Rs. ' . $bkgModel->bkgInvoice->bkg_total_amount;
 		$totalAdvanceAmount	 = 'Rs. ' . $bkgModel->bkgInvoice->bkg_advance_amount;
 		$dueAmount			 = 'Rs. ' . $bkgModel->bkgInvoice->bkg_due_amount;
-		#$userId				 = $bkgModel->bkgUserInfo->bkg_user_id;
+		$creditUsed			 = 'Rs. ' . $bkgModel->bkgInvoice->bkg_credits_used;
 
-		$hash		 = Yii::app()->shortHash->hash($bkgId);
-		$buttonUrl	 = 'bkpn/' . $bkgId . '/' . $hash;
-
-		$contentParams = [
+		$hash			 = Yii::app()->shortHash->hash($bkgId);
+		$buttonUrl		 = 'bkpn/' . $bkgId . '/' . $hash;
+		$contentParams	 = [
+			'eventId'		 => "32",
 			'userName'		 => $userName,
 			'paymentAmount'	 => $paymentAmount,
 			'bookingId'		 => Filter::formatBookingId($bookingId),
@@ -24530,10 +24587,25 @@ FROM   booking
 			'dueAmount'		 => $dueAmount,
 			'primaryId'		 => $bkgId
 		];
-
+		$eventId		 = 32;
+		if ($bkgModel->bkgInvoice->bkg_credits_used > 0)
+		{
+			$contentParams	 = [
+				'eventId'		 => "41",
+				'userName'		 => $userName,
+				'paymentAmount'	 => $paymentAmount,
+				'bookingId'		 => Filter::formatBookingId($bookingId),
+				'totalAmount'	 => $totalAmount,
+				'advanceAmount'	 => $totalAdvanceAmount,
+				'creditUsed'	 => $creditUsed,
+				'dueAmount'		 => $dueAmount,
+				'primaryId'		 => $bkgId
+			];
+			$eventId		 = 41;
+		}
 		$receiverParams		 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $userId, WhatsappLog::REF_TYPE_BOOKING, $bkgId, $bookingId, $row['code'], $row['number'], false, 1, null, SmsLog::SMS_PAYMENT_SUCCESS, $buttonUrl, null, null, null, null, null, null, null, null, null);
 		$eventScheduleParams = EventSchedule::setData($bkgId, ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::BOOKING_PAYMENT_RECEIVED, "Booking Payment Received To Customer", $isSchedule, CJSON::encode(array('bkgId' => $bkgId)), 10, $schedulePlatform);
-		$responseArr		 = MessageEventMaster::processPlatformSequences(32, $contentParams, $receiverParams, $eventScheduleParams);
+		$responseArr		 = MessageEventMaster::processPlatformSequences($eventId, $contentParams, $receiverParams, $eventScheduleParams);
 		foreach ($responseArr as $res)
 		{
 			if ($res['success'] == true && $res['type'] == 2 && $res['id'] > 0)
@@ -24597,6 +24669,7 @@ FROM   booking
 			$userId = $bkgModel->bkgUserInfo->bkg_user_id;
 
 			$contentParams		 = [
+				'eventId'		 => "33",
 				'userName'		 => $userName,
 				'bookingId'		 => Filter::formatBookingId($bookingId),
 				'minPayExtra'	 => $minPayExtra,
@@ -24668,6 +24741,7 @@ FROM   booking
 			$buttonUrl	 = 'bkpn/' . $bkgId . '/' . $hash;
 
 			$contentParams = [
+				'eventId'	 => "34",
 				'userName'	 => $userName,
 				'bookingId'	 => Filter::formatBookingId($bookingId),
 				'primaryId'	 => $bkgId
@@ -24871,6 +24945,7 @@ FROM   booking
 				'bookingId'	 => Filter::formatBookingId($bookingId),
 				'primaryId'	 => $bkgId,
 				'extraData'	 => $data,
+				'eventId'	 => "35"
 			];
 
 			$senderUserId = $bkgModel->bkgUserInfo->bkg_user_id;
@@ -24931,7 +25006,7 @@ FROM   booking
 		return $returnSet;
 	}
 
-	public static function notifyConfirmWithPayInfo()
+	public static function notifyConfirmWithPayInfo($bkgId, $isSchedule = 0, $schedulePlatform = null, $data = array(), $userType = null)
 	{
 		$returnSet = new ReturnSet();
 		try
@@ -24983,6 +25058,7 @@ FROM   booking
 				'bookingId'	 => Filter::formatBookingId($bookingId),
 				'primaryId'	 => $bkgId,
 				'extraData'	 => $data,
+				'eventId'	 => "36"
 			];
 
 			$senderUserId = $bkgModel->bkgUserInfo->bkg_user_id;
@@ -25085,9 +25161,13 @@ FROM   booking
 
 		if ($data['bkg_trip_end'] == 1)
 		{
-			$dataAvl = self::trackEventData($data, $vendorAmount);
+			$dataAvl = self::trackEndEventData($data, $vendorAmount);
 			$lat	 = $data['bkg_dropup_lat'];
 			$long	 = $data['bkg_dropup_long'];
+		}
+		if ($data['bkg_trip_start'] == 1)
+		{
+			$dataAvl = self::trackStartEventData($data);
 		}
 		$dataList = '
 		{
@@ -25113,7 +25193,24 @@ FROM   booking
 	 * @param type $vendorAmount
 	 * @return string
 	 */
-	public static function trackEventData($data, $vendorAmount)
+	public static function trackStartEventData($data)
+	{
+		$startOdometer	 = $data['bkg_start_odometer'] | 0;
+		$dataAvl		 = '{
+					"refType": "START_TRIP_ODOMETER",
+					"refValue": "' . $startOdometer . '"
+				  }
+				  ';
+		return $dataAvl;
+	}
+
+	/**
+	 * 
+	 * @param \Beans\common\Data $data
+	 * @param type $vendorAmount
+	 * @return string
+	 */
+	public static function trackEndEventData($data, $vendorAmount)
 	{
 		$endOdometer	 = $data['bkg_end_odometer'] | 0;
 		$extraTollTax	 = $data['bkg_extra_toll_tax'] | 0;
@@ -25185,11 +25282,13 @@ FROM   booking
 				goto skipAll;
 			}
 
-			$contentParams						 = array();
+			$contentParams = array();
+
+			$contentParams['eventId']			 = "37";
 			$contentParams['fromCity']			 = $model->bkgFromCity->cty_display_name;
 			$contentParams['toCity']			 = $model->bkgToCity->cty_display_name;
 			$contentParams['vehicleNo']			 = $model->bkgBcb->bcb_cab_number;
-			$contentParams['tripId']			 = $model->bkgBcb->bcb_id . " ( Booking Id: " . Filter::formatBookingId($model->bkg_booking_id)  . " ) ";
+			$contentParams['tripId']			 = $model->bkgBcb->bcb_id . " ( Booking Id: " . Filter::formatBookingId($model->bkg_booking_id) . " ) ";
 			$contentParams['amount']			 = $model->bkgBcb->bcb_vendor_amount;
 			$contentParams['driverCollected']	 = $model->bkgInvoice->bkg_vendor_actual_collected == null ? 0 : $model->bkgInvoice->bkg_vendor_actual_collected;
 			$contactId							 = ContactProfile::getByEntityId($model->bkgBcb->bcb_vendor_id, UserInfo::TYPE_VENDOR);
@@ -25221,4 +25320,314 @@ FROM   booking
 		}
 	}
 
+	public static function getBookingForCancelForDeepeshSir($userId)
+	{
+		$sql = "SELECT bkg_id
+				FROM booking
+					INNER JOIN  booking_user ON booking_user.bui_bkg_id=booking.bkg_id
+				WHERE 1 
+					AND bkg_status=2
+					AND booking_user.bkg_user_id=:userId
+					AND bkg_pickup_date<=DATE_ADD(NOW(),INTERVAL 1 DAY)";
+		return DBUtil::query($sql, DBUtil::SDB(), ['userId' => $userId]);
+	}
+
+	public static function blockAutoAssignmentForDeepeshSir($userId)
+	{
+		$sql = "SELECT
+					booking.bkg_id,
+					booking.bkg_booking_id,
+					bpr_id
+				FROM booking
+					INNER JOIN booking_pref ON bpr_bkg_id = bkg_id
+					INNER JOIN `booking_user` ON booking_user.bui_bkg_id = bkg_id
+				WHERE 1 
+					AND bkg_user_id = :userId
+					AND bkg_pickup_date > NOW() 
+					AND bkg_block_autoassignment = 0
+					AND bkg_status IN(2,15)";
+		return DBUtil::query($sql, DBUtil::SDB(), ['userId' => $userId]);
+	}
+
+	public static function updateBlockAutoAssignmentForDeepeshSir($bprId)
+	{
+		$sql = "UPDATE 	booking_pref SET bkg_block_autoassignment = 1 WHERE 1 AND bpr_id =:bprId";
+		return DBUtil::execute($sql, ['bprId' => $bprId]);
+	}
+
+	public static function minBookingPercentageAmount($bkgId)
+	{
+		$model	 = Booking::model()->findByPk($bkgId);
+		$minPerc = Config::getMinAdvancePercent($model->bkg_agent_id, $model->bkg_booking_type, $model->bkgSvcClassVhcCat->scc_ServiceClass->scc_id, $model->bkgPref->bkg_is_gozonow);
+		if ($model->bkg_cav_id != NULL && $model->bkg_cav_id > 0)
+		{
+			$minPerc = 50;
+		}
+		$arrPartPayPercent	 = array_unique([$minPerc, 50, 100]);
+		$paymentOptions		 = Config::get('payment.setting');
+		$arrPaymentOptions	 = json_decode($paymentOptions, true);
+		foreach ($arrPartPayPercent as $paykey => $value)
+		{
+			$key		 = array_search($value, array_column($arrPaymentOptions, 'percentage'));
+			$payOption	 = $arrPaymentOptions[$key];
+			$checked	 = ($payOption['id'] == 'minPayChk') ? 'checked="checked"' : '';
+			if ($payOption['id'] == 'partPayChk' && (in_array($model->bkg_booking_type, [9, 10, 11]) || $cavId != NULL))
+			{
+				$checked = 'checked="checked"';
+			}
+			return $payOption['percentage'];
+		}
+	}
+
+	public static function getAllquoteExpiredList()
+	{
+		$sql = "SELECT
+					bkg.bkg_id, 
+					bkg.bkg_booking_id,
+					bkg.bkg_pickup_date,
+					bui.bkg_user_id,
+					bui.bkg_country_code,
+					bui.bkg_contact_no, 
+					bkg.bkg_from_city_id,
+					bkg.bkg_to_city_id,
+					btr.bkg_quote_expire_date
+				FROM `booking` bkg 
+					INNER JOIN booking_trail btr ON btr.btr_bkg_id = bkg.bkg_id 
+					INNER JOIN booking_user bui ON bui.bui_bkg_id = bkg.bkg_id 
+				WHERE 1 
+					AND bkg.bkg_active=1 
+					AND bkg.bkg_status IN (1,15)
+					AND bkg.bkg_reconfirm_flag=0
+					AND bkg.bkg_agent_id IS NULL
+					AND bkg.bkg_pickup_date > DATE_ADD(NOW(),INTERVAL 7 DAY)
+					AND btr.bkg_quote_expire_date IS NOT NULL 
+					AND btr.bkg_quote_expire_date BETWEEN CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 23:59:59')
+				ORDER BY btr.bkg_quote_expire_date ASC LIMIT 0,30";
+		return DBUtil::query($sql, DBUtil::SDB2());
+	}
+
+	public static function NotificationQuoteExpired($isSchedule = 0, $schedulePlatform = null)
+	{
+		$rows = Booking::getAllquoteExpiredList();
+		foreach ($rows as $val)
+		{
+			try
+			{
+				if (MessageEventTracker::isEventExists(ScheduleEvent::BOOKING_REF_TYPE, $val['bkg_id'], 49, TemplateMaster::SEQ_WHATSAPP_CODE) > 0)
+				{
+					continue;
+				}
+				$templateId			 = WhatsappLog::findByTemplateName("price_lock_expired", 'wht_id');
+				$fromCityDisplayName = Cities::model()->findByPk($val['bkg_from_city_id'])->cty_display_name;
+				$toCityDisplayName	 = Cities::model()->findByPk($val['bkg_to_city_id'])->cty_display_name;
+				$bkgPickupDate		 = new DateTime($val['bkg_pickup_date']);
+				$contentParams		 = ['eventId' => 49, 'fromCity' => $fromCityDisplayName, 'toCity' => $toCityDisplayName, 'pickupDate' => $bkgPickupDate->format('j/M/y h:i A')];
+				if (!Filter::processPhoneNumber($val['bkg_contact_no'], $val['bkg_country_code']))
+				{
+					goto skipAll;
+				}
+				$receiverParams			 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $val['bkg_user_id'], WhatsappLog::REF_TYPE_BOOKING, $val['bkg_id'], $val['bkg_booking_id'], $val['bkg_country_code'], $val['bkg_contact_no'], null, 1, null, null, array('data' => "$templateId,$templateId,$templateId", "type" => "button", "subType" => "quick_reply,quick_reply,quick_reply", "text" => "payload,payload,payload"));
+				$eventScheduleParams	 = EventSchedule::setData($val['bkg_id'], ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::PRICE_LOCK_EXPIRED, "Price lock expiring Reminder", $isSchedule, CJSON::encode(array('bkgId' => $val['bkg_id'])), 10, $schedulePlatform);
+				$responseArr			 = MessageEventMaster::processPlatformSequences(49, $contentParams, $receiverParams, $eventScheduleParams);
+				foreach ($responseArr as $response)
+				{
+					if ($response['success'] && $response['type'] == TemplateMaster::SEQ_WHATSAPP_CODE)
+					{
+						MessageEventTracker::add(ScheduleEvent::BOOKING_REF_TYPE, $val['bkg_id'], 49, TemplateMaster::SEQ_WHATSAPP_CODE);
+					}
+				}
+				skipAll:
+			}
+			catch (Exception $ex)
+			{
+				ReturnSet::setException($ex);
+			}
+		}
+	}
+
+	public static function getAllquoteExpiringList()
+	{
+		$sql = "SELECT
+					bkg.bkg_id, 
+					bkg.bkg_booking_id,
+					bkg.bkg_pickup_date,
+					bui.bkg_user_id,
+					bui.bkg_country_code,
+					bui.bkg_contact_no, 
+					bkg.bkg_from_city_id,
+					bkg.bkg_to_city_id,
+					btr.bkg_quote_expire_date
+				FROM `booking` bkg 
+					INNER JOIN booking_trail btr ON btr.btr_bkg_id = bkg.bkg_id 
+					INNER JOIN booking_user bui ON bui.bui_bkg_id = bkg.bkg_id 
+				WHERE 1 
+					AND bkg.bkg_active=1 
+					AND bkg.bkg_status = 15
+					AND bkg.bkg_agent_id IS NULL
+					AND btr.bkg_quote_expire_date IS NOT NULL 
+					AND btr.bkg_quote_expire_date BETWEEN NOW() AND DATE_ADD(NOW(),INTERVAL 2 HOUR)
+				ORDER BY btr.bkg_quote_expire_date DESC LIMIT 0,20";
+		return DBUtil::query($sql, DBUtil::SDB2());
+	}
+
+	public function NotificationQuoteExpiring($isSchedule = 0, $schedulePlatform = null)
+	{
+		$rows = Booking::getAllquoteExpiringList();
+		foreach ($rows as $val)
+		{
+			try
+			{
+				$templateId = WhatsappLog::findByTemplateName("price_lock__expiring", 'wht_id');
+				if (MessageEventTracker::isEventExists(ScheduleEvent::BOOKING_REF_TYPE, $val['bkg_id'], 48, TemplateMaster::SEQ_WHATSAPP_CODE) > 0)
+				{
+					continue;
+				}
+				$fromCityDisplayName = Cities::model()->findByPk($val['bkg_from_city_id'])->cty_display_name;
+				$toCityDisplayName	 = Cities::model()->findByPk($val['bkg_to_city_id'])->cty_display_name;
+				$bkgPickupDate		 = new DateTime($val['bkg_pickup_date']);
+				$contentParams		 = ['eventId' => 48, 'fromCity' => $fromCityDisplayName, 'toCity' => $toCityDisplayName, 'pickupDate' => $bkgPickupDate->format('j/M/y h:i A')];
+				if (!Filter::processPhoneNumber($val['bkg_contact_no'], $val['bkg_country_code']))
+				{
+					goto skipAll;
+				}
+				$receiverParams			 = EventReceiver::setData(UserInfo::TYPE_CONSUMER, $val['bkg_user_id'], WhatsappLog::REF_TYPE_BOOKING, $val['bkg_id'], $val['bkg_booking_id'], $val['bkg_country_code'], $val['bkg_contact_no'], null, 1, null, null, array('data' => "$templateId,$templateId", "type" => "button", "subType" => "quick_reply,quick_reply", "text" => "payload,payload"));
+				$eventScheduleParams	 = EventSchedule::setData($val['bkg_id'], ScheduleEvent::BOOKING_REF_TYPE, ScheduleEvent::PRICE_LOCK_EXPIRING, "Price lock expiring Reminder", $isSchedule, CJSON::encode(array('bkgId' => $val['bkg_id'])), 10, $schedulePlatform);
+				$responseArr			 = MessageEventMaster::processPlatformSequences(48, $contentParams, $receiverParams, $eventScheduleParams);
+				foreach ($responseArr as $response)
+				{
+					if ($response['success'] && $response['type'] == TemplateMaster::SEQ_WHATSAPP_CODE)
+					{
+						MessageEventTracker::add(ScheduleEvent::BOOKING_REF_TYPE, $val['bkg_id'], 48, TemplateMaster::SEQ_WHATSAPP_CODE);
+					}
+				}
+				skipAll:
+			}
+			catch (Exception $ex)
+			{
+				ReturnSet::setException($ex);
+			}
+		}
+	}
+
+	public function checkVendorEligiblity($vndId, $maxAssignCountPerDay, $ratio, $cabType)
+	{
+		$zonePairData = Config::get('everestfleet.delhi.serviceZonePairList');
+
+		$isEligible = false;
+
+		if ($this->bkg_status != 2 || $this->bkg_reconfirm_flag != 1)
+		{
+			goto skipAll;
+		}
+
+		$pickupDate	 = $this->bkg_pickup_date;
+		$bkgType	 = 1;
+
+		$rowCountBkg	 = BookingCab::getCountByVndAndPickupDate($vndId, $pickupDate, $bkgType, $cabType, $zonePairData);
+		$countAll		 = $rowCountBkg['countAll'];
+		$countAssigned	 = $rowCountBkg['countAssigned'];
+
+		if ($countAll == 0 || $countAssigned >= $maxAssignCountPerDay)
+		{
+			goto skipAll;
+		}
+
+		if ($countAssigned / $countAll >= $ratio)
+		{
+			goto skipAll;
+		}
+		$fromCity		 = $this->bkg_from_city_id;
+		$toCity			 = $this->bkg_to_city_id;
+		$fromZone		 = ZoneCities::getZonesByCity($fromCity);
+		$toZone			 = ZoneCities::getZonesByCity($toCity);
+		$zonePairList	 = json_decode($zonePairData, true);
+
+		foreach ($zonePairList as $zonePair)
+		{
+			if (in_array($zonePair[0], explode(',', $fromZone)) && in_array($zonePair[1], explode(',', $toZone)))
+			{
+				$isEligible = true;
+			}
+		}
+		skipAll:
+
+		return $isEligible;
+	}
+
+	public function getBookingsToAssignForEverestFleet($cabType = '', $bkgId = '')
+	{
+		$zonePairData = Config::get('everestfleet.delhi.serviceZonePairList');
+
+		$zonePairList	 = json_decode($zonePairData, true);
+		$fzoneList		 = [];
+		$tzoneList		 = [];
+		if ($zonePairData)
+		{
+			foreach ($zonePairList as $zonePair)
+			{
+				$fzoneList[] = $zonePair[0];
+				$tzoneList[] = $zonePair[1];
+			}
+		}
+		$joinParam = '';
+		if (sizeof($fzoneList) > 0)
+		{
+			$fzoneStr	 = implode(',', $fzoneList);
+			$joinParam	 .= " INNER JOIN zone_cities fzct ON fzct.zct_cty_id = bkg.bkg_from_city_id 
+				AND fzct.zct_zon_id IN ({$fzoneStr})";
+		}
+		if (sizeof($tzoneList) > 0)
+		{
+			$tzoneStr	 = implode(',', $tzoneList);
+			$joinParam	 .= "
+			INNER JOIN zone_cities tzct ON tzct.zct_cty_id = bkg.bkg_to_city_id 
+				AND tzct.zct_zon_id IN ({$tzoneStr})";
+		}
+		$getFromBvr				 = true;
+		$getFromVendorTracking	 = true;
+		$evFleetVndId			 = Config::get('everestfleet.delhi.vendor.id');
+		$select					 = '';
+		$where					 = '';
+		if ($getFromBvr)
+		{
+			$select		 .= ',bvr.bvr_accepted,bvr.bvr_assigned,bvr.bvr_id';
+			$joinParam	 .= "
+		LEFT JOIN booking_vendor_request bvr ON bvr.bvr_booking_id = bkg.bkg_id 
+			AND bvr.bvr_bcb_id = bkg.bkg_bcb_id
+			AND bvr.bvr_vendor_id = $evFleetVndId
+				AND (bvr.bvr_accepted = 2 OR bvr.bvr_assigned IN (1,2))
+				AND bvr.bvr_active=1";
+			$where		 .= " AND bvr.bvr_id IS NULL";
+		}
+
+		if ($getFromVendorTracking)
+		{
+			$select		 .= ',vat.vat_id';
+			$joinParam	 .= "
+		LEFT JOIN vendor_auto_assignment_tracking vat
+			ON vat.vat_booking_id = bkg.bkg_id 
+			AND vat.vat_vendor_id = $evFleetVndId";
+			$where		 .= " AND vat.vat_id IS NULL";
+		}
+
+		if ($bkgId > 0)
+		{
+			$where .= " AND bkg.bkg_id = $bkgId";
+		}
+		$sql		 = "SELECT DISTINCT bkg.bkg_id,bkg.bkg_bcb_id,bkg.bkg_pickup_date,
+				bkg.bkg_vht_id,fzct.zct_cty_id,tzct.zct_cty_id $select
+			FROM  booking bkg
+			INNER JOIN booking_pref bpr ON bpr.bpr_bkg_id=bkg.bkg_id 
+				AND bkg_block_autoassignment=0
+			$joinParam 			 
+			WHERE bkg.bkg_status=2 
+				AND bkg.bkg_booking_type =1 
+				AND bkg.bkg_reconfirm_flag = 1 
+				AND bkg.bkg_vehicle_type_id IN ({$cabType})  
+				AND IFNULL(bkg.bkg_vht_id,0) = 0 $where
+				 
+				AND bkg.bkg_pickup_date > NOW()";
+		$resultSet	 = DBUtil::query($sql, DBUtil::MDB());
+		return $resultSet;
+	}
 }

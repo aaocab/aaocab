@@ -1,11 +1,11 @@
 <div class="row">
 	<?php
-	$categoryId = ContactPref::model()->find('cpr_ctt_id=:id',['id'=>$model['ctt_id']])->cpr_category;
-	$catCss =  "";
-	if($categoryId>0)
+	$categoryId	 = ContactPref::model()->find('cpr_ctt_id=:id', ['id' => $model['ctt_id']])->cpr_category;
+	$catCss		 = "";
+	if ($categoryId > 0)
 	{
 		$category = UserCategoryMaster::model()->findByPk($categoryId)->ucm_label;
-		if($category!='')
+		if ($category != '')
 		{
 			$catCss = UserCategoryMaster::getColorByid($categoryId);
 		}
@@ -55,7 +55,7 @@
 						<div class ="row">
 							<div class="col-xs-7">	<div class="col-xs-12 pr5">
 									<h1 class="mb0"><span class="user-imgs"><img src=<?php echo ($userModel->usr_profile_pic_path != '' ? $userModel->usr_profile_pic_path : "/images/user_img.jpg"); ?> alt=""></span>
-									  <?= $model['ctt_first_name'] . ' ' . $model['ctt_last_name'] ?><span class="ml5" style="position: absolute; top: 2px; right: 55px;"><?=!empty($category) ? "<img src='/images/{$catCss}' alt='' width='22'  title='{$category}'>" : ""; ?></span>									
+										<?= $model['ctt_first_name'] . ' ' . $model['ctt_last_name'] ?><span class="ml5" style="position: absolute; top: 2px; right: 55px;"><?= !empty($category) ? "<img src='/images/{$catCss}' alt='' width='22'  title='{$category}'>" : ""; ?></span>									
 									</h1>
 									<p class="color-gray">Signed up with <b><?= $model['eml_email_address'] ?></b> </p>
 								</div> 																
@@ -81,7 +81,7 @@
 								  $custOverallRating = 0;
 								  } */
 								?>                                                                  
-									<p class="color-gray"><?= $custOverallRating; ?>/5 Rating <?php // if ($data['countRating'] != ''){ echo '(' . $data['countRating'] . ' people)'; } else { echo ''; }                         ?></p>
+									<p class="color-gray"><?= $custOverallRating; ?>/5 Rating <?php // if ($data['countRating'] != ''){ echo '(' . $data['countRating'] . ' people)'; } else { echo ''; }                                                            ?></p>
 								</div> -->
 							</div>
 						</div>
@@ -119,28 +119,31 @@
 							<p class="mb0 color-gray">Gender</p>
 							<p class="font-14"><b><?= ($model['usr_gender'] == 1 ? "Male" : "Female"); ?></b></p>
 						</div>
-						
+
 						<div class="col-xs-6">	
 							<p class="mb0 color-gray">Tags</p>
-									<?php if($model['ctt_tags']!=''){
-											$tagList = Tags::getListByids($model['ctt_tags']);
-											foreach ($tagList as $tag)
-											{
-												if($tag['tag_color']!='')
-												{
-													$tagBtnList .= " <span title='" . $tag['tag_desc'] . "' class='badge badge-pill badge-primary m5 mr0 p5 pb10 pl10 pr10' style='background:".$tag['tag_color']."'>" . $tag['tag_name'] . "</span>";
-												}
-												else
-												{
-													$tagBtnList .= " <span title='" . $tag['tag_desc'] . "' class='badge badge-pill badge-primary m5 mr0 p5 pb10 pl10 pr10' >" . $tag['tag_name'] . "</span>";
-												}
-											}
-											echo $tagBtnList;
-									  }	else
-										{
-												echo '-';
-										}
-									  ?>
+							<?php
+							if ($model['ctt_tags'] != '')
+							{
+								$tagList = Tags::getListByids($model['ctt_tags']);
+								foreach ($tagList as $tag)
+								{
+									if ($tag['tag_color'] != '')
+									{
+										$tagBtnList .= " <span title='" . $tag['tag_desc'] . "' class='badge badge-pill badge-primary m5 mr0 p5 pb10 pl10 pr10' style='background:" . $tag['tag_color'] . "'>" . $tag['tag_name'] . "</span>";
+									}
+									else
+									{
+										$tagBtnList .= " <span title='" . $tag['tag_desc'] . "' class='badge badge-pill badge-primary m5 mr0 p5 pb10 pl10 pr10' >" . $tag['tag_name'] . "</span>";
+									}
+								}
+								echo $tagBtnList;
+							}
+							else
+							{
+								echo '-';
+							}
+							?>
 						</div>
 						<!--<div class="col-xs-6">
 							<p class="mb0 color-gray">IP Address</p>
@@ -211,7 +214,7 @@
 							</div></div>
 					<?php } ?>
 				</div>
-				<BR>
+				<br>
 				<div class="widget-tab-box2">
 					<div class="row mb10">
 						<div class="col-xs-12 col-md-9 pr5">
@@ -219,10 +222,39 @@
 						</div>
 					</div>
 					<div class="row mb10">
+						<div class="col-xs-12 col-md-12 pr5">
+							<div class="col-xs-12 col-lg-12">
+								<div class="table-responsive">
+									<table class="table table-bordered">
+										<tbody>
+											<tr>
+												<td>Last inquiry date:<br><b><?= $totalBookings['lastInquiryDate']; ?></b></td>
+												<td>Last traveled date:<br><b><?= $totalBookings['lastTravelledDate']; ?></b></td>
+												<td>Last paid booking date:<br><b><?= $totalBookings['lastPaidBookingCreateDate']; ?></b></td>
+
+
+											</tr>
+
+
+
+
+									</table>
+									<!--<p class="mb0 color-gray">Cancelled Quoted: <span class='font-14 color-black'><? //= $totalBookings['totCancelledQt']  ?></span></p>-->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mb10">
 						<div class="col-xs-12 col-lg-6">
 							<div class="table-responsive">
 								<table class="table table-bordered">
 									<tbody>
+
+										<tr>
+											<td>Inquiry</td>
+											<td class="text-right font-14 color-black"><b><?= $totalBookings['totInquiry'] ?></b></td>
+										</tr>
+
 										<tr>
 											<td>Quoted</td>
 											<td class="text-right font-14 color-black"><b><?= $totalBookings['totQuote'] ?></b></td>
@@ -256,7 +288,7 @@
 											<td class="text-right font-14 color-black"><b><?= $totalBookings['totOthers'] ?></b></td>
 										</tr>
 										<tr>
-											<td class="success"><b>Total bookings:</b></td>
+											<td class="success"><b>Total Traveled Trips:</b></td>
 											<td class="success text-right font-18 color-black"><b><?= $totalBookings['total'] ?></b></td>
 										</tr>
 								</table>
@@ -268,17 +300,36 @@
 								<table class="table table-bordered">
 									<tbody>
 										<tr>
-											<td>Total Gozo Amount:</td>
+											<td>Gross margin (Gozo amount from travelled trips):</td>
 											<td class="text-right font-14 color-black">&#x20B9;<b><?php echo $totalBookings['totGozoAmount'] ?: 0; ?></b></td>
 										</tr>
 										<tr>
 											<td>Total amount:</td>
 											<td class="text-right font-14 color-black">&#x20B9;<b><?php echo $totalBookings['totAmount'] ?: 0; ?></b></td>
 										</tr>
+
+
+										<tr>
+											<td>Gross margin(%):</td>
+											<td class="text-right font-14 color-black"><b>
+													<?php
+													if ($totalBookings['totAmount'] > 0)
+													{
+														echo round(($totalBookings['totGozoAmount'] / $totalBookings['totAmount']) * 100, 2);
+													}
+													else
+													{
+														echo 0;
+													}
+													?>
+
+												</b></td>
+										</tr><!--comment-->
 										<!--<tr>
-											<td>Overall rating:</td>
-											<td class="text-right font-14 color-black"><b><? //= $totalbookingdetail['overall_rating']  ?> Star</b></td>
-										</tr>-->
+										<td>Overall rating:</td>
+										<td class = "text-right font-14 color-black"><b><? //= $totalbookingdetail['overall_rating']  
+										?> Star</b></td>
+							</tr>-->
 										<tr>
 											<td>Marked bad count:</td>
 											<td class="text-right font-14 color-black"><b><?php echo $userModel['usr_mark_customer_count'] ?></b></td>
@@ -297,6 +348,208 @@
 						</div>
 					</div>
 				</div>
+
+
+				<?php
+				if ($totalUserCitiesLifetime->count() > 0 || $totalUserAirportCitiesLifetime->count() > 0)
+				{
+					?>
+					<br>
+					<div class="widget-tab-box2">
+						<div class="row mb10">
+							<div class="col-xs-12 col-lg-6">
+								<div class="table-responsive">
+									<?php
+									if ($totalUserCitiesLifetime->count() > 0)
+									{
+										?>
+										<h2>Top 10 City: </h2>
+										<table class="table table-bordered">
+											<tbody>
+												<?php
+												foreach ($totalUserCitiesLifetime as $value)
+												{
+													?>
+													<tr>
+														<td><?php echo $value['cityName']; ?>:</td>
+														<td class="text-right font-14 color-black"><b><?php echo $value['cnt']; ?></b></td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+										</table>
+									<?php }
+									?>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-6">
+								<div class="table-responsive">
+									<?php
+									if ($totalUserAirportCitiesLifetime->count() > 0)
+									{
+										?>
+										<h2>Top 10 Airport City: </h2>
+										<table class="table table-bordered">
+											<tbody>
+												<?php
+												foreach ($totalUserAirportCitiesLifetime as $value)
+												{
+													?>
+													<tr>
+														<td><?php echo $value['cityName']; ?>:</td>
+														<td class="text-right font-14 color-black"><b><?php echo $value['cnt']; ?></b></td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+										</table>
+									<?php }
+									?>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				<?php } ?>
+
+
+
+
+				<?php
+				if ($totalUserMonthLifetime->count() > 0 || $totalUserWeekLifetime->count() > 0)
+				{
+					?>
+
+					<br>
+					<div class="widget-tab-box2">
+						<div class="row mb10">
+							<div class="col-xs-12 col-lg-6">
+								<div class="table-responsive">
+									<?php
+									if ($totalUserMonthLifetime->count() > 0)
+									{
+										?>
+										<h2>User Monthly Traveled : </h2>
+										<table class="table table-bordered">
+											<tbody>
+												<?php
+												foreach ($totalUserMonthLifetime as $value)
+												{
+													?>
+													<tr>
+														<td><?php echo $value['monthName']; ?>:</td>
+														<td class="text-right font-14 color-black"><b><?php echo $value['cnt']; ?></b></td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+										</table>
+									<?php }
+									?>
+								</div>
+							</div>
+
+
+
+								<div class="col-xs-12 col-lg-6">
+								<div class="table-responsive">
+									<?php
+									if ($totalUserWeekLifetime->count() > 0)
+									{
+										?>
+										<h2>User Week Traveled: </h2>
+										<table class="table table-bordered">
+											<tbody>
+												<?php
+												foreach ($totalUserWeekLifetime as $value)
+												{
+													?>
+													<tr>
+														<td><?php echo $value['weekId']; ?>:</td>
+														<td class="text-right font-14 color-black"><b><?php echo $value['cnt']; ?></b></td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+										</table>
+									<?php }
+									?>
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+
+				<?php } ?>
+
+				<?php
+				if ($totalUserServiceClassLifetime->count() > 0 || $totalUserVehicleClassLifetime->count() > 0)
+				{
+					?>
+					<br>
+					<div class="widget-tab-box2">
+						<div class="row mb10">
+							<div class="col-xs-12 col-lg-6">
+								<div class="table-responsive">
+
+									<?php
+									if ($totalUserServiceClassLifetime->count() > 0)
+									{
+										?>
+
+										<h2>Top Service class: </h2>
+										<table class="table table-bordered">
+											<tbody>
+												<?php
+												foreach ($totalUserServiceClassLifetime as $value)
+												{
+													?>
+													<tr>
+														<td><?php echo $value['tierName']; ?>:</td>
+														<td class="text-right font-14 color-black"><b><?php echo $value['cnt']; ?></b></td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+										</table>
+
+									<?php }
+									?>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-6">
+								<div class="table-responsive">
+
+									<?php
+									if ($totalUserVehicleClassLifetime->count() > 0)
+									{
+										?>
+										<h2>Top Vehicle class: </h2>
+										<table class="table table-bordered">
+											<tbody>
+												<?php
+												foreach ($totalUserVehicleClassLifetime as $value)
+												{
+													?>
+													<tr>
+														<td><?php echo $value['vehicleName']; ?>:</td>
+														<td class="text-right font-14 color-black"><b><?php echo $value['cnt']; ?></b></td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+										</table>
+									<?php }
+									?>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				<?php } ?>
 
 			</div>
 			<div class="col-xs-12 col-md-4">
@@ -498,27 +751,27 @@
 	</div>
 </div>
 <script>
-	function unlinkSocial(provider)
-	{
-		var userid = '<?= $userModel->user_id ?>';
-		$href = $adminUrl + "/user/unlinkSocialAcc";
-		jQuery.ajax({type: 'GET',
-			url: $href,
-			data: {"id": userid, "provider": provider},
-			dataType: "html",
-			success: function (data)
-			{
-				//consol.log(data);
-				if (data !== '') {
-					var json = JSON.parse(data);
-					if (json.success === false)
-					{
-						alert(json.error);
-					} else {
-						$('#unlink').text("Unlink");
-					}
-				}
-			}
-		});
-	}
+    function unlinkSocial(provider)
+    {
+        var userid = '<?= $userModel->user_id ?>';
+        $href = $adminUrl + "/user/unlinkSocialAcc";
+        jQuery.ajax({type: 'GET',
+            url: $href,
+            data: {"id": userid, "provider": provider},
+            dataType: "html",
+            success: function (data)
+            {
+                //consol.log(data);
+                if (data !== '') {
+                    var json = JSON.parse(data);
+                    if (json.success === false)
+                    {
+                        alert(json.error);
+                    } else {
+                        $('#unlink').text("Unlink");
+                    }
+                }
+            }
+        });
+    }
 </script>

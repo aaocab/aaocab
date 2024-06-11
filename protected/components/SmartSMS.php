@@ -44,7 +44,8 @@ class SmartSMS
 		$from				 = $smartSms['from'];
 		$peid				 = $smartSms['peid'];
 		$message			 = urlencode($data);
-		$unicode			 = $lang == Messages::MTYPE_ENGLISH ? 'false' : 'true';
+		#$unicode			 = $lang == Messages::MTYPE_ENGLISH ? 'false' : 'true';
+		$unicode			 = 'false';
 		$url				 = $smartSms['url'];
 		$url				 .= "username={$key}&unicode={$unicode}&password={$secret}&from={$from}&to={$ext}{$number}&text={$message}&dltPrincipalEntityId={$peid}";
 		if ($dltId != "")
@@ -63,7 +64,8 @@ class SmartSMS
 		$from				 = $smartSms['from'];
 		$peid				 = $smartSms['peid'];
 		$message			 = urlencode($data);
-		$unicode			 = $lang == Messages::MTYPE_ENGLISH ? 'false' : 'true';
+		#$unicode			 = $lang == Messages::MTYPE_ENGLISH ? 'false' : 'true';
+		$unicode			 = 'true';
 		$url				 = $smartSms['url'];
 		$url				 .= "username={$key}&unicode={$unicode}&password={$secret}&from={$from}&to={$ext}{$number}&text={$message}&dltPrincipalEntityId={$peid}";
 		if ($dltId != "")

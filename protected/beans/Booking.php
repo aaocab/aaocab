@@ -54,7 +54,9 @@ class Booking
 	public $pickupDate;
 	public $endDate;
 	public $routeDesc;
+	public $pickupAddress;
 	public $bkvnUrl;
+	public $drvRatings;
 	public $status;
 	public $otp;
 
@@ -90,8 +92,8 @@ class Booking
 
 	/** @var \Beans\common\AppPreference[] $appPref */
 	public $appPref;
-	
 	public $liveHelpPhone;
+
 
 	/**
 	 * 
@@ -136,12 +138,12 @@ class Booking
 	 * @param type $bkgData
 	 * @return \Beans\Booking
 	 */
-	public static function setData($bkgData)
+	public static function setData($bkgData, $showComplete = true)
 	{
-		$obj				 = new Booking();
-		$obj->id			 = (int) $bkgData->bkg_id;
-		$obj->code			 = $bkgData->bkg_booking_id;
-		
+		$obj		 = new Booking();
+		$obj->id	 = (int) $bkgData->bkg_id;
+		$obj->code	 = $bkgData->bkg_booking_id;
+
 		$obj->pickupDate	 = $bkgData->bkg_pickup_date;
 		$obj->endDate		 = $bkgData->bkg_return_date;
 		$obj->quotedDistance = (int) $bkgData->bkg_trip_distance;
@@ -150,38 +152,54 @@ class Booking
 		$obj->tripType	 = \Beans\common\ValueObject::setBookingTypeData($bkgData->bkg_booking_type);
 		$obj->routeDesc	 = \BookingRoute::model()->getRouteName($bkgData->bkg_id);
 
-		$obj->status = (int) $bkgData->bkg_status;
-
+		$obj->status		 = (int) $bkgData->bkg_status;
+		$showCustomerNumber	 = self::customerNumberVisibility($bkgData->bkg_id);
 		if ($bkgData instanceof \Booking)
 		{
 			/** @var Booking $bkgData */
 			$obj->preferences	 = \Beans\booking\Preferences::setByModel($bkgData);
 			$obj->cabType		 = \Beans\common\CabCategory::setByModel($bkgData);
 			$obj->fare			 = \Beans\booking\Fare::setByInvoiceModel($bkgData->bkgInvoice, $bkgData->bkg_status, $bkgData->bkg_booking_type);
-			$obj->traveller		 = \Beans\contact\Person::setTravellerInfoByModel($bkgData->bkgUserInfo);
+			$obj->traveller		 = \Beans\contact\Person::setTravellerInfoByModel($bkgData->bkgUserInfo, $showCustomerNumber);
 			$obj->additionalInfo = \Beans\booking\AdditionalInfo::setByAddInfoModel($bkgData->bkgAddInfo);
 		}
 		else
 		{
-			$obj->preferences	 = \Beans\booking\Preferences::setData($bkgData);
-			$obj->cabType		 = \Beans\common\CabCategory::setData($bkgData);
-			$obj->fare			 = \Beans\booking\Fare::setData($bkgData);
-			$obj->traveller		 = \Beans\contact\Person::setTravellerInfoByModel($bkgData);
-			$obj->additionalInfo = \Beans\booking\AdditionalInfo::setByAddInfoModel($bkgData);
+
+			$obj->cabType = \Beans\common\CabCategory::setData($bkgData);
+			if ($showComplete)
+			{
+				$obj->preferences	 = \Beans\booking\Preferences::setData($bkgData);
+				$obj->fare			 = \Beans\booking\Fare::setData($bkgData);
+				$obj->traveller		 = \Beans\contact\Person::setTravellerInfoByModel($bkgData, $showCustomerNumber);
+				$obj->additionalInfo = \Beans\booking\AdditionalInfo::setByAddInfoModel($bkgData);
+			}
+			else
+			{
+//			$obj->preferences	 = \Beans\booking\Preferences::setData($bkgData);
+				$obj->preferences = \Beans\booking\Preferences::setGNowData($bkgData->bkg_is_gozonow);
+			}
 		}
 
 
 
-		$obj->routes = \Beans\booking\Route::setDataByBooking($bkgData->bkg_id);
 
-		$vendorId = $bkgData->bkgBcb->bcb_vendor_id;
-		if ($vendorId > 0)
+		if ($showComplete)
 		{
-			$obj->bkvnUrl = \BookingSub::getBKVNUrl($bkgData->bkg_id, $vendorId);
-		}
+			$obj->routes = \Beans\booking\Route::setDataByBooking($bkgData->bkg_id);
+			$vendorId	 = $bkgData->bkgBcb->bcb_vendor_id;
+			if ($vendorId > 0)
+			{
+				$obj->bkvnUrl = \BookingSub::getBKVNUrl($bkgData->bkg_id, $vendorId);
+			}
 
-		$model		 = \Booking::model()->findByPk($bkgData->bkg_id);
-		$obj->tags	 = \Beans\booking\Tags::setByModel($model);
+			$model		 = \Booking::model()->findByPk($bkgData->bkg_id);
+			$obj->tags	 = \Beans\booking\Tags::setByModel($model);
+		}
+		else
+		{
+			$obj->pickupAddress = $bkgData->bkg_pickup_address;
+		}
 		return $obj;
 	}
 
@@ -218,12 +236,12 @@ class Booking
 		$cabId				 = $model->bkgBcb->bcb_cab_id;
 		$cabVerify			 = \Vehicles::model()->getVerifyStatus($cabId, $model->bkg_pickup_date);
 		$obj->cabVerifyFlag	 = $cabVerify;
-		$showLiveHelp  = \Drivers::helplineDataShow($model->bkg_pickup_date, $model->bkg_return_date);
-		if($showLiveHelp == 1)
+		$showLiveHelp		 = \Drivers::helplineDataShow($model->bkg_pickup_date, $model->bkg_return_date);
+		if ($showLiveHelp == 1)
 		{
-			$phone = \Config::get('gozo.liveHelp.number');
-			$phone =array("code"=>"","number"=>$phone);
-			$obj->liveHelpPhone[] = \Beans\contact\Phone::setUserPhone($phone);
+			$phone					 = \Config::get('gozo.liveHelp.number');
+			$phone					 = array("code" => "", "number" => $phone);
+			$obj->liveHelpPhone[]	 = \Beans\contact\Phone::setUserPhone($phone);
 		}
 		$obj->quotedDistance = (int) $model->bkg_trip_distance;
 		$obj->quotedTime	 = (int) $model->bkg_trip_duration;
@@ -241,16 +259,20 @@ class Booking
 		{
 			$model->bkgBcb->bcb_start_time = $model->bkg_pickup_date;
 		}
+
+		//check user info will show or not in 
+		$showCustomerNumber = self::customerNumberVisibility($model->bkg_id);
+
 		$obj->trip		 = \Beans\booking\Trip::setByModel($model->bkgBcb, $model, $view, $cttId, $hideDocDetails);
 		$obj->routeDesc	 = \BookingRoute::model()->getRouteName($model->bkg_id);
 		$obj->status	 = (int) $model->bkg_status;
 
 		$obj->tripType		 = \Beans\common\ValueObject::setBookingTypeData($model->bkg_booking_type);
 		$obj->routes		 = \Beans\booking\Route::setDataByBooking($model->bkg_id);
-		$obj->fare			 = \Beans\booking\Fare::setByInvoiceModel($model->bkgInvoice, $model->bkg_status, $model->bkg_booking_type);
+		$obj->fare			 = \Beans\booking\Fare::setByInvoiceModel($model->bkgInvoice, $model->bkg_status, $model->bkg_booking_type, $obj->trip->vendorAmount);
 		$obj->preferences	 = \Beans\booking\Preferences::setByModel($model);
 		$obj->cabType		 = \Beans\common\CabCategory::setByModel($model);
-		$obj->traveller		 = \Beans\contact\Person::setTravellerInfoByModel($model->bkgUserInfo);
+		$obj->traveller		 = \Beans\contact\Person::setTravellerInfoByModel($model->bkgUserInfo, $showCustomerNumber);
 		$obj->additionalInfo = \Beans\booking\AdditionalInfo::setByAddInfoModel($model->bkgAddInfo);
 		$obj->tags			 = \Beans\booking\Tags::setByModel($model);
 		$objEvents			 = new \Beans\booking\SyncEvents();
@@ -265,29 +287,65 @@ class Booking
 				$obj->eventDetails = $objEventDetails;
 			}
 		}
-		
-			$vendorId = $model->bkgBcb->bcb_vendor_id;
-			if ($vendorId > 0)
-			{
-				$obj->bkvnUrl = \BookingSub::getBKVNUrl($model->bkg_id, $vendorId);
-			}
-		
+
+		$vendorId = $model->bkgBcb->bcb_vendor_id;
+		if ($vendorId > 0)
+		{
+			$obj->bkvnUrl = \BookingSub::getBKVNUrl($model->bkg_id, $vendorId);
+		}
+		$driverId = $model->bkgBcb->bcb_driver_id;
+		$rtgModel = \Ratings::findByBkgId($model->bkg_id);
+		if(!empty($rtgModel))
+		{
+		$obj->drvRatings =  self::drvRatings($rtgModel);
+		}
 		return $obj;
 	}
+
+	public static function drvRatings($model)
+	{
 	
+		$data->cusRating = (int)$model->rtg_vendor_customer;
+		$data->csrRating = (int)$model->rtg_vendor_csr;
+		$data->review = $model->rtg_vendor_review;
+		return $data;
+	}
+
+	/**
+	 * customer number will be shown or not
+	 * @param type $bkgId
+	 * @return int
+	 */
+	public static function customerNumberVisibility($bkgId)
+	{
+		$model				 = \Booking::model()->findByPk($bkgId);
+		$showCustomerNumber	 = 0;
+		//$cancelTimes		 = \CancellationPolicyRule::getCancelationTimeRange($model->bkg_id, 1);
+		//$cancelEndtime		 = \CancellationPolicyRule::freeCancelEndTime($model->bkg_pickup_date, $cancelTimes[0]['cpr_hours']);
+		$cancelTimes		 = \CancellationPolicy::initiateRequest($model);
+		$cancelEndtime		 = strtotime(array_keys($cancelTimes->slabs)[0]);
+		$currentTime		 = strtotime(\Filter::getDBDateTime());
+		$pickupdate			 = $model->bkg_pickup_date;
+		$minutesToPickup	 = \Filter::getTimeDiff($pickupdate);
+		if ($cancelEndtime < $currentTime || $minutesToPickup < 60)
+		{
+			$showCustomerNumber = 1;
+		}
+		return $showCustomerNumber;
+	}
+
 	public static function setList($bkgId)
 	{
 		/** @var \Booking $model */
-		
-		$model				 = \Booking::model()->findByPk($bkgId);
-		$obj				 = new \Beans\Booking();
-		$obj->id			 = (int) $model->bkg_id;
-		$obj->code			 = $model->bkg_booking_id;
-	
+		$model		 = \Booking::model()->findByPk($bkgId);
+		$obj		 = new \Beans\Booking();
+		$obj->id	 = (int) $model->bkg_id;
+		$obj->code	 = $model->bkg_booking_id;
+
 		$cabId				 = $model->bkgBcb->bcb_cab_id;
 		$cabVerify			 = \Vehicles::model()->getVerifyStatus($cabId, $model->bkg_pickup_date);
 		$obj->cabVerifyFlag	 = $cabVerify;
-		
+
 		$obj->quotedDistance = (int) $model->bkg_trip_distance;
 		$obj->quotedTime	 = (int) $model->bkg_trip_duration;
 		$obj->pickupDate	 = $model->bkg_pickup_date;
@@ -304,9 +362,9 @@ class Booking
 		{
 			$model->bkgBcb->bcb_start_time = $model->bkg_pickup_date;
 		}
-		$vendorBiddingAmount = \BookingVendorRequest::vendorBiddingAmount($model->bkg_bcb_id,$model->bkgBcb->bcb_vendor_id);
-		
-		if($vendorBiddingAmount>0)
+		$vendorBiddingAmount = \BookingVendorRequest::vendorBiddingAmount($model->bkg_bcb_id, $model->bkgBcb->bcb_vendor_id);
+
+		if ($vendorBiddingAmount > 0)
 		{
 			$obj->bidAmount = $vendorBiddingAmount;
 		}
@@ -315,36 +373,29 @@ class Booking
 		$obj->status	 = (int) $model->bkg_status;
 
 		//$obj->tripType		 = \Beans\common\ValueObject::setBookingTypeData($model->bkg_booking_type);
-		$obj->routes		 = \Beans\booking\Route::setDataByBooking($model->bkg_id);
-		
-		
+		$obj->routes = \Beans\booking\Route::setDataByBooking($model->bkg_id);
+
 		$obj->preferences	 = \Beans\booking\Preferences::setByModel($model);
 		$obj->tags			 = \Beans\booking\Tags::setByModel($model);
 		$obj->cabType		 = \Beans\common\CabCategory::setByModel($model);
 		$obj->additionalInfo = \Beans\booking\AdditionalInfo::setByAddInfoModel($model->bkgAddInfo);
-		$vendorId = $model->bkgBcb->bcb_vendor_id;
+		$vendorId			 = $model->bkgBcb->bcb_vendor_id;
 		if ($vendorId > 0)
 		{
 			$obj->bkvnUrl = \BookingSub::getBKVNUrl($model->bkg_id, $vendorId);
 		}
-		
-		if ($model->bkgBcb->bcb_driver_id>0)
+
+		if ($model->bkgBcb->bcb_driver_id > 0)
 		{
-			$cttId				 = \ContactProfile::getByEntityId($model->bkgBcb->bcb_driver_id, \UserInfo::TYPE_DRIVER);
+			$cttId		 = \ContactProfile::getByEntityId($model->bkgBcb->bcb_driver_id, \UserInfo::TYPE_DRIVER);
 			$obj->driver = \Beans\Driver::setByContact($cttId);
-			
 		}
-		if ($model->bkgBcb->bcb_cab_id>0)
+		if ($model->bkgBcb->bcb_cab_id > 0)
 		{
-			$obj->cab	 = \Beans\common\Cab::setPrefferedByContact($cttId, $model->bkgBcb->bcb_cab_id);
-			
+			$obj->cab = \Beans\common\Cab::setPrefferedByContact($cttId, $model->bkgBcb->bcb_cab_id);
 		}
 		$obj->actionFlag = \Beans\booking\trip::actionFlag($model);
-		
+
 		return $obj;
 	}
-	
-	
-	
-
 }

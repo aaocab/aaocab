@@ -246,6 +246,13 @@ $dateTo		 = $model->prm_valid_upto != '' ? $model->prm_valid_upto : date('Y-m-d 
 									'widgetOptions'	 => array('data' => UserCategoryMaster::catDropdownList()), 'inline'		 => true, 'htmlOptions'	 => ['class' => 'p0']));
 								?>
 							</div>
+							<div class="col-xs-12 col-md-2">
+								<label>Allow Negative Addon</label>
+								<?=
+								$form->checkboxListGroup($model, 'prm_allow_negative_addon', array('label'			 => '',
+									'widgetOptions'	 => array('data' => [1 => 'Yes']), 'inline'		 => true, 'htmlOptions'	 => ['class' => 'p0']));
+								?>
+							</div>
 						</div>
                     </div>
                 </div>

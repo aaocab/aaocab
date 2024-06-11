@@ -2113,13 +2113,22 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
         $href = '<?= Yii::app()->createUrl('lookup/allReportByQuery/') ?>';
         $("#tags").autocomplete({
             source: function (request, response) {
-                $.ajax({
-                    url: $href + '?term=' + request.term,
-                    dataType: "json",
-                    success: function (data) {
-                        response(data.result);
-                    },
-                });
+				$.ajax({
+					global: false,
+					url: $href + '?term=' + request.term,
+					dataType: "json",
+					"beforeSend": function()
+					{
+					},
+					"complete": function()
+					{
+
+					},
+					success: function(data)
+					{
+						response(data.result);
+					}
+				});
             },
             response: function (event, ui) {
                 if (!ui.content.length) {

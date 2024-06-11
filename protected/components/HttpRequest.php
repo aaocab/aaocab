@@ -42,9 +42,15 @@ class HttpRequest extends CHttpRequest
 		return false;
 	}
 
-	public function getJSONObject($mapObject)
+	public function getJSONObject($mapObject, $isEncrypted=false)
 	{
 		$data		 = $this->rawBody;
+		
+		if($isEncrypted)
+		{
+			$data = Filter::getDecryptData($data);
+		}
+		
 		Logger::info("Request: " . $data);
 		$jsonMapper	 = new JsonMapper();
 		$jsonObj	 = CJSON::decode($data, false);

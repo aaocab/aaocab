@@ -180,7 +180,7 @@ class AccountTransDetails extends CActiveRecord
 	 */
 	public static function getInstance($ledgerId, $refType = null, $refId = null, $additionalParams = '', $remarks = '', $accStatus = '')
 	{
-		if(is_array($additionalParams) || is_object($additionalParams))
+		if (is_array($additionalParams) || is_object($additionalParams))
 		{
 			$additionalParams = json_encode($additionalParams);
 		}
@@ -202,7 +202,7 @@ class AccountTransDetails extends CActiveRecord
 		$totalVendorCollected	 = PaymentGateway::getTotalVendorCollected($this->adt_trans_ref_id);
 		$amtRefundable			 = ($getTotalAdvance + $totalVendorCollected);
 		$amtToRefund			 = ($amtRefundable < 0) ? 0 : $amtRefundable;
-		if(abs($this->adt_amount) > $amtToRefund)
+		if (abs($this->adt_amount) > $amtToRefund)
 		{
 			$this->addError('adt_amount', "refund amount must be less than equal to " . $amtToRefund);
 			return false;
@@ -217,30 +217,30 @@ class AccountTransDetails extends CActiveRecord
 		$refId		 = $data['adt_trans_ref_id'];
 		$maxUseType	 = $this->ucrMaxuseType;
 		$creditType	 = $this->ucrCreditType;
-		if($refId != '')
+		if ($refId != '')
 		{
 			$bkgModel = Booking::model()->findByPk($refId);
 		}
 		$totAmount = $bkgModel->bkgInvoice->bkg_total_amount;
-		if($data['adt_ledger_id'] == '')
+		if ($data['adt_ledger_id'] == '')
 		{
 			$this->addError('adt_ledger_id', "Please choose payment type");
 			return false;
 		}
-		if($data['adt_ledger_id'] == Accounting::LI_GOZOCOINS)
+		if ($data['adt_ledger_id'] == Accounting::LI_GOZOCOINS)
 		{
-			if($maxUseType == '')
+			if ($maxUseType == '')
 			{
 				$this->addError('ucrMaxuseType', "Please choose credit max use");
 				return false;
 			}
-			if($creditType == '')
+			if ($creditType == '')
 			{
 				$this->addError('ucrCreditType', "Please choose credit type");
 				return false;
 			}
 		}
-		if($data['adt_amount'] <= 0 || abs($data['adt_amount']) > $totAmount)
+		if ($data['adt_amount'] <= 0 || abs($data['adt_amount']) > $totAmount)
 		{
 			$this->addError('adt_amount', "compensation amount must be greater than 0 or less than equal to " . $totAmount);
 			return false;
@@ -273,7 +273,7 @@ class AccountTransDetails extends CActiveRecord
 	public function getbankTransTypeList($mode = 0)
 	{
 		$modeList = $this->bankTransType;
-		if($mode > 0)
+		if ($mode > 0)
 		{
 			return $modeList[$mode];
 		}
@@ -287,23 +287,23 @@ class AccountTransDetails extends CActiveRecord
 		$agtModel			 = Agents::model()->findByPk($agentId);
 		$totAgentCredit		 = $tot['totAmount'];
 		$totAgentCredit		 = $totAgentCredit + $corpCredit;
-		if($totAgentCredit > $agtModel->agt_effective_credit_limit)
+		if ($totAgentCredit > $agtModel->agt_effective_credit_limit)
 		{
 			$isRechargeAccount = true;
-			if($isTrack)
+			if ($isTrack)
 			{
 				$bookingArr						 = [];
 				$bookingArr['bkg_agent_id']		 = $agentId;
 				$bookingArr['bkg_booking_type']	 = $bookingType;
-				foreach($routes as $k => $v)
+				foreach ($routes as $k => $v)
 				{
-					if($k == 0)
+					if ($k == 0)
 					{
 						$bookingArr['bkg_from_city_id']	 = $v->pickup_city;
 						$bookingArr['bkg_pickup_date']	 = $v->date;
 					}
 					$bookingArr['bkg_to_city_id'] = $v->drop_city;
-					if($bookingType == 2 && $k == 0)
+					if ($bookingType == 2 && $k == 0)
 					{
 						$bookingArr['bkg_to_city'] = $v->drop_city;
 					}
@@ -313,7 +313,7 @@ class AccountTransDetails extends CActiveRecord
 				//Agent transaction type =12 (credit limit exceeded)
 				$time	 = Filter::getExecutionTime();
 				//$aatModel	 = AgentApiTracking::model()->add($bookingStep, $requestData, $bookingArr['bkg_pickup_date'], $bookingArr['bkg_booking_type'], \Filter::getUserIP(), $bookingArr['bkg_from_city_id'], $bookingArr['bkg_to_city_id']);
-				if($agentId == 450)
+				if ($agentId == 450)
 				{
 					$aatModel = AgentApiTracking::model()->add(12, $requestData, $bookingArr, \Filter::getUserIP());
 					$aatModel->updateResponse($result, null, '', $error_type, $error_msg, $time);
@@ -326,8 +326,14 @@ class AccountTransDetails extends CActiveRecord
 
 	public function calAmountByVendorId($vendorId, $fromDate = '', $toDate = '', $openingDate = null)
 	{
-		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
-		if($vndIds == null || $vndIds == "")
+		//$vndIds = Vendors::getVndIdsByRefCode($vendorId);
+		
+		
+		$vndIds = Vendors::getRelatedIds($vendorId);
+
+		$primeVndData	 = Vendors::getPrimaryByIds($vndIds);
+		$vndId			 = $primeVndData['vnd_id'];
+		if ($vndIds == null || $vndIds == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -337,24 +343,27 @@ class AccountTransDetails extends CActiveRecord
 				INNER JOIN vendors ON adt.adt_trans_ref_id = vnd_id 
                 INNER JOIN account_transactions act ON act.act_id = adt.adt_trans_id 
                 WHERE adt.adt_active = 1 AND act.act_active=1 AND adt.adt_status = 1 
-                AND adt.adt_ledger_id = 14 AND adt.adt_type = 2 AND act.act_date >= '2021-04-01 00:00:00' 
+                AND adt.adt_ledger_id = 14 AND adt.adt_type = 2 
+					AND act.act_date >= '2021-04-01 00:00:00' 
                 AND vnd_id IN ({$vndIds})";
 
-		if($fromDate != '')
+		if ($fromDate != '')
 		{
 			$fromDate		 = DateTimeFormat::DatePickerToDate($fromDate);
 			$fromTime		 = '00:00:00';
 			$fromDateTime	 = $fromDate . ' ' . $fromTime;
 			$sql			 .= " AND act_date>='$fromDateTime'";
 		}
-		if($toDate != '')
+		if ($toDate != '')
 		{
+			
 			$toDate		 = DateTimeFormat::DatePickerToDate($toDate);
+			
 			$toTime		 = '23:59:59';
 			$toDateTime	 = $toDate . ' ' . $toTime;
 			$sql		 .= " AND act_date<='$toDateTime'";
 		}
-		if($openingDate != '')
+		if ($openingDate != '')
 		{
 			$openingDate	 = DateTimeFormat::DatePickerToDate($openingDate);
 			$fromTime		 = '00:00:00';
@@ -362,10 +371,11 @@ class AccountTransDetails extends CActiveRecord
 			$sql			 .= " AND act_date < '$fromDateTime'";
 		}
 
-		$sql		 .= " GROUP BY vnd_ref_code ";
-		$recordSet	 = DBUtil::queryRow($sql, DBUtil::SDB());
+		//	$sql		 .= " GROUP BY vnd_ref_code ";
+		
+		$recordSet = DBUtil::queryRow($sql, DBUtil::SDB());
 
-		$objVnd = Vendors::model()->findByPk($vendorId);
+		$objVnd = Vendors::model()->findByPk($vndId);
 
 		$calculateAmt						 = array();
 		$calculateAmt['vendor_amount']		 = $recordSet['vendor_amount'];
@@ -377,7 +387,7 @@ class AccountTransDetails extends CActiveRecord
 		$calculateAmt['vnd_code']			 = $objVnd->vnd_code;
 
 		$vendorBalance = -1 * $recordSet['vendor_amount'];
-		if($vendorBalance < 0)
+		if ($vendorBalance < 0)
 		{
 			$calculateAmt['withdrawable_balance']	 = 0;
 			$calculateAmt['vendor_amount_type']		 = 'Payable';
@@ -407,21 +417,21 @@ class AccountTransDetails extends CActiveRecord
                 AND vendors.vnd_id=:vendorId
                 ";
 
-		if($fromDate != '')
+		if ($fromDate != '')
 		{
 			$fromDate		 = DateTimeFormat::DatePickerToDate($fromDate);
 			$fromTime		 = '00:00:00';
 			$fromDateTime	 = $fromDate . ' ' . $fromTime;
 			$sql			 .= " AND act_date>='$fromDateTime'";
 		}
-		if($toDate != '')
+		if ($toDate != '')
 		{
 			$toDate		 = DateTimeFormat::DatePickerToDate($toDate);
 			$toTime		 = '23:59:59';
 			$toDateTime	 = $toDate . ' ' . $toTime;
 			$sql		 .= " AND act_date<='$toDateTime'";
 		}
-		if($openingDate != '')
+		if ($openingDate != '')
 		{
 			$openingDate	 = DateTimeFormat::DatePickerToDate($openingDate);
 			$fromTime		 = '00:00:00';
@@ -443,7 +453,7 @@ class AccountTransDetails extends CActiveRecord
 		$calculateAmt['vnd_name']			 = $recordSet['vnd_name'];
 		$calculateAmt['vnd_code']			 = $recordSet['vnd_code'];
 
-		if($vendorBalance < 0)
+		if ($vendorBalance < 0)
 		{
 			$calculateAmt['withdrawable_balance']	 = 0;
 			$calculateAmt['vendor_amount_type']		 = 'Payable';
@@ -481,8 +491,9 @@ class AccountTransDetails extends CActiveRecord
 
 	public function calTdsByVendorId($vendorId)
 	{
+		$vndIds		 = Vendors::getRelatedIds($vendorId);
 		$PreYear	 = $NextYear	 = "";
-		if(date('m') >= 4)
+		if (date('m') >= 4)
 		{
 			$PreYear	 = date('Y') . "-04-01 00:00:00";
 			$NextYear	 = (date('Y') + 1) . "-03-31 23:59:59";
@@ -498,8 +509,12 @@ class AccountTransDetails extends CActiveRecord
             sum(if(atd.adt_ledger_id = 22, round(-1 * atd1.adt_amount)* 0.01, 0)) AS totalTDS,
 			sum(if(atd.adt_ledger_id IN(37,55), (atd1.adt_amount), 0)) AS alreadypaid
 			FROM account_trans_details atd 
-			INNER JOIN account_transactions act ON atd.adt_trans_id = act.act_id AND atd.adt_active = 1 AND act.act_active = 1 AND atd.adt_ledger_id IN(22,37,55)
-			INNER JOIN account_trans_details atd1 ON act.act_id = atd1.adt_trans_id AND atd1.adt_active = 1 AND atd1.adt_trans_ref_id = $vendorId   AND   atd1.adt_ledger_id = 14
+			INNER JOIN account_transactions act ON atd.adt_trans_id = act.act_id 
+				AND atd.adt_active = 1 AND act.act_active = 1 
+				AND atd.adt_ledger_id IN(22,37,55)
+			INNER JOIN account_trans_details atd1 ON act.act_id = atd1.adt_trans_id 
+				AND atd1.adt_active = 1 
+				AND atd1.adt_trans_ref_id IN ({$vndIds})   AND   atd1.adt_ledger_id = 14
 			WHERE  act.act_date between '$PreYear' and '$NextYear' ";
 
 		$recordSet				 = DBUtil::queryRow($sql);
@@ -520,17 +535,17 @@ class AccountTransDetails extends CActiveRecord
                 AND account_trans_details.adt_ledger_id = 40
                 AND account_trans_details.adt_type = 6
                 AND account_trans_details.adt_trans_ref_id  =$driverId";
-		if($fromDate != '')
+		if ($fromDate != '')
 		{
 			$fromDate	 = DateTimeFormat::DatePickerToDate($fromDate);
 			$sql		 .= " AND DATE(act_date)>='$fromDate'";
 		}
-		if($toDate != '')
+		if ($toDate != '')
 		{
 			$toDate	 = DateTimeFormat::DatePickerToDate($toDate);
 			$sql	 .= " AND DATE(act_date)<='$toDate'";
 		}
-		if($openingDate != '')
+		if ($openingDate != '')
 		{
 			$openingDate = DateTimeFormat::DatePickerToDate($openingDate);
 			$sql		 .= " AND DATE(act_date) < '$openingDate'";
@@ -543,7 +558,7 @@ class AccountTransDetails extends CActiveRecord
 	public function getOperatorList($mode = 0)
 	{
 		$modeList = $this->operatorList;
-		if($mode > 0)
+		if ($mode > 0)
 		{
 			return $modeList[$mode];
 		}
@@ -552,11 +567,12 @@ class AccountTransDetails extends CActiveRecord
 
 	public function getLedgerData($vendorId, $fromDate, $toDate)
 	{
+		
 		$record			 = Vendors::model()->getDrillDownInfo($vendorId);
 		$vendorAmount	 = AccountTransDetails::model()->calAmountByVendorId($vendorId, '', $toDate);
 		$openingAmount	 = AccountTransDetails::model()->calAmountByVendorId($vendorId, '', '', $fromDate);
 		$transactionList = AccountTransDetails::vendorTransactionList($vendorId, $fromDate, $toDate, '0', 'ASC');
-
+		
 		//        /* @var $html2pdf \Spipu\Html2Pdf\Html2Pdf */
 		$html2pdf	 = Yii::app()->ePdf->mPdf();
 		$data		 = ['record'		 => $record,
@@ -568,7 +584,35 @@ class AccountTransDetails extends CActiveRecord
 			'toDate'		 => $toDate];
 		return $data;
 	}
-
+	public function getLedgerPdf($vendorId, $fromDate, $toDate)
+	{
+		//$fromNewDate = date("d/m/Y", strtotime($fromDate));
+		//$toNewDate = date("d/m/Y", strtotime($toDate));
+		//$record			 = Vendors::model()->getDrillDownInfo($vendorId);
+		//$vendorAmount	 = AccountTransDetails::model()->calAmountByVendorId($vendorId, '', $toNewDate);
+		//$openingAmount	 = AccountTransDetails::model()->calAmountByVendorId($vendorId, '', '', $fromNewDate);
+		$transactionList = AccountTransDetails::DcoTransactionList($vendorId, $fromDate, $toDate, '0', 'ASC');
+		
+		//        /* @var $html2pdf \Spipu\Html2Pdf\Html2Pdf */
+		$html2pdf	 = Yii::app()->ePdf->mPdf();
+		$data		 = ['record'		 => $record,
+			'vendorAmount'	 => $vendorAmount,
+			'openingAmount'	 => $openingAmount,
+			'vendorList'	 => $transactionList,
+			'pdf'			 => $html2pdf,
+			'fromDate'		 => $fromDate,
+			'toDate'		 => $toDate];
+		return $data;
+	}
+	public function getLedgerxls($vendorId, $fromDate, $toDate)
+	{
+		
+		$transactionList = AccountTransDetails::DcoTransactionList($vendorId, $fromDate, $toDate, '0', 'ASC');
+		
+		//        /* @var $html2pdf \Spipu\Html2Pdf\Html2Pdf */
+		$data		 = ['vendorList'	 => $transactionList];
+		return $data;
+	}
 	//obsolute
 	public static function getTotalPartnerCredit($bkgId)
 	{
@@ -579,7 +623,7 @@ class AccountTransDetails extends CActiveRecord
 	{
 		$agentId = $paramArr['agentId'];
 		$where	 = '';
-		if($paramArr['fromDate'] != '' && $paramArr['toDate'] != '')
+		if ($paramArr['fromDate'] != '' && $paramArr['toDate'] != '')
 		{
 			$where = " AND date(act.act_date) BETWEEN '" . $paramArr['fromDate'] . "' AND '" . $paramArr['toDate'] . "'";
 		}
@@ -587,14 +631,17 @@ class AccountTransDetails extends CActiveRecord
                 IFNULL(SUM(adt_amount),0) as transaction_amount
                 FROM account_trans_details adt
                 JOIN account_transactions act ON act.act_id = adt.adt_trans_id
-                WHERE act.act_active=1 AND adt.adt_ledger_id IN(26,15) AND adt.adt_type=3 AND adt.adt_trans_ref_id = $agentId AND adt.adt_status=1 AND adt.adt_active=1 $where";
+                WHERE act.act_active=1 AND adt.adt_ledger_id IN(26,15) 
+					AND adt.adt_type=3 AND adt.adt_trans_ref_id = $agentId AND adt.adt_status=1 
+					AND adt.adt_active=1 $where";
 		return DBUtil::queryRow($sql);
 	}
 
 	public static function getAdjustableAmountVendor($vendorId, $fromDate, $toDate)
 	{
-		$where = "";
-		if($fromDate != '' && $toDate != '')
+		$vndIds	 = Vendors::getRelatedIds($vendorId);
+		$where	 = "";
+		if ($fromDate != '' && $toDate != '')
 		{
 			$fromDate	 = DateTimeFormat::DatePickerToDate($fromDate);
 			$toDate		 = DateTimeFormat::DatePickerToDate($toDate);
@@ -604,7 +651,9 @@ class AccountTransDetails extends CActiveRecord
                         SUM(adt_amount) as transaction_amount
                         FROM account_trans_details adt
                         JOIN account_transactions act ON act.act_id = adt.adt_trans_id
-                        WHERE act.act_active=1 AND adt.adt_ledger_id IN(14) AND adt.adt_trans_ref_id = '$vendorId'  AND adt.adt_type=2 AND adt.adt_status=1 AND adt.adt_active=1 $where ";
+                        WHERE act.act_active=1 AND adt.adt_ledger_id IN(14) 
+							AND adt.adt_trans_ref_id IN ({$vndIds}) AND adt.adt_type=2 AND adt.adt_status=1 
+							AND adt.adt_active=1 $where ";
 
 		return DBUtil::queryRow($sql);
 	}
@@ -626,11 +675,11 @@ class AccountTransDetails extends CActiveRecord
                             )";
 		$data	 = DBUtil::queryAll($sql);
 
-		foreach($data as $adtModel)
+		foreach ($data as $adtModel)
 		{
 			$modelAccTrans			 = AccountTransactions::model()->findByPk($adtModel['adt_trans_id']);
 			$modelAccTransDetails	 = AccountTransDetails::model()->findAll('adt_trans_id=:act_id AND adt_active=1 AND adt_status=1', ['act_id' => $modelAccTrans->act_id]);
-			foreach($modelAccTransDetails as $accTransDet)
+			foreach ($modelAccTransDetails as $accTransDet)
 			{
 				$accTransDet->adt_status = 0;
 				$accTransDet->adt_active = 0;
@@ -652,11 +701,11 @@ class AccountTransDetails extends CActiveRecord
 			((account_transactions.act_ref_id=$bkgId AND account_transactions.act_type=1)) AND adt_ledger_id=14";
 		$data	 = DBUtil::queryAll($sql);
 
-		foreach($data as $adtModel)
+		foreach ($data as $adtModel)
 		{
 			$modelAccTrans			 = AccountTransactions::model()->findByPk($adtModel['adt_trans_id']);
 			$modelAccTransDetails	 = AccountTransDetails::model()->findAll('adt_trans_id=:act_id AND adt_active=1 AND adt_status=1', ['act_id' => $modelAccTrans->act_id]);
-			foreach($modelAccTransDetails as $accTransDet)
+			foreach ($modelAccTransDetails as $accTransDet)
 			{
 				$accTransDet->adt_status = 0;
 				$accTransDet->adt_active = 0;
@@ -683,7 +732,7 @@ class AccountTransDetails extends CActiveRecord
 		$criteria->join		 = "  JOIN account_transactions act ON t.adt_trans_id=act.act_id AND act.act_status=1 AND act.act_active=1 ";
 		$criteria->join		 .= "  JOIN account_ledger ON account_ledger.ledgerId=t.adt_ledger_id";
 		$criteria->condition .= " t.adt_status=1 AND t.adt_active=1";
-		if($this->adt_ledger_id != '')
+		if ($this->adt_ledger_id != '')
 		{
 			$criteria->compare('t.adt_ledger_id', $this->adt_ledger_id);
 		}
@@ -702,14 +751,14 @@ class AccountTransDetails extends CActiveRecord
 		$name		 = "(ledgerName) as name, ";
 		$where		 = "";
 		$subWhere	 = "";
-		if($ledgerId != null)
+		if ($ledgerId != null)
 		{
 			//	$name1 = "r.name";
 			$where		 = " AND ledgerId=$ledgerId";
 			$subWhere	 = " AND account_trans_details.adt_ledger_id=$ledgerId";
 			$groupBy	 = ", adt_trans_ref_id";
 			$joinOn		 = " AND a.adt_trans_ref_id=r.adt_trans_ref_id";
-			switch($ledgerId)
+			switch ($ledgerId)
 			{
 				case 15:
 					$name	 = "(CONCAT(agt_company)) as name,";
@@ -727,7 +776,7 @@ class AccountTransDetails extends CActiveRecord
 					break;
 			}
 		}
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$currentdate = "'$date1 00:00:00'";
 			$condition	 = " AND act_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59' ";
@@ -772,12 +821,12 @@ class AccountTransDetails extends CActiveRecord
 	public static function getAccountTransactionsList1($ledgerId = null, $date1 = null, $date2 = null)
 	{
 		$where = "";
-		if($ledgerId > 0)
+		if ($ledgerId > 0)
 		{
 			$where = " AND ledgerId=$ledgerId";
 		}
 
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$currentdate = "'$date1 00:00:00'";
 			$condition	 = " AND act_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59' ";
@@ -826,7 +875,7 @@ class AccountTransDetails extends CActiveRecord
 
 	public static function getAccountTransactionsList1_OLD($ledgerId = null, $date1 = null, $date2 = null)
 	{
-		if($ledgerId != null)
+		if ($ledgerId != null)
 		{
 			$where = " AND ledgerId=$ledgerId group BY ledgerId,a.abc";
 		}
@@ -834,7 +883,7 @@ class AccountTransDetails extends CActiveRecord
 		{
 			$where = " group BY ledgerId";
 		}
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$currentdate = "'$date1 00:00:00'";
 			$condition	 = " AND act_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59' ";
@@ -903,11 +952,11 @@ class AccountTransDetails extends CActiveRecord
 	{
 		$name	 = "(ledgerName) as name, ";
 		$where	 = "";
-		if($ledgerId != null)
+		if ($ledgerId != null)
 		{
 			//	$name1 = "r.name";
 			$where = " AND ledgerId=$ledgerId";
-			switch($ledgerId)
+			switch ($ledgerId)
 			{
 				case 15:
 					$name	 = "(CONCAT(agt_company)) as name,";
@@ -934,7 +983,7 @@ class AccountTransDetails extends CActiveRecord
 					break;
 			}
 		}
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$dt1		 = date("Y-m-d H:i:s", strtotime($date1));
 			$time		 = '23:59:59';
@@ -968,7 +1017,7 @@ class AccountTransDetails extends CActiveRecord
 			$join
 				WHERE (opening<>0 OR credit<>0 OR debit<>0)$where";
 
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			$recordSet = DBUtil::query($sql, DBUtil::SDB());
 			return $recordSet;
@@ -990,11 +1039,11 @@ class AccountTransDetails extends CActiveRecord
 	{
 		$name	 = "(ledgerName) as name, ";
 		$where	 = "";
-		if($ledgerId != null)
+		if ($ledgerId != null)
 		{
 			//	$name1 = "r.name";
 			$where = " AND ledgerId=$ledgerId";
-			switch($ledgerId)
+			switch ($ledgerId)
 			{
 				case 15:
 					$name	 = "(CONCAT(agt_company)) as name,";
@@ -1012,7 +1061,7 @@ class AccountTransDetails extends CActiveRecord
 					break;
 			}
 		}
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$currentdate = "'$date1'";
 			$condition	 = " AND(date(act_date) BETWEEN '" . $date1 . "' AND '" . $date2 . "') ";
@@ -1055,7 +1104,7 @@ class AccountTransDetails extends CActiveRecord
 	{
 		$ledgerId = Yii::app()->request->getParam("ledgerId");
 
-		if(in_array($data["ledgerId"], [14, 15]) && $ledgerId == null)
+		if (in_array($data["ledgerId"], [14, 15]) && $ledgerId == null)
 		{
 			echo CHtml::link($data["name"], Yii::app()->createUrl("admin/account/list", $_REQUEST + ["ledgerId" => $data["ledgerId"]]));
 		}
@@ -1102,29 +1151,35 @@ class AccountTransDetails extends CActiveRecord
 
 	public static function vendorTransactionList($vendorId, $fromDate = '', $toDate = '', $vendorAmt = '0', $orderBy = 'DESC', $ledgers = '', $type = 'command')
 	{
-		if($vendorId == null || $vendorId == "")
+		
+		if ($vendorId == null || $vendorId == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
 
 		// Getting Merged VendorIds
-		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
-		if($vndIds == null || $vndIds == "")
+//		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
+		$vndIds = Vendors::getRelatedIds($vendorId);
+
+		if ($vndIds == null || $vndIds == "")
 		{
 			throw new Exception("Vendor not found", ReturnSet::ERROR_INVALID_DATA);
 		}
 
 		$dateRange = '';
-		if(($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
+		
+		if (($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
 		{
-			if($vendorAmt == '0')
+		
+			if ($vendorAmt == '0')
 			{
 				$fromDate	 = DateTimeFormat::DatePickerToDate($fromDate);
 				$toDate		 = DateTimeFormat::DatePickerToDate($toDate);
 			}
+			
 			$dateRange	 .= " AND (act_date) >='$fromDate 00:00:00' AND (act_date) <= '$toDate 23:59:59' ";
 			$actOpenDate = " AND (act_date) < '$fromDate 00:00:00'";
-			if($ledgers != '')
+			if ($ledgers != '')
 			{
 				$ledgersID	 = "AND atd1.adt_ledger_id IN ($ledgers)";
 				$and		 = '';
@@ -1135,11 +1190,11 @@ class AccountTransDetails extends CActiveRecord
 			}
 		}
 		$vndAmt = '';
-		if($vendorAmt == '0')
+		if ($vendorAmt == '0')
 		{
 			$vndAmt .= "  AND (adt.adt_amount<>0)";
 		}
-
+		
 		$sql = "SELECT *, Round(@runningBal1 := @runningBal1 + ven_trans_amount,2) as runningBalance,  
 				Round(@runningBal1 * -1,2) as vendorRunningBalance
 			FROM (
@@ -1186,7 +1241,7 @@ class AccountTransDetails extends CActiveRecord
 						AND act_date >= '2021-04-01 00:00:00' 
 						AND adt_trans_ref_id IN ({$vndIds})  
 					ORDER BY act_date,act_created ASC) r";
-
+				
 		$sqlCount = "SELECT  COUNT(DISTINCT atd1.adt_id) AS cnt
 					FROM account_transactions act
 					INNER JOIN account_trans_details atd ON act.act_id = atd.adt_trans_id AND atd.adt_ledger_id = 14 
@@ -1195,7 +1250,7 @@ class AccountTransDetails extends CActiveRecord
 							AND ((abs(atd.adt_amount) <> atd.adt_amount AND atd1.adt_amount > 0) OR (abs(atd.adt_amount) = atd.adt_amount AND atd1.adt_amount < 0)) AND atd1.adt_active=1
 					WHERE act_active = 1 AND act_date >= '2021-04-01 00:00:00' $ledgersID $dateRange";
 
-		if($type == 'data')
+		if ($type == 'data')
 		{
 			$count			 = DBUtil::queryScalar("$sqlCount", DBUtil::SDB());
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -1210,7 +1265,7 @@ class AccountTransDetails extends CActiveRecord
 			$recordset	 = DBUtil::query($sql, DBUtil::SDB());
 			$resultSet	 = [];
 			$i			 = 0;
-			foreach($recordset as $val)
+			foreach ($recordset as $val)
 			{
 				$resultSet[$i]						 = $val;
 				$resultSet[$i]['penaltyRedeemFlag']	 = self::model()->checkFlagStatus($val['act_date'], $val['lid'], $val['ven_trans_amount'], $val['adt_addt_params']); // for checking penalty will be reeedem or not
@@ -1230,11 +1285,11 @@ class AccountTransDetails extends CActiveRecord
 		#$pntValidDate = '2022-11-01 00:00:00'; //according to AK Sir
 
 
-		if($params != null && $params != "")
+		if ($params != null && $params != "")
 		{
 			$paramArr		 = json_decode($params);
 			$waivedOffAmount = $paramArr->totalWaivedOff;
-			if($waivedOffAmount == null || $waivedOffAmount == "")
+			if ($waivedOffAmount == null || $waivedOffAmount == "")
 			{
 				$waivedOffAmount = 0;
 			}
@@ -1259,19 +1314,19 @@ class AccountTransDetails extends CActiveRecord
 	 * @param type $toDate 
 	 * @return CDbDataReader
 	 */
-	public static function vendorTransactionList1($vendorId, $fromDate = '', $toDate = '', $tripId = null, $pageRef = null)
+	public static function vendorTransactionList1($vndIds, $fromDate = '', $toDate = '', $tripId = null, $pageRef = null)
 	{
 		$criteria = '';
-		if($tripId > 0)
+		if ($tripId > 0)
 		{
 			$criteria .= " AND bcb_id=$tripId";
 		}
-		else if(($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
+		else if (($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
 		{
 			$criteria .= " AND DATE(bkg_pickup_date)>='$fromDate 00:00:00' AND DATE(bkg_pickup_date)<='$toDate 23:59:59'";
 		}
 		$limit = '';
-		if($pageRef != null)
+		if ($pageRef != null)
 		{
 			/** @var \Beans\common\PageRef $pageRef */
 			$pageNumber	 = $pageRef->pageCount;
@@ -1280,54 +1335,58 @@ class AccountTransDetails extends CActiveRecord
 			$limit		 = " LIMIT {$offset},{$pageSize} ";
 		}
 
-		if($vendorId != '0')
-		{
-			// Getting Merged VendorIds
-			$vndIds = Vendors::getVndIdsByRefCode($vendorId);
-			if($vndIds == null || $vndIds == "")
-			{
-				throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
-			}
 
-			$criteria .= " AND bcb_vendor_id IN ({$vndIds}) ";
+		// Getting Merged VendorIds
+		//$vndIds = Vendors::getVndIdsByRefCode($vendorId);
+		if ($vndIds == null || $vndIds == "")
+		{
+			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
 
-		$sql = "SELECT MAX(bkg_pickup_date) as ven_trans_date, bcb_trip_type,
-               booking_cab.bcb_id bcb_id,bkg_booking_id,
-               bcb_vendor_amount AS trip_amount,
-               sum(bkginv.bkg_vendor_collected) trip_vendor_collected,
-               (bcb_vendor_amount -  sum(bkginv.bkg_vendor_collected)) as ven_trans_amount,
-               CONCAT('[',GROUP_CONCAT(JSON_OBJECT('id',bkg_booking_id,'collected',bkginv.bkg_vendor_collected, 'routes', concat(c1.cty_name, ' - ', c2.cty_name))),']') as tripDetails,
-               GROUP_CONCAT(bkg_status) as bstatus,
-               group_concat(bkginv.bkg_advance_amount) bkg_advance_amount,
-               group_concat(
-                  concat(c1.cty_name, ' - ', c2.cty_name) SEPARATOR ', ')
-                  from_city
-          FROM booking_cab
-               INNER JOIN booking bcbbkg
-                  ON     bcbbkg.bkg_bcb_id = booking_cab.bcb_id
-                     AND booking_cab.bcb_active = 1 AND bcbbkg.bkg_status IN (5,6,7)
-               INNER JOIN booking_invoice bkginv ON bcbbkg.bkg_id = bkginv.biv_bkg_id      
-               INNER JOIN cities AS c1
-                  ON c1.cty_id = bcbbkg.bkg_from_city_id
-               INNER JOIN cities AS c2
-                  ON c2.cty_id = bcbbkg.bkg_to_city_id
-         WHERE 1 $criteria
+		$criteria .= " AND bcb_vendor_id IN ({$vndIds}) ";
+
+		$sql		 = "SELECT MAX(bkg_pickup_date) as ven_trans_date, bcb_trip_type,
+				booking_cab.bcb_id bcb_id,bkg_booking_id,
+				bcb_vendor_amount AS trip_amount,
+				sum(bkginv.bkg_vendor_collected) trip_vendor_collected,
+				(bcb_vendor_amount -  sum(bkginv.bkg_vendor_collected)) as ven_trans_amount,
+				CONCAT('[',GROUP_CONCAT(JSON_OBJECT('id',bkg_booking_id,'collected',bkginv.bkg_vendor_collected, 'routes', concat(c1.cty_name, ' - ', c2.cty_name))),']') as tripDetails,
+				GROUP_CONCAT(bkg_status) as bstatus,
+				group_concat(bkginv.bkg_advance_amount) bkg_advance_amount,
+				group_concat(
+					concat(c1.cty_name, ' - ', c2.cty_name) SEPARATOR ', ')
+					from_city
+			FROM booking_cab
+				INNER JOIN booking bcbbkg
+					ON     bcbbkg.bkg_bcb_id = booking_cab.bcb_id
+						AND booking_cab.bcb_active = 1 AND bcbbkg.bkg_status IN (5,6,7)
+				INNER JOIN booking_invoice bkginv ON bcbbkg.bkg_id = bkginv.biv_bkg_id      
+				INNER JOIN cities AS c1
+					ON c1.cty_id = bcbbkg.bkg_from_city_id
+				INNER JOIN cities AS c2
+					ON c2.cty_id = bcbbkg.bkg_to_city_id
+			WHERE 1 $criteria
         GROUP BY booking_cab.bcb_id HAVING NOT FIND_IN_SET(5, bstatus)
         ORDER BY ven_trans_date DESC $limit";
-
-		$recordSet = DBUtil::query($sql);
+		$recordSet	 = DBUtil::query($sql);
 
 		return $recordSet;
 	}
-
+	/**
+	 * @deprecated new function drvTransactionList
+	 * @param type $driverId
+	 * @param type $fromDate
+	 * @param type $toDate
+	 * @param type $orderBy
+	 * @return type
+	 */
 	public static function driverTransactionList($driverId, $fromDate = '', $toDate = '', $orderBy = 'DESC')
 	{
 
 		$dateRange = '';
-		if(($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
+		if (($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
 		{
-			if($vendorAmt == '0')
+			if ($vendorAmt == '0')
 			{
 				$fromDate = DateTimeFormat::DatePickerToDate($fromDate);
 
@@ -1382,7 +1441,80 @@ adt_trans_ref_id='$driverId') r";
 		$recordSet	 = DBUtil::queryAll($sql);
 		return $recordSet;
 	}
+	/**
+	 * function use for drvTransction old one drvTransactionList
+	 * @param type $driverId
+	 * @param type $fromDate
+	 * @param type $toDate
+	 * @param type $orderBy
+	 * @return type
+	 */
 
+	public static function drvTransactionList($driverId, $fromDate = '', $toDate = '', $orderBy = 'DESC')
+	{
+
+		//$dateRange = 'AND act_date < "2016-06-01 00:00:00"';
+		$dateRange = "AND act_date > '2016-06-01 00:00:00'";
+		if (($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
+		{
+			if ($vendorAmt == '0')
+			{
+				$fromDate = DateTimeFormat::DatePickerToDate($fromDate);
+
+				$toDate = DateTimeFormat::DatePickerToDate($toDate);
+			}
+			//$dateRange	 = " AND DATE(act_date)>='$fromDate' AND DATE(act_date)<='$toDate'";
+			$dateRange	 = " AND DATE(`act_date`) BETWEEN '$fromDate' AND '$toDate' " ;
+			$actOpenDate = "DATE(act_date)>'$fromDate'";
+			
+		}
+
+
+
+		$sql		 = "SELECT *, @runningBal1 := @runningBal1 + drv_bonus_amount as runningBalance
+			FROM (
+			SELECT booking.bkg_booking_id AS booking_id,
+			account_transactions.act_date AS drv_trans_date,
+			account_transactions.act_created AS drv_createdate,
+			account_trans_details.adt_amount AS drv_bonus_amount,
+			account_transactions.act_remarks AS drv_remarks,
+			concat(admins.adm_fname, ' ', admins.adm_lname) AS adm_name,
+			 IF(atd1.adt_ledger_id=41, booking.bkg_booking_id , account_ledger.ledgerName ) ledgerNames
+		 FROM `account_transactions`
+		      INNER JOIN `account_trans_details`
+			 ON     account_transactions.act_id = account_trans_details.adt_trans_id
+			    AND account_trans_details.adt_ledger_id = 40
+			    AND account_trans_details.adt_status = 1
+			    AND account_trans_details.adt_active = 1
+			    AND account_transactions.act_status = 1
+			    AND account_transactions.act_active = 1
+			    AND account_trans_details.adt_trans_ref_id = '$driverId'
+		       INNER JOIN account_trans_details atd1
+			       ON account_transactions.act_id = atd1.adt_trans_id
+				  AND ((abs(account_trans_details.adt_amount) <> account_trans_details.adt_amount
+					   AND atd1.adt_amount > 0)
+				       OR (abs(account_trans_details.adt_amount) = account_trans_details.adt_amount
+					   AND atd1.adt_amount < 0)) 
+			LEFT JOIN booking
+			       ON     atd1.adt_ledger_id = 41
+				  AND atd1.adt_trans_ref_id = booking.bkg_id     
+			LEFT JOIN `admins` ON admins.adm_id = account_transactions.act_user_id AND account_transactions.act_user_type = 4
+		      INNER JOIN `account_ledger`
+			 ON atd1.adt_ledger_id = account_ledger.ledgerId
+		      INNER JOIN `drivers`
+			 ON drivers.drv_id = account_trans_details.adt_trans_ref_id
+		 WHERE act_active = 1 AND act_status = 1 AND account_transactions.act_type = 6 $dateRange
+		 GROUP BY account_trans_details.adt_id ORDER BY account_transactions.act_date ASC
+     ) a
+JOIN (SELECT @runningBal1 := ifNULL(SUM(adt_amount),0) openBalance FROM account_trans_details
+INNER JOIN account_transactions ON act_id=adt_trans_id
+WHERE 1  
+AND adt_ledger_id=40 AND adt_status=1 AND adt_active=1 AND act_status=1 AND act_active=1 AND
+adt_trans_ref_id='$driverId') r";
+		//echo $sql;
+		$recordSet	 = DBUtil::query($sql);
+		return $recordSet;
+	}
 	public static function vendorCollectionReport($pagination = '', $type = '')
 	{
 		$size			 = ($pagination != '') ? $pagination : 10;
@@ -1414,7 +1546,7 @@ adt_trans_ref_id='$driverId') r";
 						FROM vendors JOIN account_trans_details  ON vendors.vnd_id = account_trans_details.adt_trans_ref_id AND account_trans_details.adt_ledger_id = 14 AND	 account_trans_details.adt_type =2
 						WHERE account_trans_details.adt_id IS NOT NULL AND vendors.vnd_id IS NOT NULL AND vendors.vnd_active IN ($vendor_status)	";
 
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			$recordSet = DBUtil::queryAll($sql, DBUtil::SDB());
 			return $recordSet;
@@ -1478,7 +1610,7 @@ adt_trans_ref_id='$driverId') r";
 						GROUP BY account_trans_details.adt_trans_ref_id
 						) as totAmt ON totAmt.adt_trans_ref_id=vendors.vnd_id
 						WHERE vendors.vnd_id IS NOT NULL AND(totAmt.vendor_amount IS NOT NULL AND totAmt.vendor_amount<>0) AND vendors.vnd_active=1 GROUP BY vendors.vnd_id  ";
-		if($type == 'command')
+		if ($type == 'command')
 		{
 			return DBUtil::queryAll($sql, DBUtil::SDB());
 		}
@@ -1498,9 +1630,9 @@ adt_trans_ref_id='$driverId') r";
 	public function vendorAccount($date1 = '', $date2 = '', $vendorId = '', $type = 'data')
 	{
 
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
-			if($type == 'data')
+			if ($type == 'data')
 			{
 				$fromDate	 = DateTimeFormat::DatePickerToDate($date1) . ' ' . '00:00:00';
 				$toDate		 = DateTimeFormat::DatePickerToDate($date2) . ' ' . '23:59:59';
@@ -1516,14 +1648,14 @@ adt_trans_ref_id='$driverId') r";
 		$status				 = [3, 5, 6, 7];
 		$status				 = implode(',', $status);
 		$condRequiredData	 = '';
-		if($type != 'invoice')
+		if ($type != 'invoice')
 		{
-			if(($date1 != '' && $date1 != '1970-01-01') && ($date2 != '' && $date2 != '1970-01-01'))
+			if (($date1 != '' && $date1 != '1970-01-01') && ($date2 != '' && $date2 != '1970-01-01'))
 			{
 				$condRequiredData .= " AND act.act_date BETWEEN  '$fromDate' AND '$toDate' ";
 			}
 			$condPastData = "";
-			if($fromDate != '')
+			if ($fromDate != '')
 			{
 				$condPastData = " AND act1.act_date < '$fromDate' ";
 			}
@@ -1553,13 +1685,13 @@ adt_trans_ref_id='$driverId') r";
         WHERE    vendors.vnd_name IS NOT NULL $condRequiredData AND act.act_active =1 AND act.act_id IS NOT NULL AND adt.adt_ledger_id = 14 AND adt.adt_type = 2 AND adt.adt_active = 1 AND adt.
                  adt_status =1 AND vendors.vnd_active = 1 ";
 
-		if($vendorId != '' && $vendorId != '0')
+		if ($vendorId != '' && $vendorId != '0')
 		{
 			$sql		 .= " AND vnd_id  = '$vendorId'";
 			$sqlCount	 .= " AND vnd_id  = '$vendorId' ";
 		}
 		$sqlCount .= "  GROUP BY adt.adt_trans_ref_id";
-		if($type == 'data')
+		if ($type == 'data')
 		{
 			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sqlCount) abc");
 			$dataprovider	 = new CSqlDataProvider($sql, [
@@ -1569,7 +1701,7 @@ adt_trans_ref_id='$driverId') r";
 			]);
 			return $dataprovider;
 		}
-		else if($type == 'command' || $type == 'invoice')
+		else if ($type == 'command' || $type == 'invoice')
 		{
 			$recordSet = DBUtil::queryAll($sql);
 			return $recordSet;
@@ -1583,7 +1715,7 @@ adt_trans_ref_id='$driverId') r";
 		$condition1	 = "";
 		$actOpenDate = "";
 		//$limit       = "LIMIT 0,100";
-		if($transDate1 != '' && $transDate2 != '')
+		if ($transDate1 != '' && $transDate2 != '')
 		{
 			$fromTime		 = '00:00:00';
 			$toTime			 = '23:59:59';
@@ -1598,7 +1730,7 @@ adt_trans_ref_id='$driverId') r";
 //			$condition1		 = "  AND act.act_date BETWEEN '$fromDateTime' AND '$toDateTime'";
 		}
 		$dateRange = '';
-		if(($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
+		if (($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
 		{
 
 //            $fromDate = DateTimeFormat::DatePickerToDate($fromDate);
@@ -1608,7 +1740,7 @@ adt_trans_ref_id='$driverId') r";
 			// $dateRange   .= " AND date(act_date) BETWEEN '$fromDate' AND '$toDate'";
 			$dateRange	 .= " AND act_date>='$fromDateTime' AND act_date<='$toDateTime'";
 			$actOpenDate = " act_date<'$fromDateTime' AND ";
-			if($ledgers != '')
+			if ($ledgers != '')
 			{
 				$ledgersID = "AND account_ledger.ledgerId IN($ledgers)";
 			}
@@ -1669,25 +1801,25 @@ adt_trans_ref_id='$driverId') r";
 				AND adt.adt_trans_ref_id = $agtId
 				AND adt.adt_status=1 AND act.act_active=1 
 				AND adt.adt_active=1";
-		if($transDate1 != '')
+		if ($transDate1 != '')
 		{
 			$fromTime		 = '00:00:00';
 			$fromDateTime	 = $transDate1 . ' ' . $fromTime;
 			$sql			 .= " AND act.act_date>='$fromDateTime'";
 		}
-		if($transDate2 != '')
+		if ($transDate2 != '')
 		{
 			$toTime		 = '23:59:59';
 			$toDateTime	 = $transDate2 . ' ' . $toTime;
 			$sql		 .= " AND act.act_date<='$toDateTime'";
 		}
-		if($openingDate != '')
+		if ($openingDate != '')
 		{
 			$fromTime		 = '00:00:00';
 			$fromDateTime	 = $openingDate . ' ' . $fromTime;
 			$sql			 .= " AND act.act_date < '$fromDateTime'";
 		}
-		if($tillDate != '')
+		if ($tillDate != '')
 		{
 			$sql .= " AND act.act_date<='$tillDate'";
 		}
@@ -1725,11 +1857,11 @@ adt_trans_ref_id='$driverId') r";
 	{
 		$val		 = AccountTransDetails::getByBkgID($bkgID);
 		$paymodes	 = '';
-		foreach($val as $row)
+		foreach ($val as $row)
 		{
 			$paymodes .= $row[ledgerName] . ',';
 		}
-		if($paymodes != '')
+		if ($paymodes != '')
 		{
 			return rtrim($paymodes, ',');
 		}
@@ -1743,7 +1875,7 @@ adt_trans_ref_id='$driverId') r";
 	{
 		//$plist	 = PaymentType::model()->getList();
 		$arr = [];
-		foreach($models as $model)
+		foreach ($models as $model)
 		{
 			$plist				 = PaymentType::model()->ptpList($model->adt_ledger_id);
 			$obj				 = new stdClass();
@@ -1760,7 +1892,7 @@ adt_trans_ref_id='$driverId') r";
 
 	public function getStatusDesc($value)
 	{
-		switch($value)
+		switch ($value)
 		{
 			case 1:
 				$desc	 = "success";
@@ -1815,7 +1947,8 @@ adt_trans_ref_id='$driverId') r";
                         SELECT SUM( account_trans_details.adt_amount ) AS totTrans,
                             account_trans_details.adt_trans_ref_id trans_vendor_id
                         FROM `account_trans_details`
-                         JOIN `account_transactions` ON account_transactions.act_id = account_trans_details.adt_trans_id AND account_transactions.act_active = 1
+                         JOIN `account_transactions` ON account_transactions.act_id = account_trans_details.adt_trans_id 
+							AND account_transactions.act_active = 1
                         WHERE
                             account_trans_details.adt_active = 1 AND account_trans_details.adt_status = 1 AND account_trans_details.adt_type = 2 
 							AND account_trans_details.adt_ledger_id = 14 AND account_trans_details.adt_trans_ref_id=$vndId
@@ -1848,7 +1981,7 @@ adt_trans_ref_id='$driverId') r";
 
 	public function getBookingType($typeID)
 	{
-		switch($typeID)
+		switch ($typeID)
 		{
 			case Accounting::AT_BOOKING:
 				$accTypeName = 'Booking';
@@ -1875,9 +2008,23 @@ adt_trans_ref_id='$driverId') r";
 		return $accTypeName;
 	}
 
+	public static function getAccountTypeList()
+	{
+		$atList = [
+			Accounting::AT_BOOKING		 => 'Booking',
+			Accounting::AT_PARTNER		 => 'Partner',
+			Accounting::AT_OPERATOR		 => 'Operator',
+			Accounting::AT_ONLINEPAYMENT => 'Onlinepayment',
+			Accounting::AT_TRIP			 => 'Trip',
+			Accounting::AT_DRIVER		 => 'Driver',
+			Accounting::AT_USER			 => 'User'
+		];
+		return $atList;
+	}
+
 	public static function getAccountType($typeID)
 	{
-		switch($typeID)
+		switch ($typeID)
 		{
 			case Accounting::AT_BOOKING:
 				$accTypeName = 'Booking';
@@ -1957,7 +2104,7 @@ adt_trans_ref_id='$driverId') r";
 	{
 		$dateRange	 = '';
 		$limit		 = ' LIMIT 20 ';
-		if(($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
+		if (($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
 		{
 			$fromTime		 = '00:00:00';
 			$toTime			 = '23:59:59';
@@ -1998,9 +2145,9 @@ adt_trans_ref_id='$driverId') r";
 			$arrRefundedADTModels	 = [];
 			//$model->adt_amount		 = -1 * $model->adt_amount;
 
-			if($model->adt_ledger_id == Accounting::LI_CASH || $model->adt_ledger_id == Accounting::LI_WALLET || $model->adt_ledger_id == Accounting::LI_PARTNERWALLET)
+			if ($model->adt_ledger_id == Accounting::LI_CASH || $model->adt_ledger_id == Accounting::LI_WALLET || $model->adt_ledger_id == Accounting::LI_PARTNERWALLET)
 			{
-				if($model->adt_ledger_id == Accounting::LI_CASH)
+				if ($model->adt_ledger_id == Accounting::LI_CASH)
 				{
 					$accTransModel1				 = new AccountTransactions();
 					$accTransModel1->act_amount	 = $model->adt_amount;
@@ -2023,7 +2170,7 @@ adt_trans_ref_id='$driverId') r";
 //					$accTransModel1->act_remarks		 = "Manual partner coins refunded";
 //					AccountTransactions::model()->refundBooking($accTransModel1->act_date, $accTransModel1->act_amount, $bkgmodel->bkg_id, PaymentType::TYPE_AGENT_CORP_CREDIT, $accTransModel1->act_remarks, '', UserInfo::getInstance());
 //				}
-				if($model->adt_ledger_id == Accounting::LI_PARTNERWALLET)
+				if ($model->adt_ledger_id == Accounting::LI_PARTNERWALLET)
 				{
 					$accDetailsTrans->adt_trans_ref_id	 = ($bkgmodel->bkg_agent_id == '') ? 1249 : $bkgmodel->bkg_agent_id;
 					$accDetailsTrans->adt_type			 = Accounting::AT_PARTNER;
@@ -2035,7 +2182,7 @@ adt_trans_ref_id='$driverId') r";
 					$accTransModel1->act_remarks		 = "Manual partner wallet refunded";
 					$success							 = AccountTransactions::model()->refundBooking($accTransModel1->act_date, $accTransModel1->act_amount, $bkgmodel->bkg_id, PaymentType::TYPE_AGENT_CORP_CREDIT, $accTransModel1->act_remarks, '', UserInfo::getInstance());
 				}
-				if($model->adt_ledger_id == Accounting::LI_WALLET)
+				if ($model->adt_ledger_id == Accounting::LI_WALLET)
 				{
 					$accTransModel1				 = new AccountTransactions();
 					$accTransModel1->act_amount	 = $model->adt_amount;
@@ -2047,7 +2194,7 @@ adt_trans_ref_id='$driverId') r";
 					$success = AccountTransactions::model()->refundBooking($accTransModel1->act_date, $accTransModel1->act_amount, $bkgmodel->bkg_id, PaymentType::TYPE_WALLET, $accTransModel1->act_remarks, '', UserInfo::getInstance());
 				}
 			}
-			else if($model->adt_ledger_id == Accounting::LI_GOZOCOINS)
+			else if ($model->adt_ledger_id == Accounting::LI_GOZOCOINS)
 			{
 				$accDetailsTrans				 = new AccountTransDetails();
 				$accDetailsTrans->adt_amount	 = ($model->adt_amount > 0) ? -1 * $model->adt_amount : $model->adt_amount;
@@ -2090,12 +2237,12 @@ adt_trans_ref_id='$driverId') r";
 				//$amount = -1 * $paymentGateway->apg_amount;
 				$success = AccountTransactions::model()->refundBooking($paymentGateway->apg_date, $model->adt_amount, $paymentGateway->apg_trans_ref_id, $paymentGateway->apg_ptp_id, $paymentGateway->apg_remarks, $paymentGateway, UserInfo::getInstance());
 			}
-			if($gozocoinrefunded)
+			if ($gozocoinrefunded)
 			{
 				$userCredits = new UserCredits();
 				$userCredits->addGozocoins($bkgmodel->bkgUserInfo->bkg_user_id, $bkgId, $accDetailsTrans->adt_amount);
 			}
-			if($errors == '')
+			if ($errors == '')
 			{
 				$bkgmodel->applyCancelCommission();
 				//$params['blg_ref_id'] = $accTransModel->act_id;
@@ -2104,7 +2251,7 @@ adt_trans_ref_id='$driverId') r";
 
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			$model->addError('bkg_id', $e->getMessage());
 			$return['error'] = $model->getErrors();
@@ -2133,32 +2280,31 @@ adt_trans_ref_id='$driverId') r";
 		return $data;
 	}
 
-	public static function getLastPaymentReceived($agentId, $actType)
+	public static function getLastPaymentReceived($agentIds, $actType)
 	{
-		$sql		 = "SELECT adt.adt_amount paymentReceived,act.act_date ReceivedDate FROM account_transactions act
-		      INNER JOIN account_trans_details adt ON act.act_id = adt.adt_trans_id AND adt.adt_ledger_id IN(23,29,30)
-			  WHERE `adt_amount` > 0 
-			  AND act_type='$actType' AND act_ref_id='$agentId' ORDER BY `act_date` DESC";
+		$sql		 = "SELECT adt.adt_amount paymentReceived,act.act_date ReceivedDate 
+				FROM account_transactions act
+				INNER JOIN account_trans_details adt 
+				ON act.act_id = adt.adt_trans_id 
+					AND adt.adt_ledger_id IN(23,29,30)
+				WHERE `adt_amount` > 0 
+				AND act_type='$actType' AND act_ref_id IN({$agentIds}) 
+				ORDER BY `act_date` DESC";
 		$recordSet	 = DBUtil::queryRow($sql);
 		return $recordSet;
 	}
 
-	public static function getLastPaymentSent($refId, $refType)
+	public static function getLastPaymentSent($refIds, $refType)
 	{
 		$sql		 = "SELECT
-					adt.adt_amount paymentSent,
-					act.act_date sentDate
-				FROM
-					account_transactions act
+					adt.adt_amount paymentSent, act.act_date sentDate
+				FROM account_transactions act
 				INNER JOIN account_trans_details adt ON
 					act.act_id = adt.adt_trans_id AND adt.adt_ledger_id IN (23, 29, 30)
-				WHERE
-					`adt_amount` < 0 AND act_type = '$refType' AND act_ref_id = '$refId'
-				ORDER BY
-					`act_date`
-				DESC";
+				WHERE `adt_amount` < 0 
+				AND act_type = '$refType' AND act_ref_id IN({$refIds}) 
+				ORDER BY `act_date` DESC";
 		$recordSet	 = DBUtil::queryRow($sql);
-
 		return $recordSet;
 	}
 
@@ -2166,7 +2312,7 @@ adt_trans_ref_id='$driverId') r";
 	{
 		// Getting Merged VendorIds
 		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
-		if($vndIds == null || $vndIds == "")
+		if ($vndIds == null || $vndIds == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -2192,23 +2338,23 @@ adt_trans_ref_id='$driverId') r";
 	{
 		// Getting Merged VendorIds
 		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
-		if($vndIds == null || $vndIds == "")
+		if ($vndIds == null || $vndIds == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
 
 		$hours	 = $days * 24;
 		$sql	 = "SELECT IFNULL(SUM(vendorDue),0) as totalDue
-FROM (
-	SELECT bcb_id, count(*) as cnt, 
-  (SUM(bkg_total_amount) - SUM(bkg_advance_amount-bkg_refund_amount+bkg_credits_used) - bcb_vendor_amount) as vendorDue,
-  MIN(bkg_pickup_date) as pickupDate    
-     FROM booking_cab
-    INNER JOIN booking ON booking_cab.bcb_id=booking.bkg_bcb_id AND bkg_status IN (3,5)  
-    AND bkg_pickup_date>=NOW() AND bkg_reconfirm_flag=1
-    INNER JOIN booking_invoice ON booking.bkg_id=booking_invoice.biv_bkg_id AND bcb_vendor_id IN ({$vndIds}) 
-    LEFT JOIN agents ON bkg_agent_id=agents.agt_id 
-    GROUP BY bcb_id HAVING DATE(pickupDate)<=DATE(DATE_ADD(NOW(), INTERVAL $hours HOUR))) a";
+			FROM (
+			SELECT bcb_id, count(*) as cnt, 
+			(SUM(bkg_total_amount) - SUM(bkg_advance_amount-bkg_refund_amount+bkg_credits_used) - bcb_vendor_amount) as vendorDue,
+			MIN(bkg_pickup_date) as pickupDate    
+		 FROM booking_cab
+			INNER JOIN booking ON booking_cab.bcb_id=booking.bkg_bcb_id AND bkg_status IN (3,5)  
+				AND bkg_pickup_date>=NOW() AND bkg_reconfirm_flag=1
+			INNER JOIN booking_invoice ON booking.bkg_id=booking_invoice.biv_bkg_id AND bcb_vendor_id IN ({$vndIds}) 
+			LEFT JOIN agents ON bkg_agent_id=agents.agt_id 
+		GROUP BY bcb_id HAVING DATE(pickupDate)<=DATE(DATE_ADD(NOW(), INTERVAL $hours HOUR))) a";
 
 		$recordSet = DBUtil::queryScalar($sql);
 		return $recordSet;
@@ -2233,7 +2379,7 @@ FROM (
 		$agtModel			 = Agents::model()->findByPk($agentId);
 		$totAgentCredit		 = $tot['totAmount'];
 		$totAgentCredit		 = $totAgentCredit + $corpCredit;
-		if($totAgentCredit > $agtModel->agt_effective_credit_limit)
+		if ($totAgentCredit > $agtModel->agt_effective_credit_limit)
 		{
 			$isRechargeAccount = true;
 		}
@@ -2285,10 +2431,10 @@ FROM (
 	public static function saveAll($transDetails, $actModel)
 	{
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
-		foreach($transDetails as $transDetail)
+		foreach ($transDetails as $transDetail)
 		{
 			$transDetail->adt_trans_id = $actModel->act_id;
-			if(!$transDetail->save())
+			if (!$transDetail->save())
 			{
 				throw new Exception(json_encode($transDetail->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
@@ -2304,7 +2450,7 @@ FROM (
 		$condition1	 = "";
 		$actOpenDate = "";
 
-		if($transDate1 != '' && $transDate2 != '')
+		if ($transDate1 != '' && $transDate2 != '')
 		{
 			$fromTime		 = '00:00:00';
 			$toTime			 = '23:59:59';
@@ -2312,12 +2458,12 @@ FROM (
 			$toDateTime		 = $transDate2 . ' ' . $toTime;
 		}
 		$dateRange = '';
-		if(($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
+		if (($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
 		{
 
 			$dateRange	 .= " AND act_date>='$fromDateTime' AND act_date<='$toDateTime'";
 			$actOpenDate = " act_date<'$fromDateTime' AND ";
-			if($ledgers != '')
+			if ($ledgers != '')
 			{
 				$ledgersID = "AND account_ledger.ledgerId IN($ledgers)";
 			}
@@ -2394,7 +2540,7 @@ FROM (
 		return $data;
 	}
 
-	public static function getOpeningBalance($vendorId, $actDate)
+	public static function getOpeningBalance($relVndIds, $actDate)
 	{
 		$sql		 = "SELECT ifNULL(SUM(adt_amount), 0) openBalance
 						FROM account_trans_details
@@ -2407,21 +2553,27 @@ FROM (
 						AND adt_active = 1
 						AND act_status = 1
 						AND act_active = 1
-						AND adt_trans_ref_id = '$vendorId'";
+						AND adt_trans_ref_id IN ({$relVndIds})";
 		$recordSet	 = DBUtil::queryScalar($sql, DBUtil::SDB());
 		return $recordSet != null ? $recordSet : 0;
 	}
 
-	public function getbyVendorId($vndid)
+	public function getbyVendorId($vndId)
 	{
-		$sql			 = "SELECT act.*, atd.adt_addt_params
+		$vndIds	 = Vendors::getRelatedIds($vndId);
+		$sql	 = "SELECT act.*, atd.adt_addt_params
 			FROM account_trans_details atd 
-			INNER JOIN account_transactions act ON act.act_id=atd.adt_trans_id AND act.act_active=1 AND act.act_status=1 AND atd.adt_active=1 AND atd.adt_status=1 
-			INNER JOIN account_trans_details atd1 ON atd1.adt_trans_id=act.act_id AND atd1.adt_ledger_id = 28 AND atd1.adt_type = 1 
-				AND atd1.adt_active=1 AND atd1.adt_status=1 AND ((atd.adt_amount>0 AND atd1.adt_amount<0) OR (atd1.adt_amount>0 AND atd.adt_amount<0)) 
-			WHERE act.act_active=1 AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 AND atd.adt_trans_ref_id = $vndid ";
-		$count			 = DBUtil::queryScalar("SELECT COUNT(1) FROM ($sql) abc");
-		$dataprovider	 = new CSqlDataProvider($sql, [
+			INNER JOIN account_transactions act ON act.act_id=atd.adt_trans_id 
+				AND act.act_active=1 AND act.act_status=1 AND atd.adt_active=1 AND atd.adt_status=1 
+			INNER JOIN account_trans_details atd1 ON atd1.adt_trans_id=act.act_id 
+				AND atd1.adt_ledger_id = 28 AND atd1.adt_type = 1 
+				AND atd1.adt_active=1 AND atd1.adt_status=1 AND ((atd.adt_amount>0 
+				AND atd1.adt_amount<0) OR (atd1.adt_amount>0 AND atd.adt_amount<0)) 
+			WHERE act.act_active=1 AND atd.adt_ledger_id = 14 AND atd.adt_type = 2 
+			AND atd.adt_trans_ref_id IN ({$vndIds}) ";
+		$count	 = DBUtil::queryScalar("SELECT COUNT(1) FROM ($sql) abc");
+
+		$dataprovider = new CSqlDataProvider($sql, [
 			'totalItemCount' => $count,
 			'sort'			 => ['attributes'	 => ['act_amount'],
 				'defaultOrder'	 => 'act_date DESC'], 'pagination'	 => ['pageSize' => $pageSize],
@@ -2434,9 +2586,10 @@ FROM (
 
 		$actId				 = $this->adt_trans_id;
 		$this->adt_amount	 = $amount;
-		$actModel			 = AccountTransactions::model()->findByPk($actId);
-		$bkgmodel			 = Booking::model()->findByPk($actModel->act_ref_id);
-		$refundTrans		 = AccountTransDetails::model()->refundTransaction($this, $bkgmodel);
+
+		$actModel	 = AccountTransactions::model()->findByPk($actId);
+		$bkgmodel	 = Booking::model()->findByPk($actModel->act_ref_id);
+		$refundTrans = AccountTransDetails::model()->refundTransaction($this, $bkgmodel);
 		return $refundTrans;
 	}
 
@@ -2468,12 +2621,14 @@ FROM (
 
 	public static function getWalletList()
 	{
-		$sql = "SELECT   concat(usr.usr_name,' ',usr.usr_lname) user_name, adt.adt_trans_ref_id, -sum(adt.adt_amount) wallet_balance
-FROM     account_trans_details adt 
-JOIN account_transactions act ON act.act_id = adt.adt_trans_id AND act.act_active = 1 AND act.act_status = 1 AND adt.adt_active = 1 AND adt.adt_status = 1
-JOIN users usr ON usr.user_id = adt.adt_trans_ref_id
-WHERE    adt.adt_trans_ref_id IS NOT NULL  AND adt.adt_ledger_id = 47
-GROUP BY adt.adt_trans_ref_id";
+		$sql = "SELECT   concat(usr.usr_name,' ',usr.usr_lname) user_name, 
+				adt.adt_trans_ref_id, -sum(adt.adt_amount) wallet_balance
+			FROM     account_trans_details adt 
+			JOIN account_transactions act ON act.act_id = adt.adt_trans_id AND act.act_active = 1 
+				AND act.act_status = 1 AND adt.adt_active = 1 AND adt.adt_status = 1
+			JOIN users usr ON usr.user_id = adt.adt_trans_ref_id
+			WHERE adt.adt_trans_ref_id IS NOT NULL  AND adt.adt_ledger_id = 47
+			GROUP BY adt.adt_trans_ref_id";
 
 		$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql) abc");
 		$dataprovider	 = new CSqlDataProvider($sql, [
@@ -2489,7 +2644,7 @@ GROUP BY adt.adt_trans_ref_id";
 
 		$params		 = ['bkgid' => $refid];
 		$condition	 = ' ';
-		if($paymentOnly)
+		if ($paymentOnly)
 		{
 			$condition = " AND atd1.adt_amount < 0";
 		}
@@ -2520,7 +2675,7 @@ WHERE  atd.adt_ledger_id IN($ledgerList) $condition";
 			WHERE  atd.adt_ledger_id IN($ledgerList) 
 			GROUP BY atd1.adt_trans_ref_id";
 		$res		 = DBUtil::queryRow($sql, null, $params);
-		if($onlyBalance)
+		if ($onlyBalance)
 		{
 			return $res['balance'];
 		}
@@ -2586,14 +2741,14 @@ GROUP BY adt.adt_trans_ref_id
 
 	public function getPenaltyReport($command = false, $transDate1 = '', $transDate2 = '', $bookingId = '', $vendorId = '', $removalDate1 = '', $removalDate2 = '', $penalty_status = '')
 	{
-		if($transDate1 != '' && $transDate2 != '')
+		if ($transDate1 != '' && $transDate2 != '')
 		{
 			$fromTime		 = '00:00:00';
 			$toTime			 = '23:59:59';
 			$fromDateTime	 = $transDate1 . ' ' . $fromTime;
 			$toDateTime		 = $transDate2 . ' ' . $toTime;
 		}
-		if($removalDate1 != '' && $removalDate2 != '')
+		if ($removalDate1 != '' && $removalDate2 != '')
 		{
 			$fromRevTime	 = '00:00:00';
 			$toRevTime		 = '23:59:59';
@@ -2604,31 +2759,31 @@ GROUP BY adt.adt_trans_ref_id
 		$refId			 = '';
 		$vndId			 = '';
 		$penaltyStatus	 = '';
-		if(($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
+		if (($transDate1 != '' && $transDate1 != '1970-01-01') && ($transDate2 != '' && $transDate2 != '1970-01-01'))
 		{
 			$dateRange .= " AND act.act_date>='$fromDateTime' AND act.act_date<='$toDateTime'";
 		}
-		if(($removalDate1 != '' && $removalDate1 != '1970-01-01') && ($removalDate2 != '' && $removalDate2 != '1970-01-01'))
+		if (($removalDate1 != '' && $removalDate1 != '1970-01-01') && ($removalDate2 != '' && $removalDate2 != '1970-01-01'))
 		{
 			$dateRange .= " AND adt1.adt_modified>='$fromRevDateTime' AND adt1.adt_modified<='$toRevDateTime' AND act.act_active = 0";
 		}
-		if($penalty_status != '' && $penalty_status == 1)
+		if ($penalty_status != '' && $penalty_status == 1)
 		{
 			$penaltyStatus .= " AND act.act_active = 1 AND adt.adt_amount > 0";
 		}
-		if($penalty_status != '' && $penalty_status == 2)
+		if ($penalty_status != '' && $penalty_status == 2)
 		{
 			$penaltyStatus .= " AND (act.act_active = 0 OR (act.act_active = 1 AND adt.adt_amount < 0))";
 		}
-		if($bookingId != '')
+		if ($bookingId != '')
 		{
 			$refId .= " AND adt1.adt_trans_ref_id='$bookingId'";
 		}
-		if($vendorId != '')
+		if ($vendorId != '')
 		{
 			$vndId .= " AND adt.adt_trans_ref_id='$vendorId'";
 		}
-		if($command == true)
+		if ($command == true)
 		{
 			$orderBy .= " order by act.act_created desc";
 		}
@@ -2664,7 +2819,7 @@ GROUP BY adt.adt_trans_ref_id
 				LEFT JOIN admins adm1 ON adm1.adm_id = act.act_user_id
 				WHERE act.act_active IN(0,1) AND adt.adt_active IN(0,1) $dateRange $penaltyStatus $orderBy 
                 ";
-		if($command == false)
+		if ($command == false)
 		{
 			$defaultOrder	 = 'act.act_created desc';
 			$pageSize		 = 100;
@@ -2703,7 +2858,7 @@ GROUP BY adt.adt_trans_ref_id
 		$subWhere	 = "";
 		$date1		 = $model->trans_create_date1;
 		$date2		 = $model->trans_create_date2;
-		if($date1 != '' && $date2 != '')
+		if ($date1 != '' && $date2 != '')
 		{
 			$currentdate = "'$date1 00:00:00'";
 			$condition	 = " AND act_date BETWEEN '" . $date1 . " 00:00:00' AND '" . $date2 . " 23:59:59' ";
@@ -2714,7 +2869,7 @@ GROUP BY adt.adt_trans_ref_id
 			$condition	 = " AND (act_date BETWEEN $currentdate AND NOW()) ";
 		}
 
-		if($model->apg_ledger_type_ids != "")
+		if ($model->apg_ledger_type_ids != "")
 		{
 			$conledger2 = " AND atd1.adt_ledger_id IN ($model->apg_ledger_type_ids)";
 		}
@@ -2738,7 +2893,7 @@ GROUP BY adt.adt_trans_ref_id
 				LEFT JOIN agents a ON a.agt_id = atd.adt_trans_ref_id AND atd.adt_type=3
 				LEFT JOIN agents a1 ON a1.agt_id = atd1.adt_trans_ref_id AND atd1.adt_type=3
 				WHERE 1  $condition";
-		if($type == 'Command')
+		if ($type == 'Command')
 		{
 			$count = DBUtil::queryScalar("SELECT COUNT(1) FROM ($sql) abc", DBUtil::SDB());
 
@@ -2794,7 +2949,7 @@ GROUP BY adt.adt_trans_ref_id
 			$success	 = true;
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$success = false;
@@ -2814,7 +2969,7 @@ GROUP BY adt.adt_trans_ref_id
 		$grpByType		 = trim($arrFilters['groupby_type']);
 		#$grpByPeriod	 = trim($arrFilters['groupby_period']);
 
-		if($toLedgerId != '')
+		if ($toLedgerId != '')
 		{
 			$whereToLedger = " AND atd1.adt_ledger_id IN ({$toLedgerId}) ";
 		}
@@ -2837,19 +2992,19 @@ GROUP BY adt.adt_trans_ref_id
 		DBUtil::createTempTable($transactionTable, $sqlTransactions);
 
 		// Entity
-		if($grpByType != '')
+		if ($grpByType != '')
 		{
 			$tempTableEntityData = "ALedgerEntityData_" . rand();
 			#$tempTableEntityData = "ALedgerEntityData_505570789";
 			#$sqlEntity			 = "DROP TABLE IF EXISTS {$tempTableEntityData}; CREATE TABLE {$tempTableEntityData} ";
 
-			if($grpByType == 'partner')
+			if ($grpByType == 'partner')
 			{
 				$sqlEntity .= "SELECT IFNULL(agt_company, CONCAT(agt_fname, ' ', agt_lname)) as entityName, a.* 
 					FROM {$transactionTable} a 
 					INNER JOIN agents agt ON a.adt_trans_ref_id = agt.agt_id";
 			}
-			elseif($grpByType == 'vendor')
+			elseif ($grpByType == 'vendor')
 			{
 				$sqlEntity .= "SELECT vnd.vnd_name as entityName, a.* 
 					FROM vendors vnd 
@@ -2888,7 +3043,7 @@ GROUP BY adt.adt_trans_ref_id
 		$grpByType		 = trim($arrFilters['groupby_type']);
 		$grpByPeriod	 = trim($arrFilters['groupby_period']);
 
-		if($grpByPeriod == 'all')
+		if ($grpByPeriod == 'all')
 		{
 			return self::processAllTransactionData($arrFilters);
 		}
@@ -2902,18 +3057,18 @@ GROUP BY adt.adt_trans_ref_id
 
 		$groupByType = " GROUP BY atd.adt_ledger_id, atd1.adt_ledger_id ";
 
-		if($toLedgerId != '')
+		if ($toLedgerId != '')
 		{
 			$whereToLedger = " AND atd1.adt_ledger_id IN ({$toLedgerId}) ";
 		}
-		if($grpByType != '')
+		if ($grpByType != '')
 		{
 			$groupByType .= ", atd.adt_trans_ref_id ";
 		}
 
 		// Opening ## 14: Operator/ Vendor, 15: Partner, 47: Wallet, 3: Advance Payment
 		#if (($grpByType != '' && $fromLedgerId != 14) || ($fromLedgerId == 14 && $grpByPeriod ==''))
-		if(in_array($fromLedgerId, array(3, 14, 15, 47)) && $grpByPeriod == '')
+		if (in_array($fromLedgerId, array(3, 14, 15, 47)) && $grpByPeriod == '')
 		{
 			$openingTable	 = "LedgerOpeningBalance_" . rand();
 			#$openingTable	 = "ALedgerOpeningBalance_852730611";
@@ -2933,7 +3088,7 @@ GROUP BY adt.adt_trans_ref_id
 			DBUtil::createTempTable($openingTable, $sqlOpening);
 		}
 
-		if($grpByPeriod != '')
+		if ($grpByPeriod != '')
 		{
 			$groupByType .= ", {$grpByPeriod} ";
 		}
@@ -2958,7 +3113,7 @@ GROUP BY adt.adt_trans_ref_id
 		DBUtil::dropTempTable($transactionTable);
 		DBUtil::createTempTable($transactionTable, $sqlTrans);
 
-		if($grpByType != '')
+		if ($grpByType != '')
 		{
 			$transRefJoin	 = " AND u.adt_trans_ref_id = t.adt_trans_ref_id";
 			$openingRefJoin	 = " AND u.adt_trans_ref_id = o.adt_trans_ref_id";
@@ -2969,7 +3124,7 @@ GROUP BY adt.adt_trans_ref_id
 		#$actTransData	 = "ALedgerData_505570283";
 		#$sqlLedger		 = "DROP TABLE IF EXISTS {$actTransData}; CREATE TABLE {$actTransData} ";
 		#if (($grpByType != '' && $fromLedgerId != 14) || ($fromLedgerId == 14 && $grpByPeriod ==''))
-		if(in_array($fromLedgerId, array(3, 14, 15, 47)) && $grpByPeriod == '')
+		if (in_array($fromLedgerId, array(3, 14, 15, 47)) && $grpByPeriod == '')
 		{
 			$sqlLedger .= "SELECT from_ledger_id, to_ledger_id, '' as {$periodFieldName}, adt_trans_ref_id, 
 				IFNULL(ld.opening,0) opening, IFNULL(ld.debit,0) debit, IFNULL(ld.credit,0) credit, IFNULL(ld.currentTotal,0) currentTotal, 
@@ -3007,19 +3162,19 @@ GROUP BY adt.adt_trans_ref_id
 		DBUtil::createTempTable($actTransData, $sqlLedger);
 
 		// Entity
-		if($grpByType != '')
+		if ($grpByType != '')
 		{
 			$tempTableEntityData = "ALedgerEntityData_" . rand();
 			#$tempTableEntityData = "ALedgerEntityData_505570789";
 			#$sqlEntity			 = "DROP TABLE IF EXISTS {$tempTableEntityData}; CREATE TABLE {$tempTableEntityData} ";
 
-			if($grpByType == 'partner')
+			if ($grpByType == 'partner')
 			{
 				$sqlEntity .= "SELECT IFNULL(agt_company, CONCAT(agt_fname, ' ', agt_lname)) as entityName, a.* 
 					FROM {$actTransData} a 
 					INNER JOIN agents agt ON a.adt_trans_ref_id = agt.agt_id";
 			}
-			elseif($grpByType == 'vendor')
+			elseif ($grpByType == 'vendor')
 			{
 //				$sqlEntity .= "SELECT v1.vnd_name as entityName, 
 //						a.from_ledger_id, a.to_ledger_id, a.{$periodFieldName}, a.adt_trans_ref_id, 
@@ -3077,7 +3232,7 @@ GROUP BY adt.adt_trans_ref_id
 			$creditType	 = $model->ucrCreditType;
 			$validity	 = new CDbExpression("DATE_ADD(NOW(), INTERVAL 12 MONTH)");
 			//$model->adt_amount		 = -1 * $model->adt_amount;
-			if($model->adt_ledger_id == Accounting::LI_WALLET)
+			if ($model->adt_ledger_id == Accounting::LI_WALLET)
 			{
 				$accTransModel1				 = new AccountTransactions();
 				$accTransModel1->act_amount	 = $model->adt_amount;
@@ -3088,7 +3243,7 @@ GROUP BY adt.adt_trans_ref_id
 
 				$returnSet = AccountTransactions::model()->compensationAmount($accTransModel1->act_date, $accTransModel1->act_amount, $bkgmodel->bkg_id, PaymentType::TYPE_WALLET, $accTransModel1->act_remarks, '', UserInfo::getInstance(), Accounting::LI_COMPENSATION);
 			}
-			else if($model->adt_ledger_id == Accounting::LI_GOZOCOINS)
+			else if ($model->adt_ledger_id == Accounting::LI_GOZOCOINS)
 			{
 				$adtAmount = ($model->adt_amount > 0) ? -1 * $model->adt_amount : $model->adt_amount;
 
@@ -3125,13 +3280,13 @@ GROUP BY adt.adt_trans_ref_id
 				//$amount = -1 * $paymentGateway->apg_amount;
 				$returnSet = AccountTransactions::model()->compensationAmount($paymentGateway->apg_date, $model->adt_amount, $paymentGateway->apg_trans_ref_id, $paymentGateway->apg_ptp_id, $paymentGateway->apg_remarks, $paymentGateway, UserInfo::getInstance(), Accounting::LI_COMPENSATION);
 			}
-			if($gozoCoinRefunded)
+			if ($gozoCoinRefunded)
 			{
 				$userCredits = new UserCredits();
 				$returnSet	 = $userCredits->creditGozoCoins($userId, $creditType, $adtAmount, 'Compensation given gozo coins against booking', $maxUseType, $bkgId, $validity);
 			}
 
-			if($returnSet->getStatus())
+			if ($returnSet->getStatus())
 			{
 				$returnSet->setStatus(true);
 				$returnSet->setMessage("Compensation given against booking id:" . $bkgId);
@@ -3144,7 +3299,7 @@ GROUP BY adt.adt_trans_ref_id
 				return $returnSet;
 			}
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet->setErrors($e->getMessage());
@@ -3161,7 +3316,7 @@ GROUP BY adt.adt_trans_ref_id
 	{
 
 		$modelAccTransDetails = AccountTransDetails::model()->findAll('adt_trans_id=:act_id AND adt_active=1 AND adt_status=1', ['act_id' => $transactionId]);
-		foreach($modelAccTransDetails as $accTransDet)
+		foreach ($modelAccTransDetails as $accTransDet)
 		{
 			$param	 = ["adtId" => $accTransDet->adt_id, "totalWaivedOff" => $totalWaivedOff];
 			$sql	 = "UPDATE account_trans_details SET adt_addt_params = JSON_SET(adt_addt_params, '$.totalWaivedOff', :totalWaivedOff) WHERE adt_id =:adtId";
@@ -3211,7 +3366,7 @@ GROUP BY adt.adt_trans_ref_id
 			$success							 = true;
 			DBUtil::commitTransaction($transaction);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$success = false;
@@ -3264,9 +3419,9 @@ GROUP BY adt.adt_trans_ref_id
 	 * @return type
 	 * @throws Exception
 	 */
-	public static function entityTransactionList($entityId, $entityType, $dateRangeObj = null, $pageRef = null, $ledgers = '')
+	public static function entityTransactionListDesc($relEntIds, $entityType, $dateRangeObj = null, $pageRef = null, $ledgers = '')
 	{
-		if($entityId == null || $entityId == "" || $entityType == null || $entityType == "")
+		if ($relEntIds == null || $relEntIds == "" || $entityType == null || $entityType == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
@@ -3278,7 +3433,7 @@ GROUP BY adt.adt_trans_ref_id
 		$nowDateTime = Filter::getDBDateTime();
 
 		$limit = " LIMIT 0,20 ";
-		if($pageRef != null)
+		if ($pageRef != null)
 		{
 			/** @var \Beans\common\PageRef $pageRef */
 			$pageNumber	 = $pageRef->pageCount;
@@ -3288,25 +3443,26 @@ GROUP BY adt.adt_trans_ref_id
 		}
 		$dateRange	 = '';
 		$actOpenDate = '';
+		$today		 = date("Y-m-d", strtotime($nowDateTime));
 		/** @var \Beans\common\dateRange $dateRangeObj */
-		if($dateRangeObj == null || (!$dateRangeObj->fromDate || !$dateRangeObj->toDate))
+		if ($dateRangeObj == null || (!$dateRangeObj->fromDate || !$dateRangeObj->toDate))
 		{
-			$today		 = date("Y-m-d", strtotime($nowDateTime));
-			$startDate	 = date("Y-m-d", strtotime($nowDateTime . ' -6 MONTH'));
-			$dateRange	 = "  AND (act_date)<= '$today 23:59:59' AND (act_date)>= '$startDate 00:00:00' ";
-			$actOpenDate = "  AND (act_date)<'$startDate 00:00:00'";
+			$startDate		 = date("Y-m-d", strtotime($nowDateTime . ' -3 MONTH'));
+			$dateRange		 = "  AND (act_date)<= '$today 23:59:59' AND (act_date)>= '$startDate 00:00:00' ";
+			$actOpenDate	 = "  AND (act_date)<'$startDate 00:00:00'";
+			$actCloseDate	 = "  AND act_date<'$today 23:59:59'";
 		}
 		else
 		{
-
 			$fromDate	 = $dateRangeObj->fromDate;
 			$toDate		 = $dateRangeObj->toDate;
 
-			$dateRange	 = " AND (act_date)<= '$toDate 23:59:59' AND (act_date)>= '$fromDate 00:00:00' ";
-			$actOpenDate = "  AND (act_date)<'$fromDate 00:00:00'";
+			$dateRange		 = " AND (act_date)<= '$toDate 23:59:59' AND (act_date)>= '$fromDate 00:00:00' ";
+			$actOpenDate	 = "  AND (act_date)<'$fromDate 00:00:00'";
+			$actCloseDate	 = "  AND act_date<'$toDate 23:59:59'";
 		}
 
-		if($ledgers != '')
+		if ($ledgers != '')
 		{
 			$ledgersID	 = "AND atd1.adt_ledger_id IN ($ledgers)";
 			$and		 = '';
@@ -3316,13 +3472,13 @@ GROUP BY adt.adt_trans_ref_id
 			$and = ' and atd1.adt_ledger_id=22 ';
 		}
 
-		if($entityType == UserInfo::TYPE_VENDOR)
+		if ($entityType == UserInfo::TYPE_VENDOR)
 		{
 			$accountLedgerId = Accounting::LI_OPERATOR;
 		}
 		$ledgerBankCharge = Accounting::LI_BANKCHARGE;
 
-		$sql		 = "SELECT *, Round(@runningBal1 := @runningBal1 + adt_amount,2) as runningBalance,  
+		$sql = "SELECT *, Round(@runningBal1 := @runningBal1 + @prevTrans,2) as runningBalance, @prevTrans:=adt_amount , 
 				Round(@runningBal1 * -1,2) as vendorRunningBalance
 			FROM (
 					SELECT act_id,  bankTrans.adt_amount bankCharge, act_date,act_created, 
@@ -3360,7 +3516,7 @@ GROUP BY adt.adt_trans_ref_id
 					CONCAT(admins.adm_fname, ' ', admins.adm_lname) AS adm_name  
 				FROM account_transactions act
 				INNER JOIN account_trans_details atd ON act.act_id=atd.adt_trans_id AND atd.adt_ledger_id=$accountLedgerId
-					AND atd.adt_trans_ref_id='$entityId' AND  adt_status=1 
+					AND atd.adt_trans_ref_id IN ({$relEntIds}) AND  adt_status=1 
 					AND adt_active=1 AND act_status=1 AND act_active=1 $dateRange
 				INNER JOIN account_trans_details atd1 ON act.act_id = atd1.adt_trans_id 
 					AND ((abs(atd.adt_amount)=atd.adt_amount AND atd1.adt_amount<0)  OR (abs(atd.adt_amount)<>atd.adt_amount AND atd1.adt_amount>0) )
@@ -3376,15 +3532,142 @@ GROUP BY adt.adt_trans_ref_id
 
 				WHERE   act_active = 1 AND act_status=1 AND act_date >= '2021-04-01 00:00:00' 
 				GROUP BY atd.adt_id 
-				ORDER BY act_date,act_created ASC
+				ORDER BY act_date DESC,act_created DESC  
+			) a
+			JOIN (SELECT @prevTrans := 0) prevTrans
+			JOIN (SELECT   @runningBal1 := ifNULL(SUM(adt_amount),0) openBalance FROM account_trans_details
+			INNER JOIN account_transactions ON act_id=adt_trans_id
+			WHERE 1 $actCloseDate 
+				AND adt_ledger_id=$accountLedgerId  AND adt_status=1 AND adt_active=1 AND act_status=1 
+				AND act_active=1 AND act_date >= '2021-04-01 00:00:00' 
+				AND adt_trans_ref_id IN ({$relEntIds}) ) r $limit";
+
+		$recordset = DBUtil::query($sql, DBUtil::SDB());
+
+		return $recordset;
+	}
+
+	public static function entityTransactionList($relEntIds, $entityType, $dateRangeObj = null, $pageRef = null, $ledgers = '')
+	{
+		if ($relEntIds == null || $relEntIds == "" || $entityType == null || $entityType == "")
+		{
+			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
+		}
+
+
+		$reedemPenaltyData	 = json_decode(Config::get('vendor.ReedemPenalty'));
+		$penaltyStartDate	 = $reedemPenaltyData[0]->startDate;
+
+		$nowDateTime = Filter::getDBDateTime();
+
+		$limit = " LIMIT 0,20 ";
+		if ($pageRef != null)
+		{
+			/** @var \Beans\common\PageRef $pageRef */
+			$pageNumber	 = $pageRef->pageCount;
+			$pageSize	 = $pageRef->pageSize;
+			$offset		 = $pageNumber * $pageSize;
+			$limit		 = " LIMIT {$offset},{$pageSize} ";
+		}
+		$dateRange	 = '';
+		$actOpenDate = '';
+		/** @var \Beans\common\dateRange $dateRangeObj */
+		if ($dateRangeObj == null || (!$dateRangeObj->fromDate || !$dateRangeObj->toDate))
+		{
+			$today		 = date("Y-m-d", strtotime($nowDateTime));
+			$startDate	 = date("Y-m-d", strtotime($nowDateTime . ' -3 MONTH'));
+			$dateRange	 = "  AND (act_date)<= '$today 23:59:59' AND (act_date)>= '$startDate 00:00:00' ";
+			$actOpenDate = "  AND (act_date)<'$startDate 00:00:00'";
+		}
+		else
+		{
+			$fromDate	 = $dateRangeObj->fromDate;
+			$toDate		 = $dateRangeObj->toDate;
+
+			$dateRange	 = " AND (act_date)<= '$toDate 23:59:59' AND (act_date)>= '$fromDate 00:00:00' ";
+			$actOpenDate = "  AND (act_date)<'$fromDate 00:00:00'";
+		}
+
+		if ($ledgers != '')
+		{
+			$ledgersID	 = "AND atd1.adt_ledger_id IN ($ledgers)";
+			$and		 = '';
+		}
+		else
+		{
+			$and = ' and atd1.adt_ledger_id=22 ';
+		}
+
+		if ($entityType == UserInfo::TYPE_VENDOR)
+		{
+			$accountLedgerId = Accounting::LI_OPERATOR;
+		}
+		$ledgerBankCharge = Accounting::LI_BANKCHARGE;
+
+		$sql = "SELECT *, Round(@runningBal1 := @runningBal1 + adt_amount,2) as runningBalance,  
+				Round(@runningBal1 * -1,2) as vendorRunningBalance
+			FROM (
+					SELECT act_id,  bankTrans.adt_amount bankCharge, act_date,act_created, 
+					atd.adt_id, atd.adt_ledger_id,booking.bkg_id, 
+					act_type,act_ref_id,
+					atd1.adt_ledger_id refLedger,
+					atd1.adt_trans_ref_id refId,
+					atd1.adt_type refType,
+					IF(atd1.adt_ledger_id=13,  atd.adt_remarks , atd1.adt_remarks ) transRemarks, 
+					bkg_net_advance_amount as bkg_advance_amount,
+					act.act_date as ven_trans_date,booking.bkg_booking_id,
+					GROUP_CONCAT(atd1.adt_ledger_id) as ledgerIds,
+					GROUP_CONCAT(
+						CASE atd1.adt_ledger_id	
+							WHEN 13 THEN CONCAT(account_ledger.ledgerName, ': ', booking.bkg_booking_id, ' (', booking.bkg_bcb_id ,')')
+							WHEN 22 THEN CONCAT(account_ledger.ledgerName, ': ', booking_cab.bcb_id)
+							ELSE account_ledger.ledgerName
+							END SEPARATOR ', ') as ledgerNames,
+					account_ledger.ledgerName , 
+					atd.adt_amount ,
+					atd1.adt_amount transAmount,
+					atd.adt_addt_params,
+					IF(atd1.adt_ledger_id =28 ,IFNULL(REPLACE(json_extract(atd1.adt_addt_params, '$.totalWaivedOff'),'\"',''),0),0) as totalPenaltyWaivedOff,
+					IF(atd1.adt_ledger_id =28 
+						AND atd.adt_amount > 0 
+						AND act_date > '$penaltyStartDate 00:00:00' 
+						AND IFNULL(REPLACE(json_extract(atd1.adt_addt_params, '$.totalWaivedOff'),'\"',''),0) < atd.adt_amount
+						AND DATEDIFF('$nowDateTime',act_date) < 60 ,1,0) as penaltyRemovable,							 
+					IF(atd1.adt_ledger_id =28 
+						AND atd.adt_amount > 0 
+						AND IFNULL(REPLACE(json_extract(atd1.adt_addt_params, '$.totalWaivedOff'),'\"',''),0) < atd.adt_amount
+						AND DATEDIFF('$nowDateTime',act_date) < 30 ,1,0) as raiseDispute,
+
+					IF(atd1.adt_ledger_id=22, MIN(bcbbkg.bkg_pickup_date), booking.bkg_pickup_date) bkg_pickup_date,
+					CONCAT(admins.adm_fname, ' ', admins.adm_lname) AS adm_name  
+				FROM account_transactions act
+				INNER JOIN account_trans_details atd ON act.act_id=atd.adt_trans_id AND atd.adt_ledger_id=$accountLedgerId
+					AND atd.adt_trans_ref_id IN ({$relEntIds}) AND  adt_status=1 
+					AND adt_active=1 AND act_status=1 AND act_active=1 $dateRange
+				INNER JOIN account_trans_details atd1 ON act.act_id = atd1.adt_trans_id 
+					AND ((abs(atd.adt_amount)=atd.adt_amount AND atd1.adt_amount<0)  OR (abs(atd.adt_amount)<>atd.adt_amount AND atd1.adt_amount>0) )
+				LEFT JOIN `admins` ON admins.adm_id = act.act_user_id AND act.act_user_type = 4
+				LEFT JOIN account_trans_details bankTrans ON act.act_id = bankTrans.adt_trans_id 
+					AND bankTrans.adt_ledger_id={$ledgerBankCharge}
+
+				INNER JOIN account_ledger ON atd1.adt_ledger_id=account_ledger.ledgerId $ledgersID
+				LEFT JOIN booking ON (atd1.adt_ledger_id=13) AND atd1.adt_trans_ref_id=booking.bkg_id
+				LEFT JOIN booking_invoice ON booking_invoice.biv_bkg_id=booking.bkg_id
+				LEFT JOIN booking_cab ON atd1.adt_trans_ref_id=booking_cab.bcb_id $and 
+				LEFT JOIN booking bcbbkg ON bcbbkg.bkg_bcb_id = booking_cab.bcb_id AND booking_cab.bcb_active = 1
+
+				WHERE   act_active = 1 AND act_status=1 AND act_date >= '2021-04-01 00:00:00' 
+				GROUP BY atd.adt_id 
+				ORDER BY act_date,act_created ASC  
 			) a
 			JOIN (SELECT   @runningBal1 := ifNULL(SUM(adt_amount),0) openBalance FROM account_trans_details
 			INNER JOIN account_transactions ON act_id=adt_trans_id
 			WHERE 1 $actOpenDate 
 				AND adt_ledger_id=$accountLedgerId  AND adt_status=1 AND adt_active=1 AND act_status=1 
 				AND act_active=1 AND act_date >= '2021-04-01 00:00:00' 
-				AND adt_trans_ref_id='$entityId' ) r $limit";
-		$recordset	 = DBUtil::query($sql, DBUtil::SDB());
+				AND adt_trans_ref_id IN ({$relEntIds}) ) r $limit";
+
+		$recordset = DBUtil::query($sql, DBUtil::SDB());
 
 		return $recordset;
 	}
@@ -3394,9 +3677,9 @@ GROUP BY adt.adt_trans_ref_id
 	 * @param type $vendorId
 	 * @return type
 	 */
-	public static function getTotalClosingbyVendorId($vendorId)
+	public static function getTotalClosingbyVendorId($relVndIds)
 	{
-		$sql = "SELECT (sum(adt_amount) *-1) closingBalance , 
+		$sql			 = "SELECT (sum(adt_amount) *-1) closingBalance , 
 			    vendor_stats.vrs_locked_amount as locked_amount,vnp_is_freeze,vnd_active 
                 FROM   account_trans_details adt 
 				INNER JOIN vendors ON adt.adt_trans_ref_id = vnd_id
@@ -3407,18 +3690,15 @@ GROUP BY adt.adt_trans_ref_id
                 AND adt.adt_status = 1
                 AND adt.adt_ledger_id = 14
                 AND adt.adt_type = 2 AND act.act_date >= '2021-04-01 00:00:00' 
-                AND vendors.vnd_id=:vendorId
-                GROUP BY vnd_ref_code";
-
-		$params			 = ['vendorId' => $vendorId];
-		$closingBalance	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+                AND vendors.vnd_id IN ({$relVndIds}) ";
+		$closingBalance	 = DBUtil::queryScalar($sql, DBUtil::SDB());
 		return $closingBalance;
 	}
 
-	public static function calTotalTdsByVendorId($vendorId)
+	public static function calTotalTdsByVendorId($relVndIds)
 	{
 		$PreYear	 = $NextYear	 = "";
-		if(date('m') >= 4)
+		if (date('m') >= 4)
 		{
 			$PreYear	 = date('Y') . "-04-01 00:00:00";
 			$NextYear	 = (date('Y') + 1) . "-03-31 23:59:59";
@@ -3440,24 +3720,23 @@ GROUP BY adt.adt_trans_ref_id
 				ON act.act_id = atd1.adt_trans_id 
 					AND atd1.adt_active = 1 AND atd1.adt_status = 1  AND atd1.adt_ledger_id = 14
 			WHERE act.act_date between '$PreYear' and '$NextYear' AND 
-				 atd1.adt_trans_ref_id = :vendorId ";
+				 atd1.adt_trans_ref_id IN ({$relVndIds}) ";
 
-		$params		 = ['vendorId' => $vendorId];
-		$recordSet	 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
+		$recordSet = DBUtil::queryRow($sql, DBUtil::SDB());
 		return $recordSet;
 	}
 
-	public static function getPaidTdsByVendorId($vndId, $tripId = null)
+	public static function getPaidTdsByVendorId($relVndIds, $tripId = null)
 	{
 
-		if($vndId == null || $vndId == "")
+		if ($relVndIds == null || $relVndIds == "")
 		{
 			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
 		}
 
 		$tripVal = '';
-		$params	 = ['vndId' => $vndId];
-		if($tripId > 0)
+		$params	 = [];
+		if ($tripId > 0)
 		{
 			$tripVal			 = " AND atd.adt_ledger_id=:tripId AND atd.adt_type=5 ";
 			$params['tripId']	 = $tripId;
@@ -3471,8 +3750,7 @@ GROUP BY adt.adt_trans_ref_id
 			INNER JOIN account_trans_details atd1 
 				ON act.act_id = atd1.adt_trans_id AND act.act_date >= '2021-04-01 00:00:00'
 					AND atd1.adt_active = 1 AND atd1.adt_status = 1  AND atd1.adt_ledger_id = 14
-			WHERE  atd1.adt_trans_ref_id = :vndId $tripVal  
-";
+			WHERE  atd1.adt_trans_ref_id IN ({$relVndIds}) $tripVal  ";
 
 		$recordSet = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		return $recordSet;
@@ -3522,50 +3800,132 @@ GROUP BY adt.adt_trans_ref_id
 		return $balance;
 	}
 
-	public static function calTotalAmountByVendorId($vendorId, $fromDate = '', $toDate = '')
+	public static function calTotalAmountByRelVendors($relVndIds, $fromDate = '', $toDate = '')
 	{
-		$sql = "SELECT (sum(adt_amount) * -1)  vendor_amount,vrs_security_amount as vnd_security_amount,
-			    vendor_stats.vrs_locked_amount as locked_amount,vnp_is_freeze,vnd_active,vnd_name,vnd_code,vnd_id
-                FROM   account_trans_details adt 
-				INNER JOIN vendors ON adt.adt_trans_ref_id = vnd_id
-				INNER JOIN vendor_pref ON vnp_vnd_id = vnd_id
-                INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = vendors.vnd_id
-                INNER JOIN account_transactions act ON act.act_id = adt.adt_trans_id
-                WHERE  adt.adt_active = 1 AND act.act_active=1 AND act.act_status = 1
-                AND adt.adt_status = 1
-                AND adt.adt_ledger_id = 14
-                AND adt.adt_type = 2 AND act.act_date >= '2021-04-01 00:00:00' 
-                AND vendors.vnd_id=:vendorId
-                ";
-
-		if($fromDate != '')
+		$adtQry	 = '';
+		$actQry	 = '';
+		if ($fromDate != '')
 		{
 			$fromDate		 = DateTimeFormat::DatePickerToDate($fromDate);
 			$fromTime		 = '00:00:00';
 			$fromDateTime	 = $fromDate . ' ' . $fromTime;
-			$sql			 .= " AND act_date>='$fromDateTime'";
+			$actQry			 .= " AND act_date>='$fromDateTime'";
 		}
-		if($toDate != '')
+		if ($toDate != '')
 		{
 			$toDate		 = DateTimeFormat::DatePickerToDate($toDate);
 			$toTime		 = '23:59:59';
 			$toDateTime	 = $toDate . ' ' . $toTime;
-			$sql		 .= " AND act_date<='$toDateTime'";
+			$actQry		 .= " AND act_date<='$toDateTime'";
 		}
-		if($openingDate != '')
+		if ($openingDate != '')
 		{
 			$openingDate	 = DateTimeFormat::DatePickerToDate($openingDate);
 			$fromTime		 = '00:00:00';
 			$fromDateTime	 = $openingDate . ' ' . $fromTime;
-			$sql			 .= " AND act_date < '$fromDateTime'";
+			$actQry			 .= " AND act_date < '$fromDateTime'";
 		}
 
-		$sql .= " GROUP BY vnd_ref_code";
+		$sql1 = "SELECT (sum(adt_amount) * -1)  vendor_amount 
+                FROM vendors  
+				LEFT JOIN account_trans_details adt ON adt.adt_trans_ref_id = vnd_id
+					AND adt.adt_active = 1 AND adt.adt_ledger_id = 14
+					AND adt.adt_type = 2  AND adt.adt_status = 1
+					{$adtQry}
+                LEFT JOIN account_transactions act ON act.act_id = adt.adt_trans_id 
+					AND act.act_active=1 AND act.act_status = 1 
+					AND  act.act_date >= '2021-04-01 00:00:00' 
+					{$actQry}
+                WHERE vendors.vnd_id IN ({$relVndIds}) ";
 
-		$params								 = ['vendorId' => $vendorId];
-		$recordSet							 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
+		$params			 = [];
+		$vendorBalance	 = DBUtil::queryScalar($sql1, DBUtil::SDB(), $params);
+
+		$primeVndRow = Vendors::getPrimaryByIds($relVndIds);
+
+		$vndId = $primeVndRow['vnd_id'];
+
+		$objVnd = Vendors::model()->findByPk($vndId);
+
 		$calculateAmt						 = array();
-		$vendorBalance						 = $recordSet['vendor_amount'];
+		$calculateAmt['vendor_amount']		 = $vendorBalance;
+		$calculateAmt['vnd_security_amount'] = AccountTransactions::getSecurityAmount($relVndIds);
+		$calculateAmt['locked_amount']		 = $objVnd->vendorStats->vrs_locked_amount;
+		$calculateAmt['vnp_is_freeze']		 = $objVnd->vendorPrefs->vnp_is_freeze;
+		$calculateAmt['vnd_active']			 = $objVnd->vnd_active;
+		$calculateAmt['vnd_name']			 = $objVnd->vnd_name;
+		$calculateAmt['vnd_code']			 = $objVnd->vnd_code;
+		if ($vendorBalance < 0)
+		{
+			$calculateAmt['withdrawable_balance']	 = 0;
+			$calculateAmt['vendor_amount_type']		 = 'Payable';
+		}
+		else
+		{
+			$Withdrawable_Balance					 = ($calculateAmt['vnp_is_freeze'] != 0 || $calculateAmt['vnd_active'] != 1) ? 0 : max([$vendorBalance - $calculateAmt['locked_amount'], 0]);
+			$calculateAmt['withdrawable_balance']	 = $Withdrawable_Balance;
+			$calculateAmt['vendor_amount_type']		 = 'Receivable';
+		}
+		return $calculateAmt;
+	}
+
+	public static function calTotalAmountByVendorIdOld($relVndIds, $fromDate = '', $toDate = '')
+	{
+
+
+		$sql = "SELECT  
+					SUM(vrs_security_amount) as vnd_security_amount,
+			    SUM(vendor_stats.vrs_locked_amount) as locked_amount,
+				vnp_is_freeze,
+				vnd_active,
+				vnd_name,vnd_code,vnd_id
+                FROM vendors  
+				INNER JOIN vendor_pref ON vnp_vnd_id = vnd_id
+                INNER JOIN vendor_stats ON vendor_stats.vrs_vnd_id = vendors.vnd_id	
+				WHERE vendors.vnd_id IN ({$relVndIds}) ";
+
+		$recordSet = DBUtil::queryRow($sql, DBUtil::SDB());
+
+		$adtQry	 = '';
+		$actQry	 = '';
+		if ($fromDate != '')
+		{
+			$fromDate		 = DateTimeFormat::DatePickerToDate($fromDate);
+			$fromTime		 = '00:00:00';
+			$fromDateTime	 = $fromDate . ' ' . $fromTime;
+			$actQry			 .= " AND act_date>='$fromDateTime'";
+		}
+		if ($toDate != '')
+		{
+			$toDate		 = DateTimeFormat::DatePickerToDate($toDate);
+			$toTime		 = '23:59:59';
+			$toDateTime	 = $toDate . ' ' . $toTime;
+			$actQry		 .= " AND act_date<='$toDateTime'";
+		}
+		if ($openingDate != '')
+		{
+			$openingDate	 = DateTimeFormat::DatePickerToDate($openingDate);
+			$fromTime		 = '00:00:00';
+			$fromDateTime	 = $openingDate . ' ' . $fromTime;
+			$actQry			 .= " AND act_date < '$fromDateTime'";
+		}
+
+		$sql1 = "SELECT (sum(adt_amount) * -1)  vendor_amount 
+                FROM vendors  
+				LEFT JOIN account_trans_details adt ON adt.adt_trans_ref_id = vnd_id
+					AND adt.adt_active = 1 AND adt.adt_ledger_id = 14
+					AND adt.adt_type = 2  AND adt.adt_status = 1
+					{$adtQry}
+                LEFT JOIN account_transactions act ON act.act_id = adt.adt_trans_id 
+					AND act.act_active=1 AND act.act_status = 1 
+					AND  act.act_date >= '2021-04-01 00:00:00' 
+					{$actQry}
+                WHERE vendors.vnd_id IN ({$relVndIds}) ";
+
+		$params								 = [];
+		$recordSetAct						 = DBUtil::queryRow($sql1, DBUtil::SDB(), $params);
+		$calculateAmt						 = array();
+		$vendorBalance						 = $recordSetAct['vendor_amount'];
 		$calculateAmt['vnd_security_amount'] = $recordSet['vnd_security_amount'];
 		$calculateAmt['vendor_amount']		 = $recordSet['vendor_amount'];
 		$calculateAmt['locked_amount']		 = $recordSet['locked_amount'];
@@ -3574,7 +3934,7 @@ GROUP BY adt.adt_trans_ref_id
 		$calculateAmt['vnd_name']			 = $recordSet['vnd_name'];
 		$calculateAmt['vnd_code']			 = $recordSet['vnd_code'];
 
-		if($vendorBalance < 0)
+		if ($vendorBalance < 0)
 		{
 			$calculateAmt['withdrawable_balance']	 = 0;
 			$calculateAmt['vendor_amount_type']		 = 'Payable';
@@ -3603,7 +3963,7 @@ GROUP BY adt.adt_trans_ref_id
 	{
 		$nowDateTime = Filter::getDBDateTime();
 		$limit		 = " LIMIT 0,20 ";
-		if($pageRef != null)
+		if ($pageRef != null)
 		{
 			/** @var \Beans\common\PageRef $pageRef */
 			$pageNumber	 = $pageRef->pageCount;
@@ -3613,7 +3973,7 @@ GROUP BY adt.adt_trans_ref_id
 		}
 		$dateRange	 = $tripVal	 = '';
 		$params		 = ['vndId' => $vndId];
-		if($tripId > 0)
+		if ($tripId > 0)
 		{
 			$tripVal			 = " AND (bkg.bkg_bcb_id =:tripId OR  bcb.bcb_id=:tripId)";
 			$params['tripId']	 = $tripId;
@@ -3624,7 +3984,7 @@ GROUP BY adt.adt_trans_ref_id
 			$today		 = date("Y-m-d", strtotime($nowDateTime));
 			$startDate	 = date("Y-m-d", strtotime($nowDateTime . ' -6 MONTH'));
 			$dateRange	 = "  AND (act_date)<= '$today 23:59:59' AND (act_date)>= '$startDate 00:00:00' ";
-			if($dateRangeObj->fromDate && $dateRangeObj->toDate)
+			if ($dateRangeObj->fromDate && $dateRangeObj->toDate)
 			{
 				$fromDate	 = $dateRangeObj->fromDate;
 				$toDate		 = $dateRangeObj->toDate;
@@ -3662,7 +4022,7 @@ GROUP BY adt.adt_trans_ref_id
 	{
 		$nowDateTime = Filter::getDBDateTime();
 		$limit		 = " LIMIT 0,20 ";
-		if($pageRef != null)
+		if ($pageRef != null)
 		{
 			/** @var \Beans\common\PageRef $pageRef */
 			$pageNumber	 = $pageRef->pageCount;
@@ -3677,7 +4037,7 @@ GROUP BY adt.adt_trans_ref_id
 		$today		 = date("Y-m-d", strtotime($nowDateTime));
 		$startDate	 = date("Y-m-d", strtotime($nowDateTime . ' -6 MONTH'));
 		$dateRange	 = "  AND (act_date)<= '$today 23:59:59' AND (act_date)>= '$startDate 00:00:00' ";
-		if($dateRangeObj->fromDate && $dateRangeObj->toDate)
+		if ($dateRangeObj->fromDate && $dateRangeObj->toDate)
 		{
 			$fromDate	 = $dateRangeObj->fromDate;
 			$toDate		 = $dateRangeObj->toDate;
@@ -3723,4 +4083,258 @@ GROUP BY adt.adt_trans_ref_id
 		$recordSet	 = DBUtil::query($sql, DBUtil::SDB(), $params);
 		return $recordSet;
 	}
+
+	public static function DcoTransactionList($vendorId, $fromDate = '', $toDate = '')
+	{
+		//echo $fromDate.'--'.$toDate;exit;
+		if ($vendorId == null || $vendorId == "")
+		{
+			throw new Exception("Required data missing", ReturnSet::ERROR_INVALID_DATA);
+		}
+
+		// Getting Merged VendorIds
+//		$vndIds = Vendors::getVndIdsByRefCode($vendorId);
+		$vndIds = Vendors::getRelatedIds($vendorId);
+
+		if ($vndIds == null || $vndIds == "")
+		{
+			throw new Exception("Vendor not found", ReturnSet::ERROR_INVALID_DATA);
+		}
+
+		$dateRange = '';
+		
+		if (($fromDate != '' && $fromDate != '1970-01-01') && ($toDate != '' && $toDate != '1970-01-01'))
+		{
+		
+			
+			$dateRange	 .= " AND (act_date) >='$fromDate 00:00:00' AND (act_date) <= '$toDate 23:59:59' ";
+			$actOpenDate = " AND (act_date) < '$fromDate 00:00:00'";
+			if ($ledgers != '')
+			{
+				$ledgersID	 = "AND atd1.adt_ledger_id IN ($ledgers)";
+				$and		 = '';
+			}
+			else
+			{
+				$and = ' and atd1.adt_ledger_id=22 ';
+			}
+		}
+		$vndAmt = '';
+		if ($vendorAmt == '0')
+		{
+			$vndAmt .= "  AND (adt.adt_amount<>0)";
+		}
+		
+		$sql = "SELECT *, Round(@runningBal1 := @runningBal1 + ven_trans_amount,2) as runningBalance,  
+				Round(@runningBal1 * -1,2) as vendorRunningBalance
+			FROM (
+				SELECT atd2.adt_amount bank_charge, act_date,act_created, act_id, 
+				atd.adt_id, atd.adt_ledger_id,booking.bkg_id, act_type,act_ref_id,
+					IF(atd1.adt_ledger_id=13,  atd.adt_remarks , atd1.adt_remarks ) ven_trans_remarks, bkg_net_advance_amount as bkg_advance_amount,
+					act.act_date as ven_trans_date,booking.bkg_booking_id,bcbbkg.bkg_bcb_id ,
+					GROUP_CONCAT(atd1.adt_ledger_id) as ledgerIds,
+					GROUP_CONCAT(CASE atd1.adt_ledger_id	
+							WHEN 13 THEN CONCAT(account_ledger.ledgerName, ': ', booking.bkg_booking_id, ' (', booking.bkg_bcb_id ,')')
+							WHEN 22 THEN CONCAT(account_ledger.ledgerName, ': ', booking_cab.bcb_id)
+							ELSE account_ledger.ledgerName
+						END SEPARATOR ', ') as ledgerNames,
+					account_ledger.ledgerName entityType, atd.adt_amount ven_trans_amount,atd.adt_addt_params,
+					IF(atd1.adt_ledger_id=22, MIN(bcbbkg.bkg_pickup_date), booking.bkg_pickup_date) bkg_pickup_date,
+					CONCAT(admins.adm_fname, ' ', admins.adm_lname) AS adm_name,
+					GROUP_CONCAT(concat(c1.cty_name, ' - ', c2.cty_name) SEPARATOR ' - ') from_city,
+					account_ledger.ledgerId As lid
+				FROM account_transactions act
+				INNER JOIN account_trans_details atd ON act.act_id=atd.adt_trans_id 
+					AND atd.adt_ledger_id=14 AND atd.adt_trans_ref_id IN ({$vndIds}) AND  adt_status=1 
+					AND adt_active=1 AND act_status=1 
+					AND act_active=1 $dateRange 
+				INNER JOIN account_trans_details atd1 ON act.act_id = atd1.adt_trans_id 
+					AND ((abs(atd.adt_amount)<>atd.adt_amount AND atd1.adt_amount>0) OR (abs(atd.adt_amount)=atd.adt_amount 
+						AND atd1.adt_amount<0))
+				LEFT JOIN account_trans_details atd2 ON act.act_id = atd2.adt_trans_id 
+					AND atd2.adt_ledger_id=31  
+				INNER JOIN account_ledger ON atd1.adt_ledger_id=account_ledger.ledgerId $ledgersID
+				LEFT JOIN booking ON (atd1.adt_ledger_id=13) AND atd1.adt_trans_ref_id=booking.bkg_id
+				LEFT JOIN booking_invoice ON booking_invoice.biv_bkg_id=booking.bkg_id
+				LEFT JOIN booking_cab ON  atd1.adt_trans_ref_id=booking_cab.bcb_id $and 
+				LEFT JOIN booking bcbbkg ON bcbbkg.bkg_bcb_id = booking_cab.bcb_id AND booking_cab.bcb_active = 1
+				LEFT JOIN `admins` ON admins.adm_id = act.act_user_id AND act.act_user_type = 4
+				LEFT JOIN `cities` AS c1 ON c1.cty_id = if(atd1.adt_ledger_id=22, bcbbkg.bkg_from_city_id, booking.bkg_from_city_id)
+				LEFT JOIN `cities` AS c2 ON c2.cty_id = if(atd1.adt_ledger_id=22, bcbbkg.bkg_to_city_id, booking.bkg_to_city_id)
+				WHERE act_active = 1 AND act_date >= '2021-04-01 00:00:00' AND act_status=1 
+				GROUP BY atd.adt_id ORDER BY act.act_date ASC) a
+				JOIN 
+				(SELECT @runningBal1 := ifNULL(SUM(adt_amount),0) openBalance FROM account_trans_details
+					INNER JOIN account_transactions ON act_id=adt_trans_id
+					WHERE 1 $actOpenDate 
+						AND adt_ledger_id=14  AND adt_status=1 AND adt_active=1 AND act_status=1 AND act_active=1 
+						AND act_date >= '2021-04-01 00:00:00' 
+						AND adt_trans_ref_id IN ({$vndIds})  
+					ORDER BY act_date,act_created ASC) r";
+				
+		$sqlCount = "SELECT  COUNT(DISTINCT atd1.adt_id) AS cnt
+					FROM account_transactions act
+					INNER JOIN account_trans_details atd ON act.act_id = atd.adt_trans_id AND atd.adt_ledger_id = 14 
+							AND atd.adt_trans_ref_id IN ({$vndIds}) AND adt_active = 1 
+					INNER JOIN account_trans_details atd1 ON act.act_id = atd1.adt_trans_id 
+							AND ((abs(atd.adt_amount) <> atd.adt_amount AND atd1.adt_amount > 0) OR (abs(atd.adt_amount) = atd.adt_amount AND atd1.adt_amount < 0)) AND atd1.adt_active=1
+					WHERE act_active = 1 AND act_date >= '2021-04-01 00:00:00' $ledgersID $dateRange";
+
+		
+			$recordset	 = DBUtil::query($sql, DBUtil::SDB());
+			$resultSet	 = [];
+			$i			 = 0;
+			foreach ($recordset as $val)
+			{
+				$resultSet[$i]						 = $val;
+				$resultSet[$i]['penaltyRedeemFlag']	 = self::model()->checkFlagStatus($val['act_date'], $val['lid'], $val['ven_trans_amount'], $val['adt_addt_params']); // for checking penalty will be reeedem or not
+				$i++;
+			}
+
+			return $resultSet;
+		
+	}
+	/**
+	 * function is used to create CSV data in API response
+	 * @param type $vendorId
+	 * @param type $fromDate
+	 * @param type $toDate
+	 * @param type $email
+	 */
+	public function GenerateLedgerXLS($vendorId, $fromDate, $toDate, $email = 0)
+	{
+		//$fromDate = date("d/m/Y", strtotime($fromDate));
+		//$toDate = date("d/m/Y", strtotime($toDate));
+		
+		$data = AccountTransDetails::model()->getLedgerxls($vendorId, $fromDate, $toDate);
+		
+
+		header('Content-type: text/csv');
+		header("Content-Disposition: attachment; filename=\"LedgerDetails" . date('Ymdhis') . ".csv\"");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		/**$filename	 = "LedgerDetails_" . date('YmdHi') . ".csv";
+		$foldername	 = Yii::app()->params['uploadPath'];
+		$backup_file = $foldername . DIRECTORY_SEPARATOR . $filename;
+		if (!is_dir($foldername))
+		{
+			mkdir($foldername);
+		}
+		if (file_exists($backup_file))
+		{
+			unlink($backup_file);
+		}
+		 $csv = $backup_file; 
+		$handle= fopen($csv, 'w');*/ // this code is used to create file
+		$file_pointer = fopen("php://output", 'w');// File pointer in writable mode 
+		fputcsv($file_pointer, ['TransactionDate', 'Description','TransactionAmount', 'ReffId']);
+		
+	  // Traverse through the associative 
+	  // array using for each loop 
+	  foreach($data['vendorList'] as $vendor){ 
+		
+			$bkgcode		 = ($vendor['ledgerNames'] == NULL) ? "none" : trim($vendor['ledgerNames']);
+			$bkgId			 = ($vendor['bkg_id'] == NULL) ? "none" : trim($vendor['bkg_id']);
+			$drvCabDetails	 = ($vendor['bcb_cab_number'] != '' && $vendor['drv_name'] != '') ? $vendor['bcb_cab_number'] . " / " . $vendor['drv_name'] : "";
+			$notes			 = (trim($vendor['ven_trans_remarks']) == '') ? '' : '(' . trim($vendor['ven_trans_remarks']) . ')';
+			$advance		 = ($vendor['bkg_advance_amount'] == '') ? '0' : round($vendor['bkg_advance_amount']);
+			$gozoAmount		 = ($vendor['gozo_amount'] == '') ? '0' : round($vendor['gozo_amount']);
+			$netAmount		 = ($gozoAmount - $advance);
+			$pickupDate		 = ($vendor['bkg_pickup_date'] == '' || date('d-m-Y', strtotime($vendor['bkg_pickup_date'])) == '01-01-1970') ? '-' : date('d-m-Y h:iA', strtotime($vendor['bkg_pickup_date']));
+			$vendorCollected = ($vendor['bkg_vendor_collected'] == '') ? '0' : round($vendor['bkg_vendor_collected']);
+			$transactionDate = ($vendor['act_date'] != '') ? date('d-m-Y', strtotime($vendor['act_date'])) : '';
+			$toCities		 = ($vendor['from_city'] != '') ? $vendor['from_city'] : '';
+			$rowArray['transactionDate']   = $transactionDate;
+			$rowArray['Description']   = $bkgcode.''.$notes;
+			$rowArray['transactionAmount']  = $vendor['ven_trans_amount'];
+			//$rowArray['runningBalance']   = $vendor['runningBalance'];
+			if($vendor['act_type']==1)
+			{
+				$type= "BookingId:".' '.$vendor['act_ref_id'];
+			}
+			else if($vendor['act_type']==5)
+			{
+				$type= "TripId:".' '.$vendor['act_ref_id'];
+			}
+			else
+			{
+				$type= "PartnerId:".' '.$vendor['act_ref_id'];
+			}
+			$rowArray['reffId']       = $type;
+		  // Write the data to the CSV file 
+		   $row1					 = array_values($rowArray);
+		   fputcsv($file_pointer, $row1);
+		 // fputcsv($file_pointer, $vendor); 
+	  } 
+		
+		fclose($file_pointer);
+		exit;
+	}
+
+	/**
+	 * function used to  show PDF data
+	 * @param type $vendorId
+	 * @param type $fromDate
+	 * @param type $toDate
+	 * @param type $email
+	 * @return string
+	 */
+	public function GenerateLedgerPdf($vendorId, $fromDate, $toDate, $email = 0)
+	{
+		//$fromDate = date("d/m/Y", strtotime($fromDate));
+		//$toDate = date("d/m/Y", strtotime($toDate));
+		$data = AccountTransDetails::model()->getLedgerPdf($vendorId, $fromDate, $toDate);
+		#print_r($data['pdf']);exit;
+		$vendorList					 = $data['vendorList'];
+		$vendorAmount				 = $data['vendorAmount'];
+		$openingAmount				 = $data['openingAmount'];
+		$record						 = $data['record'];
+		$fromDate					 = $data['fromDate'];
+		$toDate						 = $data['toDate'];
+		$html2pdf					 = $data['pdf'];
+		$address					 = Config::getGozoAddress(Config::Corporate_address, true);
+		$css						 = file_get_contents(Yii::getPathOfAlias('webroot.assets.css') . '/vendorpdf.css');
+		$html2pdf->writeHTML($css, 1);
+		$html2pdf->setAutoTopMargin	 = 'stretch';
+		$html2pdf->setHTMLHeader('<table border="0" cellpadding="0" cellspacing="0" width="702" class="no-border header">
+                  <tbody>
+                  <tr>
+                  <td style="text-align: left"><img src="http://www.gozocabs.com/images/print-logo.png" style="height: 60px"/><br><span style="font-weight: normal; font-size: 12pt">Gozo Technologies Private Limited</span></td>
+                  <td style="text-align: right"><table class="borderless"><tr><td style="text-align: left; font-size: 10pt">
+                  <strong>Corporate Office:</strong><br>
+					' . $address . '
+                  </td></tr></table></td>
+                  </tr></tbody></table><hr>');
+		$html2pdf->setHTMLFooter('<table id="footer" style="width: 100%"> <tr><td style="text-align: center"><hr>www.gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info@gozocabs.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9051 877 000</td></tr></table>');
+		$html2pdf->writeHTML($this->renderPartial('generateledgerpdf', array(
+					'vendorList'	 => $vendorList,
+					'vendorAmount'	 => $vendorAmount,
+					'openingAmount'	 => $openingAmount,
+					'record'		 => $record,
+					'fromDate'		 => $fromDate,
+					'toDate'		 => $toDate
+						), true));
+		if ($email == 1)
+		{
+			$filename		 = $vendorId . '-ledger-' . date('Y-m-d') . '.pdf';
+			$fileBasePath	 = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors';
+			if (!is_dir($fileBasePath))
+			{
+				mkdir($fileBasePath);
+			}
+			$filePath = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'vendors' . DIRECTORY_SEPARATOR . $vendorId;
+			if (!is_dir($filePath))
+			{
+				mkdir($filePath);
+			}
+			$file = $filePath . DIRECTORY_SEPARATOR . $filename;
+			$html2pdf->Output($file, 'F');
+			return $file;
+		}
+		else
+		{
+			$html2pdf->Output();
+		}
+	}
+
 }

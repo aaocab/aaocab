@@ -69,6 +69,9 @@ class GetDetailsResponse
 	/** @var \Beans\common\Dbo $dbo */
 	public $dbo;
 
+	/** @var \Stub\common\PromoDetails() $availablePromoCredits */
+	public $availablePromoCredits;
+
 	/**
 	 * This function is used for setting booking details	  
 	 * @param type $model = Booking Model
@@ -78,30 +81,37 @@ class GetDetailsResponse
 	 */
 	public function setData(\Booking $model, $packageName = null)
 	{
-		$result					 = $model->getBookingCodeStatus();
-		$this->bkgId			 = (int) $model->bkg_id;
-		$this->bookingId		 = $model->bkg_booking_id;
-		$this->statusCode		 = (int) $result['code'];
-		$this->statusDesc		 = $result['desc'];
-		$this->tripType			 = (int) $model->bkg_booking_type;
-		$this->tripDistance		 = (int) $model->bkg_trip_distance;
-		$this->tripDuration		 = \Filter::getDurationbyMinute($model->bkg_trip_duration);
-		$this->pickupDate		 = date("Y-m-d", strtotime($model->bkg_pickup_date));
-		$this->pickupTime		 = date("H:i:s", strtotime($model->bkg_pickup_date));
-		$this->bookingDate		 = date("Y-m-d", strtotime($model->bkg_create_date));
-		$this->bookingTime		 = date("H:i:s", strtotime($model->bkg_create_date));
-		$this->isRated			 = \Ratings::isRatingPosted($model->bkg_id);
-		$this->isPayable		 = (int) \BookingInvoice::isPayable($model->bkg_id);
-		$this->isGozoNow		 = (int) ($model->bkgPref->bkg_is_gozonow == 0) ? 0 : 1;
-		$this->isDrvDetailViewed = (int) $model->bkgTrack->btk_drv_details_viewed;
-		$this->packageName		 = $packageName;
-		$isReschedule			 = 0;
+		$result				 = $model->getBookingCodeStatus();
+		$this->bkgId		 = (int) $model->bkg_id;
+		$this->bookingId	 = $model->bkg_booking_id;
+		$this->statusCode	 = (int) $result['code'];
+		$this->statusDesc	 = $result['desc'];
+		$this->tripType		 = (int) $model->bkg_booking_type;
+		$this->tripDistance	 = (int) $model->bkg_trip_distance;
+		$this->tripDuration	 = \Filter::getDurationbyMinute($model->bkg_trip_duration);
+		$this->pickupDate	 = date("Y-m-d", strtotime($model->bkg_pickup_date));
+		$this->pickupTime	 = date("H:i:s", strtotime($model->bkg_pickup_date));
+		$this->bookingDate	 = date("Y-m-d", strtotime($model->bkg_create_date));
+		$this->bookingTime	 = date("H:i:s", strtotime($model->bkg_create_date));
+		$this->isRated		 = \Ratings::isRatingPosted($model->bkg_id);
+		$this->isPayable	 = (int) \BookingInvoice::isPayable($model->bkg_id);
+		$this->isGozoNow	 = (int) ($model->bkgPref->bkg_is_gozonow == 0) ? 0 : 1;
+		if (in_array($model->bkg_status, [5]))
+		{
+			$isDriverDetails		 = (\BookingPref::isDriverDetailsViewable($model) == true) ? 1 : 0;
+			$this->isDrvDetailViewed = $isDriverDetails;
+		}
+		$this->packageName	 = $packageName;
+		$isReschedule		 = 0;
 		if (in_array($model->bkg_status, [2, 3, 5]) && $model->bkgPref->bpr_rescheduled_from == 0 && $model->bkgPref->bkg_is_gozonow != 1 && $model->bkg_pickup_date > date('Y-m-d H:i:s'))
 		{
 			$isReschedule = 1;
 		}
 		$this->isReschedule = $isReschedule;
-
+		if (in_array($model->bkg_status, [2, 3, 5]) && $model->bkg_reconfirm_flag == 1)
+		{
+			$this->otp = $model->bkgTrack->bkg_trip_otp;
+		}
 		$sosArray		 = \ReportIssue::checkStatusForSos($model->bkg_id);
 		$this->sosFlag	 = (int) $sosArray['isSOS'];
 
@@ -119,33 +129,47 @@ class GetDetailsResponse
 		$cabRate->setModelData($model->bkg_vehicle_type_id, $model->bkgInvoice);
 		$this->cabRate	 = $cabRate;
 
-		$driverObj	 = new \Stub\common\Driver();
-		$driverData	 = [
-			'drv_name'	 => $model->bkgBcb->bcbDriver->drv_name,
-			'drv_phone'	 => (int) $model->bkgBcb->bcb_driver_phone,
-			'bkg_id'	 => $model->bkg_id
-		];
-		$driverData	 = \Filter::convertToObject($driverData);
-		if ($model->bkgBcb->bcbDriver->drv_name != '' && in_array($model->bkg_status, [6, 7]))
+		if (in_array($model->bkg_status, [5, 6, 7]))
 		{
-			$this->driver = $driverObj->setModelData($driverData, false);
+			$drvId = $model->bkgBcb->bcb_driver_id;
+			if ($drvId == null)
+			{
+				goto skipDriverInfo;
+			}
+			$data = \Drivers::getDetailsById($drvId);
+
+			$driverData = [
+				'drv_name'	 => $data['drv_name'],
+				'drv_phone'	 => (int) $data['drv_phone'],
+				'bkg_id'	 => $model->bkg_id
+			];
+			if ($data['ctt_profile_path'] != '')
+			{
+				$driverData['profileImage'] = \Yii::app()->params['fullAPIBaseURL'] . \AttachmentProcessing::ImagePath($data['ctt_profile_path']);
+			}
+			$driverData		 = \Filter::convertToObject($driverData);
+			$driverObj		 = new \Stub\common\Driver();
+			$this->driver	 = $driverObj->setModelData($driverData, false);
 		}
+		skipDriverInfo:
 
 		$vehicleModel = $model->bkgBcb->bcbCab->vhcType->vht_model;
 		if ($model->bkgBcb->bcbCab->vhc_type_id === \Config::get('vehicle.genric.model.id'))
 		{
 			$vehicleModel = \OperatorVehicle::getCabModelName($model->bkgBcb->bcb_vendor_id, $model->bkgBcb->bcb_cab_id);
 		}
+
+
+
 		$carData = [
 			'vhc_number' => $model->bkgBcb->bcbCab->vhc_number,
-			'vht_make'	 => $model->bkgBcb->bcbCab->vhcType->vht_make,
-			'vht_model'	 => $model->bkgBcb->bcbCab->vhcType->vht_model
+			'vht_make'	 => $model->bkgBcb->bcbCab->vhcType->vht_make . " " . $vehicleModel
 		];
-		$carData = \Filter::convertToObject($carData);
-		$carObj	 = new \Stub\common\Vehicle();
+		//$carData = \Filter::convertToObject($carData);
 		if ($model->bkgBcb->bcbCab->vhc_number != '')
 		{
-			$this->car = $carObj->setModelData($carData);
+			//$carObj		 = new \Stub\common\Vehicle();
+			$this->car = \Stub\common\Vehicle::setModelDataV1($carData);
 		}
 
 		if ($model->bkg_agent_id > 0)
@@ -176,6 +200,16 @@ class GetDetailsResponse
 
 		$this->dbo	 = new \Beans\common\Dbo();
 		$this->dbo	 = \Beans\common\Dbo::getData($model->bkg_pickup_date, $model->bkg_status);
+
+		$promos			 = \Promos::getPromoDetails($model);
+		
+		if($model->bkgUserInfo->bkg_user_id>0)
+		{
+			$credits		 = \UserCredits::getApplicableCredits($model->bkgUserInfo->bkg_user_id, $model->bkgInvoice->bkg_base_amount, true, $model->bkg_from_city_id, $model->bkg_to_city_id);
+			$credits		 = $credits['credits'];
+			$walletBalance	 = \UserWallet::getBalance($model->bkgUserInfo->bkg_user_id);
+		}
+		$this->availablePromoCredits = \Stub\common\PromoDetails::setDataSet($promos, $credits, $walletBalance);
 	}
 
 	public function setCabDriver(\Booking $model)

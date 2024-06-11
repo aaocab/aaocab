@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is the model class for table "booking_cab".
  *
@@ -72,26 +73,26 @@ class BookingCab extends CActiveRecord
 	public $pre_cab_type, $post_cab_type, $post_cab_msg, $bkg_cab_match_message;
 	public $bcb_drv_lic_number, $bcb_drv_lic_exp_date, $bcb_drv_licence_path;
 	public $recommended_vendor_amount;
-	public $event_by		 = 1;
-	public $Cab_trip_type	 = [0 => 'Normal', 1 => 'Matched'];
-	public $tripStatus		 = [
-		1	 => 'Vendor Unassigned',
-		2	 => 'Vendor Assigned',
-		3	 => 'Cab Driver Assigned',
-		4	 => 'Trip Started',
-		5	 => 'Trip Partially Completed',
-		6	 => 'Trip Completed'
+	public $event_by		= 1;
+	public $Cab_trip_type	= [0 => 'Normal', 1 => 'Matched'];
+	public $tripStatus		= [
+		1 => 'Vendor Unassigned',
+		2 => 'Vendor Assigned',
+		3 => 'Cab Driver Assigned',
+		4 => 'Trip Started',
+		5 => 'Trip Partially Completed',
+		6 => 'Trip Completed'
 	];
-	public $bcb_assign_mode	 = [0 => 'Auto', 1 => 'Manual', 2 => 'Direct', 3 => 'Gozonow'];
+	public $bcb_assign_mode = [0 => 'Auto', 1 => 'Manual', 2 => 'Direct', 3 => 'Gozonow'];
 
 	//  public $booking_id,$vendor_name,$vendor_amount,$routename,$quoted_vendor_amount,$quoted_gozoamount,$gozoAmount,$gozoUnmatchedAmount,$pickupDate,$agent_name;
 
-	const STATUS_VENDOR_UNASSIGNED		 = 1;
-	const STATUS_VENDOR_ASSIGNED			 = 2;
-	const STATUS_CAB_DRIVER_ASSIGNED		 = 3;
-	const STATUS_TRIP_STARTED				 = 4;
-	const STATUS_TRIP_PARTIALLY_COMPLETED	 = 5;
-	const STATUS_TRIP_COMPLETED			 = 6;
+	const STATUS_VENDOR_UNASSIGNED		= 1;
+	const STATUS_VENDOR_ASSIGNED			= 2;
+	const STATUS_CAB_DRIVER_ASSIGNED		= 3;
+	const STATUS_TRIP_STARTED				= 4;
+	const STATUS_TRIP_PARTIALLY_COMPLETED = 5;
+	const STATUS_TRIP_COMPLETED			= 6;
 
 	public function defaultScope()
 	{
@@ -167,10 +168,10 @@ class BookingCab extends CActiveRecord
 // NOTE: you may need to adjust the relation name and the related
 // class name for the relations automatically generated below.
 		return array(
-			'bookings'	 => array(self::HAS_MANY, 'Booking', 'bkg_bcb_id'),
-			'bcbVendor'	 => array(self::BELONGS_TO, 'Vendors', 'bcb_vendor_id'),
-			'bcbDriver'	 => array(self::BELONGS_TO, 'Drivers', 'bcb_driver_id'),
-			'bcbCab'	 => array(self::BELONGS_TO, 'Vehicles', 'bcb_cab_id'),
+			'bookings'	=> array(self::HAS_MANY, 'Booking', 'bkg_bcb_id'),
+			'bcbVendor' => array(self::BELONGS_TO, 'Vendors', 'bcb_vendor_id'),
+			'bcbDriver' => array(self::BELONGS_TO, 'Drivers', 'bcb_driver_id'),
+			'bcbCab'	=> array(self::BELONGS_TO, 'Vehicles', 'bcb_cab_id'),
 				//     'bcbBkg' => array(self::BELONGS_TO, 'Booking', 'bcb_bkg_id'),
 //	'bookingRoutes' => array(self::HAS_MANY, 'BookingRoute', 'brt_bcb_id'),
 		);
@@ -182,25 +183,25 @@ class BookingCab extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'bcb_id'				 => 'Bcb',
-			'bcb_vendor_id'			 => 'Vendor',
-			'bcb_vendor_rating'		 => 'Vendor Rating',
-			'bcb_vendor_trips'		 => 'Vendor Trips',
-			'bcb_vendor_amount'		 => 'Vendor Amount',
-			'bcb_vendor_collected'	 => 'Vendor Collected',
-			'bcb_driver_id'			 => 'Driver',
-			'bcb_driver_rating'		 => 'Driver Rating',
-			'bcb_driver_trips'		 => 'Driver Trips',
-			'bcb_driver_name'		 => 'Driver Name',
-			'bcb_driver_phone'		 => 'Driver Phone',
-			'bcb_cab_id'			 => 'Cab',
-			'bcb_cab_rating'		 => 'Cab Rating',
-			'bcb_cab_trips'			 => 'Cab Trips',
-			'bcb_cab_number'		 => 'Cab Number',
-			'bcb_active'			 => 'Active',
-			'bcb_created'			 => 'Created',
-			'chk_user_msg'			 => 'Send Sms to',
-			'bcb_vendor_ref_code'	 => 'Vendor Ref Code',
+			'bcb_id'			   => 'Bcb',
+			'bcb_vendor_id'		   => 'Vendor',
+			'bcb_vendor_rating'	   => 'Vendor Rating',
+			'bcb_vendor_trips'	   => 'Vendor Trips',
+			'bcb_vendor_amount'	   => 'Vendor Amount',
+			'bcb_vendor_collected' => 'Vendor Collected',
+			'bcb_driver_id'		   => 'Driver',
+			'bcb_driver_rating'	   => 'Driver Rating',
+			'bcb_driver_trips'	   => 'Driver Trips',
+			'bcb_driver_name'	   => 'Driver Name',
+			'bcb_driver_phone'	   => 'Driver Phone',
+			'bcb_cab_id'		   => 'Cab',
+			'bcb_cab_rating'	   => 'Cab Rating',
+			'bcb_cab_trips'		   => 'Cab Trips',
+			'bcb_cab_number'	   => 'Cab Number',
+			'bcb_active'		   => 'Active',
+			'bcb_created'		   => 'Created',
+			'chk_user_msg'		   => 'Send Sms to',
+			'bcb_vendor_ref_code'  => 'Vendor Ref Code',
 		);
 	}
 
@@ -259,8 +260,8 @@ class BookingCab extends CActiveRecord
 
 	public function getByBkgid($bkgid)
 	{
-		$criteria	 = new CDbCriteria;
-		$model		 = $this->findAll($criteria);
+		$criteria = new CDbCriteria;
+		$model	  = $this->findAll($criteria);
 		if ($model)
 		{
 			return $model;
@@ -299,12 +300,12 @@ class BookingCab extends CActiveRecord
 			{
 				if ($this->bcb_drv_lic_number != '')
 				{
-					$sql	 = "SELECT DISTINCT drv_id
+					$sql	= "SELECT DISTINCT drv_id
 								FROM  `drivers`
 								INNER JOIN contact ON contact.ctt_id=drv_contact_id
 								INNER JOIN `vendor_driver` ON drivers.drv_id = vendor_driver.vdrv_drv_id AND vendor_driver.vdrv_active = 1
 								WHERE drv_active = 1 AND contact.ctt_license_no = '$this->bcb_drv_lic_number'";
-					$result	 = DBUtil::command($sql)->queryScalar();
+					$result = DBUtil::command($sql)->queryScalar();
 					if ($status == false && $result > 0)
 					{
 						$this->addError($attribute, "Licence Number already exists.");
@@ -400,8 +401,8 @@ class BookingCab extends CActiveRecord
 		  goto result;
 		  }
 		  } */
-		$this->tripStartRegion	 = $this->bookings[0]->bkgFromCity->ctyState->stt_zone;
-		$checkAccess			 = Filter::checkAssignmentAccess($this->tripStartRegion);
+		$this->tripStartRegion = $this->bookings[0]->bkgFromCity->ctyState->stt_zone;
+		$checkAccess		   = Filter::checkAssignmentAccess($this->tripStartRegion);
 		if (!$checkAccess)
 		{
 			$vndStat = $this->bcbVendor->vendorPrefs->getStatusDesc();
@@ -414,8 +415,8 @@ class BookingCab extends CActiveRecord
 
 	public function chkVendorDue($bcbId)
 	{
-		$params	 = ['bcbId' => $bcbId];
-		$sql	 = "SELECT (bcb.bcb_vendor_amount -SUM(biv.bkg_total_amount-biv.bkg_net_advance_amount)) as vendor_due FROM booking_cab bcb
+		$params = ['bcbId' => $bcbId];
+		$sql	= "SELECT (bcb.bcb_vendor_amount -SUM(biv.bkg_total_amount-biv.bkg_net_advance_amount)) as vendor_due FROM booking_cab bcb
 			        INNER JOIN booking bkg ON bkg.bkg_bcb_id=bcb.bcb_id
 			        INNER JOIN booking_invoice biv ON biv.biv_bkg_id = bkg.bkg_id
 			         WHERE bcb.bcb_id =  :bcbId
@@ -485,9 +486,9 @@ class BookingCab extends CActiveRecord
 			$this->addError($attribute, 'Can not assign inactive cabs');
 			return false;
 		}
-		$status			 = $vehicleModel->getVehicleApproveStatus();
-		$hasCngAllowed	 = $this->isCngAllowed($this->bcb_bkg_id1, $this->bcbCab);
-		$checkVhcModel	 = $this->checkSimilarModel($this->bcb_bkg_id1, $this->bcbCab);
+		$status		   = $vehicleModel->getVehicleApproveStatus();
+		$hasCngAllowed = $this->isCngAllowed($this->bcb_bkg_id1, $this->bcbCab);
+		$checkVhcModel = $this->checkSimilarModel($this->bcb_bkg_id1, $this->bcbCab);
 		if ($status && $hasCngAllowed['success'] && $checkVhcModel['success'])
 		{
 			goto result;
@@ -512,10 +513,10 @@ class BookingCab extends CActiveRecord
 
 			return false;
 		}
-		$vehicleRatingTrips		 = Booking::model()->getRatingTrips('car', $this->bcb_cab_id);
-		$this->bcb_cab_rating	 = $vehicleRatingTrips['rating'];
-		$this->bcb_cab_trips	 = $vehicleRatingTrips['trips'];
-		$this->bcb_cab_number	 = $vehicleRatingTrips['number'];
+		$vehicleRatingTrips	  = Booking::model()->getRatingTrips('car', $this->bcb_cab_id);
+		$this->bcb_cab_rating = $vehicleRatingTrips['rating'];
+		$this->bcb_cab_trips  = $vehicleRatingTrips['trips'];
+		$this->bcb_cab_number = $vehicleRatingTrips['number'];
 
 		if ($vehicleRatingTrips['rating'] <= 2.5 && !$checkAccess)
 		{
@@ -534,13 +535,13 @@ class BookingCab extends CActiveRecord
 		{
 			return true;
 		}
-		$cabYear		 = $this->bcbCab->vhc_year;
-		$bookingModel	 = Booking::model()->findByPk($this->bcb_bkg_id1);
-		$vehicleTypeId	 = $bookingModel->bkg_vehicle_type_id;
-		$sccId			 = SvcClassVhcCat::model()->getClassById($vehicleTypeId);
-		$srvClassModel	 = ServiceClass::model()->findByPk($sccId);
-		$now			 = date('Y');
-		$diff			 = ($now - $cabYear);
+		$cabYear	   = $this->bcbCab->vhc_year;
+		$bookingModel  = Booking::model()->findByPk($this->bcb_bkg_id1);
+		$vehicleTypeId = $bookingModel->bkg_vehicle_type_id;
+		$sccId		   = SvcClassVhcCat::model()->getClassById($vehicleTypeId);
+		$srvClassModel = ServiceClass::model()->findByPk($sccId);
+		$now		   = date('Y');
+		$diff		   = ($now - $cabYear);
 		/* if ($this->bcbCab->vhc_end_odometer != "" && $this->bcbCab->vhc_odometer_modified_on != "")
 		  {
 		  $odometer	 = Vehicles::getEstimatedOdometer($this->bcbCab->vhc_end_odometer, $this->bcbCab->vhc_odometer_modified_on);
@@ -563,10 +564,10 @@ class BookingCab extends CActiveRecord
 		$cabregdate = $this->bcbCab->vhc_dop;
 		if (!empty($cabregdate) && $cabregdate != '')
 		{
-			$date1		 = date("Y-m-d", strtotime($cabregdate));
-			$ystr		 = "-" . $srvClassModel->scc_model_year . " year";
-			$date2		 = date("Y-m-d", strtotime($ystr));
-			$datediff	 = strtotime($date2) - strtotime($date1);
+			$date1	  = date("Y-m-d", strtotime($cabregdate));
+			$ystr	  = "-" . $srvClassModel->scc_model_year . " year";
+			$date2	  = date("Y-m-d", strtotime($ystr));
+			$datediff = strtotime($date2) - strtotime($date1);
 			if ($datediff > 0)
 			{
 				$this->addError($attribute, "Cab should be less than {$srvClassModel->scc_model_year} year or newer car");
@@ -642,8 +643,8 @@ class BookingCab extends CActiveRecord
 
 	public function checkCabTimeOverlap($attribute, $param)
 	{
-		$overlapTrips	 = $this->checkCabActiveTripTiming();
-		$userInfo		 = UserInfo::getInstance();
+		$overlapTrips = $this->checkCabActiveTripTiming();
+		$userInfo	  = UserInfo::getInstance();
 		if ($userInfo->userType != 4)
 		{
 			if ($overlapTrips > 0)
@@ -657,8 +658,8 @@ class BookingCab extends CActiveRecord
 
 	public function checkDriverTimeOverlap($attribute, $param)
 	{
-		$overlapTrips	 = $this->checkDriverActiveTripTiming();
-		$userInfo		 = UserInfo::getInstance();
+		$overlapTrips = $this->checkDriverActiveTripTiming();
+		$userInfo	  = UserInfo::getInstance();
 		if ($userInfo->userType != 4)
 		{
 			if ($overlapTrips > 0)
@@ -683,20 +684,20 @@ class BookingCab extends CActiveRecord
 				return true;
 			}
 
-			$drvmodel	 = Drivers::model()->getById($this->bcb_driver_id);
-			$vhcModel	 = Vehicles::model()->findByPk($this->bcb_cab_id);
+			$drvmodel = Drivers::model()->getById($this->bcb_driver_id);
+			$vhcModel = Vehicles::model()->findByPk($this->bcb_cab_id);
 
-			$markedBadDriver	 = ($drvmodel->drv_mark_driver_count > 0) ? $drvmodel->drv_mark_driver_count : 0;
-			$markedBadVehicle	 = ($vhcModel->vhc_mark_car_count > 0) ? $vhcModel->vhc_mark_car_count : 0;
-			$isDrvApproved		 = $drvmodel->drv_approved;
-			$isVhcApproved		 = $vhcModel->vhc_approved;
+			$markedBadDriver  = ($drvmodel->drv_mark_driver_count > 0) ? $drvmodel->drv_mark_driver_count : 0;
+			$markedBadVehicle = ($vhcModel->vhc_mark_car_count > 0) ? $vhcModel->vhc_mark_car_count : 0;
+			$isDrvApproved	  = $drvmodel->drv_approved;
+			$isVhcApproved	  = $vhcModel->vhc_approved;
 
 //Check duration overlapping
-			$bcbid		 = $this->bcb_id;
-			$cabid		 = $this->bcb_cab_id;
-			$bmodels	 = $this->bookings;
-			$pickupTime	 = $bmodels[0]->bkg_pickup_date;
-			$dropTime	 = date('Y-m-d H:i:s', strtotime($bmodels[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
+			$bcbid		= $this->bcb_id;
+			$cabid		= $this->bcb_cab_id;
+			$bmodels	= $this->bookings;
+			$pickupTime = $bmodels[0]->bkg_pickup_date;
+			$dropTime	= date('Y-m-d H:i:s', strtotime($bmodels[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
 
 			foreach ($bmodels as $bmodel)
 			{
@@ -743,8 +744,8 @@ class BookingCab extends CActiveRecord
 			return true;
 		}
 
-		$pre_cab	 = VehicleTypes::model()->getCarByCarType($this->pre_cab_type);
-		$post_cab	 = VehicleTypes::model()->getCarByCarType($this->post_cab_type);
+		$pre_cab  = VehicleTypes::model()->getCarByCarType($this->pre_cab_type);
+		$post_cab = VehicleTypes::model()->getCarByCarType($this->post_cab_type);
 
 		$vehicleModel = $this->bcbCab->vhcType->vht_model;
 		if ($this->bcbCab->vhc_type_id === Config::get('vehicle.genric.model.id'))
@@ -755,61 +756,61 @@ class BookingCab extends CActiveRecord
 		switch ($this->pre_cab_type)
 		{
 			case 1:  //compact
-				$return				 = (in_array($this->post_cab_type, [1, 2, 3])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [1, 2, 3])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 2:  // suv
-				$return				 = (in_array($this->post_cab_type, [2, 13])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [2, 13])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 3:  //sedan 
-				$return				 = (in_array($this->post_cab_type, [2, 3])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [2, 3])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 4:  //tempo traveller
-				$return				 = (in_array($this->post_cab_type, [4])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [4])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 5:  // assured Dzire
 				//$return				 = ($this->bcbCab->vhc_type_id == 4) ? true : false;
-				$return				 = ($this->bcbCab->vhc_type_id == 4) || (in_array($this->post_cab_type, [2, 3])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : " . $vehicleModel : '';
+				$return				= ($this->bcbCab->vhc_type_id == 4) || (in_array($this->post_cab_type, [2, 3])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : " . $vehicleModel : '';
 				break;
 			case 6: // assured innova
-				$return				 = in_array($this->bcbCab->vhc_type_id, [22, 24, 65]) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : " . $vehicleModel : '';
+				$return				= in_array($this->bcbCab->vhc_type_id, [22, 24, 65]) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : " . $vehicleModel : '';
 				break;
 			case 7:  // tempo traveller 9 seater
-				$return				 = (in_array($this->post_cab_type, [7, 8, 9, 10])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [7, 8, 9, 10])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 8:  // tempo traveller 12 seater
-				$return				 = (in_array($this->post_cab_type, [8, 9, 10])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [8, 9, 10])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 9:  //tempo traveller 15 seater
-				$return				 = (in_array($this->post_cab_type, [9, 10])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [9, 10])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 10:  // tempo travelller 19 seater
-				$return				 = (in_array($this->post_cab_type, [10])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [10])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 11:  // shared sedan
-				$return				 = (in_array($this->post_cab_type, [2, 3, 11])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [2, 3, 11])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 12:  //tempo traveller 26 seater
-				$return				 = (in_array($this->post_cab_type, [12])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [12])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 13:  // SUV 7+1
-				$return				 = (in_array($this->post_cab_type, [2, 13])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [2, 13])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 			case 14:  // tempo traveller 17 seater
-				$return				 = (in_array($this->post_cab_type, [14, 10, 12])) ? true : false;
-				$this->post_cab_msg	 = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
+				$return				= (in_array($this->post_cab_type, [14, 10, 12])) ? true : false;
+				$this->post_cab_msg = ($return == false) ? "Cannot assign. This booking is for category : $pre_cab. Car being assigned belongs to category : $post_cab" : '';
 				break;
 		}
 		if ($return == false)
@@ -876,23 +877,25 @@ class BookingCab extends CActiveRecord
 		$model		 = $this->findByPk($tripId);
 		try
 		{
-			$oldTripVendorAmount	 = $model->bcb_vendor_amount;
-			$model->scenario		 = 'assignvendor';
-			$model->bcb_vendor_id	 = $vndId;
-			$model->bcb_assign_mode	 = $assignMode;
+			$vndId = Vendors::getPrimaryId($vndId);
+
+			$oldTripVendorAmount	= $model->bcb_vendor_amount;
+			$model->scenario		= 'assignvendor';
+			$model->bcb_vendor_id	= $vndId;
+			$model->bcb_assign_mode = $assignMode;
 			// show bid time
-			$bidTime				 = BookingVendorRequest::showBidTime($tripId, $vndId);
-			$bidTime				 = strtotime($bidTime);
-			$futureDate				 = $bidTime + (60 * 5);
-			$currentDate			 = time();
+			$bidTime				= BookingVendorRequest::showBidTime($tripId, $vndId);
+			$bidTime				= strtotime($bidTime);
+			$futureDate				= $bidTime + (60 * 5);
+			$currentDate			= time();
 			if ($futureDate != null && $futureDate != "" && $currentDate <= $futureDate && $assignMode == 0)
 			{
 				$model->bcb_assign_mode = 2;
 			}
 			if ($model->bcb_first_assingment_type == NULL && $model->bcb_bkg_id1 != NULL)
 			{
-				$firstAssignment					 = BookingCab::getFirstAssignmentType($model->bcb_bkg_id1);
-				$model->bcb_first_assingment_type	 = $firstAssignment != null ? $firstAssignment : $assignMode;
+				$firstAssignment				  = BookingCab::getFirstAssignmentType($model->bcb_bkg_id1);
+				$model->bcb_first_assingment_type = $firstAssignment != null ? $firstAssignment : $assignMode;
 			}
 			else
 			{
@@ -909,9 +912,9 @@ class BookingCab extends CActiveRecord
 			{
 				$model->bcb_vendor_amount = $tripAmount;
 			}
-			$vendorRatingTrips			 = Booking::model()->getRatingTrips('vendor', $vndId);
-			$model->bcb_vendor_rating	 = trim($vendorRatingTrips['rating']);
-			$model->bcb_vendor_trips	 = trim($vendorRatingTrips['trips']);
+			$vendorRatingTrips		  = Booking::model()->getRatingTrips('vendor', $vndId);
+			$model->bcb_vendor_rating = trim($vendorRatingTrips['rating']);
+			$model->bcb_vendor_trips  = trim($vendorRatingTrips['trips']);
 
 			if (Config::get('hornok.operator.id') != $vndId)
 			{
@@ -927,8 +930,8 @@ class BookingCab extends CActiveRecord
 			{
 				throw new Exception(json_encode($model->getErrors()), 1);
 			}
-			$valBooking	 = true;
-			$cntBooking	 = count($model->bookings);
+			$valBooking = true;
+			$cntBooking = count($model->bookings);
 
 			foreach ($model->bookings as $bmodel)
 			{
@@ -980,17 +983,17 @@ class BookingCab extends CActiveRecord
 
 			if ($sccBkgId > 0)
 			{
-				$blgCsrId	 = BookingLog::getCsrIdByVndId($model->bcb_vendor_id, $sccBkgId);
-				$scqCsrId	 = ServiceCallQueue::getDispatchCsrByBookingId($sccBkgId);
-				$csrId		 = ($blgCsrId == '' ? $scqCsrId['scq_assigned_uid'] : $blgCsrId);
+				$blgCsrId = BookingLog::getCsrIdByVndId($model->bcb_vendor_id, $sccBkgId);
+				$scqCsrId = ServiceCallQueue::getDispatchCsrByBookingId($sccBkgId);
+				$csrId	  = ($blgCsrId == '' ? $scqCsrId['scq_assigned_uid'] : $blgCsrId);
 				if (($csrId == '' || $csrId == null) && $userInfo->userType == 4)
 				{
 					$csrId = $userInfo->userId;
 				}
-				$manualFlag			 = $bmodel->bkgPref->bkg_manual_assignment;
-				$criticalFlag		 = $bmodel->bkgPref->bkg_critical_assignment;
-				$csFlag				 = ($criticalFlag == 1 ? 2 : ($manualFlag == 1 ? 1 : 0));
-				$csrUpdateSuccess	 = BookingCab::updateAssignedCsr($tripId, $csrId, $csFlag);
+				$manualFlag		  = $bmodel->bkgPref->bkg_manual_assignment;
+				$criticalFlag	  = $bmodel->bkgPref->bkg_critical_assignment;
+				$csFlag			  = ($criticalFlag == 1 ? 2 : ($manualFlag == 1 ? 1 : 0));
+				$csrUpdateSuccess = BookingCab::updateAssignedCsr($tripId, $csrId, $csFlag);
 			}
 			//calculate vendor coin amount for showing coin earning scope for particular booking"
 			/* $totalCoin = VendorCoins::model()->calculateCoin($bookingId);
@@ -1000,9 +1003,9 @@ class BookingCab extends CActiveRecord
 			VendorStats::updateAssignDate($vndId, $assignMode);
 			DBUtil::commitTransaction($transaction);
 
-			$dataArray		 = array('vendorId' => $vndId, 'tripId' => $tripId, 'tripAmount' => $model->bcb_vendor_amount, 'isDirectAccept' => $directAcpt, 'userInfo' => $userInfo);
-			$assignedData	 = CJSON::encode($dataArray);
-			$bkdIds			 = explode(",", $model->bcb_bkg_id1);
+			$dataArray	  = array('vendorId' => $vndId, 'tripId' => $tripId, 'tripAmount' => $model->bcb_vendor_amount, 'isDirectAccept' => $directAcpt, 'userInfo' => $userInfo);
+			$assignedData = CJSON::encode($dataArray);
+			$bkdIds		  = explode(",", $model->bcb_bkg_id1);
 			BookingScheduleEvent::add($bkdIds[0], BookingScheduleEvent::POST_VENDOR_ASSIGNMENT, "Post vendor Assigned", $assignedData);
 
 			/* Skip this process for quickRide */
@@ -1013,10 +1016,10 @@ class BookingCab extends CActiveRecord
 		catch (Exception $e)
 		{
 			DBUtil::rollbackTransaction($transaction);
-			$returnSet			 = ReturnSet::setException($e);
-			$return["success"]	 = false;
-			$code				 = $e->getCode();
-			$message			 = $e->getMessage();
+			$returnSet		   = ReturnSet::setException($e);
+			$return["success"] = false;
+			$code			   = $e->getCode();
+			$message		   = $e->getMessage();
 
 			if ($code == 1)
 			{
@@ -1039,9 +1042,10 @@ class BookingCab extends CActiveRecord
 			//$this->post_cab_type = $model->bcbCab->vhcType->vht_car_type;
 			$this->post_cab_type = $model->bcbCab->vhcType->vht_VcvCatVhcType->vcv_vct_id;
 		}
-		$model->scenario		 = 'assigncabdriver';
-		$bmodels				 = $model->bookings;
-		$model->bcb_driver_id	 = $driverId;
+		$model->scenario = 'assigncabdriver';
+		$bmodels		 = $model->bookings;
+
+		$model->bcb_driver_id = $driverId;
 		Preg_match("/\d*(\d{10})/", $this->bcb_driver_phone, $match);
 		if (empty($match))
 		{
@@ -1057,12 +1061,14 @@ class BookingCab extends CActiveRecord
 		$transaction = DBUtil::beginTransaction();
 		try
 		{
+			$driverId = Drivers::getPrimaryId($driverId);
 
-			$validate = $model->save();
+			$model->bcb_driver_id = $driverId;
+			$validate			  = $model->save();
 			if (!$validate)
 			{
-				$errors		 = $model->getErrors();
-				$errorStr	 = $errors[key($errors)][0];
+				$errors	  = $model->getErrors();
+				$errorStr = $errors[key($errors)][0];
 				if (trim($errorStr) == '')
 				{
 					$errorStr = 'Validation Failed';
@@ -1070,13 +1076,13 @@ class BookingCab extends CActiveRecord
 				throw new Exception($errorStr, 10);
 			}
 
-			$chk	 = $this->chk_user_msg;
-			$user	 = $vendor	 = $driver	 = false;
+			$chk	= $this->chk_user_msg;
+			$user	= $vendor = $driver = false;
 			if ($chk != null && is_array($chk))
 			{
-				$user	 = false; //(in_array(0, $chk)) ? true : false;
-				$driver	 = false; //(in_array(1, $chk)) ? true : false;
-				$vendor	 = (in_array(2, $chk)) ? true : false;
+				$user	= false; //(in_array(0, $chk)) ? true : false;
+				$driver = false; //(in_array(1, $chk)) ? true : false;
+				$vendor = (in_array(2, $chk)) ? true : false;
 			}
 			$desc	 = "Cab and driver updated";
 			$eventid = BookingLog::CAB_DETAILS_UPDATED;
@@ -1092,8 +1098,8 @@ class BookingCab extends CActiveRecord
 			{
 				try
 				{
-					$queueId		 = ServiceCallQueue::TYPE_BAR . "," . ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL;
-					$serviceResult	 = ServiceCallQueue::countUnAssignQueueByBkgId($bmodel->bkg_id, $queueId);
+					$queueId	   = ServiceCallQueue::TYPE_BAR . "," . ServiceCallQueue::TYPE_AIRPORT_DAILYRENTAL;
+					$serviceResult = ServiceCallQueue::countUnAssignQueueByBkgId($bmodel->bkg_id, $queueId);
 					if ($serviceResult['scq_id'] > 0)
 					{
 						ServiceCallQueue::updateStatus($serviceResult['scq_id'], 10, 0, "CBR expired.No action taken");
@@ -1106,8 +1112,8 @@ class BookingCab extends CActiveRecord
 				$bmodel->assigncabdriver($userInfo, $desc, $eventid);
 
 				$model->sendCabAssignMessage($user, $driver, $vendor, $bmodel->bkg_id, $bmodel->checkMinimumPickupTime(), $userInfo->userType);
-				$driver	 = false;
-				$vendor	 = false;
+				$driver = false;
+				$vendor = false;
 				continue;
 			}
 			DBUtil::commitTransaction($transaction);
@@ -1117,27 +1123,27 @@ class BookingCab extends CActiveRecord
 				try
 				{
 					$bmodel->bkgTrail->refresh();
-					$datetime								 = date('d/m/Y h:i A', strtotime('+24 HOUR'));
-					$desc									 = "Papers to be submitted for car $cabNumber  by $datetime";
-					$bmodel->bkgTrail->bkg_follow_type_id	 = 10;
-					$bmodel->bkgTrail->bkg_followup_date	 = new CDbExpression('DATE_ADD(NOW(),INTERVAL 36 HOUR)');
-					$bmodel->bkgTrail->bkg_followup_comment	 = $desc;
-					$bmodel->bkgTrail->bkg_followup_active	 = 1;
+					$datetime								= date('d/m/Y h:i A', strtotime('+24 HOUR'));
+					$desc									= "Papers to be submitted for car $cabNumber  by $datetime";
+					$bmodel->bkgTrail->bkg_follow_type_id	= 10;
+					$bmodel->bkgTrail->bkg_followup_date	= new CDbExpression('DATE_ADD(NOW(),INTERVAL 36 HOUR)');
+					$bmodel->bkgTrail->bkg_followup_comment = $desc;
+					$bmodel->bkgTrail->bkg_followup_active	= 1;
 					if ($bmodel->save())
 					{
 						$bmodel->bkgTrail->save();
-						$status				 = $bmodel->bkg_status;
-						$userInfo			 = UserInfo::model();
-						$userInfo->userType	 = UserInfo::TYPE_SYSTEM;
+						$status				= $bmodel->bkg_status;
+						$userInfo			= UserInfo::model();
+						$userInfo->userType = UserInfo::TYPE_SYSTEM;
 						BookingLog::model()->createLog($bmodel->bkg_id, $desc, $userInfo, BookingLog::FOLLOWUP_ASSIGN, false, false);
-						$success			 = true;
+						$success			= true;
 					}
 					else
 					{
 						$success = false;
 					}
-					$payLoadData2	 = ['tripId' => $model->bcb_id, 'EventCode' => Booking::CODE_MISSING_PAPERWORK];
-					$success		 = AppTokens::model()->notifyVendor($model->bcb_vendor_id, $payLoadData2, $desc, "Paperwork required for car $cabNumber");
+					$payLoadData2 = ['tripId' => $model->bcb_id, 'EventCode' => Booking::CODE_MISSING_PAPERWORK];
+					$success	  = AppTokens::model()->notifyVendor($model->bcb_vendor_id, $payLoadData2, $desc, "Paperwork required for car $cabNumber");
 				}
 				catch (Exception $ex)
 				{
@@ -1161,9 +1167,9 @@ class BookingCab extends CActiveRecord
 
 	public function sendCabAssignMessage($user = false, $driver = false, $vendor = true, $bkgid, $sendContact = false, $logType = '', $notifyVendor = true, $userType = '', $needArr = [])
 	{
-		$bmodel		 = Booking::model()->findByPk($bkgid);
-		$model		 = $bmodel->getBookingCabModel();
-		$oldModel	 = clone $bmodel;
+		$bmodel	  = Booking::model()->findByPk($bkgid);
+		$model	  = $bmodel->getBookingCabModel();
+		$oldModel = clone $bmodel;
 
 		$amount = $bmodel->bkgInvoice->bkg_total_amount;
 		if ($model->bcb_vendor_id != '' && $bmodel->event_by != 2 && $notifyVendor)
@@ -1193,15 +1199,15 @@ class BookingCab extends CActiveRecord
 			$cntDetails	 = Contact::getContactDetails($contactData['ctt_id']);
 			$driverPhone = '+91' . $cntDetails['phn_phone_no'];
 		}
-		$bookingId	 = $bmodel->bkg_booking_id;
-		$cabNumber	 = $model->bcbCab->vhc_number;
-		$date		 = DateTimeFormat::DateTimeToDatePicker($bmodel->bkg_pickup_date);
-		$time		 = date('h:i A', strtotime($bmodel->bkg_pickup_date));
-		$cabType	 = $model->bcbCab->vhcType->resetScope()->getVehicleModel();
-		$address	 = $bmodel->bkg_pickup_address;
+		$bookingId = $bmodel->bkg_booking_id;
+		$cabNumber = $model->bcbCab->vhc_number;
+		$date	   = DateTimeFormat::DateTimeToDatePicker($bmodel->bkg_pickup_date);
+		$time	   = date('h:i A', strtotime($bmodel->bkg_pickup_date));
+		$cabType   = $model->bcbCab->vhcType->resetScope()->getVehicleModel();
+		$address   = $bmodel->bkg_pickup_address;
 
-		$ext		 = $bmodel->bkgUserInfo->bkg_country_code;
-		$unumbernew	 = $bmodel->bkgUserInfo->bkg_contact_no;
+		$ext		= $bmodel->bkgUserInfo->bkg_country_code;
+		$unumbernew = $bmodel->bkgUserInfo->bkg_contact_no;
 
 		if ($bmodel->bkg_agent_id == 30228)
 		{
@@ -1209,12 +1215,12 @@ class BookingCab extends CActiveRecord
 		}
 
 
-		$sendSms	 = 1;
-		$sendEmail	 = 1;
+		$sendSms   = 1;
+		$sendEmail = 1;
 		if (count($needArr) > 0)
 		{
-			$sendSms	 = $needArr['send_sms'];
-			$sendEmail	 = $needArr['send_email'];
+			$sendSms   = $needArr['send_sms'];
+			$sendEmail = $needArr['send_email'];
 		}
 
 		notificationWrapper::driverDetailsToCustomer($bmodel->bkg_id, false, $sendSms, UserInfo::TYPE_SYSTEM);
@@ -1235,9 +1241,9 @@ class BookingCab extends CActiveRecord
 		$cust_number = "+" . $ext . $unumbernew;
 
 		// Pickup Date check for UBER agent
-		$vendor_pickup_date	 = $model->getPickupDateTime("Y-m-d H:i:s", $bmodel->bkg_pickup_date);
-		$date_time			 = DateTimeFormat::DateTimeToLocale($vendor_pickup_date);
-		$amountToCollect	 = $due;
+		$vendor_pickup_date = $model->getPickupDateTime("Y-m-d H:i:s", $bmodel->bkg_pickup_date);
+		$date_time			= DateTimeFormat::DateTimeToLocale($vendor_pickup_date);
+		$amountToCollect	= $due;
 		if ($model->bcb_driver_id != '')
 		{
 			$driverDet = $driverName . " - " . $driverPhone;
@@ -1254,8 +1260,8 @@ class BookingCab extends CActiveRecord
 				$vehicleModel = OperatorVehicle::getCabModelName($model->bcb_vendor_id, $model->bcb_cab_id);
 			}
 
-			$cab	 = $vehicleModel . " - " . $model->bcbCab->vhc_number;
-			$event	 = ($model->bcbCab->vhcStat->vhs_is_partition == 1) ? BookingLog::CAB_PARTITIONED : BookingLog::CAB_ASSIGNED;
+			$cab   = $vehicleModel . " - " . $model->bcbCab->vhc_number;
+			$event = ($model->bcbCab->vhcStat->vhs_is_partition == 1) ? BookingLog::CAB_PARTITIONED : BookingLog::CAB_ASSIGNED;
 			if ($logType != 10)
 			{
 				BookingLog::model()->createLog($bmodel->bkg_id, 'Cab( ' . $cab . ' )', UserInfo::getInstance(), $event, false, false);
@@ -1294,19 +1300,19 @@ class BookingCab extends CActiveRecord
 
 	public function deactivate()
 	{
-		$this->bcb_active	 = 0;
-		$this->scenario		 = 'deactivate';
+		$this->bcb_active = 0;
+		$this->scenario	  = 'deactivate';
 		return $this->save();
 	}
 
 	public function getLowestBookingStatusByTrip($bcb_id, $bcbpending = 0)
 	{
 		// $lowestStatus = 10;
-		$sql	 = "SELECT MIN(bkg_status) bkg_status
+		$sql	= "SELECT MIN(bkg_status) bkg_status
                 FROM booking
                 JOIN booking_cab ON bkg_bcb_id = bcb_id AND bcb_pending_status = $bcbpending
                 WHERE bkg_bcb_id = $bcb_id AND bkg_status IN (2,3,5,6,7) AND bcb_active = 1";
-		$result	 = DBUtil::command($sql)->queryScalar();
+		$result = DBUtil::command($sql)->queryScalar();
 		if ($result)
 		{
 			return $result;
@@ -1316,8 +1322,8 @@ class BookingCab extends CActiveRecord
 
 	public function getLowestBookingStatus($bcbpending = 0)
 	{
-		$bcb_id	 = $this->bcb_id;
-		$status	 = $this->getLowestBookingStatusByTrip($bcb_id, $bcbpending);
+		$bcb_id = $this->bcb_id;
+		$status = $this->getLowestBookingStatusByTrip($bcb_id, $bcbpending);
 		return $status;
 	}
 
@@ -1346,10 +1352,10 @@ class BookingCab extends CActiveRecord
 		$vnd = ($vnd == 0) ? $this->bcb_vendor_amount : $vnd;
 		if ($this->bcb_id)
 		{
-			$vendorID		 = $this->bcb_vendor_id;
-			$vendorAmount	 = $vnd;
-			$tdsPercent		 = Vendors::model()->getTDSPercentByVendorId($vendorID);
-			$tdsAmount		 = round(($vendorAmount * $tdsPercent) / 100);
+			$vendorID	  = $this->bcb_vendor_id;
+			$vendorAmount = $vnd;
+			$tdsPercent	  = Vendors::model()->getTDSPercentByVendorId($vendorID);
+			$tdsAmount	  = round(($vendorAmount * $tdsPercent) / 100);
 		}
 		return 0;
 	}
@@ -1358,8 +1364,8 @@ class BookingCab extends CActiveRecord
 	{
 		if (count($this->bookings) > 1)
 		{
-			$this->bcb_pending_status	 = 1;
-			$this->scenario				 = 'markpending';
+			$this->bcb_pending_status = 1;
+			$this->scenario			  = 'markpending';
 			return $this->save();
 		}
 		return true;
@@ -1367,27 +1373,27 @@ class BookingCab extends CActiveRecord
 
 	public function updatePendingStatus($status = 0)
 	{
-		$bookings					 = $this->getActiveBookings();
-		$this->bcb_pending_status	 = $status;
-		$this->scenario				 = '$status';
-		$userInfo					 = UserInfo::model();
+		$bookings				  = $this->getActiveBookings();
+		$this->bcb_pending_status = $status;
+		$this->scenario			  = '$status';
+		$userInfo				  = UserInfo::model();
 
 		foreach ($bookings as $val)
 		{
 			if ($this->bcb_pending_status == 1)
 			{
-				$bkgId					 = $val['bkg_id'];
-				$desc					 = "Placing booking in " . "( " . "smart Match - Pending" . " )";
-				$eventid				 = BookingLog::SMART_MATCH;
-				$params['blg_ref_id']	 = BookingLog::REF_MATCH_PENDING;
+				$bkgId				  = $val['bkg_id'];
+				$desc				  = "Placing booking in " . "( " . "smart Match - Pending" . " )";
+				$eventid			  = BookingLog::SMART_MATCH;
+				$params['blg_ref_id'] = BookingLog::REF_MATCH_PENDING;
 				BookingLog::model()->createLog($bkgId, $desc, $userInfo, $eventid, false, $params);
 			}
 			else
 			{
-				$bkgId					 = $val['bkg_id'];
-				$desc					 = "Placing booking in " . "( " . "smart Match - Pending" . " )" . "exiting pending list";
-				$eventid				 = BookingLog::SMART_MATCH;
-				$params['blg_ref_id']	 = BookingLog::REF_MATCH_PENDING;
+				$bkgId				  = $val['bkg_id'];
+				$desc				  = "Placing booking in " . "( " . "smart Match - Pending" . " )" . "exiting pending list";
+				$eventid			  = BookingLog::SMART_MATCH;
+				$params['blg_ref_id'] = BookingLog::REF_MATCH_PENDING;
 				BookingLog::model()->createLog($bkgId, $desc, $userInfo, $eventid, false, $params);
 			}
 		}
@@ -1495,19 +1501,19 @@ class BookingCab extends CActiveRecord
 			}
 		}
 
-		$data						 = array();
-		$vendorId					 = $vndId;
-		$data['bcn_title']			 = "A new booking has been assigned";
-		$data['bcn_message']		 = $msg;
-		$data['bcn_vendor']			 = array($vendorId);
-		$data ['bcn_user_type']		 = 2;
-		$minutes					 = 2;
-		$date						 = filter::getDBDateTime();
-		$currentDate				 = strtotime($date);
-		$futureDate					 = $currentDate + (60 * $minutes);
-		$notificationTime			 = date("Y-m-d H:i:s", $futureDate);
-		$data['bcn_schedule_for']	 = $notificationTime;
-		$model						 = new BroadcastNotification();
+		$data					  = array();
+		$vendorId				  = $vndId;
+		$data['bcn_title']		  = "A new booking has been assigned";
+		$data['bcn_message']	  = $msg;
+		$data['bcn_vendor']		  = array($vendorId);
+		$data ['bcn_user_type']	  = 2;
+		$minutes				  = 2;
+		$date					  = filter::getDBDateTime();
+		$currentDate			  = strtotime($date);
+		$futureDate				  = $currentDate + (60 * $minutes);
+		$notificationTime		  = date("Y-m-d H:i:s", $futureDate);
+		$data['bcn_schedule_for'] = $notificationTime;
+		$model					  = new BroadcastNotification();
 
 		$model->bcn_form_input	 = CJSON::encode($data);
 		$model->bcn_schedule_for = $notificationTime;
@@ -1569,15 +1575,15 @@ class BookingCab extends CActiveRecord
 
 	public function sendSmsForVendorAssignment($endTime, $bkg_id)
 	{
-		$ext								 = '91';
-		$contactId							 = ContactProfile::getByEntityId($this->bcb_vendor_id, UserInfo::TYPE_VENDOR);
-		$number								 = ContactPhone::getContactPhoneById($contactId);
-		$message							 = "You have won Trip ID " . $this->bcb_id . " Assign Approved Car & Driver before " . $endTime . " - Gozocabs";
-		$params								 = [];
-		$params['blg_vendor_assigned_id']	 = $this->bcb_vendor_id;
-		$params['blg_driver_id']			 = $this->bcb_driver_id;
-		$params['blg_vehicle_id']			 = $this->bcb_cab_id;
-		$params['blg_booking_status']		 = $this->bookings[0]->bkg_status;
+		$ext							  = '91';
+		$contactId						  = ContactProfile::getByEntityId($this->bcb_vendor_id, UserInfo::TYPE_VENDOR);
+		$number							  = ContactPhone::getContactPhoneById($contactId);
+		$message						  = "You have won Trip ID " . $this->bcb_id . " Assign Approved Car & Driver before " . $endTime . " - Gozocabs";
+		$params							  = [];
+		$params['blg_vendor_assigned_id'] = $this->bcb_vendor_id;
+		$params['blg_driver_id']		  = $this->bcb_driver_id;
+		$params['blg_vehicle_id']		  = $this->bcb_cab_id;
+		$params['blg_booking_status']	  = $this->bookings[0]->bkg_status;
 
 		// WhatsappLog
 		$response = WhatsappLog::tripAssignedToVendor($this->bcb_id);
@@ -1594,16 +1600,16 @@ class BookingCab extends CActiveRecord
 
 	public function getPickupDateTime($format = "Y-m-d H:i:s", $pickupdate = null, $agentId = null)
 	{
-		$pickupDate	 = $pickupdate == null ? $this->bookings[0]->bkg_pickup_date : $pickupdate;
-		$bkgAgentId	 = $agentId == null ? $this->bookings[0]->bkg_agent_id : $agentId;
+		$pickupDate = $pickupdate == null ? $this->bookings[0]->bkg_pickup_date : $pickupdate;
+		$bkgAgentId = $agentId == null ? $this->bookings[0]->bkg_agent_id : $agentId;
 
 		// UBER Agent Check
 		$uberAgentId = Yii::app()->params['uberAgentId'];
 		if ($uberAgentId > 0 && $bkgAgentId == $uberAgentId)
 		{
-			$objDate	 = new DateTime($pickupDate, new DateTimeZone('Asia/Kolkata'));
+			$objDate	= new DateTime($pickupDate, new DateTimeZone('Asia/Kolkata'));
 			$objDate->modify('-30 minutes');
-			$pickupDate	 = $objDate->format($format);
+			$pickupDate = $objDate->format($format);
 		}
 
 		return $pickupDate;
@@ -1614,7 +1620,7 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getTripsVendor');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(DISTINCT booking.bkg_id) as count
+			$sql	   = "SELECT COUNT(DISTINCT booking.bkg_id) as count
                 FROM `booking_cab`
                 INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id AND booking.bkg_active=1
                 INNER JOIN `vendors` ON vendors.vnd_id=booking_cab.bcb_vendor_id
@@ -1623,7 +1629,7 @@ class BookingCab extends CActiveRecord
                 WHERE 1 AND booking.bkg_status IN (2,3,5)
                 AND booking_cab.bcb_vendor_id IS NOT NULL
                 AND vrs.vrs_vnd_overall_rating <= 3 LIMIT 0,1";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getTripsVendor', $returnSet, 600);
 		}
 		return $returnSet;
@@ -1652,7 +1658,7 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getTripsDriver');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(DISTINCT booking.bkg_id) as count
+			$sql	   = "SELECT COUNT(DISTINCT booking.bkg_id) as count
                 FROM `booking_cab`
                 INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id AND booking.bkg_active=1
                 INNER JOIN `drivers` ON drivers.drv_id=booking_cab.bcb_driver_id
@@ -1661,7 +1667,7 @@ class BookingCab extends CActiveRecord
                 AND booking_cab.bcb_vendor_id IS NOT NULL
                 AND booking_cab.bcb_driver_id IS NOT NULL
                 AND d2.drv_overall_rating<=3 LIMIT 0,1";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getTripsDriver', $returnSet, 600);
 		}
 		return $returnSet;
@@ -1682,14 +1688,14 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getMissingDriverDocs');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(DISTINCT booking.bkg_id) as count
+			$sql	   = "SELECT COUNT(DISTINCT booking.bkg_id) as count
                 FROM `booking_cab`
                 INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id AND booking.bkg_active=1 AND booking.bkg_status IN (2,3,5) 
                 INNER JOIN `drivers` ON drivers.drv_id=booking_cab.bcb_driver_id AND drivers.drv_active=1 
 				INNER JOIN drivers d2 ON d2.drv_id =drivers.drv_ref_code
                 WHERE bkg_pickup_date BETWEEN (DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND (DATE_ADD(NOW(), INTERVAL 11 MONTH)) 
 				AND	booking_cab.bcb_active=1 AND d2.drv_approved<>1 LIMIT 0,1";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getMissingDriverDocs', $returnSet, 600);
 		}
 		return $returnSet;
@@ -1700,13 +1706,13 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getCountVendorUnassigned5days');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(DISTINCT bkg_id) as count
+			$sql	   = "SELECT COUNT(DISTINCT bkg_id) as count
                 FROM `booking_cab`
                 INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id AND booking.bkg_status=2
                 WHERE booking_cab.bcb_driver_id IS NULL
                 AND booking.bkg_create_date < DATE_SUB(NOW(),INTERVAL 48 HOUR)
                 LIMIT 0,1";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getCountVendorUnassigned5days', $returnSet, 600);
 		}
 		return $returnSet;
@@ -1717,12 +1723,12 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getCountVendorUnassigned24hrs');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(DISTINCT bkg_id) as count
+			$sql	   = "SELECT COUNT(DISTINCT bkg_id) as count
                 FROM `booking_cab`
                 INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id AND booking.bkg_status=2
                 WHERE booking_cab.bcb_driver_id IS NULL
                 AND booking.bkg_pickup_date BETWEEN NOW() AND  DATE_ADD(NOW(),INTERVAL 24 HOUR) LIMIT 0,1";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getCountVendorUnassigned24hrs', $returnSet, 600);
 		}
 		return $returnSet;
@@ -1733,7 +1739,7 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getCountVendorFloating24hrs');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(booking.bkg_id) as count
+			$sql	   = "SELECT COUNT(booking.bkg_id) as count
                 FROM `booking_cab`
                 INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id
                 AND booking.bkg_active=1
@@ -1747,7 +1753,7 @@ class BookingCab extends CActiveRecord
                             AND booking_vendor_request.bvr_created_at > DATE_SUB(NOW(),INTERVAL 24 HOUR)
                             GROUP BY booking_vendor_request.bvr_booking_id
                         ) LIMIT 0,1";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getCountVendorFloating24hrs', $returnSet, 600);
 		}
 		return $returnSet;
@@ -1774,10 +1780,10 @@ class BookingCab extends CActiveRecord
 
 	public function getActiveBookings()
 	{
-		$bookings		 = [];
-		$bookings		 = $this->bookings;
-		$counts			 = count($bookings);
-		$activebookings	 = [];
+		$bookings		= [];
+		$bookings		= $this->bookings;
+		$counts			= count($bookings);
+		$activebookings = [];
 		if ($counts > 0)
 		{
 			foreach ($bookings as $booking)
@@ -1795,7 +1801,7 @@ class BookingCab extends CActiveRecord
 	{
 
 
-		$sql	 = "SELECT 
+		$sql  = "SELECT 
 							bkg_id,
 							bcb_vendor_id,
 							bcb_driver_id,
@@ -1820,7 +1826,7 @@ class BookingCab extends CActiveRecord
 						bkg.bkg_pickup_date))
 					GROUP BY bkg.bkg_id) bkgs
 					WHERE DATE_SUB(NOW(), INTERVAL 6 HOUR) >= bkgs.sms_last_date_sent";
-		$rows	 = DBUtil::queryAll($sql, DBUtil::SDB());
+		$rows = DBUtil::queryAll($sql, DBUtil::SDB());
 		if (count($rows) == 0)
 		{
 			return false;
@@ -1829,7 +1835,7 @@ class BookingCab extends CActiveRecord
 		foreach ($rows as $row)
 		{
 			echo "###########BookingId#############" . $row['bkg_id'] . "\n";
-			$user	 = $vendor	 = $driver	 = false;
+			$user	= $vendor = $driver = false;
 			if ($row['bcb_driver_id'] != null)
 			{
 				$driver = true;
@@ -1846,7 +1852,7 @@ class BookingCab extends CActiveRecord
 
 	public function sentCustomerMessageAlert($logType = '')
 	{
-		$sql	 = "SELECT    
+		$sql  = "SELECT    
 			    DISTINCT bkg.bkg_id
 			    			    , if(bpr.bkg_send_sms = 0 OR (slg.date_sent) IS NOT NULL OR  bui.bkg_contact_no IS NULL OR  bui.bkg_contact_no = '', 0, 1) need_sms_send
 			    , if(bpr.bkg_send_email = 0 OR elg.elg_status = 1 OR  bui.bkg_user_email IS NULL OR bui.bkg_user_email = '', 0, 1) need_email_send
@@ -1862,21 +1868,21 @@ class BookingCab extends CActiveRecord
 			    AND (bpr.bkg_send_sms = 1 OR bpr.bkg_send_email = 1)
 			    AND ((DATE_SUB(NOW(), INTERVAL 6 HOUR) >= slg.date_sent OR slg.id IS NULL) OR (DATE_SUB(NOW(), INTERVAL 6 HOUR) >=  elg.elg_status_date OR  elg.elg_status = 2 OR  elg.elg_status IS NULL OR elg.elg_id IS NULL))
 			    ORDER BY bkg_pickup_date DESC";
-		$rows	 = DBUtil::queryAll($sql, DBUtil::SDB());
+		$rows = DBUtil::queryAll($sql, DBUtil::SDB());
 		if (count($rows) == 0)
 		{
 			return false;
 		}
-		$vendor	 = $driver	 = false;
+		$vendor = $driver = false;
 		foreach ($rows as $row)
 		{
 			$user	 = false;
 			$sendArr = [];
 			if ($row['need_sms_send'] == 1 || $row['need_email_send'] == 1)
 			{
-				$sendArr['send_sms']	 = $row['need_sms_send'];
-				$sendArr['send_email']	 = $row['need_email_send'];
-				$user					 = false;
+				$sendArr['send_sms']   = $row['need_sms_send'];
+				$sendArr['send_email'] = $row['need_email_send'];
+				$user				   = false;
 			}
 			BookingCab::model()->sendCabAssignMessage($user, $driver, $vendor, $row['bkg_id'], true, $logType, false, '', $sendArr);
 		}
@@ -1884,8 +1890,8 @@ class BookingCab extends CActiveRecord
 
 	public function checkCabActiveTripTiming()
 	{
-		$pickupTime	 = $this->bookings[0]->bkg_pickup_date;
-		$dropTime	 = date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
+		$pickupTime = $this->bookings[0]->bkg_pickup_date;
+		$dropTime	= date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
 		foreach ($this->bookings as $bmodel)
 		{
 			$pickupTime	 = ($pickupTime < $bmodel->bkg_pickup_date) ? $pickupTime : $bmodel->bkg_pickup_date;
@@ -1920,8 +1926,8 @@ class BookingCab extends CActiveRecord
 
 	public function checkDriverActiveTripTiming()
 	{
-		$pickupTime	 = $this->bookings[0]->bkg_pickup_date;
-		$dropTime	 = date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
+		$pickupTime = $this->bookings[0]->bkg_pickup_date;
+		$dropTime	= date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
 		foreach ($this->bookings as $bmodel)
 		{
 			$pickupTime	 = ($pickupTime < $bmodel->bkg_pickup_date) ? $pickupTime : $bmodel->bkg_pickup_date;
@@ -2041,8 +2047,8 @@ class BookingCab extends CActiveRecord
 
 	public function getBkgIdByTripId($bcbId)
 	{
-		$param	 = ['bcbId' => $bcbId];
-		$sql	 = "SELECT GROUP_CONCAT(booking.bkg_id SEPARATOR ',')  as bkg_ids
+		$param = ['bcbId' => $bcbId];
+		$sql   = "SELECT GROUP_CONCAT(booking.bkg_id SEPARATOR ',')  as bkg_ids
             FROM  `booking_cab`
             INNER JOIN `booking` ON booking.bkg_bcb_id=booking_cab.bcb_id AND booking_cab.bcb_active=1 AND booking.bkg_active=1
 			WHERE bcb_id = :bcbId
@@ -2092,32 +2098,32 @@ class BookingCab extends CActiveRecord
 			{
 				throw new Exception(json_encode($this->getErrors()));
 			}
-			$oldValue						 = $this->bcb_vendor_amount;
-			$this->bcb_vendor_amount		 = $amount;
-			$this->bcb_last_vendor_amount	 = $oldValue;
+			$oldValue					  = $this->bcb_vendor_amount;
+			$this->bcb_vendor_amount	  = $amount;
+			$this->bcb_last_vendor_amount = $oldValue;
 			$this->save();
-			$bookings						 = $this->bookings;
-			$bkgIds							 = [];
-			$bkgStatuses					 = [];
-			$dates							 = [];
+			$bookings					  = $this->bookings;
+			$bkgIds						  = [];
+			$bkgStatuses				  = [];
+			$dates						  = [];
 
 			foreach ($bookings as $booking)
 			{
-				$pickupdate		 = new DateTime($booking->bkg_pickup_date);
+				$pickupdate	   = new DateTime($booking->bkg_pickup_date);
 				$pickupdate->add(new DateInterval('PT' . $booking->bkg_trip_duration . 'M'));
-				$dates[]		 = $pickupdate->format('Y-m-d H:i:s');
-				$bkg_id[]		 = $booking->bkg_id;
-				$bkgStatuses[]	 = $booking->bkg_status;
-				$desc			 = "Trip Vendor Amount Reset - old value (" . $oldValue . ")  - New Value ( " . $amount . " ) For Trip ID - " . $this->bcb_id . " ";
-				$eventid		 = BookingLog::VENDOR_AMOUNT_RESET;
+				$dates[]	   = $pickupdate->format('Y-m-d H:i:s');
+				$bkg_id[]	   = $booking->bkg_id;
+				$bkgStatuses[] = $booking->bkg_status;
+				$desc		   = "Trip Vendor Amount Reset - old value (" . $oldValue . ")  - New Value ( " . $amount . " ) For Trip ID - " . $this->bcb_id . " ";
+				$eventid	   = BookingLog::VENDOR_AMOUNT_RESET;
 				BookingLog::model()->createLog($booking->bkg_id, $desc, $userInfo, $eventid);
 			}
 //            }
 			BookingTrail::updateProfitFlag($this->bcb_id);
 			if ($this->bcbVendor && (in_array(6, $bkgStatuses) || in_array(7, $bkgStatuses)))
 			{
-				$pickupDate	 = max($dates);
-				AccountTransactions::model()->purchaseTrip($pickupDate, $this->bcb_id, $this->bcb_vendor_id, $amount, $userInfo	 = null);
+				$pickupDate = max($dates);
+				AccountTransactions::model()->purchaseTrip($pickupDate, $this->bcb_id, $this->bcb_vendor_id, $amount, $userInfo	= null);
 			}
 			if (Config::get('hornok.operator.id') != $this->bcb_vendor_id && $notification == true)
 			{
@@ -2174,14 +2180,14 @@ class BookingCab extends CActiveRecord
 
 	public function updateCab()
 	{
-		$sql							 = "SELECT count(DISTINCT bvr_vendor_id) as cnt, GROUP_CONCAT(DISTINCT IF(bvr_bid_amount>0, bvr_bid_amount, '')) as bids, IFNULL(MIN(IF(bvr_bid_amount>0, bvr_bid_amount, null)),0) as MIN, IFNULL(MAX(IF(bvr_bid_amount>0, bvr_bid_amount, null)),0) as MAX, SUM(IF(bvr_bid_amount>0, 1, 0)) as totalBid  FROM booking_vendor_request WHERE bvr_bcb_id={$this->bcb_id} AND bvr_active=1 ";
-		$row							 = DBUtil::queryRow($sql);
-		$model							 = $this;
-		$model->bcb_sent_vendor_count	 = $row['cnt'];
-		$model->bcb_minBid				 = $row['MIN'];
-		$model->bcb_maxBid				 = $row['MAX'];
-		$bids							 = array_filter(explode(",", $row['bids']));
-		$model->bcb_medianBid			 = Filter::calculateMedian($bids);
+		$sql						  = "SELECT count(DISTINCT bvr_vendor_id) as cnt, GROUP_CONCAT(DISTINCT IF(bvr_bid_amount>0, bvr_bid_amount, '')) as bids, IFNULL(MIN(IF(bvr_bid_amount>0, bvr_bid_amount, null)),0) as MIN, IFNULL(MAX(IF(bvr_bid_amount>0, bvr_bid_amount, null)),0) as MAX, SUM(IF(bvr_bid_amount>0, 1, 0)) as totalBid  FROM booking_vendor_request WHERE bvr_bcb_id={$this->bcb_id} AND bvr_active=1 ";
+		$row						  = DBUtil::queryRow($sql);
+		$model						  = $this;
+		$model->bcb_sent_vendor_count = $row['cnt'];
+		$model->bcb_minBid			  = $row['MIN'];
+		$model->bcb_maxBid			  = $row['MAX'];
+		$bids						  = array_filter(explode(",", $row['bids']));
+		$model->bcb_medianBid		  = Filter::calculateMedian($bids);
 		$model->save();
 	}
 
@@ -2197,13 +2203,13 @@ class BookingCab extends CActiveRecord
 
 	public function getAsssignVendorList($bkgid)
 	{
-		$sql		 = "SELECT DISTINCT blg_vendor_assigned_id,v2.vnd_name FROM booking_log
+		$sql	   = "SELECT DISTINCT blg_vendor_assigned_id,v2.vnd_name FROM booking_log
 					INNER JOIN vendors ON vendors.vnd_id = booking_log.blg_vendor_assigned_id
 					INNER JOIN vendors v2 ON v2.vnd_id =  vendors.vnd_ref_code
 					WHERE blg_event_id IN(7,600) AND blg_booking_id = '$bkgid' AND blg_vendor_assigned_id IS NOT NULL  GROUP BY vendors.vnd_id
 					ORDER BY `blg_id` DESC
 					";
-		$recordset	 = DBUtil::queryAll($sql);
+		$recordset = DBUtil::queryAll($sql);
 		return $recordset;
 	}
 
@@ -2212,8 +2218,8 @@ class BookingCab extends CActiveRecord
 		$trans = DBUtil::beginTransaction();
 		try
 		{
-			$upBooking				 = Booking::model()->findByPk($upBkgId);
-			$upBooking->bkg_bcb_id	 = $bcbId;
+			$upBooking			   = Booking::model()->findByPk($upBkgId);
+			$upBooking->bkg_bcb_id = $bcbId;
 			if (!$upBooking->save())
 			{
 				throw new Exception("Failed to save", 1);
@@ -2238,10 +2244,10 @@ class BookingCab extends CActiveRecord
 
 			BookingTrail::updateProfitFlag($bcbId);
 
-			$desc					 = "Smart Match (Auto) booking " . $upBkgId . " with " . $downBkgId;
-			$eventid				 = BookingLog::SMART_MATCH;
-			$params['blg_ref_id']	 = BookingLog::REF_MATCH_FOUND;
-			$userInfo				 = UserInfo::getInstance();
+			$desc				  = "Smart Match (Auto) booking " . $upBkgId . " with " . $downBkgId;
+			$eventid			  = BookingLog::SMART_MATCH;
+			$params['blg_ref_id'] = BookingLog::REF_MATCH_FOUND;
+			$userInfo			  = UserInfo::getInstance();
 			BookingLog::model()->createLog($upBkgId, $desc, $userInfo, $eventid, false, $params, '', $bcbId);
 			BookingLog::model()->createLog($downBkgId, $desc, $userInfo, $eventid, false, $params, '', $bcbId);
 			DBUtil::commitTransaction($trans);
@@ -2273,9 +2279,9 @@ class BookingCab extends CActiveRecord
 				$vrsModel		 = VendorStats::model()->getbyVendorId($vendorId);
 				if ($bkgid > 0)
 				{
-					$model			 = Booking::model()->findByPk($bkgid);
-					$booking_pref	 = $model->bkgPref;
-					$tfrStatus		 = $booking_pref->bkg_is_fbg_type;
+					$model		  = Booking::model()->findByPk($bkgid);
+					$booking_pref = $model->bkgPref;
+					$tfrStatus	  = $booking_pref->bkg_is_fbg_type;
 					if ($tfrStatus == 1)
 					{
 						$acceptType = 3;
@@ -2341,9 +2347,9 @@ class BookingCab extends CActiveRecord
 
 	public function lockVendorPayment($description = '')
 	{
-		$this->bcb_lock_vendor_payment	 = 1;
+		$this->bcb_lock_vendor_payment = 1;
 		$this->save();
-		$desc							 = "Locked Vendor Payment";
+		$desc						   = "Locked Vendor Payment";
 		if (trim($description) != '')
 		{
 			$desc = $description;
@@ -2354,9 +2360,9 @@ class BookingCab extends CActiveRecord
 
 	public function releaseVendorPayment($description = '')
 	{
-		$this->bcb_lock_vendor_payment	 = 0;
+		$this->bcb_lock_vendor_payment = 0;
 		$this->save();
-		$desc							 = "Vendor Payment Released";
+		$desc						   = "Vendor Payment Released";
 		if (trim($description) != '')
 		{
 			$desc = $description;
@@ -2433,15 +2439,15 @@ class BookingCab extends CActiveRecord
 
 	public function getCabAssignmentTime()
 	{
-		$pickup				 = $this->bcb_start_time;
-		$now				 = Filter::getDBDateTime();
-		$pickupPrevious5	 = date("Y-m-d H:i:s", strtotime(" -5 hour", strtotime($pickup)));
-		$nextHr				 = date("Y-m-d H:i:s", strtotime(" +1 hour", strtotime($now)));
-		$set1				 = MAX($pickupPrevious5, $nextHr);
-		$pickupPrevious1	 = date("Y-m-d H:i:s", strtotime(" -1 hour", strtotime($pickup)));
-		$previous10Min		 = date("Y-m-d H:i:s", strtotime(" +15 minute", strtotime($now)));
-		$set2				 = MAX($pickupPrevious1, $previous10Min);
-		return $cabAssignmentTime	 = MIN($set1, $set2);
+		$pickup			   = $this->bcb_start_time;
+		$now			   = Filter::getDBDateTime();
+		$pickupPrevious5   = date("Y-m-d H:i:s", strtotime(" -5 hour", strtotime($pickup)));
+		$nextHr			   = date("Y-m-d H:i:s", strtotime(" +1 hour", strtotime($now)));
+		$set1			   = MAX($pickupPrevious5, $nextHr);
+		$pickupPrevious1   = date("Y-m-d H:i:s", strtotime(" -1 hour", strtotime($pickup)));
+		$previous10Min	   = date("Y-m-d H:i:s", strtotime(" +15 minute", strtotime($now)));
+		$set2			   = MAX($pickupPrevious1, $previous10Min);
+		return $cabAssignmentTime = MIN($set1, $set2);
 	}
 
 	public static function getGozoAmount($bcbid)
@@ -2460,21 +2466,21 @@ class BookingCab extends CActiveRecord
 
 	public static function getServiceTierId($tripId)
 	{
-		$param			 = ["tripId" => $tripId];
-		$sqlTierId		 = "SELECT scv_scc_id 
+		$param		   = ["tripId" => $tripId];
+		$sqlTierId	   = "SELECT scv_scc_id 
 						FROM booking_cab 
 						INNER JOIN booking ON bcb_id=bkg_bcb_id
 						INNER JOIN svc_class_vhc_cat svcVhc ON svcVhc.scv_id = bkg_vehicle_type_id  
 						INNER JOIN service_class ON scc_id=scv_scc_id
 						WHERE bcb_id=:tripId ORDER BY scc_rank DESC";
-		$serviceTierId	 = DBUtil::queryScalar($sqlTierId, DBUtil::SDB(), $param);
+		$serviceTierId = DBUtil::queryScalar($sqlTierId, DBUtil::SDB(), $param);
 		return $serviceTierId;
 	}
 
 	public static function getVendorAmountWithMargin($tripId, $margin)
 	{
-		$param	 = ["tripId" => $tripId, "margin" => $margin];
-		$sql	 = "SELECT ROUND(SUM(bkg_total_amount-bkg_service_tax-bkg_partner_commission) - SUM(bkg_net_base_amount)*:margin*0.01) as vendorAmount 
+		$param = ["tripId" => $tripId, "margin" => $margin];
+		$sql   = "SELECT ROUND(SUM(bkg_total_amount-bkg_service_tax-bkg_partner_commission) - SUM(bkg_net_base_amount)*:margin*0.01) as vendorAmount 
 				FROM booking 
 				INNER JOIN booking_invoice ON bkg_id=biv_bkg_id
 				INNER JOIN booking_cab ON bcb_id=bkg_bcb_id
@@ -2490,18 +2496,18 @@ class BookingCab extends CActiveRecord
 	{
 		if ($round !== '')
 		{
-			$param					 = ["cabId" => $bcbid];
-			$roundNo				 = 'round' . $round;
-			$serviceTierId			 = self::getServiceTierId($bcbid);
-			$marginTolerance		 = Config::getMarginToleranceFactor($serviceTierId);
-			$lossFactor				 = $marginTolerance[$roundNo];
-			$baseFare				 = " bkg_net_base_amount";
-			$baseMarginTolerance	 = " (($baseFare) * $lossFactor *0.01) ";
-			$partnerCommission		 = " bkg_partner_commission";
-			$unassignPenalty		 = " 0"; //" (btr_vendor_unassign_penalty) * 0.25";
-			$doubleBackedAmount		 = "  IF(bkg_critical_score>0.98,btr_dbo_amount,0)";
-			$totalAmountTolerance	 = " SUM(bkg_total_amount - bkg_service_tax - $partnerCommission  - $baseMarginTolerance)";
-			$MaxVALogic				 = '0';
+			$param				  = ["cabId" => $bcbid];
+			$roundNo			  = 'round' . $round;
+			$serviceTierId		  = self::getServiceTierId($bcbid);
+			$marginTolerance	  = Config::getMarginToleranceFactor($serviceTierId);
+			$lossFactor			  = $marginTolerance[$roundNo];
+			$baseFare			  = " bkg_net_base_amount";
+			$baseMarginTolerance  = " (($baseFare) * $lossFactor *0.01) ";
+			$partnerCommission	  = " bkg_partner_commission";
+			$unassignPenalty	  = " 0"; //" (btr_vendor_unassign_penalty) * 0.25";
+			$doubleBackedAmount	  = "  IF(bkg_critical_score>0.98,btr_dbo_amount,0)";
+			$totalAmountTolerance = " SUM(bkg_total_amount - bkg_service_tax - $partnerCommission  - $baseMarginTolerance)";
+			$MaxVALogic			  = '0';
 			if ($round == 1)
 			{
 				$MaxVALogic = $totalAmountTolerance;
@@ -2512,8 +2518,8 @@ class BookingCab extends CActiveRecord
 			}
 			if ($round == 3)
 			{
-				$mmtBaseMarginTolerance	 = $baseMarginTolerance; // " -1 * LEAST(bkg_total_amount*0.25, 1000) ";
-				$MaxVALogic				 = " (SUM(bkg_total_amount - bkg_service_tax - $partnerCommission  - 								
+				$mmtBaseMarginTolerance = $baseMarginTolerance; // " -1 * LEAST(bkg_total_amount*0.25, 1000) ";
+				$MaxVALogic				= " (SUM(bkg_total_amount - bkg_service_tax - $partnerCommission  - 								
 								 IF(bkg_agent_id IN (450, 18190), $mmtBaseMarginTolerance, LEAST(-1 * $doubleBackedAmount * 0.5, $baseMarginTolerance))) +
 								$unassignPenalty )";
 			}
@@ -2540,10 +2546,10 @@ class BookingCab extends CActiveRecord
 	{
 		if ($bcbid > 0)
 		{
-			$sql	 = " UPDATE booking_cab 
+			$sql	= " UPDATE booking_cab 
 			SET bcb_max_allowable_vendor_amount = $maxAllowableVAmount
 				WHERE bcb_id= $bcbid ";
-			$result	 = DBUtil::command($sql)->execute();
+			$result = DBUtil::command($sql)->execute();
 			return $result;
 		}
 		return false;
@@ -2562,9 +2568,9 @@ class BookingCab extends CActiveRecord
 
 	public static function increaseVABy($bkgNetBaseAmt, $gozoAmt, $criticalScore, $trackParam = null, $pickupDate = null)
 	{
-		$step		 = null;
-		$lastStep	 = 0;
-		$incVABy	 = 0;
+		$step	  = null;
+		$lastStep = 0;
+		$incVABy  = 0;
 		if ($trackParam == null)
 		{
 			$trackParam = [];
@@ -2592,15 +2598,15 @@ class BookingCab extends CActiveRecord
 
 		if (is_array($arrTripVAIncreaseSetting) && $arrTripVAIncreaseSetting != null)
 		{
-			$step						 = $arrTripVAIncreaseSetting['step'];
-			$currMargin					 = $arrTripVAIncreaseSetting['currMargin'];
-			$lossMargin					 = $arrTripVAIncreaseSetting['lossMargin'];
-			$safeMargin					 = null;
-			$incVABy					 = 0;
-			$log["step"]				 = $step;
-			$log["baseAmount"]			 = $bkgNetBaseAmt;
-			$log["gozoAmt"]				 = $gozoAmt;
-			$log["currMarginPercent"]	 = $currMarginPercent;
+			$step					  = $arrTripVAIncreaseSetting['step'];
+			$currMargin				  = $arrTripVAIncreaseSetting['currMargin'];
+			$lossMargin				  = $arrTripVAIncreaseSetting['lossMargin'];
+			$safeMargin				  = null;
+			$incVABy				  = 0;
+			$log["step"]			  = $step;
+			$log["baseAmount"]		  = $bkgNetBaseAmt;
+			$log["gozoAmt"]			  = $gozoAmt;
+			$log["currMarginPercent"] = $currMarginPercent;
 			if (isset($arrTripVAIncreaseSetting['safeMargin']))
 			{
 				$safeMargin = $arrTripVAIncreaseSetting['safeMargin'];
@@ -2609,17 +2615,17 @@ class BookingCab extends CActiveRecord
 					$safeMargin = $safeMargin * $safeMarginExtra;
 				}
 
-				$safeGozoAmount			 = round($bkgNetBaseAmt * $safeMargin * 0.01);
-				$incVABy				 = max($gozoAmt - $safeGozoAmount, 0);
-				$log["safeGozoAmount"]	 = $safeGozoAmount;
-				$log["safeIncVABy"]		 = $incVABy;
+				$safeGozoAmount		   = round($bkgNetBaseAmt * $safeMargin * 0.01);
+				$incVABy			   = max($gozoAmt - $safeGozoAmount, 0);
+				$log["safeGozoAmount"] = $safeGozoAmount;
+				$log["safeIncVABy"]	   = $incVABy;
 			}
 
 			if ($step != null && $step > $lastStep && $currMarginPercent >= $currMargin)
 			{
 
-				$inc					 = round((($gozoAmt * $lossMargin) / 100));
-				$log["marginIncVABy"]	 = $inc;
+				$inc				  = round((($gozoAmt * $lossMargin) / 100));
+				$log["marginIncVABy"] = $inc;
 
 				$incVABy = max($inc, $incVABy);
 			}
@@ -2635,15 +2641,15 @@ class BookingCab extends CActiveRecord
 
 	public static function getTripVAIncreaseSetting($criticalScore)
 	{
-		$value		 = null;
-		$arr		 = array();
-		$arr[65]	 = ['step' => 1, 'cs' => 0.65, 'currMargin' => 13, 'lossMargin' => 10];
-		$arr[72]	 = ['step' => 2, 'cs' => 0.72, 'currMargin' => 11, 'lossMargin' => 15, 'safeMargin' => 14];
-		$arr[80]	 = ['step' => 3, 'cs' => 0.80, 'currMargin' => 9, 'lossMargin' => 20, 'safeMargin' => 9];
-		$arr[88]	 = ['step' => 4, 'cs' => 0.88, 'currMargin' => 4, 'lossMargin' => 30, 'safeMargin' => 5];
-		$arr[92]	 = ['step' => 5, 'cs' => 0.92, 'currMargin' => 2, 'lossMargin' => 60, 'safeMargin' => 1];
-		$arr[96]	 = ['step' => 6, 'cs' => 0.96, 'currMargin' => 0, 'lossMargin' => 100, 'safeMargin' => -3];
-		$arr[100]	 = ['step' => 7, 'cs' => 1, 'currMargin' => 0, 'lossMargin' => 100, 'safeMargin' => -7];
+		$value	  = null;
+		$arr	  = array();
+		$arr[65]  = ['step' => 1, 'cs' => 0.65, 'currMargin' => 13, 'lossMargin' => 10];
+		$arr[72]  = ['step' => 2, 'cs' => 0.72, 'currMargin' => 11, 'lossMargin' => 15, 'safeMargin' => 14];
+		$arr[80]  = ['step' => 3, 'cs' => 0.80, 'currMargin' => 9, 'lossMargin' => 20, 'safeMargin' => 9];
+		$arr[88]  = ['step' => 4, 'cs' => 0.88, 'currMargin' => 4, 'lossMargin' => 30, 'safeMargin' => 5];
+		$arr[92]  = ['step' => 5, 'cs' => 0.92, 'currMargin' => 2, 'lossMargin' => 60, 'safeMargin' => 1];
+		$arr[96]  = ['step' => 6, 'cs' => 0.96, 'currMargin' => 0, 'lossMargin' => 100, 'safeMargin' => -3];
+		$arr[100] = ['step' => 7, 'cs' => 1, 'currMargin' => 0, 'lossMargin' => 100, 'safeMargin' => -7];
 
 		if ($criticalScore > 0)
 		{
@@ -2661,8 +2667,8 @@ class BookingCab extends CActiveRecord
 
 	public static function getAdditionalParams($data, $key = '')
 	{
-		$value	 = null;
-		$data	 = trim($data);
+		$value = null;
+		$data  = trim($data);
 		if ($data != '')
 		{
 			$arrData = CJSON::decode($data, true);
@@ -2729,17 +2735,17 @@ class BookingCab extends CActiveRecord
 
 		foreach ($bookingRes as $booking)
 		{
-			$log				 = [];
-			$bkgIds				 = $booking['bkgIds'];
-			$bcbId				 = $booking['bcb_id'];
-			$bcbVendorAmount	 = $booking['bcb_vendor_amount'];
-			$additionalParams	 = $booking['bcb_additional_params'];
-			$criticalScore		 = $booking['criticalScore'];
-			$bkgNetBaseAmt		 = $booking['bkgNetBaseAmt'];
-			$isOverrideCS		 = $booking['overrideCS'];
-			$pickupDate			 = $booking['pickupDate'];
-			$isFBG				 = $booking["bkg_is_fbg_type"];
-			$maxVendorAmount	 = $booking["bcb_max_allowable_vendor_amount"];
+			$log			  = [];
+			$bkgIds			  = $booking['bkgIds'];
+			$bcbId			  = $booking['bcb_id'];
+			$bcbVendorAmount  = $booking['bcb_vendor_amount'];
+			$additionalParams = $booking['bcb_additional_params'];
+			$criticalScore	  = $booking['criticalScore'];
+			$bkgNetBaseAmt	  = $booking['bkgNetBaseAmt'];
+			$isOverrideCS	  = $booking['overrideCS'];
+			$pickupDate		  = $booking['pickupDate'];
+			$isFBG			  = $booking["bkg_is_fbg_type"];
+			$maxVendorAmount  = $booking["bcb_max_allowable_vendor_amount"];
 
 			if ($isOverrideCS == 1)
 			{
@@ -2767,30 +2773,30 @@ class BookingCab extends CActiveRecord
 			$log["tripId"] = $bcbId;
 
 			// Get Trip Critical Step
-			$tripCriticalStep	 = self::getAdditionalParams($additionalParams);
-			$log["step"]		 = $tripCriticalStep;
+			$tripCriticalStep = self::getAdditionalParams($additionalParams);
+			$log["step"]	  = $tripCriticalStep;
 
 			// Trip Gozo Amount
-			$tripGozoAmount			 = BookingInvoice::getGozoAmountByTripId($bcbId);
-			$log["tripGozoAmount"]	 = $tripGozoAmount;
+			$tripGozoAmount		   = BookingInvoice::getGozoAmountByTripId($bcbId);
+			$log["tripGozoAmount"] = $tripGozoAmount;
 			// Increase VendorAmount By
-			$arrIncreaseVABy		 = self::increaseVABy($bkgNetBaseAmt, $tripGozoAmount, $criticalScore, $tripCriticalStep, $pickupDate);
-			$increaseVABy			 = $arrIncreaseVABy['incVABy'];
-			$step					 = $arrIncreaseVABy['step'];
-			$log["increaseVABy"]	 = $increaseVABy;
-			$log["step"]			 = $step;
-			$newTripVendorAmount	 = $bcbVendorAmount + $increaseVABy;
+			$arrIncreaseVABy	   = self::increaseVABy($bkgNetBaseAmt, $tripGozoAmount, $criticalScore, $tripCriticalStep, $pickupDate);
+			$increaseVABy		   = $arrIncreaseVABy['incVABy'];
+			$step				   = $arrIncreaseVABy['step'];
+			$log["increaseVABy"]   = $increaseVABy;
+			$log["step"]		   = $step;
+			$newTripVendorAmount   = $bcbVendorAmount + $increaseVABy;
 
 			if ($increaseVABy > 0 && $newTripVendorAmount <= $maxVendorAmount)
 			{
 				Logger::writeToConsole("BkgIds: $bkgIds");
 				// Update New Trip Amount
-				$cabModel					 = BookingCab::model()->findByPk($bcbId);
-				$newTripVendorAmount		 = $bcbVendorAmount + $increaseVABy;
+				$cabModel					= BookingCab::model()->findByPk($bcbId);
+				$newTripVendorAmount		= $bcbVendorAmount + $increaseVABy;
 				$cabModel->updateTripAmount($newTripVendorAmount, UserInfo::getInstance());
-				$log["newTripVendorAmount"]	 = $newTripVendorAmount;
+				$log["newTripVendorAmount"] = $newTripVendorAmount;
 				// Update Additional Params
-				$additionalParams			 = self::setAdditionalParams($additionalParams, 'tripCriticalStep', $step);
+				$additionalParams			= self::setAdditionalParams($additionalParams, 'tripCriticalStep', $step);
 
 				$cabModel->refresh();
 				$cabModel->bcb_additional_params = $additionalParams;
@@ -2856,17 +2862,17 @@ class BookingCab extends CActiveRecord
 					AND btr_is_bid_started = 1 AND bpr.bkg_is_fbg_type =0 AND btr_stop_increasing_vendor_amount = 0
 				GROUP by bcb_id HAVING TIMESTAMPDIFF(MINUTE, MAX(bkg_create_date),NOW())>60 ";
 
-		$bookingRes		 = DBUtil::queryAll($sql);
-		$manualFactor	 = Config::get("booking.score.manual");
-		$criticalFactor	 = Config::get("booking.score.critical");
+		$bookingRes		= DBUtil::queryAll($sql);
+		$manualFactor	= Config::get("booking.score.manual");
+		$criticalFactor = Config::get("booking.score.critical");
 		foreach ($bookingRes as $booking)
 		{
-			$isManual		 = $booking['isManualAssign'];
-			$isCritical		 = $booking['isCriticalAssign'];
-			$criticalScore	 = $booking['criticalScore'];
+			$isManual	   = $booking['isManualAssign'];
+			$isCritical	   = $booking['isCriticalAssign'];
+			$criticalScore = $booking['criticalScore'];
 
-			$round	 = ($isCritical == 1) ? 3 : (($isManual == 1) ? 2 : (($criticalScore > 0.6) ? 1 : 0));
-			$tripId	 = $booking['bcb_id'];
+			$round	= ($isCritical == 1) ? 3 : (($isManual == 1) ? 2 : (($criticalScore > 0.6) ? 1 : 0));
+			$tripId = $booking['bcb_id'];
 
 			BookingCab::updateCriticalTripAmountNew($tripId);
 
@@ -2887,11 +2893,11 @@ class BookingCab extends CActiveRecord
 		{
 			if (is_array($arrBkgIds) && count($arrBkgIds) > 0)
 			{
-				$sql	 = "SELECT GROUP_CONCAT(bkg.bkg_id) as multiple_bkg_id, MIN(bkg.bkg_pickup_date) as start_time, 
+				$sql	= "SELECT GROUP_CONCAT(bkg.bkg_id) as multiple_bkg_id, MIN(bkg.bkg_pickup_date) as start_time, 
 						DATE_ADD(bkg.bkg_pickup_date, INTERVAL bkg.bkg_trip_duration MINUTE) as end_time  
 						FROM booking bkg INNER JOIN booking_invoice biv ON bkg.bkg_id = biv.biv_bkg_id 
 						WHERE bkg_id IN (" . implode(',', $arrBkgIds) . ") AND bkg_active = 1 ";
-				$result	 = DBUtil::queryRow($sql);
+				$result = DBUtil::queryRow($sql);
 				if ($result)
 				{
 					$bcbModel					 = $this;
@@ -2920,16 +2926,16 @@ class BookingCab extends CActiveRecord
 
 	public function isCngAllowed($bkgId, $vhcModel = '')
 	{
-		$success			 = true;
-		$msg				 = "";
-		$sql				 = "SELECT bkg_cng_allowed , bai.bkg_num_large_bag AS luggage, scv.scv_scc_id FROM booking
+		$success		   = true;
+		$msg			   = "";
+		$sql			   = "SELECT bkg_cng_allowed , bai.bkg_num_large_bag AS luggage, scv.scv_scc_id FROM booking
 								INNER JOIN booking_pref bpf ON booking.bkg_id = bpf.bpr_bkg_id
 								INNER JOIN booking_add_info bai ON booking.bkg_id = bai.bad_bkg_id
 								INNER JOIN svc_class_vhc_cat scv ON scv.scv_id = booking.bkg_vehicle_type_id
 								WHERE `bkg_id` = '$bkgId'";
-		$rows				 = DBUtil::queryRow($sql, DBUtil::SDB());
-		$hasCng				 = ($this->bcbCab->vhc_has_cng == '') ? $vhcModel->vhc_has_cng : $this->bcbCab->vhc_has_cng;
-		$hasRooftopCarrier	 = ($this->bcbCab->vhc_has_rooftop_carrier == '') ? $vhcModel->vhc_has_rooftop_carrier : $this->bcbCab->vhc_has_rooftop_carrier;
+		$rows			   = DBUtil::queryRow($sql, DBUtil::SDB());
+		$hasCng			   = ($this->bcbCab->vhc_has_cng == '') ? $vhcModel->vhc_has_cng : $this->bcbCab->vhc_has_cng;
+		$hasRooftopCarrier = ($this->bcbCab->vhc_has_rooftop_carrier == '') ? $vhcModel->vhc_has_rooftop_carrier : $this->bcbCab->vhc_has_rooftop_carrier;
 		if ($rows['bkg_cng_allowed'] == 0 && $hasCng == 1)
 		{
 			$success = false;
@@ -2994,12 +3000,12 @@ class BookingCab extends CActiveRecord
 		{
 			//echo $value['BookingId'] . "<br>";
 
-			$bid		 = $value['BookingId'];
-			$model		 = Booking::model()->findByPk($bid);
-			$cabmodel	 = $model->getBookingCabModel();
+			$bid	  = $value['BookingId'];
+			$model	  = Booking::model()->findByPk($bid);
+			$cabmodel = $model->getBookingCabModel();
 			$cabmodel->setScenario('updatePendingStatus');
-			$models		 = Booking::model()->getBookingModelsbyCab($cabmodel->bcb_id);
-			$bkgIds		 = [];
+			$models	  = Booking::model()->getBookingModelsbyCab($cabmodel->bcb_id);
+			$bkgIds	  = [];
 			foreach ($models as $val)
 			{
 				$bkgIds[] = $val['bkg_id'];
@@ -3030,24 +3036,24 @@ class BookingCab extends CActiveRecord
 					if ($modelBookingCab->bcbVendor && ($lowestStatus == 7 || $lowestStatus == 6))
 					{
 
-						$bkgamt	 = $model->bkgInvoice->bkg_total_amount;
-						$amtdue	 = $bkgamt - $model->bkgInvoice->getTotalPayment();
+						$bkgamt = $model->bkgInvoice->bkg_total_amount;
+						$amtdue = $bkgamt - $model->bkgInvoice->getTotalPayment();
 
-						$model->bkgInvoice->bkg_due_amount	 = $amtdue;
-						$vndamt								 = $modelBookingCab->bcb_vendor_amount;
-						$gzamount							 = $model->bkgInvoice->bkg_gozo_amount;
+						$model->bkgInvoice->bkg_due_amount = $amtdue;
+						$vndamt							   = $modelBookingCab->bcb_vendor_amount;
+						$gzamount						   = $model->bkgInvoice->bkg_gozo_amount;
 						if ($gzamount == '')
 						{
-							$gzamount							 = $bkgamt - $vndamt;
-							$model->bkgInvoice->bkg_gozo_amount	 = $gzamount;
+							$gzamount							= $bkgamt - $vndamt;
+							$model->bkgInvoice->bkg_gozo_amount = $gzamount;
 						}
-						$gzdue				 = $gzamount - $model->bkgInvoice->getAdvanceReceived();
-						$vendorDue			 = $model->bkgInvoice->bkg_vendor_collected - $modelBookingCab->bcb_vendor_amount;
+						$gzdue			  = $gzamount - $model->bkgInvoice->getAdvanceReceived();
+						$vendorDue		  = $model->bkgInvoice->bkg_vendor_collected - $modelBookingCab->bcb_vendor_amount;
 						//$userInfo			 = UserInfo::getInstance();
-						$date				 = new DateTime($model->bkg_pickup_date);
-						$duration			 = $model->bkg_trip_duration | 120;
+						$date			  = new DateTime($model->bkg_pickup_date);
+						$duration		  = $model->bkg_trip_duration | 120;
 						$date->add(new DateInterval('PT' . $duration . 'M'));
-						$findmatchBooking	 = Booking::model()->getMatchBookingIdbyTripId($modelBookingCab->bcb_id);
+						$findmatchBooking = Booking::model()->getMatchBookingIdbyTripId($modelBookingCab->bcb_id);
 						foreach ($findmatchBooking as $valBookingID)
 						{
 							if (AccountTransDetails::model()->revertVenTransOnEditAcc($modelBookingCab->bcb_id, $valBookingID['bkg_id'], Accounting::LI_TRIP, Accounting::LI_OPERATOR))
@@ -3059,9 +3065,9 @@ class BookingCab extends CActiveRecord
 								AccountTransactions::model()->AddVendorPurchaseTrip($modelBookingCab->bcb_vendor_amount, $valBookingID['bkg_vendor_collected'], $modelBookingCab->bcb_id, $valBookingID['bkg_id'], $modelBookingCab->bcb_vendor_id, $date->format('Y-m-d H:i:s'), $userInfo, $modelBookingCab->bcb_trip_status);
 							}
 						}
-						$model->bkgInvoice->scenario		 = 'vendor_collected_update';
-						$model->bkgInvoice->bkg_gozo_amount	 = round($gzamount);
-						$model->bkgInvoice->bkg_due_amount	 = $model->bkgInvoice->bkg_total_amount - $model->bkgInvoice->getTotalPayment();
+						$model->bkgInvoice->scenario		= 'vendor_collected_update';
+						$model->bkgInvoice->bkg_gozo_amount = round($gzamount);
+						$model->bkgInvoice->bkg_due_amount	= $model->bkgInvoice->bkg_total_amount - $model->bkgInvoice->getTotalPayment();
 
 						$model->bkgInvoice->addCorporateCredit();
 						$model->bkgInvoice->calculateConvenienceFee($model->bkgInvoice->bkg_convenience_charge);
@@ -3082,17 +3088,17 @@ class BookingCab extends CActiveRecord
 
 	public function checkSimilarModel($bkgId, $bcbCabModel)
 	{
-		$bkgModel	 = Booking::model()->findByPk($bkgId);
-		$bkgVhtId	 = $bkgModel->bkg_vht_id;
-		$vhcTypeId	 = $bcbCabModel->vhc_type_id;
-		$scvModel	 = SvcClassVhcCat::model()->findByPk($bkgModel->bkg_vehicle_type_id);
-		$sccId		 = $scvModel->scv_scc_id;
+		$bkgModel  = Booking::model()->findByPk($bkgId);
+		//	$bkgVhtId	 = $bkgModel->bkg_vht_id;
+		$vhcTypeId = $bcbCabModel->vhc_type_id;
+		$scvModel  = SvcClassVhcCat::model()->findByPk($bkgModel->bkg_vehicle_type_id);
+		$sccId	   = $scvModel->scv_scc_id;
 		if ($scvModel->scv_model > 0)
 		{
-			$bkgVhtId = $scvModel->scv_model;
+			$bkgVhtId	  = $scvModel->scv_model;
+			$vhcTypeModel = VehicleTypes::model()->findByPk($bkgVhtId);
+			$vhcModel	  = $vhcTypeModel->vht_make . ' ' . $vhcTypeModel->vht_model;
 		}
-		$vhcTypeModel	 = VehicleTypes::model()->findByPk($bkgVhtId);
-		$vhcModel		 = $vhcTypeModel->vht_make . ' ' . $vhcTypeModel->vht_model;
 
 		$success = true;
 		$msg	 = $sccId;
@@ -3166,8 +3172,8 @@ class BookingCab extends CActiveRecord
 	{
 		if ($bcbid > 0)
 		{
-			$sql	 = " UPDATE booking_cab SET bcb_is_max_out = $bcbIsMaxOut	WHERE bcb_id= $bcbid ";
-			$result	 = DBUtil::command($sql)->execute();
+			$sql	= " UPDATE booking_cab SET bcb_is_max_out = $bcbIsMaxOut	WHERE bcb_id= $bcbid ";
+			$result = DBUtil::command($sql)->execute();
 			return $result;
 		}
 		return false;
@@ -3175,8 +3181,8 @@ class BookingCab extends CActiveRecord
 
 	public function getRemainingWorkingHours($bcbId)
 	{
-		$params	 = ['bcbID' => $bcbId];
-		$sql	 = "SELECT
+		$params = ['bcbID' => $bcbId];
+		$sql	= "SELECT
 				bkg_id,
 				bkg_bcb_id,
 				bcb_vendor_id,
@@ -3200,7 +3206,7 @@ class BookingCab extends CActiveRecord
 		$returnSet = Yii::app()->cache->get('getCountVendorBlockPayment');
 		if ($returnSet === false)
 		{
-			$sql		 = "SELECT COUNT(*) FROM (SELECT COUNT(*) AS count FROM `vendors` v
+			$sql	   = "SELECT COUNT(*) FROM (SELECT COUNT(*) AS count FROM `vendors` v
 							INNER JOIN vendors v1 ON v1.vnd_id = v.vnd_ref_code
 							INNER JOIN contact_profile cp on cp.cr_is_vendor = v1.vnd_id and cp.cr_status =1
 							INNER JOIN contact cnt on cnt.ctt_id = cp.cr_contact_id and cnt.ctt_active =1 and cnt.ctt_id =cnt.ctt_ref_code
@@ -3215,7 +3221,7 @@ class BookingCab extends CActiveRecord
                         (SELECT vnd_id FROM `booking_cab` bcb 
                         INNER JOIN `booking` bkg ON bkg.bkg_bcb_id = bcb.bcb_id AND bkg.bkg_active=1 AND  bkg.bkg_status IN(3,5,6,7)
                         INNER JOIN vendors vnd ON vnd.vnd_id = bcb.bcb_vendor_id AND vnd.vnd_active>0 WHERE bcb.bcb_lock_vendor_payment = 1) GROUP BY v1.vnd_ref_code) abc ";
-			$returnSet	 = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
+			$returnSet = DBUtil::queryScalar($sql, DBUtil::SDB(), [], 600, CacheDependency::Type_DashBoard);
 			Yii::app()->cache->set('getCountVendorBlockPayment', $returnSet, 600);
 		}
 		return $returnSet;
@@ -3223,8 +3229,8 @@ class BookingCab extends CActiveRecord
 
 	public static function stopVendorPayment($bcbId = NULL)
 	{
-		$bcbModel							 = self::model()->findByPk($bcbId);
-		$bcbModel->bcb_lock_vendor_payment	 = 1;
+		$bcbModel						   = self::model()->findByPk($bcbId);
+		$bcbModel->bcb_lock_vendor_payment = 1;
 		if ($bcbModel->save())
 		{
 			$desc	 = "Locked Vendor Payment";
@@ -3235,11 +3241,11 @@ class BookingCab extends CActiveRecord
 
 	public static function stopVendorPaymentForPartnerBooking($partnerId, $balance = 0)
 	{
-		$value		 = [];
-		$condition	 = '';
+		$value	   = [];
+		$condition = '';
 
-		$params		 = ['partnerId' => $partnerId];
-		$sql		 = "SELECT bcb_id, MIN(bkg_pickup_date) as pickupDate, min(bkg_id) as minBkg 
+		$params		= ['partnerId' => $partnerId];
+		$sql		= "SELECT bcb_id, MIN(bkg_pickup_date) as pickupDate, min(bkg_id) as minBkg 
 						FROM booking bkg 
 						INNER JOIN booking_invoice biv ON biv.biv_bkg_id = bkg.bkg_id 
 						INNER JOIN booking_cab ON bkg_bcb_id=bcb_id 
@@ -3247,8 +3253,8 @@ class BookingCab extends CActiveRecord
 						AND bkg.bkg_booking_type NOT IN(4,12)
 						AND bkg_pickup_date >= '2020-04-01 00:00:00' AND booking_cab.bcb_lock_vendor_payment != 2
 						GROUP  BY bcb_id ORDER BY pickupDate DESC, minBkg DESC";
-		$recordsets	 = DBUtil::query($sql, DBUtil::SDB(), $params);
-		$value		 = false;
+		$recordsets = DBUtil::query($sql, DBUtil::SDB(), $params);
+		$value		= false;
 
 		foreach ($recordsets as $data)
 		{
@@ -3256,9 +3262,9 @@ class BookingCab extends CActiveRecord
 			{
 				break;
 			}
-			$value	 = ['bkgId' => $data['minBkg'], 'pickupDate' => $data['pickupDate']];
-			$bcbId	 = $data["bcb_id"];
-			$due	 = self::stopPartnerVendorPayments($bcbId);
+			$value = ['bkgId' => $data['minBkg'], 'pickupDate' => $data['pickupDate']];
+			$bcbId = $data["bcb_id"];
+			$due   = self::stopPartnerVendorPayments($bcbId);
 			if ($due > 0)
 			{
 				$balance -= $due;
@@ -3270,15 +3276,15 @@ class BookingCab extends CActiveRecord
 
 	public static function stopPartnerVendorPayments($bcbId)
 	{
-		$vendorDue	 = 0;
-		$params		 = ['bcbId' => $bcbId];
-		$sql		 = "SELECT bcb_lock_vendor_payment, (bcb_vendor_amount - SUM(bkg_total_amount - bkg_net_advance_amount)) as vendorDue
+		$vendorDue = 0;
+		$params	   = ['bcbId' => $bcbId];
+		$sql	   = "SELECT bcb_lock_vendor_payment, (bcb_vendor_amount - SUM(bkg_total_amount - bkg_net_advance_amount)) as vendorDue
 				FROM booking bkg 
 				INNER JOIN booking_invoice biv ON biv.biv_bkg_id = bkg.bkg_id
 				INNER JOIN booking_cab ON bcb_id=bkg_bcb_id
 				WHERE bcb_id=:bcbId AND bkg.bkg_active = 1 AND bkg.bkg_status IN (3,5,6,7) AND bkg_pickup_date >= '2020-04-01 00:00:00' 
 				GROUP  BY bcb_id HAVING vendorDue > 0";
-		$row		 = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
+		$row	   = DBUtil::queryRow($sql, DBUtil::SDB(), $params);
 		if ($row)
 		{
 			$vendorDue		 = $row["vendorDue"];
@@ -3296,8 +3302,8 @@ class BookingCab extends CActiveRecord
 
 	public static function releasePartnerVendorPayments($pId, $bkgId = null, $pickupDate = null)
 	{
-		$params	 = ['partnerId' => $pId];
-		$sql	 = "SELECT DISTINCT bcb_id FROM booking_cab 
+		$params = ['partnerId' => $pId];
+		$sql	= "SELECT DISTINCT bcb_id FROM booking_cab 
 				INNER JOIN booking ON bkg_bcb_id=bcb_id AND bkg_status IN (3,5,6,7) AND bcb_lock_vendor_payment=1
 				WHERE bkg_agent_id=:partnerId";
 		if ($bkgId != null)
@@ -3307,8 +3313,8 @@ class BookingCab extends CActiveRecord
 		}
 		if ($pickupDate != null)
 		{
-			$sql					 .= " AND bkg_pickup_date<=:pickupDate";
-			$params['pickupDate']	 = $pickupDate;
+			$sql				  .= " AND bkg_pickup_date<=:pickupDate";
+			$params['pickupDate'] = $pickupDate;
 		}
 		$result = DBUtil::query($sql, DBUtil::SDB(), $params);
 		foreach ($result as $res)
@@ -3322,10 +3328,10 @@ class BookingCab extends CActiveRecord
 
 	public static function getTripIdByBkgId($bkgId)
 	{
-		$param	 = ['bkgId' => $bkgId];
-		$sql	 = "SELECT * FROM `booking_cab` WHERE FIND_IN_SET($bkgId,bcb_bkg_id1)";
-		$record	 = DBUtil::query($sql, DBUtil::SDB(), $param);
-		$arr	 = [];
+		$param	= ['bkgId' => $bkgId];
+		$sql	= "SELECT * FROM `booking_cab` WHERE FIND_IN_SET($bkgId,bcb_bkg_id1)";
+		$record = DBUtil::query($sql, DBUtil::SDB(), $param);
+		$arr	= [];
 		foreach ($record as $value)
 		{
 			$arr[] = $value['bcb_id'];
@@ -3335,8 +3341,8 @@ class BookingCab extends CActiveRecord
 
 	public static function getNextTripByVndId($vndId)
 	{
-		$param	 = ['vndId' => $vndId];
-		$sql	 = "SELECT booking.bkg_id, booking.bkg_booking_id, booking.bkg_pickup_date, booking.bkg_booking_type, booking.bkg_from_city_id, booking.bkg_to_city_id
+		$param	= ['vndId' => $vndId];
+		$sql	= "SELECT booking.bkg_id, booking.bkg_booking_id, booking.bkg_pickup_date, booking.bkg_booking_type, booking.bkg_from_city_id, booking.bkg_to_city_id
                     FROM  booking_cab
                     INNER JOIN booking ON booking.bkg_bcb_id = booking_cab.bcb_id
                     AND   booking_cab.bcb_active = 1
@@ -3345,7 +3351,7 @@ class BookingCab extends CActiveRecord
                     AND   booking.bkg_active = 1
                     AND   booking.bkg_pickup_date >= NOW()
                     ORDER BY  booking.bkg_pickup_date ASC LIMIT 1";
-		$record	 = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
+		$record = DBUtil::queryRow($sql, DBUtil::SDB(), $param);
 		return $record;
 	}
 
@@ -3355,15 +3361,15 @@ class BookingCab extends CActiveRecord
 		{
 			$unassignedTime = new CDbExpression('NOW()');
 		}
-		$sql	 = "SELECT GetUnassignPenaltyCharge($unassignedTime, '$assignedTime', '$pickupTime', $vendorAmount, $acceptType, $dependencyScore) as charge FROM dual";
-		$record	 = DBUtil::command($sql)->queryScalar();
+		$sql	= "SELECT GetUnassignPenaltyCharge($unassignedTime, '$assignedTime', '$pickupTime', $vendorAmount, $acceptType, $dependencyScore) as charge FROM dual";
+		$record = DBUtil::command($sql)->queryScalar();
 		return $record;
 	}
 
 	public function GetUnassignPenaltySlabs($unassignedTime, $assignedTime, $pickupTime, $vendorAmount, $acceptType, $dependencyScore)
 	{
-		$sql	 = "SELECT GetUnassignPenaltySlabs('$assignedTime', '$pickupTime', $vendorAmount, $acceptType, $dependencyScore) as slabs FROM dual";
-		$record	 = DBUtil::command($sql)->queryScalar();
+		$sql	= "SELECT GetUnassignPenaltySlabs('$assignedTime', '$pickupTime', $vendorAmount, $acceptType, $dependencyScore) as slabs FROM dual";
+		$record = DBUtil::command($sql)->queryScalar();
 		return $record;
 	}
 
@@ -3394,16 +3400,16 @@ class BookingCab extends CActiveRecord
 		$results = DBUtil::query($sql);
 		foreach ($results as $value)
 		{
-			$bkgId		 = $value['blg_booking_id'];
-			$bcbId		 = $value['bcb_id'];
-			$assignMode	 = $value['bcb_assign_mode'];
+			$bkgId		= $value['blg_booking_id'];
+			$bcbId		= $value['bcb_id'];
+			$assignMode = $value['bcb_assign_mode'];
 
 			$sqlUpdate = 'UPDATE `booking_cab` SET bcb_assign_mode = "' . $mode . '"  WHERE bcb_id= "' . $bcbId . '"';
 
 			$result = DBUtil::command($sqlUpdate)->execute();
 
-			$sql2	 = "SELECT bkg_bcb_id FROM booking WHERE bkg_id=$bkgId";
-			$row	 = DBUtil::queryRow($sql2);
+			$sql2 = "SELECT bkg_bcb_id FROM booking WHERE bkg_id=$bkgId";
+			$row  = DBUtil::queryRow($sql2);
 			if ($bcbId == $row['bkg_bcb_id'])
 			{
 				$sqlUpdate = 'UPDATE `booking_trail` SET bkg_assign_mode = "' . $mode . '"  WHERE btr_bkg_id= "' . $bkgId . '"';
@@ -3493,8 +3499,8 @@ class BookingCab extends CActiveRecord
 		if (count($bkgType) > 0)
 		{
 
-			$bkgTypeStr	 = implode(",", $bkgType);
-			$where		 .= " AND bkg_booking_type IN ($bkgTypeStr) ";
+			$bkgTypeStr = implode(",", $bkgType);
+			$where		.= " AND bkg_booking_type IN ($bkgTypeStr) ";
 		}
 
 		if (is_array($gnowType) && count($gnowType) > 0)
@@ -3544,8 +3550,8 @@ class BookingCab extends CActiveRecord
 			$sqlJoin .= " INNER JOIN zone_cities zc ON zc.zct_cty_id=bkg_from_city_id AND zc.zct_active=1 
 					INNER JOIN zones z ON z.zon_id=zc.zct_zon_id AND z.zon_active=1 ";
 
-			$zonesStr	 = implode(",", $zones);
-			$where		 .= " AND z.zon_id IN ($zonesStr) ";
+			$zonesStr = implode(",", $zones);
+			$where	  .= " AND z.zon_id IN ($zonesStr) ";
 		}
 
 		if ($region != '' || $state != '')
@@ -3559,20 +3565,20 @@ class BookingCab extends CActiveRecord
 				{
 					$region[] = "7";
 				}
-				$region		 = ($region == '4') ? '4,7' : $region;
-				$strRegion	 = implode(',', $region);
-				$where		 .= " AND s1.stt_zone IN ($strRegion) ";
+				$region	   = ($region == '4') ? '4,7' : $region;
+				$strRegion = implode(',', $region);
+				$where	   .= " AND s1.stt_zone IN ($strRegion) ";
 			}
 			if ($state != '')
 			{
-				$strState	 = implode(',', $state);
-				$where		 .= " AND s1.stt_id IN ($strState) ";
+				$strState = implode(',', $state);
+				$where	  .= " AND s1.stt_id IN ($strState) ";
 			}
 		}
 		if (count($bkg_vehicle_type_id) > 0)
 		{
-			$vtype	 = implode(",", $bkg_vehicle_type_id); //Added the code block
-			$where	 .= " AND (scv_id IN ($vtype) OR scv_parent_id IN ($vtype))";
+			$vtype = implode(",", $bkg_vehicle_type_id); //Added the code block
+			$where .= " AND (scv_id IN ($vtype) OR scv_parent_id IN ($vtype))";
 		}
 
 		if ($assignMode != null)
@@ -3661,12 +3667,12 @@ class BookingCab extends CActiveRecord
 
 		if ($command == DBUtil::ReturnType_Provider)
 		{
-			$count			 = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB3())->queryScalar();
-			$dataprovider	 = new CSqlDataProvider($sqlData, [
+			$count		  = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB3())->queryScalar();
+			$dataprovider = new CSqlDataProvider($sqlData, [
 				'totalItemCount' => $count,
 				'db'			 => DBUtil::SDB3(),
-				'sort'			 => ['attributes'	 => ['date', 'totalBooking', 'gozoAmount', 'netBaseAmount', 'ManualAssignPercent', 'totalGozoCancelled', 'AutoAssignPercent', 'TotalMargin'],
-					'defaultOrder'	 => 'date DESC'],
+				'sort'			 => ['attributes'   => ['date', 'totalBooking', 'gozoAmount', 'netBaseAmount', 'ManualAssignPercent', 'totalGozoCancelled', 'AutoAssignPercent', 'TotalMargin'],
+					'defaultOrder' => 'date DESC'],
 				'pagination'	 => ['pageSize' => 50],
 			]);
 			return $dataprovider;
@@ -3788,13 +3794,13 @@ class BookingCab extends CActiveRecord
 	public static function getPendingTrips($tripid = '')
 	{
 
-		$criticalScore	 = 0.70;
-		$params			 = [];
-		$where			 = '';
+		$criticalScore = 0.70;
+		$params		   = [];
+		$where		   = '';
 		if ($tripid > 0)
 		{
-			$params['tripid']	 = $tripid;
-			$where				 = ' AND bcb.bcb_notification_sent = 0 AND bcb.bcb_id =:tripid';
+			$params['tripid'] = $tripid;
+			$where			  = ' AND bcb.bcb_notification_sent = 0 AND bcb.bcb_id =:tripid';
 		}
 		else if ($tripid == -1)   // when time diff is less than 12 hrs then we can activate gozo now
 		{
@@ -3813,7 +3819,7 @@ class BookingCab extends CActiveRecord
 					OR btr.btr_nmi_flag=1 )";
 		}
 
-		$sql	 = "SELECT group_concat(DISTINCT bkg.bkg_id) bkgIds,
+		$sql  = "SELECT group_concat(DISTINCT bkg.bkg_id) bkgIds,
 					bkg.bkg_bcb_id tripId,bkg.bkg_from_city_id,	bkg.bkg_to_city_id, bkg.bkg_pickup_date,
 					min(bkg.bkg_pickup_date) first_pickup_date,
 					max(bkg.bkg_pickup_date) last_pickup_date,
@@ -3829,7 +3835,7 @@ class BookingCab extends CActiveRecord
 				   $where
 				GROUP BY bcb.bcb_id  
 				ORDER BY bkg_critical_score DESC,bkg.bkg_pickup_date ASC";
-		$data	 = DBUtil::query($sql, DBUtil::SDB(), $params);
+		$data = DBUtil::query($sql, DBUtil::SDB(), $params);
 		return $data;
 	}
 
@@ -3873,8 +3879,8 @@ class BookingCab extends CActiveRecord
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 		$bookingTypeArr = Booking::model()->booking_type;
 
-		$bkgQueryList	 = BookingCab::getPendingTrips($tripid);
-		$cnt			 = $bkgQueryList->getRowCount();
+		$bkgQueryList = BookingCab::getPendingTrips($tripid);
+		$cnt		  = $bkgQueryList->getRowCount();
 		Logger::trace("getPendingTrips : $cnt records");
 
 		foreach ($bkgQueryList as $bcb)
@@ -3905,12 +3911,12 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function processPendingNotifications($tripDetailAll, $bookingTypeArr, $tripFlag = 0)
 	{
-		$totSmS				 = 0;
-		$totAppNotified		 = 0;
-		$totSourceHomeZone	 = 0;
-		$totDestHomeZone	 = 0;
-		$totAcceptedZone	 = 0;
-		$totVendorsNotified	 = 0;
+		$totSmS				= 0;
+		$totAppNotified		= 0;
+		$totSourceHomeZone	= 0;
+		$totDestHomeZone	= 0;
+		$totAcceptedZone	= 0;
+		$totVendorsNotified = 0;
 
 		$routeCount	 = count($tripDetailAll);
 		$tripDetail	 = $tripDetailAll[0];
@@ -3919,18 +3925,18 @@ class BookingCab extends CActiveRecord
 		$bkgId		 = $tripDetail['bkg_id'];
 		$bkgFromCity = $tripDetail['bkg_from_city_id'];
 
-		$fromCityName	 = $tripDetail['fromCityName'];
-		$toCityName		 = $tripDetailAll[$routeCount - 1]['toCityName'];
-		$bkgToCity		 = $tripDetailAll[$routeCount - 1]['bkg_to_city_id'];
-		$tripType		 = $bookingTypeArr[$tripDetail['bkg_booking_type']];
+		$fromCityName = $tripDetail['fromCityName'];
+		$toCityName	  = $tripDetailAll[$routeCount - 1]['toCityName'];
+		$bkgToCity	  = $tripDetailAll[$routeCount - 1]['bkg_to_city_id'];
+		$tripType	  = $bookingTypeArr[$tripDetail['bkg_booking_type']];
 
 		if ($tripDetail['bcb_trip_type'] == 1)
 		{
 			$tripType = 'Matched Trip';
 		}
 
-		$cabType		 = $tripDetail['cabType'];
-		$vehicleTypeId	 = $tripDetail['bkg_vehicle_type_id'];
+		$cabType	   = $tripDetail['cabType'];
+		$vehicleTypeId = $tripDetail['bkg_vehicle_type_id'];
 
 		$pickupTime = DateTimeFormat::SQLDateTimeToLocaleDateTime($tripDetail['bkg_pickup_date']);
 
@@ -3948,9 +3954,9 @@ class BookingCab extends CActiveRecord
 		Logger::trace($tripId . " getByPickupCitynCabType : " . $totVendorFound . " records");
 		foreach ($vendors as $vendor)
 		{
-			$succSent	 = 0;
-			$vndId		 = $vendor['vnd_id'];
-			$vndhash	 = Yii::app()->shortHash->hash($vndId);
+			$succSent = 0;
+			$vndId	  = $vendor['vnd_id'];
+			$vndhash  = Yii::app()->shortHash->hash($vndId);
 
 			/* $message	 = "Cab required ($cabType):
 			  $fromCityName - $toCityName ($tripType)
@@ -3959,8 +3965,8 @@ class BookingCab extends CActiveRecord
 			  Use Gozo Partner App to accept/bid
 			  gozo.cab/bkvn1/$bcbhash/$vndhash"; */
 
-			$message	 = "Cab required ($cabType): $fromCityName - $toCityName ($tripType) $pickupTime Amount: $tripVendorAmount Please use your Gozo Partner App to accept the bid gozo.cab/bkvn1/$bcbhash/$vndhash";
-			$isLoggedIn	 = AppTokens::isVendorLoggedIn($vndId, 48);
+			$message	= "Cab required ($cabType): $fromCityName - $toCityName ($tripType) $pickupTime Amount: $tripVendorAmount Please use your Gozo Partner App to accept the bid gozo.cab/bkvn1/$bcbhash/$vndhash";
+			$isLoggedIn = AppTokens::isVendorLoggedIn($vndId, 48);
 			if ($isLoggedIn)
 			{
 //				$payLoadData = ['tripId' => $tripId, 'EventCode' => Booking::CODE_VENDOR_BOOKING_REQUEST];
@@ -3988,11 +3994,11 @@ class BookingCab extends CActiveRecord
 					Filter::parsePhoneNumber($vndPhone, $code, $phnumber);
 					if ($phnumber > 0)
 					{
-						$msgCom		 = new smsWrapper();
+						$msgCom	  = new smsWrapper();
 						$msgCom->sendSMStoVendors($phnumber, $message, 1, $bookingId);
 						$totSmS++;
 						$totVendorsNotified++;
-						$succSent	 = 1;
+						$succSent = 1;
 					}
 				}
 				$success = BookingCab::sendNotificationsAsGnow($tripId, $vndId);
@@ -4023,29 +4029,29 @@ class BookingCab extends CActiveRecord
 		}
 
 
-		$dbDateTime	 = Filter::getDBDateTime();
-		$logArr		 = [
-			'totSmS'				 => $totSmS,
-			'totAppNotified'		 => $totAppNotified,
-			'totSourceHomeZone'		 => $totSourceHomeZone,
-			'totDestHomeZone'		 => $totDestHomeZone,
-			'totAcceptedZone'		 => $totAcceptedZone,
-			'totalVendorsNotified'	 => $totVendorsNotified,
-			'totalVendorFound'		 => $totVendorFound,
-			'notifiedDateTime'		 => $dbDateTime
+		$dbDateTime = Filter::getDBDateTime();
+		$logArr		= [
+			'totSmS'			   => $totSmS,
+			'totAppNotified'	   => $totAppNotified,
+			'totSourceHomeZone'	   => $totSourceHomeZone,
+			'totDestHomeZone'	   => $totDestHomeZone,
+			'totAcceptedZone'	   => $totAcceptedZone,
+			'totalVendorsNotified' => $totVendorsNotified,
+			'totalVendorFound'	   => $totVendorFound,
+			'notifiedDateTime'	   => $dbDateTime
 		];
 
-		$notifyVendor		 = new \Stub\booking\NotifyVendor();
+		$notifyVendor	  = new \Stub\booking\NotifyVendor();
 		$notifyVendor->setData($logArr);
-		$notificationInfo	 = json_encode($notifyVendor);
+		$notificationInfo = json_encode($notifyVendor);
 
 		Logger::writeToConsole($tripId . ': ' . $notificationInfo);
 		Logger::trace($notificationInfo);
 
 		$res = BookingCab::updatePendingVendorNotificationInfo($tripId, $notificationInfo);
 
-		$cntRow		 = BookingPref::activateManualGozonow($bkgId);
-		$userInfo	 = UserInfo::model();
+		$cntRow	  = BookingPref::activateManualGozonow($bkgId);
+		$userInfo = UserInfo::model();
 		if ($cntRow)
 		{
 			$descStr = "GozoNOW auto-activated";
@@ -4055,9 +4061,9 @@ class BookingCab extends CActiveRecord
 		$model = Booking::model()->findByPk($bkgId);
 		if ($model->bkgTrail->btr_nmi_flag == 0 && $totVendorsNotified < 5)
 		{
-			$oldTrailModel					 = clone $model->bkgTrail;
-			$nmidesc						 = "WHY - Not enough vendors found";
-			$model->bkgTrail->btr_nmi_flag	 = 1;
+			$oldTrailModel				   = clone $model->bkgTrail;
+			$nmidesc					   = "WHY - Not enough vendors found";
+			$model->bkgTrail->btr_nmi_flag = 1;
 			$model->bkgTrail->updateNMI($nmidesc, $oldTrailModel, $userInfo);
 		}
 
@@ -4067,10 +4073,10 @@ class BookingCab extends CActiveRecord
 
 	public static function sendNotificationsAsGnow($tripId, $vndId)
 	{
-		$succSent	 = 0;
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$bookings	 = $bcbmodel->bookings;
-		$routeCount	 = count($bookings);
+		$succSent	= 0;
+		$bcbmodel	= BookingCab::model()->findByPk($tripId);
+		$bookings	= $bcbmodel->bookings;
+		$routeCount = count($bookings);
 
 		if ($routeCount != 1)
 		{
@@ -4080,9 +4086,9 @@ class BookingCab extends CActiveRecord
 
 		$bkgId = $model->bkg_id;
 
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$bkgToCity		 = $model->bkg_to_city_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
+		$bkgFromCity   = $model->bkg_from_city_id;
+		$bkgToCity	   = $model->bkg_to_city_id;
 
 		$notify		 = new Stub\common\Notification();
 		$notify->setGNowNotify($model);
@@ -4091,8 +4097,8 @@ class BookingCab extends CActiveRecord
 		$cabType	 = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label;
 		$title		 = "$cabType required urgent";
 
-		$result	 = BookingCab::gnowNotifyVendor($vndId, $payLoadData, $message, $title);
-		$resArr	 = json_decode($result['fcm'], true);
+		$result = BookingCab::gnowNotifyVendor($vndId, $payLoadData, $message, $title);
+		$resArr = json_decode($result['fcm'], true);
 		if ($resArr['success'] > 0)
 		{
 			$succSent = 1;
@@ -4108,8 +4114,8 @@ class BookingCab extends CActiveRecord
 	{
 		Logger::setModelCategory(__CLASS__, __FUNCTION__);
 
-		$bkgQueryList	 = BookingCab::getPendingTrips($tripid);
-		$cnt			 = $bkgQueryList->getRowCount();
+		$bkgQueryList = BookingCab::getPendingTrips($tripid);
+		$cnt		  = $bkgQueryList->getRowCount();
 		Logger::trace("getPendingTrips : $cnt records");
 
 		foreach ($bkgQueryList as $bcb)
@@ -4128,18 +4134,18 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function processPendingWithGnowNotifications($tripId)
 	{
-		$totSmS				 = 0;
-		$totAppNotified		 = 0;
-		$totSourceHomeZone	 = 0;
-		$totDestHomeZone	 = 0;
-		$totAcceptedZone	 = 0;
-		$totVendorsNotified	 = 0;
+		$totSmS				= 0;
+		$totAppNotified		= 0;
+		$totSourceHomeZone	= 0;
+		$totDestHomeZone	= 0;
+		$totAcceptedZone	= 0;
+		$totVendorsNotified = 0;
 
 		/** @var CDbDataReader $tripDetailQry */
 		/** @var BookingCab $bcbmodel */
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$bookings	 = $bcbmodel->bookings;
-		$routeCount	 = count($bookings);
+		$bcbmodel	= BookingCab::model()->findByPk($tripId);
+		$bookings	= $bcbmodel->bookings;
+		$routeCount = count($bookings);
 
 		if ($routeCount != 1)
 		{
@@ -4154,8 +4160,8 @@ class BookingCab extends CActiveRecord
 		{
 			$startTime = Filter::getDBDateTime();
 
-			$timerLog		 = ['count' => 1, 'startTime' => $startTime];
-			$timerLogJson	 = json_encode($timerLog);
+			$timerLog	  = ['count' => 1, 'startTime' => $startTime];
+			$timerLogJson = json_encode($timerLog);
 			BookingTrail::updateGnowTimerLog($bkgId, $timerLogJson);
 		}
 
@@ -4165,9 +4171,9 @@ class BookingCab extends CActiveRecord
 //		$userInfo	 = UserInfo::model();
 		BookingLog::model()->createLog($bkgId, $descStr, UserInfo::model(), BookingLog::ACTIVATE_GOZO_NOW, false);
 
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$bkgToCity		 = $model->bkg_to_city_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
+		$bkgFromCity   = $model->bkg_from_city_id;
+		$bkgToCity	   = $model->bkg_to_city_id;
 
 		$notify		 = new Stub\common\Notification();
 		$notify->setGNowNotify($model);
@@ -4188,15 +4194,15 @@ class BookingCab extends CActiveRecord
 		Logger::trace($tripId . " getByPickupCitynCabType : " . $totVendorFound . " records");
 		foreach ($vendors as $vendor)
 		{
-			$succSent	 = 0;
-			$vndId		 = $vendor['vnd_id'];
+			$succSent = 0;
+			$vndId	  = $vendor['vnd_id'];
 
 			$isLoggedIn = AppTokens::isVendorLoggedIn($vndId, 48);
 			if ($isLoggedIn)
 			{
 
-				$result	 = BookingCab::gnowNotifyVendor($vndId, $payLoadData, $message, $title);
-				$resArr	 = json_decode($result['fcm'], true);
+				$result = BookingCab::gnowNotifyVendor($vndId, $payLoadData, $message, $title);
+				$resArr = json_decode($result['fcm'], true);
 				if ($resArr['success'] > 0)
 				{
 					$totAppNotified++;
@@ -4214,11 +4220,11 @@ class BookingCab extends CActiveRecord
 				Filter::parsePhoneNumber($vndPhone, $code, $phnumber);
 				if ($phnumber > 0)
 				{
-					$msgCom		 = new smsWrapper();
+					$msgCom	  = new smsWrapper();
 					$msgCom->sendSMStoVendors($phnumber, $message, 1, $bkgId);
 					$totSmS++;
 					$totVendorsNotified++;
-					$succSent	 = 1;
+					$succSent = 1;
 				}
 			}
 
@@ -4247,25 +4253,25 @@ class BookingCab extends CActiveRecord
 
 			Logger::trace($message);
 		}
-		$desc		 = "Vendors notified for Gozo now: Sent=$cntSent, Notified=$totVendorsNotified, App=$totAppNotified, SMS=$totSmS";
-		$userInfo	 = UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
+		$desc	  = "Vendors notified for Gozo now: Sent=$cntSent, Notified=$totVendorsNotified, App=$totAppNotified, SMS=$totSmS";
+		$userInfo = UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
 		BookingLog::model()->createLog($model->bkg_id, $desc, $userInfo, BookingLog::VENDOR_NOTIFIED_FOR_GOZONOW_BOOKING, false);
 
-		$dbDateTime	 = Filter::getDBDateTime();
-		$logArr		 = [
-			'totSmS'				 => $totSmS,
-			'totAppNotified'		 => $totAppNotified,
-			'totSourceHomeZone'		 => $totSourceHomeZone,
-			'totDestHomeZone'		 => $totDestHomeZone,
-			'totAcceptedZone'		 => $totAcceptedZone,
-			'totalVendorsNotified'	 => $totVendorsNotified,
-			'totalVendorFound'		 => $totVendorFound,
-			'notifiedDateTime'		 => $dbDateTime
+		$dbDateTime = Filter::getDBDateTime();
+		$logArr		= [
+			'totSmS'			   => $totSmS,
+			'totAppNotified'	   => $totAppNotified,
+			'totSourceHomeZone'	   => $totSourceHomeZone,
+			'totDestHomeZone'	   => $totDestHomeZone,
+			'totAcceptedZone'	   => $totAcceptedZone,
+			'totalVendorsNotified' => $totVendorsNotified,
+			'totalVendorFound'	   => $totVendorFound,
+			'notifiedDateTime'	   => $dbDateTime
 		];
 
-		$notifyVendor		 = new \Stub\booking\NotifyVendor();
+		$notifyVendor	  = new \Stub\booking\NotifyVendor();
 		$notifyVendor->setData($logArr);
-		$notificationInfo	 = json_encode($notifyVendor);
+		$notificationInfo = json_encode($notifyVendor);
 
 		Logger::writeToConsole($tripId . ': ' . $notificationInfo);
 		Logger::trace($notificationInfo);
@@ -4281,12 +4287,12 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function updatePendingVendorNotificationInfo($tripId, $infoJson)
 	{
-		$params	 = ['tripId' => $tripId, 'infoJson' => $infoJson];
-		$sql	 = "UPDATE booking_cab 
+		$params = ['tripId' => $tripId, 'infoJson' => $infoJson];
+		$sql	= "UPDATE booking_cab 
 				SET bcb_notify_vendor_info =:infoJson,
 				bcb_notification_sent = 1 				
 				WHERE bcb_id =:tripId";
-		$res	 = DBUtil::execute($sql, $params);
+		$res	= DBUtil::execute($sql, $params);
 		return $res;
 	}
 
@@ -4302,15 +4308,15 @@ class BookingCab extends CActiveRecord
 		return DBUtil::queryScalar($sql, DBUtil::SDB(), ['bkgId' => $bkgId, 'bcb_vendor_id' => $vendorId]);
 	}
 
-	public static function checkVendorTripRelation($tripId, $vndId)
+	public static function checkVendorTripRelation($tripId, $vndIds)
 	{
-		$params = ['tripId' => $tripId, 'vndId' => $vndId];
+		$params = ['tripId' => $tripId];
 
 		$sql = "SELECT  bkg.bkg_id,bcb.bcb_vendor_id,bkg.bkg_status
 					FROM booking_cab bcb
 					INNER JOIN booking bkg ON bcb.bcb_id = bkg.bkg_bcb_id 					 
 					WHERE bkg.bkg_bcb_id = :tripId  					
-					AND ((bkg_status IN (3,5,6,7) AND bcb_vendor_id=:vndId) 
+					AND ((bkg_status IN (3,5,6,7) AND bcb_vendor_id IN ({$vndIds})) 
 						OR bkg_status = 2)
 					   ";
 
@@ -4325,16 +4331,16 @@ class BookingCab extends CActiveRecord
 		{
 			throw new Exception("Cab / Driver data is not provided", 1);
 		}
-		$vendorId			 = $dataexist['bvr_vendor_id'];
-		$dataString			 = $dataexist['bvr_special_remarks'];
-		$dataArr			 = json_decode($dataString, true);
-		$bidAmount			 = $dataexist['bvr_bid_amount'];
-		$driverId			 = $dataArr['driverId'];
-		$cabId				 = $dataArr['cabId'];
-		$bkgId				 = $dataexist['bvr_booking_id'];
-		$drvphone			 = $dataArr['driverMobile'];
-		$reachingAtMinutes	 = $dataArr['reachingAtMinutes'];
-		$reachingAtTime		 = $dataArr['reachingAtTime'];
+		$vendorId		   = $dataexist['bvr_vendor_id'];
+		$dataString		   = $dataexist['bvr_special_remarks'];
+		$dataArr		   = json_decode($dataString, true);
+		$bidAmount		   = $dataexist['bvr_bid_amount'];
+		$driverId		   = $dataArr['driverId'];
+		$cabId			   = $dataArr['cabId'];
+		$bkgId			   = $dataexist['bvr_booking_id'];
+		$drvphone		   = $dataArr['driverMobile'];
+		$reachingAtMinutes = $dataArr['reachingAtMinutes'];
+		$reachingAtTime	   = $dataArr['reachingAtTime'];
 
 		/** @var BookingCab $bCabModel */
 		/** @var Booking $bModel */
@@ -4392,46 +4398,48 @@ class BookingCab extends CActiveRecord
 	{
 		/** @var BookingCab $bcbmodel */
 		/** @var Booking $model */
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$bcbmodel = BookingCab::model()->findByPk($tripId);
+		$model	  = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 		if (!$model)
 		{
-			$success	 = false;
-			$sentSucc	 = 'Error in booking';
+			$success  = false;
+			$sentSucc = 'Error in booking';
 			goto endOfProcessing;
 		}
-		$bkgId			 = $model->bkg_id;
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$bkgToCity		 = $model->bkg_to_city_id;
+		$bkgId		   = $model->bkg_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
+		$bkgFromCity   = $model->bkg_from_city_id;
+		$bkgToCity	   = $model->bkg_to_city_id;
 
 		if ($model->bkg_status != 2)
 		{
-			$success	 = false;
-			$sentSucc	 = 'Cannot send notification at this booking status';
+			$success  = false;
+			$sentSucc = 'Cannot send notification at this booking status';
 			goto endOfProcessing;
 		}
 
-		$onlyGozoNow		 = true;
-		$notifiedVendorList	 = [];
+		$onlyGozoNow		= true;
+		$notifiedVendorList = [];
 		if ($excludeNotified)
 		{
-			$notifiedVendors	 = BookingVendorRequest::getAppliedVendors($tripId);
-			$notifiedVendorList	 = explode(',', $notifiedVendors); //Notified vendor id array
+			//$notifiedVendors	 = BookingVendorRequest::getAppliedVendors($tripId);
+			$notifiedVendors	= BookingVendorRequest::getactionedTakenVendor($tripId);
+			$notifiedVendorList = explode(',', $notifiedVendors); //Notified vendor id array
 		}
 
 		if (empty($entityIds))
 		{
-			$fromZone	 = ZoneCities::getZonesByCity($bkgFromCity);
-			$toZone		 = ZoneCities::getZonesByCity($bkgToCity);
+			$fromZone = ZoneCities::getZonesByCity($bkgFromCity);
+			$toZone	  = ZoneCities::getZonesByCity($bkgToCity);
 //			$fromZoneArr = explode(",", $fromZone);
 //			$toZoneArr	 = explode(",", $toZone);
 //			$zoneIds	 = implode(",", array_unique(array_merge($fromZoneArr, $toZoneArr)));
 
-			$distanceRange	 = 50;
-			$accptedZoneIds	 = Zones::getServiceZoneList($fromZone, $distanceRange);
-			$zoneIds		 = trim($accptedZoneIds . ',' . $toZone, ',');
-			$data			 = Location::getVendorDriverByZoneIds($zoneIds);
+			$distanceRange	= 50;
+			$accptedZoneIds = Zones::getServiceZoneList($fromZone, $distanceRange);
+			$zoneIds		= trim($accptedZoneIds . ',' . $toZone, ',');
+//			$data			 = Location::getVendorDriverByZoneIds($zoneIds);
+			$data			= Location::getVendorDriverByLastZoneIds($zoneIds);
 
 			if ($data['cntVendor'] > 0)
 			{
@@ -4448,11 +4456,11 @@ class BookingCab extends CActiveRecord
 		{
 			$vIdList = $entityIds;
 		}
-		$vndArr	 = array_unique(array_diff($vIdList, $notifiedVendorList)); //Filtering out vendors whom notification sent
-		$vIds	 = implode(',', $vndArr); //Vendor id list in comma separated string whom no notification sent
+		$vndArr = array_unique(array_diff($vIdList, $notifiedVendorList)); //Filtering out vendors whom notification sent
+		$vIds	= implode(',', $vndArr); //Vendor id list in comma separated string whom no notification sent
 
-		$vndData	 = Vendors::getGroupListByCabType($vehicleTypeId, $vIds, $onlyGozoNow, $hourDuration, $model->bkg_booking_type); //Final vnd data 
-		$sentSucc	 = BookingCab::sendBulkGNowNotification($model, $vndData);
+		$vndData  = Vendors::getGroupListByCabType($vehicleTypeId, $vIds, $onlyGozoNow, $hourDuration, $model->bkg_booking_type); //Final vnd data 
+		$sentSucc = BookingCab::sendBulkGNowNotification($model, $vndData);
 		BookingCab::gnowNotifyNotLoggedin($tripId);
 		endOfProcessing:
 		return $sentSucc;
@@ -4462,16 +4470,16 @@ class BookingCab extends CActiveRecord
 	{
 		/** @var BookingCab $bcbmodel */
 		/** @var Booking $model */
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$bcbmodel = BookingCab::model()->findByPk($tripId);
+		$model	  = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$bkgToCity		 = $model->bkg_to_city_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
+		$bkgFromCity   = $model->bkg_from_city_id;
+		$bkgToCity	   = $model->bkg_to_city_id;
 		if ($model->bkg_status != 2)
 		{
-			$success			 = false;
-			$result['message']	 = 'Cannot send notification at this booking status';
+			$success		   = false;
+			$result['message'] = 'Cannot send notification at this booking status';
 			goto endOfProcessing;
 		}
 
@@ -4490,43 +4498,44 @@ class BookingCab extends CActiveRecord
 			$toZoneArr	 = explode(",", $toZone);
 			$zoneIds	 = implode(",", array_unique(array_merge($fromZoneArr, $toZoneArr)));
 
-			$data	 = Location::getVendorDriverByZoneIds($zoneIds);
+//			$data	 = Location::getVendorDriverByZoneIds($zoneIds);
+			$data	 = Location::getVendorDriverByLastZoneIds($zoneIds);
 			$vendors = [];
 			if ($data['cntVendor'] > 0)
 			{
-				$vendorIds		 = $data['vendorIds'];
-				$onlyGozoNow	 = true;
-				$cabTypeList	 = Vehicles::getVhcTypeFromScv($vehicleTypeId);
-				$vendorsObject	 = Vendors::getByCabType($cabTypeList, $vendorIds, $onlyGozoNow);
+				$vendorIds	   = $data['vendorIds'];
+				$onlyGozoNow   = true;
+				$cabTypeList   = Vehicles::getVhcTypeFromScv($vehicleTypeId);
+				$vendorsObject = Vendors::getByCabType($cabTypeList, $vendorIds, $onlyGozoNow);
 				foreach ($vendorsObject as $vendor)
 				{
-					$vndId		 = $vendor['vnd_id'] != null ? $vendor['vnd_id'] : $vendor;
-					$vendors[]	 = array('vnd_id' => $vndId);
+					$vndId	   = $vendor['vnd_id'] != null ? $vendor['vnd_id'] : $vendor;
+					$vendors[] = array('vnd_id' => $vndId);
 				}
 			}
 			if ($data['cntDriver'] > 0)
 			{
-				$vendorIds		 = VendorDriver::getVndByDrvId($data['driverIds']);
-				$onlyGozoNow	 = true;
-				$cabTypeList	 = Vehicles::getVhcTypeFromScv($vehicleTypeId);
-				$vendorsObject	 = Vendors::getByCabType($cabTypeList, $vendorIds, $onlyGozoNow);
+				$vendorIds	   = VendorDriver::getVndByDrvId($data['driverIds']);
+				$onlyGozoNow   = true;
+				$cabTypeList   = Vehicles::getVhcTypeFromScv($vehicleTypeId);
+				$vendorsObject = Vendors::getByCabType($cabTypeList, $vendorIds, $onlyGozoNow);
 				foreach ($vendorsObject as $vendor)
 				{
-					$vndId		 = $vendor['vnd_id'] != null ? $vendor['vnd_id'] : $vendor;
-					$vendors[]	 = array('vnd_id' => $vndId);
+					$vndId	   = $vendor['vnd_id'] != null ? $vendor['vnd_id'] : $vendor;
+					$vendors[] = array('vnd_id' => $vndId);
 				}
 			}
-			$notifiedVendors	 = BookingVendorRequest::getAppliedVendors($tripId);
+			$notifiedVendors	= BookingVendorRequest::getAppliedVendors($tripId);
 			Logger::trace("notified vendors" . $notifiedVendors);
-			$notifiedVendorList	 = explode(',', $notifiedVendors);
+			$notifiedVendorList = explode(',', $notifiedVendors);
 		}
 		else
 		{
 			$vendors = $entityIds;
 		}
-		$cntSent	 = 0;
-		$cntSucc	 = 0;
-		$userType	 = UserInfo::TYPE_VENDOR;
+		$cntSent  = 0;
+		$cntSucc  = 0;
+		$userType = UserInfo::TYPE_VENDOR;
 		foreach ($vendors as $vendor)
 		{
 			$vndId = $vendor['vnd_id'] != null ? $vendor['vnd_id'] : $vendor;
@@ -4551,16 +4560,16 @@ class BookingCab extends CActiveRecord
 				Logger::trace("VendorId" . $vndId);
 			}
 		}
-		$userInfo	 = UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
-		$desc		 = "Vendors notified for Gozo now: Sent=$cntSent, Success=$cntSucc";
+		$userInfo = UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
+		$desc	  = "Vendors notified for Gozo now: Sent=$cntSent, Success=$cntSucc";
 		BookingLog::model()->createLog($model->bkg_id, $desc, $userInfo, BookingLog::VENDOR_NOTIFIED_FOR_GOZONOW_BOOKING, false);
 
 //Creating NMI request
 		if ($model->bkgTrail->btr_nmi_flag == 0 && $cntSent < 5)
 		{
-			$oldTrailModel					 = clone $model->bkgTrail;
-			$nmidesc						 = "WHY - Not enough vendors found. Need to make GNOW active";
-			$model->bkgTrail->btr_nmi_flag	 = 1;
+			$oldTrailModel				   = clone $model->bkgTrail;
+			$nmidesc					   = "WHY - Not enough vendors found. Need to make GNOW active";
+			$model->bkgTrail->btr_nmi_flag = 1;
 			$model->bkgTrail->updateNMI($nmidesc, $oldTrailModel, $userInfo);
 		}
 //##
@@ -4592,8 +4601,8 @@ class BookingCab extends CActiveRecord
 	public static function gnowNotifyVendor($vndId, $payLoadData, $message, $title)
 	{
 
-		$entity_id	 = $vndId;
-		$userType	 = UserInfo::TYPE_VENDOR;
+		$entity_id = $vndId;
+		$userType  = UserInfo::TYPE_VENDOR;
 
 		$success = AppTokens::model()->notifyEntityNew($entity_id, $userType, $payLoadData, $message, $title);
 //		$success = AppTokens::model()->notifyEntity($entity_id, $userType, $payLoadData, $message, $title);
@@ -4603,10 +4612,10 @@ class BookingCab extends CActiveRecord
 	public static function notifyVendor($vndId, $payLoadData, $message, $title)
 	{
 
-		$entity_id	 = $vndId;
-		$userType	 = UserInfo::TYPE_VENDOR;
+		$entity_id = $vndId;
+		$userType  = UserInfo::TYPE_VENDOR;
 
-		$success	 = AppTokens::model()->notifyEntity($entity_id, $userType, $payLoadData, $message, $title, $checkLogin	 = false);
+		$success	= AppTokens::model()->notifyEntity($entity_id, $userType, $payLoadData, $message, $title, $checkLogin = false);
 
 		return $success;
 	}
@@ -4622,8 +4631,8 @@ class BookingCab extends CActiveRecord
 	public static function gnowNotifyDriver($drvId, $payLoadData, $message, $title)
 	{
 
-		$entity_id	 = $drvId;
-		$userType	 = AppTokens::Platform_Driver;
+		$entity_id = $drvId;
+		$userType  = '3';
 
 		$success = AppTokens::model()->notifyEntity($entity_id, $userType, $payLoadData, $message, $title);
 		return $success;
@@ -4634,11 +4643,11 @@ class BookingCab extends CActiveRecord
 	 * @param type $tripId
 	 * @return type
 	 */
-	public static function gnowWinBidNotify($tripId)
+	public static function gnowWinBidNotify($tripId, $userType = UserInfo::TYPE_VENDOR)
 	{
 		/** @var BookingCab $bcbmodel */
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$bcbmodel = BookingCab::model()->findByPk($tripId);
+		$model	  = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 
 		$success = true;
 
@@ -4649,8 +4658,8 @@ class BookingCab extends CActiveRecord
 
 		if ($model->bkg_status != 5)
 		{
-			$success	 = false;
-			$sentSucc	 = 'Cannot send notification at this booking status';
+			$success  = false;
+			$sentSucc = 'Cannot send notification at this booking status';
 			goto endOfProcessing;
 		}
 
@@ -4661,9 +4670,16 @@ class BookingCab extends CActiveRecord
 		$payLoadData = json_decode(json_encode($notify->payload), true);
 		$message	 = $notify->message;
 		$title		 = $notify->title;
-		$vndId		 = $model->bkgBcb->bcb_vendor_id;
-
-		$sentSucc = BookingCab::gnowNotifyVendor($vndId, $payLoadData, $message, $title);
+		if ($userType == UserInfo::TYPE_VENDOR)
+		{
+			$vndId	  = $model->bkgBcb->bcb_vendor_id;
+			$sentSucc = BookingCab::gnowNotifyVendor($vndId, $payLoadData, $message, $title);
+		}
+//		if ($userType == UserInfo::TYPE_DRIVER)
+//		{
+//			$drvId		 = $model->bkgBcb->bcb_driver_id;
+//			$sentSucc	 = BookingCab::gnowNotifyDriver($drvId, $payLoadData, $message, $title);
+//		}
 		endOfProcessing:
 		return $sentSucc;
 	}
@@ -4691,8 +4707,8 @@ class BookingCab extends CActiveRecord
 	public static function readyToGoDriverNotify($tripId)
 	{
 		/** @var BookingCab $bcbmodel */
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$bcbmodel = BookingCab::model()->findByPk($tripId);
+		$model	  = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 
 		$notify		 = new Stub\common\Notification();
 		$notify->setDriverReadyToGoNotify($model);
@@ -4709,8 +4725,8 @@ class BookingCab extends CActiveRecord
 
 	public function checkVehicleActiveTripTiming($vehicleId)
 	{
-		$pickupTime	 = $this->bookings[0]->bkg_pickup_date;
-		$dropTime	 = date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
+		$pickupTime = $this->bookings[0]->bkg_pickup_date;
+		$dropTime	= date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
 		foreach ($this->bookings as $bmodel)
 		{
 			$pickupTime	 = ($pickupTime < $bmodel->bkg_pickup_date) ? $pickupTime : $bmodel->bkg_pickup_date;
@@ -4761,12 +4777,12 @@ class BookingCab extends CActiveRecord
 	public static function sendNotificationData($tripId, $entityIds)
 	{
 		/** @var BookingCab $bcbmodel */
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$bcbmodel = BookingCab::model()->findByPk($tripId);
+		$model	  = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$bkgToCity		 = $model->bkg_to_city_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
+		$bkgFromCity   = $model->bkg_from_city_id;
+		$bkgToCity	   = $model->bkg_to_city_id;
 
 		$notify		 = new Stub\common\Notification();
 		$notify->setGNowNotify($model);
@@ -4866,8 +4882,8 @@ class BookingCab extends CActiveRecord
 			$suggestedOfferRange = $addParamArr['vndGnowOfferSuggestion'];
 			if ($suggestedOfferRange)
 			{
-				$minAmount	 = $suggestedOfferRange['minVendorAmount'];
-				$maxBid		 = $suggestedOfferRange['maxVendorAmount'];
+				$minAmount = $suggestedOfferRange['minVendorAmount'];
+				$maxBid	   = $suggestedOfferRange['maxVendorAmount'];
 			}
 			if ($maxBid == 0)
 			{
@@ -4876,10 +4892,10 @@ class BookingCab extends CActiveRecord
 		}
 		else
 		{
-			$maxAllowedVABidAmount	 = $this->bcb_max_allowable_vendor_amount * 1.5;
-			$tripVABidAmount		 = $this->bcb_vendor_amount * 2;
-			$bkgVABidAmount			 = $bkgVendorAmount * 2;
-			$maxBid					 = max($maxAllowedVABidAmount, $tripVABidAmount, $bkgVABidAmount);
+			$maxAllowedVABidAmount = $this->bcb_max_allowable_vendor_amount * 1.5;
+			$tripVABidAmount	   = $this->bcb_vendor_amount * 2;
+			$bkgVABidAmount		   = $bkgVendorAmount * 2;
+			$maxBid				   = max($maxAllowedVABidAmount, $tripVABidAmount, $bkgVABidAmount);
 		}
 
 		$arrAllowedBids = ['minBid' => $minBid, 'maxBid' => $maxBid, 'isGNowBkg' => $isGNowBkg];
@@ -4914,7 +4930,7 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function fetchVendorRelatedAmount($tripId)
 	{
-		$params	 = ['tripId' => $tripId];
+		$params = ['tripId' => $tripId];
 		/*
 		  $sql	 = "SELECT bcb_id, SUM(bkg_gozo_amount) as gozoAmount, bcb_vendor_amount, bcb_max_allowable_vendor_amount,
 		  IF(bcb_max_allowable_vendor_amount>0, bcb_max_allowable_vendor_amount, (SUM(bkg_total_amount-bkg_service_tax-bkg_partner_commission))) maxAllowedAmount
@@ -4923,12 +4939,12 @@ class BookingCab extends CActiveRecord
 		  INNER JOIN booking_invoice ON biv_bkg_id=bkg_id
 		  WHERE bcb_id=:tripId GROUP BY bcb_id ";
 		 */
-		$sql	 = "SELECT bcb_id, SUM(bkg_gozo_amount) as gozoAmount, bcb_vendor_amount, bcb_max_allowable_vendor_amount, IF(bcb_max_allowable_vendor_amount>0, bcb_max_allowable_vendor_amount, (SUM(bkg_total_amount-(bkg_service_tax*1.5)-bkg_partner_commission-bkg_credits_used))) maxAllowedAmount 
+		$sql	= "SELECT bcb_id, SUM(bkg_gozo_amount) as gozoAmount, bcb_vendor_amount, bcb_max_allowable_vendor_amount, IF(bcb_max_allowable_vendor_amount>0, bcb_max_allowable_vendor_amount, (SUM(bkg_total_amount-(bkg_service_tax*1.5)-bkg_partner_commission-bkg_credits_used))) maxAllowedAmount 
 		FROM booking_cab 
 		INNER JOIN booking ON bcb_id=bkg_bcb_id 
 		INNER JOIN booking_invoice ON biv_bkg_id=bkg_id 
 		WHERE bcb_id=:tripId GROUP BY bcb_id ";
-		$result	 = DBUtil::queryRow($sql, null, $params);
+		$result = DBUtil::queryRow($sql, null, $params);
 		return $result;
 	}
 
@@ -4962,13 +4978,13 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function getByVendor($vndId, $bkgstatus = '')
 	{
-		$params	 = ["vndId" => $vndId];
-		$where	 = '';
+		$params = ["vndId" => $vndId];
+		$where	= '';
 		if ($bkgstatus != '')
 		{
-			$statusArrRaw	 = explode(',', $bkgstatus);
-			$statusArr		 = array_filter(array_unique($statusArrRaw));
-			$statusStr		 = implode(',', $statusArr);
+			$statusArrRaw = explode(',', $bkgstatus);
+			$statusArr	  = array_filter(array_unique($statusArrRaw));
+			$statusStr	  = implode(',', $statusArr);
 
 			$where = " AND bkg.bkg_status IN ($statusStr)";
 		}
@@ -4982,18 +4998,18 @@ class BookingCab extends CActiveRecord
 	{
 
 //direct accept
-		$cabModel	 = BookingCab::model()->findByPk($tripId);
-		$bModels	 = $cabModel->bookings;
+		$cabModel = BookingCab::model()->findByPk($tripId);
+		$bModels  = $cabModel->bookings;
 
 		if (COUNT($bModels) == 0)
 		{
-			$bModels			 = BookingSmartmatch::model()->getBookings($tripId);
-			$cabModel->bookings	 = $bModels;
+			$bModels			= BookingSmartmatch::model()->getBookings($tripId);
+			$cabModel->bookings = $bModels;
 		}
 
-		$vendorModel	 = Vendors::model()->findByPk($vendorId);
-		$securityAmount	 = $vendorModel->vendorStats->vrs_security_amount;
-		$codFreeze		 = $vendorModel->vendorPrefs->vnp_cod_freeze;
+		$vendorModel	= Vendors::model()->findByPk($vendorId);
+		$securityAmount = $vendorModel->vendorStats->vrs_security_amount;
+		$codFreeze		= $vendorModel->vendorPrefs->vnp_cod_freeze;
 		foreach ($bModels as $bModel)
 		{
 			/* if ($bModel->bkg_agent_id == $spicejetId && $bModel->bkg_reconfirm_flag <> 1)
@@ -5099,15 +5115,15 @@ class BookingCab extends CActiveRecord
 
 	public static function validateVendorTripForBidding($tripId, $vendorId)
 	{
-		$returnSet	 = new ReturnSet();
-		$cabModel	 = BookingCab::model()->findByPk($tripId);
+		$returnSet = new ReturnSet();
+		$cabModel  = BookingCab::model()->findByPk($tripId);
 		/** @var BookingCab $cabModel */
-		$bModels	 = $cabModel->bookings;
-		$errors		 = [];
+		$bModels   = $cabModel->bookings;
+		$errors	   = [];
 		if (sizeof($bModels) == 0)
 		{
-			$bModels			 = BookingSmartmatch::model()->getBookings($tripId);
-			$cabModel->bookings	 = $bModels;
+			$bModels			= BookingSmartmatch::model()->getBookings($tripId);
+			$cabModel->bookings = $bModels;
 		}
 		if (COUNT($bModels) == 0 || $bModels == 0)
 		{
@@ -5154,8 +5170,8 @@ class BookingCab extends CActiveRecord
 		foreach ($bModels as $bModel)
 		{
 			/** @var Booking $bModel */
-			$booking_class	 = $bModel->bkgSvcClassVhcCat->scc_ServiceClass->scc_id;
-			$bookingType	 = $bModel->bkg_booking_type;
+			$booking_class = $bModel->bkgSvcClassVhcCat->scc_ServiceClass->scc_id;
+			$bookingType   = $bModel->bkg_booking_type;
 			if ($bModel->bkg_status != 2)
 			{
 				$errors[] = "Booking is not in assignable status";
@@ -5231,16 +5247,16 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function validateGNowTripForBidding($cabModel, $bidActionObj, $vendorId)
 	{
-		$returnSet	 = new ReturnSet();
+		$returnSet = new ReturnSet();
 		/** @var \Beans\booking\BidAction $bidActionObj */
-		$bidAmount	 = ceil($bidActionObj->amount);
+		$bidAmount = ceil($bidActionObj->amount);
 
 		$reachMinutes = $bidActionObj->reachingAfterMinutes;
 
 		//$vendorId	 = UserInfo::getEntityId();
-		$driverId	 = $bidActionObj->getDriverId();
-		$cabId		 = $bidActionObj->getCabId();
-		$tripId		 = $bidActionObj->tripId;
+		$driverId = $bidActionObj->getDriverId();
+		$cabId	  = $bidActionObj->getCabId();
+		$tripId	  = $bidActionObj->tripId;
 		try
 		{
 			if ($driverId == '' || $cabId == '')
@@ -5267,8 +5283,8 @@ class BookingCab extends CActiveRecord
 				throw new Exception(json_encode($error), ReturnSet::ERROR_VALIDATION);
 			}
 
-			$maxAllowableVndAmt	 = $cabModel->bcb_max_allowable_vendor_amount;
-			$maxVndAmt			 = ($maxAllowableVndAmt > 0) ? $maxAllowableVndAmt : $cabModel->bcb_vendor_amount;
+			$maxAllowableVndAmt = $cabModel->bcb_max_allowable_vendor_amount;
+			$maxVndAmt			= ($maxAllowableVndAmt > 0) ? $maxAllowableVndAmt : $cabModel->bcb_vendor_amount;
 
 			$arrAllowedBids = $cabModel->getMinMaxAllowedBidAmount();
 			#if ($maxVndAmt < $bidAmount && $isAdminGozoNow == 1)
@@ -5303,19 +5319,19 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function validateGNowDriverCabForBidding($cabModel, $bidActionObj, $vendorId)
 	{
-		$returnSet	 = new ReturnSet();
-		$bidAmount	 = ceil($bidActionObj->amount);
+		$returnSet = new ReturnSet();
+		$bidAmount = ceil($bidActionObj->amount);
 
-		$reachMinutes	 = $bidActionObj->reachingAfterMinutes;
-		$dnow			 = Filter::getDBDateTime();
+		$reachMinutes = $bidActionObj->reachingAfterMinutes;
+		$dnow		  = Filter::getDBDateTime();
 
 		$reachingAT = date('Y-m-d H:i:s', strtotime($dnow . '+' . $reachMinutes . ' MINUTE'));
 
 		//$vendorId	 = UserInfo::getEntityId();
-		$driverId	 = $bidActionObj->getDriverId();
-		$cabId		 = $bidActionObj->getCabId();
-		$drvPhone	 = $bidActionObj->getDriverMobile();
-		$tripId		 = $bidActionObj->tripId;
+		$driverId = $bidActionObj->getDriverId();
+		$cabId	  = $bidActionObj->getCabId();
+		$drvPhone = $bidActionObj->getDriverMobile();
+		$tripId	  = $bidActionObj->tripId;
 
 		Filter::parsePhoneNumber($drvPhone, $code, $driverMobile);
 		if ($driverMobile == '')
@@ -5327,13 +5343,13 @@ class BookingCab extends CActiveRecord
 
 		$cabModel->scenario = 'assigncabdriver';
 
-		$cabModel->bcb_driver_phone	 = $driverMobile;
-		$cabModel->bcb_cab_id		 = $cabId;
-		$cabModel->bcb_driver_id	 = $driverId;
+		$cabModel->bcb_driver_phone = $driverMobile;
+		$cabModel->bcb_cab_id		= $cabId;
+		$cabModel->bcb_driver_id	= $driverId;
 
-		$bModels	 = $cabModel->bookings;
-		$bkgId		 = $bModels[0]->bkg_id;
-		$cab_type	 = $bModels[0]->bkgSvcClassVhcCat->scv_vct_id;
+		$bModels  = $cabModel->bookings;
+		$bkgId	  = $bModels[0]->bkg_id;
+		$cab_type = $bModels[0]->bkgSvcClassVhcCat->scv_vct_id;
 		try
 		{
 			if ($cabModel->bcbCab->vhc_approved != 1)
@@ -5375,10 +5391,10 @@ class BookingCab extends CActiveRecord
 
 			$cabModel->bcb_driver_phone = $match[1];
 
-			$cabModel->bcb_cab_number	 = strtoupper($cabModel->bcbCab->vhc_number);
-			$cabModel->bcb_trip_status	 = BookingCab::STATUS_CAB_DRIVER_ASSIGNED;
-			$bModels[0]->bkg_status		 = 3;
-			$validated					 = $cabModel->validate();
+			$cabModel->bcb_cab_number  = strtoupper($cabModel->bcbCab->vhc_number);
+			$cabModel->bcb_trip_status = BookingCab::STATUS_CAB_DRIVER_ASSIGNED;
+			$bModels[0]->bkg_status	   = 3;
+			$validated				   = $cabModel->validate();
 			if (!$validated)
 			{
 				$errorsList = $cabModel->getErrors();
@@ -5457,16 +5473,16 @@ class BookingCab extends CActiveRecord
 
 		$bidAmount = ceil($bidActionObj->amount);
 
-		$reachMinutes	 = $bidActionObj->reachingAfterMinutes;
-		$dnow			 = Filter::getDBDateTime();
+		$reachMinutes = $bidActionObj->reachingAfterMinutes;
+		$dnow		  = Filter::getDBDateTime();
 
 		$reachingAT = date('Y-m-d H:i:s', strtotime($dnow . '+' . $reachMinutes . ' MINUTE'));
 
 		//	$vendorId		 = UserInfo::getEntityId();
-		$driverId		 = $bidActionObj->getDriverId();
-		$cabId			 = $bidActionObj->getCabId();
-		$driverMobile	 = $bidActionObj->getDriverMobile();
-		$tripId			 = $bidActionObj->tripId;
+		$driverId	  = $bidActionObj->getDriverId();
+		$cabId		  = $bidActionObj->getCabId();
+		$driverMobile = $bidActionObj->getDriverMobile();
+		$tripId		  = $bidActionObj->tripId;
 
 		$bModels = $cabModel->bookings;
 		$bkgId	 = $bModels[0]->bkg_id;
@@ -5474,15 +5490,15 @@ class BookingCab extends CActiveRecord
 		try
 		{
 			$params = [
-				'tripId'			 => $tripId,
-				'bkgId'				 => $bkgId,
-				'bidAmount'			 => $bidAmount,
-				'isAccept'			 => true,
-				'driverId'			 => $driverId,
-				'driverMobile'		 => $driverMobile,
-				'cabId'				 => $cabId,
-				'reachingAtMinutes'	 => $reachMinutes,
-				'reachingAtTime'	 => $reachingAT
+				'tripId'			=> $tripId,
+				'bkgId'				=> $bkgId,
+				'bidAmount'			=> $bidAmount,
+				'isAccept'			=> true,
+				'driverId'			=> $driverId,
+				'driverMobile'		=> $driverMobile,
+				'cabId'				=> $cabId,
+				'reachingAtMinutes' => $reachMinutes,
+				'reachingAtTime'	=> $reachingAT
 			];
 
 			//$success = BookingVendorRequest::storeGNowRequest($params, $vendorId);
@@ -5493,17 +5509,17 @@ class BookingCab extends CActiveRecord
 			if ($bidModel->bvr_id > 0)
 			{
 
-				$drvCntId		 = ContactProfile::getByEntityId($driverId, UserInfo::TYPE_DRIVER);
-				$drvCntDetails	 = Contact::getContactDetails($drvCntId);
-				$driverName		 = $drvCntDetails['ctt_first_name'] . ' ' . $drvCntDetails['ctt_last_name'];
+				$drvCntId	   = ContactProfile::getByEntityId($driverId, UserInfo::TYPE_DRIVER);
+				$drvCntDetails = Contact::getContactDetails($drvCntId);
+				$driverName	   = $drvCntDetails['ctt_first_name'] . ' ' . $drvCntDetails['ctt_last_name'];
 				if (empty(trim($driverName)))
 				{
-					$drvDetails	 = Drivers::getDriverInfo($driverId);
-					$driverName	 = $drvDetails['drv_name'];
+					$drvDetails = Drivers::getDriverInfo($driverId);
+					$driverName = $drvDetails['drv_name'];
 				}
-				$cabDetails	 = Vehicles::getDetailbyid($cabId);
-				$cabNumber	 = $cabDetails['vhc_number'];
-				$desc		 = "Vendor offer received: Bid amount = &#x20B9;$bidAmount, reaching at = $reachingAT, cab number = $cabNumber, driver name = $driverName ($driverMobile)";
+				$cabDetails = Vehicles::getDetailbyid($cabId);
+				$cabNumber	= $cabDetails['vhc_number'];
+				$desc		= "Vendor offer received: Bid amount = &#x20B9;$bidAmount, reaching at = $reachingAT, cab number = $cabNumber, driver name = $driverName ($driverMobile)";
 				BookingLog::model()->createLog($bkgId, $desc, UserInfo::getInstance(), BookingLog::BID_SET, false);
 
 				BookingTrail::notifyConsumerForMissedNewGnowOffers($bkgId);
@@ -5536,20 +5552,20 @@ class BookingCab extends CActiveRecord
 		{
 			/** @var BookingCab $cabModel */
 			/** @var Booking $bModels */
-			$bModels	 = $cabModel->bookings;
-			$bkgId		 = $bModels[0]->bkg_id;
+			$bModels   = $cabModel->bookings;
+			$bkgId	   = $bModels[0]->bkg_id;
 			/** @var \Beans\booking\BidAction $bidActionObj */
-			$tripId		 = $bidActionObj->tripId;
-			$reasonId	 = $bidActionObj->getDenyReasonId();
-			$params		 = [
-				'tripId'	 => $tripId,
-				'bkgId'		 => $bkgId,
-				'reasonId'	 => $reasonId,
-				'isAccept'	 => false
+			$tripId	   = $bidActionObj->tripId;
+			$reasonId  = $bidActionObj->getDenyReasonId();
+			$params	   = [
+				'tripId'   => $tripId,
+				'bkgId'	   => $bkgId,
+				'reasonId' => $reasonId,
+				'isAccept' => false
 			];
 			//$vendorId	 = UserInfo::getEntityId();
 			Logger::trace('<===process Request===>' . CJSON::encode($params));
-			$bvrModels	 = BookingVendorRequest::storeGNowRequest($params, $vendorId);
+			$bvrModels = BookingVendorRequest::storeGNowRequest($params, $vendorId);
 
 			if ($bvrModels)
 			{
@@ -5560,15 +5576,15 @@ class BookingCab extends CActiveRecord
 			$ntlId = NotificationLog::getIdForGozonow($vendorId, $tripId);
 			if ($ntlId > 0)
 			{
-				$ntlDataArr	 = ['id' => $ntlId, 'isRead' => 1];
-				$resultData	 = NotificationLog::updateReadNotification($ntlDataArr);
+				$ntlDataArr = ['id' => $ntlId, 'isRead' => 1];
+				$resultData = NotificationLog::updateReadNotification($ntlDataArr);
 			}
 			$userInfo = UserInfo::getInstance();
 			Logger::trace('<===response===>' . CJSON::encode($returnSet));
 			DBUtil::commitTransaction($transaction);
 
-			$reasonDesc	 = BookingSub::getGNowBidDenyReasonList($reasonId);
-			$desc		 = "Vendor denied offer. Reason: $reasonDesc";
+			$reasonDesc = BookingSub::getGNowBidDenyReasonList($reasonId);
+			$desc		= "Vendor denied offer. Reason: $reasonDesc";
 			BookingLog::model()->createLog($bkgId, $desc, $userInfo, BookingLog::BID_DENY, false);
 		}
 		catch (Exception $e)
@@ -5597,17 +5613,17 @@ class BookingCab extends CActiveRecord
 			throw new Exception(json_encode($msg), ReturnSet::ERROR_VALIDATION);
 		}
 
-		$tripModel	 = BookingCab::model()->findByPk($tripId);
-		$bkgData	 = BookingCab::getFirstBkgByTripId($tripId, $bType);
+		$tripModel = BookingCab::model()->findByPk($tripId);
+		$bkgData   = BookingCab::getFirstBkgByTripId($tripId, $bType);
 		if (empty($tripModel) || empty($bkgData))
 		{
 			$msg = "Invalid Trip !!!";
 			throw new Exception(json_encode($msg), ReturnSet::ERROR_VALIDATION);
 		}
 
-		$bkgId			 = $bkgData['bkg_id'];
-		$pickupTimeDiff	 = $bkgData['pickupTimeDiff'];
-		$bkgModel		 = Booking::model()->findByPk($bkgId);
+		$bkgId			= $bkgData['bkg_id'];
+		$pickupTimeDiff = $bkgData['pickupTimeDiff'];
+		$bkgModel		= Booking::model()->findByPk($bkgId);
 		if ($pickupTimeDiff <= 30)
 		{
 			$msg = "FAIL!! Cannot reject at last minute. Contact support.";
@@ -5645,9 +5661,9 @@ class BookingCab extends CActiveRecord
 		{
 			throw new Exception(json_encode("Invalid Trip"), ReturnSet::ERROR_VALIDATION);
 		}
-		$bkgObj		 = $tripModel->bookings[0];
-		$pickupdt	 = $bkgObj->bkg_pickup_date;
-		$dateDiff	 = ceil((strtotime(date('Y-m-d H:i:s')) - strtotime($pickupdt)) / 60);
+		$bkgObj	  = $tripModel->bookings[0];
+		$pickupdt = $bkgObj->bkg_pickup_date;
+		$dateDiff = ceil((strtotime(date('Y-m-d H:i:s')) - strtotime($pickupdt)) / 60);
 		if ($dateDiff >= 0)
 		{
 			throw new Exception(json_encode("Pickup time has already passed. Please contact support."), ReturnSet::ERROR_VALIDATION);
@@ -5664,10 +5680,10 @@ class BookingCab extends CActiveRecord
 		$tripModel->bcb_driver_id	 = $driverId;
 		$tripModel->event_by		 = 2;
 
-		$typeId			 = $bkgObj->bkg_vehicle_type_id;
-		$cabTypeModel	 = SvcClassVhcCat::model()->findByPk($typeId);
-		$modelVehicles	 = Vehicles::model()->findByPk($tripModel->bcb_cab_id);
-		$modelDriver	 = Drivers::model()->findByPk($tripModel->bcb_driver_id);
+		$typeId		   = $bkgObj->bkg_vehicle_type_id;
+		$cabTypeModel  = SvcClassVhcCat::model()->findByPk($typeId);
+		$modelVehicles = Vehicles::model()->findByPk($tripModel->bcb_cab_id);
+		$modelDriver   = Drivers::model()->findByPk($tripModel->bcb_driver_id);
 
 		if ($modelVehicles->vhc_approved == 3)
 		{
@@ -5678,11 +5694,11 @@ class BookingCab extends CActiveRecord
 			throw new Exception(json_encode("Driver not approved. Cannot assign."), ReturnSet::ERROR_VALIDATION);
 		}
 
-		$isCng			 = $modelVehicles->vhc_has_cng;
+		$isCng		  = $modelVehicles->vhc_has_cng;
 		#$hasRooftopCarrier	 = $modelVehicles->vhc_has_rooftop_carrier;
-		$cabType		 = $cabTypeModel->scv_vct_id;
-		$sccClass		 = $cabTypeModel->scv_scc_id;
-		$isCngAllowed	 = $bkgObj->bkgPref->bkg_cng_allowed;
+		$cabType	  = $cabTypeModel->scv_vct_id;
+		$sccClass	  = $cabTypeModel->scv_scc_id;
+		$isCngAllowed = $bkgObj->bkgPref->bkg_cng_allowed;
 
 		if ($isCngAllowed == 0)
 		{
@@ -5709,10 +5725,10 @@ class BookingCab extends CActiveRecord
 		 *  @var Booking $model 
 		 * 	@var Booking $toBkgModel 
 		 */
-		$returnSet	 = new ReturnSet();
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$bkgCount	 = count($bcbmodel->bookings);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$returnSet = new ReturnSet();
+		$bcbmodel  = BookingCab::model()->findByPk($tripId);
+		$bkgCount  = count($bcbmodel->bookings);
+		$model	   = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 		if ($model->bkg_status != 2)
 		{
 			$message = 'Cannot send notification at this booking status';
@@ -5737,39 +5753,40 @@ class BookingCab extends CActiveRecord
 			$tripType = 'Matched Trip';
 		}
 
-		$bkgId			 = $model->bkg_id;
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
+		$bkgId		   = $model->bkg_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
 
-		$bookingId	 = $model->bkg_booking_id;
-		$cabType	 = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label;
+		$bookingId = $model->bkg_booking_id;
+		$cabType   = $model->bkgSvcClassVhcCat->scv_label;
 
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$fromCityName	 = $model->bkgFromCity->cty_name;
+		$bkgFromCity  = $model->bkg_from_city_id;
+		$fromCityName = $model->bkgFromCity->cty_name;
 
-		$bkgToCity	 = $toBkgModel->bkg_to_city_id;
-		$toCityName	 = $toBkgModel->bkgToCity->cty_name;
+		$bkgToCity	= $toBkgModel->bkg_to_city_id;
+		$toCityName = $toBkgModel->bkgToCity->cty_name;
 
-		$datePickupDate		 = new DateTime($model->bkg_pickup_date);
-		$pickupTime			 = $datePickupDate->format('j/F/Y g:i A');
-		$tripVendorAmount	 = $bcbmodel->bcb_vendor_amount;
-		$onlyGozoNow		 = true;
+		$datePickupDate	  = new DateTime($model->bkg_pickup_date);
+		$pickupTime		  = $datePickupDate->format('j/F/Y g:i A');
+		$tripVendorAmount = $bcbmodel->bcb_vendor_amount;
+		$onlyGozoNow	  = true;
 
 		$notifiedVendorList = [];
 		if ($excludeNotified)
 		{
-			$appliedVendors		 = BookingVendorRequest::getAppliedVendors($tripId);
-			$notifiedVendorList	 = explode(',', $appliedVendors); //Notified vendor id array
+			//$appliedVendors		 = BookingVendorRequest::getAppliedVendors($tripId);
+			$appliedVendors		= BookingVendorRequest::getactionedTakenVendor($tripId);
+			$notifiedVendorList = explode(',', $appliedVendors); //Notified vendor id array
 		}
 
 		if (empty($entityIds))
 		{
-			$fromZone	 = ZoneCities::getZonesByCity($bkgFromCity);
-			$toZone		 = ZoneCities::getZonesByCity($bkgToCity);
+			$fromZone = ZoneCities::getZonesByCity($bkgFromCity);
+			$toZone	  = ZoneCities::getZonesByCity($bkgToCity);
 
 			$mergeZoneIDs = trim($fromZone . ',' . $toZone, ',');
 
-			$distance		 = 200;
-			$acceptedZones	 = Zones::getServiceZoneList($mergeZoneIDs, $distance);
+			$distance	   = 200;
+			$acceptedZones = Zones::getServiceZoneList($mergeZoneIDs, $distance);
 
 			$vIdStr = Vendors::getListByZoneIds($acceptedZones, 12);
 
@@ -5780,8 +5797,8 @@ class BookingCab extends CActiveRecord
 			$vIdList = $entityIds;
 		}
 
-		$totAppNotified	 = 0;
-		$vndArr			 = array_diff($vIdList, $notifiedVendorList); //Filtering out vendors whom notification sent
+		$totAppNotified = 0;
+		$vndArr			= array_diff($vIdList, $notifiedVendorList); //Filtering out vendors whom notification sent
 		if (empty($vndArr))
 		{
 			goto skipNotification;
@@ -5801,12 +5818,12 @@ class BookingCab extends CActiveRecord
 		skipNotification:
 		###now send sms to offline vendors
 
-		$totSmS				 = 0;
-		$totSourceHomeZone	 = 0;
-		$totDestHomeZone	 = 0;
-		$totAcceptedZone	 = 0;
-		$totVendorFound		 = $totAppNotified;
-		$totVendorsNotified	 = $totAppNotified;
+		$totSmS				= 0;
+		$totSourceHomeZone	= 0;
+		$totDestHomeZone	= 0;
+		$totAcceptedZone	= 0;
+		$totVendorFound		= $totAppNotified;
+		$totVendorsNotified = $totAppNotified;
 		if (!$sendSMS)
 		{// if tripFlag=-1 then we will not send sms to vendor for gozo now
 			goto skipSMS;
@@ -5821,20 +5838,20 @@ class BookingCab extends CActiveRecord
 		Logger::trace($tripId . " getByPickupCitynCabType : " . $totVendorFound . " records");
 		foreach ($vendors as $vendor)
 		{
-			$succSent	 = 0;
-			$vndId		 = $vendor['vnd_id'];
-			$vndhash	 = Yii::app()->shortHash->hash($vndId);
-			$bkvnUrl	 = "https://gozo.cab/bkvn1/{$bcbhash}/{$vndhash}";
-			$success	 = false;
-			$message	 = "Cab required ($cabType): $fromCityName - $toCityName ($tripType) $pickupTime Amount: $tripVendorAmount Please use your Gozo Partner App to accept the bid gozo.cab/bkvn1/$bcbhash/$vndhash";
-			$isLoggedIn	 = AppTokens::isVendorLoggedIn($vndId, 72);
+			$succSent	= 0;
+			$vndId		= $vendor['vnd_id'];
+			$vndhash	= Yii::app()->shortHash->hash($vndId);
+			$bkvnUrl	= "https://gozo.cab/bkvn1/{$bcbhash}/{$vndhash}";
+			$success	= false;
+			$message	= "Cab required ($cabType): $fromCityName - $toCityName ($tripType) $pickupTime Amount: $tripVendorAmount Please use your Gozo Partner App to accept the bid gozo.cab/bkvn1/$bcbhash/$vndhash";
+			$isLoggedIn = AppTokens::isVendorLoggedIn($vndId, 72);
 			if (!$isLoggedIn)
 			{
 				if ($model->bkgPref->bkg_is_gozonow != 1)
 				{
-					$phnumber	 = '';
-					$code		 = '';
-					$vndPhone	 = $vendor['vnd_phone'];
+					$phnumber = '';
+					$code	  = '';
+					$vndPhone = $vendor['vnd_phone'];
 					Filter::parsePhoneNumber($vndPhone, $code, $phnumber);
 					if ($phnumber > 0)
 					{
@@ -5850,8 +5867,8 @@ class BookingCab extends CActiveRecord
 						{
 							if ($unsubscribe == 0)
 							{
-								$response	 = WhatsappLog::send(($code . $phnumber), $templateName, $arrDBData, $arrBody, $arrButton, $lang);
-								$success	 = ($response['status'] == 2 && $response['wamId'] != null) ? true : false;
+								$response = WhatsappLog::send(($code . $phnumber), $templateName, $arrDBData, $arrBody, $arrButton, $lang);
+								$success  = ($response['status'] == 2 && $response['wamId'] != null) ? true : false;
 								if ($success)
 								{
 									$row = ["initiateBy" => WhatsappInitiateTrack::INITIATE_BY_GOZO, "initiateType" => WhatsappInitiateTrack::INITIATE_TYPE_UTILITY, "templateId" => $templateId, "phoneNumber" => ($code . $vndPhone)];
@@ -5875,8 +5892,8 @@ class BookingCab extends CActiveRecord
 							$isInitiateAlive = WhatsappInitiateTrack::isInitiateAlive(WhatsappInitiateTrack::INITIATE_BY_GOZO, WhatsappInitiateTrack::INITIATE_TYPE_UTILITY, ($code . $vndPhone));
 							if ($isInitiateAlive)
 							{
-								$response	 = WhatsappLog::send(($code . $vndPhone), $templateName, $arrDBData, $arrBody, $arrButton, $lang);
-								$success	 = ($response['status'] == 2 && $response['wamId'] != null) ? true : false;
+								$response = WhatsappLog::send(($code . $vndPhone), $templateName, $arrDBData, $arrBody, $arrButton, $lang);
+								$success  = ($response['status'] == 2 && $response['wamId'] != null) ? true : false;
 								if ($success)
 								{
 									$row = ["initiateBy" => WhatsappInitiateTrack::INITIATE_BY_GOZO, "initiateType" => WhatsappInitiateTrack::INITIATE_TYPE_UTILITY, "templateId" => $templateId, "phoneNumber" => ($code . $vndPhone)];
@@ -5911,21 +5928,21 @@ class BookingCab extends CActiveRecord
 		}
 
 		skipSMS:
-		$dbDateTime	 = Filter::getDBDateTime();
-		$logArr		 = [
-			'totSmS'				 => $totSmS,
-			'totAppNotified'		 => $totAppNotified,
-			'totSourceHomeZone'		 => $totSourceHomeZone,
-			'totDestHomeZone'		 => $totDestHomeZone,
-			'totAcceptedZone'		 => $totAcceptedZone,
-			'totalVendorsNotified'	 => $totVendorsNotified,
-			'totalVendorFound'		 => $totVendorFound,
-			'notifiedDateTime'		 => $dbDateTime
+		$dbDateTime = Filter::getDBDateTime();
+		$logArr		= [
+			'totSmS'			   => $totSmS,
+			'totAppNotified'	   => $totAppNotified,
+			'totSourceHomeZone'	   => $totSourceHomeZone,
+			'totDestHomeZone'	   => $totDestHomeZone,
+			'totAcceptedZone'	   => $totAcceptedZone,
+			'totalVendorsNotified' => $totVendorsNotified,
+			'totalVendorFound'	   => $totVendorFound,
+			'notifiedDateTime'	   => $dbDateTime
 		];
 
-		$notifyVendor		 = new \Stub\booking\NotifyVendor();
+		$notifyVendor	  = new \Stub\booking\NotifyVendor();
 		$notifyVendor->setData($logArr);
-		$notificationInfo	 = json_encode($notifyVendor);
+		$notificationInfo = json_encode($notifyVendor);
 
 		Logger::writeToConsole($tripId . ': ' . $notificationInfo);
 		Logger::trace($notificationInfo);
@@ -5938,19 +5955,19 @@ class BookingCab extends CActiveRecord
 			Logger::exception($exc);
 		}
 
-		$cntRow		 = BookingPref::activateManualGozonow($bkgId);
-		$userInfo	 = UserInfo::model();
+		$cntRow	  = BookingPref::activateManualGozonow($bkgId);
+		$userInfo = UserInfo::model();
 		if ($cntRow)
 		{
 			$descStr = "GozoNOW auto-activated";
-			BookingLog::model()->createLog($bkgId, $descStr, $userInfo, BookingLog:: ACTIVATE_GOZO_NOW, false);
+			BookingLog::model()->createLog($bkgId, $descStr, $userInfo, BookingLog::ACTIVATE_GOZO_NOW, false);
 		}
 
 		if ($model->bkgTrail->btr_nmi_flag == 0 && $totVendorsNotified < 5)
 		{
-			$oldTrailModel					 = clone $model->bkgTrail;
-			$nmidesc						 = "WHY - Not enough vendors found";
-			$model->bkgTrail->btr_nmi_flag	 = 1;
+			$oldTrailModel				   = clone $model->bkgTrail;
+			$nmidesc					   = "WHY - Not enough vendors found";
+			$model->bkgTrail->btr_nmi_flag = 1;
 			$model->bkgTrail->updateNMI($nmidesc, $oldTrailModel, $userInfo);
 		}
 		$returnSet->setStatus(true);
@@ -5967,64 +5984,64 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function sendBulkGNowNotification($model, $vndData, $returnCountOnly = false)
 	{
-		$tripId			 = $model->bkg_bcb_id;
-		$bkgId			 = $model->bkg_id;
-		$vndList		 = $vndData['vndIds']; //vendor list in comma separated string
+		$tripId		  = $model->bkg_bcb_id;
+		$bkgId		  = $model->bkg_id;
+		$vndList	  = $vndData['vndIds']; //vendor list in comma separated string
 //		$vndTokenList	 = $vndData['aptTokens']; //Token list in comma separated string
-		$vndTokenList	 = $vndData['aptTokenVendor'];
-		$dcoTokenList	 = $vndData['aptTokenDCO'];
+		$vndTokenList = $vndData['aptTokenVendor'];
+		$dcoTokenList = $vndData['aptTokenDCO'];
 
-		$vndIdList	 = $vndData['entIdVendor']; //vendor list in comma separated string
-		$dcoIdList	 = $vndData['entIdDCO']; //vendor list in comma separated string
+		$vndIdList = $vndData['entIdVendor']; //vendor list in comma separated string
+		$dcoIdList = $vndData['entIdDCO']; //vendor list in comma separated string
 
 		$countVnd = $vndData['cntVnd']; //vendor count
 
-		$countVndToken	 = $vndData['cntVndToken']; //vendor token count
-		$countDCOToken	 = $vndData['cntDCOToken']; //DCO token count
-		$rndHash		 = date('ymdHis');
-		$batchId		 = "{$tripId}{$bkgId}{$rndHash}";
-		$cntSent		 = 0;
-		$cntSucc		 = 0;
+		$countVndToken = $vndData['cntVndToken']; //vendor token count
+		$countDCOToken = $vndData['cntDCOToken']; //DCO token count
+		$rndHash	   = date('ymdHis');
+		$batchId	   = "{$tripId}{$bkgId}{$rndHash}";
+		$cntSent	   = 0;
+		$cntSucc	   = 0;
 		if ($countVnd > 0)
 		{
-			$cntVndSucc	 = 0;
-			$cntDCOSucc	 = 0;
+			$cntVndSucc = 0;
+			$cntDCOSucc = 0;
 
 			if ($countVndToken > 0)
 			{
 
-				$resVndArr		 = AppTokens::notifyMulti($model, $vndTokenList, $batchId);
-				$cntVndSucc		 = ($resVndArr['success'] > 0) ? $resVndArr['success'] : 0;
-				$notification	 = $resVndArr['notification'];
-				$vndLogArrList	 = explode(',', $vndIdList);
+				$resVndArr	   = AppTokens::notifyMulti($model, $vndTokenList, $batchId);
+				$cntVndSucc	   = ($resVndArr['success'] > 0) ? $resVndArr['success'] : 0;
+				$notification  = $resVndArr['notification'];
+				$vndLogArrList = explode(',', $vndIdList);
 				NotificationLog::createVendorMultiLog($vndLogArrList, $notification, $batchId);
 			}
 			if ($countDCOToken > 0)
 			{
-				$resDCOArr		 = AppTokens::notifyMultiNew($model, $dcoTokenList, $batchId);
-				$cntDCOSucc		 = ($resDCOArr['success'] > 0) ? $resDCOArr['success'] : 0;
-				$notification	 = $resDCOArr['notification'];
-				$dcoLogArrList	 = explode(',', $dcoIdList);
+				$resDCOArr	   = AppTokens::notifyMultiNew($model, $dcoTokenList, $batchId);
+				$cntDCOSucc	   = ($resDCOArr['success'] > 0) ? $resDCOArr['success'] : 0;
+				$notification  = $resDCOArr['notification'];
+				$dcoLogArrList = explode(',', $dcoIdList);
 				NotificationLog::createVendorMultiLog($dcoLogArrList, $notification, $batchId);
 			}
 			$cntSent = $countVnd;
 			$cntSucc = $cntVndSucc + $cntDCOSucc;
 
-			$params		 = [
+			$params		= [
 				'tripId' => $tripId,
 				'bkgId'	 => $bkgId,
 			];
-			$vndArrList	 = explode(',', $vndList);
+			$vndArrList = explode(',', $vndList);
 			BookingVendorRequest::notifiedMultiGNowEntry($vndArrList, $params);
 		}
-		$gNowInitiateMode	 = '';
-		$gNowStatus			 = $model->bkgPref->bkg_is_gozonow;
-		$gNowModeArr		 = [1 => 'customer intiated', 2 => 'activated'];
-		$gNowInitiateMode	 = $gNowModeArr[$gNowStatus];
+		$gNowInitiateMode = '';
+		$gNowStatus		  = $model->bkgPref->bkg_is_gozonow;
+		$gNowModeArr	  = [1 => 'customer intiated', 2 => 'activated'];
+		$gNowInitiateMode = $gNowModeArr[$gNowStatus];
 
-		$desc		 = "Vendors notified(Bulk) for $gNowInitiateMode Gozo now : Sent=$cntSent, Success=$countVnd";
-		$userInfo	 = UserInfo::model(UserInfo:: TYPE_SYSTEM, 0);
-		BookingLog::model()->createLog($model->bkg_id, $desc, $userInfo, BookingLog:: VENDOR_NOTIFIED_FOR_GOZONOW_BOOKING, false);
+		$desc	  = "Vendors notified(Bulk) for $gNowInitiateMode Gozo now : Sent=$cntSent, Success=$countVnd";
+		$userInfo = UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
+		BookingLog::model()->createLog($model->bkg_id, $desc, $userInfo, BookingLog::VENDOR_NOTIFIED_FOR_GOZONOW_BOOKING, false);
 
 		if ($returnCountOnly)
 		{
@@ -6080,12 +6097,12 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function lastminCancelFlagUpdate($pickupDate, $bcbId, $vendorId)
 	{
-		$flag					 = 0;
+		$flag					= 0;
 		date_default_timezone_set("Asia/Calcutta");
-		$cancelTime				 = date('Y-m-d H:i:s');
-		$pickupCancelDifference	 = round(abs(strtotime($pickupDate) - strtotime($cancelTime)) / 60, 2) . " minute";
-		$assignTime				 = BookingVendorRequest::getAssignDate($bcbId, $vendorId);
-		$assignCancelDifference	 = round(abs(strtotime($assignTime) - strtotime($cancelTime)) / 60, 2) . " minute";
+		$cancelTime				= date('Y-m-d H:i:s');
+		$pickupCancelDifference = round(abs(strtotime($pickupDate) - strtotime($cancelTime)) / 60, 2) . " minute";
+		$assignTime				= BookingVendorRequest::getAssignDate($bcbId, $vendorId);
+		$assignCancelDifference = round(abs(strtotime($assignTime) - strtotime($cancelTime)) / 60, 2) . " minute";
 		if ($pickupCancelDifference < 90 || $assignCancelDifference > 15)
 		{
 			$flag = 1;
@@ -6096,8 +6113,8 @@ class BookingCab extends CActiveRecord
 
 	public function getCabAssignBkgId()
 	{
-		$pickupTime	 = $this->bookings[0]->bkg_pickup_date;
-		$dropTime	 = date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
+		$pickupTime = $this->bookings[0]->bkg_pickup_date;
+		$dropTime	= date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
 		foreach ($this->bookings as $bmodel)
 		{
 			$pickupTime	 = ($pickupTime < $bmodel->bkg_pickup_date) ? $pickupTime : $bmodel->bkg_pickup_date;
@@ -6131,8 +6148,8 @@ class BookingCab extends CActiveRecord
 
 	public function getDriverAssignBkgId()
 	{
-		$pickupTime	 = $this->bookings[0]->bkg_pickup_date;
-		$dropTime	 = date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
+		$pickupTime = $this->bookings[0]->bkg_pickup_date;
+		$dropTime	= date('Y-m-d H:i:s', strtotime($this->bookings[0]->bkg_trip_duration . ' minutes', strtotime($pickupTime)));
 		foreach ($this->bookings as $bmodel)
 		{
 			$pickupTime	 = ($pickupTime < $bmodel->bkg_pickup_date) ? $pickupTime : $bmodel->bkg_pickup_date;
@@ -6191,12 +6208,12 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function getTripsForReadyToPickup($trip = '')
 	{
-		$where	 = '';
-		$param	 = [];
+		$where = '';
+		$param = [];
 		if ($trip > 0)
 		{
-			$param	 = ['tripId' => $trip];
-			$where	 = " AND bkg.bkg_bcb_id=:tripId";
+			$param = ['tripId' => $trip];
+			$where = " AND bkg.bkg_bcb_id=:tripId";
 		}
 		$sql = "SELECT bkg.bkg_bcb_id,bkg.bkg_pickup_date,bkg.bkg_status FROM booking bkg
 				INNER JOIN booking_cab bcb ON bcb.bcb_id =bkg.bkg_bcb_id
@@ -6236,12 +6253,12 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function getTripsForDriverReadyToPickup($trip = '')
 	{
-		$where	 = '';
-		$param	 = [];
+		$where = '';
+		$param = [];
 		if ($trip > 0)
 		{
-			$param	 = ['tripId' => $trip];
-			$where	 = " AND bkg.bkg_bcb_id=:tripId";
+			$param = ['tripId' => $trip];
+			$where = " AND bkg.bkg_bcb_id=:tripId";
 		}
 		$sql = "SELECT bkg.bkg_bcb_id,bkg.bkg_pickup_date,bkg.bkg_status FROM booking bkg
 				INNER JOIN booking_cab bcb ON bcb.bcb_id =bkg.bkg_bcb_id
@@ -6285,10 +6302,10 @@ class BookingCab extends CActiveRecord
 		 *  @var Booking $model 
 		 * 	@var Booking $toBkgModel 
 		 */
-		$returnSet	 = new ReturnSet();
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$bkgCount	 = count($bcbmodel->bookings);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$returnSet = new ReturnSet();
+		$bcbmodel  = BookingCab::model()->findByPk($tripId);
+		$bkgCount  = count($bcbmodel->bookings);
+		$model	   = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 		if ($model->bkg_status != 2)
 		{
 			$message = 'Cannot send notification at this booking status';
@@ -6312,31 +6329,31 @@ class BookingCab extends CActiveRecord
 			$tripType = 'Matched Trip';
 		}
 
-		$bkgId			 = $model->bkg_id;
-		$vehicleTypeId	 = $model->bkg_vehicle_type_id;
+		$bkgId		   = $model->bkg_id;
+		$vehicleTypeId = $model->bkg_vehicle_type_id;
 
-		$bookingId	 = $model->bkg_booking_id;
-		$cabType	 = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label;
+		$bookingId = $model->bkg_booking_id;
+		$cabType   = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label;
 
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$fromCityName	 = $model->bkgFromCity->cty_name;
+		$bkgFromCity  = $model->bkg_from_city_id;
+		$fromCityName = $model->bkgFromCity->cty_name;
 
-		$bkgToCity	 = $toBkgModel->bkg_to_city_id;
-		$toCityName	 = $toBkgModel->bkgToCity->cty_name;
+		$bkgToCity	= $toBkgModel->bkg_to_city_id;
+		$toCityName = $toBkgModel->bkgToCity->cty_name;
 
-		$pickupTime			 = DateTimeFormat::SQLDateTimeToLocaleDateTime($model->bkg_pickup_date);
-		$tripVendorAmount	 = $bcbmodel->bcb_vendor_amount;
-		$onlyGozoNow		 = true;
+		$pickupTime		  = DateTimeFormat::SQLDateTimeToLocaleDateTime($model->bkg_pickup_date);
+		$tripVendorAmount = $bcbmodel->bcb_vendor_amount;
+		$onlyGozoNow	  = true;
 
 		if (empty($entityIds))
 		{
-			$fromZone	 = ZoneCities::getZonesByCity($bkgFromCity);
-			$toZone		 = ZoneCities::getZonesByCity($bkgToCity);
+			$fromZone = ZoneCities::getZonesByCity($bkgFromCity);
+			$toZone	  = ZoneCities::getZonesByCity($bkgToCity);
 
 			$mergeZoneIDs = trim($fromZone . ',' . $toZone, ',');
 
-			$distance		 = 200;
-			$acceptedZones	 = Zones::getServiceZoneList($mergeZoneIDs, $distance);
+			$distance	   = 200;
+			$acceptedZones = Zones::getServiceZoneList($mergeZoneIDs, $distance);
 
 			$drvIdStr = Drivers::getListByZoneIds($acceptedZones);
 
@@ -6344,8 +6361,8 @@ class BookingCab extends CActiveRecord
 		}
 		else
 		{
-			$drvIdList	 = $entityIds;
-			$drvIdStr	 = implode(',', $drvIdList);
+			$drvIdList = $entityIds;
+			$drvIdStr  = implode(',', $drvIdList);
 		}
 
 		$totAppNotified = 0;
@@ -6359,30 +6376,30 @@ class BookingCab extends CActiveRecord
 		{
 			$drvIdList = $drvTokenData['drvIds'];
 
-			$rndHash		 = date('ymdHis');
-			$batchId		 = "{$tripId}{$bkgId}{$rndHash}";
-			$drvTokenList	 = $drvTokenData['aptTokens'];
-			$resArr			 = AppTokens::notifyMulti($model, $drvTokenList, $batchId);
+			$rndHash	  = date('ymdHis');
+			$batchId	  = "{$tripId}{$bkgId}{$rndHash}";
+			$drvTokenList = $drvTokenData['aptTokens'];
+			$resArr		  = AppTokens::notifyMulti($model, $drvTokenList, $batchId);
 
-			$cntSent		 = $countDrv;
-			$cntSucc		 = ($resArr['success'] > 0) ? $resArr['success'] : 0;
-			$notification	 = $resArr['notification'];
-			$params			 = [
+			$cntSent	  = $countDrv;
+			$cntSucc	  = ($resArr['success'] > 0) ? $resArr['success'] : 0;
+			$notification = $resArr['notification'];
+			$params		  = [
 				'tripId' => $tripId,
 				'bkgId'	 => $bkgId,
 			];
-			$drvArrList		 = explode(',', $drvIdList);
+			$drvArrList	  = explode(',', $drvIdList);
 
 			NotificationLog::createVendorMultiLog($drvArrList, $notification, $batchId);
 		}
-		$desc		 = "Drivers notified(Bulk headsup)  : Sent=$cntSent, Success=$cntSucc";
-		$userInfo	 = UserInfo::model(UserInfo:: TYPE_SYSTEM, 0);
-		BookingLog::model()->createLog($model->bkg_id, $desc, $userInfo, BookingLog:: VENDOR_NOTIFIED_FOR_GOZONOW_BOOKING, false);
+		$desc	  = "Drivers notified(Bulk headsup)  : Sent=$cntSent, Success=$cntSucc";
+		$userInfo = UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
+		BookingLog::model()->createLog($model->bkg_id, $desc, $userInfo, BookingLog::VENDOR_NOTIFIED_FOR_GOZONOW_BOOKING, false);
 
-		$dbDateTime	 = Filter::getDBDateTime();
-		$logArr		 = [
-			'totAppNotified'	 => $cntSucc,
-			'notifiedDateTime'	 => $dbDateTime
+		$dbDateTime = Filter::getDBDateTime();
+		$logArr		= [
+			'totAppNotified'   => $cntSucc,
+			'notifiedDateTime' => $dbDateTime
 		];
 
 		$returnSet->setStatus(true);
@@ -6398,31 +6415,31 @@ class BookingCab extends CActiveRecord
 	 */
 	public static function showLastStartTime($driverId)
 	{
-		$lastdate	 = "";
-		$sql		 = "SELECT bcb.bcb_id as lastTripId
+		$lastdate	= "";
+		$sql		= "SELECT bcb.bcb_id as lastTripId
 				FROM booking_cab bcb 
 				INNER JOIN booking bkg On bkg.bkg_bcb_id = bcb.bcb_id
 				INNER JOIN booking_track btk ON btk.btk_bkg_id=bkg.bkg_id AND (btk.bkg_ride_start=1 OR btk.bkg_trip_arrive_time <> null)
 				WHERE bcb.bcb_driver_id = :driverId ORDER BY bkg.bkg_pickup_date DESC LIMIT 0,1";
-		$lastTripid	 = DBUtil::queryScalar($sql, DBUtil::SDB(), ['driverId' => $driverId]);
+		$lastTripid = DBUtil::queryScalar($sql, DBUtil::SDB(), ['driverId' => $driverId]);
 		if ($lastTripid > 0)
 		{
-			$sql		 = "SELECT min(bkg.bkg_pickup_date) as date
+			$sql	  = "SELECT min(bkg.bkg_pickup_date) as date
 				FROM booking bkg 
 				INNER JOIN booking_cab bcb ON bcb.bcb_id= bkg.bkg_bcb_id
 				WHERE bkg.bkg_bcb_id = :lastTripId";
-			$lastdate	 = DBUtil::queryScalar($sql, DBUtil::SDB(), ['lastTripId' => $lastTripid]);
+			$lastdate = DBUtil::queryScalar($sql, DBUtil::SDB(), ['lastTripId' => $lastTripid]);
 		}
 		return $lastdate;
 	}
 
 	public static function getRouteNameListById($tripId)
 	{
-		$params		 = ['tripId' => $tripId];
-		$sql		 = "SELECT bkg.bkg_route_city_names FROM booking bkg  
+		$params	   = ['tripId' => $tripId];
+		$sql	   = "SELECT bkg.bkg_route_city_names FROM booking bkg  
 			WHERE bkg.bkg_bcb_id = :tripId AND bkg_status IN(1,15,2,3,5,6,7) ORDER BY bkg.bkg_pickup_date";
-		$recordSet	 = DBUtil::query($sql, DBUtil::SDB(), $params);
-		$routes		 = [];
+		$recordSet = DBUtil::query($sql, DBUtil::SDB(), $params);
+		$routes	   = [];
 		foreach ($recordSet as $data)
 		{
 			$routes = array_merge($routes, json_decode($data['bkg_route_city_names']));
@@ -6433,17 +6450,17 @@ class BookingCab extends CActiveRecord
 
 	public static function getTotalTripDistanceById($tripId)
 	{
-		$params	 = ['tripId' => $tripId];
-		$sql	 = "SELECT sum(bkg.bkg_trip_distance) totalDistance FROM booking bkg  
+		$params = ['tripId' => $tripId];
+		$sql	= "SELECT sum(bkg.bkg_trip_distance) totalDistance FROM booking bkg  
 			WHERE bkg.bkg_bcb_id = :tripId AND bkg_status IN(1,15,2,3,5,6,7)  ";
-		$res	 = DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
+		$res	= DBUtil::queryScalar($sql, DBUtil::SDB(), $params);
 		return $res;
 	}
 
 	public static function setReadyToGo($tripId, $vendorId)
 	{
-		$returnSet		 = new ReturnSet();
-		$isAccessible	 = BookingCab::checkVendorTripRelation($tripId, $vendorId);
+		$returnSet	  = new ReturnSet();
+		$isAccessible = BookingCab::checkVendorTripRelation($tripId, $vendorId);
 		if (!$isAccessible)
 		{
 			throw new Exception("Not authorised to proceed", ReturnSet::ERROR_UNAUTHORISED);
@@ -6454,11 +6471,11 @@ class BookingCab extends CActiveRecord
 			throw new Exception("Booking already assigned to other vendor", ReturnSet::ERROR_VALIDATION);
 		}
 
-		$bcabModel	 = BookingCab::model()->findByPk($tripId);
-		$bModels	 = $bcabModel->bookings;
-		$eventId	 = BookingLog::ONTHEWAY_FOR_PICKUP;
-		$desc		 = "Driver is ready to go for pickup";
-		$userInfo	 = UserInfo::getInstance();
+		$bcabModel = BookingCab::model()->findByPk($tripId);
+		$bModels   = $bcabModel->bookings;
+		$eventId   = BookingLog::ONTHEWAY_FOR_PICKUP;
+		$desc	   = "Driver is ready to go for pickup";
+		$userInfo  = UserInfo::getInstance();
 		foreach ($bModels as $bookingModel)
 		{
 			BookingTrack::updateVendorReadyToPickupConfirmation($bookingModel->bkg_id, 1);
@@ -6469,16 +6486,16 @@ class BookingCab extends CActiveRecord
 		$ntlId = NotificationLog::getIdForGozonow($vendorId, $tripId);
 		if ($ntlId > 0)
 		{
-			$ntlDataArr	 = ['id' => $ntlId, 'isRead' => 1];
-			$resultData	 = NotificationLog::updateReadNotification($ntlDataArr);
+			$ntlDataArr = ['id' => $ntlId, 'isRead' => 1];
+			$resultData = NotificationLog::updateReadNotification($ntlDataArr);
 		}
 		return $returnSet;
 	}
 
 	public static function setGnowSomeProblemToGo($tripId, $vendorId)
 	{
-		$returnSet		 = new ReturnSet();
-		$isAccessible	 = BookingCab::checkVendorTripRelation($tripId, $vendorId);
+		$returnSet	  = new ReturnSet();
+		$isAccessible = BookingCab::checkVendorTripRelation($tripId, $vendorId);
 		if (!$isAccessible)
 		{
 			throw new Exception("Not authorised to proceed", ReturnSet::ERROR_UNAUTHORISED);
@@ -6488,19 +6505,19 @@ class BookingCab extends CActiveRecord
 		{
 			throw new Exception("Booking already assigned to other vendor", ReturnSet::ERROR_VALIDATION);
 		}
-		$bcabModel	 = BookingCab::model()->findByPk($tripId);
-		$bModels	 = $bcabModel->bookings;
+		$bcabModel = BookingCab::model()->findByPk($tripId);
+		$bModels   = $bcabModel->bookings;
 
 		foreach ($bModels as $bookingModel)
 		{
 			BookingTrack::updateVendorReadyToPickupConfirmation($bookingModel->bkg_id, 2);
 		}
-		$returnSet	 = ServiceCallQueue::autoFURGozoNow($tripId);
-		$ntlId		 = NotificationLog::getIdForGozonow($vendorId, $tripId);
+		$returnSet = ServiceCallQueue::autoFURGozoNow($tripId);
+		$ntlId	   = NotificationLog::getIdForGozonow($vendorId, $tripId);
 		if ($ntlId > 0)
 		{
-			$ntlDataArr	 = ['id' => $ntlId, 'isRead' => 1];
-			$resultData	 = NotificationLog::updateReadNotification($ntlDataArr);
+			$ntlDataArr = ['id' => $ntlId, 'isRead' => 1];
+			$resultData = NotificationLog::updateReadNotification($ntlDataArr);
 		}
 		$result					 = $returnSet->getData();
 		$result['isNewFollowup'] = true;
@@ -6519,29 +6536,29 @@ class BookingCab extends CActiveRecord
 	public static function validateApBkgMaxAllowVndAmnt($bkgId)
 	{
 		//$bkgId = 1899467;
-		$createFlag			 = 0;
-		$validateMaxAllowed	 = 0;
-		$model				 = Booking::model()->findByPk($bkgId);
-		$bookingType		 = $model->bkg_booking_type;
-		$bcbId				 = $model->bkg_bcb_id;
-		$pickupTime			 = strtotime($model->bkg_pickup_date);
-		$createDate			 = $model->bkg_create_date;
-		$currentHour		 = date("H");
-		$currentTime		 = time();
+		$createFlag			= 0;
+		$validateMaxAllowed = 0;
+		$model				= Booking::model()->findByPk($bkgId);
+		$bookingType		= $model->bkg_booking_type;
+		$bcbId				= $model->bkg_bcb_id;
+		$pickupTime			= strtotime($model->bkg_pickup_date);
+		$createDate			= $model->bkg_create_date;
+		$currentHour		= date("H");
+		$currentTime		= time();
 
 		if ($currentHour >= 7)
 		{
-			$startDate	 = new DateTime('today');
-			$endDate	 = new DateTime('tomorrow');
+			$startDate = new DateTime('today');
+			$endDate   = new DateTime('tomorrow');
 		}
 		else
 		{
-			$startDate	 = new DateTime('yesterday');
-			$endDate	 = new DateTime('today');
+			$startDate = new DateTime('yesterday');
+			$endDate   = new DateTime('today');
 		}
 
-		$startTime	 = strtotime($startDate->format('Y-m-d') . ' 21:00');
-		$endTime	 = strtotime($endDate->format('Y-m-d') . ' 07:00');
+		$startTime = strtotime($startDate->format('Y-m-d') . ' 21:00');
+		$endTime   = strtotime($endDate->format('Y-m-d') . ' 07:00');
 
 		if (time() - strtotime($createDate) > 3599)
 		{
@@ -6605,7 +6622,7 @@ class BookingCab extends CActiveRecord
 	{
 		$sqlStates		 = $sqlBookingType	 = $sqlServiceClass = '';
 
-		$sql					 = "SELECT
+		$sql				   = "SELECT
 					bcb_id AS 'trip_id',
 					bkg_id AS 'booking_ids',
 					bkg_create_date AS 'create_date', 
@@ -6669,13 +6686,13 @@ class BookingCab extends CActiveRecord
 					temp.bvr_bcb_id = booking_cab.bcb_id
 				WHERE
 					booking.bkg_pickup_date BETWEEN :pickupDate1 AND :pickupDate2";
-		$params["pickupDate1"]	 = $model->bkg_pickup_date1;
-		$params["pickupDate2"]	 = $model->bkg_pickup_date2;
+		$params["pickupDate1"] = $model->bkg_pickup_date1;
+		$params["pickupDate2"] = $model->bkg_pickup_date2;
 		if ($model->bkg_create_date1 != '' && $model->bkg_create_date2 != '')
 		{
-			$sql					 .= " AND booking.bkg_create_date BETWEEN :createDate1 AND :createDate2";
-			$params["createDate1"]	 = $model->bkg_create_date1;
-			$params["createDate2"]	 = $model->bkg_create_date2;
+			$sql				   .= " AND booking.bkg_create_date BETWEEN :createDate1 AND :createDate2";
+			$params["createDate1"] = $model->bkg_create_date1;
+			$params["createDate2"] = $model->bkg_create_date2;
 		}
 		if ($model->bkg_assigned_date1 != '' && $model->bkg_assigned_date2 != '')
 		{
@@ -6685,27 +6702,27 @@ class BookingCab extends CActiveRecord
 		}
 		if ($model->bkg_region != '')
 		{
-			$paramsRegion	 = DBUtil::getINStatement($model->bkg_region, $bindString1, $paramsRegion);
-			$sql			 .= " AND states.stt_zone IN ($bindString1)";
-			$params			 = $params + $paramsRegion;
+			$paramsRegion = DBUtil::getINStatement($model->bkg_region, $bindString1, $paramsRegion);
+			$sql		  .= " AND states.stt_zone IN ($bindString1)";
+			$params		  = $params + $paramsRegion;
 		}
 		if ($model->bkg_booking_type != '')
 		{
-			$paramsBookingType	 = DBUtil::getINStatement($model->bkg_booking_type, $bindString2, $paramsBookingType);
-			$sql				 .= " AND booking.bkg_booking_type IN ($bindString2)";
-			$params				 = $params + $paramsBookingType;
+			$paramsBookingType = DBUtil::getINStatement($model->bkg_booking_type, $bindString2, $paramsBookingType);
+			$sql			   .= " AND booking.bkg_booking_type IN ($bindString2)";
+			$params			   = $params + $paramsBookingType;
 		}
 		if ($model->bkg_service_class != '')
 		{
-			$paramsServiceClass	 = DBUtil::getINStatement($model->bkg_service_class, $bindString3, $paramsServiceClass);
-			$sql				 .= " AND svc_class_vhc_cat.scv_scc_id IN ($bindString3)";
-			$params				 = $params + $paramsServiceClass;
+			$paramsServiceClass = DBUtil::getINStatement($model->bkg_service_class, $bindString3, $paramsServiceClass);
+			$sql				.= " AND svc_class_vhc_cat.scv_scc_id IN ($bindString3)";
+			$params				= $params + $paramsServiceClass;
 		}
 		$sql .= " GROUP BY booking_cab.bcb_id";
 		if ($type == DBUtil::ReturnType_Provider)
 		{
-			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql ) temp ", DBUtil::SDB3(), $params);
-			$dataprovider	 = new CSqlDataProvider($sql, [
+			$count		  = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql ) temp ", DBUtil::SDB3(), $params);
+			$dataprovider = new CSqlDataProvider($sql, [
 				'totalItemCount' => $count,
 				"params"		 => $params,
 				'db'			 => DBUtil::SDB3(),
@@ -6728,7 +6745,7 @@ class BookingCab extends CActiveRecord
 	public static function manualReport($data, $type = DBUtil::ReturnType_Provider)
 	{
 
-		$sql					 = "SELECT
+		$sql				   = "SELECT
 					bcb_id,
 					bkg_id,
 					bkg_create_date,
@@ -6766,8 +6783,8 @@ class BookingCab extends CActiveRecord
 				ON
 					temp.bvr_bcb_id = booking_cab.bcb_id
 				WHERE booking.bkg_status IN(3, 5, 6, 7, 9) AND booking.bkg_pickup_date BETWEEN :pickupDate1 AND :pickupDate2";
-		$params["pickupDate1"]	 = $data['bkg_pickup_date1'];
-		$params["pickupDate2"]	 = $data['bkg_pickup_date2'];
+		$params["pickupDate1"] = $data['bkg_pickup_date1'];
+		$params["pickupDate2"] = $data['bkg_pickup_date2'];
 		if ($data['bkg_assigned_date1'] != '' && $data['bkg_assigned_date2'] != '')
 		{
 			$sql					 .= " AND booking_trail.bkg_assigned_at BETWEEN :assignedDate1 AND :assignedDate2";
@@ -6818,8 +6835,8 @@ class BookingCab extends CActiveRecord
 		$sql .= " GROUP BY booking_cab.bcb_id";
 		if ($type == DBUtil::ReturnType_Provider)
 		{
-			$count			 = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql ) temp ", DBUtil::SDB3(), $params);
-			$dataprovider	 = new CSqlDataProvider($sql, [
+			$count		  = DBUtil::queryScalar("SELECT COUNT(*) FROM ($sql ) temp ", DBUtil::SDB3(), $params);
+			$dataprovider = new CSqlDataProvider($sql, [
 				'totalItemCount' => $count,
 				"params"		 => $params,
 				'db'			 => DBUtil::SDB3(),
@@ -6868,9 +6885,9 @@ class BookingCab extends CActiveRecord
 
 	public static function getBkgIdsById($bcbid)
 	{
-		$param	 = ['bcbId' => $bcbid];
-		$sql	 = "SELECT bcb_bkg_id1 from booking_cab WHERE bcb_id = :bcbId";
-		$data	 = DBUtil::queryScalar($sql, null, $param);
+		$param = ['bcbId' => $bcbid];
+		$sql   = "SELECT bcb_bkg_id1 from booking_cab WHERE bcb_id = :bcbId";
+		$data  = DBUtil::queryScalar($sql, null, $param);
 		return $data;
 	}
 
@@ -6882,10 +6899,10 @@ class BookingCab extends CActiveRecord
 		 *  @var Booking $model 
 		 * 	@var Booking $toBkgModel 
 		 */
-		$returnSet	 = new ReturnSet();
-		$bcbmodel	 = BookingCab::model()->findByPk($tripId);
-		$bkgCount	 = count($bcbmodel->bookings);
-		$model		 = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
+		$returnSet = new ReturnSet();
+		$bcbmodel  = BookingCab::model()->findByPk($tripId);
+		$bkgCount  = count($bcbmodel->bookings);
+		$model	   = Booking::model()->findByPk($bcbmodel->bookings[0]->bkg_id);
 		if ($model->bkg_status != 2)
 		{
 			$message = 'Cannot send notification at this booking status';
@@ -6893,8 +6910,8 @@ class BookingCab extends CActiveRecord
 			goto endOfProcessing;
 		}
 
-		$toBkgModel	 = $model;
-		$tripType	 = $model->getBookingType($model->bkg_booking_type);
+		$toBkgModel = $model;
+		$tripType	= $model->getBookingType($model->bkg_booking_type);
 		if ($bkgCount > 1 && $bcbmodel->bcb_trip_type == 1)
 		{
 			#Arranging bookings according to their pickups
@@ -6910,24 +6927,22 @@ class BookingCab extends CActiveRecord
 		}
 
 		$vehicleTypeId = $model->bkg_vehicle_type_id;
+		$cabType	   = $model->bkgSvcClassVhcCat->scv_label;
+		$bkgFromCity   = $model->bkg_from_city_id;
+		$fromCityName  = $model->bkgFromCity->cty_name;
 
-		$cabType = $model->bkgSvcClassVhcCat->scc_VehicleCategory->vct_label;
+		$bkgToCity	= $toBkgModel->bkg_to_city_id;
+		$toCityName = $toBkgModel->bkgToCity->cty_name;
 
-		$bkgFromCity	 = $model->bkg_from_city_id;
-		$fromCityName	 = $model->bkgFromCity->cty_name;
-
-		$bkgToCity	 = $toBkgModel->bkg_to_city_id;
-		$toCityName	 = $toBkgModel->bkgToCity->cty_name;
-
-		$datePickupDate		 = new DateTime($model->bkg_pickup_date);
-		$pickupTime			 = $datePickupDate->format('j/F/Y g:i A');
-		$tripVendorAmount	 = $bcbmodel->bcb_vendor_amount;
-		$onlyGozoNow		 = true;
+		$datePickupDate	  = new DateTime($model->bkg_pickup_date);
+		$pickupTime		  = $datePickupDate->format('j/F/Y g:i A');
+		$tripVendorAmount = $bcbmodel->bcb_vendor_amount;
+		$onlyGozoNow	  = true;
 
 		$notifiedVendorList = [];
 
-		$appliedVendors		 = BookingVendorRequest::getAppliedVendors($tripId);
-		$notifiedVendorList	 = explode(',', $appliedVendors); //Notified vendor id array
+		$appliedVendors		= BookingVendorRequest::getAppliedVendors($tripId);
+		$notifiedVendorList = explode(',', $appliedVendors); //Notified vendor id array
 
 
 		$bcbhash	 = Yii::app()->shortHash->hash($tripId);
@@ -6943,11 +6958,11 @@ class BookingCab extends CActiveRecord
 
 		Logger::trace($tripId . " getByPickupCitynCabType : " . $totVendorFound . " records");
 
-		$templateName	 = 'bid_for_new_booking_notification_to_partner_with_stop_reminder_v2';
-		$lang			 = 'en_US';
-		$templateId		 = WhatsappLog::findByTemplateNameLang($templateName, $lang, 'wht_id');
-		$arrButton		 = Whatsapp::buildComponentButton([$templateId], 'button', 'quick_reply', "payload");
-		$isDelay		 = true;
+		$templateName = 'bid_for_new_booking_notification_to_partner_with_stop_reminder_v2';
+		$lang		  = 'en_US';
+		$templateId	  = WhatsappLog::findByTemplateNameLang($templateName, $lang, 'wht_id');
+		$arrButton	  = Whatsapp::buildComponentButton([$templateId], 'button', 'quick_reply', "payload");
+		$isDelay	  = true;
 		foreach ($vendors as $vendor)
 		{
 			$vndId = $vendor['vnd_id'];
@@ -6955,16 +6970,16 @@ class BookingCab extends CActiveRecord
 			{
 				$succSent = 0;
 
-				$vndhash	 = Yii::app()->shortHash->hash($vndId);
-				$bkvnUrl	 = "https://gozo.cab/bkvn1/{$bcbhash}/{$vndhash}";
-				$success	 = false;
-				$message	 = "Cab required ($cabType): $fromCityName - $toCityName ($tripType) $pickupTime Amount: $tripVendorAmount Please use your Gozo Partner App to accept the bid gozo.cab/bkvn1/$bcbhash/$vndhash";
-				$isLoggedIn	 = AppTokens::isVendorLoggedIn($vndId, 72);
+				$vndhash	= Yii::app()->shortHash->hash($vndId);
+				$bkvnUrl	= "https://gozo.cab/bkvn1/{$bcbhash}/{$vndhash}";
+				$success	= false;
+				$message	= "Cab required ($cabType): $fromCityName - $toCityName ($tripType) $pickupTime Amount: $tripVendorAmount Please use your Gozo Partner App to accept the bid gozo.cab/bkvn1/$bcbhash/$vndhash";
+				$isLoggedIn = AppTokens::isVendorLoggedIn($vndId, 72);
 				if (!$isLoggedIn && !in_array($vndId, $notifiedVendorList))
 				{
-					$phnumber	 = '';
-					$code		 = '';
-					$vndPhone	 = $vendor['vnd_phone'];
+					$phnumber = '';
+					$code	  = '';
+					$vndPhone = $vendor['vnd_phone'];
 					Filter::parsePhoneNumber($vndPhone, $code, $phnumber);
 					if ($phnumber > 0)
 					{
@@ -6976,17 +6991,17 @@ class BookingCab extends CActiveRecord
 						$unsubscribe = UnsubscribePhoneno::checkBlockedNumber(($code . $vndPhone), 2, $templateId);
 						if ($totSmS <= 30 && $unsubscribe == 0)
 						{
-							$response	 = WhatsappLog::send(($code . $phnumber), $templateName, $arrDBData, $arrBody, $arrButton, $lang, $isDelay);
-							$success	 = ($response && $response['status'] == 2 && $response['wamId'] != null) ? true : false;
+							$response = WhatsappLog::send(($code . $phnumber), $templateName, $arrDBData, $arrBody, $arrButton, $lang, $isDelay);
+							$success  = ($response && $response['status'] == 2 && $response['wamId'] != null) ? true : false;
 						}
 
 						$totSmS++;
-						$succSent	 = 1;
-						$params		 = [
+						$succSent = 1;
+						$params	  = [
 							'tripId' => $tripId,
 							'bkgId'	 => $model->bkg_id,
 						];
-						$result		 = BookingVendorRequest::notifiedGNowEntry($params, $vndId);
+						$result	  = BookingVendorRequest::notifiedGNowEntry($params, $vndId);
 					}
 
 					Logger::trace($message);
@@ -7002,6 +7017,214 @@ class BookingCab extends CActiveRecord
 		return $returnSet;
 	}
 
-	
+	public static function getCountByVndAndPickupDate($vndId, $pickupDateData, $bkgType = '', $cabType = '', $zonePairData = '')
+	{
+		$joinParam = '';
+		if ($zonePairData != '')
+		{
+			$zonePairList = json_decode($zonePairData, true);
+			$fzoneList	  = [];
+			$tzoneList	  = [];
+			if ($zonePairData)
+			{
+				foreach ($zonePairList as $zonePair)
+				{
+					$fzoneList[] = $zonePair[0];
+					$tzoneList[] = $zonePair[1];
+				}
+			}
 
+			if (sizeof($fzoneList) > 0)
+			{
+				$fzoneStr  = implode(',', $fzoneList);
+				$joinParam .= " INNER JOIN zone_cities fzct ON fzct.zct_cty_id = bkg.bkg_from_city_id 
+				AND fzct.zct_zon_id IN ({$fzoneStr})";
+			}
+			if (sizeof($tzoneList) > 0)
+			{
+				$tzoneStr  = implode(',', $tzoneList);
+				$joinParam .= "
+			INNER JOIN zone_cities tzct ON tzct.zct_cty_id = bkg.bkg_to_city_id 
+				AND tzct.zct_zon_id IN ({$tzoneStr})";
+			}
+		}
+		$where = '';
+		if ($cabType != '')
+		{
+			$where .= " AND bkg.bkg_vehicle_type_id IN ({$cabType})  
+				AND IFNULL(bkg.bkg_vht_id,0) = 0";
+		}
+		$params		= ['vndId' => $vndId, 'bkgType' => $bkgType];
+		$pickupDate = date('Y-m-d', strtotime($pickupDateData));
+
+		$sql = "SELECT COUNT(DISTINCT bkg.bkg_id ) countAll,
+			COUNT(DISTINCT IF((bkg.bkg_status IN (3,5,6,7) AND bcb.bcb_vendor_id=:vndId) 
+								OR vat.vat_id >0,bkg.bkg_id,null)) countAssigned,			 			
+			date(bkg.bkg_pickup_date) pickupDate 
+			FROM  booking bkg
+			INNER JOIN booking_cab bcb ON bcb.bcb_id = bkg.bkg_bcb_id 		
+			$joinParam
+			LEFT JOIN vendor_auto_assignment_tracking vat
+				ON vat.vat_booking_id =bkg.bkg_id AND vat.vat_vendor_id=:vndId
+			WHERE date(bkg.bkg_pickup_date) = '$pickupDate' 
+				AND bkg.bkg_booking_type =:bkgType 				
+				AND bkg.bkg_status IN (2,3,5,6,7) 
+				AND bkg.bkg_reconfirm_flag = 1 
+				$where  ";
+
+		$row = DBUtil::queryRow($sql, DBUtil::MDB(), $params);
+		return $row;
+	}
+
+	public static function assignToEverestFleet($bkgId = '')
+	{
+		$vndId = Config::get('everestfleet.delhi.vendor.id');
+
+		$returnSet = new ReturnSet();
+
+		##sedan with [value ,value+ ,economy] is allowed
+		$cabType	  = '1,3,14,16,72,73';
+		$recordsets	  = Booking::getBookingsToAssignForEverestFleet($cabType, $bkgId);
+		$assignVendor = false;
+		$returnSet->setMessage("no vendor assigned");
+		$i			  = 0;
+		foreach ($recordsets as $value)
+		{
+			$returnSet	 = new ReturnSet();
+			$transaction = null;
+			$tripId		 = $value['bkg_bcb_id'];
+			$bkgId		 = $value['bkg_id'];
+			try
+			{
+				$remark			 = 'Vendor Auto Assigned';
+				/** @var Booking $bkgModel */
+				$bkgModel		 = Booking::model()->findByPk($bkgId);
+				$assignmentRatio = 0.75;
+				if ($bkgModel->bkgPref->bkg_manual_assignment == 1 || $bkgModel->bkgPref->bkg_critical_assignment == 1)
+				{
+					$assignmentRatio = 1;
+				}
+				$maxAssignCountPerDay = 10;
+				Logger::info(json_encode($value));
+				$isEligible			  = $bkgModel->checkVendorEligiblity($vndId, $maxAssignCountPerDay, $assignmentRatio, $cabType);
+				if (!$isEligible)
+				{
+					continue;
+				}
+
+				$netBaseAmount = $bkgModel->bkgInvoice->bkg_net_base_amount;
+				$vndAmount	   = $bkgModel->bkgInvoice->bkg_vendor_amount;
+
+				$tripVendorAmount		= $bkgModel->bkgBcb->bcb_vendor_amount;
+				$stateTaxAmount			= $bkgModel->bkgInvoice->bkg_state_tax | 0;
+				$tollTaxAmount			= $bkgModel->bkgInvoice->bkg_toll_tax | 0;
+				$partnerCommission		= $bkgModel->bkgInvoice->bkg_partner_commission | 0;
+				$partnerExtraCommission = $bkgModel->bkgInvoice->bkg_partner_extra_commission | 0;
+				$totalGST				= $bkgModel->bkgInvoice->bkg_service_tax;
+				$totalAmount			= $bkgModel->bkgInvoice->bkg_total_amount;
+				$bkgCriticalityScore	= ($bkgModel->bkgPref->bkg_critical_score == null) ? 0.0 : $bkgModel->bkgPref->bkg_critical_score;
+
+				if ($bkgCriticalityScore >= 0.74)
+				{
+					$amount = $tripVendorAmount;
+				}
+				else
+				{
+
+					$surgeFactorsAppliedList = explode(',', $bkgModel->bkgPf->bkg_factors_used);
+					$manualSurgeFactor		 = $bkgModel->bkgPf->bkg_manual_surge_factor;
+					$tripVendorAmountFactor	 = 0.95;
+
+					if ((in_array(1, $surgeFactorsAppliedList) && $manualSurgeFactor > 1))
+					{
+						$tripVendorAmountFactor = 0.98;
+					}
+
+					if ((in_array(1, $surgeFactorsAppliedList) && $manualSurgeFactor < 0.98))
+					{
+						$tripVendorAmountFactor = min(0.95 + (1 - $manualSurgeFactor) * 0.5, 1);
+					}
+
+					$tripVendorAmountFactor	   = (in_array(1, $surgeFactorsAppliedList) && $manualSurgeFactor > 1) ? 0.98 : 0.95;
+					$effectiveTripVendorAmount = $tripVendorAmountFactor * $tripVendorAmount;
+
+					$totalExtraAmount = $totalAmount - $totalGST - $netBaseAmount - $partnerCommission - $partnerExtraCommission;
+					$calcVndAmount	  = round(($netBaseAmount * 0.9) + $totalExtraAmount);
+					$amount			  = round(max(min($calcVndAmount, $vndAmount, $tripVendorAmount), ($effectiveTripVendorAmount)));
+				}
+				$totalDistance	  = $bkgModel->bkg_trip_distance;
+				$perKmCharge	  = (in_array($bkgModel->bkg_vehicle_type_id, [72, 73])) ? 8 : 9.25;
+				$maxCalcVndAmount = round($totalDistance * $perKmCharge) + $tollTaxAmount;
+				$info = "bkgCriticalityScore: $bkgCriticalityScore, maxCalcVndAmount: $maxCalcVndAmount, tripVendorAmountFactor: $tripVendorAmountFactor, amount: $amount, totalDistance: $totalDistance, vndAmount: $vndAmount, tripVendorAmount: $tripVendorAmount";
+				Logger::info($info);
+				
+				if ($maxCalcVndAmount > $amount)
+				{
+					continue;
+				}
+
+				$amountList	 = ['tripVendorAmount'	   => $tripVendorAmount,
+					'bookingVendorAmount'  => $vndAmount,
+					'bookingTotalAmount'   => $totalAmount,
+					'bookingCriticalScore' => $bkgCriticalityScore
+				];
+				$transaction = DBUtil::beginTransaction();
+
+				if ($assignVendor)
+				{
+					$assignMode			= 1; //manual
+					$userInfo			= UserInfo::model(UserInfo::TYPE_SYSTEM, 0);
+					$userInfo->userType = UserInfo::TYPE_SYSTEM;
+					$userInfo->userId	= 0;
+					$returnStatus		= BookingCab::model()->assignVendor($tripId, $vndId, $amount, $remark, $userInfo, $assignMode, $smtScore);
+					if (!$returnStatus->isSuccess())
+					{
+						throw $returnStatus->getException();
+					}
+					Logger::info("BookingCab::assignToEverestFleet: " . json_encode($returnStatus));
+
+					$bidID = BookingVendorRequest::getAcceptedBidId($tripId, $vndId);
+					if ($bidID > 0)
+					{
+						BookingVendorRequest::updateAssignStatus($bidID);
+					}
+					BookingTrail::updateProfitFlag($tripId);
+					if ($tripId != null && $returnStatus->isSuccess())
+					{
+						$returnSet->setStatus(true);
+						$returnSet->setMessage("Everestfleet (Vendor) assign successsfully");
+					}
+				}
+
+				$returnSetVat = VendorAutoAssignmentTracking::addNew($bkgId, $tripId, $vndId, $amount, $amountList);
+				if (!$returnSetVat->isSuccess())
+				{
+					throw $returnSetVat->getException();
+				}
+				DBUtil::commitTransaction($transaction);
+
+				echo $returnSet->getMessage();
+				$i++;
+				continue;
+
+				skipAssignment:
+				echo $returnSet->getMessage();
+				DBUtil::rollbackTransaction($transaction);
+				continue;
+			}
+			catch (Exception $e)
+			{
+				DBUtil::rollbackTransaction($transaction);
+				$returnSet = ReturnSet::setException($e);
+				if ($tripId != null)
+				{
+					$returnSet->setStatus(false);
+					$returnSet->setMessage("Failed to assign vendor");
+				}
+			}
+		}
+		$returnSet->setMessage(" Total records processed - " . $i);
+		Logger::info("assignToEverestFleet: Total records processed - " . $i);
+		return $returnSet;
+	}
 }

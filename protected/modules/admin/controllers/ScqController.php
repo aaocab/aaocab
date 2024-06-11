@@ -147,7 +147,7 @@ class ScqController extends Controller
 				{
 					if ($notificationMessage && $scqModel->scq_to_be_followed_up_with_entity_id > 0)
 					{
-						Notification::callBackSendNotification($refId, $notificationMessage);
+//						Notification::callBackSendNotification($refId, $notificationMessage);
 					}
 					$this->redirect(array('lead/mycall'));
 				}

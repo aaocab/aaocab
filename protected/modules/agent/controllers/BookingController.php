@@ -6391,8 +6391,8 @@ class BookingController extends BaseController
 
             if ($btmodel->bkg_booking_type == 4)
             {
-                $btmodel->bkg_pickup_address = $fromAdditionalAddress . $brtArr[0]['brt_from_location'];
-                $btmodel->bkg_drop_address   = $toAdditionalAddress . $brtArr[0]['brt_to_location'];
+                $btmodel->bkg_pickup_address =$brtArr[0]['brt_from_location']; //$fromAdditionalAddress . 
+                $btmodel->bkg_drop_address   = $brtArr[0]['brt_to_location'];//$toAdditionalAddress . 
             }
 
             $btmodel->scenario = 'cabRate';
