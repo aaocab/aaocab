@@ -72,11 +72,7 @@ class TestController extends Controller
 		$dataProvider	 = $model->saveVehicleTaxPref();
 	}
 
-	public function actionTestsentry()
-	{
-		$mymessage = 'checking sentry';
-		\Sentry\captureMessage($mymessage, null);
-	}
+	
 
 	public function actionTestNotification()
 	{

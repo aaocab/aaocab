@@ -1,26 +1,6 @@
 <?php
 
 return array(
-//	[
-//		'class'		 => 'SentryLogRoute',
-//		'levels'	 => 'error, warning',
-//		'categories' => '*',
-//	],
-//	[
-//		'class'		 => 'SentryLogRoute',
-//		'levels'	 => 'trace, info, error, warning',
-//		'categories' => 'trace.*',
-//	],
-//	[
-//		'class'		 => 'SentryLogRoute',
-//		'levels'	 => 'info, error, warning',
-//		'categories' => 'info.*',
-//	],
-//	[
-//		'class'		 => 'SentryLogRoute',
-//		'levels'	 => 'profile, warning, error',
-//		'categories' => 'profile.*',
-//	],
 	[
 		'class'		 => 'CFileLogRoute',
 		'levels'	 => 'error, warning',

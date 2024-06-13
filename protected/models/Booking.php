@@ -680,7 +680,7 @@ class Booking extends CActiveRecord
 	{
 		$success	 = false;
 		$msg		 = "BookingId to validate confirm booking---" . $this->bkg_id;
-#\Sentry\captureMessage($msg, null);
+
 		$isStatus	 = in_array($this->bkg_status, [1, 15]);
 		if ($this->bkgInvoice->bkg_advance_amount > 0 || $this->bkgPref->bkg_is_confirm_cash == 1)
 		{
@@ -21979,7 +21979,7 @@ FROM   booking
 		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 
 		return $returnSet;
@@ -22096,7 +22096,7 @@ FROM   booking
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 		return $returnSet;
 	}
@@ -22319,7 +22319,7 @@ FROM   booking
 		{
 			$returnSet = ReturnSet::setException($e);
 			DBUtil::rollbackTransaction($transaction);
-			\Sentry\captureMessage(json_encode($e), null);
+			
 		}
 		lastLine:
 		return $returnSet;

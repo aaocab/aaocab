@@ -279,7 +279,7 @@ class DriverController extends BaseController
 				// $returnSet->setStatus(true);
 				//$returnSet->setMessage("Image Upload fail please try again");
 				// Logger::trace("Image Upload fail *************" . $wholeData1);
-				// \Sentry\captureMessage("Message " ."Image Upload fail Checksum blank ".$wholeData1);
+				
 				//goto returnmsg;
 			}
 
@@ -290,7 +290,7 @@ class DriverController extends BaseController
 				//$returnSet->setStatus(true);
 				//$returnSet->setMessage("Image Upload fail please try again");
 				//  Logger::trace("Image Upload fail *************" . $wholeData1);
-				// \Sentry\captureMessage("Message " ."Image Upload fail checksum mismatch ".$wholeData1);
+				
 				//goto returnmsg;
 			}
 
@@ -331,13 +331,13 @@ class DriverController extends BaseController
 				$returnSet->setStatus(false);
 				$returnSet->setMessage("No record found1");
 				// Logger::trace("Packeage Images Is not uploaded *************" . $wholeData1);
-				// \Sentry\captureMessage("Message" . $wholeData1);
+				
 			}
 		}
 		catch (Exception $ex)
 		{
 			Logger::trace("Packeage Images Error *************" . json_encode($ex));
-			\Sentry\captureMessage("Error" . $ex);
+			
 
 			$returnSet->setStatus(false);
 			$returnSet->setMessage("No record found");

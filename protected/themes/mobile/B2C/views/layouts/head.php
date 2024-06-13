@@ -10,7 +10,7 @@ $jsversion	 = Yii::app()->params['siteJSVersion'];
 		<link rel="preconnect" href="https://bat.bing.com/">
 <!--		<link rel="preconnect" href="https://connect.facebook.net/">
 		<link rel="preconnect" href="http://www.facebook.com/">-->
-		<link rel="preconnect" href="https://browser.sentry-cdn.com/">
+		
 		<link rel="preconnect" href="https://images.aaocab.com/">
 
 		<link rel="manifest" href="/manifest.json">
@@ -92,7 +92,7 @@ $jsversion	 = Yii::app()->params['siteJSVersion'];
 							<?php
 						}
 						?>
-<script src="https://browser.sentry-cdn.com/7.76.0/bundle.min.js" integrity="sha384-E6cl5rBqghgWmQzeZzIeEiCZlZ2jwbXjwezpP0iC13ZLtLuFw6YhyuazvzcASt0t" crossorigin="anonymous" defer></script>
+
 							<script type="text/javascript">
 						$(document).ready(function()
 						{

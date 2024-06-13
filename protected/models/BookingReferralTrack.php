@@ -234,7 +234,7 @@ class BookingReferralTrack extends CActiveRecord
 		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 		return $returnSet;
 	}

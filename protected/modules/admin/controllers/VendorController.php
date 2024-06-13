@@ -3269,7 +3269,7 @@ class VendorController extends Controller
 
 					$success = Vendors::model()->freezeVendor($vndId, Vendors::FR_MANUAL_FREEZE, $chkopt, $reason);
 					$result	 = [];
-					//\Sentry\captureMessage('check freeze update status - ' . $success, null);
+					
 
 					if ($success)
 					{

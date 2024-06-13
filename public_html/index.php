@@ -8,7 +8,7 @@ $GLOBALS['mailTestMode'] = false;
 error_reporting(E_ERROR);
 require_once('environment.php');
 require_once($yii);
-\Sentry\init(['dsn' => 'https://f09805aef0fd481d8311048e9281e2e7@sentry1.gozo.cab/2', 'environment' => APPLICATION_ENV, 'max_breadcrumbs' => 30]);
+//\Sentry\init(['dsn' => 'https://f09805aef0fd481d8311048e9281e2e7@sentry1.gozo.cab/2', 'environment' => APPLICATION_ENV, 'max_breadcrumbs' => 30]);
 list($usec, $sec) = explode(" ", microtime());
 $time1					 = ((float) $usec + (float) $sec);
 $time					 = $time1 - TIME;

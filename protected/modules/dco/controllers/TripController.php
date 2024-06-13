@@ -187,7 +187,7 @@ class TripController extends BaseController
 			else
 			{
 				throw new Exception("No records found", ReturnSet::ERROR_NO_RECORDS_FOUND);
-				\Sentry\captureMessage(json_encode($returnSet), null);
+				
 			}
 		}
 		catch (Exception $ex)
@@ -255,7 +255,7 @@ class TripController extends BaseController
 			else
 			{
 				throw new Exception("No records found", ReturnSet::ERROR_NO_RECORDS_FOUND);
-				\Sentry\captureMessage(json_encode($returnSet), null);
+				
 			}
 		}
 		catch (Exception $ex)

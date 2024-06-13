@@ -82,7 +82,7 @@ class Whatsapp extends CComponent
 			if ($jsonError['error']['code'] != 131026)
 			{
 				$arrStatus = ['status' => 3, 'wamId' => '', 'error' => $errMsg];
-				\Sentry\captureMessage(json_encode(['template' => $templateName, 'arrComponent' => $arrComponent, 'arrData' => $arrData, 'status' => 3, 'wamId' => $whlId]), null);
+				
 				Logger::error($ex);
 				Logger::exception($ex);
 			}
@@ -229,7 +229,7 @@ class Whatsapp extends CComponent
 			else if ($notification instanceof Netflie\WhatsAppCloudApi\WebHook\Notification\Button)
 			{
 				$arrData = self::populateCommonData($notification, WhatsappLog::MSG_TYPE_BUTTON);
-				\Sentry\captureMessage(json_encode(['WhatsappNotificationHookTrackButton' => $arrData]), null);
+				
 			}
 			else if ($notification instanceof Netflie\WhatsAppCloudApi\WebHook\Notification\Interactive)
 			{
@@ -260,7 +260,7 @@ class Whatsapp extends CComponent
 		}
 		catch (Exception $ex)
 		{
-			\Sentry\captureMessage(json_encode(['WhatsappNotificationHook' => $ex->getMessage(), "value" => json_encode($notification)]), null);
+			
 			Logger::exception($ex);
 		}
 	}

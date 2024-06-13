@@ -18,7 +18,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 		<link rel="preconnect" href="https://bat.bing.com/">
 		<!--		<link rel="preconnect" href="https://connect.facebook.net/">
 				<link rel="preconnect" href="http://www.facebook.com/">-->
-		<link rel="preconnect" href="https://browser.sentry-cdn.com/">
+		
 		<link rel="preconnect" href="https://images.aaocab.com/">
         <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
         <meta charset="utf-8">
@@ -66,12 +66,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 		<!--		<link as="image" rel="preload" href="/images/gozo_svg_logo.svg" type="image/svg+xml" fetchpriority='high' />-->
 		<!--		<link rel="preload" href="/res/app-assets/vendors/css/boxicons/fonts/boxicons.woff2"  as="font" type="font/woff2" crossorigin/>-->
 		<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-<!--		<script src="https://browser.sentry-cdn.com/7.46.0/bundle.min.js" defer></script>-->
-		<script
-			src="https://browser.sentry-cdn.com/7.76.0/bundle.min.js"
-			integrity="sha384-E6cl5rBqghgWmQzeZzIeEiCZlZ2jwbXjwezpP0iC13ZLtLuFw6YhyuazvzcASt0t"
-			crossorigin="anonymous" defer
-		></script>
+
+		
 		<script>
 			let gtagId = 'G-4TQDEZYH5H';
 			window.dataLayer = window.dataLayer || [];
@@ -227,11 +223,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 		<script>
 			var VISITOR;
 
-			$(document).ready(function()
-			{
-				getVisitor();
-				Sentry.init({dsn: 'https://981df2c06421445ea83713d1792260fd@sentry1.gozo.cab/4', environment: 'DESKTOP-<?= APPLICATION_ENV ?>'});
-			});
+			
 
 			var $baseUrl = "<?= Yii::app()->getBaseUrl(true) ?>";
 			function ajaxindicatorstart(text)
@@ -369,7 +361,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			}
 			catch (e)
 			{
-				Sentry.captureException(e);
+				
 				str = typeof obj;
 				str = str + obj;
 			}
@@ -427,15 +419,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			catch (e)
 			{
 
-				let strObj = convertToString(block_ele);
-				Sentry.addBreadcrumb(
-						{
-							category: "jquery.block",
-							message: "block_ele: " + strObj.substr(0, 100),
-							level: "debug"
-						}
-				);
-				Sentry.captureException(e);
+				
 			}
 
 
@@ -466,15 +450,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			}
 			catch (e)
 			{
-				let strObj = convertToString(block_ele);
-				Sentry.addBreadcrumb(
-						{
-							category: "jquery.unblock",
-							message: "block_ele: " + strObj.substr(0, 100),
-							level: "debug"
-						}
-				);
-				Sentry.captureException(e);
+				
 			}
 		}
 

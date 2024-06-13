@@ -188,7 +188,7 @@ class BookingController extends BaseController
                 }
                 else
                 {
-                    //\Sentry\captureMessage(json_encode($quotData), null);
+                    
                     $returnSet->setStatus(false);
                     throw new Exception('Cab type temporarily not available', ReturnSet::ERROR_NO_RECORDS_FOUND);
                 }

@@ -34,8 +34,7 @@ class SentryLogRoute extends CLogRoute
 	 */
 	public function init()
 	{
-		parent::init();
-		\Sentry\init(['dsn' => 'https://360974a3033b4f4cae3f248fc3117c61@sentry.gozo.cab/2', 'environment' => APPLICATION_ENV]);
+		
 	}
 
 	/**
@@ -44,23 +43,12 @@ class SentryLogRoute extends CLogRoute
 	 */
 	protected function processLogs($logs)
 	{
-		static $syslogLevels = array(
-			CLogger::LEVEL_TRACE	 => \Sentry\Breadcrumb::LEVEL_DEBUG,
-			CLogger::LEVEL_WARNING	 => \Sentry\Breadcrumb::LEVEL_WARNING,
-			CLogger::LEVEL_ERROR	 => \Sentry\Breadcrumb::LEVEL_ERROR,
-			CLogger::LEVEL_INFO		 => \Sentry\Breadcrumb::LEVEL_INFO,
-			CLogger::LEVEL_PROFILE	 => \Sentry\Breadcrumb::LEVEL_INFO,
-		);
-
-		foreach ($logs as $log)
-		{
-			\Sentry\addBreadcrumb(new \Sentry\Breadcrumb($syslogLevels[$log[1]], \Sentry\Breadcrumb::TYPE_DEFAULT, $log[2], $log[0]));
-		}
+		
 	}
 
 	public static function captureException(Exception $e)
 	{
-		\Sentry\SentrySdk::getCurrentHub()->captureEvent($payload);
+		
 	}
 
 }

@@ -2114,7 +2114,7 @@ class BookingTrackLog extends CActiveRecord
 		if ($trackCount < $unSyncData['cnt'])
 		{
 			BookingTrail::updateDrvApiSyncErrorFlag($bkgId, true);
-			//\Sentry\captureException("Driver API sync Error :=> Request => " . json_encode($request));
+			
 		}
 		else
 		{

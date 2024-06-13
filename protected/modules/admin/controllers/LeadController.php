@@ -2119,7 +2119,7 @@ class LeadController extends Controller
 	{
 		$csr		 = UserInfo::getUserId();
 		$returnSet	 = ServiceCallQueue::processUnAssignment($csr);
-		\Sentry\captureMessage(json_encode($returnSet), null);
+		
 		return $returnSet;
 	}
 

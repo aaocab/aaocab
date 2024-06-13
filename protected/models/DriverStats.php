@@ -274,7 +274,7 @@ class DriverStats extends CActiveRecord
 		$model->drv_last_loc_long	 = $data['lon'];
 		if ($data['lat'] == "" || $data['lat'] == NULL)
 		{
-			\Sentry\captureMessage("No location update from app: " . json_encode($data));
+			
 		}
 		$model->drv_last_loc_date		 = new CDbExpression("now()");
 		$model->drv_last_loc_device_id	 = $data['deviceId'];
