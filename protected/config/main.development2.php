@@ -140,7 +140,7 @@ return array(
 		'PickupAlertEmail'		 => 'sudiptaroy@aaocab.in',
 		'listPerPage'			 => 10,
 		//'googleApiKey' =>  'AIzaSyCqR35KdPZlwpZvKMzKItFMCgvUB4dPgkI',
-		'googleBrowserApiKey'	 => 'AIzaSyAAUZ_f3QMu8ZUQXZaDIfeaVP7Saj0FKTc',
+		'googleBrowserApiKey'	 => 'AIzaSyDXyFO8-Fp3tqCm4iTCjcMZ0NzwokDwOtA',
 		'googleApiKey'			 => 'AIzaSyAAUZ_f3QMu8ZUQXZaDIfeaVP7Saj0FKTc',
 		// 'googleBrowserApiKey' => 'AIzaSyDSnSYwrDs3LysZFAnoC6gNtdZbUYnqOW0',
 		'domain'				 => '.localhost',
@@ -235,27 +235,15 @@ return array(
 			'apikey'		 => array(
 				//'0' => 'AIzaSyAAUZ_f3QMu8ZUQXZaDIfeaVP7Saj0FKTc', //delta-tuner-265308
 				//'0' => 'AIzaSyDghPDCwW9R5cnl_Rb4Ys5JXUA4k3XP3sk', //my-test-project
-				'0' => 'AIzaSyBR2PY1_R8tavxIUwuYj7_kpMkqmcgTMYI',//new api key
+				'0' => 'AIzaSyDXyFO8-Fp3tqCm4iTCjcMZ0NzwokDwOtA',//new api key
 			//'0' => 'AIzaSyDuXfacqrcxMriDPWCKrWjJucUM-KdfGUk', //my-test-project, gozotech1.ddns.net
 			),
 			'browserapikey'	 => array(
 				//'0' => 'AIzaSyAAUZ_f3QMu8ZUQXZaDIfeaVP7Saj0FKTc', //delta-tuner-265308
 				//'0' => 'AIzaSyDghPDCwW9R5cnl_Rb4Ys5JXUA4k3XP3sk', //my-test-project
-				'0' => 'AIzaSyBR2PY1_R8tavxIUwuYj7_kpMkqmcgTMYI',//new api key
+				'0' => 'AIzaSyDXyFO8-Fp3tqCm4iTCjcMZ0NzwokDwOtA',//new api key
 			//'0' => 'AIzaSyDuXfacqrcxMriDPWCKrWjJucUM-KdfGUk', //my-test-project, gozotech1.ddns.net
 			),
-		),
-		'mapMyIndia'			 => array(
-			'apikey'		 => array(
-				'0' => '54fbfc51-e88e-4f0d-94d9-2d0195b74818', //my-test-project
-			),
-			'browserapikey'	 => array(
-				'0' => '54fbfc51-e88e-4f0d-94d9-2d0195b74818', //my-test-project
-			),
-		),
-		'firebase'				 => array(
-			'apiKey' => 'AAAADHwGjKY:APA91bGZdHlaMmP_zYej6qeesdcz3ivmEUujQjMZuVCGqk2043TCBEg5T-pe_mDQ0GYpxKQDQZqX2Fnmt-37YHsqMCb1cMfQ1ClxavibMI8bOc6NWDgqrQPvNH-Idfg5LYur6M2wrG9c'
-//			'apiKey' => 'AAAAZqv1r9w:APA91bHuP6dKvc2UFkXqqdA8aI8c6iVvh0x0r-tEv-G0ieIK-5kBRYV20KsBeNTt-fLGyV3nHpu-kkH1IXx8_1JklCsgE5CjzwqRJdyEYTMWg-thluFhJcSg_MjGZerQwzqFdAZqfEnc'
 		),
 	),
 );
