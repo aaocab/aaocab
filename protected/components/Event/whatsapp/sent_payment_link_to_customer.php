@@ -28,7 +28,7 @@ try
 	$pickupTime		 = $datePickupDate->format('j/M/y h:i A');
 
 	$buttonUrl	 = ltrim(BookingUser::getPaymentLinkByPhone($bkgModel->bkg_id), '/');
-	$paymentUrl	 = 'https://gozo.cab/' . $buttonUrl;
+	$paymentUrl	 = 'https://aao.cab/' . $buttonUrl;
 
 	$phoneNo = WhatsappLog::getPhoneNoByBookingId($bkgModel->bkg_id);
 	if (!$phoneNo)

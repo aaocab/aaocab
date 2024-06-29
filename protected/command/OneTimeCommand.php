@@ -819,7 +819,7 @@ class OneTimeCommand extends BaseCommand
 	
 	public function actionEverestFleetQR()
 	{
-		$qrLink			 = 'https://gozo.cab/c/gozo-vndfleet';
+		$qrLink			 = 'https://aao.cab/c/gozo-vndfleet';
 		$uniqueQrCode	 = 'gozo-vndfleet';
 		$contactId		 = 1116119;
 
@@ -2113,7 +2113,7 @@ class OneTimeCommand extends BaseCommand
 				$ext = "91";
 				#$number	 = "9831100164";
 				$sms = new Messages();
-				$msg = 'Dear Driver Partner, thank you for signing up. Download the app using https://c.gozo.cab/rMnyi and complete the profile to receive cab bookings - aaocab';
+				$msg = 'Dear Driver Partner, thank you for signing up. Download the app using https://c.aao.cab/rMnyi and complete the profile to receive cab bookings - aaocab';
 				$res = $sms->sendMessage($ext, $number, $msg, 0);
 
 				echo "\r\n" . $sqlUpd = "UPDATE test.sms_driver SET sent = 1 WHERE smd_id = {$smd_id}";

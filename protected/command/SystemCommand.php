@@ -4039,7 +4039,7 @@ class SystemCommand extends BaseCommand
 		{
 			try
 			{
-				$url		 = "https://gozo.cab/c/" . $val['qrc_code'];
+				$url		 = "https://aao.cab/c/" . $val['qrc_code'];
 				$userId		 = $val['user_id'];
 				$contactId	 = $val['ctt_id'];
 				Users::CustomerReferrals($userId, $contactId, $url, "10%");
