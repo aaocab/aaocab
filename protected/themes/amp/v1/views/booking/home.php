@@ -293,8 +293,8 @@ if ($type == 'route')
 				{
 					?>
 					<h3 class="mt0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Can I book shared taxi from  <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
-					Yes, you can book AC <a href="http://www.aaocab.com/shared-taxi/<?= $arr_url[0] ?>-<?= $arr_url[1] ?>">shared taxi and shuttle services from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>.</a> Gozo SHARE is a outstation shared taxi service which you can use to sell unused seats in the taxi that you have already booked with us or if you are looking to buy unused seats and carpool in a cab that someone else has booked. 
-					<a href="http://www.aaocab.com/GozoSHARE">Gozo SHARE</a> is our way to help customers save even more money when you are traveling by Gozo Cabs. 
+					Yes, you can book AC <a href="http://www.aaocab.com/shared-taxi/<?= $arr_url[0] ?>-<?= $arr_url[1] ?>">shared taxi and shuttle services from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>.</a> aaocab SHARE is a outstation shared taxi service which you can use to sell unused seats in the taxi that you have already booked with us or if you are looking to buy unused seats and carpool in a cab that someone else has booked. 
+					<a href="http://www.aaocab.com/aaocabSHARE">aaocab SHARE</a> is our way to help customers save even more money when you are traveling by aaocab Cabs. 
 					If your travel plans are firm, book the taxi and use the FLEXXI SHARE option to sell your unused seats. If someone else is selling unused seats in their car, then you can simply book the seats that are offered on the website.
 					<br/>
 		<?php
@@ -384,9 +384,9 @@ if ($type == 'route')
 	?>
 
 		<div id="desc1" class="page-content">
-			<h3 class="mt20 mb0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Why use Gozo Cabs from  <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
+			<h3 class="mt20 mb0" title="<?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> Taxi">Why use aaocab Cabs from  <?= $rmodel->rutFromCity->cty_name ?> ​​to <?= $rmodel->rutToCity->cty_name ?>?</h3>
 			Our mission is to simplify inter-city travel
-			Gozo means DELIGHT and JOY! Travelling with aaocab, you will be overjoyed. For
+			aaocab means DELIGHT and JOY! Travelling with aaocab, you will be overjoyed. For
 			we know what runs in your mind while booking an inter-city taxi: <br/>
 
 			<ul class="list">
@@ -401,7 +401,7 @@ if ($type == 'route')
 					knowledgeable, and experienced.</li>
 			</ul>
 
-			Stop worrying and go Gozo!<br/><br/>
+			Stop worrying and go aaocab!<br/><br/>
 			Find the best prices, best services, well maintained & commercially licensed vehicles
 			and courteous drivers with us! With our carefully & diligently selected network of reliable
 			operators, we not only ensure easy bookings, quality service and best prices but also
@@ -497,7 +497,7 @@ if ($type == 'route')
 			?>
 
 			<br/>
-			With GOZO Cab Driver you don't have to bother about anything. Just sit back and enjoy the beauty. <br/><br/><br/>
+			With aaocab Cab Driver you don't have to bother about anything. Just sit back and enjoy the beauty. <br/><br/><br/>
 			<?php
 			$citylinks2 = CityLinks::model()->getCitylinks($model->bkg_to_city_id, 2);
 			if (count($citylinks2) > 0)

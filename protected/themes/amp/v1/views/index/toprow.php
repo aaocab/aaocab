@@ -34,7 +34,7 @@ if ($isLoggedin)
 				<li><a href="<?= Yii::app()->createUrl('index/index'); ?>">New Booking</a></li>
 				<li><a href="<?= Yii::app()->createUrl('booking/list'); ?>">Booking History</a></li>
 				<li><a href="<?= Yii::app()->createUrl('users/refer'); ?>">Refer friends</a></li>
-				<li><a href="<?= Yii::app()->createUrl('users/creditlist'); ?>">Gozo Coins</a></li>
+				<li><a href="<?= Yii::app()->createUrl('users/creditlist'); ?>">aaocab Coins</a></li>
 				<li><a href="<?= Yii::app()->createUrl('users/changePassword') ?>"><nobr>Change Password</nobr></a></li> 
 <? } ?>
 				<li><a href="/agent/join">Become an agent</a></li>
@@ -80,7 +80,7 @@ if ($isLoggedin)
 				<li><a href="<?= Yii::app()->createUrl('index/index'); ?>">New Booking</a></li>
 				<li><a href="<?= Yii::app()->createUrl('booking/list'); ?>">Booking History</a></li>
 				<li><a href="<?= Yii::app()->createUrl('users/refer'); ?>">Refer friends</a></li>
-				<li><a href="<?= Yii::app()->createUrl('users/creditlist'); ?>">Gozo Coins</a></li>
+				<li><a href="<?= Yii::app()->createUrl('users/creditlist'); ?>">aaocab Coins</a></li>
 				<li><a href="<?= Yii::app()->createUrl('users/changePassword') ?>"><nobr>Change Password</nobr></a></li> 
 <? } ?>
 				<li><a href="/agent/join">Become an agent</a></li>
@@ -112,7 +112,7 @@ if (!$isLoggedin) {
 		(+91) 90518-77-000 
 	</a>
 	<a href="tel:+16507414696" style="text-decoration: none">
-		<amp-img width="16" height="15" src="/images/worl-icon.png" alt="International"></amp-img> (+1) 650-741-GOZO
+		<amp-img width="16" height="15" src="/images/worl-icon.png" alt="International"></amp-img> (+1) 650-741-aaocab
 	</a>
 </div>
 

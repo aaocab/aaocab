@@ -242,11 +242,11 @@ if ($type == 'city')
                 	<div class="content" itemscope="" itemtype="https://schema.org/FAQPage">
 						<p class="mt20">
 								If you are looking for a reliable, convenient, and affordable cab service from <?= $cmodel->cty_name ?>, look no further 
-								than Gozo cabs. Gozo cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
+								than aaocab cabs. aaocab cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
 								You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
 								and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
-								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
-								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
+								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, aaocab cabs has you covered. 
+								aaocab cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
 							</p>
 							<section>
 									<h4 class="mb0 mt20">FAQs About <?= $cmodel->cty_name ?> Cabs</h4>
@@ -312,10 +312,10 @@ if ($type == 'city')
 						<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 						<!--fb like button-->
 					</h2>
-					Rent a Gozo cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
-					Gozo cab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
+					Rent a aaocab cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. aaocab provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
+					aaocab cab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
 					If you prefer to hire specific brands of cars like Innova or Swift Dzire then book our Assured Sedan or Assured SUV cab categories. You are guaranteed a Toyota Innova when you book an Assured SUV or guaranteed a Swift Dzire when you book an Assured Sedan. 
-					With Gozo you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. Gozo provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. Gozo partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the  <?= $cmodel->cty_name; ?> area.
+					With aaocab you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. aaocab provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. aaocab partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the  <?= $cmodel->cty_name; ?> area.
 					<div class="mt20">
 							<div class="main_time text-center">
 								<div class="car_box2">
@@ -550,11 +550,11 @@ if ($type == 'city')
 					<div class="content" itemscope="" itemtype="https://schema.org/FAQPage">
 						<p>
 								If you are looking for a reliable, convenient, and affordable cab service from <?= $cmodel->cty_name ?>, look no further 
-								than Gozo cabs. Gozo cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
+								than aaocab cabs. aaocab cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
 								You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
 								and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
-								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
-								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
+								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, aaocab cabs has you covered. 
+								aaocab cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
 							</p>
 							<section>
 									<h4 class="mb0 mt30">FAQs About <?= $cmodel->cty_name ?> Cabs</h4>
@@ -620,10 +620,10 @@ if ($type == 'city')
 						<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 						<!--fb like button-->
 					</h2>
-					Rent a Gozo cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
-					Gozo cab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
+					Rent a aaocab cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. aaocab provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
+					aaocab cab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
 					If you prefer to hire specific brands of cars like Innova or Swift Dzire then book our Assured Sedan or Assured SUV cab categories. You are guaranteed a Toyota Innova when you book an Assured SUV or guaranteed a Swift Dzire when you book an Assured Sedan. 
-					With Gozo you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. Gozo provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. Gozo partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the  <?= $cmodel->cty_name; ?> area.
+					With aaocab you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. aaocab provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. aaocab partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the  <?= $cmodel->cty_name; ?> area.
 					<div class="mt20">
 							<div class="main_time text-center">
 								<div class="car_box2">
@@ -830,11 +830,11 @@ if ($type == 'city')
                 	<div class="content" itemscope="" itemtype="https://schema.org/FAQPage">
 						<p>
 								If you are looking for a reliable, convenient, and affordable cab service from <?= $cmodel->cty_name ?>, look no further 
-								than Gozo cabs. Gozo cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
+								than aaocab cabs. aaocab cabs is the best <a href="/app">cab booking app</a> that offers you a wide range of options to choose from, such as compact, sedans, SUVs, and tempo travellers. 
 								You can book a taxi service near you in just a few clicks and enjoy a hassle-free ride with professional drivers, 
 								and <a href="http://www.aaocab.com/blog/billing-transparency/">transparent pricing</a>. 
-								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, Gozo cabs has you covered. 
-								Gozo cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
+								Whether you need a cab for a local trip, an outstation journey, or an airport transfer, aaocab cabs has you covered. 
+								aaocab cabs is the best cab booking app for cheap and reliable taxi booking. You can also save money by availing of the various discounts and offers that aaocab provides to its customers.
 							</p>
                             <section>
                                     <h4 class="mb0 mt30">FAQs About <?= $cmodel->cty_name ?> Cabs</h4>
@@ -900,10 +900,10 @@ if ($type == 'city')
 						<div class="fb-like" data-href="https://facebook.com/aaocab" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
 						<!--fb like button-->
 					</h2>
-					Rent a Gozo cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
-					Gozo cab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
+					Rent a aaocab cab with driver for local and outstation travel in  <?= $cmodel->cty_name; ?>. aaocab provides taxis with driver on rent in  <?= $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around  <?= $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around  <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in  <?= $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day
+					aaocab cab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
 					If you prefer to hire specific brands of cars like Innova or Swift Dzire then book our Assured Sedan or Assured SUV cab categories. You are guaranteed a Toyota Innova when you book an Assured SUV or guaranteed a Swift Dzire when you book an Assured Sedan. 
-					With Gozo you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. Gozo provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. Gozo partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the  <?= $cmodel->cty_name; ?> area.
+					With aaocab you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. aaocab provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. aaocab partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the  <?= $cmodel->cty_name; ?> area.
 					<div class="mt20">
 							<div class="main_time text-center">
 								<div class="car_box2">

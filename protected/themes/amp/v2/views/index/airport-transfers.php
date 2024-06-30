@@ -96,7 +96,7 @@ $multi ="multitrip";
 
 		<div class="row-amp">
 			<div>
-				<h4><?= $cmodel->cty_name; ?>  Airport Transfers, with Gozo’s airport transfer service</h4>
+				<h4><?= $cmodel->cty_name; ?>  Airport Transfers, with aaocab’s airport transfer service</h4>
 				<p>  
 					<?php if ($cmodel->is_luxury_city)
 				    { ?>
@@ -107,12 +107,12 @@ $multi ="multitrip";
 						</div>
 				   <?php } ?>
 			</div>
-            Gozo Offers a hassle-free airport transfer cabs booking option at a cheaper price from <?= $cmodel->cty_name; ?> Airport to anywhere you want, be it in intercity, one-way or outstation or anything Gozo covers it all by just clicking Gozo app from your smartphone or from aaocab official website. Book online the cheapest and best Airport cab booking service from the airport to anywhere in India with Gozo. 
-           <p>Airport, why wait in long lines for taxi or try to figure out the local transport options when you can have your driver waiting at the airport to pick you up. We can have you driver be waiting for you at arrivals, help you with your luggage and answer any questions you may have about your journey. All our our airport pickup drivers are local and in many cases, can understand English. You will receive the phone contact details of your driver my email and SMS, so you can be worry-free. <a href="https://support.aaocab.com">Gozo’s 24x7 customer support</a> is available by phone or chat should you need any assistance.</p>
+            aaocab Offers a hassle-free airport transfer cabs booking option at a cheaper price from <?= $cmodel->cty_name; ?> Airport to anywhere you want, be it in intercity, one-way or outstation or anything aaocab covers it all by just clicking aaocab app from your smartphone or from aaocab official website. Book online the cheapest and best Airport cab booking service from the airport to anywhere in India with aaocab. 
+           <p>Airport, why wait in long lines for taxi or try to figure out the local transport options when you can have your driver waiting at the airport to pick you up. We can have you driver be waiting for you at arrivals, help you with your luggage and answer any questions you may have about your journey. All our our airport pickup drivers are local and in many cases, can understand English. You will receive the phone contact details of your driver my email and SMS, so you can be worry-free. <a href="https://support.aaocab.com">aaocab’s 24x7 customer support</a> is available by phone or chat should you need any assistance.</p>
 		   <div class="full-width-img">
 			<amp-img width="290px" height="210px" class="lozad" src="/images/airport-transfers-img2.png?v1.1" alt="Airport Transfers2" ></amp-img>
 		   </div>
-			   <h4 class="text-center mt10">Gozo’s Airport transfers for <?= $cmodel->cty_name; ?>  - Lowest cost & best service</h4>
+			   <h4 class="text-center mt10">aaocab’s Airport transfers for <?= $cmodel->cty_name; ?>  - Lowest cost & best service</h4>
 			   <div class="thumb-box">
 				   <div class="advance-panel"><amp-img src="/images/img6.png?v=2.02" alt="Meet & greet" width="100" height="100"></amp-img></div>
 				   <h4 class="m0 mt10">Meet & greet</h4>
@@ -162,8 +162,8 @@ $multi ="multitrip";
                             <li><i class="fa fa-thumbs-up"></i> Hassle-free booking</li> 
 						</ul>
 					</div>
-					<h3>Gozo is available to you for your travel to and beyond <?= $cmodel->cty_name; ?> </h3>
-					Gozo is with you on your travel to or From <?= $cmodel->cty_name; ?>  and  throughout India. Our cabs are available for simple one-way intercity and outstation drops to cities like  
+					<h3>aaocab is available to you for your travel to and beyond <?= $cmodel->cty_name; ?> </h3>
+					aaocab is with you on your travel to or From <?= $cmodel->cty_name; ?>  and  throughout India. Our cabs are available for simple one-way intercity and outstation drops to cities like  
 						<?php
 						foreach ($top_city_arr as $top_city)
 						{
@@ -178,8 +178,8 @@ $multi ="multitrip";
 							//echo $top_city;
 							echo '<a href="/book-taxi/' . strtolower($top_city) . '-' . $cmodel->cty_name . '">' . $top_city . '</a>, ';
 						}
-						?> Travel to and from <?= $cmodel->cty_name; ?>  can be done by booking your one-way trip, round-trip, customized multi-city itinerary in a AC sedan, SUVs or for larger groups to take tempo travellers (minibus) in <?= $cmodel->cty_name; ?> . Backpackers or the adventurous travellers may option for booking <a href="http://www.aaocab.com/GozoSHARE">shared outstation cabs</a></p>
-						<p>Gozo can be on stand-by for you throughout your travels in India. Booking your chauffeur service with Gozo couldn’t be easier. Simply visit Gozo’s website or use the Gozo mobile app to book from your smartphone.
+						?> Travel to and from <?= $cmodel->cty_name; ?>  can be done by booking your one-way trip, round-trip, customized multi-city itinerary in a AC sedan, SUVs or for larger groups to take tempo travellers (minibus) in <?= $cmodel->cty_name; ?> . Backpackers or the adventurous travellers may option for booking <a href="http://www.aaocab.com/aaocabSHARE">shared outstation cabs</a></p>
+						<p>aaocab can be on stand-by for you throughout your travels in India. Booking your chauffeur service with aaocab couldn’t be easier. Simply visit aaocab’s website or use the aaocab mobile app to book from your smartphone.
 						</p>
 						<?php
 						//$city_has_airport = $top_city_arr;
@@ -187,7 +187,7 @@ $multi ="multitrip";
 						{
 							$count=0;
 							?>                                       
-							<p>Gozo’s chauffeur driven airport pickup and dropoff is available for  
+							<p>aaocab’s chauffeur driven airport pickup and dropoff is available for  
 								<?php
 								foreach ($city_has_airport as $top_city)
 								{
@@ -203,7 +203,7 @@ $multi ="multitrip";
 									}
 								}
 								?> 
-								 You can take advantage of Gozo’s nationwide reach and network by booking our intercity taxi or taking a packaged trip anywhere in India.</p>
+								 You can take advantage of aaocab’s nationwide reach and network by booking our intercity taxi or taking a packaged trip anywhere in India.</p>
 
 						<?php } ?>
 							<h3>Luxury chauffeur driven car rentals and limos in <?= $cmodel->cty_name; ?> </h3>

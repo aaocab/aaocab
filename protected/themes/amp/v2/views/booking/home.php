@@ -543,7 +543,7 @@ if ($type == 'route')
 		</h2>
 		<h3 class="font14 inline-block">Looking for a reliable and affordable way to book a cab or taxi from <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?>?</h3>
 		<p> Look no
-			further than Gozo Cabs! We are India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs. We offer a wide variety of cabs to choose from, including sedans,
+			further than aaocab Cabs! We are India's leading online taxi and cab booking app, offering a wide range of services to meet all your travel needs. We offer a wide variety of cabs to choose from, including sedans,
 			SUVs, Innova and tempo travellers. We also have a team of experienced drivers who will get
 			you to your destination safely and on time. aaocab is the best cab booking app for cheap taxi booking. We offer competitive fares on all our services, and we also offer a variety of discounts and promotions.</p>
 
@@ -731,12 +731,12 @@ if ($type == 'route')
 			</section>
 		<section>
 				<div itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
-					<h2 class="font-16 mb5" itemprop="name">Why is Gozo Cabs the best cab service for travel in India?</h2>
+					<h2 class="font-16 mb5" itemprop="name">Why is aaocab Cabs the best cab service for travel in India?</h2>
 
 					<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer" class="mb15">
-						<div itemprop="text">Gozo is continuously focused on being and staying as India's best taxi service for inter-city or outstation car hire with a driver. 
-							Gozo cabs are the best cab service to hire <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> cab service. Gozo is generally the cheapest in most regions as we keep our margins low and we keep our quality high by ensuring that our cabs and providers are inspected regularly. At the time of onboarding, the taxi operators are whetted for proper licenses and their ability to meet our quality bar. We also provide ongoing training to our drivers.
-							But most importantly Gozo strives to be the best with our support and customer service. Gozo has great reviews on Google & <a href="http://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-Gozo_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" class="color-black weight500">TripAdvisor</a>. Gozo was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.</div>
+						<div itemprop="text">aaocab is continuously focused on being and staying as India's best taxi service for inter-city or outstation car hire with a driver. 
+							aaocab cabs are the best cab service to hire <?= $rmodel->rutFromCity->cty_name ?> to <?= $rmodel->rutToCity->cty_name ?> cab service. aaocab is generally the cheapest in most regions as we keep our margins low and we keep our quality high by ensuring that our cabs and providers are inspected regularly. At the time of onboarding, the taxi operators are whetted for proper licenses and their ability to meet our quality bar. We also provide ongoing training to our drivers.
+							But most importantly aaocab strives to be the best with our support and customer service. aaocab has great reviews on Google & <a href="http://www.tripadvisor.com/Attraction_Review-g304551-d9976364-Reviews-aaocab_Cabs-New_Delhi_National_Capital_Territory_of_Delhi.html" class="color-black weight500">TripAdvisor</a>. aaocab was started with the focus of simplifying car hire for outstation trips and we specialize in one way cabs, round trip journeys and even multi city trips. Car rentals in <?= $rmodel->rutFromCity->cty_name ?> or Car rentals in <?= $rmodel->rutToCity->cty_name ?> are also provided. We offer daily car rentals and also airport transfers in most cities across India.</div>
 					</div>
 				</div>		
 			</section>
