@@ -353,7 +353,7 @@ else
             callback: function (result) {
                 if (result)
                 {
-                    $href = '/admpnl/lead/CloseDispatchCall';
+                    $href = '/aaohome/lead/CloseDispatchCall';
                     jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {},
                         success: function (data)
                         {
@@ -419,7 +419,7 @@ else
 
     function autoAllocateLead(admId, type)
     {
-        $href = '/admpnl/admin/autoAllocateLead';
+        $href = '/aaohome/admin/autoAllocateLead';
         jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {'adm_id': admId, 'type': type},
 
             success: function (data)

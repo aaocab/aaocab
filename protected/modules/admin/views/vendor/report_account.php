@@ -41,8 +41,8 @@ $gozoReceiver	 = AccountLedger::getGozoReceiverLedgerIds();
 //$vndid				 = $_GET['vnd_id'];
 $vndid = $agtId;
 
-$viewLockedAmount	 = Yii::app()->createUrl('admpnl/vendor/Getlockamount', array("vnd_id" => $vndid));
-$viewMetrics		 = Yii::app()->createUrl('admpnl/vendor/ViewMetrics', array("vnd_id" => $vndid));
+$viewLockedAmount	 = Yii::app()->createUrl('aaohome/vendor/Getlockamount', array("vnd_id" => $vndid));
+$viewMetrics		 = Yii::app()->createUrl('aaohome/vendor/ViewMetrics', array("vnd_id" => $vndid));
 ?>
 
 <section id="section7">
@@ -196,7 +196,7 @@ $viewMetrics		 = Yii::app()->createUrl('admpnl/vendor/ViewMetrics', array("vnd_i
 							</td>
 						</tr>
 					</table>
-					<a href="<?php echo Yii::app()->createUrl('admpnl/vendor/refreshVendorAccount', array("vnd_id" => $vndid)); ?>" class = "btn btn-info btn-xm text-center mr50" style="margin-left: 55px">Refresh</a>
+					<a href="<?php echo Yii::app()->createUrl('aaohome/vendor/refreshVendorAccount', array("vnd_id" => $vndid)); ?>" class = "btn btn-info btn-xm text-center mr50" style="margin-left: 55px">Refresh</a>
 				</div>
 				<div class="col-sm-9">
 					<div class="panel panel-default">
@@ -340,7 +340,7 @@ $viewMetrics		 = Yii::app()->createUrl('admpnl/vendor/ViewMetrics', array("vnd_i
 			$checkExportAccess	 = Yii::app()->user->checkAccess("Export");
 			$form				 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 				'id'					 => 'generate-vendor-form', 'enableClientValidation' => true,
-				'action'				 => '/admpnl/vendor/vendoraccount?vnd_id=' . $vndid,
+				'action'				 => '/aaohome/vendor/vendoraccount?vnd_id=' . $vndid,
 				'clientOptions'			 => array(
 					'validateOnSubmit'	 => true,
 					'errorCssClass'		 => 'has-error'
@@ -493,7 +493,7 @@ $viewMetrics		 = Yii::app()->createUrl('admpnl/vendor/ViewMetrics', array("vnd_i
 		$checkExportAccess	 = Yii::app()->user->checkAccess("Export");
 		$form				 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 			'id'					 => 'generate-vendor-form', 'enableClientValidation' => true,
-			'action'				 => '/admpnl/vendor/ledgerpdf',
+			'action'				 => '/aaohome/vendor/ledgerpdf',
 			'clientOptions'			 => array(
 				'validateOnSubmit'	 => true,
 				'errorCssClass'		 => 'has-error'

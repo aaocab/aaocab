@@ -72,67 +72,67 @@ function openLink(linkId)
 {
 	if(linkId == 1)
 	{
-	  var href = '<?= Yii::app()->createUrl("admpnl/developerReport/mmtPushReport"); ?>';
+	  var href = '<?= Yii::app()->createUrl("aaohome/developerReport/mmtPushReport"); ?>';
 	}
 	else if(linkId == 2)
 	{
-		var href = '<?= Yii::app()->createUrl("admpnl/developerReport/mmtReviewReport"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/developerReport/mmtReviewReport"); ?>';
 	}
 	else if(linkId == 3)
 	{
-		var href = '<?= Yii::app()->createUrl("admpnl/developerReport/accountMismatchReport"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/developerReport/accountMismatchReport"); ?>';
 	}
 	else if(linkId == 4)
 	{
-		var href = '<?= Yii::app()->createUrl("admpnl/developerReport/advanceMismatchReport"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/developerReport/advanceMismatchReport"); ?>';
 	}
 	else if(linkId == 5)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/mmtReport"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/mmtReport"); ?>';
 	}
 	else if(linkId == 6)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/tripPurchaseMissing"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/tripPurchaseMissing"); ?>';
 	}
 	else if(linkId == 7)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/tripPurchaseMultipleEntry"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/tripPurchaseMultipleEntry"); ?>';
 	}
 	else if(linkId == 8)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/cashCollectedMissing"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/cashCollectedMissing"); ?>';
 	}
 	else if(linkId == 9)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/cashCollectedMultipleEntries"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/cashCollectedMultipleEntries"); ?>';
 	}
 	else if(linkId == 10)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/advanceMultipleEntries"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/advanceMultipleEntries"); ?>';
 	}
 	else if(linkId == 11)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/partnerCommMultipleEntries"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/partnerCommMultipleEntries"); ?>';
 	}
 	else if(linkId == 12)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/partnerCommMissing"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/partnerCommMissing"); ?>';
 	}
 	else if(linkId == 13)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/partnerReceivableReports"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/partnerReceivableReports"); ?>';
 	}
 	else if(linkId == 14)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/penaltyTypeReports"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/penaltyTypeReports"); ?>';
 	}
 	else if(linkId == 15)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/bookingAmountMismatchReports"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/bookingAmountMismatchReports"); ?>';
 	}
 	else if(linkId == 16)
 	{
-		var href = '<?= Yii::app()->createUrl("/admpnl/developerReport/driverCollectionMismatchReports"); ?>';
+		var href = '<?= Yii::app()->createUrl("/aaohome/developerReport/driverCollectionMismatchReports"); ?>';
 	}
 	window.open(href, '_blank');
 }

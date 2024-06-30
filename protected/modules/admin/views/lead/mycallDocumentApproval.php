@@ -351,7 +351,7 @@ $GLOBALS['time'][9] = $time;
             callback: function (result) {
                 if (result)
                 {
-                    $href = '/admpnl/lead/closeDocumentApprovalCall';
+                    $href = '/aaohome/lead/closeDocumentApprovalCall';
                     jQuery.ajax({type: 'GET', url: $href, dataType: 'json',
                         success: function (data)
                         {
@@ -420,7 +420,7 @@ $GLOBALS['time'][9] = $time;
     });
     function autoAllocateLead(admId, type)
     {
-        $href = '/admpnl/admin/autoAllocateLead';
+        $href = '/aaohome/admin/autoAllocateLead';
         jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {'adm_id': admId, 'type': type},
 
             success: function (data)

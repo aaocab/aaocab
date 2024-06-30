@@ -353,9 +353,9 @@
 					<?php } ?> 	
 
 					</br></br>
-					<a href="<?php echo Yii::app()->createUrl('admpnl/report/zonewise-count'); ?>" target="blank">>> Today's Zone-wise Count Report</a>
+					<a href="<?php echo Yii::app()->createUrl('aaohome/report/zonewise-count'); ?>" target="blank">>> Today's Zone-wise Count Report</a>
 					</br></br>
-					<a href="<?php echo Yii::app()->createUrl('admpnl/generalReport/partnerWiseCountBooking'); ?>" target="blank">>> Partner Booking Report( B2B Other )</a>
+					<a href="<?php echo Yii::app()->createUrl('aaohome/generalReport/partnerWiseCountBooking'); ?>" target="blank">>> Partner Booking Report( B2B Other )</a>
 
 
 				</div>

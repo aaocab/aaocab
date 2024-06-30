@@ -318,7 +318,7 @@ print_r($GLOBALS['time']);
                     }
 
                     //					setTimeout(function(){
-                    //					window.location.href = '<?= Yii::app()->createUrl('admpnl/booking/list?tab=2') ?>';
+                    //					window.location.href = '<?= Yii::app()->createUrl('aaohome/booking/list?tab=2') ?>';
 //					}, 1000);	
                 },
                 error: function () {

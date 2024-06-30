@@ -13,7 +13,7 @@ var Booking = function () {
         $.ajax({
             "type": "POST",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/booking/getamountbyvehicle",
+            "url": $baseUrl + "/aaohome/booking/getamountbyvehicle",
             'async': false,
             data: model,
             success: function (data)
@@ -40,7 +40,7 @@ var Booking = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/booking/getdrivercabdetails",
+            "url": $baseUrl + "/aaohome/booking/getdrivercabdetails",
             data: model,
             success: function (data)
             {
@@ -61,7 +61,7 @@ var Booking = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/booking/getcarmodel",
+            "url": $baseUrl + "/aaohome/booking/getcarmodel",
             data: model,
             success: function (data)
             {
@@ -455,7 +455,7 @@ var Booking = function () {
         $.ajax({
             "type": "POST",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/booking/getAmountByVehiclePackage",
+            "url": $baseUrl + "/aaohome/booking/getAmountByVehiclePackage",
             data: model,
             success: function (data)
             {

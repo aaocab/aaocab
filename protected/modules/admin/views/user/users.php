@@ -219,7 +219,7 @@ if (!empty($dataProvider))
 						return false;
 
 				 }',
-				'url'		 => 'Yii::app()->createUrl("admpnl/user/deactive", array("user_id" => $data[user_id]))',
+				'url'		 => 'Yii::app()->createUrl("aaohome/user/deactive", array("user_id" => $data[user_id]))',
 				'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\user\customer_cancel.png',
 				'visible'	 => '(Yii::app()->user->checkAccess("userDeactive"))',
 				'label'		 => '<i class="fa fa-toggle-on"></i>',

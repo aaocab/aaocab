@@ -180,7 +180,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 //                                    return false;
 //
 //                                }',
-//									'url'		 => 'Yii::app()->createUrl("admpnl/rate/includeairportfee", array("patid" => $data[pat_id],"is_airport_fee_included"=>$data[is_airport_fee_included]))',
+//									'url'		 => 'Yii::app()->createUrl("aaohome/rate/includeairportfee", array("patid" => $data[pat_id],"is_airport_fee_included"=>$data[is_airport_fee_included]))',
 //									'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 //									'visible'	 => '($data[is_airport_fee_included] == 1)',
 //									'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -203,7 +203,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 //                                    return false;
 //
 //                                }',
-//									'url'		 => 'Yii::app()->createUrl("admpnl/rate/includeairportfee", array("ltpid" => $data[ltp_id],"is_airport_fee_included"=>$data[is_airport_fee_included]))',
+//									'url'		 => 'Yii::app()->createUrl("aaohome/rate/includeairportfee", array("ltpid" => $data[ltp_id],"is_airport_fee_included"=>$data[is_airport_fee_included]))',
 //									'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 //									'visible'	 => '($data[is_airport_fee_included] == 0)',
 //									'label'		 => '<i class="fa fa-toggle-on"></i>',

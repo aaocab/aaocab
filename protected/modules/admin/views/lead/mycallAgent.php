@@ -172,7 +172,7 @@ $GLOBALS['time'][9] = $time;
                 debugger;
                 if (result)
                 {
-                    $href = '/admpnl/lead/CloseMyCallAgent';
+                    $href = '/aaohome/lead/CloseMyCallAgent';
                     jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {},
                         success: function (data)
                         {
@@ -241,7 +241,7 @@ $GLOBALS['time'][9] = $time;
     });
     function autoAllocateLead(admId, type)
     {
-        $href = '/admpnl/admin/autoAllocateLead';
+        $href = '/aaohome/admin/autoAllocateLead';
         jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {'adm_id': admId, 'type': type},
 
             success: function (data)

@@ -8,7 +8,7 @@
 		<div class="panel-body">
 	      <div class="col-xs-12" style="margin-bottom:50px">  
 						<div class="col-xs-3"> 
-							<?= CHtml::beginForm(Yii::app()->createUrl('admpnl/generalReport/driverBonus'), "post", ['style' => "margin-bottom: 10px;"]); ?>
+							<?= CHtml::beginForm(Yii::app()->createUrl('aaohome/generalReport/driverBonus'), "post", ['style' => "margin-bottom: 10px;"]); ?>
 							<input type="hidden" id="export" name="export" value="true"/>
 							<input type="hidden" id="export_search" name="export_search" value="<?= $model->search ?>"/>
 							<input type="hidden" id="export_drv_code" name="export_drv_code" value="<?= $model->drv_code ?>"/>

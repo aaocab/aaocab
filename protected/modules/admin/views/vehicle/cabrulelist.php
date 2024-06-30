@@ -295,7 +295,7 @@
 							'active'	 => array(
 								"click"		 => "function(e){   var con = confirm('are you sure want to activate vehicle rules?'); 
                                                         if(con){change_status(this);}}",
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/ruleStatus", array("id" => $data["scr_id"],"scr_active"=>$data[scr_active]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/ruleStatus", array("id" => $data["scr_id"],"scr_active"=>$data[scr_active]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 								'visible'	 => '($data[scr_active] == 0)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -304,7 +304,7 @@
 							'inactive'	 => array(
 								"click"		 => "function(e){   var con = confirm('Are you sure want to deactivate vehicle rules?');
                                                         if(con){change_status(this);}}",
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/ruleStatus", array("id" => $data["scr_id"],"scr_active"=>$data[scr_active]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/ruleStatus", array("id" => $data["scr_id"],"scr_active"=>$data[scr_active]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 								'visible'	 => '($data[scr_active] == 1)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',

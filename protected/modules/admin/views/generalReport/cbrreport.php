@@ -14,9 +14,9 @@
 		$fromdate	 = date('Y-m-d', strtotime(str_replace('-', '-', $booksub->from_date)));
 		$todate		 = date('Y-m-d', strtotime(str_replace('-', '-', $booksub->to_date)));
 		?>
-		<a href="/admpnl/generalReport/cbrdetailsreport/?fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>" target="_blank"> Click To View  CBR's Details Report</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="/admpnl/generalReport/serviceRequests" target="_blank"> Click To View Service Request Report</a> 
+		<a href="/aaohome/generalReport/cbrdetailsreport/?fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>" target="_blank"> Click To View  CBR's Details Report</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="/aaohome/generalReport/serviceRequests" target="_blank"> Click To View Service Request Report</a> 
                  <br>
-                 <a href="/admpnl/scq/cbrStaticalDetailsData?fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>" target="_blank" > Click To View CBR Statistical Data Report</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/admpnl/scq/cbrStaticalCloseData?date=<?php echo $fromdate; ?>" target="_blank" > Click To View CBR Close Statistical Data Report</a> &nbsp;&nbsp;&nbsp;&nbsp; <a target="_blank" href="/admpnl/scq/teamStaticalData/">Click To View Team Report</a> 
+                 <a href="/aaohome/scq/cbrStaticalDetailsData?fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>" target="_blank" > Click To View CBR Statistical Data Report</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="/aaohome/scq/cbrStaticalCloseData?date=<?php echo $fromdate; ?>" target="_blank" > Click To View CBR Close Statistical Data Report</a> &nbsp;&nbsp;&nbsp;&nbsp; <a target="_blank" href="/aaohome/scq/teamStaticalData/">Click To View Team Report</a> 
 	</div>
 </div>
 <div class="row"> 
@@ -123,36 +123,36 @@
 					?>
 				</td>
 				<td class="text-center" width="8%">
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_cbr_created_today ?></a>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($total_cbr_created_today - $total_cbr_created_today7 - $total_cbr_created_today6) ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_cbr_created_today7 ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_cbr_created_today6 ?></a>)
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_cbr_created_today ?></a>
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($total_cbr_created_today - $total_cbr_created_today7 - $total_cbr_created_today6) ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_cbr_created_today7 ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=1&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_cbr_created_today6 ?></a>)
 				</td>
 				<td class="text-center" width="8%">
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_all ?></a>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_active_all - $cbr_active_all7 - $cbr_active_all6) ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_all7 ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_all6 ?></a>)
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_all ?></a>
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_active_all - $cbr_active_all7 - $cbr_active_all6) ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_all7 ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=2&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_all6 ?></a>)
 				</td>				
 								<td class="text-center" width="8%">
 
 
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_before_today ?></a>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_active_created_before_today - $cbr_active_created_before_today7 - $cbr_active_created_before_today6) ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_before_today7 ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_before_today6 ?></a>)
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_before_today ?></a>
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_active_created_before_today - $cbr_active_created_before_today7 - $cbr_active_created_before_today6) ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_before_today7 ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=3&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_before_today6 ?></a>)
 				</td>
 				<td class="text-center" width="8%">
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_today ?></a>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_active_created_today - $cbr_active_created_today7 - $cbr_active_created_today6) ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_today7 ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_today6 ?></a>)
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_today ?></a>
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_active_created_today - $cbr_active_created_today7 - $cbr_active_created_today6) ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_today7 ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=4&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_active_created_today6 ?></a>)
 				</td>
 				<td class="text-center" width="8%">
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_assignaable_now ?></a>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($total_assignaable_now - $total_assignaable_now7 - $total_assignaable_now6) ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_assignaable_now7 ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_assignaable_now6 ?></a>)
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_assignaable_now ?></a>
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($total_assignaable_now - $total_assignaable_now7 - $total_assignaable_now6) ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_assignaable_now7 ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=5&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $total_assignaable_now6 ?></a>)
 				</td>
 				<td class="text-center" width="8%"><?php
 					if ($val['cdt_id'] == 0)
@@ -163,23 +163,23 @@
 					{
                                             
                                             ?>
-                                            <a target="_blank" href="/admpnl/scq/onlineCsr/?cdt_id=<?=$val['cdt_id']; ?>"><?=ServiceCallQueue::getOnlineByCatDepart($val['cdt_id'])?></a>                
+                                            <a target="_blank" href="/aaohome/scq/onlineCsr/?cdt_id=<?=$val['cdt_id']; ?>"><?=ServiceCallQueue::getOnlineByCatDepart($val['cdt_id'])?></a>                
 					<?php }
 					?>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=7&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $val['total_assigned_csr_today'] ?></a>)
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=7&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $val['total_assigned_csr_today'] ?></a>)
 					<?php ?></td>
 				<td class="text-center" width="8%">
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_closed_today ?></a>
-					(<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_closed_today - $cbr_closed_today7 - $cbr_closed_today6) ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_closed_today7 ?></a>|
-					<a target="_blank" href="/admpnl/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_closed_today6 ?></a>)					
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_closed_today ?></a>
+					(<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=2&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= ($cbr_closed_today - $cbr_closed_today7 - $cbr_closed_today6) ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=3&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_closed_today7 ?></a>|
+					<a target="_blank" href="/aaohome/generalReport/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=6&event_by=4&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $cbr_closed_today6 ?></a>)					
 				</td>
 				<td class="text-center" width="8%"><?php
 					if ($val['total_csr_today'] != NULL)
 					{
 						$dateClose=date('d/m/Y', strtotime(str_replace('-', '/', $booksub->from_date)))
 						?>
-						<a target="_blank" href="/admpnl/generalReport/cbrCloseReport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&date=<?php echo $dateClose; ?>&team=<?=$primaryTeamId?>"><?=$val['total_csr_today'] ?></a>
+						<a target="_blank" href="/aaohome/generalReport/cbrCloseReport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&date=<?php echo $dateClose; ?>&team=<?=$primaryTeamId?>"><?=$val['total_csr_today'] ?></a>
 						<?php
 					}
 					else

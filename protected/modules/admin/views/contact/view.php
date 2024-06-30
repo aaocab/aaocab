@@ -54,23 +54,23 @@ if ($type == null)
 		<div class="col-xs-12 mb20">
 			<div style="text-align:center" class="below-buttons">
 				<div class="btn-group1">
-					<a class="btn btn-success btn-sm mb5 mr5" data-toggle="ajaxModal" data-type="Phone"  onclick="return popup(this)" href="<?= Yii::app()->createUrl("admpnl/contact/alternatephone", array("ctt_id" => $model->ctt_id)) ?>"  title="Add Phone" style="display:none;">Add Phone</a>
-					<a class="btn btn-primary btn-sm mb5 mr5" data-toggle="ajaxModal" data-type="Email" onclick="return popup(this)"  href="<?= Yii::app()->createUrl("admpnl/contact/alternateemail", array("ctt_id" => $model->ctt_id)) ?>"  title="Add Email" style="display:none;">Add Email</a>
+					<a class="btn btn-success btn-sm mb5 mr5" data-toggle="ajaxModal" data-type="Phone"  onclick="return popup(this)" href="<?= Yii::app()->createUrl("aaohome/contact/alternatephone", array("ctt_id" => $model->ctt_id)) ?>"  title="Add Phone" style="display:none;">Add Phone</a>
+					<a class="btn btn-primary btn-sm mb5 mr5" data-toggle="ajaxModal" data-type="Email" onclick="return popup(this)"  href="<?= Yii::app()->createUrl("aaohome/contact/alternateemail", array("ctt_id" => $model->ctt_id)) ?>"  title="Add Email" style="display:none;">Add Email</a>
 					<?php
 					if (Yii::app()->request->getParam('viewType') == "driver")
 					{
 						?>
-						<a class="btn btn-warning btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/document/view", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Upload Document" style="">Upload Document</a>
-						<a class="btn btn-danger btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/contact/form", array("ctt_id" => $model->ctt_id, 'type' => 1)) ?>"  title="Modify Contact" style="">Modify Contact</a>
-						<a class="btn btn-primary btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/driver/docapprovallist", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Approve Document" style="">Approve Document</a>	
+						<a class="btn btn-warning btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/document/view", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Upload Document" style="">Upload Document</a>
+						<a class="btn btn-danger btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/contact/form", array("ctt_id" => $model->ctt_id, 'type' => 1)) ?>"  title="Modify Contact" style="">Modify Contact</a>
+						<a class="btn btn-primary btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/driver/docapprovallist", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Approve Document" style="">Approve Document</a>	
 						<?php
 					}
 					else if (Yii::app()->request->getParam('viewType') == "vendor")
 					{
 						?>
-						<a class="btn btn-warning btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/document/view", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Upload Document" style="">Upload Document</a>
-						<a class="btn btn-danger btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/contact/form", array("ctt_id" => $model->ctt_id, 'type' => 3)) ?>"  title="Modify Contact" style="">Modify Contact</a>
-						<a class="btn btn-primary btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/document/docapprovallist", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Approve Document" style="">Approve Document</a>
+						<a class="btn btn-warning btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/document/view", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Upload Document" style="">Upload Document</a>
+						<a class="btn btn-danger btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/contact/form", array("ctt_id" => $model->ctt_id, 'type' => 3)) ?>"  title="Modify Contact" style="">Modify Contact</a>
+						<a class="btn btn-primary btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/document/docapprovallist", array("ctt_id" => $model->ctt_id, 'viewType' => Yii::app()->request->getParam('viewType'))) ?>"  title="Approve Document" style="">Approve Document</a>
 					<?php }
 					?>
 				</div>
@@ -79,7 +79,7 @@ if ($type == null)
 	</div>
 <?php } ?>
 <div class="row text-right">
-<a class="btn btn-danger btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("admpnl/contact/form", array("ctt_id" => $model->ctt_id, 'type' => 1)) ?>"  title="Modify Contact" style="">Modify Contact</a>
+<a class="btn btn-danger btn-sm mb5 mr5"   target="_blank"   href="<?= Yii::app()->createUrl("aaohome/contact/form", array("ctt_id" => $model->ctt_id, 'type' => 1)) ?>"  title="Modify Contact" style="">Modify Contact</a>
 </div>
 <div id="view">
     <div class="row">
@@ -115,7 +115,7 @@ if ($type == null)
 									<?php
 										if($isMerged)
 										{
-									?>		<span id="pan"><a class="btn btn-success btn-xs mb5 mr5"   target="_blank"   href=" <?= Yii::app()->createUrl("admpnl/contact/mergedetails", array("ctt_id" => $model->ctt_id))?>"  title="" style="">Merged(Check Details) </a></span>
+									?>		<span id="pan"><a class="btn btn-success btn-xs mb5 mr5"   target="_blank"   href=" <?= Yii::app()->createUrl("aaohome/contact/mergedetails", array("ctt_id" => $model->ctt_id))?>"  title="" style="">Merged(Check Details) </a></span>
 									<?php
 										}
 										else

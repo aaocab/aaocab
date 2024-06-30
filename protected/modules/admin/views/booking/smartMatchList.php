@@ -69,7 +69,7 @@
 							<?php $this->endWidget(); ?>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-info" title="Smart Match" href="/admpnl/booking/createTrip">Create Trip</a>
+                    <a class="btn btn-sm btn-info" title="Smart Match" href="/aaohome/booking/createTrip">Create Trip</a>
                     <div class="panel panel-default">
                         <div class="panel-body" >
 							<?php

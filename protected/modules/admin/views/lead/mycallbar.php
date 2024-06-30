@@ -347,7 +347,7 @@ else
             callback: function (result) {
                 if (result)
                 {
-                    $href = '/admpnl/lead/CloseBarCall';
+                    $href = '/aaohome/lead/CloseBarCall';
                     jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {},
                         success: function (data)
                         {
@@ -388,7 +388,7 @@ else
                         callback: function (result) {
                             if (result)
                             {
-                                window.location.href = "/admpnl/lead/allocatedLeadByTeam?isAllowed=1&team=" + team;
+                                window.location.href = "/aaohome/lead/allocatedLeadByTeam?isAllowed=1&team=" + team;
                             }
 
                         }
@@ -421,7 +421,7 @@ else
     });
     function autoAllocateLead(admId, type)
     {
-        $href = '/admpnl/admin/autoAllocateLead';
+        $href = '/aaohome/admin/autoAllocateLead';
         jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {'adm_id': admId, 'type': type},
             success: function (data)
             {

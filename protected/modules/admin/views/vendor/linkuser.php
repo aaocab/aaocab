@@ -101,7 +101,7 @@
     function linkUser(vndId) 
 	{
         $.ajax({
-            "url": '<?= Yii::app()->createUrl("admpnl/vendor/link", array("vndId" => "")) ?>' + vndId,
+            "url": '<?= Yii::app()->createUrl("aaohome/vendor/link", array("vndId" => "")) ?>' + vndId,
             "type": "GET",
             "dataType": "html",
             "success": function (data) {

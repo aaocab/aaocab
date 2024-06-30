@@ -407,10 +407,10 @@ if ($model != null)
 																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("admin/booking/list", ['drvid' => $model->drv_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Booking History</a></li>
 																		</ul>
 																		<ul class="pl0">
-																			<li class="mb5"><a  href="/admpnl/contact/view?ctt_id=<?= $data['cr_contact_id'] ?>&viewType=driver" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Contact</a></li>
+																			<li class="mb5"><a  href="/aaohome/contact/view?ctt_id=<?= $data['cr_contact_id'] ?>&viewType=driver" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Contact</a></li>
 																		</ul>  
 																		<ul class="pl0">
-																			<li class="mb5"><a  href="/admpnl/driver/deviceHistory?drvId=<?= $model->drv_id ?>&viewType=driver" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Device History</a></li>
+																			<li class="mb5"><a  href="/aaohome/driver/deviceHistory?drvId=<?= $model->drv_id ?>&viewType=driver" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Device History</a></li>
 																		</ul>
 																		<ul class="pl0">
 																			<li class="mb5"><a onclick="drvLocation(<?= $model->drv_id ?>)" title="Driver Location" target="_blank" ><i class="fas fa-plus mr5 font-11"></i>Driver Location</a></li>
@@ -422,7 +422,7 @@ if ($model != null)
 																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("admin/driver/viewtransaction", ['id' => $model->drv_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Transaction</a></li>
 																		</ul>
 																		<ul class="pl0">
-																			<li class="mb5"><a onclick="addremark(this);return false;" data-title="Add Remark" href ="<?php echo Yii::app()->createUrl("admpnl/driver/addremark", array("drv_id" => $model->drv_id)); ?>"><i class="fas fa-plus mr5 font-11"></i>Add Remark</a></li>
+																			<li class="mb5"><a onclick="addremark(this);return false;" data-title="Add Remark" href ="<?php echo Yii::app()->createUrl("aaohome/driver/addremark", array("drv_id" => $model->drv_id)); ?>"><i class="fas fa-plus mr5 font-11"></i>Add Remark</a></li>
 																		</ul>
 																		<?php
 																		if ($model->drv_user_id != NULL)
@@ -621,7 +621,7 @@ else
 
 	$('#logs').click(function () {
 		var driverId = '<?= $model->drv_id ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/Showlog"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/Showlog"); ?>';
 		$.ajax
 				({
 					url: href,
@@ -637,7 +637,7 @@ else
 
 	$('#documentLogs').click(function () {
 		var driverId = '<?= $model->drv_id ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/documentlog"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/documentlog"); ?>';
 		$.ajax
 				({
 					url: href,
@@ -691,7 +691,7 @@ else
 		var userId = '<?= $model->drv_id ?>';
 		console.log(userId);
 		var type = '3';
-		var href = '<?= Yii::app()->createUrl("admpnl/user/appUsage"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/user/appUsage"); ?>';
 		$.ajax
 				({
 					url: href,
@@ -746,7 +746,7 @@ else
 	{
 		var driverId = '<?= $model->drv_id ?>';
 		var mycall = '<?= $mycall ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/pastTripDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/pastTripDetails"); ?>';
 		$.ajax
 				({
 					"url": href,
@@ -767,7 +767,7 @@ else
 		$('.nav li').removeClass('active');
 		$('#vendordetails').addClass('active');
 		var driverId = '<?= $model->drv_id ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/vndDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/vndDetails"); ?>';
 		$.ajax
 				({
 					"url": href,
@@ -787,7 +787,7 @@ else
 	{
 		var driverId = '<?= $model->drv_id ?>';
 		var mycall = '<?= $mycall ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/scqDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/scqDetails"); ?>';
 		$.ajax
 				({
 					"url": href,
@@ -806,7 +806,7 @@ else
 	function getDocumentsDetails()
 	{
 		var driverId = '<?= $model->drv_id ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/documentDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/documentDetails"); ?>';
 		$.ajax
 				({
 					"url": href,
@@ -825,7 +825,7 @@ else
 	function getCoinDetails()
 	{
 		var driverId = '<?= $model->drv_id ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/driver/getCoinDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/driver/getCoinDetails"); ?>';
 		$.ajax
 				({
 					url: href,

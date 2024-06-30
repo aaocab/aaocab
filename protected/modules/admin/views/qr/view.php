@@ -151,7 +151,7 @@ $imageUrl		 = "/attachments/QR/";
 			$.ajax({
 				type: 'POST',
 				dataType: 'json',
-				url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/qr/approveQr')) ?>',
+				url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/qr/approveQr')) ?>',
 				data: {"btntype": "approve", "id": qrId, 'YII_CSRF_TOKEN': "<?= Yii::app()->request->csrfToken ?>"},
 				success: function (data) {
 					alert(JSON.stringify(data.message));
@@ -168,7 +168,7 @@ $imageUrl		 = "/attachments/QR/";
 			$.ajax({
 				type: 'POST',
 				dataType: 'json',
-				url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/qr/approveQr')) ?>',
+				url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/qr/approveQr')) ?>',
 				data: {"btntype": "rejecte", "id": qrId, 'YII_CSRF_TOKEN': "<?= Yii::app()->request->csrfToken ?>"},
 				success: function (data) {
 					alert(JSON.stringify(data.message));

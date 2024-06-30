@@ -881,7 +881,7 @@ else if ($countMatchList > 20)
                             </div>-->
 <!--                            <div class="col-lg-2  col-md-4 col-sm-6" style="display: flex;">
                                 <div class="panel info-box panel-white" style="width: 100%;">
-                                    <a href="<?= Yii::app()->createAbsoluteUrl('/admpnl/vehicle/carverifydoclist?ctype=boost-verify') ?>" target="_blank">
+                                    <a href="<?= Yii::app()->createAbsoluteUrl('/aaohome/vehicle/carverifydoclist?ctype=boost-verify') ?>" target="_blank">
                                         <div class="panel-body"><div class="info-box-stats">                                        
                                                 <p class="counter"><?= $getBoostVerifyPendingCabs; ?></p> <span class = "info-box-title">Boost verify pending approval cabs</span>
                                             </div></div>
@@ -904,7 +904,7 @@ else if ($countMatchList > 20)
                             <option value="45">45</option>
                         </select> Minutes</div> 
                 </div>
-                <a href="/admpnl/cache/clear?key=dashboard" target="_blank">Clear Dashboard Cache</a>
+                <a href="/aaohome/cache/clear?key=dashboard" target="_blank">Clear Dashboard Cache</a>
             </div> 
 
 
@@ -963,7 +963,7 @@ else if ($countMatchList > 20)
     {
         $.ajax({
             type: "GET",
-            url: '/admpnl/index/dashboard',
+            url: '/aaohome/index/dashboard',
             dataType: "html",
             success: function (response) {
                 var container = document.createElement('div');

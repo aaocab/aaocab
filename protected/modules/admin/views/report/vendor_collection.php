@@ -479,7 +479,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                         return false;
                                                             
                                                     }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/addremark", array("vnd_id" => $data[vnd_id]))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/addremark", array("vnd_id" => $data[vnd_id]))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\add_remarks.png',
 											'visible'	 => '($data[vnd_active] == 1 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -518,7 +518,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                     }
                                                                     return false;    
                                                                     }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/changestatus", array("vnd_id" => $data[vnd_id],"vnd_active"=>$data[vnd_active]))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/changestatus", array("vnd_id" => $data[vnd_id],"vnd_active"=>$data[vnd_active]))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\vendor_unblock.png',
 											'visible'	 => '($data[vnd_active] == 1 && Yii::app()->user->checkAccess("vendorEdit"))',
 											'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -554,7 +554,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                        }
                                                                        return false;
                                                                     }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/changestatus", array("vnd_id" => $data[vnd_id],"vnd_active"=> $data[vnd_active]))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/changestatus", array("vnd_id" => $data[vnd_id],"vnd_active"=> $data[vnd_active]))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\vendor_block.png',
 											'visible'	 => '($data[vnd_active] == 2 && Yii::app()->user->checkAccess("vendorEdit"))',
 											'label'		 => '<i class="fa fa-toggle-off"></i>',
@@ -599,7 +599,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                         return false;
 
                                                                     }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/freeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>1))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/freeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>1))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\unfreeze.png',
 											'visible'	 => '($data[vnd_is_freeze] == 1 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -644,7 +644,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                         return false;
 
                                                                     }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/freeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>0))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/freeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>0))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\freeze.png',
 											'visible'	 => '($data[vnd_is_freeze] == 0 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -688,7 +688,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                             return false;
 
                                                                      }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/administrativefreeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>2))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/administrativefreeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>2))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\admin_unfreeze.png',
 											'visible'	 => '($data[vnd_is_freeze] == 2 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -732,7 +732,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                             return false;
 
                                                                      }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/administrativefreeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>0))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/administrativefreeze", array("vnd_id" => $data[vnd_id],"vnd_is_freeze"=>0))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\admin_freeze.png',
 											'visible'	 => '($data[vnd_is_freeze] == 0 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-off"></i>',
@@ -768,7 +768,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                         }
                                                                         return false;    
                                                                      }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/changecod", array("vnd_id" => $data[vnd_id],"vnd_cod"=>0))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/changecod", array("vnd_id" => $data[vnd_id],"vnd_cod"=>0))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\cod_freeze.png',
 											'visible'	 => '($data[vnd_cod_freeze] == 0 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -804,7 +804,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                                         }
                                                                         return false;
                                                                     }',
-											'url'		 => 'Yii::app()->createUrl("admpnl/vendor/changecod", array("vnd_id" => $data[vnd_id],"vnd_cod"=>1))',
+											'url'		 => 'Yii::app()->createUrl("aaohome/vendor/changecod", array("vnd_id" => $data[vnd_id],"vnd_cod"=>1))',
 											'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\cod_unfreeze.png',
 											'visible'	 => '($data[vnd_cod_freeze] == 1 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 											'label'		 => '<i class="fa fa-toggle-off"></i>',

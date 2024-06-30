@@ -58,7 +58,7 @@
                                         });
                                     return false;
                                 }',
-                                            'url'      => 'Yii::app()->createUrl("admpnl/admin/adminLogTime", array("csrId" => $data[adm_id],"date"=>date("d/m/Y", strtotime($data["CreateDate"]))))',
+                                            'url'      => 'Yii::app()->createUrl("aaohome/admin/adminLogTime", array("csrId" => $data[adm_id],"date"=>date("d/m/Y", strtotime($data["CreateDate"]))))',
                                             'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\vendor\show_log.png',
                                             'label'    => '<i class="fa fa-list"></i>',
                                             'options'  => array('data-toggle' => 'ajaxModal',

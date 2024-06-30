@@ -12,7 +12,7 @@ this.getVehicleList = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/vehicle/getvehicle",
+            "url": $baseUrl + "/aaohome/vehicle/getvehicle",
             data: model,
             success: function (data)
             {
@@ -33,7 +33,7 @@ this.getVehicleList = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/vehicle/getdriver",
+            "url": $baseUrl + "/aaohome/vehicle/getdriver",
             data: model,
             success: function (data)
             {

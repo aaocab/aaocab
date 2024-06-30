@@ -209,7 +209,7 @@
                                                         }
                                                         return false;
                                                     }',
-													'url'		 => 'Yii::app()->createUrl("admpnl/admin/changestatus", array("adm_id" => $data->adm_id,"adm_active"=>1))',
+													'url'		 => 'Yii::app()->createUrl("aaohome/admin/changestatus", array("adm_id" => $data->adm_id,"adm_active"=>1))',
 													'imageUrl'	 => false,
 													'visible'	 => '$data->adm_active == 1',
 													'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -237,7 +237,7 @@
                                                         }
                                                         return false;
                                                     }',
-													'url'		 => 'Yii::app()->createUrl("admpnl/admin/changestatus", array("adm_id" => $data->adm_id,"adm_active"=>2))',
+													'url'		 => 'Yii::app()->createUrl("aaohome/admin/changestatus", array("adm_id" => $data->adm_id,"adm_active"=>2))',
 													'imageUrl'	 => false,
 													'visible'	 => '$data->adm_active == 2',
 													'label'		 => '<i class="fa fa-toggle-off"></i>',

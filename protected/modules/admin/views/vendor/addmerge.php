@@ -923,13 +923,13 @@ else
             }
         });
 
-        var url = '<?= Yii::app()->createUrl("admpnl/contact/add?ctt_id="); ?>' + modelContactMerge[index].ctt_id;
+        var url = '<?= Yii::app()->createUrl("aaohome/contact/add?ctt_id="); ?>' + modelContactMerge[index].ctt_id;
         $(".modifyContact").attr("href", url);
     }
 
     function viewDetail(index) {
         var modelVendorMerge = <?php echo ($rowsVendorMerge); ?>;
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/view?id=") ?>' + modelVendorMerge[index].vnd_id;
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/view?id=") ?>' + modelVendorMerge[index].vnd_id;
         $.ajax({
             "url": href,
             "type": "GET",

@@ -15,7 +15,7 @@ var Promo = function ()
 
 			"type": "GET",
 			"dataType": "json",
-			"url": $baseUrl + "/admpnl/promos/getpromodiscount",
+			"url": $baseUrl + "/aaohome/promos/getpromodiscount",
                         "async":false,
 			 data: model,
 			success: function (data)

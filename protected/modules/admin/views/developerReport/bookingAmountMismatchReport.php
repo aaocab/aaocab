@@ -90,11 +90,11 @@
 					    if ($agentsModel->agt_type == 1)
 						{
 							echo $agentsModel->agt_id;
-                            echo "<span class='text-danger'>CORPORATE (<a target='_blank' href='/admpnl/agent/view?agent=$agt_id'>" . ($agentsModel->agt_company . "-" . $owner)  . ")</a><br></span>";
+                            echo "<span class='text-danger'>CORPORATE (<a target='_blank' href='/aaohome/agent/view?agent=$agt_id'>" . ($agentsModel->agt_company . "-" . $owner)  . ")</a><br></span>";
                         } 
 						else
 						{
-                            echo "PARTNER (<a target='_blank' href='/admpnl/agent/view?agent=$agt_id'>" . ($agentsModel->agt_company . "-" . $owner) . ")</a><br>";
+                            echo "PARTNER (<a target='_blank' href='/aaohome/agent/view?agent=$agt_id'>" . ($agentsModel->agt_company . "-" . $owner) . ")</a><br>";
                         }
 					}
 					else

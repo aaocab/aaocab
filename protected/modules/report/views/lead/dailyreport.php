@@ -99,7 +99,7 @@ $form		 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 				'dataProvider'		 => $dataProvider,
 				'responsiveTable'	 => true,
 				'filter'			 => $model,
-				'ajaxUrl'			 => Yii::app()->createUrl('admpnl/lead/dailyleadreport', ['fromDate' => $model->fromDate, 'toDate' => $model->toDate]),
+				'ajaxUrl'			 => Yii::app()->createUrl('aaohome/lead/dailyleadreport', ['fromDate' => $model->fromDate, 'toDate' => $model->toDate]),
 				'htmlOptions'		 => array('class' => 'table-responsive panel panel-primary  compact'),
 				'itemsCssClass'		 => 'table table-striped table-bordered mb0',
 				'template'			 => "<div class='panel-heading'><div class='row m0'>

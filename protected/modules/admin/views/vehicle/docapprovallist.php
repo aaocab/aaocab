@@ -62,7 +62,7 @@ unset($docType[8], $docType[9], $docType[10], $docType[11], $docType[13]);
                     </div>
 					<?php $this->endWidget(); ?>
                     <div>
-                        <a class="btn btn-primary pull-right mt20 mr10" style="text-decoration:none;" href="/admpnl/vehicle/carverifydoclist">Pending approval for boost and cab verification</a></div>
+                        <a class="btn btn-primary pull-right mt20 mr10" style="text-decoration:none;" href="/aaohome/vehicle/carverifydoclist">Pending approval for boost and cab verification</a></div>
                 </div>
                 <div class="docgrid">
                     <div class="col-xs-12">

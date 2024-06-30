@@ -24,7 +24,7 @@
 		/* @var $model Booking */
 		$bkg_id	 = $model->bkg_id;
 
-		$url = $baseURL . "/admpnl/vehicle/assureCabInfo?bkg_id=$bkg_id&show=1";
+		$url = $baseURL . "/aaohome/vehicle/assureCabInfo?bkg_id=$bkg_id&show=1";
 		if ($show == 1)
 		{
 			?>

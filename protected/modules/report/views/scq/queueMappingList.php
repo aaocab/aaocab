@@ -163,7 +163,7 @@ if (!empty($dataProvider))
         $(document).on('click', '.submitData', function () {
             var csr = $("#TeamQueueMapping_csrList").val();
             var teams = $("#TeamQueueMapping_teamList").val();
-            window.location.href = '/admpnl/Scq/FetchList/?csr=' + csr + '&teams=' + teams;
+            window.location.href = '/aaohome/Scq/FetchList/?csr=' + csr + '&teams=' + teams;
         });
     });
 

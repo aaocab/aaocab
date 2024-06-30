@@ -33,7 +33,7 @@ if ($model["scq_id"] != '')
 								<p class="mb5"><b>Home Zone:</b>   <?php echo $vndData['vnd_home_zone']; ?></p>
 								<p class="mb5"><b>Total Completed Trips:</b> <?php echo $vndData['vnd_total_trips']; ?></p>
 								<div class="col-xs-6" ><br/>
-									<a target="_blank" class="" href="/admpnl/vendor/vendoraccount?vnd_id=<?php echo $vndData['vnd_id']; ?>">	
+									<a target="_blank" class="" href="/aaohome/vendor/vendoraccount?vnd_id=<?php echo $vndData['vnd_id']; ?>">	
 										<span class="btn btn-info btn-sm mb5 mr5" >Show Account Details</span>
 									</a>
 								</div>	
@@ -272,7 +272,7 @@ else
             callback: function (result) {
                 if (result)
                 {
-                    $href = '/admpnl/lead/CloseVendorPaymentCall';
+                    $href = '/aaohome/lead/CloseVendorPaymentCall';
                     jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {},
                         success: function (data)
                         {
@@ -336,7 +336,7 @@ else
 
     function autoAllocateLead(admId, type)
     {
-        $href = '/admpnl/admin/autoAllocateLead';
+        $href = '/aaohome/admin/autoAllocateLead';
         jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {'adm_id': admId, 'type': type},
 
             success: function (data)

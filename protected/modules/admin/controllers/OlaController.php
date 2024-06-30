@@ -268,7 +268,7 @@ class OlaController extends Controller
 	{
 		exit;
 		$msg = OlaBookingUpdate::model()->executeUploaded();
-		echo '<div><a type="button" href="/admpnl/ola/uploaddata"  class="btn btn-primary">Upload more data</a></div>';
+		echo '<div><a type="button" href="/aaohome/ola/uploaddata"  class="btn btn-primary">Upload more data</a></div>';
 		echo "<br>" . "<br>";
 		echo $msg;
 

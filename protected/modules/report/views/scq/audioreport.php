@@ -111,7 +111,7 @@
 
     function play(id)
     {
-        var url = '/admpnl/dialer/downloadFile?id=' + id;
+        var url = '/aaohome/dialer/downloadFile?id=' + id;
         $("#play" + id).html("<audio controls><source src='" + url + "'>Your browser does not support the audio element.</audio>");
     }
 </script>

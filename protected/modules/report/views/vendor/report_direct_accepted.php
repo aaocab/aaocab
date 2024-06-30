@@ -155,7 +155,7 @@
                                                             return false;
                                                             
                                                      }',
-									'url'		 => 'Yii::app()->createUrl("admpnl/vendor/administrativefreeze", array("vnd_id" => $data[vnd_id],"vnp_is_freeze"=>0))',
+									'url'		 => 'Yii::app()->createUrl("aaohome/vendor/administrativefreeze", array("vnd_id" => $data[vnd_id],"vnp_is_freeze"=>0))',
 									'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\freeze.png',
 									'visible'	 => '($data[vnp_is_freeze] == 0 && Yii::app()->user->checkAccess("vendorChangestatus"))',
 									'label'		 => '<i class="fa fa-toggle-off"></i>',

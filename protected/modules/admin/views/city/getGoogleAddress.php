@@ -65,7 +65,7 @@ function searchByAddress()
                     var data = JSON.parse(frmcityid); 
                     var lat = data.coordinates.latitude;
                     var long = data.coordinates.longitude;
-                    var href = '<?= Yii::app()->createUrl("admpnl/city/searchRouteByAddress"); ?>';
+                    var href = '<?= Yii::app()->createUrl("aaohome/city/searchRouteByAddress"); ?>';
                    $.ajax({type: 'GET',
                        "url": href,
                        "data": {"latitude": lat, "longitude": long},

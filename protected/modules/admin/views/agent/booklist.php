@@ -137,7 +137,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 			<?php
 			$form = $this->beginWidget('CActiveForm', array(
 				'id'					 => 'frmCSVImport',
-				'action'				 => '/admpnl/agent/importbookings',
+				'action'				 => '/aaohome/agent/importbookings',
 				'enableAjaxValidation'	 => true,
 				'htmlOptions'			 => array('enctype' => 'multipart/form-data'),
 			));
@@ -211,7 +211,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
     </div>
 	<div class="col-xs-12">
 		<button type="button" class="btn btn-success hide" onclick="exportSelected();">Export Selected</button>
-		<a type="button"  href="" id="expUrl" urlval="/admpnl/agent/exportbookings"  class="btn btn-primary hide">Export records</a>
+		<a type="button"  href="" id="expUrl" urlval="/aaohome/agent/exportbookings"  class="btn btn-primary hide">Export records</a>
 
 	</div>
 </div>

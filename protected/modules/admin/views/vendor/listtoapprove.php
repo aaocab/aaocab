@@ -114,7 +114,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 					</div>
 
 					<div class="col-xs-12 col-sm-3 mt10">
-						<?php echo $form->checkboxGroup($model, 'vnd_is_nmi', array('label' => 'Show only pending vendors in NMI zones')); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admpnl/generalReport/zoneCsv" target="_blank">(See Current NMI zones)</a>		
+						<?php echo $form->checkboxGroup($model, 'vnd_is_nmi', array('label' => 'Show only pending vendors in NMI zones')); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/aaohome/generalReport/zoneCsv" target="_blank">(See Current NMI zones)</a>		
 					</div>
 				</div>
 				<div class="row">

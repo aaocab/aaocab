@@ -12,7 +12,7 @@ this.getCityZoneList = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/zone/getcityzone",
+            "url": $baseUrl + "/aaohome/zone/getcityzone",
             data: model,
             success: function (data)
             {
@@ -33,7 +33,7 @@ this.getCityZoneList = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/zone/getvendorcityzone",
+            "url": $baseUrl + "/aaohome/zone/getvendorcityzone",
             data: model,
             success: function (data)
             {

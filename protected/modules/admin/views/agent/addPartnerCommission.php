@@ -84,7 +84,7 @@
 	$(document).on('click', '.submitCommission', function () {
 		$.ajax({
 			"type": "POST",
-			"url": "<?= Yii::app()->createUrl('admpnl/agent/addPartnerCommission', ['agtId' => $agtId, 'ruleId' => $ruleId]) ?>",
+			"url": "<?= Yii::app()->createUrl('aaohome/agent/addPartnerCommission', ['agtId' => $agtId, 'ruleId' => $ruleId]) ?>",
 			'dataType': "json",
 			"data": $("form").serialize(),
 			"success": function (data1) {

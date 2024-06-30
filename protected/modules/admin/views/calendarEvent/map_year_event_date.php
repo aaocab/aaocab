@@ -30,10 +30,10 @@
 
             </div>
             <div class="col-xs-offset-3 col-sm-offset-0 col-xs-6 col-sm-4 col-md-2 text-center mt20 p5"> 
-                <a  class="btn btn-primary full-width" href="/admpnl/CalendarEvent/Create" target="_blank">Create Calendar Event</a> 
+                <a  class="btn btn-primary full-width" href="/aaohome/CalendarEvent/Create" target="_blank">Create Calendar Event</a> 
             </div>
 			<div class="col-xs-offset-3 col-sm-offset-0 col-xs-6 col-sm-4 col-md-2 text-center mt20 p5"> 
-                <a  class="btn btn-primary full-width" href="/admpnl/CalendarEvent/90DCalendar" target="_blank">View 90 Day Calendar</a> 
+                <a  class="btn btn-primary full-width" href="/aaohome/CalendarEvent/90DCalendar" target="_blank">View 90 Day Calendar</a> 
             </div>
 			<?php $this->endWidget(); ?>
         </div>
@@ -60,15 +60,15 @@
 							$holidayId		 = $row['hde_id'];
 							$prevYear		 = date('Y', strtotime('-1 years', strtotime($year . '-01-01')));
 							$prevYearDetails = CalendarEvent::isEventExistForYear($row['hde_id'], $prevYear);
-							$datesArr[0]	 = $prevYearDetails['cnt'] > 0 ? $prevYearDetails['cle_dt']."<br/><br/><a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>Map More</a>" : "<a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>NA</a>";
+							$datesArr[0]	 = $prevYearDetails['cnt'] > 0 ? $prevYearDetails['cle_dt']."<br/><br/><a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>Map More</a>" : "<a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>NA</a>";
 
 							$curYear		 = date('Y', strtotime($year . '-01-01'));
 							$curYearDetails	 = CalendarEvent::isEventExistForYear($row['hde_id'], $curYear);
-							$datesArr[1]	 = $curYearDetails['cnt'] > 0 ? "<a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>" . $curYearDetails['cle_dt'] . "</a>"."<br/><br/><a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>Map More</a>" : "<a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>NA</a>";
+							$datesArr[1]	 = $curYearDetails['cnt'] > 0 ? "<a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>" . $curYearDetails['cle_dt'] . "</a>"."<br/><br/><a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>Map More</a>" : "<a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>NA</a>";
 
 							$nextYear		 = date('Y', strtotime('+1 years', strtotime($year . '-01-01')));
 							$nextYearDetails = CalendarEvent::isEventExistForYear($row['hde_id'], $nextYear);
-							$datesArr[2]	 = $nextYearDetails['cnt'] > 0 ? $nextYearDetails['cle_dt']."<br/><br/><a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>Map More</a>" : "<a target='_blank' href='/admpnl/CalendarEvent/MapEvent?eventId=$holidayId'>NA</a>";
+							$datesArr[2]	 = $nextYearDetails['cnt'] > 0 ? $nextYearDetails['cle_dt']."<br/><br/><a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>Map More</a>" : "<a target='_blank' href='/aaohome/CalendarEvent/MapEvent?eventId=$holidayId'>NA</a>";
 							?>
 							<tr>
 								<td class="text-center"><?= $holidayId ?></td>

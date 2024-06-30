@@ -30,7 +30,7 @@
 						'htmlOptions'		 => array('class' => 'table-responsive panel panel-primary  compact'),
 						'columns'			 => array(
 							array('name'	 => 'bkg_id', 'value'	 => function ($data) {
-									echo CHtml::link($data['bkg_id'], Yii::app()->createUrl("admpnl/booking/view", ["id" => $data['bkg_id']]), ['target' => '_blank']);
+									echo CHtml::link($data['bkg_id'], Yii::app()->createUrl("aaohome/booking/view", ["id" => $data['bkg_id']]), ['target' => '_blank']);
 								}, 'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'			 => 'Booking Id'),
 							array('name' => 'bkg_pickup_date', 'value' => $data['bkg_pickup_date'], 'headerHtmlOptions' => array('class' => 'col-xs-2'), 'sortable' => true, 'header' => 'Pickup Date'),
 							array('name' => 'assigned_mode', 'value' => $data['assigned_mode'], 'headerHtmlOptions' => array('class' => 'col-xs-2'), 'sortable' => true, 'header' => 'Assign Mode'),

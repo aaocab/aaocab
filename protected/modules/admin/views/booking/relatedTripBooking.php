@@ -359,7 +359,7 @@ $checkAccess	 = Yii::app()->user->checkAccess('breakSmartMatch');
 				if (data1.success)
 				{
 					bootbox.alert("Vendor amount update successfully");
-					window.location.href = '/admpnl/booking/list';
+					window.location.href = '/aaohome/booking/list';
 				} else
 				{
 					bootbox.alert(data1.message);

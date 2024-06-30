@@ -93,7 +93,7 @@
 <script>
     $("button.linkforcelogout").on("click", function () {
         var aptToken = $(this).data('id');
-        var href = '<?= Yii::app()->createUrl("admpnl/user/forcelogout"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/forcelogout"); ?>';
         $.ajax
                 ({
                     url: href,

@@ -351,7 +351,7 @@
                                     <td><b>Images Link :</b></td>
                                     <td>
 										<?php
-										echo $docImages != null ? CHtml::link("Show Images", Yii::app()->createUrl("admpnl/scq/ServiceCallBackDoc", ["id" => $record['scq_id']]), ['target' => '_blank']) : '--';
+										echo $docImages != null ? CHtml::link("Show Images", Yii::app()->createUrl("aaohome/scq/ServiceCallBackDoc", ["id" => $record['scq_id']]), ['target' => '_blank']) : '--';
 										?>
 
                                     </td>

@@ -135,7 +135,7 @@ class IndexController extends Controller
 			if ($id != '')
 			{
 				$success = true;
-				$link	 = Yii::app()->createUrl('admpnl/vendor/view') . '?id=' . $id;
+				$link	 = Yii::app()->createUrl('aaohome/vendor/view') . '?id=' . $id;
 			}
 		}
 		else if ($person == 3)
@@ -146,7 +146,7 @@ class IndexController extends Controller
 			if ($id != '')
 			{
 				$success = true;
-				$link	 = Yii::app()->createUrl('admpnl/driver/view') . '?id=' . $id;
+				$link	 = Yii::app()->createUrl('aaohome/driver/view') . '?id=' . $id;
 			}
 		}
 

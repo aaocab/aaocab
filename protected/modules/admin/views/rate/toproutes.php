@@ -56,7 +56,7 @@
 		if ($dataLoaded > 0)
 		{
 			?>                     
-			<a type="button" href="/admpnl/rate/exporttoproute"  class="btn btn-primary mt20">Export <?= $dataLoaded ?> records</a>
+			<a type="button" href="/aaohome/rate/exporttoproute"  class="btn btn-primary mt20">Export <?= $dataLoaded ?> records</a>
 		<? } ?>        
     </div>
 

@@ -39,7 +39,7 @@ $pageno				 = filter_input(INPUT_GET, 'page');
 		<a class="btn btn-primary mb10" onclick="addConfig(this)">Add new</a>
 	</div>	
 	<div class="col-xs-6 pb10 text-right">
-		<a class="btn btn-primary mb10" href="<?= Yii::app()->createUrl('admpnl/cache/refreshConfig') ?>" role="button"><?= "Clean Cache" ?></a>
+		<a class="btn btn-primary mb10" href="<?= Yii::app()->createUrl('aaohome/cache/refreshConfig') ?>" role="button"><?= "Clean Cache" ?></a>
 	</div>
     <div class="col-xs-12 text-center">
 		<?php if (Yii::app()->user->hasFlash('success')): ?>
@@ -167,7 +167,7 @@ $pageno				 = filter_input(INPUT_GET, 'page');
                                                             }
                                                             return false;    
                                                          }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/config/ChangeStatus", array("cfg_id" => $data[cfg_id],"cfg_active"=>1))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/config/ChangeStatus", array("cfg_id" => $data[cfg_id],"cfg_active"=>1))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\active.png',
 							'visible'	 => '($data[cfg_active]==1)',
 							'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -207,7 +207,7 @@ $pageno				 = filter_input(INPUT_GET, 'page');
                                                         }
                                                         return false;
                                                     }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/config/ChangeStatus", array("cfg_id" => $data[cfg_id],"cfg_active"=>0))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/config/ChangeStatus", array("cfg_id" => $data[cfg_id],"cfg_active"=>0))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\inactive.png',
 							'visible'	 => '($data[cfg_active]==0)',
 							'label'		 => '<i class="fa fa-toggle-off"></i>',

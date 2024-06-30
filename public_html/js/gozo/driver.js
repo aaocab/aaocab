@@ -12,7 +12,7 @@ this.getDriverState = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/driver/cityfromstate1",
+            "url": $baseUrl + "/aaohome/driver/cityfromstate1",
             data: model,
             success: function (data)
             {
@@ -33,7 +33,7 @@ this.getDriverState = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/driver/cityfromstate1",
+            "url": $baseUrl + "/aaohome/driver/cityfromstate1",
             data: model,
             success: function (data)
             {

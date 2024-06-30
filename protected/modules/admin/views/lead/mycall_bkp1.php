@@ -317,11 +317,11 @@
 		//alert(typeid);
 		if(typeid == 1)
 		{
-		$href = '/admpnl/booking/CurrentlyAssignedDetails';
+		$href = '/aaohome/booking/CurrentlyAssignedDetails';
 		}
 		else
 		{
-		$href = '/admpnl/lead/CurrentlyAssignedDetails';	
+		$href = '/aaohome/lead/CurrentlyAssignedDetails';	
 		}
         jQuery.ajax({type: 'GET', url: $href,dataType: 'html', data: {"bkg_id": bkg_id},
             success: function (data)
@@ -344,7 +344,7 @@
 		{
 		if(csrid!='' && userid!='')
 		{
-		$href = '/admpnl/lead/CloseCall';	
+		$href = '/aaohome/lead/CloseCall';	
         jQuery.ajax({type: 'GET', url: $href,dataType: 'json', data: {"userid": userid,"csrid": csrid,"bkgid": bkgid},
             success: function (data)
             {
@@ -362,7 +362,7 @@
 		}
 		else
 		{
-		$href = '/admpnl/lead/CloseCallAll';	
+		$href = '/aaohome/lead/CloseCallAll';	
         jQuery.ajax({type: 'GET', url: $href,dataType: 'json', data: {"csrid": csrid,"bkgid": bkgid},
             success: function (data)
             {
@@ -383,7 +383,7 @@
     {
         var $booking_id = <?= $result['bkg_id'] ?>;
         //alert('hjhj');
-        $href = '/admpnl/lead/addfollowup';
+        $href = '/aaohome/lead/addfollowup';
         jQuery.ajax({type: 'GET', url: $href, data: {"bkg_id": $booking_id},
             success: function (data)
             {
@@ -402,7 +402,7 @@
     $('.leadfollow').click(function ()
     {
         var $booking_id = <?= $result['bkg_id'] ?>;
-        $href = '/admpnl/lead/leadfollow';
+        $href = '/aaohome/lead/leadfollow';
         jQuery.ajax({type: 'GET', url: $href, data: {"bkg_id": $booking_id},
             success: function (data)
             {

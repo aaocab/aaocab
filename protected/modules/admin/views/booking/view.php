@@ -664,7 +664,7 @@ if ($pgmodel)
 			if ($model->bkgTrail->btr_drv_api_sync_error)
 			{
 				?>
-				<a class="btn btn-success btn-sm" target="_blank" href="/admpnl/driver/syncfail?bookingId=<?php echo $model->bkg_booking_id; ?>" title="Show Sync Fail Log">Show Sync Fail Log</a>
+				<a class="btn btn-success btn-sm" target="_blank" href="/aaohome/driver/syncfail?bookingId=<?php echo $model->bkg_booking_id; ?>" title="Show Sync Fail Log">Show Sync Fail Log</a>
 			<?php } ?>
 		</div>  
 	</div> 
@@ -896,14 +896,14 @@ if ($pgmodel)
 
 										if ($agentsModel->agt_type == 1)
 										{
-											echo "<span class='text-danger'>CORPORATE (<a target='_blank' href='/admpnl/agent/view?agent=$model->bkg_agent_id'>" . ($agentsModel->agt_company) . ")</a><br></span>";
+											echo "<span class='text-danger'>CORPORATE (<a target='_blank' href='/aaohome/agent/view?agent=$model->bkg_agent_id'>" . ($agentsModel->agt_company) . ")</a><br></span>";
 											echo "CORPORATE BOOKING. CLEAN CAR. WELL BEHAVED DRIVER.<br>";
 											echo "Customer Due <i class='fa fa-inr'></i>" . $model->bkgInvoice->bkg_due_amount;
 										}
 										else
 										{
 											$owner = ($agentsModel->agt_owner_name != '') ? $agentsModel->agt_owner_name : ($agentsModel->agt_fname . " " . $agentsModel->agt_lname);
-											echo "PARTNER (<a target='_blank' href='/admpnl/agent/view?agent=$model->bkg_agent_id'>" . ($agentsModel->agt_company . "-" . $owner) . ")</a><br>";
+											echo "PARTNER (<a target='_blank' href='/aaohome/agent/view?agent=$model->bkg_agent_id'>" . ($agentsModel->agt_company . "-" . $owner) . ")</a><br>";
 											echo "<b>Booking Referral ID: <span class='text-info'>" . $referenceCode . "</span></b>";
 										}
 										if ($model->bkgPref->bkg_is_corporate == 1)

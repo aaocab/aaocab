@@ -75,7 +75,7 @@
 						<?php echo CHtml::submitButton('Submit', array('class' => 'btn btn-primary')); ?></div>
 					
 					<div class="col-md-6 text-right" >
-						<a href="<?= Yii::app()->createUrl('admpnl/developerReport/query') ?>"><div class="btn btn-primary"><i class="fa fa-plus"></i> Add Query </div></a>&nbsp;
+						<a href="<?= Yii::app()->createUrl('aaohome/developerReport/query') ?>"><div class="btn btn-primary"><i class="fa fa-plus"></i> Add Query </div></a>&nbsp;
 					</div></div>
 				</div>
 			<?php $this->endWidget(); ?>

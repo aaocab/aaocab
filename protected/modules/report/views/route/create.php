@@ -14,10 +14,10 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
             </div> 
 
             <div class="col-xs-offset-3 col-sm-offset-0 col-xs-6 col-sm-4 col-md-2 text-center mt20 p5"> 
-                <a  class="btn btn-primary full-width" href="/admpnl/CalendarEvent/MapYearEventDate" target="_blank">View event Calendar</a> 
+                <a  class="btn btn-primary full-width" href="/aaohome/CalendarEvent/MapYearEventDate" target="_blank">View event Calendar</a> 
             </div>
 			<div class="col-xs-offset-3 col-sm-offset-0 col-xs-6 col-sm-4 col-md-2 text-center mt20 p5"> 
-                <a  class="btn btn-primary full-width" href="/admpnl/CalendarEvent/90DCalendar" target="_blank">View 90 Day Calendar</a> 
+                <a  class="btn btn-primary full-width" href="/aaohome/CalendarEvent/90DCalendar" target="_blank">View 90 Day Calendar</a> 
             </div>
         </div>
         <div class="row">

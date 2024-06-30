@@ -113,7 +113,7 @@ if (!empty($dataProvider))
                                                                     }
                                                                     return false;
                                                     }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $data->agt_id,"agt_approve"=>1))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $data->agt_id,"agt_approve"=>1))',
 						//'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 						'visible'	 => '($data->agt_approved==0 || $data->agt_approved==2)',
 						'label'		 => '<i class="fa fa-check" ></i>',
@@ -142,7 +142,7 @@ if (!empty($dataProvider))
                                                                     }
                                                                     return false;
                                                     }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $data->agt_id,"agt_approve"=>0))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $data->agt_id,"agt_approve"=>0))',
 						//  'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\active.png',
 						'visible'	 => '($data->agt_approved==1)',
 						'label'		 => '<i class="fa fa-check" ></i>',
@@ -184,7 +184,7 @@ if (!empty($dataProvider))
                                                                     }
                                                                     return false;
                                                     }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/agent/changetype", array("agt_id" => $data->agt_id))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/agent/changetype", array("agt_id" => $data->agt_id))',
 						'label'		 => '<i class="fa fa-flag" ></i>',
 						'visible'	 => '($data->agt_type!=1)',
 						'options'	 => array('data-toggle' => 'ajaxModal', 'style' => 'padding: 4px ;margin-left: 4px', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-primary changeAgentType', 'title' => 'Change Agent Type')

@@ -670,7 +670,7 @@ class VendorController extends Controller
 				}
 				if ($model == null)
 				{
-					$this->redirect('/admpnl/vendor/list');
+					$this->redirect('/aaohome/vendor/list');
 				}
 
 				$model->scenario				 = 'contactupdate';
@@ -2189,11 +2189,11 @@ class VendorController extends Controller
 			foreach ($records as $rec)
 			{
 				$vendorId	 = $rec['vnd_id'];
-				$ledgerLink	 = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateLedgerForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1) . '&toDate=' . urlencode($date2) . '&email=1');
+				$ledgerLink	 = Yii::app()->createAbsoluteUrl('aaohome/vendor/generateLedgerForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1) . '&toDate=' . urlencode($date2) . '&email=1');
 				$fileArray	 = [0 => ['URL' => $ledgerLink]];
 				if ($invoice == 1)
 				{
-					$invoiceLink = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateInvoiceForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1) . '&toDate=' . urlencode($date2) . '&email=1');
+					$invoiceLink = Yii::app()->createAbsoluteUrl('aaohome/vendor/generateInvoiceForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1) . '&toDate=' . urlencode($date2) . '&email=1');
 					$fileArray	 = [0 => ['URL' => $ledgerLink], 1 => ['URL' => $invoiceLink]];
 				}
 				$attachments	 = json_encode($fileArray);
@@ -4896,7 +4896,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 			$vndid	 = $vnd['vnd_id'];
 		}
 		//the following line will be redirected to vendor View page using id
-		$this->redirect('/admpnl/vendor/view?id=' . $vndid);
+		$this->redirect('/aaohome/vendor/view?id=' . $vndid);
 		$models	 = Vendors::model()->findByPk($vndid);
 		$data	 = Vendors::model()->getViewDetailbyId($vndid);
 		$vndCode = Vendors::model()->getCodebyid($vndid);
@@ -5377,7 +5377,7 @@ WHERE `bcb_lock_vendor_payment` =1 AND (booking.bkg_pickup_date > '2019-04-10 00
 	{
 		$vndID = Yii::app()->request->getParam('vnd_id');
 		VendorStats::updateOutstanding($vndID);
-		$this->redirect('/admpnl/vendor/vendoraccount?vnd_id=' . $vndID);
+		$this->redirect('/aaohome/vendor/vendoraccount?vnd_id=' . $vndID);
 	}
 
 	public function actionvendorVehicleDetails()

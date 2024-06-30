@@ -7,7 +7,7 @@
 </style>
 <div class="row">
 	<div class="col-xs-12  pb10">
-		<a href="/admpnl/generalReport/cbrdetailsreport" target="_blank"> Click To View  CBR Details Report</a>
+		<a href="/aaohome/generalReport/cbrdetailsreport" target="_blank"> Click To View  CBR Details Report</a>
 	</div>
 </div>
 <div class="row"> 
@@ -81,7 +81,7 @@ if (!empty($dataProvider))
 		array
 			(
 			array('name'	 => 'csrName', 'value'	 => function($data) {
-					echo CHtml::link($data['csrName'], Yii::app()->createUrl("admpnl/generalReport/cbrdetailsreport", ["csrId" => $data['csrId']]), ['target' => '_blank']);
+					echo CHtml::link($data['csrName'], Yii::app()->createUrl("aaohome/generalReport/cbrdetailsreport", ["csrId" => $data['csrId']]), ['target' => '_blank']);
 				}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'CSR Name'),
 			array('name'	 => 'SOcnt', 'value'	 => function ($data) {
 					echo $data['SOcnt'] != null ? $data['SOcnt'] : 0;
@@ -128,7 +128,7 @@ if (!empty($dataProvider))
                                         });
                                     return false;
                                 }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/admin/adminLogTime", array("csrId" => $data[csrId],"fromDate"=>$data[date1],"toDate"=>$data[date2],"cbrcomcls"=>"cbrcomcls"))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/admin/adminLogTime", array("csrId" => $data[csrId],"fromDate"=>$data[date1],"toDate"=>$data[date2],"cbrcomcls"=>"cbrcomcls"))',
 						'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\show_log.png',
 						'label'		 => '<i class="fa fa-list"></i>',
 						'options'	 => array('data-toggle'	 => 'ajaxModal',

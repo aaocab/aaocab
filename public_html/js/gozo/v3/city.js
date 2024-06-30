@@ -15,7 +15,7 @@ var City = function ()
             "type": "GET",
             "dataType": "json",
             async: false,
-            "url": $baseUrl + "/admpnl/city/getnames",
+            "url": $baseUrl + "/aaohome/city/getnames",
             data: model,
             success: function (data)
             {
@@ -38,7 +38,7 @@ var City = function ()
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/selectcities",
+            "url": $baseUrl + "/aaohome/city/selectcities",
             data: model,
             success: function (data)
             {
@@ -61,7 +61,7 @@ var City = function ()
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/updateLatLongByAddress",
+            "url": $baseUrl + "/aaohome/city/updateLatLongByAddress",
             data: model,
             success: function (data)
             {
@@ -85,7 +85,7 @@ var City = function ()
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/checkcityname",
+            "url": $baseUrl + "/aaohome/city/checkcityname",
             data: model,
             success: function (data)
             {
@@ -108,7 +108,7 @@ var City = function ()
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/updateRouteDistTime",
+            "url": $baseUrl + "/aaohome/city/updateRouteDistTime",
             data: model,
             success: function (data)
             {
@@ -132,7 +132,7 @@ var City = function ()
 
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/route/routename",
+            "url": $baseUrl + "/aaohome/route/routename",
             data: model,
             success: function (data)
             {
@@ -156,7 +156,7 @@ var City = function ()
 
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/getnames",
+            "url": $baseUrl + "/aaohome/city/getnames",
             data: model,
             success: function (data)
             {
@@ -179,16 +179,16 @@ var City = function ()
 
         if (model.area === '1')
         {
-            model.url = $baseUrl + '/admpnl/zone/getZoneList';
+            model.url = $baseUrl + '/aaohome/zone/getZoneList';
         } else if (model.area === '2')
         {
-            model.url = $baseUrl + '/admpnl/state/getStateList';
+            model.url = $baseUrl + '/aaohome/state/getStateList';
         } else if (model.area === '3')
         {
-            model.url = $baseUrl + '/admpnl/city/getCityList';
+            model.url = $baseUrl + '/aaohome/city/getCityList';
         } else
         {
-            model.url = $baseUrl + '/admpnl/promos/getRegionList';
+            model.url = $baseUrl + '/aaohome/promos/getRegionList';
         }
         $.ajax({
 
@@ -381,17 +381,17 @@ var City = function ()
 		$("#DestinationNote_dnt_area_id2")[0].selectize.clear();
         if (model.area === '1')
         {
-            model.url = $baseUrl + '/admpnl/zone/getZoneList';
+            model.url = $baseUrl + '/aaohome/zone/getZoneList';
         } else if (model.area === '2')
         {
-            model.url = $baseUrl + '/admpnl/state/getStateList';
+            model.url = $baseUrl + '/aaohome/state/getStateList';
         } else if (model.area === '3')
         {            
 			$('#get_area2').show();
 			$('#get_area1').hide();
         } else
         {
-            model.url = $baseUrl + '/admpnl/promos/getRegionList';
+            model.url = $baseUrl + '/aaohome/promos/getRegionList';
         }
 		
 		if (model.area !== '3') 

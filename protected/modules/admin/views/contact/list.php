@@ -82,7 +82,7 @@
 		if (!Yii::app()->request->isAjaxRequest)
 		{
 			?>
-			<a  class="btn btn-primary mb10" href="/admpnl/contact/form" style="text-decoration: none;margin-left: 20px;float:right">Add new</a>
+			<a  class="btn btn-primary mb10" href="/aaohome/contact/form" style="text-decoration: none;margin-left: 20px;float:right">Add new</a>
 		<?php } ?>
 		<?php $this->endWidget(); ?>
     </div>

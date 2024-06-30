@@ -8,7 +8,7 @@
 		<div class="panel-body">
 	      <div class="col-xs-12" style="margin-bottom:50px">  
 						<div class="col-xs-3"> 
-							<?= CHtml::beginForm(Yii::app()->createUrl('admpnl/generalReport/accountingFlagClosedReport'), "post", ['style' => "margin-bottom: 10px;"]); ?>
+							<?= CHtml::beginForm(Yii::app()->createUrl('aaohome/generalReport/accountingFlagClosedReport'), "post", ['style' => "margin-bottom: 10px;"]); ?>
 							<input type="hidden" id="export" name="export" value="true"/>
 							<input type="hidden" id="export_search" name="export_search" value="<?= $model->search ?>"/>
 							<input type="hidden" id="export_from_date" name="export_from_date" value="<?= $model->from_date ?>"/>

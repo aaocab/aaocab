@@ -131,7 +131,7 @@ var AdminBooking = function ()
             $.ajax({
                 "type": "GET",
                 "dataType": "json",
-                "url": $baseUrl + "/admpnl/user/linkedusers",
+                "url": $baseUrl + "/aaohome/user/linkedusers",
                 "async": false,
                 data: model,
                 "success": function (data)
@@ -196,7 +196,7 @@ var AdminBooking = function ()
 		{
 			jQuery.ajax({
 				type: 'GET',
-				url: $baseUrl + '/admpnl/user/details',
+				url: $baseUrl + '/aaohome/user/details',
 				dataType: 'html',
 				data: {"user": user},
 				success: function(data)
@@ -228,7 +228,7 @@ var AdminBooking = function ()
 		{
 			jQuery.ajax({
 				type: 'GET',
-				url: $baseUrl + '/admpnl/user/view',
+				url: $baseUrl + '/aaohome/user/view',
 				dataType: 'html',
 				data: {"id": user},
 				success: function(data)
@@ -332,7 +332,7 @@ var AdminBooking = function ()
 			}
 			$('#pickup_div').hide();
 			$(this.elmRoute).attr('disabled', 'disabled');
-			$href = $baseUrl + '/admpnl/booking/multicityform?bookingType=' + $bkgtype;
+			$href = $baseUrl + '/aaohome/booking/multicityform?bookingType=' + $bkgtype;
 			jQuery.ajax({type: 'GET', url: $href, async: false,
 				success: function(data)
 				{
@@ -350,7 +350,7 @@ var AdminBooking = function ()
 		}
 		else if ($bkgtype == '4')
 		{
-			$href = $baseUrl + '/admpnl/booking/airportTransfer';
+			$href = $baseUrl + '/aaohome/booking/airportTransfer';
 			jQuery.ajax({type: 'GET', dataType: "HTML", url: $href, async: false,
 				success: function(data)
 				{
@@ -360,7 +360,7 @@ var AdminBooking = function ()
 		}
 		else if ($bkgtype == '15')
 		{	
-			$href = $baseUrl + '/admpnl/booking/railwayBusTransfer';
+			$href = $baseUrl + '/aaohome/booking/railwayBusTransfer';
 			jQuery.ajax({type: 'GET', dataType: "HTML", url: $href, async: false,
 				success: function(data)
 				{
@@ -424,7 +424,7 @@ var AdminBooking = function ()
 			drop_city = $(this.elmToCityId).val();
 			block = 'route';
 		}
-		var href = $baseUrl + '/admpnl/booking/onewayautoaddress';
+		var href = $baseUrl + '/aaohome/booking/onewayautoaddress';
 		var booking_type = bkType;
 		if (booking_type == 1 || booking_type == 9 || booking_type == 10 || booking_type == 11 || booking_type == 8)
 		{
@@ -1398,7 +1398,7 @@ var AdminBooking = function ()
 	{
 		$.ajax({
 			type: 'GET',
-			url: $baseUrl + '/admpnl/agent/bookingpreferences',
+			url: $baseUrl + '/aaohome/agent/bookingpreferences',
 			dataType: 'json',
 			async: false,
 			data: {"agt_id": agtId},
@@ -1500,7 +1500,7 @@ var AdminBooking = function ()
 		if (agtId != '' && agtId != null)
 		{
 			jQuery.ajax({type: 'GET',
-				url: $baseUrl + '/admpnl/agent/agentsbytype',
+				url: $baseUrl + '/aaohome/agent/agentsbytype',
 				dataType: 'json',
 				data: {"agt_id": agtId},
 				async: false,
@@ -1556,7 +1556,7 @@ var AdminBooking = function ()
 		var agent_id = $(this.elmAgtId).val();
 		var agentnotifydata = $('#agentnotifydata').val();
 		jQuery.ajax({type: 'POST',
-			url: $baseUrl + '/admpnl/agent/bookingmsgdefaults',
+			url: $baseUrl + '/aaohome/agent/bookingmsgdefaults',
 			dataType: 'html',
 			data: {"agent_id": agent_id, "notifydata": agentnotifydata, "YII_CSRF_TOKEN": $('input[name="YII_CSRF_TOKEN"]').val()},
 			success: function(data)
@@ -1785,7 +1785,7 @@ var AdminBooking = function ()
             var blockAddress = 0;
             var jqXHR= $.ajax({
             "type": "POST",
-            url: $baseUrl + "/admpnl/booking/getBlokedLocationData",
+            url: $baseUrl + "/aaohome/booking/getBlokedLocationData",
             "dataType": "json",
             "async": false,
             "data": {'jsonData': jsonData, "YII_CSRF_TOKEN": $('input[name="YII_CSRF_TOKEN"]').val()},
@@ -1979,7 +1979,7 @@ var AdminBooking = function ()
 		$.ajax({
 			type: "GET",
 			dataType: "html",
-			url: $baseUrl + "/admpnl/vehicle/VehicleTypeById",
+			url: $baseUrl + "/aaohome/vehicle/VehicleTypeById",
 			async: false,
 			data: {"vehicleId": vehicleId},
 			success: function(data1)
@@ -2077,7 +2077,7 @@ var AdminBooking = function ()
 			$.ajax({
 				type: "GET",
 				dataType: "json",
-				url: $baseUrl + "/admpnl/booking/checkFollowupTiming",
+				url: $baseUrl + "/aaohome/booking/checkFollowupTiming",
 				async: false,
 				data: {"pickupDate": pickupDate, 'pickupTime': pickupTime, 'followupDate': followupDate, 'followupTime': followupTime},
 				success: function(data1)
@@ -2334,7 +2334,7 @@ var AdminBooking = function ()
 		$.ajax({
 			type: 'GET',
 			dataType: "HTML",
-			url: $baseUrl + "/admpnl/booking/multicityform?bookingType=" + bkgtype,
+			url: $baseUrl + "/aaohome/booking/multicityform?bookingType=" + bkgtype,
 			async: false,
 			success: function(data)
 			{
@@ -2357,7 +2357,7 @@ var AdminBooking = function ()
 
 		$.ajax({
 			"type": "POST",
-			"url": $baseUrl + '/admpnl/booking/autoMarkerAddress',
+			"url": $baseUrl + '/aaohome/booking/autoMarkerAddress',
 			"data": {"ctyLat": mapMarkerBound.ctyLat, "ctyLon": mapMarkerBound.ctyLon, "bound": mapMarkerBound.bound, "isCtyAirport": mapMarkerBound.isAirport, "isCtyPoi": mapMarkerBound.isCtyPoi, "locKey": locKey, "loc": location, "airport": mapMarkerBound.airport, "YII_CSRF_TOKEN": $("input[name='YII_CSRF_TOKEN']").val()},
 			"dataType": "HTML",
 			"success": function(data1)
@@ -2524,7 +2524,7 @@ var AdminBooking = function ()
 		sccId = jsonData.bkg_service_class;
 		vctId = jsonData.bkg_vehicle_type_id;
 		$.ajax({type: 'GET',
-			url: $baseUrl + '/admpnl/vehicle/modellist',
+			url: $baseUrl + '/aaohome/vehicle/modellist',
 			dataType: 'json',
 			data: {'sccId': sccId, 'vctId': vctId},
 			success: function(data)

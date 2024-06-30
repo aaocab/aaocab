@@ -349,11 +349,11 @@ class ScqController extends Controller
 					if ($booking_id)
 					{
 
-						$this->redirect('/admpnl/booking/view?id=' . $booking_id . '');
+						$this->redirect('/aaohome/booking/view?id=' . $booking_id . '');
 					}
 					else
 					{
-						$this->redirect('/admpnl/index/dashboard?scq=' . $response . '');
+						$this->redirect('/aaohome/index/dashboard?scq=' . $response . '');
 					}
 				}
 			}

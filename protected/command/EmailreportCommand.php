@@ -66,7 +66,7 @@ class EmailreportCommand extends BaseCommand
 
 		//Yii::setPathOfAlias($alias, $path);
 		// Get cURL resource
-		$url				 = "http://www.aaocab.com/admpnl/report/monthlyreport?email=1";
+		$url				 = "http://www.aaocab.com/aaohome/report/monthlyreport?email=1";
 		$curl				 = curl_init($url);
 		// Set some options - we are passing in a useragent too here
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

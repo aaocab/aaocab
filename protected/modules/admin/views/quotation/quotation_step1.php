@@ -329,7 +329,7 @@ $datacity	 = Cities::model()->getJSON();
         var jsonCabList = JSON.stringify(cabList);
         $.ajax({
             type: "POST",
-            url: '/admpnl/booking/Quotation2',
+            url: '/aaohome/booking/Quotation2',
             data: '{route: "' + jsonRoute + '", cabList: "' + jsonCabList + '"}',
             contentType: "application/json; charset=utf-8",
             dataType: "json",

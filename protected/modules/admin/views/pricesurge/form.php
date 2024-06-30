@@ -733,7 +733,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 		var zid = $(this).val();
 		$existData = $('#PriceSurge_prc_source_zone').select2('data');
 
-		var href2 = '<?= Yii::app()->createUrl("admpnl/pricesurge/getNearByZone"); ?>';
+		var href2 = '<?= Yii::app()->createUrl("aaohome/pricesurge/getNearByZone"); ?>';
 		$.ajax({
 			"url": href2,
 			"type": "GET",
@@ -763,7 +763,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 	$("#srhDestinationZone").change(function () {
 		var zid = $(this).val();
 		$existData = $('#PriceSurge_prc_destination_zone').select2('data');
-		var href2 = '<?= Yii::app()->createUrl("admpnl/pricesurge/getNearByZone"); ?>';
+		var href2 = '<?= Yii::app()->createUrl("aaohome/pricesurge/getNearByZone"); ?>';
 		$.ajax({
 			"url": href2,
 			"type": "GET",
@@ -795,7 +795,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 		var editIDs = '<?= $model->prc_source_zone ?>';
 		if (editIDs != '')
 		{
-			var href2 = '<?= Yii::app()->createUrl("admpnl/pricesurge/getZoneArr"); ?>';
+			var href2 = '<?= Yii::app()->createUrl("aaohome/pricesurge/getZoneArr"); ?>';
 			$.ajax({
 				"url": href2,
 				"type": "GET",
@@ -814,7 +814,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 		var editIDs = '<?= $model->prc_destination_zone ?>';
 		if (editIDs != '')
 		{
-			var href2 = '<?= Yii::app()->createUrl("admpnl/pricesurge/getZoneArr"); ?>';
+			var href2 = '<?= Yii::app()->createUrl("aaohome/pricesurge/getZoneArr"); ?>';
 			$.ajax({
 				"url": href2,
 				"type": "GET",

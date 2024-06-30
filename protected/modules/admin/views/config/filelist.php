@@ -30,7 +30,7 @@
 						'template'			 => '{download}',
 						'buttons'			 => array(
 							'download' => array(
-								'url'		 => 'Yii::app()->createUrl("admpnl/config/download", array("filename" => $data[download_url]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/config/download", array("filename" => $data[download_url]))',
 								'label'		 => '<i class="fa fa-download"></i>',
 								'options'	 => array('style' => '', 'class' => 'btn btn-xs ignoreJobEdit p0', 'title' => 'Download'),
 							),

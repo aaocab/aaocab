@@ -332,7 +332,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 			<?php $this->endWidget(); ?>	
 			<div class="col-xs-offset-3 col-sm-offset-0 col-xs-6 col-sm-2 col-md-1 text-center">   
 					<?php
-					echo CHtml::beginForm(Yii::app()->createUrl('admpnl/pricesurge/list'), "post", ['style' => "margin-top: 24px;"]);
+					echo CHtml::beginForm(Yii::app()->createUrl('aaohome/pricesurge/list'), "post", ['style' => "margin-top: 24px;"]);
 					?>
 					<input type="hidden" id="prc_from_date" name="prc_from_date" value="<?= $model->prc_from_date ?>"/>
 					<input type="hidden" id="prc_source_city" name="prc_source_city" value="<?= $model->prc_source_city ?>"/>

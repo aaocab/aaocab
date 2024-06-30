@@ -156,7 +156,7 @@ Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/plugins/form-typeahe
 <script>
     $('#termsSubject').click(function () {
 
-        window.location.href = '/admpnl/terms/listPoints';
+        window.location.href = '/aaohome/terms/listPoints';
 
     });
 </script>

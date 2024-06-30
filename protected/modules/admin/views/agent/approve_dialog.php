@@ -39,8 +39,8 @@
         </div>  
     </div>
     <div class="row text-center">
-        <a href="<?= Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $model->agt_id, "agt_approve" => 1, "approve" => true)) ?>"  onclick="showMessage(<?= $model->agt_type ?>,<?= $model->agt_commission ?>);"><div class="btn btn-lg btn-success p5">Approve</div></a>
-        <a href="<?= Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $model->agt_id, "agt_approve" => 2, "disapprove" => true)) ?>"><div class="btn btn-lg btn-danger p5">Disapprove</div></a>
+        <a href="<?= Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $model->agt_id, "agt_approve" => 1, "approve" => true)) ?>"  onclick="showMessage(<?= $model->agt_type ?>,<?= $model->agt_commission ?>);"><div class="btn btn-lg btn-success p5">Approve</div></a>
+        <a href="<?= Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $model->agt_id, "agt_approve" => 2, "disapprove" => true)) ?>"><div class="btn btn-lg btn-danger p5">Disapprove</div></a>
     </div>
 </div>
 <script>

@@ -140,7 +140,7 @@
 //    var addnewuserbox;
 //    function adduser(agent_id) {
 //        $.ajax({
-//            "url": '<?= Yii::app()->createUrl("admpnl/agent/addnewuser", array("agt_id" => "")) ?>' + agent_id,
+//            "url": '<?= Yii::app()->createUrl("aaohome/agent/addnewuser", array("agt_id" => "")) ?>' + agent_id,
 //            "type": "GET",
 //            "dataType": "html",
 //            "success": function (data) {

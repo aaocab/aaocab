@@ -94,11 +94,11 @@
 							'htmlOptions'		 => array('class' => 'panel panel-primary compact'),
 							'columns'			 => array(
 								array('name'	 => 'brk_beneficiary_id', 'value'	 => function ($data) {
-										echo CHtml::link($data['brk_beneficiary_id'], Yii::app()->createUrl("admpnl/user/view", ["id" => $data['brk_beneficiary_id']]), ["target" => "_blank"]);
+										echo CHtml::link($data['brk_beneficiary_id'], Yii::app()->createUrl("aaohome/user/view", ["id" => $data['brk_beneficiary_id']]), ["target" => "_blank"]);
 									}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1 '), 'htmlOptions'		 => array('class' => 'text-right'), 'header'			 => 'Beneficiary Id'),
 								array('name'	 => 'brk_benefactor_id',
 									'value'	 => function ($data) {
-										echo CHtml::link($data['brk_benefactor_id'], Yii::app()->createUrl("admpnl/user/view", ["id" => $data['brk_benefactor_id']]), ["target" => "_blank"]);
+										echo CHtml::link($data['brk_benefactor_id'], Yii::app()->createUrl("aaohome/user/view", ["id" => $data['brk_benefactor_id']]), ["target" => "_blank"]);
 									}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-1 text-center'), 'htmlOptions'		 => array('class' => 'text-right'), 'header'			 => 'Benefactor Id'),
 								array('name'	 => 'brk_isfirst_beneficiary',
 									'value'	 => function ($data) {

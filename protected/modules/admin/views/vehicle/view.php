@@ -737,26 +737,26 @@ else
 																<div class="widget-tab-box2 link-infos">
 																	<h1 class="font-16">Actions</h1>
 																	<ul class="pl0">
-																		<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/admpnl/vehicle/docapprovallist", ['cabid' => $model->vhc_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Show and approve doc</a></li>
+																		<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/aaohome/vehicle/docapprovallist", ['cabid' => $model->vhc_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Show and approve doc</a></li>
 																	</ul>
 																	<ul class="pl0">
-																		<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/admpnl/vehicle/add", ['veditid' => $model->vhc_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Edit Vehicle</a></li>
+																		<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/aaohome/vehicle/add", ['veditid' => $model->vhc_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Edit Vehicle</a></li>
 																	</ul>
 																	<ul class="pl0">
 																		<?php
-																		$callDeleteUrl	 = Yii::app()->createUrl("admpnl/vehicle/delvehicle", array("vid" => $model->vhc_id));
+																		$callDeleteUrl	 = Yii::app()->createUrl("aaohome/vehicle/delvehicle", array("vid" => $model->vhc_id));
 																		?>
 																		<li class="mb5"><a onclick="deleteVehicle(this);return false;" data-title="delete" href ="<?php echo $callDeleteUrl; ?>"><i class="fas fa-plus mr5 font-11"></i> Delete Vehicle</a></li>
 																	</ul>  
 																	<ul class="pl0">
 																		<?php
-																		$callMarkBadUrl	 = Yii::app()->createUrl("admpnl/vehicle/markedbadlist", array("vhc_id" => $model->vhc_id));
+																		$callMarkBadUrl	 = Yii::app()->createUrl("aaohome/vehicle/markedbadlist", array("vhc_id" => $model->vhc_id));
 																		?>
 																		<li class="mb5"><a onclick="markBad(this);return false;" data-title="Mark Bad Vehicle" href="<?php echo $callMarkBadUrl; ?>"><i class="fas fa-plus mr5 font-11"></i>Marked Bad Vehicle</a></li>
 																	</ul>
 																	<ul class="pl0">
 																		<?php
-																		$callFreezeUrl	 = Yii::app()->createUrl("admpnl/vehicle/freeze", array("vhc_id" => $model->vhc_id, "vhc_is_freeze" => $model->vhc_is_freeze));
+																		$callFreezeUrl	 = Yii::app()->createUrl("aaohome/vehicle/freeze", array("vhc_id" => $model->vhc_id, "vhc_is_freeze" => $model->vhc_is_freeze));
 																		if ($model->vhc_is_freeze == 1)
 																		{
 																			$objtitle = 'Unfreeze';
@@ -770,12 +770,12 @@ else
 																	</ul>
 																	<ul class="pl0">
 																		<?php
-																		$callStaticalUrl = Yii::app()->createUrl("admpnl/vehicle/updatedetails", array("vhc_id" => $model->vhc_id));
+																		$callStaticalUrl = Yii::app()->createUrl("aaohome/vehicle/updatedetails", array("vhc_id" => $model->vhc_id));
 																		?>
 																		<li class="mb5"><a onclick="staticalData(this);return false;" data-title="Update Statistical Data" href="<?php echo $callStaticalUrl; ?>"><i class="fas fa-plus mr5 font-11"></i>Update Statistical Data</a></li>
 																	</ul>
 																	<ul class="pl0">
-																		<li class="mb5"><a onclick="addremark(this);return false;" data-title="Add Remark" href ="<?php echo Yii::app()->createUrl("admpnl/vehicle/addremark", array("vhc_id" => $model->vhc_id)); ?>"><i class="fas fa-plus mr5 font-11"></i>Add Remark</a></li>
+																		<li class="mb5"><a onclick="addremark(this);return false;" data-title="Add Remark" href ="<?php echo Yii::app()->createUrl("aaohome/vehicle/addremark", array("vhc_id" => $model->vhc_id)); ?>"><i class="fas fa-plus mr5 font-11"></i>Add Remark</a></li>
 																	</ul>
 
 																</div>
@@ -2114,7 +2114,7 @@ else
 					tilte: "delete vehicle",
 					success: function (result) {
 						if (result.success) {
-							window.location.replace("/admpnl/vehicle/list");
+							window.location.replace("/aaohome/vehicle/list");
 						} else {
 							alert('Sorry error occured');
 						}

@@ -116,7 +116,7 @@ if ($model != null)
 									<center>
 										<li role="presentation" class="p10"><b>Cabs next trip</b></li>
 										<li role="presentation" class="p5"><?php echo $nextTripdate; ?></li>
-										<li role="presentation" class="p5"><b><a href="/admpnl/booking/view?id=<?= $nextTripDetails['bkg_id'] ?>" target="_blank"><?php echo $nextTripDetails['bkg_booking_id']; ?></a></b></li>
+										<li role="presentation" class="p5"><b><a href="/aaohome/booking/view?id=<?= $nextTripDetails['bkg_id'] ?>" target="_blank"><?php echo $nextTripDetails['bkg_booking_id']; ?></a></b></li>
 										<li role="presentation" class="p5">(<?php echo $formCityId[0]['cty_name'] . ' to ' . $toCityId[0]['cty_name'] ?>)</li>
 										<li role="presentation" class="p5"><?= Booking::model()->getBookingType($nextTripDetails['bkg_booking_type']); ?></li>
 									</center>
@@ -271,7 +271,7 @@ if ($model != null)
 																				}
 																				else
 																				{
-																					$askForPan = '<a href="/admpnl/document/view?ctt_id=' . $data['cr_contact_id'] . '" target="_blank">ask for PAN</a>';
+																					$askForPan = '<a href="/aaohome/document/view?ctt_id=' . $data['cr_contact_id'] . '" target="_blank">ask for PAN</a>';
 																					echo '<span class="text-danger">PAN missing</span>' /* . $askForPan */;
 																				}
 																				?></b></p>
@@ -431,14 +431,14 @@ if ($model != null)
 																		<h1 class="font-16">Actions</h1>
 																		<ul class="pl0">
 																			<li class="mb5"><a  href="<?php echo Yii::app()->createUrl("admin/booking/list", ['vndid' => $model->vnd_id]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Booking History</a></li>
-																			<li class="mb5"><a  href="/admpnl/contact/view?ctt_id=<?= $data['cr_contact_id'] ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Contact</a></li>
+																			<li class="mb5"><a  href="/aaohome/contact/view?ctt_id=<?= $data['cr_contact_id'] ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Contact</a></li>
 																			<?php
 																			if (Yii::app()->user->checkAccess("vendorChangestatus"))
 																			{
 																				?>
-																				<li class="mb5"><a  href="/admpnl/contact/form?ctt_id=<?= $data['cr_contact_id'] ?>&type=3" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Modify Contact Details</a></li>
+																				<li class="mb5"><a  href="/aaohome/contact/form?ctt_id=<?= $data['cr_contact_id'] ?>&type=3" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Modify Contact Details</a></li>
 																			<?php } ?>
-																			<li class="mb5"><a  href="/admpnl/vendor/vendoraccount?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Show Account Details</a></li>
+																			<li class="mb5"><a  href="/aaohome/vendor/vendoraccount?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Show Account Details</a></li>
 																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("admin/vendor/agreementShowdoc", array('ctt_id' => $data['cr_contact_id'], 'vnd_id' => $model->vnd_id)) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Approve Agreement</a></li>
 																			<li class="mb5"><a onclick="reduceLvl();"><i class="fas fa-plus mr5 font-11"></i>Reduce Level</a></li>
 																			<li class="mb5"><a onclick="updateVendorDetails();"><i class="fas fa-plus mr5 font-11"></i>Manually Update Statistical Data</a></li>
@@ -455,7 +455,7 @@ if ($model != null)
 																					$objtitle = "UnFreeze";
 																				}
 																				?>
-																				<li class="mb5"><a onclick="administrativefreeze(this);return false;" data-title="<?= $objtitle ?>" href ="<?php echo Yii::app()->createUrl("admpnl/vendor/administrativefreeze", array("vnd_id" => $model->vnd_id, "vnp_is_freeze" => $data['vnd_is_freeze'], 'profileview' => true)); ?>"><i class="fas fa-plus mr5 font-11"></i>Administrative <?= $objtitle ?></a></li>
+																				<li class="mb5"><a onclick="administrativefreeze(this);return false;" data-title="<?= $objtitle ?>" href ="<?php echo Yii::app()->createUrl("aaohome/vendor/administrativefreeze", array("vnd_id" => $model->vnd_id, "vnp_is_freeze" => $data['vnd_is_freeze'], 'profileview' => true)); ?>"><i class="fas fa-plus mr5 font-11"></i>Administrative <?= $objtitle ?></a></li>
 																				<?php
 																				if ($data['vnd_cod_freeze'] == 0 && Yii::app()->user->checkAccess("vendorChangestatus"))
 																				{
@@ -466,40 +466,40 @@ if ($model != null)
 																					$objtitle = "UnFreeze";
 																				}
 																				?>
-																				<li class="mb5"><a onclick="codfreeze(this);return false;" data-title="<?= $objtitle ?>" href ="<?php echo Yii::app()->createUrl("admpnl/vendor/changecod", array("vnd_id" => $data['vnd_id'], "vnd_cod" => $data['vnd_cod_freeze'])); ?>"><i class="fas fa-plus mr5 font-11"></i>COD <?= $objtitle ?></a></li>
+																				<li class="mb5"><a onclick="codfreeze(this);return false;" data-title="<?= $objtitle ?>" href ="<?php echo Yii::app()->createUrl("aaohome/vendor/changecod", array("vnd_id" => $data['vnd_id'], "vnd_cod" => $data['vnd_cod_freeze'])); ?>"><i class="fas fa-plus mr5 font-11"></i>COD <?= $objtitle ?></a></li>
 																				<?php
 																				if ($data['vnd_active'] == 1 && Yii::app()->user->checkAccess("vendorChangestatus"))
 																				{
 																					$objtitle	 = 'Block';
-																					$callurl	 = Yii::app()->createUrl("admpnl/vendor/block", array("vnd_id" => $data['vnd_id']));
+																					$callurl	 = Yii::app()->createUrl("aaohome/vendor/block", array("vnd_id" => $data['vnd_id']));
 																				}
 																				else
 																				{
 																					$objtitle	 = "Unblock";
-																					$callurl	 = Yii::app()->createUrl("admpnl/vendor/changestatus", array("vnd_id" => $data[vnd_id], "vnd_active" => 2));
+																					$callurl	 = Yii::app()->createUrl("aaohome/vendor/changestatus", array("vnd_id" => $data[vnd_id], "vnd_active" => 2));
 																				}
 																				?>
 																				<li class="mb5"><a onclick="blockvendor(this);return false;" data-title="<?= $objtitle ?>" href ="<?php echo $callurl; ?>"><i class="fas fa-plus mr5 font-11"></i><?= $objtitle ?> Vendor</a></li>
 																				<?php
 																			}
 																			?>
-																			<li class="mb5"><a onclick="addremark(this);return false;" data-title="Add Remark" href ="<?php echo Yii::app()->createUrl("admpnl/vendor/addremark", array("vnd_id" => $data['vnd_id'])); ?>"><i class="fas fa-plus mr5 font-11"></i>Add Remark</a></li>
-																			<li class="mb5"><a onclick="sendLink(this);return false;" data-title="Send Custom Message" href ="<?php echo Yii::app()->createUrl("admpnl/vendor/sendCustomMessage", array("vnd_id" => $data['vnd_id'])); ?>"><i class="fas fa-plus mr5 font-11"></i>Send Custom Message</a></li>
+																			<li class="mb5"><a onclick="addremark(this);return false;" data-title="Add Remark" href ="<?php echo Yii::app()->createUrl("aaohome/vendor/addremark", array("vnd_id" => $data['vnd_id'])); ?>"><i class="fas fa-plus mr5 font-11"></i>Add Remark</a></li>
+																			<li class="mb5"><a onclick="sendLink(this);return false;" data-title="Send Custom Message" href ="<?php echo Yii::app()->createUrl("aaohome/vendor/sendCustomMessage", array("vnd_id" => $data['vnd_id'])); ?>"><i class="fas fa-plus mr5 font-11"></i>Send Custom Message</a></li>
 																			<?php if(Yii::app()->user->checkAccess("temporaryRatingBoost"))
 																			{
 																			?>
-																			<li class="mb5"><a onclick="addTmpRating(this);return false;" data-title="Temporary Rating" href ="<?php echo Yii::app()->createUrl("admpnl/vendor/tmpRating", array("vnd_id" => $data['vnd_id'])); ?>"><i class="fas fa-plus mr5 font-11"></i>Temporary Ratings boost</a></li>
+																			<li class="mb5"><a onclick="addTmpRating(this);return false;" data-title="Temporary Rating" href ="<?php echo Yii::app()->createUrl("aaohome/vendor/tmpRating", array("vnd_id" => $data['vnd_id'])); ?>"><i class="fas fa-plus mr5 font-11"></i>Temporary Ratings boost</a></li>
 																			<?php
 																			}
 																			?>
-																			<li class="mb5"><a  href="/admpnl/vendor/Getlockamount?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Locked Amount</a></li>
+																			<li class="mb5"><a  href="/aaohome/vendor/Getlockamount?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Locked Amount</a></li>
                                                                            
 																			<?php
 																			
 																			if($data['vrs_dependency']<0 && Yii::app()->user->checkAccess("vendorUnBlockStatus"))
 																			{
 																			?>
-																			<li class="mb5"><a  onclick="addTmpDependency(this);return false;" href="/admpnl/vendor/boostDependency?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Boost Dependency</a></li>
+																			<li class="mb5"><a  onclick="addTmpDependency(this);return false;" href="/aaohome/vendor/boostDependency?vnd_id=<?= $model->vnd_id ?>&type=view" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Boost Dependency</a></li>
 																			<?php
 																			}
 																			?>
@@ -527,7 +527,7 @@ if ($model != null)
 																				</div>
 																				<div class="col-xs-9 pl5">
 																					<h2 class="mt5 mb0"><?= $val['vhc_make'] ?> <?= $val['vhc_model'] ?></h2>
-																					<p class="mb5"><a target="_blank"  href="/admpnl/vehicle/view?code=<?= $val['vhc_code'] ?>" target="_blank"><?= $val['vhc_number'] ?></a></p>
+																					<p class="mb5"><a target="_blank"  href="/aaohome/vehicle/view?code=<?= $val['vhc_code'] ?>" target="_blank"><?= $val['vhc_number'] ?></a></p>
 																					<p class="mb5"><?= date('d M Y', strtotime($val['vhc_created_date'])); ?></p>
 																				</div>
 																			</div>
@@ -563,7 +563,7 @@ if ($model != null)
 																				</div>
 																				<div class="col-xs-9 pl5">
 																					<h2 class="mt5 mb0"><?= $driverDataView['drv_name'] ?> </h2>
-																					<p class="mb5"><a target="_blank"  href="/admpnl/driver/view?code=<?= $driverDataView['drv_code'] ?>" target="_blank"><?= $driverDataView['drv_code'] ?></a></p>
+																					<p class="mb5"><a target="_blank"  href="/aaohome/driver/view?code=<?= $driverDataView['drv_code'] ?>" target="_blank"><?= $driverDataView['drv_code'] ?></a></p>
 																					<p class="mb5"><?= $driverDataView['drv_phone']; ?></p>
 																				</div>
 																			</div>
@@ -853,7 +853,7 @@ else
 		$('.nav li').removeClass('active');
         $('#vehicledetails').addClass('active');
 		var vendorId = '<?= $model->vnd_id ?>';        
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorVehicleDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorVehicleDetails"); ?>';
         $.ajax
 		({
 			url: href,
@@ -876,7 +876,7 @@ else
         $('.nav li').removeClass('active');
         $('#driverdetails').addClass('active');
 		var vendorId = '<?= $model->vnd_id ?>';        
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorDriverDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorDriverDetails"); ?>';
         $.ajax
 		({
 			url: href,
@@ -955,7 +955,7 @@ else
         var userId = '<?= $model->vnd_id ?>';
         var type = '2';
 
-        var href = '<?= Yii::app()->createUrl("admpnl/user/appUsage"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/appUsage"); ?>';
         $.ajax
                 ({
                     url: href,
@@ -975,7 +975,7 @@ else
     function vendorTripDetails() {
         var vendorId = '<?= $model->vnd_id ?>';
         var mycall = '<?= $mycall ?>';
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorTripDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorTripDetails"); ?>';
         $.ajax
                 ({
                     url: href,
@@ -997,7 +997,7 @@ else
     function vendorRatingList() {
         var vendorId = '<?= $model->vnd_id ?>';
         var mycall = '<?= $mycall ?>';
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorRatingList"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorRatingList"); ?>';
         $.ajax
                 ({
                     url: href,
@@ -1299,7 +1299,7 @@ else
     function getAccountDetails()
     {       
 		var vendorId = '<?= $model->vnd_id ?>';        
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorAccountDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorAccountDetails"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1318,7 +1318,7 @@ else
     function getZoneDetails()
     {       
 		var vendorId = '<?= $model->vnd_id ?>';        
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorZoneDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorZoneDetails"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1338,7 +1338,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorProfileStrength"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorProfileStrength"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1358,7 +1358,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorBiddingLog"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorBiddingLog"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1378,7 +1378,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorPenalty"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorPenalty"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1398,7 +1398,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorViewLog"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorViewLog"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1418,7 +1418,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorContactViewLog"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorContactViewLog"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1439,7 +1439,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorScqDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorScqDetails"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1459,7 +1459,7 @@ else
     {        
 		var vendorId = '<?= $model->vnd_id ?>';   
 		var mycall = '<?= $mycall ?>';		     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorNotificationLog"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorNotificationLog"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1478,7 +1478,7 @@ else
     function getVendorOnboarding()
     {        
 		var vendorId = '<?= $model->vnd_id ?>'; 	     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/vendorDocuments"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/vendorDocuments"); ?>';
         $.ajax
 		({
 			url: href,
@@ -1497,7 +1497,7 @@ else
     function getCoinDetails()
     {        
 		var vendorId = '<?= $model->vnd_id ?>'; 	     
-        var href = '<?= Yii::app()->createUrl("admpnl/vendor/getCoinDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/vendor/getCoinDetails"); ?>';
         $.ajax
 		({
 			url: href,

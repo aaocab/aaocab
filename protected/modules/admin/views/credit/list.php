@@ -90,7 +90,7 @@ if ($dataProvider != "")
                                             });
                                             return false;
                                   }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/credit/deactivate", array("id" => $data->ucr_id,"status"=>1))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/credit/deactivate", array("id" => $data->ucr_id,"status"=>1))',
 						'label'		 => '<i class="fa fa-toggle-off"></i>',
 						'visible'	 => '$data->ucr_status==2?true:false',
 						'options'	 => ['style' => 'margin-right: 8px', 'class' => 'btn btn-xs btn-danger credit-detail', 'title' => 'Activate']
@@ -119,7 +119,7 @@ if ($dataProvider != "")
                                             });
                                             return false;
                                   }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/credit/deactivate", array("id" => $data->ucr_id,"status"=>2))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/credit/deactivate", array("id" => $data->ucr_id,"status"=>2))',
 						'label'		 => '<i class="fa fa-toggle-on"></i>',
 						'visible'	 => '$data->ucr_status==1?true:false',
 						'options'	 => ['style' => 'margin-right: 8px', 'class' => 'btn btn-xs btn-success credit-deactivate', 'title' => 'Deactivate']

@@ -104,11 +104,11 @@ if (!empty($dataProvider))
 			(
 //				array('name'	 => 'adm_id', 'value'	 => $data['adm_id'], 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Admin Id'),
 			array('name' => 'FollowupId', 'value' => function ($data) {
-				echo CHtml::link($data['FollowupId'], Yii::app()->createUrl("admpnl/scq/view", ["id" => $data['FollowupId']]), ["class" => "viewFollowup", "onclick" => "", 'target' => '_blank']);
+				echo CHtml::link($data['FollowupId'], Yii::app()->createUrl("aaohome/scq/view", ["id" => $data['FollowupId']]), ["class" => "viewFollowup", "onclick" => "", 'target' => '_blank']);
 			},
 			'sortable' => true, 'headerHtmlOptions' => array('class' => ''), 'header' => 'Followup ID'),
 			array('name' => 'ItemID', 'value' => function ($data) {
-				echo CHtml::link($data['ItemID'], Yii::app()->createUrl("admpnl/booking/view", ["id" => $data['ItemID']]), ["class" => "viewBooking", "onclick" => "", 'target' => '_blank']);
+				echo CHtml::link($data['ItemID'], Yii::app()->createUrl("aaohome/booking/view", ["id" => $data['ItemID']]), ["class" => "viewBooking", "onclick" => "", 'target' => '_blank']);
 			}, 
 			'sortable' => true, 'headerHtmlOptions' => array('class' => ''), 'header' => 'Item ID', 'htmlOptions' => ["class" => "text-center"]),
 			array('name' => 'followUpdDate', 'value' => function ($data) {

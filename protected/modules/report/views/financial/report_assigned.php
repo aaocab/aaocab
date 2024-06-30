@@ -57,7 +57,7 @@ if ($dataProvider != "")
 		'dataProvider'		 => $dataProvider,
 		'responsiveTable'	 => true,
 		'filter'			 => $model,
-		'ajaxUrl'			 => Yii::app()->createUrl('admpnl/report/dailyassignedreport', ['blg_created1' => $model->blg_created1, 'blg_created2' => $model->blg_created2]),
+		'ajaxUrl'			 => Yii::app()->createUrl('aaohome/report/dailyassignedreport', ['blg_created1' => $model->blg_created1, 'blg_created2' => $model->blg_created2]),
 		'htmlOptions'		 => array('class' => 'table-responsive panel panel-primary  compact'),
 		'itemsCssClass'		 => 'table table-striped table-bordered mb0',
 		'template'			 => "<div class='panel-heading'><div class='row m0'>

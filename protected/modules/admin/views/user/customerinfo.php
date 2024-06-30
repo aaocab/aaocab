@@ -557,10 +557,10 @@
 					<h1 class="font-16">Actions</h1>
 
 					<ul class="pl0">
-						<li class="mb5"><a  href="/admpnl/contact/view?ctt_id=<?= $model['ctt_id'] ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Contact</a></li>
+						<li class="mb5"><a  href="/aaohome/contact/view?ctt_id=<?= $model['ctt_id'] ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>View Contact</a></li>
 					</ul>  
 					<ul class="pl0">
-						<li class="mb5"><a  href="/admpnl/user/deviceHistory?userId=<?= $model['user_id'] ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Device History</a></li>
+						<li class="mb5"><a  href="/aaohome/user/deviceHistory?userId=<?= $model['user_id'] ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Device History</a></li>
 					</ul>
 					<?php
 					if (count($UserIdArr) > 0)

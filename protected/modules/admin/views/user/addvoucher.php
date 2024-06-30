@@ -190,7 +190,7 @@ function populateSource(obj, userId)
             var obj = this;
             if ($sourceList == null)
             {
-				var url = '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/user/voucherlistbyquery')) ?>';
+				var url = '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/user/voucherlistbyquery')) ?>';
 				
                 xhr = $.ajax({
                     url: url,
@@ -222,7 +222,7 @@ function populateSource(obj, userId)
     {
       
 		$.ajax({
-			url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/user/voucherlistbyquery')) ?>?&q=' + encodeURIComponent(query),
+			url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/user/voucherlistbyquery')) ?>?&q=' + encodeURIComponent(query),
 			type: 'GET',
 			dataType: 'json',
 			global: false,

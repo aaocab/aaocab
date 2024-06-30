@@ -1617,7 +1617,7 @@ class Vehicles extends CActiveRecord
 			$model	 = VendorVehicle::model()->findByPk($vvhcId);
 			$vhcId	 = $model->vvhc_vhc_id;
 			$version = $model->vvhc_vnd_id . $model->vvhc_vhc_id;
-			$url	 = $baseURL . '/admpnl/vehicle/generateAgreementForVehicle?vvhcId=' . $vvhcId . '&ds=1';
+			$url	 = $baseURL . '/aaohome/vehicle/generateAgreementForVehicle?vvhcId=' . $vvhcId . '&ds=1';
 
 			$url				 = str_replace('./', '', $url);
 			$agreement			 = $this->file_get_contents_curl($url);
@@ -1628,7 +1628,7 @@ class Vehicles extends CActiveRecord
 			$fileArray			 = [0 => ['PATH' => PUBLIC_PATH . "/attachments/vehicles/$vhcId/digitalAgreement_" . $version . ".pdf"]];
 			$attachments		 = json_encode($fileArray);
 			Logger::create($attachments, CLogger::LEVEL_TRACE);
-			$url				 = $baseURL . '/admpnl/vehicle/generateAgreementForVehicle?vvhcId=' . $vvhcId . '&ds=0';
+			$url				 = $baseURL . '/aaohome/vehicle/generateAgreementForVehicle?vvhcId=' . $vvhcId . '&ds=0';
 			$url				 = str_replace('./', '', $url);
 			$agreement			 = $this->file_get_contents_curl($url);
 			$myfile				 = fopen(PUBLIC_PATH . "/attachments/vehicles/$vhcId/draftAgreement_" . $version . ".pdf", "w");

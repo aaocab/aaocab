@@ -64,7 +64,7 @@ class User extends \Beans\contact\Contact
 		$this->$ObjOwner			 = new \Beans\contact\Person();
 		$this->$ObjOwner->setDataByIdV1($contactModel->ctt_id);
 		$basePath		 = \Yii::app()->params['fullAPIBaseURL'];
-		$this->agreementUrl =  $basePath ."/admpnl/vendor/operatorAgreement?vendorId=".$vendorModel->vnd_id;
+		$this->agreementUrl =  $basePath ."/aaohome/vendor/operatorAgreement?vendorId=".$vendorModel->vnd_id;
 	}
 	
 	

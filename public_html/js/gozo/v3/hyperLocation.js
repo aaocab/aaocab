@@ -304,7 +304,7 @@ var HyperLocation = function ()
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: $baseUrl + "/admpnl/city/checkDuplicateCity",
+            url: $baseUrl + "/aaohome/city/checkDuplicateCity",
             async: false,
             data: {'city': city, 'state': state, 'statecode': statecode, 'cLat': latitude, 'cLong': longitude, 'placeId': placeid, 'types': types},
             success: function (data)

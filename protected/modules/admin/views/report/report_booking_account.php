@@ -165,7 +165,7 @@ Yii::import('zii.widgets.CBaseListView');
                                                                     }
                                                                     return false;
                                                     }',
-																'url'		 => 'Yii::app()->createUrl("admpnl/booking/accountflag", array("bkg_id" => $data[bkg_id],"bkg_account_flag"=>$data[bkg_account_flag]))',
+																'url'		 => 'Yii::app()->createUrl("aaohome/booking/accountflag", array("bkg_id" => $data[bkg_id],"bkg_account_flag"=>$data[bkg_account_flag]))',
 																'imageUrl'	 => false,
 																'visible'	 => '$data[bkg_account_flag]==1',
 																'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -193,7 +193,7 @@ Yii::import('zii.widgets.CBaseListView');
                                                                     }
                                                                     return false;
                                                     }',
-																'url'		 => 'Yii::app()->createUrl("admpnl/booking/accountflag", array("bkg_id" => $data[bkg_id],"bkg_account_flag"=>$data[bkg_account_flag]))',
+																'url'		 => 'Yii::app()->createUrl("aaohome/booking/accountflag", array("bkg_id" => $data[bkg_id],"bkg_account_flag"=>$data[bkg_account_flag]))',
 																'imageUrl'	 => false,
 																'visible'	 => '$data[bkg_account_flag] == 0',
 																'label'		 => '<i class="fa fa-toggle-off"></i>',

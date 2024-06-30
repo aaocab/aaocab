@@ -75,7 +75,7 @@
 		if ($olaData > 0)
 		{
 			?>                     
-			<a  type="button" href="/admpnl/ola/executeuploaded"  style="display:none" class="btn btn-primary">Proceed</a>
+			<a  type="button" href="/aaohome/ola/executeuploaded"  style="display:none" class="btn btn-primary">Proceed</a>
 <? } ?>        
     </div>
 

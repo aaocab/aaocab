@@ -261,7 +261,7 @@
 										?>
 									</tbody>
 								</table></div>
-							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data2) ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/admpnl/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data2) ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/aaohome/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 							
 							<div>
 								#Created Amount: Booking Total Amount (Including Cancelled Bookings)<br>
@@ -458,7 +458,7 @@
 
 									</tbody>
 								</table></div>
-							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data1); ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/admpnl/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data1); ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/aaohome/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 						</div>				
 					</div>
 				<?php } ?>
@@ -504,7 +504,7 @@
 										?>
 									</tbody>
 								</table></div>
-							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data3) ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/admpnl/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data3) ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/aaohome/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 						</div>				</div>
 				<?php } ?>
 
@@ -589,7 +589,7 @@
 										?>
 									</tbody>
 								</table></div>
-							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data4) ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/admpnl/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+							<div class="panel-footer"><div class="row m0"><div class="col-xs-12 col-sm-6 p5"><div class="summary">Total <?php echo count($data4) ?> results.</div></div><div class="col-xs-12 col-sm-6 pr0"></div></div></div><div class="keys" style="display:none" title="/aaohome/report/Financial"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 						</div>				</div>
 				<?php } ?>
             </div>  

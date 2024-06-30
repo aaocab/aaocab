@@ -208,7 +208,7 @@ Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/se
 								<div class="col-sm-12">
 								<div class="row">
 									<div class="col-sm-10 mb15"><b>Partner Commission Rule Slab:</b></div>
-									<div class="col-sm-2 mb15"><a class="btn btn-primary mb10" onclick="addCommission(this);return false;" data-title="add" data-toggle ="ajaxModal" href ="<?php echo Yii::app()->createUrl("admpnl/agent/addPartnerCommission", array("agtId" => $model->agt_id)); ?>">Add Commission</a></div>
+									<div class="col-sm-2 mb15"><a class="btn btn-primary mb10" onclick="addCommission(this);return false;" data-title="add" data-toggle ="ajaxModal" href ="<?php echo Yii::app()->createUrl("aaohome/agent/addPartnerCommission", array("agtId" => $model->agt_id)); ?>">Add Commission</a></div>
 									</div>
 									<table class="table table-bordered">
 										<thead>
@@ -231,7 +231,7 @@ Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/se
 													<td><?= ($partnerRules['prc_commission_type'] == 1) ? "Percentage" : "Fixed" ?></td>
 													<td><?= ($partnerRules['prc_commission_value'] != '') ? $partnerRules['prc_commission_value'] : "-" ?></td>
 													<td><?= ($partnerRules['prc_booking_count'] != '') ? $partnerRules['prc_booking_count'] : "-" ?></td>
-													<td><a onclick="addCommission(this);return false;" data-title="Edit" data-toggle ="ajaxModal" href ="<?php echo Yii::app()->createUrl("admpnl/agent/addPartnerCommission", array("agtId" => $model->agt_id, "ruleId" => $partnerRules['prc_id'])); ?>"><img src ="/images/icon/vendor/edit_booking.png"></a></td>
+													<td><a onclick="addCommission(this);return false;" data-title="Edit" data-toggle ="ajaxModal" href ="<?php echo Yii::app()->createUrl("aaohome/agent/addPartnerCommission", array("agtId" => $model->agt_id, "ruleId" => $partnerRules['prc_id'])); ?>"><img src ="/images/icon/vendor/edit_booking.png"></a></td>
 												</tr>
 												<?php
 											}

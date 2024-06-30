@@ -17,7 +17,7 @@
 				{
 					?>
 					<tr>
-						<td><a target="_blank"  href="/admpnl/vehicle/view?code=<?= $cabDataView['vhc_code'] ?>" target="_blank"><?= $cabDataView['vhc_number'] ?></a></td>
+						<td><a target="_blank"  href="/aaohome/vehicle/view?code=<?= $cabDataView['vhc_code'] ?>" target="_blank"><?= $cabDataView['vhc_number'] ?></a></td>
 
 						<td><b><?= $cabDataView['vhc_make'] ?> <?= $cabDataView['vhc_model'] ?></b>
 						</td>
@@ -54,7 +54,7 @@
 							}
 							?>
 						</td>
-						<td><a target="_blank"  href="/admpnl/vendor/view?code=<?= $cabDataView['vnd_code'] ?>" target="_blank"><?= $cabDataView['vnd_code'] ?></a></td>
+						<td><a target="_blank"  href="/aaohome/vendor/view?code=<?= $cabDataView['vnd_code'] ?>" target="_blank"><?= $cabDataView['vnd_code'] ?></a></td>
 
 						<td><?= date('d M Y', strtotime($cabDataView['vhc_created_date'])); ?></td>
 						<td><?= $cabDataView['vht_active'] ?></td>

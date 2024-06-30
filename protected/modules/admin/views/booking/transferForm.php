@@ -46,7 +46,7 @@
 						<div class="col-xs-6 text-danger"><?php echo $onlineExpiredBalance ?></div>
 					</div>
 					<form class="form form-horizontal" name="refundOnlineform" id="payform"  method="POST" 
-						  action="/admpnl/booking/pgrefund">
+						  action="/aaohome/booking/pgrefund">
 						<input type="hidden" name="bkg_id" value="<?php echo $bkgId ?>">
 						<div class="panel panel-default mb0">
 							<div class="panel-body p0">
@@ -94,7 +94,7 @@
 						<a id="showBankDetails" onclick = "showBankDetails()" class="text-left btn btn-info mb5">Edit Bank Details</a>
 						<div class="panel panel-default mb0">
 
-							<form class="form form-horizontal" name="payform" id="payform"  method="POST" action="/admpnl/booking/walletrefund">
+							<form class="form form-horizontal" name="payform" id="payform"  method="POST" action="/aaohome/booking/walletrefund">
 								<input type="hidden" name="bkg_id" value="<?php echo $bkgId ?>">
 								<div class="panel-body p0">
 									<input type="hidden" name="YII_CSRF_TOKEN"  >  

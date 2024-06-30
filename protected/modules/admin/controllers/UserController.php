@@ -2153,7 +2153,7 @@ class UserController extends Controller
 
 	public function actionFinancialReport()
 	{
-		$this->redirect(Yii::app()->homeUrl . 'admpnl/report/financialReport');
+		$this->redirect(Yii::app()->homeUrl . 'aaohome/report/financialReport');
 	}
 
 //        public function createLog($identity, $deviceInfo) {

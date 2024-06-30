@@ -81,7 +81,7 @@ $drvTot		 = Vendors::model()->getCountDriver($model->vnd_id);
                 <div class="row">
                     <div class="col-xs-12 text-center"> 
 
-						<a class="btn btn-success btn-sm dropdown-toggle" target="blank" href="/admpnl/contact/view?ctt_id=<?= $model->vnd_contact_id ?>&type=view" target="_blank">View Contact</a>
+						<a class="btn btn-success btn-sm dropdown-toggle" target="blank" href="/aaohome/contact/view?ctt_id=<?= $model->vnd_contact_id ?>&type=view" target="_blank">View Contact</a>
 						<a class="btn btn-danger font11x" href="<?php echo Yii::app()->createUrl("admin/vendor/vendoraccount", array('vnd_id' => $model->vnd_id)) ?>" target="_blank">Account Info</a>
 						<a class="btn btn-primary font11x" href ="<?php echo Yii::app()->createUrl("admin/document/view", array('ctt_id' => $model->vnd_contact_id, 'viewType' => 'vendor')) ?>" target="_blank" >Document Summary</a>
 						<a class="btn btn-success font11x" onclick="viewLog();">View Log</a>
@@ -223,7 +223,7 @@ $drvTot		 = Vendors::model()->getCountDriver($model->vnd_id);
 							}
 							else
 							{
-								$askForPan = '<a href="/admpnl/document/view?ctt_id=' . $model->vnd_contact_id . '" target="_blank">ask for PAN</a>';
+								$askForPan = '<a href="/aaohome/document/view?ctt_id=' . $model->vnd_contact_id . '" target="_blank">ask for PAN</a>';
 								echo 'PAN missing, ' . $askForPan;
 							}
 							?>

@@ -356,7 +356,7 @@ $markupDisplay	 = ($model->markupCount != '' && $model->markupCount != NULL) ? "
 //												var con = confirm("Are you sure you want to Markup Off?");
 //												return con;
 //												}',
-										'url'		 => 'Yii::app()->createUrl("admpnl/report/changeMarkup", array("dds_key" =>$data[dds_key]))',
+										'url'		 => 'Yii::app()->createUrl("aaohome/report/changeMarkup", array("dds_key" =>$data[dds_key]))',
 										'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 										'visible'	 => '($data[dds_apply_markup] == 1)',
 										'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -367,7 +367,7 @@ $markupDisplay	 = ($model->markupCount != '' && $model->markupCount != NULL) ? "
 //												var con = confirm("Are you sure you want to Markup On?");
 //												return con;
 //												}',
-										'url'		 => 'Yii::app()->createUrl("admpnl/report/changeMarkup", array("dds_key" =>$data[dds_key]))',
+										'url'		 => 'Yii::app()->createUrl("aaohome/report/changeMarkup", array("dds_key" =>$data[dds_key]))',
 										'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 										'visible'	 => '($data[dds_apply_markup] == 0 || $data[dds_apply_markup] == NULL)',
 										'label'		 => '<i class="fa fa-toggle-on"></i>',

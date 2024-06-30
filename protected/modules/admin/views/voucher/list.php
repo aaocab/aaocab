@@ -23,7 +23,7 @@
         </div>    
         <div class="panel panel-default">
             <div class="panel-body">
-				<a class="btn btn-primary mb10" href="/admpnl/voucher/add" style="text-decoration: none">Add new</a>
+				<a class="btn btn-primary mb10" href="/aaohome/voucher/add" style="text-decoration: none">Add new</a>
                 <div class="row text-center h3">				
                 </div>	
                 <div class="row"> 

@@ -501,10 +501,10 @@ else
         {
             var bkg_id = bkg_id;
             var typeid = typeid;
-            $href = '/admpnl/booking/CurrentlyAssignedDetails';
+            $href = '/aaohome/booking/CurrentlyAssignedDetails';
             if (typeid == 2)
             {
-                $href = '/admpnl/booking/CurrentlyAssignedDetails';
+                $href = '/aaohome/booking/CurrentlyAssignedDetails';
             }
             $('#selectedQuote').text(bkg_id);
             jQuery.ajax({type: 'GET', url: $href, dataType: 'html', data: {"bkg_id": bkg_id},
@@ -519,10 +519,10 @@ else
         {
             var bkg_id = bkg_id;
             var typeid = typeid;
-            $href = '/admpnl/lead/CurrentlyAssignedDetails';
+            $href = '/aaohome/lead/CurrentlyAssignedDetails';
             if (typeid == 2)
             {
-                $href = '/admpnl/lead/CurrentlyAssignedDetails';
+                $href = '/aaohome/lead/CurrentlyAssignedDetails';
             }
 
             jQuery.ajax({type: 'GET', url: $href, dataType: 'html', data: {"bkg_id": bkg_id},
@@ -544,7 +544,7 @@ else
             {
                 if (csrid != '')
                 {
-                    $href = '/admpnl/lead/CloseCall';
+                    $href = '/aaohome/lead/CloseCall';
                     jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {"userid": userid, "csrid": csrid, "bkgid": bkgid},
                         success: function (data)
                         {
@@ -573,7 +573,7 @@ else
                 return false;
             }
 
-            $href = '/admpnl/lead/addfollowup';
+            $href = '/aaohome/lead/addfollowup';
             jQuery.ajax({type: 'GET', url: $href, data: {"bkg_id": booking_id},
                 success: function (data)
                 {
@@ -597,7 +597,7 @@ else
                 return false;
             }
 
-            $href = '/admpnl/lead/leadfollow';
+            $href = '/aaohome/lead/leadfollow';
             jQuery.ajax({type: 'GET', url: $href, data: {"bkg_id": booking_id},
                 success: function (data)
                 {
@@ -1229,7 +1229,7 @@ else
 
         function autoAllocateLead(admId, type)
         {
-            $href = '/admpnl/admin/autoAllocateLead';
+            $href = '/aaohome/admin/autoAllocateLead';
             jQuery.ajax({type: 'GET', url: $href, dataType: 'json', data: {'adm_id': admId, 'type': type},
 
                 success: function (data)

@@ -349,7 +349,7 @@ $operatorJson		 = VehicleTypes::model()->getJSON(AccountTransactions::model()->g
 			$checkExportAccess	 = Yii::app()->user->checkAccess("Export");
 			$form				 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 				'id'					 => 'generate-vendor-form', 'enableClientValidation' => true,
-				'action'				 => '/admpnl/vendor/ledgerpdf',
+				'action'				 => '/aaohome/vendor/ledgerpdf',
 				'clientOptions'			 => array(
 					'validateOnSubmit'	 => true,
 					'errorCssClass'		 => 'has-error'

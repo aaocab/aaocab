@@ -72,7 +72,7 @@ var Chat = function () {
 		$.ajax({
 			"type": "GET",
 			"dataType": "json",
-			"url": $baseUrl + "/admpnl/chat/updateToggle",
+			"url": $baseUrl + "/aaohome/chat/updateToggle",
 			"data": {"entityId": eId, "entityType": eType, "chlId": chlId},
 			"global": false,
 			success: function (data)
@@ -109,7 +109,7 @@ var Chat = function () {
 		$.ajax({
 			"type": "GET",
 			"dataType": "json",
-			"url": $baseUrl + "/admpnl/chat/chatlog",
+			"url": $baseUrl + "/aaohome/chat/chatlog",
 			"data": model,
 			"global": false,
 			"async": true,
@@ -183,7 +183,7 @@ var Chat = function () {
 		$.ajax({
 			"type": "GET",
 			"dataType": "json",
-			"url": $baseUrl + "/admpnl/chat/takeover",
+			"url": $baseUrl + "/aaohome/chat/takeover",
 			"data": ownerShipModel,
 			"global": false,
 			success: function (data)

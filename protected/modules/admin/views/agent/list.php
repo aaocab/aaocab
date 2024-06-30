@@ -328,7 +328,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                                     }
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/changestatus", array("agt_id" => $data[agt_id],"agt_active"=>1))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/changestatus", array("agt_id" => $data[agt_id],"agt_active"=>1))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '/images/icon/active.png',
 								'visible'	 => '$data[agt_active] == 1',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -356,7 +356,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                                     }
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/changestatus", array("agt_id" => $data[agt_id],"agt_active"=>2))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/changestatus", array("agt_id" => $data[agt_id],"agt_active"=>2))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\agent_list\inactive.png',
 								'visible'	 => '$data[agt_active] == 2',
 								'label'		 => '<i class="fa fa-toggle-off"></i>',
@@ -398,7 +398,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                                     }
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $data[agt_id],"agt_approve"=>1))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $data[agt_id],"agt_approve"=>1))',
 								//'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 								'visible'	 => '($data[agt_approved]==2 || $data[agt_approved]==0)',
 								'label'		 => '<i class="fa fa-times"></i>',
@@ -431,7 +431,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                                     }
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $data[agt_id],"agt_approve"=>2))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $data[agt_id],"agt_approve"=>2))',
 								'visible'	 => '($data[agt_approved]==1)',
 								'label'		 => '<i class="fa fa-check"></i>',
 								'options'	 => array('data-toggle' => 'ajaxModal', 'style' => 'padding: 4px', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-xs conDisapprove p5', 'title' => 'Disapprove')
@@ -461,7 +461,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                                            }
                                                                            return false;
                                                            }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/changetype", array("agt_id" => $data[agt_id]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/changetype", array("agt_id" => $data[agt_id]))',
 								'label'		 => '<i class="fa fa-flag" ></i>',
 								'visible'	 => '($data[agt_type]!=1)',
 								'options'	 => array('data-toggle' => 'ajaxModal', 'style' => 'padding: 4px ;margin-left: 4px', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-xs changeAgentType', 'title' => 'Change Agent Type')
@@ -490,7 +490,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                                     }
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/delete11", array("agt_id" => $data[agt_id],"agt_type"=>$data[agt_type]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/delete11", array("agt_id" => $data[agt_id],"agt_type"=>$data[agt_type]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\delete_booking.png',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
 								'options'	 => array('data-toggle' => 'ajaxModal', 'style' => '', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-xs agentDelete p0', 'title' => 'Delete')
@@ -517,7 +517,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                             
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/agent/linkuser", array("agt_id" => $data[agt_id]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/agent/linkuser", array("agt_id" => $data[agt_id]))',
 								'label'		 => '<i class="fa fa-users"></i>',
 								'options'	 => array('data-toggle' => 'ajaxModal', 'style' => 'padding: 4px ;margin-left: 4px', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-xs linkUser', 'title' => 'Link User')
 							),
@@ -550,7 +550,7 @@ $form							 = $this->beginWidget('booster.widgets.TbActiveForm', array(
                                                         return false;
                                                             
                                                     }',
-														'url'		 => 'Yii::app()->createUrl("admpnl/agent/changeAgentType", array("agt_id" => $data[agt_id]))',
+														'url'		 => 'Yii::app()->createUrl("aaohome/agent/changeAgentType", array("agt_id" => $data[agt_id]))',
 														'imageUrl'	 => Yii::app()->request->baseUrl . '\images\assign_vendor.png',
 														//'visible'	 => '($data[vnd_active] == 1 && Yii::app()->user->checkAccess("vendorList"))',
 														'label'		 => '<i class="fa fa-toggle-on"></i>',

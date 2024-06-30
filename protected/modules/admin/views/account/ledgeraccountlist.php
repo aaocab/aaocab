@@ -87,7 +87,7 @@ $modeJson	 = VehicleTypes::model()->getJSON(PaymentGateway::model()->getModeList
 						$this->widget('booster.widgets.TbGridView', array(
 							'id'				 => 'transaction-grid',
 							'responsiveTable'	 => true,
-							'ajaxUrl'			 => CHtml::normalizeUrl(Yii::app()->createUrl('admin/account/accountlist', $dataProvider->getPagination()->params)),
+							'ajaxUrl'			 => CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/account/accountlist', $dataProvider->getPagination()->params)),
 							//'filter' => $model,
 							'dataProvider'		 => $dataProvider,
 							'template'			 => "<div class='panel-heading'><div class='row m0'>
@@ -98,7 +98,7 @@ $modeJson	 = VehicleTypes::model()->getJSON(PaymentGateway::model()->getModeList
 							'itemsCssClass'		 => 'table table-striped table-bordered mb0',
 							'htmlOptions'		 => array('class' => 'panel panel-primary'),
 							'columns'			 => array(
-								//array('name' => 'bkg_booking_id', 'filter' => false, 'value' => 'CHtml::link($data->bkg_booking_id,Yii::app()->createUrl("/admpnl/booking/view",["id"=>$data->bkg_booking_id]),["onClick"=>"return viewBooking(this)"])', 'type' => 'raw', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' =>'Ledger Name'),
+								//array('name' => 'bkg_booking_id', 'filter' => false, 'value' => 'CHtml::link($data->bkg_booking_id,Yii::app()->createUrl("/aaohome/booking/view",["id"=>$data->bkg_booking_id]),["onClick"=>"return viewBooking(this)"])', 'type' => 'raw', 'sortable' => true, 'headerHtmlOptions' => array(), 'header' =>'Ledger Name'),
 
 								array('name'	 => 'adt_ledger_id', 'filter' => false, 'value'	 => function($data) {
 										return AccountLedger::model()->findByPk($data->adt_ledger_id)->ledgerName;

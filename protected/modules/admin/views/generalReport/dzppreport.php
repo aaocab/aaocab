@@ -177,7 +177,7 @@ $datazone		 = Zones::model()->getZoneArrByFromBooking();
 				array('name'	 => 'RowIdentifier', 'value'	 => function ($data) {
 						if ($data['RowIdentifier'] != null)
 						{
-							echo CHtml::link($data['RowIdentifier'], Yii::app()->createUrl("admpnl/generalReport/DzppDetailReport", ["id" => $data['RowIdentifier']]), ['target' => '_blank']);
+							echo CHtml::link($data['RowIdentifier'], Yii::app()->createUrl("aaohome/generalReport/DzppDetailReport", ["id" => $data['RowIdentifier']]), ['target' => '_blank']);
 						}
 					}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Row Identifier'),
 				array('name' => 'Region', 'value' => '$data["Region"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-center'), 'header' => 'Region'),

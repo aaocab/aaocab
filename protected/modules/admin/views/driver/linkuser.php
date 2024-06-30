@@ -96,7 +96,7 @@
     function linkUser(drvId) 
 	{
         $.ajax({
-            "url": '<?= Yii::app()->createUrl("admpnl/driver/link", array("drvId" => "")) ?>' + drvId,
+            "url": '<?= Yii::app()->createUrl("aaohome/driver/link", array("drvId" => "")) ?>' + drvId,
             "type": "GET",
             "dataType": "html",
             "success": function (data) {

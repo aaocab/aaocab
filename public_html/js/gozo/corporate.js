@@ -12,7 +12,7 @@ var Corporate = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/corporate/corporateexist",
+            "url": $baseUrl + "/aaohome/corporate/corporateexist",
             data: model,
             success: function (data)
             {

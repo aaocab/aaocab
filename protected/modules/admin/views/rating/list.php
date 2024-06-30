@@ -393,7 +393,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                             }
                                                             return false;    
                                                          }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/rating/changestatus", array("rtg_id" => $data[rtg_id],"rtg_active"=>1))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/rating/changestatus", array("rtg_id" => $data[rtg_id],"rtg_active"=>1))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\active.png',
 							'visible'	 => '($data[rtg_active]==1)',
 							'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -433,7 +433,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                                         }
                                                         return false;
                                                     }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/rating/changestatus", array("rtg_id" => $data[rtg_id],"rtg_active"=>0))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/rating/changestatus", array("rtg_id" => $data[rtg_id],"rtg_active"=>0))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\inactive.png',
 							'visible'	 => '($data[rtg_active]==0)',
 							'label'		 => '<i class="fa fa-toggle-off"></i>',

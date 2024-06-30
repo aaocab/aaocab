@@ -299,14 +299,14 @@ $params['Booking']['bcb_driver_id'] = $model->drv_id;
 			<div class="row">
 				<div class="col-xs-12 text-center"> 
 
-					<a class="btn btn-success btn-sm dropdown-toggle" target="blank" href="/admpnl/contact/view?ctt_id=<?php echo $model->drv_contact_id ?>&viewType=driver" target="_blank">View Contact</a>
-					<a class="btn btn-info font11x" href="<?php echo Yii::app()->createUrl("admin/driver/showlog", array('drvId' => $model->drv_id)) ?>" target="_blank">Show Log</a>
-					<a class="btn btn-warning font11x" href="<?php echo Yii::app()->createUrl("admin/driver/history", array('drvId' => $model->drv_id)) ?>" target="_blank">Driving History</a>
-					<a class="btn btn-danger font11x" href="<?php echo Yii::app()->createUrl("admin/driver/tripDetails", array('drvId' => $model->drv_id)) ?>" target="_blank">Trip Details</a>
+					<a class="btn btn-success btn-sm dropdown-toggle" target="blank" href="/aaohome/contact/view?ctt_id=<?php echo $model->drv_contact_id ?>&viewType=driver" target="_blank">View Contact</a>
+					<a class="btn btn-info font11x" href="<?php echo Yii::app()->createUrl("aaohome/driver/showlog", array('drvId' => $model->drv_id)) ?>" target="_blank">Show Log</a>
+					<a class="btn btn-warning font11x" href="<?php echo Yii::app()->createUrl("aaohome/driver/history", array('drvId' => $model->drv_id)) ?>" target="_blank">Driving History</a>
+					<a class="btn btn-danger font11x" href="<?php echo Yii::app()->createUrl("aaohome/driver/tripDetails", array('drvId' => $model->drv_id)) ?>" target="_blank">Trip Details</a>
 					<a class="btn btn-success font11x" onclick="updateDriverDetails();">Manually Update Statistical Data</a>
                     <a class="btn btn-success font11x"  onclick="drvLocation(<?= $model->drv_id ?>)" title="Driver Location" >Driver Location</a>
-					<a class="btn btn-primary font11x"  href="<?php echo Yii::app()->createUrl("admin/booking/list", $params) ?>" target="_blank">Booking History</a>
-					<a class="btn btn-primary font11x"  href="<?php echo Yii::app()->createUrl("admin/driver/deviceHistory",  array('drvId' => $model->drv_id)) ?>" target="_blank">View Device History</a>
+					<a class="btn btn-primary font11x"  href="<?php echo Yii::app()->createUrl("aaohome/booking/list", $params) ?>" target="_blank">Booking History</a>
+					<a class="btn btn-primary font11x"  href="<?php echo Yii::app()->createUrl("aaohome/driver/deviceHistory",  array('drvId' => $model->drv_id)) ?>" target="_blank">View Device History</a>
 				</div>
 			</div>
             <div style="border-collapse: collapse; border: 1px; " >
@@ -362,7 +362,7 @@ $params['Booking']['bcb_driver_id'] = $model->drv_id;
     function updateDriverDetails()
     {
 
-        $href = "<?php echo Yii::app()->createUrl("admin/driver/UpdateDetails") ?>";
+        $href = "<?php echo Yii::app()->createUrl("aaohome/driver/UpdateDetails") ?>";
         $id = <?php echo $model->drv_id; ?>;
 
         jQuery.ajax({type: 'GET',
@@ -405,7 +405,7 @@ $params['Booking']['bcb_driver_id'] = $model->drv_id;
 	
 function drvLocation(drvId) 
 {
-    href = "<?= Yii::app()->createUrl('admin/booking/getDrvCurrentLocation') ?>";
+    href = "<?= Yii::app()->createUrl('aaohome/booking/getDrvCurrentLocation') ?>";
     jQuery.ajax({type: 'GET',
             url: href,
             "dataType": "json",

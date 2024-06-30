@@ -21,7 +21,7 @@
         .margin_top{ margin-top: 10px;}
     }
 </style>
-<div class="hidden-xs"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('admpnl/cache/flushlist') ?>" role="button"><?= "Clean All Cache" ?></a></div>
+<div class="hidden-xs"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('aaohome/cache/flushlist') ?>" role="button"><?= "Clean All Cache" ?></a></div>
 <div class="row">
 	<div class="col-xs-6">
 		<div class="list_booking">
@@ -32,7 +32,7 @@
 							Refresh Config Data
 						</h4>
 					</div>
-					<div class="col-sm-4 col-md-4 text_right mt10 mb10"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('admpnl/cache/refreshConfig') ?>" role="button"><?= "Clean Cache" ?></a></div>
+					<div class="col-sm-4 col-md-4 text_right mt10 mb10"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('aaohome/cache/refreshConfig') ?>" role="button"><?= "Clean Cache" ?></a></div>
 				</div>
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 							Refresh Queue
 						</h4>
 					</div>
-					<div class="col-sm-4 col-md-4 text_right mt10 mb10"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('admpnl/cache/refreshQueue') ?>" role="button"><?= "Clean Queue" ?></a></div>
+					<div class="col-sm-4 col-md-4 text_right mt10 mb10"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('aaohome/cache/refreshQueue') ?>" role="button"><?= "Clean Queue" ?></a></div>
 				</div>
 			</div>
 		</div>
@@ -68,7 +68,7 @@ foreach ($model as $key => $val)
 								<?= $val ?>
 							</h4>
 						</div>
-						<div class="col-sm-4 col-md-4 text_right mt10 mb10"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('admpnl/cache/clear', array('key' => $key)) ?>" role="button"><?= "Clean Cache" ?></a></div>
+						<div class="col-sm-4 col-md-4 text_right mt10 mb10"><a class="btn btn-primary mr10" href="<?= Yii::app()->createUrl('aaohome/cache/clear', array('key' => $key)) ?>" role="button"><?= "Clean Cache" ?></a></div>
 					</div>
 				</div>
 			</div>

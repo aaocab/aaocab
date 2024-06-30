@@ -11,7 +11,7 @@ this.getCityList = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/getnames",
+            "url": $baseUrl + "/aaohome/city/getnames",
             data: model,
             success: function (data)
             {
@@ -33,7 +33,7 @@ this.getCityList = function () {
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/city/selectcities",
+            "url": $baseUrl + "/aaohome/city/selectcities",
             data: model,
             success: function (data)
             {

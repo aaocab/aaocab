@@ -236,7 +236,7 @@
 								return false;
 
 							}',
-								'url'		 => 'Yii::app()->createUrl("admpnl/contact/mergecode", array("ctt_id" => $data[ctt_id]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/contact/mergecode", array("ctt_id" => $data[ctt_id]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\driver\merge.png',
 								'visible'	 => '1',
 								'label'		 => 'Merge Contact',

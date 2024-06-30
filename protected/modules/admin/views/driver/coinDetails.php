@@ -42,7 +42,7 @@
 											}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-4'), 'header'=> 'Description'),
 										array('name'	 => 'drc_ref_id', 'filter' => FALSE, 'value'	 => function($data) {												
 													$bkCode = Booking::model()->getCodeById($data['drc_ref_id']);
-													echo CHtml::link($bkCode.'</b>', Yii::app()->createUrl("/admpnl/booking/view?id=".$data['drc_ref_id']), ["target" => "_blank"]);																								
+													echo CHtml::link($bkCode.'</b>', Yii::app()->createUrl("/aaohome/booking/view?id=".$data['drc_ref_id']), ["target" => "_blank"]);																								
 											}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'=> 'Reference'),
 										array('name'	 => 'drc_created_at', 'filter' => FALSE, 'value'	 => function($data) {
 												echo date("d/M/Y h:i A", strtotime($data['drc_created_at']));

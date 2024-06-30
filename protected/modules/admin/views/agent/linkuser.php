@@ -115,7 +115,7 @@
 <script type="text/javascript">
     function linkUser(agent_id) {
         $.ajax({
-            "url": '<?= Yii::app()->createUrl("admpnl/agent/link", array("agt_id" => "")) ?>' + agent_id,
+            "url": '<?= Yii::app()->createUrl("aaohome/agent/link", array("agt_id" => "")) ?>' + agent_id,
             "type": "GET",
             "dataType": "html",
             "success": function (data) {

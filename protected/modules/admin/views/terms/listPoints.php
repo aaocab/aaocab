@@ -45,7 +45,7 @@
 
 							<div class="row " >
 								<div class="col-xs-6 col-sm-2">
-									<a class="btn btn-primary" href="<?= Yii::app()->createUrl('admpnl/terms/addPoints') ?>" style="text-decoration: none;">Add new</a>
+									<a class="btn btn-primary" href="<?= Yii::app()->createUrl('aaohome/terms/addPoints') ?>" style="text-decoration: none;">Add new</a>
 								</div>
 								<div class="col-xs-6 col-sm-4">
 

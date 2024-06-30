@@ -35,7 +35,7 @@ $datazone	 = Zones::model()->getZoneArrByFromBooking();
 					array('name'	 => 'bookingId', 'value'	 => function ($data) {
 							if ($data['bookingId'] != null)
 							{
-								echo CHtml::link($data['bookingId'], Yii::app()->createUrl("admpnl/booking/view", ["id" => $data['bookingId']]), ['target' => '_blank']);
+								echo CHtml::link($data['bookingId'], Yii::app()->createUrl("aaohome/booking/view", ["id" => $data['bookingId']]), ['target' => '_blank']);
 							}
 						}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Booking ID'),
 					array('name' => 'createDate', 'value' => '$data["createDate"]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'text-center'), 'htmlOptions' => array('class' => 'text-center'), 'header' => 'Create Date'),

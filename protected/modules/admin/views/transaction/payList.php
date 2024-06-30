@@ -222,7 +222,7 @@ $for			 = VehicleTypes::model()->getJSON($var);
 
 										if ($data['apg_acc_trans_type'] == '1')
 										{
-											echo CHtml::link($data['bkg_booking_id'], Yii::app()->createUrl("/admpnl/booking/view", ["id" => $data['bkg_id']]), ["onClick" => "return viewBooking(this)"]);
+											echo CHtml::link($data['bkg_booking_id'], Yii::app()->createUrl("/aaohome/booking/view", ["id" => $data['bkg_id']]), ["onClick" => "return viewBooking(this)"]);
 										}
 										else
 										{

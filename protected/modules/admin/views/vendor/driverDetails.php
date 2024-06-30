@@ -19,7 +19,7 @@
 					<tr>
 						<td><b><?= $driverDataView['ctt_name'] ?></b>
 						</td>
-						<td><a target="_blank"  href="/admpnl/driver/view?code=<?= $driverDataView['drv_code'] ?>" target="_blank"><?= $driverDataView['drv_code'] ?></a></td>
+						<td><a target="_blank"  href="/aaohome/driver/view?code=<?= $driverDataView['drv_code'] ?>" target="_blank"><?= $driverDataView['drv_code'] ?></a></td>
 
 						<td>
 							<?
@@ -48,7 +48,7 @@
 							?>
 
 						</td>
-						<td><a target="_blank"  href="/admpnl/vendor/view?code=<?= $driverDataView['vnd_code'] ?>" target="_blank"><?= $driverDataView['vnd_code'] ?></a></td>
+						<td><a target="_blank"  href="/aaohome/vendor/view?code=<?= $driverDataView['vnd_code'] ?>" target="_blank"><?= $driverDataView['vnd_code'] ?></a></td>
 
 						<td><?= $driverDataView['drv_phone']; ?></td>
 						<td><?php echo ($driverDataView['ctt_active'] == 1 ? 'Active' : 'Inactive') ?></td>

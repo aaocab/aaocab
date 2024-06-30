@@ -266,7 +266,7 @@
     {
         $.ajax({
             type: "GET",
-            url: '/admpnl/index/dashboardnew',
+            url: '/aaohome/index/dashboardnew',
             dataType: "html",
             success: function (response) {
                 var container = document.createElement('div');

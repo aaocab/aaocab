@@ -181,7 +181,7 @@
 				else
 				{
 						?>
-						<a target="_blank" href="/admpnl/scq/onlineCsr/?cdt_id=<?= $val['cdt_id']; ?>"><?= ServiceCallQueue::getOnlineByCatDepart($val['cdt_id']) ?></a>                
+						<a target="_blank" href="/aaohome/scq/onlineCsr/?cdt_id=<?= $val['cdt_id']; ?>"><?= ServiceCallQueue::getOnlineByCatDepart($val['cdt_id']) ?></a>                
 					<?php }
 					?>
 					(<a target="_blank" href="/report/scq/cbrdetailsreport/?queueType=<?php echo $val['scq_follow_up_queue_type']; ?>&event_id=7&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate; ?>"><?= $val['total_assigned_csr_today'] ?></a>)

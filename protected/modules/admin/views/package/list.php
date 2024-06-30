@@ -321,7 +321,7 @@ $selectizeOptions = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		
                                             }
                                         return false;
                                     }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/package/changestatus", array("pck_id" => $data[pck_id],"pck_active"=>3))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/package/changestatus", array("pck_id" => $data[pck_id],"pck_active"=>3))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\package\pending.png',
 							'visible'	 => '($data[pck_active] == 3 && Yii::app()->user->checkAccess("agentChangestatus"))',
 							'label'		 => '<i class="fa fa-toggle-off"></i>',
@@ -349,7 +349,7 @@ $selectizeOptions = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		
                                             }
                                         return false;
                                     }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/package/block", array("pck_id" => $data[pck_id],"pck_active"=>1))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/package/block", array("pck_id" => $data[pck_id],"pck_active"=>1))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\package\active.png',
 							'visible'	 => '($data[pck_active] == 1 && Yii::app()->user->checkAccess("agentChangestatus"))',
 							'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -377,7 +377,7 @@ $selectizeOptions = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		
                                             }
                                         return false;
                                     }',
-							'url'		 => 'Yii::app()->createUrl("admpnl/package/changestatus", array("pck_id" => $data[pck_id],"pck_active"=>2))',
+							'url'		 => 'Yii::app()->createUrl("aaohome/package/changestatus", array("pck_id" => $data[pck_id],"pck_active"=>2))',
 							'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\package\inactive.png',
 							'visible'	 => '($data[pck_active] == 2 && Yii::app()->user->checkAccess("agentChangestatus"))',
 							'label'		 => '<i class="fa fa-toggle-off"></i>',

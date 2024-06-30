@@ -109,7 +109,7 @@ if (!empty($dataProvider))
                     $todate   = date('Y-m-d', strtotime(str_replace('/', '-', $data['date'])));
                     $result   = Admins::getProfileData($data['csrId']);
                     $teamName = $result[0]['tea_name'] != null ? "(" . $result[0]['tea_name'] . ")" : "";
-                    echo CHtml::link($data['csrName'] . $teamName, Yii::app()->createUrl("admpnl/generalReport/cbrdetailsreport", ["csrId" => $data['csrId'], "event_id" => 6, "event_by" => 1, "isCreated" => 0,  "fromdate" => $fromdate, "todate" => $fromdate]), ['target' => '_blank']);
+                    echo CHtml::link($data['csrName'] . $teamName, Yii::app()->createUrl("aaohome/generalReport/cbrdetailsreport", ["csrId" => $data['csrId'], "event_id" => 6, "event_by" => 1, "isCreated" => 0,  "fromdate" => $fromdate, "todate" => $fromdate]), ['target' => '_blank']);
                 }, 'sortable'          => true, 'headerHtmlOptions' => array('class' => 'col-xs-1'), 'header'            => 'CSR Name'),
             array('name'  => 'cnt', 'value' => function ($data) {
                     echo $data['cnt'] != null ? $data['cnt'] : 0;
@@ -170,7 +170,7 @@ if (!empty($dataProvider))
                                         });
                                     return false;
                                 }',
-                        'url'      => 'Yii::app()->createUrl("admpnl/admin/adminLogTime", array("csrId" => $data[csrId],"date"=>$data[date]))',
+                        'url'      => 'Yii::app()->createUrl("aaohome/admin/adminLogTime", array("csrId" => $data[csrId],"date"=>$data[date]))',
                         'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\vendor\show_log.png',
                         'label'    => '<i class="fa fa-list"></i>',
                         'options'  => array('data-toggle' => 'ajaxModal',

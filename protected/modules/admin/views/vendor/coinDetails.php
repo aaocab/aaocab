@@ -55,7 +55,7 @@
 													$bkCode		 = $bkgModel->bkg_booking_id;
 													$bkId		 = $bkgModel->bkg_id;
 												}
-												echo CHtml::link($bkCode . '</b>', Yii::app()->createUrl("/admpnl/booking/view?id=" . $bkId), ["target" => "_blank"]);
+												echo CHtml::link($bkCode . '</b>', Yii::app()->createUrl("/aaohome/booking/view?id=" . $bkId), ["target" => "_blank"]);
 											}, 'sortable'			 => false, 'headerHtmlOptions'	 => array('class' => 'col-xs-2'), 'header'			 => 'Reference'),
 										array('name'	 => 'ntl_created_on', 'filter' => FALSE, 'value'	 => function ($data) {
 												echo date("d/M/Y h:i A", strtotime($data['vnc_created_at']));

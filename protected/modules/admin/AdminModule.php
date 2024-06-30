@@ -66,7 +66,7 @@ class AdminModule extends CWebModule
                         $admlogModel->update();
                     }
                     Yii::app()->user->logout();
-                    Yii::app()->request->redirect("/admpnl/index/logout");
+                    Yii::app()->request->redirect("/aaohome/index/logout");
                     exit();
                 }
                 $latlng             = $_COOKIE['lat_lng'];
@@ -84,9 +84,9 @@ class AdminModule extends CWebModule
             {
                 $d1 = new DateTime();
                 $d2 = new DateTime($est_date);
-                if ($d1 > $d2 && $_SERVER['REQUEST_URI'] != "/admpnl/index/changepassword")
+                if ($d1 > $d2 && $_SERVER['REQUEST_URI'] != "/aaohome/index/changepassword")
                 {
-                    $url1 = "/admpnl/index/changepassword";
+                    $url1 = "/aaohome/index/changepassword";
                     Yii::app()->request->redirect($url1);
                     exit();
                 }

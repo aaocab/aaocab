@@ -111,7 +111,7 @@ class XyzController extends BaseController
 
 	public function actionMbkg()
 	{
-		Yii::app()->request->redirect('/admpnl/xyz/mbkg', true, 301);
+		Yii::app()->request->redirect('/aaohome/xyz/mbkg', true, 301);
 	}
 
 	public function actionMbkg2()

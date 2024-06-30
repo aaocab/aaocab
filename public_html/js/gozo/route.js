@@ -12,7 +12,7 @@ this.getRouteList = function () {
             
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/route/getroutename",
+            "url": $baseUrl + "/aaohome/route/getroutename",
             data: model,
             success: function (data)
             {

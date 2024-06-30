@@ -162,7 +162,7 @@
     function userAppusage() {
         var vendorId = '<?= $userModel->user_id ?>';
         var type = '1';
-        var href = '<?= Yii::app()->createUrl("admpnl/user/appUsage"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/appUsage"); ?>';
         $.ajax
                 ({
                     url: href,
@@ -182,7 +182,7 @@
 
     function getGozoCoinDetails() {
         var userId = '<?= $userModel->user_id ?>';
-        var href = '<?= Yii::app()->createUrl("admpnl/user/getGozoCoinDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/getGozoCoinDetails"); ?>';
         $.ajax
                 ({
                     "url": href,
@@ -202,7 +202,7 @@
 
     function getWalletDetails() {
         var userId = '<?= $userModel->user_id ?>';
-        var href = '<?= Yii::app()->createUrl("admpnl/user/userWalletDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/userWalletDetails"); ?>';
         $.ajax
                 ({
                     "url": href,
@@ -222,7 +222,7 @@
 
     function getPaymentTransaction() {
         var userId = '<?= $userModel->user_id ?>';
-        var href = '<?= Yii::app()->createUrl("admpnl/user/paymentTransactionDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/paymentTransactionDetails"); ?>';
         $.ajax
                 ({
                     "url": href,
@@ -244,7 +244,7 @@
         $(".tab-pane").removeClass("active");
         $("#cbrDetails").addClass("active");
         var userId = '<?= $userModel->user_id ?>';
-        var href = '<?= Yii::app()->createUrl("admpnl/user/getCbrDetailsDetails"); ?>';
+        var href = '<?= Yii::app()->createUrl("aaohome/user/getCbrDetailsDetails"); ?>';
         $.ajax
                 ({
                     "url": href,

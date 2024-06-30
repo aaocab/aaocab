@@ -1,6 +1,6 @@
 <?php
 $agtId				 = $_GET['agtId'];
-$walletList			 = Yii::app()->createUrl('admpnl/agent/wallet', array("agtId" => $agtId));
+$walletList			 = Yii::app()->createUrl('aaohome/agent/wallet', array("agtId" => $agtId));
 $partnerId			 = 'ID: ' . ($agentModel->agt_type == 1) ? $agentModel->agt_referral_code : $agentModel->agt_agent_id . '-' . $agentModel->getAgentType($agentModel->agt_type);
 $this->pageTitle	 = "Gozo Accounts Ledger for " . $agentModel->agt_company . ' ' . $partnerId;
 ?>
@@ -373,7 +373,7 @@ $model->ven_date_type	 = 2;
 $checkExportAccess		 = Yii::app()->user->checkAccess("Export");
 $form					 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 	'id'					 => 'generate-vendor-form', 'enableClientValidation' => true,
-	'action'				 => '/admpnl/agent/ledgerpdf',
+	'action'				 => '/aaohome/agent/ledgerpdf',
 	'clientOptions'			 => array(
 		'validateOnSubmit'	 => true,
 		'errorCssClass'		 => 'has-error'

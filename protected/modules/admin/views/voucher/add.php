@@ -31,7 +31,7 @@ window.location.reload();
 $dateFrom	 = $model->vch_valid_from != '' ? $model->vch_valid_from : date('Y-m-d H:i:s');
 $dateTo		 = $model->vch_valid_to != '' ? $model->vch_valid_to : date('Y-m-d H:i:s', strtotime('+1 month 6am'));  // +1 year 6am
 ?>
- <!--<div class="text-left"><a class="btn btn-warning mb10" href="/admpnl/voucher/list" style="text-decoration: none">List</a></div> -->
+ <!--<div class="text-left"><a class="btn btn-warning mb10" href="/aaohome/voucher/list" style="text-decoration: none">List</a></div> -->
  
 <div class="row">
     <div class="col-xs-12 col-md-11 col-lg-11  new-booking-list" style="float: none; margin: auto">

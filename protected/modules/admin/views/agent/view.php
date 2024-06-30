@@ -44,7 +44,7 @@ $orgName =  ($agtData["agt_company"] == "" ? $name : $agtData["agt_company"]);
 								<li role="presentation" id="notificationsli"><a href="#notifications" aria-controls="notifications" role="tab" data-toggle="tab">Notification Settings</a></li>
 								<li role="presentation" id="logsli"><a href="#logs" aria-controls="logs" role="tab" data-toggle="tab">Show Log</a></li>
 								<li role="presentation" id="documentsli"><a href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Documents</a></li>
-								<li role="presentation"><a href="<?php echo Yii::app()->createUrl("/admpnl/agent/form", array('agtid' => $agentId)); ?>" aria-controls="editAgent" target="_blank">Edit Agent</a></li>
+								<li role="presentation"><a href="<?php echo Yii::app()->createUrl("/aaohome/agent/form", array('agtid' => $agentId)); ?>" aria-controls="editAgent" target="_blank">Edit Agent</a></li>
 							</ul>
 						</div>
 					</div>
@@ -286,17 +286,17 @@ $orgName =  ($agtData["agt_company"] == "" ? $name : $agtData["agt_company"]);
 																	<div class="widget-tab-box2 link-infos">
 																		<h1 class="font-16">Actions</h1>
 																		<ul class="pl0">
-																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/admpnl/agent/bookinghistory", ['agent' => $agentId]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Booking History</a></li>
+																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/aaohome/agent/bookinghistory", ['agent' => $agentId]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Booking History</a></li>
 																		</ul>
 																		<ul class="pl0">
-																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/admpnl/agent/ledgerbooking", ['agtId' => $agentId]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Agent Account</a></li>
+																			<li class="mb5"><a href="<?php echo Yii::app()->createUrl("/aaohome/agent/ledgerbooking", ['agtId' => $agentId]) ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Agent Account</a></li>
 																		</ul>
 																		<ul class="pl0">
-																		<li class="mb5"><a  href="/admpnl/contact/form?ctt_id=<?= $agtModel->agt_contact_id ?>&type=3" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Modify Contact Details</a></li>
+																		<li class="mb5"><a  href="/aaohome/contact/form?ctt_id=<?= $agtModel->agt_contact_id ?>&type=3" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Modify Contact Details</a></li>
 																		</ul>
 																		<ul class="pl0">
 																			<?php
-																			$callurl = Yii::app()->createUrl("admpnl/agent/changestatus", array("agt_id" => $agentId, "agt_active" => $agtModel->agt_active));
+																			$callurl = Yii::app()->createUrl("aaohome/agent/changestatus", array("agt_id" => $agentId, "agt_active" => $agtModel->agt_active));
 																			if ($agtModel->agt_active == 1)
 																			{
 																				$objtitle = 'Block';
@@ -310,21 +310,21 @@ $orgName =  ($agtData["agt_company"] == "" ? $name : $agtData["agt_company"]);
 																		</ul>  
 																		<ul class="pl0">
 																			<?php
-																			$callurls	 = Yii::app()->createUrl("admpnl/agent/approve", array("agt_id" => $agentId, "agt_approve" => $agtModel->agt_approved));
+																			$callurls	 = Yii::app()->createUrl("aaohome/agent/approve", array("agt_id" => $agentId, "agt_approve" => $agtModel->agt_approved));
 																			?>
 																			<li class="mb5"><a onclick="approveAgent(this);return false;" data-title="approve" href="<?php echo $callurls; ?>"><i class="fas fa-plus mr5 font-11"></i>Approved/Rejected</a></li>
 																		</ul>
 																		<ul class="pl0">
 																			<?php
-																			$calurls	 = Yii::app()->createUrl("admpnl/agent/changetype", array("agt_id" => $agentId));
+																			$calurls	 = Yii::app()->createUrl("aaohome/agent/changetype", array("agt_id" => $agentId));
 																			?>
 																			<li class="mb5"><a onclick="changType(this);return false;" data-title="changetype" href="<?php echo $calurls; ?>"><i class="fas fa-plus mr5 font-11"></i>Change Type</a></li>
 																		</ul>
 																		<ul class="pl0">
-																			<li class="mb5"><a  href="/admpnl/agent/linkuser?agt_id=<?= $agentId ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Link User</a></li>
+																			<li class="mb5"><a  href="/aaohome/agent/linkuser?agt_id=<?= $agentId ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Link User</a></li>
 																		</ul>
 																		<ul class="pl0">
-																			<li class="mb5"><a  href="/admpnl/agent/settings?agtid=<?= $agentId ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Setting</a></li>
+																			<li class="mb5"><a  href="/aaohome/agent/settings?agtid=<?= $agentId ?>" target="_blank"><i class="fas fa-plus mr5 font-11"></i>Setting</a></li>
 																		</ul>
 
 																	</div>
@@ -399,7 +399,7 @@ else
 	function getDocumentsDetails()
 	{
 		var agentId = '<?= $agentId; ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/agent/documentDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/agent/documentDetails"); ?>';
 		$.ajax
 				({
 					"url": href,
@@ -419,7 +419,7 @@ else
 	function getNotificationsDetails()
 	{
 		var agentId = '<?= $agentId; ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/agent/notificationsDetails"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/agent/notificationsDetails"); ?>';
 		$.ajax
 				({
 					"url": href,
@@ -439,7 +439,7 @@ else
 	function getLogsDetails()
 	{
 		var agentId = '<?= $agentId; ?>';
-		var href = '<?= Yii::app()->createUrl("admpnl/agent/showlog"); ?>';
+		var href = '<?= Yii::app()->createUrl("aaohome/agent/showlog"); ?>';
 		$.ajax
 				({
 					"url": href,

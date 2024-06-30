@@ -3977,7 +3977,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 
 			$agmtModel = VendorAgreement::model()->findByVndId($vendorId);
 
-			$url		 = $baseURL . '/admpnl/vendor/generateAgreementForVendor?vendorId=' . $vendorId . '&ds=1';
+			$url		 = $baseURL . '/aaohome/vendor/generateAgreementForVendor?vendorId=' . $vendorId . '&ds=1';
 			$url		 = str_replace('./', '', $url);
 			$agreement	 = $this->file_get_contents_curl($url);
 
@@ -3989,7 +3989,7 @@ HAVING   ((total_vehicle > total_vehicle_approved OR total_driver > total_driver
 			$fileArray			 = [0 => ['PATH' => PUBLIC_PATH . "/attachments/vendors/$vendorId/digitalAgreement_{$agmtModel->vag_digital_ver}.pdf"]];
 			$attachments		 = json_encode($fileArray);
 			Logger::create($attachments, CLogger::LEVEL_TRACE);
-			$url				 = $baseURL . '/admpnl/vendor/generateAgreementForVendor?vendorId=' . $vendorId . '&ds=0';
+			$url				 = $baseURL . '/aaohome/vendor/generateAgreementForVendor?vendorId=' . $vendorId . '&ds=0';
 			$url				 = str_replace('./', '', $url);
 			$agreement			 = $this->file_get_contents_curl($url);
 			$myfile				 = fopen(PUBLIC_PATH . "/attachments/vendors/$vendorId/draftAgreement_" . $agmtModel->vag_digital_ver . ".pdf", "w");

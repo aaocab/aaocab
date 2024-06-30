@@ -647,7 +647,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
                                 <li class="notifi">
                                     <span class="notifi-1" title="Followups assigned to my team"><a href="<?php echo Yii::app()->createUrl('admin/generalReport/serviceRequests'); ?>" class="color-white"><?= $getCountInternalCBRbyTeam ?></a></span>
                                     <span  class="notifi-2 blinking" title="Follow ups assigned to me"><a href="<?php echo Yii::app()->createUrl('admin/generalReport/serviceRequestsOwn'); ?>" class="color-white"><?= $getCountInternalCBRbyAdminID ?></a></span>
-                                    <span  class="notifi-1" title="My Request"><a  target="_blank"href="/admpnl/generalReport/cbrdetailsreport/?queueType=&event_id=&event_by=&csrId=&teamId=0&isCreated=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate ?>" class="color-white">My</a></span>
+                                    <span  class="notifi-1" title="My Request"><a  target="_blank"href="/aaohome/generalReport/cbrdetailsreport/?queueType=&event_id=&event_by=&csrId=&teamId=0&isCreated=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate ?>" class="color-white">My</a></span>
                                 </li>
                             </ul>
 							<?php
@@ -912,7 +912,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 									</li>
 
 									<li>
-										<a href="/admpnl/vendor/duplicatevendor">
+										<a href="/aaohome/vendor/duplicatevendor">
 											<div class="center-block">Duplicate Vendors</div></a>
 									</li>
 									<li>
@@ -1184,12 +1184,12 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 									</li>
 
 									<li>
-										<a href="<?= Yii::app()->createUrl('admpnl/broadcastNotification/add') ?>" >
+										<a href="<?= Yii::app()->createUrl('aaohome/broadcastNotification/add') ?>" >
 											<div class="center-block">New Notification </div></a>
 									</li>
 
 									<li>
-										<a href="<?= Yii::app()->createUrl('admpnl/broadcastNotification/list') ?>" >
+										<a href="<?= Yii::app()->createUrl('aaohome/broadcastNotification/list') ?>" >
 											<div class="center-block">Scheduled Notifications </div></a>
 									</li>
 									<li>
@@ -1207,7 +1207,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 																			<a href="javascript:void(0)"><p class="">Confidential Report</p><span class="arrow"></span></a>
 																			<ul class="sub-menu">
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/report/zonewise-count') ?>" target="blank">
+																					<a href="<?= Yii::app()->createUrl('aaohome/report/zonewise-count') ?>" target="blank">
 																						<div class="center-block">Created Zone-wise Count Report</div></a>
 																				</li>
 																				<li>
@@ -1264,7 +1264,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 																				</li>
 									
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/bookingPriceFactor/list') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/bookingPriceFactor/list') ?>" >
 																						<div class="center-block">Surge Quoted Situation Report</div>
 																					</a>
 																				</li>
@@ -1341,7 +1341,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 																						<div class="center-block">Penalty Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/assignmentSummary') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/assignmentSummary') ?>" >
 																						<div class="center-block">Assignment Summary</div></a>
 																				</li>
 																				<li>
@@ -1391,7 +1391,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 																						<div class="center-block">Zero Inventory City/Zone</div></a>
 																				</li>
 																				<li>
-																						<a href="<? #= Yii::app()->createUrl('admpnl/generalReport/csrLeadPerformanceReport/')                            ?>" >
+																						<a href="<? #= Yii::app()->createUrl('aaohome/generalReport/csrLeadPerformanceReport/')                            ?>" >
 																								<div class="center-block">CSR Lead Performance Details Report</div></a>
 																				</li>
 																				<li class="droplink">
@@ -1452,15 +1452,15 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 																						<div class="center-block">Vendor Cancellation Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/cbrdetailsreport/') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/cbrdetailsreport/') ?>" >
 																						<div class="center-block">CBR's Details Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/serviceRequests') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/serviceRequests') ?>" >
 																						<div class="center-block">Service Requests Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/bookingtrackdetails') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/bookingtrackdetails') ?>" >
 																						<div class="center-block">Booking Track Report</div></a>
 																				</li>
 																				<li>
@@ -1506,19 +1506,19 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 																					</ul>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/bookingReport') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/bookingReport') ?>" >
 																						<div class="center-block">Booking Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/AttendanceReport') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/AttendanceReport') ?>" >
 																						<div class="center-block">Attendance Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/scq/fetchlist') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/scq/fetchlist') ?>" >
 																						<div class="center-block">Team queue</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/csrPerformanceReport') ?>" >
+																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/csrPerformanceReport') ?>" >
 																						<div class="center-block">CSR Performance Report</div></a>
 																				</li>
 																				<li>
@@ -1659,7 +1659,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 								<a href="#"><span class="menu-icon fa fa-briefcase"></span><p class="">Miscellaneous</p></a>
 								<ul class="sub-menu">
 									<li>
-										<a href="<?= Yii::app()->createUrl('admpnl/gozen') ?>">
+										<a href="<?= Yii::app()->createUrl('aaohome/gozen') ?>">
 											<div class="center-block">GOZO INTRANET</div></a>
 									</li>
 									<li>
@@ -1723,7 +1723,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
                 </div>
 				<?php
 				$urlSegment = Yii::app()->request->url;
-				if ($urlSegment == '/admpnl/index/dashboard')
+				if ($urlSegment == '/aaohome/index/dashboard')
 				{
 					?>
 					<div class="col-xs-12">
@@ -1917,7 +1917,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
             {
                 $.ajax({
                     "type": "GET",
-                    "url": $baseUrl + '/admpnl/scq/showCallbackQue',
+                    "url": $baseUrl + '/aaohome/scq/showCallbackQue',
                     "data":
                             {"followupId": '<?= $_REQUEST['scq'] ?>'},
                     "dataType": "HTML",
@@ -2003,13 +2003,13 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
                     switch (idType)
                     {
                         case "1":
-                            link = "<?php echo Yii::app()->createUrl('admpnl/booking/view'); ?>?id=" + idVal;
+                            link = "<?php echo Yii::app()->createUrl('aaohome/booking/view'); ?>?id=" + idVal;
                             break;
                         case "2":
-                            link = "<?php echo Yii::app()->createUrl('admpnl/booking/view'); ?>?booking_id=" + idVal;
+                            link = "<?php echo Yii::app()->createUrl('aaohome/booking/view'); ?>?booking_id=" + idVal;
                             break;
                         case "3":
-                            link = "<?php echo Yii::app()->createUrl('admpnl/booking/view'); ?>?partner_ref=" + idVal;
+                            link = "<?php echo Yii::app()->createUrl('aaohome/booking/view'); ?>?partner_ref=" + idVal;
                             break;
                     }
                     window.open(link);
@@ -2040,7 +2040,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
                     switch (idType)
                     {
                         case "1":
-                            link = "<?php echo Yii::app()->createUrl('admpnl/scq/view'); ?>?id=" + idVal;
+                            link = "<?php echo Yii::app()->createUrl('aaohome/scq/view'); ?>?id=" + idVal;
                             break;
                     }
                     window.open(link);
@@ -2052,7 +2052,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 
             $('#agent_id').change(function () {
                 var ag_id = $('#agent_id').val();
-                var link = "<?php echo Yii::app()->createUrl('admpnl/agent/view'); ?>?agent=" + ag_id;
+                var link = "<?php echo Yii::app()->createUrl('aaohome/agent/view'); ?>?agent=" + ag_id;
                 window.open(link);
             });
         });

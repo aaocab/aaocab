@@ -73,7 +73,7 @@
                             'activecategory' => array(
                                 "click" => "function(e){   var con = confirm('are you sure want to activate vehicle category?'); 
                                                         if(con){change_status(this);}}",
-                                'url' => 'Yii::app()->createUrl("admpnl/vehicle/changevctstatus", array("vct_id" => $data[vct_id],"vct_active"=>$data[vct_active]))',
+                                'url' => 'Yii::app()->createUrl("aaohome/vehicle/changevctstatus", array("vct_id" => $data[vct_id],"vct_active"=>$data[vct_active]))',
                                 'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
                                 'visible' => '($data[vct_active] == 0)',
                                 'label' => '<i class="fa fa-toggle-on"></i>',
@@ -82,7 +82,7 @@
                             'deactivecategory' => array(
                                 "click" => "function(e){   var con = confirm('Are you sure want to deactivate vehicle category?');
                                                         if(con){change_status(this);}}",
-                                'url' => 'Yii::app()->createUrl("admpnl/vehicle/changevctstatus", array("vct_id" => $data[vct_id],"vct_active"=>$data[vct_active]))',
+                                'url' => 'Yii::app()->createUrl("aaohome/vehicle/changevctstatus", array("vct_id" => $data[vct_id],"vct_active"=>$data[vct_active]))',
                                 'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\active.png',
                                 'visible' => '($data[vct_active] == 1)',
                                 'label' => '<i class="fa fa-toggle-on"></i>',
@@ -90,7 +90,7 @@
                             ),
                             'vehicle_type' => array(
                                 "click" => "function(e){   view_vehicle_type(this);}",
-                                'url' => 'Yii::app()->createUrl("admpnl/vehicle/viewtypes", array("vct_id" => $data[vct_id]))',
+                                'url' => 'Yii::app()->createUrl("aaohome/vehicle/viewtypes", array("vct_id" => $data[vct_id]))',
                                 'imageUrl' => Yii::app()->request->baseUrl . '\images\icon\vendor\show_log.png',
                                 
                                 'label' => '<i class="fa fa-toggle-on"></i>',

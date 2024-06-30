@@ -12,7 +12,7 @@ var model = {};
         $.ajax({
             "type": "GET",
             "dataType": "json",
-            "url": $baseUrl + "/admpnl/vendor/zonecity",
+            "url": $baseUrl + "/aaohome/vendor/zonecity",
             data: model,
             success: function (data)
             {

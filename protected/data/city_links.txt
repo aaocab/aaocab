@@ -47,7 +47,7 @@ CREATE TABLE `city_links` (
 
 INSERT INTO `city_links` (`cln_id`, `cln_user_id`, `cln_user_ip`, `cln_city_id`, `cln_category`, `cln_title`, `cln_url`, `cln_status`, `cln_active`, `cln_datetime`) VALUES
 (1, 374, '192.168.192.104', 30366, 2, 'best delhi tour sites', 'http://www.aaocab.com', 0, 1, '2017-12-21 00:00:00'),
-(2, 66, '122.163.41.5', 30883, 2, 'reeeeeee', 'http://localhost:82/admpnl/booking/list', 0, 1, '2017-12-22 16:59:14'),
+(2, 66, '122.163.41.5', 30883, 2, 'reeeeeee', 'http://localhost:82/aaohome/booking/list', 0, 1, '2017-12-22 16:59:14'),
 (3, 66, '122.163.41.5', 30883, 2, 'sssssssss', 'aaaaa', 0, 1, '2017-12-22 19:19:42');
 
 --

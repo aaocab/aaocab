@@ -27,9 +27,9 @@ $dropdownDisplay	 = ($followUps->requestedBy > 0) ? "block" : "none";
 ?>
 <div class="row">
     <div class="col-xs-12  pb10">
-        <a href="/admpnl/generalReport/scqreport" target="_blank"> Click To View  SCQ Report</a>
+        <a href="/aaohome/generalReport/scqreport" target="_blank"> Click To View  SCQ Report</a>
         <br>
-        <a href="/admpnl/scq/cbrStaticalDetailsData?fromdate=<?php echo $followUps->from_date; ?>&todate=<?php echo $followUps->to_date; ?>" target="_blank" > Click To View CBR Statistical Data Report</a>
+        <a href="/aaohome/scq/cbrStaticalDetailsData?fromdate=<?php echo $followUps->from_date; ?>&todate=<?php echo $followUps->to_date; ?>" target="_blank" > Click To View CBR Statistical Data Report</a>
     </div>
 </div>
 <div class="row">
@@ -526,14 +526,14 @@ if (!empty($dataProvider))
 			array('name'	 => 'ItemID', 'value'	 => function ($data) {
 					if ($data['ItemID'] != null)
 					{
-						echo CHtml::link($data['ItemID'], Yii::app()->createUrl("admpnl/booking/view", ["id" => $data['ItemID']]), ['target' => '_blank']);
+						echo CHtml::link($data['ItemID'], Yii::app()->createUrl("aaohome/booking/view", ["id" => $data['ItemID']]), ['target' => '_blank']);
 					}
 				}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Booking ID'),
 			array('name'	 => 'Show Images', 'value'	 => function ($data) {
 					$docImages			 = CallBackDocuments::model()->findByAttributes(['cbd_scq_id' => $data["FollowupId"], 'cbd_active' => 1]);	
 					if ($docImages != NULL)
 					{
-						echo CHtml::link("Show Images", Yii::app()->createUrl("admpnl/scq/ServiceCallBackDoc", ["id" => $data["FollowupId"]]), ['target' => '_blank']);
+						echo CHtml::link("Show Images", Yii::app()->createUrl("aaohome/scq/ServiceCallBackDoc", ["id" => $data["FollowupId"]]), ['target' => '_blank']);
 					}
 				}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Images Link'),
 			array('name'	 => 'QueueType', 'value'	 => function ($data) {
@@ -723,7 +723,7 @@ if (!empty($dataProvider))
                     return false;
                 }
             }
-            window.location.href = '/admpnl/generalReport/cbrdetailsreport/?queueType=' + queueType + '&event_id=' + event_id + '&event_by=' + event_by + "&csrId=" + csrSearch + "&teamId=" + teamId + "&isCreated=" + isCreated + "&fromdate=" + fromdate + "&todate=" + todate + "&followupPerson=" + followupPerson + "&followupPersonEntity=" + followupPersonEntity + "&followupWith=" + followupWith + "&followupWithEntityType=" + followupWithEntityType;
+            window.location.href = '/aaohome/generalReport/cbrdetailsreport/?queueType=' + queueType + '&event_id=' + event_id + '&event_by=' + event_by + "&csrId=" + csrSearch + "&teamId=" + teamId + "&isCreated=" + isCreated + "&fromdate=" + fromdate + "&todate=" + todate + "&followupPerson=" + followupPerson + "&followupPersonEntity=" + followupPersonEntity + "&followupWith=" + followupWith + "&followupWithEntityType=" + followupWithEntityType;
         });
 
         $(document).on('click', '#ServiceCallQueue_isCreated', function () {

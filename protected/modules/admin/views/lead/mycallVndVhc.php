@@ -255,7 +255,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 									return false;
 
                                 }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/updatedetails", array("vhc_id" =>$data[vhc_id]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/updatedetails", array("vhc_id" =>$data[vhc_id]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\approve.png',
 								'label'		 => '<i class="fa fa-check"></i>',
 								'options'	 => array('data-toggle' => 'ajaxModal', 'id' => 'vehicleUpdateDetails', 'style' => '', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-xs vehicleUpdateDetails p0', 'title' => 'Update Statistical Data ')
@@ -283,7 +283,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 									return false;
 
                                 }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/uberapprove", array("vhc_id" =>$data[vhc_id],"vhc_is_uber_approved"=>1))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/uberapprove", array("vhc_id" =>$data[vhc_id],"vhc_is_uber_approved"=>1))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 								'visible'	 => '($data[vhc_is_uber_approved] == 0)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -312,7 +312,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 									return false;
 
                                 }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/uberapprove", array("vhc_id" =>$data[vhc_id],"vhc_is_uber_approved"=>0))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/uberapprove", array("vhc_id" =>$data[vhc_id],"vhc_is_uber_approved"=>0))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 								'visible'	 => '($data[vhc_is_uber_approved] == 1)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -351,7 +351,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                     return false;
 
                                 }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/freeze", array("vhc_id" =>$data[vhc_id],"vhc_is_freeze"=>$data[vhc_is_freeze]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/freeze", array("vhc_id" =>$data[vhc_id],"vhc_is_freeze"=>$data[vhc_is_freeze]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 								'visible'	 => '($data[vhc_is_freeze] == 1)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -390,7 +390,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
                                     return false;
 
                                 }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/freeze", array("vhc_id" =>$data[vhc_id],"vhc_is_freeze"=>$data[vhc_is_freeze]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/freeze", array("vhc_id" =>$data[vhc_id],"vhc_is_freeze"=>$data[vhc_is_freeze]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 								'visible'	 => '($data[vhc_is_freeze] == 0)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',

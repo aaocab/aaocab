@@ -244,7 +244,7 @@
 			<div class ="row col-xs-12 mt10">
 
 				<div class="col-xs-12 col-sm-3 col-md-3">
-					<?php echo $form->checkboxGroup($model, 'vnd_is_nmi', array('label' => 'Show only pending vendors in NMI zones')); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admpnl/generalReport/zoneCsv" target="_blank">(See Current NMI zones)</a>		
+					<?php echo $form->checkboxGroup($model, 'vnd_is_nmi', array('label' => 'Show only pending vendors in NMI zones')); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/aaohome/generalReport/zoneCsv" target="_blank">(See Current NMI zones)</a>		
 				</div>
 				<div class="col-xs-12 col-sm-3 col-md-3">
 	<!--					<input class="form-control" type="checkbox" id="vnd_active" name="vnd_active" value="2" <?php
@@ -323,7 +323,7 @@
 				'htmlOptions'		 => array('class' => 'table-responsive panel panel-primary  compact'),
 				'columns'			 => array(
 					array('name'	 => 'vnd_name', 'value'	 => function($data) {
-							echo CHtml::link($data['vnd_name'], Yii::app()->createUrl('/admpnl/vendor/view', array('id' => $data['vnd_id'])), array('target' => '_blank'));
+							echo CHtml::link($data['vnd_name'], Yii::app()->createUrl('/aaohome/vendor/view', array('id' => $data['vnd_id'])), array('target' => '_blank'));
 						}, 'sortable'			 => true,
 						'headerHtmlOptions'	 => array('class' => 'col-xs-2 text-center'),
 						'htmlOptions'		 => array('class' => 'text-center'),
@@ -353,7 +353,7 @@
 						'htmlOptions'		 => array('class' => 'text-right'),
 						'header'			 => 'Digital Agreement Date'),
 					array('name'	 => 'vrascore', 'value'	 => function($data) {
-							echo ($data['vrascore'] > 0) ? CHtml::link($data['vrascore'], Yii::app()->createUrl('/admpnl/vendor/view', array('id' => $data['vnd_id'])), array('target' => '_blank')) : 'NA';
+							echo ($data['vrascore'] > 0) ? CHtml::link($data['vrascore'], Yii::app()->createUrl('/aaohome/vendor/view', array('id' => $data['vnd_id'])), array('target' => '_blank')) : 'NA';
 							echo "<br>";
 							echo ($data['vrs_docs_r4a'] == 1) ? '[ Ready 4 Approval ]' : '';
 						}, 'sortable'			 => true,
@@ -479,7 +479,7 @@
 									return false;
 
 								}',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vendor/unsetOrientation", array("vnd_id" => $data["vnd_id"]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vendor/unsetOrientation", array("vnd_id" => $data["vnd_id"]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\orientationUncheck.png',
 								'visible'	 => '($data[vnp_is_orientation] == 1  && $data[vnp_orientation_type] == 0)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -525,7 +525,7 @@
 									return false;
 
 								}',
-								'url'		 => 'Yii::app()->createUrl("admpnl/vendor/unsetOrientation", array("vnd_id" => $data["vnd_id"]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vendor/unsetOrientation", array("vnd_id" => $data["vnd_id"]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\vendor\orientation_no.png',
 								'visible'	 => '($data[vnp_is_orientation] == 1 && $data[vnp_orientation_type] == 2)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',

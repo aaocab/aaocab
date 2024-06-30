@@ -462,7 +462,7 @@ $icon	 = '<img src="/images/icon/eye.png"  style="cursor:pointer ;height:16px; w
                                                             
                                                                     return false;
                                                     }',
-								'url'		 => 'Yii::app()->createUrl("admpnl/driver/linkuser", array("drvId" => $data[drv_id]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/driver/linkuser", array("drvId" => $data[drv_id]))',
 								'label'		 => '<i class="fa fa-users"></i>',
 								'options'	 => array('data-toggle' => 'ajaxModal', 'style' => 'padding: 4px ;margin-left: 4px', 'rel' => 'popover', 'data-placement' => 'left', 'class' => 'btn btn-xs linkUser', 'title' => 'Link User')
 							),
@@ -595,7 +595,7 @@ $icon	 = '<img src="/images/icon/eye.png"  style="cursor:pointer ;height:16px; w
                                     return false;
 
                                 }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/driver/freeze", array("drv_id" => $data[drv_id],"drv_is_freeze"=>$data[drv_is_freeze]))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/driver/freeze", array("drv_id" => $data[drv_id],"drv_is_freeze"=>$data[drv_is_freeze]))',
 						'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 						'visible'	 => '($data[drv_is_freeze] == 1)',
 						'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -634,7 +634,7 @@ $icon	 = '<img src="/images/icon/eye.png"  style="cursor:pointer ;height:16px; w
                                     return false;
 
                                 }',
-						'url'		 => 'Yii::app()->createUrl("admpnl/driver/freeze", array("drv_id" => $data[drv_id],"drv_is_freeze"=>$data[drv_is_freeze]))',
+						'url'		 => 'Yii::app()->createUrl("aaohome/driver/freeze", array("drv_id" => $data[drv_id],"drv_is_freeze"=>$data[drv_is_freeze]))',
 						'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 						'visible'	 => '($data[drv_is_freeze] == 0)',
 						'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -698,7 +698,7 @@ $icon	 = '<img src="/images/icon/eye.png"  style="cursor:pointer ;height:16px; w
                                                         return false;
                                                             
                                                     }',
-														'url'		 => 'Yii::app()->createUrl("admpnl/driver/addremark", array("drv_id" => $data[drv_id]))',
+														'url'		 => 'Yii::app()->createUrl("aaohome/driver/addremark", array("drv_id" => $data[drv_id]))',
 														'imageUrl'	 => Yii::app()->request->baseUrl . '\images\add_remarks.png',
 														//'visible'	 => '$data[drv_active] == 1',
 														'label'		 => '<i class="fa fa-toggle-on"></i>',

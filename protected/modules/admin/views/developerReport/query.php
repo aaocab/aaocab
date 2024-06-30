@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-4"></div>
 	<div class="col-md-6 text-right">
-		<a href="<?= Yii::app()->createUrl('admpnl/developerReport/querylist') ?>"><div class="btn btn-primary">Query List</div></a>&nbsp;
+		<a href="<?= Yii::app()->createUrl('aaohome/developerReport/querylist') ?>"><div class="btn btn-primary">Query List</div></a>&nbsp;
 	</div>
 </div>
 <div class="row pull-center">

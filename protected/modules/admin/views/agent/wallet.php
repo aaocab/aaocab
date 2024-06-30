@@ -2,7 +2,7 @@
 $partnerId		 = 'ID: ' . ($agentModel->agt_type == 1) ? $agentModel->agt_referral_code : $agentModel->agt_agent_id . '-' . $agentModel->getAgentType($agentModel->agt_type);
 $this->pageTitle = "Agent Wallet Ledger for " . $agentModel->agt_company . ' ' . $partnerId;
 $agtId			 = $_GET['agtId'];
-$ledgerList		 = Yii::app()->createUrl('admpnl/agent/ledgerbooking', array("agtId" => $agtId));
+$ledgerList		 = Yii::app()->createUrl('aaohome/agent/ledgerbooking', array("agtId" => $agtId));
 ?>
 <div class="col-xs-12">
     <div class="panel">
@@ -217,7 +217,7 @@ $model->ven_date_type	 = 2;
 $checkExportAccess		 = Yii::app()->user->checkAccess("Export");
 $form					 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 	'id'					 => 'generate-vendor-form', 'enableClientValidation' => true,
-	'action'				 => '/admpnl/agent/walletpdf',
+	'action'				 => '/aaohome/agent/walletpdf',
 	'clientOptions'			 => array(
 		'validateOnSubmit'	 => true,
 		'errorCssClass'		 => 'has-error'

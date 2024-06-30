@@ -488,7 +488,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 										$bookingCount	 = $data["bkgCnt"];
 										if ($leadCount > 0 && $bookingCount > 0)
 										{
-											echo $data["qrc_scanned_count"] . ' / ' . "<a href='leadList?qrId=$qrId' target='_blank'>$leadCount</a>" . ' / ' . "<a href='/admpnl/booking/list?qrId=$qrId' target='_blank'>$bookingCount</a>";
+											echo $data["qrc_scanned_count"] . ' / ' . "<a href='leadList?qrId=$qrId' target='_blank'>$leadCount</a>" . ' / ' . "<a href='/aaohome/booking/list?qrId=$qrId' target='_blank'>$bookingCount</a>";
 										}
 										else if ($leadCount > 0)
 										{
@@ -496,7 +496,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 										}
 										else if ($bookingCount > 0)
 										{
-											echo $data["qrc_scanned_count"] . ' / ' . $leadCount . ' / ' . "<a href='/admpnl/booking/list?qrId=$qrId' target='_blank'>$bookingCount</a>";
+											echo $data["qrc_scanned_count"] . ' / ' . $leadCount . ' / ' . "<a href='/aaohome/booking/list?qrId=$qrId' target='_blank'>$bookingCount</a>";
 										}
 										else
 										{

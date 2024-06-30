@@ -41,9 +41,9 @@ $form		 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 <!--=========================================================================-->
 <div class="row">
 	<div class="col-xs-12  pb10">
-		<a href="/admpnl/generalReport/scqreport" target="_blank"> Click To View  SCQ Report</a>
+		<a href="/aaohome/generalReport/scqreport" target="_blank"> Click To View  SCQ Report</a>
 		<br>
-		<a target="_blank" href="/admpnl/scq/teamStaticalData/">Click To View Team Report</a>
+		<a target="_blank" href="/aaohome/scq/teamStaticalData/">Click To View Team Report</a>
 	</div>
 </div>
 <div class="row"> 

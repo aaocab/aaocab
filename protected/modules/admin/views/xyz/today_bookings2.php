@@ -793,15 +793,15 @@
 				<?php } ?> 
 
 			</div>
-			<a href="<?php echo Yii::app()->createUrl('admpnl/report/zonewise-count'); ?>" target="blank">>> Day's Zone-wise Count Report</a>
+			<a href="<?php echo Yii::app()->createUrl('aaohome/report/zonewise-count'); ?>" target="blank">>> Day's Zone-wise Count Report</a>
 			</br></br>
-			<a href="<?php echo Yii::app()->createUrl('admpnl/generalReport/partnerWiseCountBooking'); ?>" target="blank">>> Partner Booking Report (B2B Other)</a>
+			<a href="<?php echo Yii::app()->createUrl('aaohome/generalReport/partnerWiseCountBooking'); ?>" target="blank">>> Partner Booking Report (B2B Other)</a>
 			</br></br>
-			<a href="<?php echo Yii::app()->createUrl('admpnl/report/runningtotal'); ?>" target="blank">>> Running Total Report</a>
+			<a href="<?php echo Yii::app()->createUrl('aaohome/report/runningtotal'); ?>" target="blank">>> Running Total Report</a>
 			</br></br>
-			<a href="<?php echo Yii::app()->createUrl('admpnl/report/booking'); ?>" target="blank">>> Booking Report</a>
+			<a href="<?php echo Yii::app()->createUrl('aaohome/report/booking'); ?>" target="blank">>> Booking Report</a>
 			</br></br>
-			<a href="<?php echo Yii::app()->createUrl('admpnl/report/pickup'); ?>" target="blank">>> Pickup Report</a>
+			<a href="<?php echo Yii::app()->createUrl('aaohome/report/pickup'); ?>" target="blank">>> Pickup Report</a>
 			</br></br>
 
 

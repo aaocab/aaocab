@@ -365,8 +365,8 @@ class VendorCommand extends BaseCommand
 				$vendorId	 = $row['vd_vnd_id'];
 				$reqId		 = $row['vd_agmt_req_id'];
 				$deviceId	 = $row['vd_agmt_device_id'];
-				//$url = Yii::app()->createUrl('https://'.$host.'/admpnl/vendor/generateSoftCopyForVendor', ['vendorId' => urlencode($vendorId), 'reqId' => urlencode($reqId)]);
-				$url		 = $baseURL . '/admpnl/vendor/generateSoftCopyForVendor?vendorId=' . urlencode($vendorId) . '&reqId=' . urlencode($reqId);
+				//$url = Yii::app()->createUrl('https://'.$host.'/aaohome/vendor/generateSoftCopyForVendor', ['vendorId' => urlencode($vendorId), 'reqId' => urlencode($reqId)]);
+				$url		 = $baseURL . '/aaohome/vendor/generateSoftCopyForVendor?vendorId=' . urlencode($vendorId) . '&reqId=' . urlencode($reqId);
 				$url		 = str_replace('./', '', $url);
 				$data		 = Vendors::model()->file_get_contents_curl($url);
 				/*
@@ -401,11 +401,11 @@ class VendorCommand extends BaseCommand
 			{
 				$vendorId	 = $vendor['vnd_id'];
 				$model		 = VendorPref::model()->getByVendorId($vendorId);
-				$ledgerLink	 = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateLedgerForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1Inv) . '&toDate=' . urlencode($date2Inv) . '&email=1');
+				$ledgerLink	 = Yii::app()->createAbsoluteUrl('aaohome/vendor/generateLedgerForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1Inv) . '&toDate=' . urlencode($date2Inv) . '&email=1');
 				$fileArray	 = [0 => ['URL' => $ledgerLink]];
 				if ($invoice == 1)
 				{
-					$invoiceLink = Yii::app()->createAbsoluteUrl('admpnl/vendor/generateInvoiceForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1Inv) . '&toDate=' . urlencode($date2Inv) . '&email=1');
+					$invoiceLink = Yii::app()->createAbsoluteUrl('aaohome/vendor/generateInvoiceForVendor?vendorId=' . urlencode($vendorId) . '&fromDate=' . urlencode($date1Inv) . '&toDate=' . urlencode($date2Inv) . '&email=1');
 					$fileArray	 = [0 => ['URL' => $ledgerLink], 1 => ['URL' => $invoiceLink]];
 				}
 				$attachments = json_encode($fileArray);

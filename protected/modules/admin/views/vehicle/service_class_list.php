@@ -86,7 +86,7 @@ $form		 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 							'activeserviceclass'	 => array(
 								"click"		 => "function(e){   var con = confirm('are you sure want to activate service class?'); 
                                                         if(con){change_status(this);}}",
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/changeservicestatus", array("scc_id" => $data[scc_id],"scc_active"=>$data[scc_active]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/changeservicestatus", array("scc_id" => $data[scc_id],"scc_active"=>$data[scc_active]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\inactive.png',
 								'visible'	 => '($data[scc_active] == 0)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',
@@ -95,7 +95,7 @@ $form		 = $this->beginWidget('booster.widgets.TbActiveForm', array(
 							'deactiveserviceclass'	 => array(
 								"click"		 => "function(e){   var con = confirm('Are you sure want to deactivate service class?');
                                                         if(con){change_status(this);}}",
-								'url'		 => 'Yii::app()->createUrl("admpnl/vehicle/changeservicestatus", array("scc_id" => $data[scc_id],"scc_active"=>$data[scc_active]))',
+								'url'		 => 'Yii::app()->createUrl("aaohome/vehicle/changeservicestatus", array("scc_id" => $data[scc_id],"scc_active"=>$data[scc_active]))',
 								'imageUrl'	 => Yii::app()->request->baseUrl . '\images\icon\active.png',
 								'visible'	 => '($data[scc_active] == 1)',
 								'label'		 => '<i class="fa fa-toggle-on"></i>',

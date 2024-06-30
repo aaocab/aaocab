@@ -27,9 +27,9 @@
 			</div>
 			<div class="col-xs-12 col-md-4 mt20 pt5 mb10 text-center">
 				<button class="btn btn-primary" type="submit" style="width: 185px;"  name="bookingSearch">Search</button>		
-				<a  class="btn btn-primary mb10" href="/admpnl/CalendarEvent/Create" target="_blank" style="text-decoration: none;margin-left: 20px;float:left">Add Event</a>
+				<a  class="btn btn-primary mb10" href="/aaohome/CalendarEvent/Create" target="_blank" style="text-decoration: none;margin-left: 20px;float:left">Add Event</a>
 
-                <a  class="btn btn-primary mb10" href="/admpnl/CalendarEvent/MapYearEventDate" target="_blank" style="text-decoration: none;float:right">View event Calendar</a> 
+                <a  class="btn btn-primary mb10" href="/aaohome/CalendarEvent/MapYearEventDate" target="_blank" style="text-decoration: none;float:right">View event Calendar</a> 
 
 			</div>
         </div>

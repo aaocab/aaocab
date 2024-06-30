@@ -127,7 +127,7 @@ if (!empty($dataProvider))
 				function ($data) {
 					if ($data['bkg_id'] != null)
 					{
-						echo CHtml::link($data['bkg_id'], Yii::app()->createUrl("admpnl/booking/view", ["id" => $data['bkg_id']]), ['target' => '_blank']);
+						echo CHtml::link($data['bkg_id'], Yii::app()->createUrl("aaohome/booking/view", ["id" => $data['bkg_id']]), ['target' => '_blank']);
 					}
 				}, 'sortable'			 => true, 'headerHtmlOptions'	 => array('class' => 'col-xs-1'), 'header'			 => 'Booking Id'),
 			array('name' => 'bkg_pickup_date', 'value' => '$data[bkg_pickup_date]', 'sortable' => true, 'headerHtmlOptions' => array('class' => 'col-xs-1'), 'header' => 'Pickup Date'),

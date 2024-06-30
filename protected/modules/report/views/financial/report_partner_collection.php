@@ -121,10 +121,10 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
 					<table class="table table-striped table-bordered dataTable mb0 table">
 						<thead>
 							<tr>
-								<th class="col-xs-2" id="yw0_c0"><a class="sort-link" href="/admpnl/report/Partnercollection?sort=agt_company">Partner <span class="caret"></span></a></th>
-								<th class="col-xs-2" id="yw0_c1"><a class="sort-link" href="/admpnl/report/Partnercollection?sort=Receivable">Receivable <span class="caret"></span></a></th>
-								<th class="col-xs-2" id="yw0_c2"><a class="sort-link" href="/admpnl/report/Partnercollection?sort=Payable">Payable <span class="caret"></span></a></th>
-								<th class="col-xs-2" id="yw0_c2"><a class="sort-link" href="/admpnl/report/Partnercollection?sort=WalletBalance">Wallet Balance <span class="caret"></span></a></th>
+								<th class="col-xs-2" id="yw0_c0"><a class="sort-link" href="/aaohome/report/Partnercollection?sort=agt_company">Partner <span class="caret"></span></a></th>
+								<th class="col-xs-2" id="yw0_c1"><a class="sort-link" href="/aaohome/report/Partnercollection?sort=Receivable">Receivable <span class="caret"></span></a></th>
+								<th class="col-xs-2" id="yw0_c2"><a class="sort-link" href="/aaohome/report/Partnercollection?sort=Payable">Payable <span class="caret"></span></a></th>
+								<th class="col-xs-2" id="yw0_c2"><a class="sort-link" href="/aaohome/report/Partnercollection?sort=WalletBalance">Wallet Balance <span class="caret"></span></a></th>
 
 							</tr>
 						</thead>

@@ -69,7 +69,7 @@
                             <tr>
                                 <td style="text-align:center"><?php echo $row['tea_name']; ?></td>
                                 <td style="text-align:center"><?php echo $row['gozen'] ?></td>
-                                <td style="text-align:center"><a target="_blank" href="/admpnl/scq/view?id=<?php echo $row['scq_id'] ?>"><?php echo $row['scq_id'] ?></a></td>
+                                <td style="text-align:center"><a target="_blank" href="/aaohome/scq/view?id=<?php echo $row['scq_id'] ?>"><?php echo $row['scq_id'] ?></a></td>
                             </tr>
                             <?php
                         }
@@ -95,7 +95,7 @@
     $(document).ready(function () {
         $(document).on('click', '.submitCbr', function () {
             var teamId = $("#ServiceCallQueue_scq_to_be_followed_up_by_id").val();
-            window.location.href = '/admpnl/scq/onlineCsr?cdt_id=' + teamId;
+            window.location.href = '/aaohome/scq/onlineCsr?cdt_id=' + teamId;
         });
     });
 

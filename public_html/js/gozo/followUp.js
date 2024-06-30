@@ -9,7 +9,7 @@ var FollowUp = function () {
     {
         $.ajax({
             "type": "GET",
-            "url": $baseUrl + '/admpnl/scq/ctrScq',
+            "url": $baseUrl + '/aaohome/scq/ctrScq',
             "data":
                     {"YII_CSRF_TOKEN": $("input[name='YII_CSRF_TOKEN']").val()},
             "dataType": "HTML",
@@ -41,7 +41,7 @@ var FollowUp = function () {
             if ($vndList == null)
             {
                 xhr = $.ajax({
-                    "url": $baseUrl + '/admpnl/scq/vnds/apshow/1',
+                    "url": $baseUrl + '/aaohome/scq/vnds/apshow/1',
                     dataType: 'json', data: {"vndId": vndId},
                     success: function (results)
                     {
@@ -66,7 +66,7 @@ var FollowUp = function () {
     this.loadVnds = function (query, callback)
     {
         $.ajax({
-            "url": $baseUrl + '/admpnl/scq/vnds',
+            "url": $baseUrl + '/aaohome/scq/vnds',
             type: 'GET',
             "data":
                     {"apshow": 1, "q": encodeURIComponent(query)},
@@ -92,7 +92,7 @@ var FollowUp = function () {
             if ($drvList == null)
             {
                 xhr = $.ajax({
-                    "url": $baseUrl + '/admpnl/scq/drvs/apshow/1',
+                    "url": $baseUrl + '/aaohome/scq/drvs/apshow/1',
                     dataType: 'json', data: {"drvId": drvId},
                     success: function (results)
                     {
@@ -117,7 +117,7 @@ var FollowUp = function () {
     this.loadDrvs = function (query, callback)
     {
         $.ajax({
-            "url": $baseUrl + '/admpnl/scq/drvs',
+            "url": $baseUrl + '/aaohome/scq/drvs',
             type: 'GET',
             "data":
                     {"apshow": 1, "q": encodeURIComponent(query)},
@@ -141,9 +141,9 @@ var FollowUp = function () {
             var obj = this;
             if ($custList == null)
             {
-                // url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/scq/customer', ['onlyActive' => 1, 'agt' => ''])) ?>' + agtId,
+                // url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/scq/customer', ['onlyActive' => 1, 'agt' => ''])) ?>' + agtId,
                 xhr = $.ajax({
-                    "url": $baseUrl + '/admpnl/scq/customer/apshow/1/',
+                    "url": $baseUrl + '/aaohome/scq/customer/apshow/1/',
                     dataType: 'json',
                     data: {"cust": cust},
                     success: function (results)
@@ -170,7 +170,7 @@ var FollowUp = function () {
     this.loadCustomer = function (query, callback)
     {
         $.ajax({
-            "url": $baseUrl + '/admpnl/scq/customer',
+            "url": $baseUrl + '/aaohome/scq/customer',
             type: 'GET',
             "data":
                     {"apshow": 1, "q": encodeURIComponent(query)},
@@ -196,8 +196,8 @@ var FollowUp = function () {
             if ($gozenList == null)
             {
                 xhr = $.ajax({
-                    "url": $baseUrl + '/admpnl/scq/gozens/apshow/1',
-                    //  url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/scq/gozens', ['apshow' => 1])) ?>',
+                    "url": $baseUrl + '/aaohome/scq/gozens/apshow/1',
+                    //  url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/scq/gozens', ['apshow' => 1])) ?>',
                     dataType: 'json',
                     data: {"gozen": gozen},
 
@@ -227,7 +227,7 @@ var FollowUp = function () {
     this.loadGozen = function (query, callback)
     {
         $.ajax({
-            "url": $baseUrl + '/admpnl/scq/gozens',
+            "url": $baseUrl + '/aaohome/scq/gozens',
             type: 'GET',
             "data":
                     {"apshow": 1, "q": encodeURIComponent(query)},
@@ -257,12 +257,12 @@ var FollowUp = function () {
             dataType: "json",
             "data":
                     {"id": bkgID},
-            url: $baseUrl + "/admpnl/booking/display",
+            url: $baseUrl + "/aaohome/booking/display",
 
             success: function (data1)
             {
 
-                var url = $baseUrl + "/admpnl/booking/view?id=" + data1.NID;
+                var url = $baseUrl + "/aaohome/booking/view?id=" + data1.NID;
                 html1 = "<table><tr><td><a href='" + url + "' target='blank'>" + data1.ID + "</a></td></tr>\n"
                             +"<tr><td>Trip :" + data1.Trip + "</td></tr>\n"
                             +"<tr><td>Created On :" + data1.CRTDT + "</td></tr>\n"
@@ -288,7 +288,7 @@ var FollowUp = function () {
             dataType: "json",
             "data":
                     {"id": bkgID},
-            url: $baseUrl + "/admpnl/booking/dtlscq",
+            url: $baseUrl + "/aaohome/booking/dtlscq",
 
             success: function (data1)
             {
@@ -311,8 +311,8 @@ var FollowUp = function () {
             if ($adminList == null)
             {
                 xhr = $.ajax({
-                    "url": $baseUrl + '/admpnl/scq/gozens/apshow/1',
-                    //  url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/scq/gozens', ['apshow' => 1])) ?>',
+                    "url": $baseUrl + '/aaohome/scq/gozens/apshow/1',
+                    //  url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/scq/gozens', ['apshow' => 1])) ?>',
                     dataType: 'json',
                     data: {"gozen": admId},
 
@@ -342,7 +342,7 @@ var FollowUp = function () {
     this.loadAdmins = function (query, callback)
     {
         $.ajax({
-            "url": $baseUrl + '/admpnl/scq/gozens',
+            "url": $baseUrl + '/aaohome/scq/gozens',
             type: 'GET',
             "data":
                     {"apshow": 1, "q": encodeURIComponent(query)},
@@ -368,8 +368,8 @@ var FollowUp = function () {
             if ($teamList == null)
             {
                 xhr = $.ajax({
-                    "url": $baseUrl + '/admpnl/scq/teams/apshow/1',
-                    //  url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('admpnl/scq/team', ['apshow' => 1])) ?>',
+                    "url": $baseUrl + '/aaohome/scq/teams/apshow/1',
+                    //  url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('aaohome/scq/team', ['apshow' => 1])) ?>',
                     dataType: 'json',
                     data: {"teamId": teamId},
                     success: function (results)
@@ -398,7 +398,7 @@ var FollowUp = function () {
     this.loadTeams = function (query, callback)
     {
         $.ajax({
-            "url": $baseUrl + '/admpnl/scq/teams',
+            "url": $baseUrl + '/aaohome/scq/teams',
             type: 'GET',
             "data":
                     {"apshow": 1, "q": encodeURIComponent(query)},
