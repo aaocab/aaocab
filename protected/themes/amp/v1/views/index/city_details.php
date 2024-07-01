@@ -203,18 +203,18 @@ if ($type == 'city')
 
 
 					<!--------------------------------------->
-					<div>Gozo's booking and billing process is <a href="http://www.aaocab.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. <br>You get instant booking confirmations, electronic invoices and top quality for the best price.</div>	
-					<div>On the Gozo platform you can also create a multi-day tour package by customizing your itinerary. These are created a round trip bookings between 2 or more cities<br></div>
+					<div>aaocab's booking and billing process is <a href="http://www.aaocab.com/blog/billing-transparency/">completely transparent</a> and you will get all the terms and conditions detailed on your booking confirmation. <br>You get instant booking confirmations, electronic invoices and top quality for the best price.</div>	
+					<div>On the aaocab platform you can also create a multi-day tour package by customizing your itinerary. These are created a round trip bookings between 2 or more cities<br></div>
 					<div class="wrraper mt20">
 						<h2 class="mt0">Rent a Car in <?= $cmodel->cty_name; ?> for outstation travel, day-based rentals and airport transfers</h2>
-						<p>Rent a Gozo cab with driver for local and outstation travel in <?= $cmodel->cty_name; ?>. Gozo provides taxis with driver on rent in <?php echo $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around <?php echo $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in <?php echo $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day</p>
-						<p>Gozo is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
+						<p>Rent a aaocab cab with driver for local and outstation travel in <?= $cmodel->cty_name; ?>. aaocab provides taxis with driver on rent in <?php echo $cmodel->cty_name; ?>, including one way outstation taxi drops, outstation roundtrips and outstation shared taxi to nearby cities or day-based hourly rentals in or around <?php echo $cmodel->cty_name; ?>. You can also book cabs for your vacation or business trips for single or multiple days within or around <?= $cmodel->cty_name; ?> or to nearby cities and towns. Car rental services in <?php echo $cmodel->cty_name; ?> are also available for flexible outstation packages that are billed by custom package tour itinerary or by day</p>
+						<p>aaocab is India’s leader in outstation car rental. We provide economy, premium and luxury cab rental services for outstation and local travel over 3000 towns & cities and on over 50,000 routes all around India. 
 							If you prefer to hire specific brands of cars like Innova or Swift Dzire then book our Assured Sedan or Assured SUV cab categories. You are guaranteed a Toyota Innova when you book an Assured SUV or guaranteed a Swift Dzire when you book an Assured Sedan. 
-							With Gozo you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. Gozo provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. Gozo partners with regional taxi operators in <?php echo $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the <?php echo $cmodel->cty_name; ?> area.
+							With aaocab you can book a one way cab with driver from  <?= $cmodel->cty_name; ?> to <?= $nearby_city ?> and many more. aaocab provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. aaocab partners with regional taxi operators in <?php echo $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the <?php echo $cmodel->cty_name; ?> area.
 						</p>
 						<h2>Outstation shared taxi and shuttle services are also available in <?= $nearby_city ?></h2>
-						<p>In September of 2018, Gozo has introduced the facility to hire a AC shared taxi by seat. We call this service Gozo SHARED. There are two types of services available. Gozo runs regular SHARED TAXI shuttle services on popular routes. Book a seat in our a shared taxi shuttle  at our book a Shared taxi Shuttle page.  Or you can book a seat in our Gozo FLEXXI AC outstation shared services. With Gozo FLEXXI you are going to carpool with a person who has booked a full taxi and is willing to share his seats. Gozo FLEXXI is available in all major cities and on all popular outstation taxi routes across India. Gozo FLEXXI is much cheaper than traveling by an AC bus</p>
-						<p>If you have firm plans and prefer to rent your own taxi, you can simply book a FLEXXI option and choose to sell your unused seats. Gozo cabs will help promote your unused seats to riders who are willing to travel in a shared taxi. </p> 
+						<p>In September of 2018, aaocab has introduced the facility to hire a AC shared taxi by seat. We call this service aaocab SHARED. There are two types of services available. aaocab runs regular SHARED TAXI shuttle services on popular routes. Book a seat in our a shared taxi shuttle  at our book a Shared taxi Shuttle page.  Or you can book a seat in our aaocab FLEXXI AC outstation shared services. With aaocab FLEXXI you are going to carpool with a person who has booked a full taxi and is willing to share his seats. aaocab FLEXXI is available in all major cities and on all popular outstation taxi routes across India. aaocab FLEXXI is much cheaper than traveling by an AC bus</p>
+						<p>If you have firm plans and prefer to rent your own taxi, you can simply book a FLEXXI option and choose to sell your unused seats. aaocab cabs will help promote your unused seats to riders who are willing to travel in a shared taxi. </p> 
 	<?php
 	if ($cmodel['cty_has_airport'] == 1)
 	{
@@ -263,9 +263,9 @@ if ($type == 'city')
 							?>
 						</div>
 						<div class="wrraper mt20">
-							<p>Gozo is India's leader in outstation car rental. We provide economy, premium and luxury outstation taxi cab rental services in over 1000 towns &  <?= $cities; ?> cities and on over <?= number_format($routes, 0); ?> routes all around India.</p>
+							<p>aaocab is India's leader in outstation car rental. We provide economy, premium and luxury outstation taxi cab rental services in over 1000 towns &  <?= $cities; ?> cities and on over <?= number_format($routes, 0); ?> routes all around India.</p>
 							<p>If you prefer to hire specific brands of cars like Innova or Swift Dzire then book our Assured Sedan or Assured SUV cab categories. You are guaranteed a Toyota Innova when you book a Assured SUV or guaranteed a Swift Dzire when you book a Assured Sedan.</p>
-							<p>With Gozo you can <a href="/one-way-cabs">book a one way cab with driver</a> from <?= $cmodel->cty_name; ?> to <?= $topCitiesByKm; ?> and more. Gozo provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. Gozo partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the <?= $cmodel->cty_name; ?> area.</p>
+							<p>With aaocab you can <a href="/one-way-cabs">book a one way cab with driver</a> from <?= $cmodel->cty_name; ?> to <?= $topCitiesByKm; ?> and more. aaocab provides well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x365. aaocab partners with regional taxi operators in <?= $cmodel->cty_name; ?> who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We also provide local sightseeing trips and tours in or around the city. Our customers include domestic & international tourists, large event groups and business travellers who take rent cars for outstation trips and also for local taxi requirements in the <?= $cmodel->cty_name; ?> area.</p>
 							<?php
 							if ($cmodel['cty_has_airport'] == 1)
 							{
@@ -280,7 +280,7 @@ if ($type == 'city')
 								?>
 								<p></p>
 								<h3 class="mb0"> Outstation shared taxi services are also available in <?= $cmodel->cty_name; ?></h3>
-								<p>	In September of 2018, Gozo has introduced the facility to hire a seat in a shared AC outstation taxi. We call this service Gozo FLEXXI.You can learn more about our <a href="http://www.aaocab.com/goFLEXXI" >Gozo FLEXXI AC outstation shared taxi.</a> Gozo FLEXXI is available in all major cities and on all popular oustation taxi routes across India. Gozo FLEXXI is much cheaper than traveling by an AC bus. If you have firm plans and prefer to rent your own taxi, you can simply book a FLEXXI option and choose to sell your unused seats. Gozo cabs will help promote your unused seats to riders who are willing to travel in a shared taxi. 
+								<p>	In September of 2018, aaocab has introduced the facility to hire a seat in a shared AC outstation taxi. We call this service aaocab FLEXXI.You can learn more about our <a href="http://www.aaocab.com/goFLEXXI" >aaocab FLEXXI AC outstation shared taxi.</a> aaocab FLEXXI is available in all major cities and on all popular oustation taxi routes across India. aaocab FLEXXI is much cheaper than traveling by an AC bus. If you have firm plans and prefer to rent your own taxi, you can simply book a FLEXXI option and choose to sell your unused seats. aaocab cabs will help promote your unused seats to riders who are willing to travel in a shared taxi. 
 								</p>		
 								<?php
 							}
@@ -288,9 +288,9 @@ if ($type == 'city')
 						</div>
 					</div>
 					<!--------------------------------------->
-					<p>Gozo's booking process is completely transparent and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.</p>
-					<p>On the Gozo platform you can also create a multi-day tour package by customizing your itinerary. These are created a round trip bookings between 2 or more cities.</p>
-					<p>With Gozo you can book a taxi anywhere in India. Our services are top rated in almost all cities across India. You can book a car with Gozo in 
+					<p>aaocab's booking process is completely transparent and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price.</p>
+					<p>On the aaocab platform you can also create a multi-day tour package by customizing your itinerary. These are created a round trip bookings between 2 or more cities.</p>
+					<p>With aaocab you can book a taxi anywhere in India. Our services are top rated in almost all cities across India. You can book a car with aaocab in 
 						<?php
 						foreach ($topCitiesByRegion as $top)
 						{
@@ -397,8 +397,8 @@ if ($type == 'city')
 					Whether you want to go for  shopping, for back to back meetings, weddings or sightseeing, aaocab is at your disposal, waiting for you, just like your own car.
 					<br/>And the best part – you have the option to choose the package that you like. Our local rental prices are
 
-					<h2>Why book a day rental cab in <?php echo $cmodel->cty_name; ?> with Gozo Cabs?</h2>
-					Get the same high quality and great prices that you have come to expect from Gozo. Now for local city rentals too.<br/>
+					<h2>Why book a day rental cab in <?php echo $cmodel->cty_name; ?> with aaocab Cabs?</h2>
+					Get the same high quality and great prices that you have come to expect from aaocab. Now for local city rentals too.<br/>
 
 					<ul>
 						<li><strong> Cabs at your Disposal:</strong> With aaocab Day Rentals you get cabs at your disposal for as long as you want and travel to multiple stop points with just one booking within city limits.<br/></li>

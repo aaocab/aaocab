@@ -1723,7 +1723,7 @@ class UsersController extends BaseController
 			$ipAddress	 = \Filter::getUserIP();
 			$sessionId	 = Yii::app()->getSession()->getSessionId();
 			//	$msg		 = "LOGIN--BKG=====" . $bkgId . "====DRV====" . $driverId . "====ENTITY===" . $drvModel->drv_id . "====SESSION===" . $sessionId;
-			///	\Sentry\captureMessage($msg, null);
+			
 			try
 			{
 				Logger::create("driver::users::temporaryLogin sessionId: " . $sessionId . " drvModel: " . $drvModel->drv_id, CLogger::LEVEL_INFO);

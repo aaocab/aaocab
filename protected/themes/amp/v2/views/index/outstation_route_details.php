@@ -258,8 +258,8 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 					<a href="/car-rental/<?php echo strtolower(str_replace(' ', '-', $cmodel->cty_alias_path)) ?>" class="color-highlight">Car rental option in <?= $cmodel->cty_name; ?></a>
 				</div>
 					<p class="mb0">Our customers book outstation taxi services in <?= $cmodel->cty_name; ?> for trips to most nearby cities. 
-             AC cabs are the most comfortable way to travel to or from <?= $cmodel->cty_name; ?>. Since the driver is a local, they are familiar with the routes and this makes it much more convenient than hiring a self-drive car. Most business travelers rent cabs for flexible travel between <?= $cmodel->cty_name; ?> and nearby towns. Gozo provides compact, sedan and SUV outstation car rentals in addition to minibus for groups (tempo traveller) and luxury cars for executives. Shared outstation taxis are also available between <?= $cmodel->cty_name; ?> and <?=$topCitiesByKm;?>. Gozoâ€™s cab rental services are available in over 1000 cities and on 50,000+ routes across the country. Gozoâ€™s Outstation taxi charges are among the most reasonable, as Gozo cabs specializes in inter-city travel which gives us the greatest reach, largest supply and strong relationships with taxi operators who can deliver to you the best services with courteous and well-informed drivers. 
-	         Drivers working with Gozo are familiar with the routes in <?= $cmodel->cty_name; ?> and the various regions surrounding <?= $cmodel->cty_name; ?> area. </p>
+             AC cabs are the most comfortable way to travel to or from <?= $cmodel->cty_name; ?>. Since the driver is a local, they are familiar with the routes and this makes it much more convenient than hiring a self-drive car. Most business travelers rent cabs for flexible travel between <?= $cmodel->cty_name; ?> and nearby towns. aaocab provides compact, sedan and SUV outstation car rentals in addition to minibus for groups (tempo traveller) and luxury cars for executives. Shared outstation taxis are also available between <?= $cmodel->cty_name; ?> and <?=$topCitiesByKm;?>. aaocabâ€™s cab rental services are available in over 1000 cities and on 50,000+ routes across the country. aaocabâ€™s Outstation taxi charges are among the most reasonable, as aaocab cabs specializes in inter-city travel which gives us the greatest reach, largest supply and strong relationships with taxi operators who can deliver to you the best services with courteous and well-informed drivers. 
+	         Drivers working with aaocab are familiar with the routes in <?= $cmodel->cty_name; ?> and the various regions surrounding <?= $cmodel->cty_name; ?> area. </p>
 				</div>
 			</div>
 		</div>		
@@ -270,7 +270,7 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">Book Shared outstation cabs from or to <?= $cmodel->cty_name; ?></h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-					<p class="mb20">Gozo FLEXXI SHARE is available on many routes to and from <?= $cmodel->cty_name; ?>. Instead of booking a bus ticket to or from <?= $cmodel->cty_name; ?> you should take a look at Gozo FLEXXI SHARE.
+					<p class="mb20">aaocab FLEXXI SHARE is available on many routes to and from <?= $cmodel->cty_name; ?>. Instead of booking a bus ticket to or from <?= $cmodel->cty_name; ?> you should take a look at aaocab FLEXXI SHARE.
                Visit our booking page to see the availability of shared seats in cabs to and from <?= $cmodel->cty_name; ?>. All frequently traveled routes from <?= $cmodel->cty_name; ?> generally have seats available in a shared taxi.</p>
 					<p class="mb0">Visit our booking page to see availability of shared seats in cabs to and from <?= $cmodel->cty_name; ?>. All frequently travelled routes from <?= $cmodel->cty_name; ?> generally have seats available in shared taxi.</p>
 				</div>
@@ -283,8 +283,8 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">Hire a taxi with driver for the day in <?= $cmodel->cty_name; ?></h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-					<p class="mb20">Most of our corporate clients prefer to have a chauffeur driver car at their disposal for when they are visiting <?= $cmodel->cty_name; ?> for either a few hours, full day or a few days. Having a outstation car hire available works out to be very convenient and also time & cost efficient for business travelers. Various businesses  use our corporate travel services to avail these services in the cities and towns they travel to frequently. Our services of outstation cab in India will serve you all through the roads of India (the major cities). With Gozo you always get transparent billing, fair prices, 24x7 support and nationwide reach. If you have any special requirements you can always contact our customer helpdesk and we will be happy to support you.</p>
-					<p class="mb20">With Gozo you always get transparent billing, fair prices, 24x7 support and nationwide reach. If you have any special requirements you can always contact our customer helpdesk and we will be happy to support you.</p>
+					<p class="mb20">Most of our corporate clients prefer to have a chauffeur driver car at their disposal for when they are visiting <?= $cmodel->cty_name; ?> for either a few hours, full day or a few days. Having a outstation car hire available works out to be very convenient and also time & cost efficient for business travelers. Various businesses  use our corporate travel services to avail these services in the cities and towns they travel to frequently. Our services of outstation cab in India will serve you all through the roads of India (the major cities). With aaocab you always get transparent billing, fair prices, 24x7 support and nationwide reach. If you have any special requirements you can always contact our customer helpdesk and we will be happy to support you.</p>
+					<p class="mb20">With aaocab you always get transparent billing, fair prices, 24x7 support and nationwide reach. If you have any special requirements you can always contact our customer helpdesk and we will be happy to support you.</p>
 				</div>
 			</div>
 		</div>
@@ -295,7 +295,7 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">Outstation cabs in <?= $cmodel->cty_name; ?></h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-					<p class="mb20">With Gozo you can book an outstation cabs 24x7 from <?= $cmodel->cty_name; ?> to <?= $topCitiesByKm; ?>. </p>
+					<p class="mb20">With aaocab you can book an outstation cabs 24x7 from <?= $cmodel->cty_name; ?> to <?= $topCitiesByKm; ?>. </p>
 				</div>
 			</div>
 		</div>
@@ -320,7 +320,7 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">Can I book an outstation cab in <?= $cmodel->cty_name; ?> on-demand and on-the-fly using my app?</h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-					<p class="mb20">Due to the nature of outstation travel, most trips are pre-scheduled and pre-booked enabling us to arrange for the right vehicle for your journey. We encourage customers to make reservations at least 3 weeks ahead of your date of travel as prices have a tendency to rise as vehicle supply becomes limited. Gozo can arrange for vehicles for outstation travel from <?= $cmodel->cty_name; ?> even at the last minute but in most cases please anticipate at least 2hours of time between you making your reservation and the vehicle arriving for pickup in <?= $cmodel->cty_name; ?>. We have been able to deliver vehicles in much shorter times but please take this as a general guidance.</p>
+					<p class="mb20">Due to the nature of outstation travel, most trips are pre-scheduled and pre-booked enabling us to arrange for the right vehicle for your journey. We encourage customers to make reservations at least 3 weeks ahead of your date of travel as prices have a tendency to rise as vehicle supply becomes limited. aaocab can arrange for vehicles for outstation travel from <?= $cmodel->cty_name; ?> even at the last minute but in most cases please anticipate at least 2hours of time between you making your reservation and the vehicle arriving for pickup in <?= $cmodel->cty_name; ?>. We have been able to deliver vehicles in much shorter times but please take this as a general guidance.</p>
 </div>
 			</div>
 		</div>
@@ -343,7 +343,7 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">What are the different types of trips that a person can take for outstation travel from <?= $cmodel->cty_name; ?>?</h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text"> 
-					<p class="mb20">You can book a one-way trip, round trip or plan a itinerary for travel to multiple cities from <?= $cmodel->cty_name; ?>. When traveling in a outstation taxi from <?= $cmodel->cty_name; ?> you are renting outstation car with driver. Gozo provides with well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x36 for outstation taxi booking from <?= $cmodel->cty_name; ?>.</p>
+					<p class="mb20">You can book a one-way trip, round trip or plan a itinerary for travel to multiple cities from <?= $cmodel->cty_name; ?>. When traveling in a outstation taxi from <?= $cmodel->cty_name; ?> you are renting outstation car with driver. aaocab provides with well maintained air-conditioned (AC) cars, courteous drivers and our services are available 24x7x36 for outstation taxi booking from <?= $cmodel->cty_name; ?>.</p>
 					<p class="mb0">What is included as part of the charges for an outstation trip?</p>
 					<ul>
 						<li>As part of an outstation journey your charges include a certain number of pre-allocated kms and the applicable taxes for the journey.</li>
@@ -361,7 +361,7 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">Are the drivers knowledgeable about the highways and the journey from <?= $cmodel->cty_name; ?>?</h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-					<p class="mb20">Gozo uses local taxi operators in <?= $cmodel->cty_name; ?>  for its <?= $cmodel->cty_name; ?> outstation taxi service who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We can also provide local sightseeing trips and tours in or around the city if you require any day rental needs.regarding our cab for outstation from <?= $cmodel->cty_name; ?> </p> 
+					<p class="mb20">aaocab uses local taxi operators in <?= $cmodel->cty_name; ?>  for its <?= $cmodel->cty_name; ?> outstation taxi service who maintain highest level of service quality and have a very good knowledge of the local roads and highway driving. We can also provide local sightseeing trips and tours in or around the city if you require any day rental needs.regarding our cab for outstation from <?= $cmodel->cty_name; ?> </p> 
 				</div>
 			</div>
 		</div>
@@ -372,7 +372,7 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to goâ€‹â€
 			<h2 class="font-16 mb5" itemprop="name">How clear is the pricing and billing?</h2>
 			<div itemprop="acceptedAnswer" itemscope="" itemtype="https://schema.org/Answer">
 				<div itemprop="text">
-					<p class="mb20">Gozo's booking and billing process for outstation car hire from <?= $cmodel->cty_name; ?> is completely transparent and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price. We encourage you to read the terms and conditions on your booking confirmation. With Gozo you can book a taxi anywhere in India. Our services are top rated in almost all cities across India.</p> 
+					<p class="mb20">aaocab's booking and billing process for outstation car hire from <?= $cmodel->cty_name; ?> is completely transparent and you will get all the terms and conditions detailed on your booking confirmation. You get instant booking confirmations, electronic invoices and top quality for the best price. We encourage you to read the terms and conditions on your booking confirmation. With aaocab you can book a taxi anywhere in India. Our services are top rated in almost all cities across India.</p> 
 				</div>
 			</div>
 		</div>

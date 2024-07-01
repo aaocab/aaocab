@@ -202,7 +202,7 @@ class TrackController extends BaseController
 		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 		$baseUrl = Yii::app()->params['fullBaseURL'];
 		$url	 = $baseUrl . '/dctd/' . $hash;
@@ -236,7 +236,7 @@ class TrackController extends BaseController
 		catch (Exception $ex)
 		{
 			ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 	}
 

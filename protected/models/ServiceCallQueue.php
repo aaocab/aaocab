@@ -3753,7 +3753,7 @@ class ServiceCallQueue extends CActiveRecord
 		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 		skipAll:
 		return $returnSet;
@@ -5369,7 +5369,7 @@ class ServiceCallQueue extends CActiveRecord
 		catch (Exception $ex)
 		{
 			$returnSet = ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 		return $returnSet;
 	}
@@ -6158,7 +6158,7 @@ class ServiceCallQueue extends CActiveRecord
 		{
 			DBUtil::rollbackTransaction($transaction);
 			$returnSet = ReturnSet::setException($ex);
-			\Sentry\captureMessage(json_encode($ex), null);
+			
 		}
 		return $returnSet;
 	}

@@ -54,15 +54,15 @@ $text1 = count($topCitiesByRegion) > 0 ? 'Then this is where you need to go​�
 			</div>
 		</div>		
 		<p>Luxury Cars are a comfort & style statement. 
-		When Gozo’s team first thought of this, we know we have to fulfill customer’s desire for service and class by letting them hire luxury cars on rent in Delhi and all major cities in India. 
+		When aaocab’s team first thought of this, we know we have to fulfill customer’s desire for service and class by letting them hire luxury cars on rent in Delhi and all major cities in India. 
 		Luxury cars that we provide for rent range from a wide variety that cater to choices and tastes of our customers. 
 		To add to your special day, we provide the best luxury cars rentals in <?=$city?></p>
 
-		<h3 class="mb0">Why book with Gozo for Luxury car rental in <?=$city?></h3>
-		<p>Gozo is india’s leader for luxury car rental services in top 50 of the 750 cities that we serve in India. Gozo's booking and billing process is completely transparent and you will get all the terms and conditions detailed on your booking confirmation. In addition you get instant booking confirmations, electronic invoices, 24x7 support and top quality for the best price. If you have any special needs, you can always contact our customer helpdesk and we will be happy to support you.Our services are top rated in almost all cities across India. If you are looking to make an impression on your clients, or if you are serving the business elite you can call on Gozo to arrange pick up or drop facilities in luxury cars. You can also use Gozo’s luxury car rental services for a city tour through the day.
+		<h3 class="mb0">Why book with aaocab for Luxury car rental in <?=$city?></h3>
+		<p>aaocab is india’s leader for luxury car rental services in top 50 of the 750 cities that we serve in India. aaocab's booking and billing process is completely transparent and you will get all the terms and conditions detailed on your booking confirmation. In addition you get instant booking confirmations, electronic invoices, 24x7 support and top quality for the best price. If you have any special needs, you can always contact our customer helpdesk and we will be happy to support you.Our services are top rated in almost all cities across India. If you are looking to make an impression on your clients, or if you are serving the business elite you can call on aaocab to arrange pick up or drop facilities in luxury cars. You can also use aaocab’s luxury car rental services for a city tour through the day.
 		</p>
 		<h3 class="mb0">Hire Premium & luxury cars for wedding in <?=$city?></h3>
-		<p>To make your memorable day even more special, Gozo offers you an opportunity to choose from wide spectra of luxury cars. Due to the specific and less frequent nature of these requirements we request customers to make their reservations well in advance. This provides us sufficient advance notice to arrange a vehicle for your needs.</p>
+		<p>To make your memorable day even more special, aaocab offers you an opportunity to choose from wide spectra of luxury cars. Due to the specific and less frequent nature of these requirements we request customers to make their reservations well in advance. This provides us sufficient advance notice to arrange a vehicle for your needs.</p>
 		</div>
 	</div>
 </section>

@@ -3172,7 +3172,7 @@ bkg_is_manual_surge, bkg_surge_differentiate_amount,bkg_is_wallet_selected,bkg_w
 		}
 		catch(Exception $e)
 		{
-			\Sentry\captureMessage(json_encode($e), null);
+			
 			 $returnSet = ReturnSet::setException($e);
 		}
 		return $returnSet;

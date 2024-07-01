@@ -20,10 +20,7 @@ Yii::app()->clientScript->registerPackage("webEnd");
         <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
         <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
         <meta charset="utf-8">
-		<script src="https://browser.sentry-cdn.com/5.29.2/bundle.min.js"
-				integrity="sha384-ir4+BihBClNpjZk3UKgHTr0cwRhujAjy/M5VEGvcOzjhM1Db79GAg9xLxYn4uVK4"
-				crossorigin="anonymous"
-		></script>
+		
 		<?php
 		if ($this->ampPageEnabled == 1)
 		{
@@ -304,12 +301,7 @@ Yii::app()->clientScript->registerPackage("webEnd");
 
 
 <?= $content; ?>
-<script>
-    $(document).ready(function ()
-    {
-        Sentry.init({dsn: 'https://bdc028d6b9ea40a5bfb96308f6b22ce4@sentry.gozo.cab/3', environment: 'DESKTOP-<?= APPLICATION_ENV ?>'});
-    });
-</script>
+
 <!-- page -->
 <?php
 $time = Filter::getExecutionTime();

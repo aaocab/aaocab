@@ -339,7 +339,7 @@ $form = $this->beginWidget('CActiveForm', array(
 					tapToDismiss: false,
 					timeout: 500000
 				});
-				Sentry.captureException(new Error(message));
+				
 				Console.log(message);
 			}
 		});

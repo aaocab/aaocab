@@ -2344,7 +2344,7 @@ class BookingController extends BaseController
 				$response = new Stub\booking\CreateResponse();
 				$response->setCurrentData($bkgModel, $showCustomer,$showHelpLine);
 
-				//\Sentry\captureMessage("BOOKING-ID=>" . $response->bookingId ."|| TotalAmount ->" . $response->cabRate->fare->totalAmount ."|| DueAmount ->".$response->cabRate->fare->dueAmount);
+				
 
 				$responsedt->dataList[] = $response;
 

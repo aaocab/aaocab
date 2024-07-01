@@ -1953,7 +1953,7 @@ GROUP BY pYear, pWeek";
 			$message = "Invalid CheckSum.";
 			$msgNext = "Data from DriverApp FILE-ERROR---" . $message;
 		}
-		\Sentry\captureMessage($msg . "====" . $fileChecksum . '++++++' . $msgNext, null);
+		
 		$result = ['message' => $message, 'model' => $model, 'success' => $success, 'appSyncId' => $appSyncId];
 		return $result;
 	}

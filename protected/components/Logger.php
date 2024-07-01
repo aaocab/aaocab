@@ -86,49 +86,19 @@ class Logger
 		}
 	}
 
-	public static function addSentryBreadcrumb($desc, $category = null, $level = CLogger::LEVEL_INFO, $type = \Sentry\Breadcrumb::TYPE_DEFAULT, $metadata = [])
-	{
-		if ($category == null)
-		{
-			$category = self::getCategory();
-		}
-		$sentryLevel = Sentry\Breadcrumb::LEVEL_INFO;
-		switch ($level)
-		{
-			case CLogger::LEVEL_PROFILE:
-				$sentryLevel = Sentry\Breadcrumb::LEVEL_INFO;
-				break;
-			case CLogger::LEVEL_TRACE:
-				$sentryLevel = Sentry\Breadcrumb::LEVEL_DEBUG;
-				break;
-			case CLogger::LEVEL_INFO:
-				$sentryLevel = Sentry\Breadcrumb::LEVEL_INFO;
-				break;
-			case CLogger::LEVEL_WARNING:
-				$sentryLevel = Sentry\Breadcrumb::LEVEL_WARNING;
-				break;
-			case CLogger::LEVEL_ERROR:
-				$type		 = \Sentry\Breadcrumb::TYPE_ERROR;
-				$sentryLevel = Sentry\Breadcrumb::LEVEL_ERROR;
-				break;
-			default:
-				$sentryLevel = Sentry\Breadcrumb::LEVEL_INFO;
-				break;
-		}
-		\Sentry\addBreadcrumb(new \Sentry\Breadcrumb($sentryLevel, $type, $category, $desc, $metadata));
-	}
+	
 
 	public static function trace($desc)
 	{
 		$desc = $desc . "\n\t" . self::getLastTrace();
-		Logger::addSentryBreadcrumb($desc, self::getTraceCategory(), CLogger::LEVEL_TRACE);
+		
 		self::create($desc, CLogger::LEVEL_TRACE);
 	}
 
 	public static function info($desc)
 	{
 		$desc = $desc . "\n\t" . self::getLastTrace();
-		Logger::addSentryBreadcrumb($desc, self::getTraceCategory(), CLogger::LEVEL_INFO);
+		
 		self::create($desc, CLogger::LEVEL_INFO);
 		Logger::writeToConsole("INFO:: " . $desc);
 	}
@@ -155,11 +125,8 @@ class Logger
 				return;
 		}
 
-		Logger::addSentryBreadcrumb($desc, self::getTraceCategory(), CLogger::LEVEL_WARNING, \Sentry\Breadcrumb::TYPE_DEFAULT, self::filterTrace($traces));
-		if ($capture)
-		{
-			\Sentry\captureMessage($desc, new Sentry\Severity(Sentry\Severity::WARNING));
-		}
+		
+		
 		$desc	 .= self::getRequestDetails();
 		$desc	 .= self::getBackTrace(3);
 		self::create($desc, CLogger::LEVEL_WARNING);
@@ -182,11 +149,8 @@ class Logger
 				return;
 		}
 
-		Logger::addSentryBreadcrumb($desc, self::getTraceCategory(), CLogger::LEVEL_ERROR, \Sentry\Breadcrumb::TYPE_ERROR, self::filterTrace($traces));
-		if ($capture)
-		{
-			\Sentry\captureMessage($desc, new Sentry\Severity(Sentry\Severity::ERROR));
-		}
+		
+		
 		$desc	 .= self::getRequestDetails();
 		$desc	 .= self::getBackTrace(0, $e);
 		self::create($desc, CLogger::LEVEL_ERROR);
@@ -769,13 +733,8 @@ class Logger
 			$logs				 = Yii::getLogger()->getLogs("profile,error", $existingCategory, "");
 			$msg				 = self::getRequestDetails();
 			Yii::log("\n###################################################### PUSH PROFILE LOG START {$traceLevel}  ##############################################################" . $msg, CLogger::LEVEL_PROFILE, $traceLevel);
-			foreach ($logs as $log)
-			{
-				Yii::log($log[0], $log[1], $traceLevel);
-				self::addSentryBreadcrumb($log[0], $traceLevel, $log[1]);
-			}
-			self::addSentryBreadcrumb($msg, $traceLevel, CLogger::LEVEL_TRACE);
-			\Sentry\captureMessage("Profile Logs for {$traceLevel}", new \Sentry\Severity(\Sentry\Severity::WARNING));
+			
+			
 			Yii::log("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUSH PROFILE LOG END {$traceLevel}  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", CLogger::LEVEL_PROFILE, $traceLevel);
 		}
 	}
@@ -796,7 +755,6 @@ class Logger
 	public static function flush()
 	{
 		Yii::getLogger()->flush(true);
-		Sentry\SentrySdk::getCurrentHub()->getClient()->flush();
 	}
 
 }

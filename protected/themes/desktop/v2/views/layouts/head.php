@@ -16,7 +16,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 		<link rel="preconnect" href="https://connect.facebook.net/">
 		<link rel="preconnect" href="http://www.clarity.ms/">
 		<link rel="preconnect" href="https://cdn.onesignal.com/">
-		<link rel="preconnect" href="https://browser.sentry-cdn.com/">		
+			
         <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
         <meta charset="utf-8">
 		<?php
@@ -35,14 +35,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 		?>
         <!-- Sets initial viewport load and disables zooming  -->
 		<meta name="viewport" content="width=device-width, initial-scale=5, maximum-scale=5" >
-		<!--		<link rel="preload" href="https://browser.sentry-cdn.com/7.64.0/bundle.min.js" as="script" />-->
+		
 		<!--		<link rel="preload" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js" as="script"/>-->
         <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-		<script
-			src="https://browser.sentry-cdn.com/7.76.0/bundle.min.js"
-			integrity="sha384-E6cl5rBqghgWmQzeZzIeEiCZlZ2jwbXjwezpP0iC13ZLtLuFw6YhyuazvzcASt0t"
-			crossorigin="anonymous"
-		></script>
+		
 		<?php
 		if (Yii::app()->controller->id == 'users' && Yii::app()->controller->action->id == 'refer')
 		{
@@ -140,12 +136,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/res/v2d/js/
 		<!--        <link rel="stylesheet" href="/res/v4d/css/style.css?v0.2" async/>-->
         <link rel="shortcut icon" href="<?= IMAGE_URL ?>/fav-icon.png">
         <link rel="icon" type="image/x-icon" href="<?= IMAGE_URL ?>/favicon/fav.png?v=0.1"/>
-		<script>
-			$(document).ready(function()
-			{
-				Sentry.init({dsn: 'https://981df2c06421445ea83713d1792260fd@sentry1.gozo.cab/4', environment: 'DESKTOP-<?= APPLICATION_ENV ?>'});
-			});
-		</script>
+		
 		<script type="text/javascript">
 			$(window).scroll(function()
 			{
