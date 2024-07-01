@@ -273,11 +273,11 @@ class LookupController extends BaseController
 		$query			 = Yii::app()->request->getParam('q');
 		$city			 = Yii::app()->request->getParam('city');
 		$airportShow	 = Yii::app()->request->getParam('apshow', 0);
-		$datafromcity	 = Yii::app()->cache->get("alllookupCitylistbyQuery1_{$query}_{$city}_{$airportShow}_");
+		//$datafromcity	 = Yii::app()->cache->get("alllookupCitylistbyQuery1_{$query}_{$city}_{$airportShow}_");
 		//if ($datafromcity === false || $datafromcity == '[]')
 		//{
 		$datafromcity	 = Cities::model()->getJSONAllCitiesbyQuery($query, $city, $airportShow);
-		Yii::app()->cache->set("alllookupCitylistbyQuery1_{$query}_{$city}_{$airportShow}_", $datafromcity, 21600);
+		//Yii::app()->cache->set("alllookupCitylistbyQuery1_{$query}_{$city}_{$airportShow}_", $datafromcity, 21600);
 		//}
 		echo $datafromcity;
 		Yii::app()->end();

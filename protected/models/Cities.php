@@ -670,6 +670,7 @@ class Cities extends CActiveRecord
 				FROM city_list, cities, topcitiesstats
 				WHERE ctyId=cities.cty_id AND cities.cty_id=city_list.cty_id $qry $qry1
 				ORDER BY $order LIMIT 0,30";
+                
 		return DBUtil::query($sql, DBUtil::SDB(), array_merge($params1, $params2));
 	}
 
@@ -920,6 +921,8 @@ class Cities extends CActiveRecord
 	public function getJSONListCities($query, $city = '')
 	{
 		$rows = $this->getSourceListCities($query, $city);
+                
+               
 
 		$arrCities = array();
 
