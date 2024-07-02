@@ -92,7 +92,7 @@ class Auth
 		$model->usr_name			 = $this->profile->firstName;
 		$model->usr_lname			 = $this->profile->lastName;
 		$model->usr_country_code	 = $this->profile->primaryContact->code;
-		$model->usr_mobile			 = $userPhone;
+		$model->usr_mobile			 = $this->profile->primaryContact->number;
 		return $model;
 	}
 

@@ -115,7 +115,7 @@ class UsersController extends BaseController
 		// Consumer Signup :: Done
 		/** @deprecated use req.post.signUpV2 */
 		$this->onRest('req.post.signUp.render', function () {
-			return $this->renderJSON($this->signUpV1());
+			return $this->renderJSON($this->signUp());
 		});
 
 		$this->onRest('req.post.signUpV2.render', function () {

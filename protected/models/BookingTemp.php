@@ -432,11 +432,11 @@ class BookingTemp extends CActiveRecord
 //			$this->addError($attribute, 'Maximum request exceeded. Please contact our customer care to make booking or try again after 1 hour');
 //			return false;
 		}
-		if ($cnt > Config::get('btemp.validateSpamCount') && !in_array($arrUserIp[0], $ips))
-		{
-			$this->addError($attribute, 'Maximum request exceeded. Please contact our customer care to make booking or try again after 30 minutes');
-			return false;
-		}
+//		if ($cnt > Config::get('btemp.validateSpamCount') && !in_array($arrUserIp[0], $ips))
+//		{
+//			$this->addError($attribute, 'Maximum request exceeded. Please contact our customer care to make booking or try again after 30 minutes');
+//			return false;
+//		}
 		Logger::endProfile("validateSpam");
 
 		return TRUE;

@@ -42,7 +42,7 @@ return array(
 		/* Local Connection String
 		 * */
 		'db'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00624;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
 			'password'			 => '',
@@ -51,7 +51,7 @@ return array(
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db1'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00624;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
 			'password'			 => '',
@@ -61,7 +61,7 @@ return array(
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db2'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00624;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
 			'password'			 => '',
@@ -71,7 +71,7 @@ return array(
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db3'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_00624;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
 			'password'			 => '',

@@ -11828,11 +11828,11 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 			$ips		 = array_merge($ips, $result);
 			$arrUserIp	 = explode(',', $userIP);
 		}
-		if ($cnt > Config::get('quote.validateSpamCount') && !in_array($arrUserIp[0], $ips))
-		{
-			$this->addError($attribute, 'Maximum request exceeded. Please contact our customer care to make booking or try again after 30 minutes');
-			return false;
-		}
+//		if ($cnt > Config::get('quote.validateSpamCount') && !in_array($arrUserIp[0], $ips))
+//		{
+//			$this->addError($attribute, 'Maximum request exceeded. Please contact our customer care to make booking or try again after 30 minutes');
+//			return false;
+//		}
 
 		return true;
 	}

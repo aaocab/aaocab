@@ -382,15 +382,15 @@ class BookingController extends BaseController
 
 	public function getQuoteV1()
 	{
-		if (Filter::checkIOSDevice())
-		{
+//		if (Filter::checkIOSDevice())
+//		{
 			$data = Yii::app()->request->rawBody;
 			return $this->getQuote($data);
-		}
-		else
-		{
-			throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
-		}
+//		}
+//		else
+//		{
+//			throw new Exception("Invalid Request.", ReturnSet::ERROR_INVALID_DATA);
+//		}
 	}
 
 	public function getQuoteV2()
