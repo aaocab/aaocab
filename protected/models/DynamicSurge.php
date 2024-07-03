@@ -100,65 +100,65 @@ class DynamicSurge
 		$this->type						 = self::Type_Default;
 
 		skipDefault:
-		$rowZoneZoneRoutes = $this->getZoneZoneBuckets();
-		if (!$rowZoneZoneRoutes)
-		{
-			goto skipZoneRoutes;
-		}
-		$baseCapacity						 = round($rowZoneZoneRoutes['base_capacity'] * 7);
-		$rowZoneZoneRoutes['base_capacity']	 = round($rowZoneZoneRoutes['base_capacity'] * $localFactor);
-		$countZoneRoutes					 = BookingSub::getCountByZoneRoutes($this->_pickupDate, $fromCity, $toCity, $tripType);
-		Logger::trace("DDBP Z-Z BaseCapacity :" . $baseCapacity . " Count Routes: " . $countZoneRoutes);
+//		$rowZoneZoneRoutes = $this->getZoneZoneBuckets();
+//		if (!$rowZoneZoneRoutes)
+//		{
+//			goto skipZoneRoutes;
+//		}
+//		$baseCapacity						 = round($rowZoneZoneRoutes['base_capacity'] * 7);
+//		$rowZoneZoneRoutes['base_capacity']	 = round($rowZoneZoneRoutes['base_capacity'] * $localFactor);
+//		$countZoneRoutes					 = BookingSub::getCountByZoneRoutes($this->_pickupDate, $fromCity, $toCity, $tripType);
+//		Logger::trace("DDBP Z-Z BaseCapacity :" . $baseCapacity . " Count Routes: " . $countZoneRoutes);
+//
+//		$log["ZoneZone"] = ['bucket' => $rowZoneZoneRoutes, 'count' => $countZoneRoutes];
+//		$this->dprZoneRoutes->populate($rowZoneZoneRoutes, $countZoneRoutes, $baseFare, self::Type_ZoneRoutes);
+//		if ($this->dprZoneRoutes->baseFare > $this->dprApplied->baseFare)
+//		{
+//			$log["ZoneZone"]["applied"]	 = true;
+//			$this->dprApplied			 = $this->dprZoneRoutes;
+//			$this->type					 = self::Type_ZoneRoutes;
+//		}
+//		skipZoneRoutes:
 
-		$log["ZoneZone"] = ['bucket' => $rowZoneZoneRoutes, 'count' => $countZoneRoutes];
-		$this->dprZoneRoutes->populate($rowZoneZoneRoutes, $countZoneRoutes, $baseFare, self::Type_ZoneRoutes);
-		if ($this->dprZoneRoutes->baseFare > $this->dprApplied->baseFare)
-		{
-			$log["ZoneZone"]["applied"]	 = true;
-			$this->dprApplied			 = $this->dprZoneRoutes;
-			$this->type					 = self::Type_ZoneRoutes;
-		}
-		skipZoneRoutes:
-
-		$rowZoneStateRoutes = $this->getZoneStateBuckets();
-		if (!$rowZoneStateRoutes)
-		{
-			goto skipZoneStateRoutes;
-		}
-		$baseCapacity						 = round($rowZoneStateRoutes['base_capacity'] * 2.5);
-		$rowZoneStateRoutes['base_capacity'] = round($rowZoneStateRoutes['base_capacity'] * $localFactor);
-		$countZoneStateRoutes				 = BookingSub::getCountByZoneStateRoutes($this->_pickupDate, $fromCity, $toCity, $tripType);
-		Logger::trace("DDBP Z-S BaseCapacity :" . $baseCapacity . " Count Routes: " . $countZoneRoutes);
-
-		$log["ZoneState"] = ['bucket' => $rowZoneStateRoutes, 'count' => $countZoneStateRoutes];
-
-		$this->dprZonesStates->populate($rowZoneStateRoutes, $countZoneStateRoutes, $baseFare, self::Type_ZoneStates);
-		if ($this->dprZonesStates->baseFare > $this->dprApplied->baseFare)
-		{
-			$log["ZoneState"]["applied"] = true;
-			$this->dprApplied			 = $this->dprZonesStates;
-			$this->type					 = self::Type_ZoneStates;
-		}
-
-		skipZoneStateRoutes:
-		$zones = $this->getZoneBuckets();
-		if (!$zones)
-		{
-			$zones					 = $defaultRoutes;
-			$zones['base_capacity']	 = $baseCapacity;
-		}
-
-		$countZones		 = BookingSub::getCountByZone($this->_pickupDate, $fromCity, $tripType);
-		Logger::trace("DDBP SZ BaseCapacity :" . $baseCapacity . " Count Routes: " . $countZoneStateRoutes);
-		$log["Zones"]	 = ['bucket' => $zones, 'count' => $countZones];
-		$this->dprZones->populate($zones, $countZones, $baseFare, self::Type_Zones);
-		if ($this->dprZones->baseFare > $this->dprApplied->baseFare)
-		{
-			$log["Zones"]["applied"] = true;
-			$this->dprApplied		 = $this->dprZones;
-			$this->type				 = self::Type_Zones;
-		}
-		skipZones:
+//		$rowZoneStateRoutes = $this->getZoneStateBuckets();
+//		if (!$rowZoneStateRoutes)
+//		{
+//			goto skipZoneStateRoutes;
+//		}
+//		$baseCapacity						 = round($rowZoneStateRoutes['base_capacity'] * 2.5);
+//		$rowZoneStateRoutes['base_capacity'] = round($rowZoneStateRoutes['base_capacity'] * $localFactor);
+//		$countZoneStateRoutes				 = BookingSub::getCountByZoneStateRoutes($this->_pickupDate, $fromCity, $toCity, $tripType);
+//		Logger::trace("DDBP Z-S BaseCapacity :" . $baseCapacity . " Count Routes: " . $countZoneRoutes);
+//
+//		$log["ZoneState"] = ['bucket' => $rowZoneStateRoutes, 'count' => $countZoneStateRoutes];
+//
+//		$this->dprZonesStates->populate($rowZoneStateRoutes, $countZoneStateRoutes, $baseFare, self::Type_ZoneStates);
+//		if ($this->dprZonesStates->baseFare > $this->dprApplied->baseFare)
+//		{
+//			$log["ZoneState"]["applied"] = true;
+//			$this->dprApplied			 = $this->dprZonesStates;
+//			$this->type					 = self::Type_ZoneStates;
+//		}
+//
+//		skipZoneStateRoutes:
+//		$zones = $this->getZoneBuckets();
+//		if (!$zones)
+//		{
+//			$zones					 = $defaultRoutes;
+//			$zones['base_capacity']	 = $baseCapacity;
+//		}
+//
+//		$countZones		 = BookingSub::getCountByZone($this->_pickupDate, $fromCity, $tripType);
+//		Logger::trace("DDBP SZ BaseCapacity :" . $baseCapacity . " Count Routes: " . $countZoneStateRoutes);
+//		$log["Zones"]	 = ['bucket' => $zones, 'count' => $countZones];
+//		$this->dprZones->populate($zones, $countZones, $baseFare, self::Type_Zones);
+//		if ($this->dprZones->baseFare > $this->dprApplied->baseFare)
+//		{
+//			$log["Zones"]["applied"] = true;
+//			$this->dprApplied		 = $this->dprZones;
+//			$this->type				 = self::Type_Zones;
+//		}
+//		skipZones:
 
 		if ($this->dprApplied->baseFare > $baseFare)
 		{

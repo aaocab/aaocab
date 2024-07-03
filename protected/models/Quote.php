@@ -1099,10 +1099,10 @@ class Quote
 		//Logger::trace("from city===" . $this->routes[0]->brt_from_city_id . "====to city======" . $this->routes[count($this->routes) - 1]->brt_to_city_id);
 		//Logger::trace("trip distance======>" . $this->routes[0]->brt_trip_distance);
 
-		$tableName = "nearest_route_" . $this->sourceCity . "_" . $this->destinationCity;
-		DBUtil::dropTempTable($tableName);
-		$tableName = "GarageRoute_{$this->sourceCity}_{$this->destinationCity}";
-		DBUtil::dropTempTable($tableName);
+//		$tableName = "nearest_route_" . $this->sourceCity . "_" . $this->destinationCity;
+//		DBUtil::dropTempTable($tableName);
+//		$tableName = "GarageRoute_{$this->sourceCity}_{$this->destinationCity}";
+//		DBUtil::dropTempTable($tableName);
 		if ($this->suggestedPrice != 1)
 		{
 			QuotesDataCreated::model()->setData($this, $cabs);
