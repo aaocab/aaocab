@@ -170,7 +170,7 @@ class Quote
 		Quote::$updateCounter = true;
 		$quote->flexxi_type	  = 1;
 		$quote->applyPromo	  = $applyPromo;
-		$partnerId			  = Yii::app()->params['gozoChannelPartnerId'];
+		$partnerId			  = Yii::app()->params['aaocabChannelPartnerId'];
 		$quote->partnerId	  = ($model->bkg_agent_id == null) ? $partnerId : $model->bkg_agent_id;
 		$quote->setCabTypeArr();
 
@@ -477,7 +477,7 @@ class Quote
 		/* @var $route BookingRoute */
 		$success = false;
 		$route	 = $this->routes[0];
-		$pid	 = ($this->partnerId ) ? $this->partnerId : Yii::app()->params['gozoChannelPartnerId'];
+		$pid	 = ($this->partnerId ) ? $this->partnerId : Yii::app()->params['aaocabChannelPartnerId'];
 		$res	 = $this->getRates($checkNearestRoute, $this->cabType);
 		if ($res)
 		{
@@ -1200,7 +1200,7 @@ class Quote
 			$tripType = $this->tripType;
 			if ($this->tripType == 12 || $this->tripType == 4 || $tripType == 4)
 			{
-				$model->partnerId = ($model->partnerId > 0) ? $model->partnerId : Yii::app()->params['gozoChannelPartnerId'];
+				$model->partnerId = ($model->partnerId > 0) ? $model->partnerId : Yii::app()->params['aaocabChannelPartnerId'];
 				$isFixedPrice	  = $model->calculatePartnerAT();
 				$model->tripType  = ($isFixedPrice == true ? 12 : 4);
 //				if (!$isFixedPrice)
@@ -2299,7 +2299,7 @@ class RouteRates
 			{
 				$this->rockBaseAmount = $this->quoteModel->routeRates->baseAmount;
 			}
-			$this->applySurge();
+			//$this->applySurge();
 			if ($this->quoteModel->gozoNow && ($this->quoteModel->partnerId == 1249 || $this->quoteModel->partnerId == null))
 			{
 				$quoteModel->gozoNow = true;
