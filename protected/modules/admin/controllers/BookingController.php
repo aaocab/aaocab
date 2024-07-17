@@ -2294,7 +2294,7 @@ class BookingController extends Controller
 			$quote->tripType = 3;
 		}
 		//  $partnerId		 = Yii::app()->request->getParam('agentId');
-		$bookingCPId			 = ($partnerId > 0) ? $partnerId : Yii::app()->params['gozoChannelPartnerId'];
+		$bookingCPId			 = ($partnerId > 0) ? $partnerId : Yii::app()->params['aaocabChannelPartnerId'];
 		$quote->partnerId		 = $bookingCPId;
 		$quote->quoteDate		 = date("Y-m-d H:i:s");
 		$quote->pickupDate		 = $bookingRouteArr[0]->brt_pickup_datetime;
@@ -5095,7 +5095,7 @@ FROM booking LEFT JOIN cities c1 ON c1.cty_id=bkg_from_city_id LEFT JOIN cities 
 			if ($booking_type != 8)
 			{
 				$partnerId		 = Yii::app()->request->getParam('agentId');
-				$bookingCPId	 = ($partnerId > 0) ? $partnerId : Yii::app()->params['gozoChannelPartnerId'];
+				$bookingCPId	 = ($partnerId > 0) ? $partnerId : Yii::app()->params['aaocabChannelPartnerId'];
 				$quote			 = new Quote();
 				$quote->routes	 = $routesArr;
 				$quote->tripType = ($booking_type == 5 && $pckageID == '') ? 3 : $booking_type; // package
@@ -5403,7 +5403,7 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 			$routesArr[]					 = $routeModel;
 		}
 		$cabtypeid	 = VehicleTypes::model()->resetScope()->findByPk($cabtypeid)->vht_car_type; //deprecated
-		$partnerId	 = Yii::app()->params['gozoChannelPartnerId'];
+		$partnerId	 = Yii::app()->params['aaocabChannelPartnerId'];
 		$arr		 = Quotation::model()->getQuote($routesArr, $booking_type, $partnerId, $cabtypeid);
 		$amount		 = ceil(abs($arr[$cabtypeid]['total_amt']));
 		$tax		 = $arr[$cabtypeid]['service_tax'];
@@ -10161,7 +10161,7 @@ Full T and Cs and inclusions/exclusions will be clearly called out in your booki
 			{
 				$quote->applyPromo = true;
 			}
-			$partnerId			 = Yii::app()->params['gozoChannelPartnerId'];
+			$partnerId			 = Yii::app()->params['aaocabChannelPartnerId'];
 			$quote->partnerId	 = $partnerId;
 			$quote->setCabTypeArr();
 			$quotes				 = $quote->getQuote($model->bkg_vehicle_type_id, true, true, $checkBestRate);
