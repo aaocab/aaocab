@@ -4855,16 +4855,16 @@ ORDER BY $s1";
 				throw new Exception(json_encode($model->getErrors()), ReturnSet::ERROR_VALIDATION);
 			}
 
-			if ($model->bkg_agent_id == null || $model->bkg_agent_id == 1249)
-			{
+//			if ($model->bkg_agent_id == null || $model->bkg_agent_id == 1249)
+//			{
 //addPromoCode for return;
-				$rulePrm		 = Config::get('booking.promo.settings');
-				$validDateArr	 = json_decode($rulePrm);
-				if ($validDateArr->enabled == 1)
-				{
-					PromoUsers::addUser($validDateArr->promoId, $model->bkgUserInfo->bkg_user_id, 0, 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s', strtotime('+' . $validDateArr->promoValidity . ' hours')), 1, 1);
-				}
-			}
+//				$rulePrm		 = Config::get('booking.promo.settings');
+//				$validDateArr	 = json_decode($rulePrm);
+//				if ($validDateArr->enabled == 1)
+//				{
+//					PromoUsers::addUser($validDateArr->promoId, $model->bkgUserInfo->bkg_user_id, 0, 1, date('Y-m-d H:i:s'), date('Y-m-d H:i:s', strtotime('+' . $validDateArr->promoValidity . ' hours')), 1, 1);
+//				}
+//			}
 //======================
 
 			Logger::trace("Promo Id : " . $model->bkgInvoice->bkg_promo1_id);
