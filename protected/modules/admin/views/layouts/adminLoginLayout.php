@@ -38,9 +38,13 @@
                 <div id="main-wrapper">
 					<div class="row">
                         <div class="col-md-4 center">
-                            <div class="text-center mb10"><img src="<?= Yii::app()->request->baseUrl; ?>/images/logo2_outstation.png?v1.0" alt="aaocab"/></div>
+                            <div class="text-center mb10">
+                                <h2 class="panel-heading">Aaocab</h2>
+<!--                                <img src="<?php //echo  Yii::app()->request->baseUrl; ?>/images/logo2_outstation.png?v1.0" alt="aaocab"/>-->
+                            
+                            </div>
                             <div class="login-box panel panel-white">
-                                <div class="panel-heading pt0"><h2>Administrator Login</h2></div>
+                                <div class="panel-heading pt0"><h3>Enter my home</h3></div>
                                 <div class="panel-body">
 									<?php echo $content; ?>
 

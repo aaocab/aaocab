@@ -723,6 +723,7 @@ class Cities extends CActiveRecord
 					WHERE cty.cty_active=1  $qry $qry1
 					ORDER BY $order
 					LIMIT 0,7";
+                     
 
 			return DBUtil::query($sql, DBUtil::SDB(), array_merge($params1, $params2, $params3, $params4));
 		}
