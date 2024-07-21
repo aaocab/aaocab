@@ -630,7 +630,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 
                         <a  href="<?= Yii::app()->createUrl('admin/index/dashboard') ?>"
                             style="font: inherit !important;  padding:5px">
-                            <img style="width: 110px;margin-top: 10px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo2_outstation.png?v1.1" />
+                            <b>Aao home</b>
+<!--                            <img style="width: 110px;margin-top: 10px" src="<?php //echo Yii::app()->request->baseUrl; ?>/images/logo2_outstation.png?v1.1" />-->
                         </a>
                     </div><!-- Logo Box -->
                     <div class="search-button">

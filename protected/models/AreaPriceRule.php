@@ -460,8 +460,8 @@ class AreaPriceRule extends CActiveRecord
 		
 		#Logger::info('params == ' . json_encode($params));
 		#Logger::info('SQL == ' . $sql);
-
-		$rows	 = DBUtil::query($sql, DBUtil::SDB(), $params, true, 60 * 60 * 24, CacheDependency::Type_PriceRule);
+//CacheDependency::Type_PriceRule
+		$rows	 = DBUtil::query($sql, DBUtil::SDB(), $params, true, 60 * 60 * 24,null );
 		
 		#Logger::info('SQL == ' . json_encode($rows));
 		$result	 = [];
