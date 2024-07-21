@@ -2,6 +2,8 @@
 
 class TestController extends Controller
 {
+    
+    
 	public $newHome		 = false;
 	public $layoutSufix	 = 0;
 
