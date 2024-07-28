@@ -631,7 +631,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
                         <a  href="<?= Yii::app()->createUrl('admin/index/dashboard') ?>"
                             style="font: inherit !important;  padding:5px">
                             <b>Aao home</b>
-<!--                            <img style="width: 110px;margin-top: 10px" src="<?php //echo Yii::app()->request->baseUrl; ?>/images/logo2_outstation.png?v1.1" />-->
+                          <img style="width: 50px;margin-top: 10px; height:50px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo2_outstation.jpg?v1.1" />
                         </a>
                     </div><!-- Logo Box -->
                     <div class="search-button">
@@ -1714,19 +1714,19 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 									</li>
 								</ul>
 							</li>
-							<li class="droplink">
+<!--							<li class="droplink">
 								<a href="#"><span class="menu-icon fa fa-briefcase"></span><p class="">Miscellaneous</p></a>
 								<ul class="sub-menu">
 									<li>
-										<a href="<?= Yii::app()->createUrl('aaohome/gozen') ?>">
-											<div class="center-block">GOZO INTRANET</div></a>
+										<a href="<?php //echo  Yii::app()->createUrl('aaohome/gozen') ?>">
+											<div class="center-block"> INTRANET</div></a>
 									</li>
 									<li>
 										<a href="https://docs.google.com/forms/d/1wyr5a1CQFlRLIYb3FqKdpKquKXd6L-pTgzLVvNH-D3g/edit?usp=sharing" target="_blank"><div class="center-block">LEAVE APPLICATION</div> </a>
 
 									</li>
 								</ul>
-							</li>
+							</li>-->
 							<div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">

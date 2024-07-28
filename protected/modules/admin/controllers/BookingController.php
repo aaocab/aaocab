@@ -2378,6 +2378,9 @@ class BookingController extends Controller
 			$prfModel->bkg_is_gozonow	 = $prevjsondata['isGozonow'];
 			$createQuote				 = false;
 		}
+                
+               
+                
 		$this->renderPartial("bkVendorIns", ["prfModel" => $prfModel, "addInfoModel" => $addInfoModel, "model" => $model, 'data' => json_encode($result), 'createQuote' => $createQuote], false, true);
 	}
 

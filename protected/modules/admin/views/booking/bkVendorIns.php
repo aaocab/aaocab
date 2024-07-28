@@ -73,7 +73,8 @@ $form = $this->beginWidget('booster.widgets.TbActiveForm', array(
 	),
 		));
 ?>
-<?= CHtml::hiddenField("jsonData_vendorIns", $data, ['id' => 'jsonData_vendorIns']) ?>
+
+<?= CHtml::textField("jsonData_vendorIns", $data, ['id' => 'jsonData_vendorIns']) ?>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-default panel-border">

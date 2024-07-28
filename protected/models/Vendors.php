@@ -2726,6 +2726,9 @@ WHERE vnd_id IN ({$relVndIds})  ORDER BY cttRank DESC";
 		//$whereClause = " WHERE vnd.vnd_active=$active AND vnd.vnd_id = vnd.vnd_ref_code ";
 		$whereClause = " WHERE vnd.vnd_active IN(3,4) AND vnd.vnd_id = vnd.vnd_ref_code ";
 
+           // echo    $this->vendorPrefs->vnp_home_zone;
+                
+                
 		if ($this->vendorPrefs->vnp_home_zone != '')
 		{
 #$sql		 .= " AND vnp.vnp_home_zone IN ({$this->vendorPrefs->vnp_home_zone})";
@@ -2809,7 +2812,7 @@ WHERE vnd_id IN ({$relVndIds})  ORDER BY cttRank DESC";
 #$sql		 .= " AND (vnp.vnp_home_zone  IN ($nmiZone))";
 #$sqlCount	 .= " AND (vnp.vnp_home_zone  IN ($nmiZone))";
 
-			$whereClause .= " AND (vnp.vnp_home_zone  IN ($nmiZone)) ";
+			//$whereClause .= " AND (vnp.vnp_home_zone  IN ($nmiZone)) ";
 		}
 
 #$sql		 .= " Group by vnd.vnd_ref_code";
@@ -2818,8 +2821,8 @@ WHERE vnd_id IN ({$relVndIds})  ORDER BY cttRank DESC";
 		$whereClause .= " GROUP BY vnd.vnd_ref_code";
 
 		$sql		 = $sql . $joinClause . $whereClause;
-		//echo $sql;
-		//exit;
+//		echo $sql;
+//		exit;
 		$sqlCount	 = $sqlCount . $joinClause . $whereClause;
 
 		$count = DBUtil::command("SELECT COUNT(*) FROM ($sqlCount) abc", DBUtil::SDB())->queryScalar();

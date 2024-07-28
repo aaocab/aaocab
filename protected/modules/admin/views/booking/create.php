@@ -432,10 +432,10 @@ $staxrate						 = BookingInvoice::getGstTaxRate($model->bkg_agent_id, $model->bk
 																		<input type="hidden" id="ctyWLng0" class="" value="<?= round($brtRoute->pickup_cty_sw_long, 6) ?>">
 																		<input type="hidden" id="ctyRad0" class="" value="<?= $brtRoute->pickup_cty_radius ?>">
 
-																		<input type="hidden" name="BookingRoute[0][brt_from_latitude]" class="locLat_0" value="<?= $brtRoute->pickup_loc_lat ?>">
-																		<input type="hidden" class="locLon_0" name="BookingRoute[0][brt_from_longitude]" value="<?= $brtRoute->pickup_loc_long ?>">
-																		<input type="hidden" id="city_is_airport0" name="BookingRoute[0][brt_from_city_is_airport]" value="<?= $brtRoute->pickup_cty_is_airport ?>">
-																		<input type="hidden" id="city_is_poi0" name="BookingRoute[0][brt_from_city_is_poi]" value="<?= $brtRoute->pickup_cty_is_poi ?>">
+																		<input type="text" name="BookingRoute[0][brt_from_latitude]" class="locLat_0" value="<?= $brtRoute->pickup_loc_lat ?>">
+																		<input type="text" class="locLon_0" name="BookingRoute[0][brt_from_longitude]" value="<?= $brtRoute->pickup_loc_long ?>">
+																		<input type="text" id="city_is_airport0" name="BookingRoute[0][brt_from_city_is_airport]" value="<?= $brtRoute->pickup_cty_is_airport ?>">
+																		<input type="text" id="city_is_poi0" name="BookingRoute[0][brt_from_city_is_poi]" value="<?= $brtRoute->pickup_cty_is_poi ?>">
 
 																	</div>
 																	<div class="col-xs-12 col-sm-6 mb0 pb0"><div class="form-group">

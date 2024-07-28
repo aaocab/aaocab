@@ -34,7 +34,7 @@ $adminModel = Admins::model()->findByPk(Yii::app()->user->getId());
             <div class="col-xs-12"><?php echo $content; ?></div>
             <div class="footer" id="footer" style="bottom: 0; position: absolute">
                 <div class="innheaderr">
-                    Copyright &copy; Gozo Cabs. All Rights Reserved.
+                    Copyright &copy; Aao Cabs. All Rights Reserved.
                 </div>
             </div>
         </div>

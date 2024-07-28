@@ -189,7 +189,7 @@ else
 											echo ' <span><img src="/images/icon/unblock.png" style="cursor:pointer" title="Contact UnVerified" width="26"></span>';
 										}
 									}, 'sortable'			 => true, 'headerHtmlOptions'	 => array(), 'header'			 => 'Phone'),
-								array('name'	 => 'eml_email_address', 'filter' => CHtml::activeTextField($model->vndContact->contactEmails, 'eml_email_address', array('class' => 'form-control', 'placeholder' => 'Search by ' . $model->vndContact->contactEmails->getAttributeLabel('eml_email_address'))), 'value'	 => function ($data) {
+								array('name'	 => 'eml_email_address', 'filter' => '', 'value'	 => function ($data) {
 										echo $data['eml_email_address'];
 										if ($data['eml_is_verified'] != 0)
 										{

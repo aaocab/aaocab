@@ -813,17 +813,17 @@ class Filter
 			switch ($type)
 			{
 				case 'vendor':
-					$code	 = 'V-' . $setCode;
+					$code	 = 'P-' . $setCode;
 					$isExist = Vendors::model()->findByCode($code);
 					$success = ($isExist == 1) ? 0 : 1;
 					break;
 				case 'driver':
-					$code	 = 'D-' . $setCode;
+					$code	 = 'C-' . $setCode;
 					$isExist = Drivers::model()->findByCode($code);
 					$success = ($isExist == 1) ? 0 : 1;
 					break;
 				case 'car':
-					$code	 = 'C-' . $setCode;
+					$code	 = 'W-' . $setCode;
 					$model	 = Vehicles::model()->findByCode($code);
 					$success = ($isExist == 1) ? 0 : 1;
 					break;

@@ -14139,15 +14139,15 @@ AND a.`bkg_status` IN (2,3,5,6,7) ORDER BY a.`bkg_pickup_date` ASC";
 				{
 
 
-					$emailCom = new emailWrapper();
-					$emailCom->gotCreateQuoteBookingemail($this->bkg_id, BookingLog::System);
+					//$emailCom = new emailWrapper();
+					//$emailCom->gotCreateQuoteBookingemail($this->bkg_id, BookingLog::System);
 
-					$response = WhatsappLog::sendPaymentRequestForBkg($this->bkg_id);
-					if (!$response || $response['status'] == 3)
-					{
-						$msgCom = new smsWrapper();
-						$msgCom->gotCreateQuoteBookingsms($this->bkg_id, BookingLog::System);
-					}
+					//$response = WhatsappLog::sendPaymentRequestForBkg($this->bkg_id);
+					//if (!$response || $response['status'] == 3)
+					//{
+					//	$msgCom = new smsWrapper();
+					//	$msgCom->gotCreateQuoteBookingsms($this->bkg_id, BookingLog::System);
+					//}
 				}
 				BookingTrail::impBookingFollowup($this->bkg_id, true, true);
 			}
