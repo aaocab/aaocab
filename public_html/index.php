@@ -1,7 +1,5 @@
 <?php
 
-echo "test"; exit();
-
 list($usec, $sec) = explode(" ", microtime());
 $time					 = ((float) $usec + (float) $sec);
 define('TIME', $time);
