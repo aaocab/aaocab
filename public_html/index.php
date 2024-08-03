@@ -1,5 +1,3 @@
-<?php echo "test"; exit(); ?>
-
 <!DOCTYPE html>
 <html lang="en" >
 <head>
