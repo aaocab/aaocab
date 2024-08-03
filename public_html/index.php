@@ -1,79 +1,73 @@
-<?php
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>AaoCab</title>
+  <style>
 
-echo "test"; exit();
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
 
-list($usec, $sec) = explode(" ", microtime());
-$time					 = ((float) $usec + (float) $sec);
-define('TIME', $time);
-$GLOBALS['time1']		 = $time;
-$GLOBALS['mailTestMode'] = false;
-error_reporting(E_ERROR);
-require_once('environment.php');
-require_once($yii);
-//\Sentry\init(['dsn' => 'https://f09805aef0fd481d8311048e9281e2e7@sentry1.gozo.cab/2', 'environment' => APPLICATION_ENV, 'max_breadcrumbs' => 30]);
-list($usec, $sec) = explode(" ", microtime());
-$time1					 = ((float) $usec + (float) $sec);
-$time					 = $time1 - TIME;
-$GLOBALS['time2']		 = $time;
-// change the following paths if necessary//
-
-$configCommon		 = include_once(APPLICATION_PATH . '/config/common.php');
-$configServer		 = include_once(APPLICATION_PATH . '/config/main.' . APPLICATION_ENV . '.php');
-$configMain			 = include_once(APPLICATION_PATH . '/config/main.php');
-$configMain			 = CMap::mergeArray($configCommon, $configMain);
-$config				 = CMap::mergeArray($configMain, $configServer);
-$configInstancePath	 = APPLICATION_PATH . '/config/main.' . APPLICATION_ENV . '.instance.php';
-if (file_exists($configInstancePath))
-{
-	$configInstance	 = include_once($configInstancePath);
-	$config			 = CMap::mergeArray($config, $configInstance);
 }
 
-//Change the UrlFormat for urlManager to get if a get request is given instead of a path format one.
-$app				 = Yii::createWebApplication($config);
-list($usec, $sec) = explode(" ", microtime());
-$time1				 = ((float) $usec + (float) $sec);
-$time				 = $time1 - TIME;
-$GLOBALS['time3']	 = $time;
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
 
-if (isset($_GET['r']))
-{
-	Yii::app()->setComponents(array('urlManager' => array(
-			'urlFormat'	 => 'get',
-			'rules'		 => array()
-		),));
 }
 
-// Allowed Hosts
-if (APPLICATION_ENV == 'production')
-{
-	$host		 = $_SERVER["HTTP_HOST"];
-	$arrHost	 = explode(".", $host);
-	$count		 = count($arrHost);
-	$hostName	 = $arrHost[($count - 2)] . '.' . $arrHost[($count - 1)];
-
-	$arrAllowedDomains = ['aaocab.com', 'gozo.cab', 'aaocab.in'];
-	if (!in_array($hostName, $arrAllowedDomains))
-	{
-		$protocol	 = "HTTP/1.0";
-		if ("HTTP/1.1" == $_SERVER["SERVER_PROTOCOL"])
-			$protocol	 = "HTTP/1.1";
-
-		header("$protocol 404 Page not found", true, 404);
-		die();
-	}
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
 }
 
-if (MAINTENANCE_FLAG == '0')
-{
-	$app->run();
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
 }
-else
-{
-	$protocol	 = "HTTP/1.0";
-	if ("HTTP/1.1" == $_SERVER["SERVER_PROTOCOL"])
-		$protocol	 = "HTTP/1.1";
 
-	header("$protocol 503 Service Unavailable", true, 503);
-	echo "<img src='/images/under_maintenance.jpg'/>";
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
 }
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+
+}
+  </style>
+</head>
+<body>
+	<img src="./AAO Cab_Coming soon_page.jpg" width="100%">
+	
+</body>
+</html>
