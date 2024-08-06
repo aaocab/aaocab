@@ -42,49 +42,49 @@ return array(
 		/* Local Connection String
 		 * */
 		'db'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=aao-database.cruu24uiyt3g.ap-south-1.rds.amazonaws.com;dbname=aaocab;port=3306',
 			'emulatePrepare'	 => true,
-			'username'			 => 'root',
-			'password'			 => '',
+			'username'			 => 'aaoadmin',
+			'password'			 => 'Aaocab2024cab',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db1'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=aao-database.cruu24uiyt3g.ap-south-1.rds.amazonaws.com;dbname=aaocab;port=3306',
 			'emulatePrepare'	 => true,
-			'username'			 => 'root',
-			'password'			 => '',
+			'username'			 => 'aaoadmin',
+			'password'			 => 'Aaocab2024cab',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db2'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=aao-database.cruu24uiyt3g.ap-south-1.rds.amazonaws.com;dbname=aaocab;port=3306',
 			'emulatePrepare'	 => true,
-			'username'			 => 'root',
-			'password'			 => '',
+			'username'			 => 'aaoadmin',
+			'password'			 => 'Aaocab2024cab',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
 		//        'schemaCachingDuration'=>3600,
 		),
 		'db3'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=aaodb;port=3306',
+			'connectionString'	 => 'mysql:host=aao-database.cruu24uiyt3g.ap-south-1.rds.amazonaws.com;dbname=aaocab;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => '',
+			'password'			 => 'Aaocab2024cab',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
 		//        'schemaCachingDuration'=>3600,
 		),
 		'adb'			 => array(
-			'connectionString'	 => 'mysql:host=127.0.0.1;dbname=gozo_archive;port=3306',
+			'connectionString'	 => 'mysql:host=aao-database.cruu24uiyt3g.ap-south-1.rds.amazonaws.com;dbname=gozo_archive;port=3306',
 			'emulatePrepare'	 => true,
 			'username'			 => 'root',
-			'password'			 => '',
+			'password'			 => 'Aaocab2024cab',
 			'charset'			 => 'utf8',
 			'tablePrefix'		 => 'imp_',
 			'class'				 => 'CDbConnection'
