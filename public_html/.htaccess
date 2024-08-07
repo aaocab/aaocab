@@ -3,15 +3,7 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
     AddOutputFilterByType DEFLATE text/html text/css application/x-javascript text/plain text/xml image/x-icon text/javascript  application/javascript
 </IfModule>
 Options -Indexes
-<filesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|svg|webp)$">
- Header set Cache-Control "max-age=31536000, public"
-</filesMatch>
-<filesMatch "^\.(json)$">
-  Header set Access-Control-Allow-Origin "*"
-</filesMatch>
-<filesMatch "^\.(json)\?.*$">
-  Header set Access-Control-Allow-Origin "*"
-</filesMatch>
+
 <Files xmlrpc.php>
 Order Allow,Deny
 Deny from all
