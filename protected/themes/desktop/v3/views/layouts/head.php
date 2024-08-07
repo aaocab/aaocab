@@ -45,17 +45,17 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			$qrLink		 = Yii::app()->createAbsoluteUrl('rating/downloadQrCode', ['userId' => $userId]);
 			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.aaocab is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
 			?>
-			<meta property="og:url" content="<?php echo 'https://gozo.cab/c/' . $code; ?>">
+			<meta property="og:url" content="<?php //echo 'https://aaocab.com/' . $code; ?>">
 			<meta property="og:type" content="website">
-			<meta property="og:title" content="Best rated one way outstation cab service. Great Prices. 24x7x365. All India : Gozo Cabs">
+			<meta property="og:title" content="Best rated one way outstation cab service.24x7x365. Pan India : Aao Cabs">
 			<meta property="og:description" content="<?php echo $bodyTitle; ?>">
 			<meta property="og:image" content="<?php echo $qrLink; ?>">
 
 			<!-- Twitter Meta Tags -->
 			<meta name="twitter:card" content="summary_large_image">
 			<meta property="twitter:domain" content="http://www.aaocab.com/">
-			<meta property="twitter:url" content="<?php echo 'https://gozo.cab/c/' . $code; ?>">
-			<meta name="twitter:title" content="Best rated one way outstation cab service. Great Prices. 24x7x365. All India : Gozo Cabs">
+			<meta property="twitter:url" content="<?php //?>">
+			<meta name="twitter:title" content="Best rated one way outstation cab service. 24x7x365. Pan India : Aao Cabs">
 			<meta name="twitter:description" content="<?php echo $bodyTitle; ?>">
 			<meta name="twitter:image" content="<?php echo $qrLink; ?>">
 
@@ -217,8 +217,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			</script>
 		<?php }
 		?>
-        <link rel="shortcut icon" href="<?= IMAGE_URL ?>/fav-icon.png"/>
-        <link rel="icon" type="image/x-icon" href="<?= IMAGE_URL ?>/favicon/fav.png?v=0.1"/>
+<!--        <link rel="shortcut icon" href="<?= IMAGE_URL ?>/fav-icon.png"/>
+        <link rel="icon" type="image/x-icon" href="<?= IMAGE_URL ?>/favicon/fav.png?v=0.1"/>-->
 
 		<script>
 			var VISITOR;

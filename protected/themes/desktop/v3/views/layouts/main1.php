@@ -8,8 +8,8 @@ $this->beginContent('//layouts/head');
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-
-	<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu navbar-static-top navbar-brand-center border-b-gray mb-1">
+<img src="./AAO Cab_Coming soon_page.jpg" width="100%">
+<!--	<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu navbar-static-top navbar-brand-center border-b-gray mb-1">
         <div class="navbar-header d-xl-block d-none">
 
         </div>
@@ -36,7 +36,7 @@ $this->beginContent('//layouts/head');
 										$coinhtml = '  <img src="/images/img-2022/gozo_coin.svg?v=0.2" alt="Gozo Coin" width="14"> ' . $coin;
 									}
 									?>
-	<!--								<a href="#" onclick="$('.aside').asidebar('open')" class="hidden-sm hidden-xs"><i class="bx bx-menu font-24 color-black p10"></i></a>-->
+									<a href="#" onclick="$('.aside').asidebar('open')" class="hidden-sm hidden-xs"><i class="bx bx-menu font-24 color-black p10"></i></a>
 									<div class="aside">
 										<div class="aside-header">
 											<span class="close" data-dismiss="aside" aria-hidden="true">×</span>
@@ -49,19 +49,19 @@ $this->beginContent('//layouts/head');
 												<li><a href="/booking/list"><img src="/images/bx-spreadsheet.svg" alt="img" width="14" height="14" class="mr10"> My bookings</a></li>
 												<li><a href="/users/refer"><img src="/images/bx-user-plus.svg" alt="img" width="14" height="14" class="mr10"> Refer friends</a></li>
 
-	<!--					<li><a href="/blog"><i class="bx bxl-blogger font-14"></i> Gozo blog</a></li>-->
+						<li><a href="/blog"><i class="bx bxl-blogger font-14"></i> Gozo blog</a></li>
 
-	<!--					<li class="mt10"><a href="/agent/join"><i class="bx bx-user-circle mr10"></i> Become an agent</a></li>
-	<li><a href="/vendor/join"><i class="bx bx-car mr10"></i> Attach Your Taxi</a></li>-->
+						<li class="mt10"><a href="/agent/join"><i class="bx bx-user-circle mr10"></i> Become an agent</a></li>
+	<li><a href="/vendor/join"><i class="bx bx-car mr10"></i> Attach Your Taxi</a></li>
 
 
 												<li><a href="/users/changePassword"><img src="/images/bx-lock-alt.svg" alt="img" width="14" height="14" class="mr10"> Change password</a></li>
 
-	<!--<li><a href="#"><i class="bx bx-phone mr10"></i> Contact</a></li>-->
+	<li><a href="#"><i class="bx bx-phone mr10"></i> Contact</a></li>
 
 
 
-	<!--						<li><a href="/"><i class="bx bx-check mr10"></i> New Booking</a></li>-->
+							<li><a href="/"><i class="bx bx-check mr10"></i> New Booking</a></li>
 
 
 
@@ -81,16 +81,16 @@ $this->beginContent('//layouts/head');
 						</ul>
 					</div>
 
-<!--					<span class="nav navbar-nav float-right d-flex align-items-center ml-auto widget-menu mr10 icon-top"><a type="button" href="javascript:void(0)" class="" onClick="return reqCMB(1)"><img src="/images/img-2022/call-back.png" alt="" width="28"></a></span>-->
+					<span class="nav navbar-nav float-right d-flex align-items-center ml-auto widget-menu mr10 icon-top"><a type="button" href="javascript:void(0)" class="" onClick="return reqCMB(1)"><img src="/images/img-2022/call-back.png" alt="" width="28"></a></span>
 					<span class="userNavBar ml-auto">
 						<?php
-						$this->renderPartial("/users/navbarsign");
+						//$this->renderPartial("/users/navbarsign");
 						?>
 					</span>
                 </div>
             </div>
         </div>
-    </nav>
+    </nav>-->
 	<?php
 	$time = Filter::getExecutionTime();
 
