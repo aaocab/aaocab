@@ -3,7 +3,15 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
     AddOutputFilterByType DEFLATE text/html text/css application/x-javascript text/plain text/xml image/x-icon text/javascript  application/javascript
 </IfModule>
 Options -Indexes
-
+<filesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|svg|webp)$">
+ Header set Cache-Control "max-age=31536000, public"
+</filesMatch>
+<filesMatch "^\.(json)$">
+  Header set Access-Control-Allow-Origin "*"
+</filesMatch>
+<filesMatch "^\.(json)\?.*$">
+  Header set Access-Control-Allow-Origin "*"
+</filesMatch>
 <Files xmlrpc.php>
 Order Allow,Deny
 Deny from all
@@ -53,4 +61,30 @@ RewriteRule . /index.php [L]
 # Manual editing of this file may result in unexpected behavior.
 # To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
 # For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+<IfModule php7_module>
+   php_flag display_errors Off
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 128M
+   php_value post_max_size 8M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php74"
+   php_value upload_max_filesize 5M
+   php_flag zlib.output_compression On
+</IfModule>
+<IfModule lsapi_module>
+   php_flag display_errors Off
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 128M
+   php_value post_max_size 8M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php74"
+   php_value upload_max_filesize 5M
+   php_flag zlib.output_compression On
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
+
 
