@@ -79,9 +79,9 @@ if ($userId > 0)
 </div>
 <div class="container-fluid p0">
 	<div class="row m0">
-		<div class="col-12 p0 mt30">
+<!--		<div class="col-12 p0 mt30">
 			<iframe src="https://maps.google.com/maps?q=%20%23401%2C%20Signet%20Tower%2C%20DN-2%2C%20Salt%20Lake%20Bypass%2C%20DN%20Block%2C%20Sector%20V%2C%20Bidhannagar%2C%20Kolkata%2C%20West%20Bengal%20700091&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="300" frameborder="0" style="margin-bottom: -4px;" allowfullscreen></iframe>
-		</div>
+		</div>-->
 	</div>
 </div>
 

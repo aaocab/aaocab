@@ -7,6 +7,6 @@ $this->beginContent('//layouts/main1');
 			<div class="card mb-3">
 				<div class="card-body p15">
 
-<?php echo $content; ?>
+<?php //echo $content; ?>
 				</div></div></div></div></div>
 <?php $this->endContent();

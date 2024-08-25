@@ -4,7 +4,7 @@
 <!--<div class="row title-widget m0">
     <div class="col-12">
         <div class="container">
-            <?php echo $this->pageTitle; ?>
+            <?php //echo $this->pageTitle; ?>
         </div>
     </div>
 </div>-->
@@ -19,8 +19,8 @@
             </div>
         </div>
         <div class="col-lg-9">
-<!--            <h4 class="font-22"><?= $this->pageTitle ?></h4>-->
-            <?php echo $content; ?>
+<!--            <h4 class="font-22"><? //$this->pageTitle ?></h4>-->
+            <?php //echo //$content; ?>
         </div>
     </div>
 </div>

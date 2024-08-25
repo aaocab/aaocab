@@ -1,7 +1,7 @@
 <?php
 $this->beginContent('//layouts/main1');
 ?>
-<?php echo $content; 
+<?php //echo $content; 
 echo $this->renderPartial("/index/footer");
 ?>
 

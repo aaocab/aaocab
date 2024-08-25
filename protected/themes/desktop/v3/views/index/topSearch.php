@@ -6,7 +6,7 @@
 $version = Yii::app()->params['siteJSVersion'];
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/v3/home.js?v=' . $version);
 Yii::app()->clientScript->registerPackage("webV3End");
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/rap.js?v=' . $version);
 Yii::app()->clientScript->registerScriptFile(APP_ASSETS . '/js/luxon.min.js?v=' . $version);
 
 if (Yii::app()->user->isGuest)

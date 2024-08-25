@@ -45,7 +45,7 @@ class BaseController extends Controller
 			Logger::setActionCategory($module, $this->id, $action->id);
 		}
 
-		$this->pageTitle = "Hire outstation Cab in India | Awesome service. Best rates. Great reviews";
+		$this->pageTitle = "AAOCAB";
 		if (!Yii::app()->user->isGuest)
 		{
 			$sess = Yii::app()->getSession()->getSessionId();

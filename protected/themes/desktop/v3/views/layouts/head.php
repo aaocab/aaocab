@@ -1,12 +1,14 @@
+
+
 <?php
 Yii::app()->clientScript->registerPackage("jqueryV3");
 Yii::app()->clientScript->registerPackage("webV3");
 Yii::app()->clientScript->registerPackage("webVendor");
 Yii::app()->clientScript->registerPackage("fonts");
 $version = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/v3/home.js?v=' . $version, CClientScript::POS_HEAD);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/v3/home.js?v=' . $version, CClientScript::POS_HEAD);
 Yii::app()->clientScript->registerPackage("webV3End");
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap.js?v=' . $version, CClientScript::POS_HEAD);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/rap.js?v=' . $version, CClientScript::POS_HEAD);
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +22,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 				<link rel="preconnect" href="http://www.facebook.com/">-->
 		
 		<link rel="preconnect" href="https://images.aaocab.com/">
-        <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />
+<!--        <meta name="google-site-verification" content="5JEqiMjViFVWGKtv22A7eplvB9LBgQIUVpEZQfHtGFo" />-->
         <meta charset="utf-8">
 		<?php
 		if ($this->ampPageEnabled == 1)
@@ -31,19 +33,19 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			<?php
 		}
 
-		$this->widget("application.widgets.SeoHead", [
-			'defaultKeywords'	 => "car rental, taxi service, cab booking, airport transfer, city tour, long-distance trip, One way cab services, outstation taxi, local taxi, oneway, inter city taxi service, Car Hire, Taxi Service, Cab Service, Car Rental India, Online Cab Booking, Online Taxi Booking, Local Taxi Service, Cheap Car Rental, Car Rentals India, Taxi Booking India, Online Car Rentals, Book A Taxi, Book A Cab, Car Rentals Agency India, Car Rent In India, Corporate Car Rental India, Car Rental Company In India",
-			'defaultDescription' => "aaocab is India's leading online cab booking platform, offering a wide range of taxi services, including hourly car rentals, airport transfers, and one way or round trip taxi for a long road trip. Book your car rental or taxi today and enjoy a hassle-free journey!"
-		]);
+//		$this->widget("application.widgets.SeoHead", [
+//			'defaultKeywords'	 => "car rental, taxi service, cab booking, airport transfer, city tour, long-distance trip, One way cab services, outstation taxi, local taxi, oneway, inter city taxi service, Car Hire, Taxi Service, Cab Service, Car Rental India, Online Cab Booking, Online Taxi Booking, Local Taxi Service, Cheap Car Rental, Car Rentals India, Taxi Booking India, Online Car Rentals, Book A Taxi, Book A Cab, Car Rentals Agency India, Car Rent In India, Corporate Car Rental India, Car Rental Company In India",
+//			'defaultDescription' => "aaocab is India's leading online cab booking platform, offering a wide range of taxi services, including hourly car rentals, airport transfers, and one way or round trip taxi for a long road trip. Book your car rental or taxi today and enjoy a hassle-free journey!"
+//		]);
 		Yii::app()->clientScript->registerCssFile("/res/app-assets/css/style.css?v=" . Yii::app()->params['sitecssVersion']);
 
-		$code = Yii::app()->request->getParam('sid');
-		if ($code != '')
-		{
+//		$code = Yii::app()->request->getParam('sid');
+//		if ($code != '')
+//		{
 			$amount		 = Yii::app()->params['invitedAmount'];
 			$userId		 = QrCode::model()->find('qrc_code=:code AND qrc_ent_type=1 AND qrc_active=1 AND qrc_status=3', ['code' => $code])->qrc_ent_id;
 			$qrLink		 = Yii::app()->createAbsoluteUrl('rating/downloadQrCode', ['userId' => $userId]);
-			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.aaocab is India’s leader in long distance taxi travel. Please visit  https://gozo.cab/c/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
+			$bodyTitle	 = 'Dear Friend, I wanted to introduce you to aaocab.com. I used it recently for my long distance taxi travel. You may find them useful to address your long distance travel needs and quality service.aaocab is India’s leader in long distance taxi travel. Please visit  https://www.aaocab.com/' . $code . ' to register and get a credit of ' . $amount . ' points towards your future travel needs';
 			?>
 			<meta property="og:url" content="<?php //echo 'https://aaocab.com/' . $code; ?>">
 			<meta property="og:type" content="website">
@@ -56,11 +58,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			<meta property="twitter:domain" content="http://www.aaocab.com/">
 			<meta property="twitter:url" content="<?php //?>">
 			<meta name="twitter:title" content="Best rated one way outstation cab service. 24x7x365. Pan India : Aao Cabs">
-			<meta name="twitter:description" content="<?php echo $bodyTitle; ?>">
-			<meta name="twitter:image" content="<?php echo $qrLink; ?>">
+			<meta name="twitter:description" content="<?php //echo $bodyTitle; ?>">
+			<meta name="twitter:image" content="<?php //echo $qrLink; ?>">
 
 
-		<?php } ?>
+		<?php //} ?>
         <!-- Sets initial viewport load and disables zooming  -->
 		<meta name="viewport" content="width=device-width, initial-scale=1" >
 		<!--		<link as="image" rel="preload" href="/images/gozo_svg_logo.svg" type="image/svg+xml" fetchpriority='high' />-->
@@ -320,7 +322,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 			<?php
 		}
 		?>
-		<?= $content; ?>
+		<?//$content; ?>
 
 		<!-- page ----->
 	<input type="hidden" inputmode="numeric" autocomplete="one-time-code" pattern="\d{6}" required />
@@ -1016,6 +1018,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/rap
 		});
 	</script>
 	<!--End home page slider-->
+        
+        <?php echo  "<img src='/images/under_maintenance.jpg'/>";?>
 </html>
 
 

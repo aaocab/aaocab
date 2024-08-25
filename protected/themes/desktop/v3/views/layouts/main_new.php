@@ -28,7 +28,7 @@ echo json_encode($organisationSchemaRaw, JSON_UNESCAPED_SLASHES);
 ?>
 		</script>
 		<?php
-		echo $content;
+		//echo $content;
 
 		$time				 = Filter::getExecutionTime();
 		$GLOBALS['time98']	 = $time;

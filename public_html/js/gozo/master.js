@@ -1,7 +1,0 @@
-/* 
- * Booking
- */
-var Master = function ()
-{
-
-}

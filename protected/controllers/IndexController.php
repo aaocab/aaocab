@@ -2307,7 +2307,7 @@ class IndexController extends BaseController
 		$model					 = new Agents();
 		if (Yii::app()->controller->action->id == 'corpjoin')
 		{
-			$this->pageTitle = "Join Gozo's Business Travel program";
+			$this->pageTitle = "Join Aaao's Business Travel program";
 			$model->scenario = 'corpsignup';
 		}
 		else
