@@ -447,7 +447,7 @@ class Config extends CActiveRecord
 
 	public static function getGozoAddress($type = Config::Corporate_address, $includebr = false)
 	{
-		$gozoAddress = Config::get('gozo.address');
+		$gozoAddress = Config::get('aao.address');
 		$result		 = CJSON::decode($gozoAddress);
 		$address	 = $result[$type];
 		$separator	 = ($includebr) ? '<br>' : '';

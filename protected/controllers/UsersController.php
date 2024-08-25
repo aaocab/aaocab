@@ -5042,8 +5042,12 @@ class UsersController extends BaseController
 				echo $content;
 				exit(0);
 			}
-			else
-				echo $content;
+                        else{
+                            
+                          //  echo $content;
+                            
+                        }
+				
 			#echo $content;
 		}
 		else if ($s3data != '')

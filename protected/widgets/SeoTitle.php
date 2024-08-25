@@ -61,7 +61,7 @@ class SeoTitle extends CWidget
 		}
 
 		echo '<title>' . implode($this->separator, $parts) . '</title>';
-		echo CHtml::metaTag(implode($this->separator, $parts) . ' : Gozo Cabs', 'og:title') . PHP_EOL;
+		echo CHtml::metaTag(implode($this->separator, $parts) . ' : AAOCAB', 'og:title') . PHP_EOL;
 	}
 
 	/**

@@ -337,7 +337,7 @@ return array(
 		'defaultPackagePickupTime'		 => '09:00:00',
 		'indiaCreditCardPaymentType'	 => 1, //[ 1=>ebs, 2=>'Zaakpay']
 		'host'							 => 'www.aaocab.com',
-		'fullBaseURL'					 => 'http://www.aaocab.com',
+		'fullBaseURL'					 => 'https://www.aaocab.com',
 		'fullAPIBaseURL'				 => 'https://api.aaocab.com',
 		'driverEnglishYouTubeURL'		 => 'http://www.youtube.com/playlist?list=PLtO3n8NwlGMSl5c0NTck6az_B0q8PP5Sx&app=desktop',
 		'driverHindiYouTubeURL'			 => 'http://www.youtube.com/playlist?list=PLtO3n8NwlGMQ3tUd4Dj_dpbdtgEz8yfUw&app=desktop',

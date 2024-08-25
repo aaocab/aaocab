@@ -1052,7 +1052,7 @@ class StructureData
 		$baseUrl				 = Yii::app()->params['fullBaseURL'];
 		$getOrganisation		 = StructureData::getOrganisation();
 		//->image($baseUrl . "/images/logo2_outstation.png")
-		$description			 = "Gozo Cabs is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.";
+		$description			 = "Aao cab is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.";
 		$areaServed				 = StructureData::administrativeArea($fcitydata);
 		$routereview			 = StructureData::getRouteReview($rModel->rut_from_city_id, $rModel->rut_to_city_id, 2);
 		$aggregateRating		 = StructureData::getAggregateRating();
@@ -1131,7 +1131,7 @@ class StructureData
 		$baseUrl			 = Yii::app()->params['fullBaseURL'];
 		$getOrganisation	 = StructureData::getOrganisation();
 		//->image($baseUrl . "/images/logo2_outstation.png")
-		$description		 = "Gozo Cabs is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.";
+		$description		 = "Aao cab is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.";
 		$areaServed			 = StructureData::administrativeArea($fcitydata);
 		$cityreview			 = StructureData::getCityReview($city, 2);
 		$aggregateRating	 = StructureData::getCityAggregateRating();
@@ -1424,7 +1424,7 @@ class StructureData
 		$baseUrl			 = Yii::app()->params['fullBaseURL'];
 		$getOrganisation	 = StructureData::getOrganisation();
 		//->image($baseUrl . "/images/logo2_outstation.png")
-		$description		 = "Gozo Cabs is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.";
+		$description		 = "Aao cab is the best rated AC cab services with driver for all India. Book in advance for cheapest prices. 24 x 7 customer support by web chat or phone. One way cab services. Round trips. Airport transfers. Package tours. Shared Taxi. Intercity Shuttle service. More comfortable &; cheaper than going by bus or train. Serving in 3000+ cities. Great Price & Top Quality guaranteed.";
 		$areaServed			 = StructureData::administrativeArea($fcitydata);
 		$cityreview			 = StructureData::getCityReview($city, 2);
 		$aggregateRating	 = StructureData::getCityAggregateRating();

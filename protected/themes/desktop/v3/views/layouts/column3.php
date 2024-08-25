@@ -12,6 +12,6 @@
 		</div>
 	</div>
 </div>
-<?php echo $content; ?>
+<?php //echo $content; ?>
 
 <?php $this->endContent(); ?>

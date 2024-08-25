@@ -51,9 +51,9 @@ if (isset($organisationSchema) && trim($organisationSchema) != '')
             </div>
         </div>
 
-        <div class="col-12 mb30 mt30">
+<!--        <div class="col-12 mb30 mt30">
             <iframe src="https://maps.google.com/maps?q=%20%23401%2C%20Signet%20Tower%2C%20DN-2%2C%20Salt%20Lake%20Bypass%2C%20DN%20Block%2C%20Sector%20V%2C%20Bidhannagar%2C%20Kolkata%2C%20West%20Bengal%20700091&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="400" frameborder="0" style="border:0; border-radius: 10px;" allowfullscreen></iframe>
-        </div>
+        </div>-->
     </div>
 </div>
 

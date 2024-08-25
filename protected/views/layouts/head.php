@@ -30,10 +30,10 @@ Yii::app()->clientScript->registerPackage("webEnd");
 		<?php }
 		?>
 		<?php
-		$this->widget("application.widgets.SeoHead", [
-			'defaultKeywords'	 => "outstation taxi,oneway, outstation-taxi-india, shared outstation, Car Rental, inter city taxi service, Car Hire, Taxi Service, Cab Service, Cab Hire, Taxi Hire ,Cab Rental, Taxi Booking, Rent A Car, Car Rental India, Online Cab Booking, Taxi Cab , Car Rental Service, Online Taxi Booking, Local Taxi Service, Cheap Car Rental , Car Rental, Car Hire Services, Car Rentals India, Taxi Booking India, Cab Booking India Car For Hire, Taxi Services, Online Car Rentals , Book A Taxi , Book A Cab, Car Rentals Agency India, Car Rent In India, India Rental Cars, India Cabs, Rent Car In India, Car Rental India, India Car Rental, Rent A Car India, Car Rental In India, Rent A Car In India, India Car Rental Company, Corporate Car Rental India, Car Rental Company In India",
-			'defaultDescription' => "Gozo cabs is the best rated AC cab service for outstation travel in India. Book for cheapest and best service. 24x7 phone and online customer support."
-		]);
+//		$this->widget("application.widgets.SeoHead", [
+//			'defaultKeywords'	 => "outstation taxi,oneway, outstation-taxi-india, shared outstation, Car Rental, inter city taxi service, Car Hire, Taxi Service, Cab Service, Cab Hire, Taxi Hire ,Cab Rental, Taxi Booking, Rent A Car, Car Rental India, Online Cab Booking, Taxi Cab , Car Rental Service, Online Taxi Booking, Local Taxi Service, Cheap Car Rental , Car Rental, Car Hire Services, Car Rentals India, Taxi Booking India, Cab Booking India Car For Hire, Taxi Services, Online Car Rentals , Book A Taxi , Book A Cab, Car Rentals Agency India, Car Rent In India, India Rental Cars, India Cabs, Rent Car In India, Car Rental India, India Car Rental, Rent A Car India, Car Rental In India, Rent A Car In India, India Car Rental Company, Corporate Car Rental India, Car Rental Company In India",
+//			'defaultDescription' => "Gozo cabs is the best rated AC cab service for outstation travel in India. Book for cheapest and best service. 24x7 phone and online customer support."
+//		]);
 		?>
         <!-- Sets initial viewport load and disables zooming  -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
@@ -46,7 +46,7 @@ Yii::app()->clientScript->registerPackage("webEnd");
 			#if(Yii::app()->getController()->getAction()->controller->action->id=='index'){
 			?>
 			<!-- og tag start here-->
-			<meta property="og:title" content="Gozo Cabs - Best one-way, outstation cabs in India">
+			<meta property="og:title" content="AAOCAB">
 			<meta property="og:site_name" content="aaocab">
 			<meta property="og:url" content="http://www.aaocab.com/">
 			<meta property="og:description" content="Best and Cheapest one-way cabs, outstation cabs and many more taxies and cabs booking services online in India. ">

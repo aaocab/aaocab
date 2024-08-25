@@ -97,7 +97,7 @@ $this->beginContent('//layouts/head');
 	$GLOBALS['time97']	 = $time;
 	?>
 
-	<?= $content ?>
+	<? // $content ?>
 
 	<?php
 	$time				 = Filter::getExecutionTime();

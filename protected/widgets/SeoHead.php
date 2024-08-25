@@ -89,7 +89,7 @@ class SeoHead extends CWidget
 			echo '<meta property="'.$name.'" content="'.$content.'" />'; // we can't use Yii's method for this.
 
 		
-		echo CHtml::metaTag("http://www.aaocab.com/images/car-rental.jpg", 'og:image');
+		echo CHtml::metaTag("https://www.aaocab.com/images/car-rental.jpg", 'og:image');
 
 		if ($this->_canonical !== null)
 			$this->renderCanonical();
