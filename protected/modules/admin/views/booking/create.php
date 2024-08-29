@@ -3,10 +3,10 @@ $version			 = Yii::app()->params['siteJSVersion'];
 Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/js/jquery.mask.min.js');
 Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/select2.css');
 Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/js/jquery.mask1.min.js');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/booking.js?v=' . $version);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/route.js?v=' . $version);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/promo.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/booking.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/route.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/promo.js?v=' . $version);
 $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		 => true,
 	'createOnBlur'		 => true, 'dropdownParent'	 => 'body',
 	'optgroupValueField' => 'id', 'optgroupLabelField' => 'text', 'optgroupField'		 => 'id',
@@ -41,7 +41,7 @@ $tcitylast	 = $packagedt[$count - 1]["pcd_to_city"];
 $additionalAddressInfo	 = "Building No./ Society Name";
 $api					 = Yii::app()->params['googleBrowserApiKey'];
 $autoAddressJSVer		 = Yii::app()->params['autoAddressJSVer'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/gozo/hyperLocation.js?v=$autoAddressJSVer");
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/aao/hyperLocation.js?v=$autoAddressJSVer");
 $autocompleteFrom		 = 'txtpl';
 $autocompleteTo			 = 'txtpl';
 $locReadonly			 = ['readonly' => 'readonly'];

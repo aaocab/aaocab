@@ -1,7 +1,7 @@
 <?php
 $version	 = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/route.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/route.js?v=' . $version);
 $callback	 = Yii::app()->request->getParam('callback', 'loadList');
 $title		 = ($model->isNewRecord) ? "Add" : "Edit";
 $js			 = "window.$callback();";

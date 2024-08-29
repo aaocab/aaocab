@@ -7,10 +7,10 @@
 <?php
 $version			 = Yii::app()->params['siteJSVersion'];
 Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/select2.css');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/zone.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/zone.js?v=' . $version);
 $autoAddressJSVer	 = Yii::app()->params['autoAddressJSVer'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/gozo/hyperLocation.js?v=$autoAddressJSVer");
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/aao/hyperLocation.js?v=$autoAddressJSVer");
 $stateList			 = array("" => "Select state") + CHtml::listData(States::model()->findAll('stt_active = :act AND stt_country_id = :con order by stt_name', array(':act' => '1', ':con' => '99')), 'stt_id', 'stt_name');
 if ($model->cty_id > 0)
 {

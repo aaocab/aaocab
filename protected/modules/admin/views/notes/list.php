@@ -22,7 +22,7 @@ $selectizeOptions = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		
 	'openOnFocus'		 => true, 'preload'			 => false,
 	'labelField'		 => 'text', 'valueField'		 => 'id', 'searchField'		 => 'text', 'closeAfterSelect'	 => true,
 	'addPrecedence'		 => false,];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
 $areatype		 = DestinationNote::model()->areatype;
 $showNoteType	 = DestinationNote::model()->showNoteType;
 $area			 = 0;

@@ -1,6 +1,6 @@
 <?php
 $version = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/chat.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/chat.js?v=' . $version);
 ?>
 <div class="col-xs-12 chat_window-right">
 	<div id="topDetails" class="top-details" style="display:none;"></div>

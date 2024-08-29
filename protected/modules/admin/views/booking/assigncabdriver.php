@@ -53,7 +53,7 @@
 		$modelVehicle		 = new Vehicles();
 		$modelVehicleDocs	 = new VehicleDocs();
 		$version			 = Yii::app()->params['siteJSVersion'];
-		Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/booking.js?v=' . $version);
+		Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/booking.js?v=' . $version);
 		Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/select2.css');
 		?>
 		<div class="panel-advancedoptions" >

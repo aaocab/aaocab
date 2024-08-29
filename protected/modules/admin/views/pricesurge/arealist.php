@@ -17,7 +17,7 @@ $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'	
     <div class="row">
 		<div class="col-xs-12">
 			<?php
-			Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
+			Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
 			$areatype			 = AreaSurgeFactor::model()->areatype;
 
 			$form			 = $this->beginWidget('booster.widgets.TbActiveForm', array(

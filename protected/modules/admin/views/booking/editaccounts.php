@@ -1,6 +1,6 @@
 <?php
 $version	 = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/editAccounts.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/editAccounts.js?v=' . $version);
 ?>
 <style type="text/css">
     .form-group {

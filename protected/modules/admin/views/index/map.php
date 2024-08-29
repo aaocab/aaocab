@@ -18,7 +18,7 @@ body {
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins/form-select2/select2.css');
 
 $autoAddressJSVer = Yii::app()->params['autoAddressJSVer'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/gozo/v3/bookingRoute.js?v=$autoAddressJSVer");
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/aao/v3/bookingRoute.js?v=$autoAddressJSVer");
 
 /** @var BookingTemp $model */
 $form = $this->beginWidget('CActiveForm', array(

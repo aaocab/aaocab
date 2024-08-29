@@ -16,7 +16,7 @@ $selectizeOptions = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		
     }
 </style>
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
 if ($error != '')
 {
 	?>  

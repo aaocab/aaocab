@@ -3,8 +3,8 @@
 
 </style>
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/cityRouteWidget.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/cityRouteWidget.js?v=' . $version);
 
 $ptime = date('h:i A', strtotime('6am'));
 $timeArr = Filter::getTimeDropArr($ptime);

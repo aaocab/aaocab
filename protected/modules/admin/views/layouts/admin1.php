@@ -19,7 +19,7 @@ Yii::app()->clientScript->registerPackage('style');
 $adminModel						 = Admins::model()->findByPk(Yii::app()->user->getId());
 $site_js_version				 = Yii::app()->params['siteJSVersion'];
 Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/js/maskFilter.js?v=' . $site_js_version, CClientScript::POS_HEAD);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/followUp.js?v=' . $site_js_version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/followUp.js?v=' . $site_js_version);
 ?>
 <!DOCTYPE html>
 <html lang="en">

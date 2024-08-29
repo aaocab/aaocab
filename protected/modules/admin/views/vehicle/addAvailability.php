@@ -1,6 +1,6 @@
 <?php
 $version	 = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/vehicle.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/vehicle.js?v=' . $version);
 ?>
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6">

@@ -40,7 +40,7 @@ Logger::profile('Render View Start');
 $api				 = Config::getGoogleApiKey('browserapikey');
 Yii::app()->clientScript->registerScriptFile('https://maps.googleapis.com/maps/api/js?key=' . $api . '&libraries=places&', CClientScript::POS_HEAD);
 $autoAddressJSVer	 = Yii::app()->params['autoAddressJSVer'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/gozo/autoAddress.js?v=$autoAddressJSVer");
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/aao/autoAddress.js?v=$autoAddressJSVer");
 
 $pageno			 = Yii::app()->request->getParam('page');
 //$cityList = CHtml::listData(Cities::model()->findAll('cty_active = :act', array(':act' => '1')), 'cty_id', 'cty_name');
