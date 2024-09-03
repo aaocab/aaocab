@@ -1,6 +1,6 @@
 <?php
 $version = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/chat.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/chat.js?v=' . $version);
 ?>
 
 <style>

@@ -16,7 +16,7 @@
 </style>
 <?php 
 $version			 = Yii::app()->params['siteJSVersion'];
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/city.js?v=' . $version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/city.js?v=' . $version);
 $selectizeOptions	 = ['create'			 => false, 'persist'			 => true, 'selectOnTab'		 => true,
 	'createOnBlur'		 => true, 'dropdownParent'	 => 'body',
 	'optgroupValueField' => 'id', 'optgroupLabelField' => 'text', 'optgroupField'		 => 'id',
