@@ -65,7 +65,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/rap.
 
 			<!-- Twitter Meta Tags -->
 			<meta name="twitter:card" content="summary_large_image">
-			<meta property="twitter:domain" content="http://www.aaocab.com/">
+			<meta property="twitter:domain" content="https://www.aaocab.com/">
 			<meta property="twitter:url" content="<?php //?>">
 			<meta name="twitter:title" content="Best rated one way outstation cab service. 24x7x365. Pan India : Aao Cabs">
 			<meta name="twitter:description" content="<?php //echo $bodyTitle; ?>">
