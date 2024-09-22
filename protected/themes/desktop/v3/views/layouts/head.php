@@ -70,18 +70,7 @@
 
     </section>
    <div class="whatsapp">
-       
-       
-       
-           <script 
-      type="text/javascript"
-      src="https://d2jyl60qlhb39o.cloudfront.net/integration-plugin.js"
-      id="wa-widget"
-      widget-id="35ibcK"
-    >
-    </script>
-       
-<!--       <a href="https://api-wa.co/2MG7qI"><img src="/assetsStatic/img/whatsapp.svg?v=0.2" alt=""></a>-->
+       <a href="https://api-wa.co/xD37q5"><img src="/assetsStatic/img/whatsapp.svg?v=0.2" alt=""></a>
       <a href="https://www.facebook.com/profile.php?id=61564042259283" target="blank">
           <img src="/assetsStatic/img/facebook.svg?v=0.2" alt="">
       </a>
@@ -91,9 +80,6 @@
         <p class="m-0">EC-73, 1442, Rajdanga Main Rd, Kolkata, West Bengal 700107</p>
         <small>© AAOCAB TECHNOLOGIES PRIVATE LIMITED. All Rights Reserved.</small>
       </div>
-
-	
-    
     </footer>
   </main>
 
