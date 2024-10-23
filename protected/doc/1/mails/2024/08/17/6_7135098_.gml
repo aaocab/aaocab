@@ -1,0 +1,1 @@
+<h3><b>New Vendor Signed Up</b></h3><b>Vendor Name : </b>parnavisadasd<br/><b>Vendor Phone : </b>9830361328<br/><b>Vendor Email : </b>ppkundu@gmail.com<br/><b>Vendor City : </b>

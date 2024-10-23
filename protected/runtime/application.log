@@ -1,0 +1,20 @@
+2024/10/11 17:29:09 [error] [system.db.CDbCommand] CDbCommand::() failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT1 c.cty_id , cl.cty_name as cty_name, MATCH(cl.cty_name) AGAINST (CONCA...' at line 1. The SQL statement executed was: SELECT1 c.cty_id , cl.cty_name as cty_name, MATCH(cl.cty_name) AGAINST (CONCAT('"', :gp1, '"') IN NATURAL LANGUAGE MODE)  AS score,
+				IF(cl.cty_name LIKE CONCAT(:gp0, '%'),1,0) AS startRank, IFNULL(rank, 99) as rank
+				FROM cities c
+				JOIN city_list cl ON cl.cty_id=c.cty_id
+				LEFT JOIN topcitiesstats ON ctyId=c.cty_id
+				WHERE 1    AND cl.cty_id IS NOT NULL AND c.cty_service_active=1 AND c.cty_active=1
+				ORDER BY  rank ASC, score DESC, startRank DESC, cty_full_name ASC  LIMIT 0,6.
+in C:\Projects\Staging\protected\components\DBUtil.php (243)
+in C:\Projects\Staging\protected\models\Cities.php (573)
+in C:\Projects\Staging\protected\models\Cities.php (843)
+2024/10/11 17:29:09 [error] [system.db.CDbCommand] CDbCommand::() failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT1 c.cty_id , cl.cty_name as cty_name, MATCH(cl.cty_name) AGAINST (CONCA...' at line 1. The SQL statement executed was: SELECT1 c.cty_id , cl.cty_name as cty_name, MATCH(cl.cty_name) AGAINST (CONCAT('"', :gp1, '"') IN NATURAL LANGUAGE MODE)  AS score,
+				IF(cl.cty_name LIKE CONCAT(:gp0, '%'),1,0) AS startRank, IFNULL(rank, 99) as rank
+				FROM cities c
+				JOIN city_list cl ON cl.cty_id=c.cty_id
+				LEFT JOIN topcitiesstats ON ctyId=c.cty_id
+				WHERE 1    AND cl.cty_id IS NOT NULL AND c.cty_service_active=1 AND c.cty_active=1
+				ORDER BY  rank ASC, score DESC, startRank DESC, cty_full_name ASC  LIMIT 0,6.
+in C:\Projects\Staging\protected\components\DBUtil.php (243)
+in C:\Projects\Staging\protected\models\Cities.php (573)
+in C:\Projects\Staging\protected\models\Cities.php (843)

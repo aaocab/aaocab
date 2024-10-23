@@ -1,0 +1,1 @@
+<h3><b>New Vendor Signed Up</b></h3><b>Vendor Name : </b>kkkk<br/><b>Vendor Phone : </b>9874394779<br/><b>Vendor Email : </b>puja.developer@gmail.com<br/><b>Vendor City : </b>

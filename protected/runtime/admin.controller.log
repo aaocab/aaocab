@@ -1,0 +1,63 @@
+2024/08/17 01:20:08 [error] [module.admin.controller.vendor.add] [T: 2638.964] [M: 22777.56] 0: {"error":{"message":"Error validating access token: Session has expired on Tuesday, 26-Dec-23 23:00:00 PST. The current time is Friday, 16-Aug-24 12:50:09 PDT.","type":"OAuthException","code":190,"error_subcode":463,"fbtrace_id":"AM09L0bV815nU5r-DcnGZkj"}}
+	URL: [POST]/aaohome/vendor/add
+	User IP: 192.168.0.106
+	Referrer: http://localhost:84/aaohome/vendor/add
+	POST: {"YII_CSRF_TOKEN":"V1hkeXBlZm82ekIwQzlEUmZ3RldxSU05em5idnVEZVajfX_CZIf8NMwswChMkchwLWrxlr5VqpbJYTL0I5xV-Q==","Vendors":{"vnd_contact_id":"1687746","vnd_contact_name":"parnavi sadasd","vnd_active":"1","vnd_name":"","vnd_cat_type":"1","vnd_rm":"","vnd_agreement_date1":"","vnd_agreement_file_link":"","login_type":"2"},"VendorPref":{"vnp_sedan_count":"4","vnp_compact_count":"4","vnp_suv_count":"4","vnp_min_sd_req_amt":"0","vnp_home_zone":"358","vnp_is_attached":"1","vnp_oneway":"1","vnp_round_trip":"0","vnp_package":"0","vnp_daily_rental":"0","vnp_airport":"0","vnp_tempo_traveller":"0","vnp_lastmin_booking":"1","vnp_notes":""},"VendorStats":{"vrs_security_amount":"0","vrs_security_receive_date1":"","vrs_credit_limit":"500","vrs_credit_throttle_level":""},"vnp_excluded_cities":"","type":"","yt0":"Add"}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (156)
+in C:\Projects\Staging\protected\components\Whatsapp.php (86)
+2024/08/17 01:20:08 [warning] [module.admin.controller.vendor.add] [T: 2639.639] [M: 22781.67] 0: {"error":{"message":"Error validating access token: Session has expired on Tuesday, 26-Dec-23 23:00:00 PST. The current time is Friday, 16-Aug-24 12:50:09 PDT.","type":"OAuthException","code":190,"error_subcode":463,"fbtrace_id":"AM09L0bV815nU5r-DcnGZkj"}}
+	URL: [POST]/aaohome/vendor/add
+	User IP: 192.168.0.106
+	Referrer: http://localhost:84/aaohome/vendor/add
+	POST: {"YII_CSRF_TOKEN":"V1hkeXBlZm82ekIwQzlEUmZ3RldxSU05em5idnVEZVajfX_CZIf8NMwswChMkchwLWrxlr5VqpbJYTL0I5xV-Q==","Vendors":{"vnd_contact_id":"1687746","vnd_contact_name":"parnavi sadasd","vnd_active":"1","vnd_name":"","vnd_cat_type":"1","vnd_rm":"","vnd_agreement_date1":"","vnd_agreement_file_link":"","login_type":"2"},"VendorPref":{"vnp_sedan_count":"4","vnp_compact_count":"4","vnp_suv_count":"4","vnp_min_sd_req_amt":"0","vnp_home_zone":"358","vnp_is_attached":"1","vnp_oneway":"1","vnp_round_trip":"0","vnp_package":"0","vnp_daily_rental":"0","vnp_airport":"0","vnp_tempo_traveller":"0","vnp_lastmin_booking":"1","vnp_notes":""},"VendorStats":{"vrs_security_amount":"0","vrs_security_receive_date1":"","vrs_credit_limit":"500","vrs_credit_throttle_level":""},"vnp_excluded_cities":"","type":"","yt0":"Add"}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/14 23:03:06 [error] [module.admin.controller.vendor.add] [T: 6822.802] [M: 22769.42] 0: {"error":{"message":"An unexpected error has occurred. Please retry your request later.","type":"OAuthException","is_transient":true,"code":2,"fbtrace_id":"AS27MXHj-QY2sRgsqFoK-lG"}}
+	URL: [POST]/aaohome/vendor/add
+	User IP: 192.168.0.104
+	Referrer: http://localhost:84/aaohome/vendor/add
+	POST: {"YII_CSRF_TOKEN":"VlU1flZVN1hhUXVyeDhUZkZaSXNjSUdjVll-OGNIeGMNnclfb2immxg_DnN2tqZYMYeHidIGWsFTRzFKMdnvaA==","Vendors":{"vnd_contact_id":"1687739","vnd_contact_name":"kk kk","vnd_active":"1","vnd_name":"","vnd_cat_type":"1","vnd_rm":"24","vnd_agreement_date1":"","vnd_agreement_file_link":"","login_type":"2"},"VendorPref":{"vnp_sedan_count":"3","vnp_compact_count":"3","vnp_suv_count":"3","vnp_min_sd_req_amt":"0","vnp_home_zone":"358","vnp_is_attached":"1","vnp_oneway":"0","vnp_round_trip":"0","vnp_package":"0","vnp_daily_rental":"0","vnp_airport":"0","vnp_tempo_traveller":"0","vnp_lastmin_booking":"1","vnp_notes":""},"VendorStats":{"vrs_security_amount":"444","vrs_security_receive_date1":"02\/10\/2024","vrs_credit_limit":"500","vrs_credit_throttle_level":""},"vnp_excluded_cities":"","type":"","yt0":"Add"}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (156)
+in C:\Projects\Staging\protected\components\Whatsapp.php (86)
+2024/10/14 23:03:06 [warning] [module.admin.controller.vendor.add] [T: 6823.38] [M: 22773.44] 0: {"error":{"message":"An unexpected error has occurred. Please retry your request later.","type":"OAuthException","is_transient":true,"code":2,"fbtrace_id":"AS27MXHj-QY2sRgsqFoK-lG"}}
+	URL: [POST]/aaohome/vendor/add
+	User IP: 192.168.0.104
+	Referrer: http://localhost:84/aaohome/vendor/add
+	POST: {"YII_CSRF_TOKEN":"VlU1flZVN1hhUXVyeDhUZkZaSXNjSUdjVll-OGNIeGMNnclfb2immxg_DnN2tqZYMYeHidIGWsFTRzFKMdnvaA==","Vendors":{"vnd_contact_id":"1687739","vnd_contact_name":"kk kk","vnd_active":"1","vnd_name":"","vnd_cat_type":"1","vnd_rm":"24","vnd_agreement_date1":"","vnd_agreement_file_link":"","login_type":"2"},"VendorPref":{"vnp_sedan_count":"3","vnp_compact_count":"3","vnp_suv_count":"3","vnp_min_sd_req_amt":"0","vnp_home_zone":"358","vnp_is_attached":"1","vnp_oneway":"0","vnp_round_trip":"0","vnp_package":"0","vnp_daily_rental":"0","vnp_airport":"0","vnp_tempo_traveller":"0","vnp_lastmin_booking":"1","vnp_notes":""},"VendorStats":{"vrs_security_amount":"444","vrs_security_receive_date1":"02\/10\/2024","vrs_credit_limit":"500","vrs_credit_throttle_level":""},"vnp_excluded_cities":"","type":"","yt0":"Add"}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/14 23:03:06 [warning] [module.admin.controller.vendor.add] [T: 7208.955] [M: 24012.91] 104: {"drv_name":["Driver License no is mandatory."]}
+	URL: [POST]/aaohome/vendor/add
+	User IP: 192.168.0.104
+	Referrer: http://localhost:84/aaohome/vendor/add
+	POST: {"YII_CSRF_TOKEN":"VlU1flZVN1hhUXVyeDhUZkZaSXNjSUdjVll-OGNIeGMNnclfb2immxg_DnN2tqZYMYeHidIGWsFTRzFKMdnvaA==","Vendors":{"vnd_contact_id":"1687739","vnd_contact_name":"kk kk","vnd_active":"1","vnd_name":"","vnd_cat_type":"1","vnd_rm":"24","vnd_agreement_date1":"","vnd_agreement_file_link":"","login_type":"2"},"VendorPref":{"vnp_sedan_count":"3","vnp_compact_count":"3","vnp_suv_count":"3","vnp_min_sd_req_amt":"0","vnp_home_zone":"358","vnp_is_attached":"1","vnp_oneway":"0","vnp_round_trip":"0","vnp_package":"0","vnp_daily_rental":"0","vnp_airport":"0","vnp_tempo_traveller":"0","vnp_lastmin_booking":"1","vnp_notes":""},"VendorStats":{"vrs_security_amount":"444","vrs_security_receive_date1":"02\/10\/2024","vrs_credit_limit":"500","vrs_credit_throttle_level":""},"vnp_excluded_cities":"","type":"","yt0":"Add"}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/17 12:54:04 [error] [module.admin.controller.contact.form] [T: 5502.508] [M: 18547.64] 0: {"error":{"message":"Error validating access token: Session has expired on Tuesday, 26-Dec-23 23:00:00 PST. The current time is Thursday, 17-Oct-24 00:24:04 PDT.","type":"OAuthException","code":190,"error_subcode":463,"fbtrace_id":"A__GFZBnfB1FJ8RvMiAW0JO"}}
+	URL: [POST]/aaohome/contact/form?type=1
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/driver/add
+	POST: {"YII_CSRF_TOKEN":"WXNPTUJMSWVRVldJOEx-d05yUlNaS2Uwb1Z1bjlxVVbcPYQNd6slCd-zuD_h2YBprDCwXjTsRSiXzK9TaRAgVA==","Contact":{"ctt_user_type":"1","ctt_first_name":"aaa","ctt_last_name":"aa","ctt_business_type":"0","ctt_business_name":"","ctt_profile_path":"","ctt_address":"","ctt_state":"","ctt_city":"","ctt_preferred_language":"1","arr_known_language":["1"],"ctt_voter_no":"","ctt_aadhaar_no":"","ctt_pan_no":"","ctt_license_no":"sass","locale_license_issue_date":"29\/09\/2024","locale_license_exp_date":"09\/11\/2024","ctt_dl_issue_authority":"107","ctt_bank_name":"","ctt_bank_account_no":"","ctt_bank_branch":"","ctt_bank_ifsc":"","ctt_account_type":"0","ctt_beneficiary_name":"","ctt_beneficiary_id":""},"ContactEmail":[{"eml_email_address":"aaaa@gmail.com","eml_is_primary":"1","eml_type":"1"}],"ContactPhone":[{"phn_is_new":"1","phn_phone_no":"9858585558","phn_is_primary":"1","phn_type":"1"}]}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (156)
+in C:\Projects\Staging\protected\components\Whatsapp.php (86)
+2024/10/17 12:54:04 [warning] [module.admin.controller.contact.form] [T: 5503.267] [M: 18550.13] 0: {"error":{"message":"Error validating access token: Session has expired on Tuesday, 26-Dec-23 23:00:00 PST. The current time is Thursday, 17-Oct-24 00:24:04 PDT.","type":"OAuthException","code":190,"error_subcode":463,"fbtrace_id":"A__GFZBnfB1FJ8RvMiAW0JO"}}
+	URL: [POST]/aaohome/contact/form?type=1
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/driver/add
+	POST: {"YII_CSRF_TOKEN":"WXNPTUJMSWVRVldJOEx-d05yUlNaS2Uwb1Z1bjlxVVbcPYQNd6slCd-zuD_h2YBprDCwXjTsRSiXzK9TaRAgVA==","Contact":{"ctt_user_type":"1","ctt_first_name":"aaa","ctt_last_name":"aa","ctt_business_type":"0","ctt_business_name":"","ctt_profile_path":"","ctt_address":"","ctt_state":"","ctt_city":"","ctt_preferred_language":"1","arr_known_language":["1"],"ctt_voter_no":"","ctt_aadhaar_no":"","ctt_pan_no":"","ctt_license_no":"sass","locale_license_issue_date":"29\/09\/2024","locale_license_exp_date":"09\/11\/2024","ctt_dl_issue_authority":"107","ctt_bank_name":"","ctt_bank_account_no":"","ctt_bank_branch":"","ctt_bank_ifsc":"","ctt_account_type":"0","ctt_beneficiary_name":"","ctt_beneficiary_id":""},"ContactEmail":[{"eml_email_address":"aaaa@gmail.com","eml_is_primary":"1","eml_type":"1"}],"ContactPhone":[{"phn_is_new":"1","phn_phone_no":"9858585558","phn_is_primary":"1","phn_type":"1"}]}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
