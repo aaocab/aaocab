@@ -39,8 +39,8 @@
 					<div class="row">
                         <div class="col-md-4 center">
                             <div class="text-center mb10">
-                                <h2 class="panel-heading">Aaocab</h2>
-                                <img src="<?php echo  Yii::app()->request->baseUrl; ?>/images/logo2_outstation.jpg?v1.0" height="100" width="100" alt="aaocab"/>
+<!--                                <h2 class="panel-heading">Aaocab</h2>-->
+                                <img src="<?php echo  Yii::app()->request->baseUrl; ?>/images/logo.svg?v1.0" height="100" width="100" alt="aaocab"/>
                             
                             </div>
                             <div class="login-box panel panel-white">
@@ -50,7 +50,7 @@
 
                                 </div>            <div class="panel-footer" id="footer">
 									<div class="innheaderr">
-										Copyright &copy; Aao Cabs. All Rights Reserved.
+										Copyright &copy; Aaocab. All Rights Reserved.
 									</div>
 								</div></div></div></div>
 				</div>

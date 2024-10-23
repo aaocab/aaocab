@@ -60,71 +60,23 @@ class IndexController extends BaseController
 	 */
 	public function actionIndex()
 	{
-//		#Logger::setCategory("warning.module.index.index");
-//		$request = Yii::app()->request;
-//		VisitorTrack::track(CJSON::encode($_REQUEST), $request->getRequestType(), "", BookFormRequest::URL_HOME);
-//		Logger::profile("Start");
-//
-//		$fullUrl	 = Yii::app()->createAbsoluteUrl(Yii::app()->request->url);
-//		$rutId		 = Yii::app()->request->getParam('rutId');
-//		$refSource	 = Yii::app()->request->getParam('s');
-//		$fromCity	 = Yii::app()->request->getParam('fromCity');
-//		$toCity		 = Yii::app()->request->getParam('toCity');
-//		$url		 = Yii::app()->request->requestUri;
-//		$url_arr	 = explode("/", $url);
-//		Logger::profile("Request Initialized");
-//		$code		 = Yii::app()->request->getParam('sid');
-//		$location	 = Yii::app()->request->getParam('location');
-//		if ($code != '')
-//		{
-//			$qrDetails = QrCode::getAgentId($code);
-//			if ($qrDetails)
-//			{
-////				$updatedCount								 = QrCode::updateScannedCount($qrDetails['qrc_id']);
-//				QrCode::updateClickCount($qrDetails['qrc_id']);
-//				$qrc_id										 = $qrDetails['qrc_id'];
-//				$objCookie									 = new CHttpCookie('gozo_qr_id', $qrc_id);
-//				$objCookie->expire							 = time() + 86400;
-//				Yii::app()->request->cookies['gozo_qr_id']	 = $objCookie;
-//				unset(Yii::app()->request->cookies['gozo_agent_id']);
-//			}
-//			else
-//			{
-//				unset(Yii::app()->request->cookies['gozo_qr_id']);
-//			}
-//		}
-//		else
-//		{
-//			unset(Yii::app()->request->cookies['gozo_qr_id']);
-//		}
-//		if (isset($_REQUEST['agent_id']))
-//		{
-//			$agent_id = $_REQUEST['agent_id'];
-//			if ($agent_id != '')
-//			{
-//				Yii::app()->request->cookies['gozo_agent_id'] = new CHttpCookie('gozo_agent_id', $agent_id);
-//			}
-//			else
-//			{
-//				Yii::app()->request->cookies['gozo_agent_id'] = new CHttpCookie('gozo_agent_id', NULL);
-//			}
-//		}
-//		end:
-//
-//		Filter::setReferrer($refSource);
-//		//Logger::create("ACTION START: " . Filter::getExecutionTime());
-//		$model							 = new BookingTemp('new');
-//		$model->loadDefaults();
-//		$this->newHome					 = true;
-//		$ptime							 = date('h:i A', strtotime('+4 hour'));
-//		$this->pageTitle				 = 'aaocab: Book outstation cabs and local car rentals online in India';
-//		$this->metaKeywords				 = 'car rental, taxi service, cab booking, airport transfer, city tour, long-distance trip, One way cab services, outstation taxi, local taxi, oneway, inter city taxi service, Car Hire, Taxi Service, Cab Service, Car Rental India, Online Cab Booking, Online Taxi Booking, Local Taxi Service, Cheap Car Rental, Car Rentals India, Taxi Booking India, Online Car Rentals, Book A Taxi, Book A Cab, Car Rentals Agency India, Car Rent In India, Corporate Car Rental India, Car Rental Company In India, reliable cab service, affordable car rental';
-//		Logger::beginProfile("StructureData::providerDetails");
-//		$providerStructureMarkupData	 = StructureData::providerDetails();
-//		$jsonproviderStructureMarkupData = json_encode($providerStructureMarkupData, JSON_UNESCAPED_SLASHES);
-//		Logger::endProfile("StructureData::providerDetails");
-//		$GLOBALS["prefetch"]			 = "home";
-		$this->render('homeAAO', array());
+            
+          
+$request = Yii::app()->request;
+		
+		$this->newHome = true;
+
+		
+
+		//$pageTitle				   = PartnerConfig::get('website.default.pageTitle', GozoApp::getPartner());
+		//$this->pageTitle			   = $title . ': '. $pageTitle;
+		$this->metaKeywords			   = 'car rental, taxi service, cab booking, airport transfer, city tour, long-distance trip, One way cab services, outstation taxi, local taxi, oneway, inter city taxi service, Car Hire, Taxi Service, Cab Service, Car Rental India, Online Cab Booking, Online Taxi Booking, Local Taxi Service, Cheap Car Rental, Car Rentals India, Taxi Booking India, Online Car Rentals, Book A Taxi, Book A Cab, Car Rentals Agency India, Car Rent In India, Corporate Car Rental India, Car Rental Company In India, reliable cab service, affordable car rental';
+		Logger::beginProfile("StructureData::providerDetails");
+		//$providerStructureMarkupData	   = StructureData::providerDetails($agent_id);
+		//$jsonproviderStructureMarkupData = json_encode($providerStructureMarkupData, JSON_UNESCAPED_SLASHES);
+		Logger::endProfile("StructureData::providerDetails");
+		$GLOBALS["prefetch"]		   = "home";
+		$this->render('home', array());
 	}
 
 	public function actionCPLanding()

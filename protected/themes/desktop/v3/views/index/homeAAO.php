@@ -1,1 +1,1 @@
-<?php  echo "mbm,hkhjjkj";?>
+<?php  echo"erewrwe";

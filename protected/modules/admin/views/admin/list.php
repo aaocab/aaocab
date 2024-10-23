@@ -139,7 +139,8 @@
 											function($data) {
 												if ($data->adp_team_leader_id > 0)
 												{
-													echo Admins::model()->findById($data->adp_team_leader_id)->getName();
+													$lead = Admins::model()->findByPk($data->adp_team_leader_id)->adm_fname;
+                                                                                                        echo $lead;
 												}
 											},
 											'sortable'			 => true, 'headerHtmlOptions'	 => array(), 'header'			 => "Team Leader"),

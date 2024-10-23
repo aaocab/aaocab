@@ -23,7 +23,7 @@ $adminModel = Admins::model()->findByPk(Yii::app()->user->getId());
             <div id="header">
                 <div class="innheaderr">
                     <a href="<?php echo Yii::app()->createUrl('admin/index/dashboard'); ?>">
-                        <img style="width: 300px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/gozo-logo.png" />
+                        <img style="width: 300px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.svg" />
                     </a>
                     <div class="afterLogin">
                         <p>Welcome, <span><?php echo $adminModel->adm_fname; ?></span> | <a href="<?php echo Yii::app()->createUrl('admin/index/logout') ?>" style="color: #ff0000">Sign Out</a></p>
@@ -34,7 +34,7 @@ $adminModel = Admins::model()->findByPk(Yii::app()->user->getId());
             <div class="col-xs-12"><?php echo $content; ?></div>
             <div class="footer" id="footer" style="bottom: 0; position: absolute">
                 <div class="innheaderr">
-                    Copyright &copy; Aao Cabs. All Rights Reserved.
+                    Copyright &copy; Aaocab. All Rights Reserved.
                 </div>
             </div>
         </div>

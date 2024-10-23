@@ -630,8 +630,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 
                         <a  href="<?= Yii::app()->createUrl('admin/index/dashboard') ?>"
                             style="font: inherit !important;  padding:5px">
-                            <b>Aao home</b>
-                          <img style="width: 50px;margin-top: 10px; height:50px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo2_outstation.jpg?v1.1" />
+<!--                            <b>Aao home</b>-->
+                          <img style="width: 100px;margin-top: 10px; height:50px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.svg?v1.1" />
                         </a>
                     </div><!-- Logo Box -->
                     <div class="search-button">
@@ -763,7 +763,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 
 
 
-							<li class="droplink">
+<!--							<li class="droplink">
 								<a href="#"><span class="menu-icon fa fa-calculator"></span><p class="">Accounts</p></a>
 								<ul class="sub-menu">
 									<li>
@@ -784,10 +784,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 										<a href="<?= Yii::app()->createUrl('admin/booking/create') ?>" >
 											<div class="center-block">Create Booking (New Version)</div></a>
 									</li>
-									<!--									<li>
+																		<li>
 																																																	<a href="<? //= Yii::app()->createUrl('admin/booking/createnew')                                                    ?>" >
 																																																			<div class="center-block">New Booking (Old Version)</div></a>
-																																													</li>-->
+																																													</li>
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/quoteRequest/create') ?>" >
 											<div class="center-block">Request New Quote</div></a>
@@ -895,10 +895,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 										<a href="<?= Yii::app()->createUrl('admin/agent/form') ?>" >
 											<div class="center-block">Add Partner</div></a>
 									</li>
-									<!--                                    <li>
+									                                    <li>
 																																																	<a href="<? //= Yii::app()->createUrl('admin/agent/corporateform')                                                         ?>" >
 																																																			<div class="center-block">Add new Corporate</div></a>
-																																													</li>-->
+																																													</li>
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/agent/list') ?>" >
 											<div class="center-block">Manage Partners</div></a>
@@ -917,21 +917,21 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 											<div class="center-block">Registration Progress Report</div></a>
 									</li>
 								</ul>
-							</li>
-							<!--                                                        <li class="droplink">
-																																							<a href="#" ><span class="menu-icon fa fa-user"></span><p class="">Corporate</p></a>
-																																							<ul class="sub-menu">
-																																											<li>
-																																															<a href="<? //= Yii::app()->createUrl('admin/corporate/add')                                                             ?>" >
-																																																			<div class="center-block">Add new corporate</div></a>
-																																											</li>
-																																											<li>
-																																															<a href="<? //= Yii::app()->createUrl('admin/corporate/list')                                                             ?>" >
-																																																			<div class="center-block">Corporate List</div></a>
-																																											</li>
-																																							</ul>
-																																			</li>-->
-							<li class="droplink">
+							</li>-->
+    <li class="droplink">
+        <a href="#" ><span class="menu-icon fa fa-user"></span><p class="">We</p></a>
+        <ul class="sub-menu">
+            <li>
+                <a href="<?= Yii::app()->createUrl('admin/admin/add')                                                              ?>" >
+                    <div class="center-block">Add Us</div></a>
+            </li>
+            <li>
+                <a href="<?= Yii::app()->createUrl('admin/admin/list')                                                              ?>" >
+                    <div class="center-block">Our List</div></a>
+            </li>
+        </ul>
+    </li>
+    <li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-briefcase"></span><p class="">Vendors</p></a>
 								<ul class="sub-menu">
 									<li>
@@ -1103,10 +1103,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 										<a href="<?= Yii::app()->createUrl('admin/driver/list') ?>" >
 											<div class="center-block">View List</div></a>
 									</li>
-									<!--									<li>
+																		<li>
 																																																	<a href="<?= Yii::app()->createUrl('admin/driver/approvelist') ?>" >
 																																																			<div class="center-block">Driver Approval List</div></a>
-																																													</li>-->
+																																													</li>
 
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/driver/csrApproveList') ?>" >
@@ -1135,10 +1135,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-circle"></span><p class="">Cities</p></a>
 								<ul class="sub-menu">
-									<li>
+<!--									<li>
 										<a href="<?= Yii::app()->createUrl('admin/city/add') ?>" >
 											<div class="center-block">Add City</div></a>
-									</li>
+									</li>-->
 
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/city/list') ?>" >
@@ -1162,7 +1162,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 									</li>
 								</ul>
 							</li>
-							<li class="droplink">
+<!--							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-map-marker"></span><p class="">Routes</p></a>
 								<ul class="sub-menu">
 									<li>
@@ -1207,10 +1207,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-cogs"></span><p class="">Zone</p></a>
 								<ul class="sub-menu">
-									<!--									<li>
+																		<li>
 																													<a href="<?= Yii::app()->createUrl('admin/zone/add') ?>" >
 																															<div class="center-block">Add Zone</div></a>
-																											</li>-->
+																											</li>
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/zone/list') ?>" >
 											<div class="center-block">View List</div></a>
@@ -1262,7 +1262,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<li class="droplink">
 								<a href="<?= Yii::app()->createUrl('report/index/dashboard') ?>" target="_blank"><span class="menu-icon fa fa-pie-chart"></span><p class="">Reports</p><span class="arrow"></span></a>
 								<ul class="sub-menu sub-menu-scroll">
-									<!--									<li class="droplink">
+																		<li class="droplink">
 																			<a href="javascript:void(0)"><p class="">Confidential Report</p><span class="arrow"></span></a>
 																			<ul class="sub-menu">
 																				<li>
@@ -1379,8 +1379,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Partner Performance</div></a>
 																				</li>
 																			</ul>
-																		</li>-->
-									<!--									<li class="droplink">
+																		</li>
+																		<li class="droplink">
 																			<a href="javascript:void(0)"><p class="">General Reports</p><span class="arrow"></span></a>
 																			<ul class="sub-menu">
 																				<li>
@@ -1585,9 +1585,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Vendor Compensation</div></a>
 																				</li>
 																			</ul>
-																		</li>-->
+																		</li>
 
-									<!--									<li>
+																		<li>
 																			<a href="<?= Yii::app()->createUrl('admin/zone/volumetrend') ?>" >
 																				<div class="center-block">Zonal Volume Trends</div></a>
 																		</li>
@@ -1599,7 +1599,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																		<li>
 																			<a href="<?= Yii::app()->createUrl('admin/dialer/Audioreport') ?>" >
 																				<div class="center-block">Call Report</div></a>
-																		</li>-->
+																		</li>
 								</ul>
 							</li>
 							<li class="droplink">
@@ -1657,7 +1657,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 											<div class="center-block">Callback list</div></a>
 									</li>
 								</ul>
-							</li>
+							</li>-->
 
 							<?php
 							if (Yii::app()->user->checkAccess('AdminTools'))
@@ -1706,14 +1706,14 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																																							</ul>
 																																			</li>-->
 
-							<li class="droplink">
+<!--							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-sticky-note"></span><p class="">Live Helper Chat</p></a>
 								<ul class="sub-menu">
 									<li>
 										<a href="#" data-target="#pwdModal" data-toggle="modal">Reset my password</a>
 									</li>
 								</ul>
-							</li>
+							</li>-->
 <!--							<li class="droplink">
 								<a href="#"><span class="menu-icon fa fa-briefcase"></span><p class="">Miscellaneous</p></a>
 								<ul class="sub-menu">

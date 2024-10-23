@@ -259,7 +259,8 @@ class Admins extends BaseActiveRecord
 
 	public function getName()
 	{
-		return $this->adm_fname . " " . $this->adm_lname . " ({$this->adm_user})";
+           
+		return $this->adm_fname . " " . $this->adm_lname ;
 	}
 
 	/**

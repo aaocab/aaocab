@@ -31,6 +31,7 @@ $model				 = $objBooking->getLeadModel();
 		document.getElementById("mySidenav").style.width = "0";
 	}
 </script>
+
 <div id="bkgContainer" class="container mt20 mb30 bkgContainer">
 
 	<div class="bkgContent">
