@@ -263,7 +263,7 @@ class IndexController extends Controller
 
 	public function actionGhash()
 	{
-		$pass = 'sachin1';
+		$pass = 'sourabh@2024';
 		echo CPasswordHelper::hashPassword($pass, 10);
 
 		exit;
