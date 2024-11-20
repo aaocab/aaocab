@@ -9,7 +9,7 @@ if ($status == 'error')
 }
 ?>
 <div class="form-group">
-    <label for="UserUsername">Username</label>
+    <label for="UserUsername">User Name</label>
     <input name="txtUsername" class="form-control" maxlength="200" type="text" id="txtUsername">
     <div e_rel="txtUsername"></div>
 </div>
