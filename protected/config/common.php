@@ -82,6 +82,9 @@ return array(
 		'rcsr'		 => array(
 			'defaultController' => 'index/index',
 		),
+            'supplier'	 => array(
+						'defaultController' => 'index/index',
+				)
 	),
 	// application components
 	'components' => array(

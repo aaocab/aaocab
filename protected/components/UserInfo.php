@@ -21,6 +21,7 @@ class UserInfo
 	const TYPE_AGENT		 = 5;
 	const TYPE_SYSTEM		 = 10;
 	const TYPE_CORPORATE	 = 6;
+        const TYPE_SUPPLIER = 7;
 	const TYPE_INTERNAL	 = 11;
 
 	public static $platform	 = 1;
@@ -80,7 +81,7 @@ class UserInfo
 		{
 			$entityId = $user->getEntityID();
 		}
-		else if ($user != null && $user instanceof DcoWebUser && in_array(self::getUserType(), [UserInfo::TYPE_VENDOR, UserInfo::TYPE_DRIVER]))
+		else if ($user != null && $user instanceof DcoWebUser && in_array(self::getUserType(), [UserInfo::TYPE_VENDOR, UserInfo::TYPE_DRIVER, UserInfo::TYPE_SUPPLIER]))
 		{
 			$entityId = $user->getEntityID();
 		}
@@ -133,6 +134,10 @@ class UserInfo
 				if (self::getUserId() > 1)
 				{
 					$userType = ContactProfile::getPreferredUserType(self::getUserId());
+				}
+                                if (self::getPlatform() == 4)
+				{
+					$userType = UserInfo::TYPE_SUPPLIER;
 				}
 				break;
 			default:
@@ -221,5 +226,19 @@ class UserInfo
 		}
 		
 		return $GA4UserID;
+	}
+        
+        public static function getPlatform()
+	{
+		$user = self::getUser();
+		if ($user == null)
+		{
+			return 0;
+		}
+		if ($user->getPlatform() > 0)
+		{
+			return $user->getPlatform();
+		}
+		return 0;
 	}
 }
