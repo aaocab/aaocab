@@ -1,4 +1,15 @@
 <?php
+defined('JS_DOMAIN') OR define("JS_DOMAIN", "");
+defined('CSS_DOMAIN') OR define("CSS_DOMAIN", "");
+defined('IMAGE_DOMAIN') OR define("IMAGE_DOMAIN", "");
+defined('ASSETS_DOMAIN') OR define("ASSETS_DOMAIN", "");
+defined('ALIAS_DOMAIN') OR define("ALIAS_DOMAIN", $_SERVER['HTTP_HOST']);
+defined("JS_URL") OR define("JS_URL", Filter::getResourceBaseURL(JS_DOMAIN) . "/js");
+defined("CSS_URL") OR define("CSS_URL", Filter::getResourceBaseURL(CSS_DOMAIN) . "/css");
+defined("IMAGE_URL") OR define("IMAGE_URL", Filter::getResourceBaseURL(IMAGE_DOMAIN) . "/images");
+defined("ASSETS_URL") OR define("ASSETS_URL", Filter::getResourceBaseURL(ASSETS_DOMAIN) . "/assets");
+defined("APP_ASSETS") OR define("APP_ASSETS", Filter::getResourceBaseURL(ASSETS_DOMAIN) . "/res/app-assets");
+defined("SUPPLIER_ASSETS") OR define("SUPPLIER_ASSETS", ASSETS_DOMAIN . "/res/supplier-assets");
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -198,7 +209,24 @@ return array(
 					'coreScriptPosition' => CClientScript::POS_HEAD,
 					"depends"			 => ["webV3"]
 				),
-				'uiControls'			 => array(
+                            
+                            'webSupplier'		   => array(
+										'baseUrl'			 => SUPPLIER_ASSETS,
+										'css'			 => array(
+												'/vendors/css/charts/apexcharts.css', '/vendors/css/extensions/swiper.min.css', '/vendors/css/vendors.min.css', '/css/bootstrap.min.css', '/css/bootstrap-extended.css', '/css/colors.css', '/css/style.css', '/css/components.css', '/css/themes/dark-layout.css',
+												'/css/themes/semi-dark-layout.css', '/css/core/menu/menu-types/horizontal-menu.css', '/css/pages/authentication.css', '/vendors/css/extensions/dragula.min.css', '/vendors/css/tables/datatable/dataTables.bootstrap4.min.css', '/vendors/css/tables/datatable/dataTables.checkboxes.css',
+												'/css/modern.min.css'
+										),
+//					'js'				 => array(
+//						'/vendors/js/vendors.min.js',
+//						'/fonts/LivIconsEvo/js/LivIconsEvo.tools.js','/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js',
+//						'/fonts/LivIconsEvo/js/LivIconsEvo.min.js','/vendors/js/ui/jquery.sticky.js','/js/scripts/configs/horizontal-menu.js','/js/core/app-menu.js',
+//						'/js/core/app.js','/js/scripts/components.js','/js/scripts/footer.js','/js/jquery.min.js','/jquery-ui/jquery-ui-no-conflict.min.js','/js/modern.min.js?v=1'
+//					),
+										'coreScriptPosition' => CClientScript::POS_HEAD,
+								),
+                                
+                                'uiControls'			 => array(
 					'baseUrl'			 => APP_ASSETS,
 					'css'				 => array(
 						'selectize/dist/css/selectize.css',

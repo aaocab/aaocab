@@ -51,6 +51,16 @@ class DcoWebUser extends CWebUser
 		$this->setState("EntityID", $id); 
 	}
 
+	public function getPlatform()
+	{
+		return $this->getState("Platform");
+	}
+
+	public function setPlatform($id)
+	{
+		$this->setState("Platform", $id); 
+	}
+
 	public function getUserType()
 	{
 		return $this->getState("UserType");

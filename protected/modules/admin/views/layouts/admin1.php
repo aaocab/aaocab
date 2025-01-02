@@ -19,7 +19,7 @@ Yii::app()->clientScript->registerPackage('style');
 $adminModel						 = Admins::model()->findByPk(Yii::app()->user->getId());
 $site_js_version				 = Yii::app()->params['siteJSVersion'];
 Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/js/maskFilter.js?v=' . $site_js_version, CClientScript::POS_HEAD);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/followUp.js?v=' . $site_js_version);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/followUp.js?v=' . $site_js_version);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +28,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="aaocab">
+        <meta name="author" content="aaoCabs">
 		<meta name="robots" content="noindex,nofollow"/>
         <link rel="icon" type="image/png"  href="/images/favicon/favicon1.ico"/>
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.ico"/>
@@ -128,7 +128,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 				background: #efefef !important;
 				color: #ffffff !important;
 			}
-
+			.nav>li>a {
+				position: relative;
+				display: block;
+				padding: 10px 15px;
+			}
 		</style>
         <script src="<?= ASSETS_URL ?>/js/admin.js"></script>
         <script src="<?= ASSETS_URL ?>/plugins/jquery-counterup/jquery.counterup.min.js"></script>
@@ -142,408 +146,401 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
         <!-- <? if (YII_DEBUG) print_r($_SERVER); ?> -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->request->baseUrl; ?><?= ASSETS_URL ?>/plugins/form-toggle/toggles.css' />
         <script type="text/javascript">
-			var $baseUrl = "<?= Yii::app()->getBaseUrl(true) ?>";
-			var $adminUrl = "<?= Yii::app()->createAbsoluteUrl('admin') ?>";
+            var $baseUrl = "<?= Yii::app()->getBaseUrl(true) ?>";
+            var $adminUrl = "<?= Yii::app()->createAbsoluteUrl('admin') ?>";
 
 
 
-			$(function()
-			{
-				getLocation();
-			});
-			function getLocation()
-			{
-				if (navigator.geolocation)
-				{
-					navigator.geolocation.getCurrentPosition(showPosition);
-				}
-				else
-				{
-					x.innerHTML = "Geolocation is not supported by this browser.";
-				}
-			}
+            $(function ()
+            {
+                getLocation();
+            });
+            function getLocation()
+            {
+                if (navigator.geolocation)
+                {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else
+                {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
 
-			function showPosition(position)
-			{
-				createCookie("lat_lng", position.coords.latitude + "_" + position.coords.longitude, 365);
-			}
-			function createCookie(name, value, days)
-			{
-				var expires;
-				if (days)
-				{
-					var date = new Date();
-					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					expires = "; expires=" + date.toGMTString();
-				}
-				else
-				{
-					expires = "";
-				}
-				document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
-			}
+            function showPosition(position)
+            {
+                createCookie("lat_lng", position.coords.latitude + "_" + position.coords.longitude, 365);
+            }
+            function createCookie(name, value, days)
+            {
+                var expires;
+                if (days)
+                {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toGMTString();
+                } else
+                {
+                    expires = "";
+                }
+                document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+            }
 
-			function ajaxindicatorstart(text)
-			{
-				if (jQuery('body').find('#resultLoading').attr('id') != 'resultLoading')
-				{
-					jQuery('body').append('<div id="resultLoading" style="display:none"><div><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/ajax-loader.gif"><div>' + text + '</div></div><div class="bg"></div></div>');
-				}
+            function ajaxindicatorstart(text)
+            {
+                if (jQuery('body').find('#resultLoading').attr('id') != 'resultLoading')
+                {
+                    jQuery('body').append('<div id="resultLoading" style="display:none"><div><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/ajax-loader.gif"><div>' + text + '</div></div><div class="bg"></div></div>');
+                }
 
-				jQuery('#resultLoading').css({
-					'width': '100%',
-					'height': '100%',
-					'position': 'fixed',
-					'z-index': '10000000',
-					'top': '0',
-					'left': '0',
-					'right': '0',
-					'bottom': '0',
-					'margin': 'auto'
-				});
+                jQuery('#resultLoading').css({
+                    'width': '100%',
+                    'height': '100%',
+                    'position': 'fixed',
+                    'z-index': '10000000',
+                    'top': '0',
+                    'left': '0',
+                    'right': '0',
+                    'bottom': '0',
+                    'margin': 'auto'
+                });
 
-				jQuery('#resultLoading .bg').css({
-					'background': '#ddd',
-					'opacity': '0.6',
-					'width': '100%',
-					'height': '100%',
-					'position': 'absolute',
-					'top': '0'
-				});
+                jQuery('#resultLoading .bg').css({
+                    'background': '#ddd',
+                    'opacity': '0.6',
+                    'width': '100%',
+                    'height': '100%',
+                    'position': 'absolute',
+                    'top': '0'
+                });
 
-				jQuery('#resultLoading>div:first').css({
-					'width': '250px',
-					'height': '75px',
-					'text-align': 'center',
-					'position': 'fixed',
-					'top': '0',
-					'left': '0',
-					'right': '0',
-					'bottom': '0',
-					'margin': 'auto',
-					'font-size': '16px',
-					'z-index': '10',
-					'color': '#111'
+                jQuery('#resultLoading>div:first').css({
+                    'width': '250px',
+                    'height': '75px',
+                    'text-align': 'center',
+                    'position': 'fixed',
+                    'top': '0',
+                    'left': '0',
+                    'right': '0',
+                    'bottom': '0',
+                    'margin': 'auto',
+                    'font-size': '16px',
+                    'z-index': '10',
+                    'color': '#111'
 
-				});
+                });
 
-				jQuery('#resultLoading .bg').height('100%');
-				jQuery('#resultLoading').fadeIn(100);
-				jQuery('body').css('cursor', 'wait');
-			}
+                jQuery('#resultLoading .bg').height('100%');
+                jQuery('#resultLoading').fadeIn(100);
+                jQuery('body').css('cursor', 'wait');
+            }
 
-			function ajaxindicatorstop()
-			{
-				jQuery('#resultLoading .bg').height('100%');
-				jQuery('#resultLoading').fadeOut(100);
-				jQuery('body').css('cursor', 'default');
-			}
+            function ajaxindicatorstop()
+            {
+                jQuery('#resultLoading .bg').height('100%');
+                jQuery('#resultLoading').fadeOut(100);
+                jQuery('body').css('cursor', 'default');
+            }
 
 
-			jQuery(document).ajaxStart(function()
-			{
-				//show ajax indicator
-				ajaxindicatorstart('loading data.. please wait..');
-			}).ajaxStop(function()
-			{
-				//hide ajax indicator
-				ajaxindicatorstop();
-			});
-			jQuery(window).on('load', function()
-			{
-				// will first fade out the loading animation
-				jQuery("#status").fadeOut();
-				// will fade out the whole DIV that covers the website.
-				jQuery("#preloader").delay(100).fadeOut("slow");
-			});
+            jQuery(document).ajaxStart(function ()
+            {
+                //show ajax indicator
+                ajaxindicatorstart('loading data.. please wait..');
+            }).ajaxStop(function ()
+            {
+                //hide ajax indicator
+                ajaxindicatorstop();
+            });
+            jQuery(window).on('load', function ()
+            {
+                // will first fade out the loading animation
+                jQuery("#status").fadeOut();
+                // will fade out the whole DIV that covers the website.
+                jQuery("#preloader").delay(100).fadeOut("slow");
+            });
 
-			toastr.options = {
-				"closeButton": false,
-				"debug": false,
-				"newestOnTop": false,
-				"progressBar": false,
-				"positionClass": "toast-top-right",
-				"preventDuplicates": false,
-				"onclick": function()
-				{
-					window.location.href = '<?= Yii::app()->createUrl("admin/lead/report"); ?>';
-				},
-				"timeOut": "0",
-				"extendedTimeOut": "0",
-				"showEasing": "swing",
-				"hideEasing": "linear",
-				"showMethod": "fadeIn",
-				"tapToDismiss": true,
-				"hideMethod": "fadeOut"
-			};
-
-
-			$sourceList = null;
-			function populateSourceCity(obj, cityId)
-			{
-
-				obj.load(function(callback)
-				{
-					var obj = this;
-					if ($sourceList == null)
-					{
-						xhr = $.ajax({
-							url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allcitylistbyquery', ['apshow' => 1, 'city' => ''])) ?>' + cityId,
-							dataType: 'json',
-							data: {
-								// city: cityId
-							},
-							//  async: false,
-							success: function(results)
-							{
-								$sourceList = results;
-								obj.enable();
-								callback($sourceList);
-								obj.setValue(cityId);
-							},
-							error: function()
-							{
-								callback();
-							}
-						});
-					}
-					else
-					{
-						obj.enable();
-						callback($sourceList);
-						obj.setValue(cityId);
-					}
-				});
-			}
-			function loadSourceCity(query, callback)
-			{
-				//	if (!query.length) return callback();
-				$.ajax({
-					url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allcitylistbyquery')) ?>?apshow=1&q=' + encodeURIComponent(query),
-					type: 'GET',
-					dataType: 'json',
-					global: false,
-					error: function()
-					{
-						callback();
-					},
-					success: function(res)
-					{
-						callback(res);
-					}
-				});
-			}
-			$sourceList = null;
-			function populateVendor(obj, vndId)
-			{
-				obj.load(function(callback)
-				{
-					var obj = this;
-					if ($sourceList == null)
-					{
-						xhr = $.ajax({
-							url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allvendorbyquery', ['onlyActive' => 0, 'vnd' => ''])) ?>' + vndId,
-							dataType: 'json',
-							data: {},
-							//  async: false,
-							success: function(results)
-							{
-								$sourceList = results;
-								obj.enable();
-								callback($sourceList);
-								obj.setValue(vndId);
-							},
-							error: function()
-							{
-								callback();
-							}
-						});
-					}
-					else
-					{
-						obj.enable();
-						callback($sourceList);
-						obj.setValue(vndId);
-					}
-				});
-			}
-			function loadVendor(query, callback)
-			{
-
-				//	if (!query.length) return callback();
-				$.ajax({
-					url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allvendorbyquery')) ?>?onlyActive=0&q=' + encodeURIComponent(query),
-					type: 'GET',
-					dataType: 'json',
-					global: false,
-					error: function()
-					{
-						callback();
-					},
-					success: function(res)
-					{
-						callback(res);
-					}
-				});
-			}
-			function populatePartner(obj, agtId)
-			{
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": function ()
+                {
+                    window.location.href = '<?= Yii::app()->createUrl("admin/lead/report"); ?>';
+                },
+                "timeOut": "0",
+                "extendedTimeOut": "0",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "tapToDismiss": true,
+                "hideMethod": "fadeOut"
+            };
 
 
-				obj.load(function(callback)
-				{
-					var obj = this;
-					if ($sourceList == null)
-					{
-						xhr = $.ajax({
-							url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allpartnerbyquery', ['onlyActive' => 1, 'agt' => ''])) ?>' + agtId,
-							dataType: 'json',
-							type: 'GET',
-							data: {},
-							//  async: false,
-							success: function(results)
-							{
-								$sourceList = results;
-								obj.enable();
-								callback($sourceList);
-								obj.setValue(agtId);
-							},
-							error: function()
-							{
-								callback();
-							}
-						});
-					}
-					else
-					{
-						obj.enable();
-						callback($sourceList);
-						obj.setValue(agtId);
-					}
-				});
-			}
-			function loadPartner(query, callback)
-			{
-				//	if (!query.length) return callback();
-				$.ajax({
-					url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allpartnerbyquery')) ?>?onlyActive=1&q=' + encodeURIComponent(query),
-					type: 'GET',
-					dataType: 'json',
-					global: false,
-					error: function()
-					{
-						callback();
-					},
-					success: function(res)
-					{
-						callback(res);
-					}
-				});
-			}
-			function populateRoute(obj, rutId)
-			{
+            $sourceList = null;
+            function populateSourceCity(obj, cityId)
+            {
 
-				obj.load(function(callback)
-				{
-					var obj = this;
-					if ($sourceList == null)
-					{
-						xhr = $.ajax({
-							url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/routelist')) ?>?rut' + rutId,
-							dataType: 'json',
-							type: 'GET',
-							data: {},
-							//  async: false,
-							success: function(results)
-							{
-								$sourceList = results;
-								obj.enable();
-								callback($sourceList);
-								obj.setValue(rutId);
-							},
-							error: function()
-							{
-								callback();
-							}
-						});
-					}
-					else
-					{
-						obj.enable();
-						callback($sourceList);
-						obj.setValue(rutId);
-					}
-				});
-			}
-			function loadRoute(query, callback)
-			{
-				//	if (!query.length) return callback();
-				$.ajax({
-					url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/routelist')) ?>?q=' + encodeURIComponent(query),
-					type: 'GET',
-					dataType: 'json',
-					global: false,
-					error: function()
-					{
-						callback();
-					},
-					success: function(res)
-					{
-						callback(res);
-					}
-				});
-			}
+                obj.load(function (callback)
+                {
+                    var obj = this;
+                    if ($sourceList == null)
+                    {
+                        xhr = $.ajax({
+                            url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allcitylistbyquery', ['apshow' => 1, 'city' => ''])) ?>' + cityId,
+                            dataType: 'json',
+                            data: {
+                                // city: cityId
+                            },
+                            //  async: false,
+                            success: function (results)
+                            {
+                                $sourceList = results;
+                                obj.enable();
+                                callback($sourceList);
+                                obj.setValue(cityId);
+                            },
+                            error: function ()
+                            {
+                                callback();
+                            }
+                        });
+                    } else
+                    {
+                        obj.enable();
+                        callback($sourceList);
+                        obj.setValue(cityId);
+                    }
+                });
+            }
+            function loadSourceCity(query, callback)
+            {
+                //	if (!query.length) return callback();
+                $.ajax({
+                    url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allcitylistbyquery')) ?>?apshow=1&q=' + encodeURIComponent(query),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    error: function ()
+                    {
+                        callback();
+                    },
+                    success: function (res)
+                    {
+                        callback(res);
+                    }
+                });
+            }
+            $sourceList = null;
+            function populateVendor(obj, vndId)
+            {
+                obj.load(function (callback)
+                {
+                    var obj = this;
+                    if ($sourceList == null)
+                    {
+                        xhr = $.ajax({
+                            url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allvendorbyquery', ['onlyActive' => 0, 'vnd' => ''])) ?>' + vndId,
+                            dataType: 'json',
+                            data: {},
+                            //  async: false,
+                            success: function (results)
+                            {
+                                $sourceList = results;
+                                obj.enable();
+                                callback($sourceList);
+                                obj.setValue(vndId);
+                            },
+                            error: function ()
+                            {
+                                callback();
+                            }
+                        });
+                    } else
+                    {
+                        obj.enable();
+                        callback($sourceList);
+                        obj.setValue(vndId);
+                    }
+                });
+            }
+            function loadVendor(query, callback)
+            {
 
-			function populateZone(obj, zonId)
-			{
-				obj.load(function(callback)
-				{
-					var obj = this;
-					if ($sourceList == null)
-					{
-						xhr = $.ajax({
-							url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allzonebyquery', ['onlyActive' => 0, 'zonId' => ''])) ?>' + zonId,
-							dataType: 'json',
-							data: {},
-							success: function(results)
-							{
-								$sourceList = results;
-								obj.enable();
-								callback($sourceList);
-								obj.setValue(zonId);
-							},
-							error: function()
-							{
-								callback();
-							}
-						});
-					}
-					else
-					{
-						obj.enable();
-						callback($sourceList);
-						obj.setValue(zonId);
-					}
-				});
-			}
+                //	if (!query.length) return callback();
+                $.ajax({
+                    url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allvendorbyquery')) ?>?onlyActive=0&q=' + encodeURIComponent(query),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    error: function ()
+                    {
+                        callback();
+                    },
+                    success: function (res)
+                    {
+                        callback(res);
+                    }
+                });
+            }
+            function populatePartner(obj, agtId)
+            {
 
-			function loadZone(query, callback)
-			{
-				$.ajax({
-					url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allzonebyquery')) ?>?onlyActive=0&q=' + encodeURIComponent(query),
-					type: 'GET',
-					dataType: 'json',
-					global: false,
-					error: function()
-					{
-						callback();
-					},
-					success: function(res)
-					{
-						callback(res);
-					}
-				});
-			}
+
+                obj.load(function (callback)
+                {
+                    var obj = this;
+                    if ($sourceList == null)
+                    {
+                        xhr = $.ajax({
+                            url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allpartnerbyquery', ['onlyActive' => 1, 'agt' => ''])) ?>' + agtId,
+                            dataType: 'json',
+                            type: 'GET',
+                            data: {},
+                            //  async: false,
+                            success: function (results)
+                            {
+                                $sourceList = results;
+                                obj.enable();
+                                callback($sourceList);
+                                obj.setValue(agtId);
+                            },
+                            error: function ()
+                            {
+                                callback();
+                            }
+                        });
+                    } else
+                    {
+                        obj.enable();
+                        callback($sourceList);
+                        obj.setValue(agtId);
+                    }
+                });
+            }
+            function loadPartner(query, callback)
+            {
+                //	if (!query.length) return callback();
+                $.ajax({
+                    url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allpartnerbyquery')) ?>?onlyActive=1&q=' + encodeURIComponent(query),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    error: function ()
+                    {
+                        callback();
+                    },
+                    success: function (res)
+                    {
+                        callback(res);
+                    }
+                });
+            }
+            function populateRoute(obj, rutId)
+            {
+
+                obj.load(function (callback)
+                {
+                    var obj = this;
+                    if ($sourceList == null)
+                    {
+                        xhr = $.ajax({
+                            url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/routelist')) ?>?rut' + rutId,
+                            dataType: 'json',
+                            type: 'GET',
+                            data: {},
+                            //  async: false,
+                            success: function (results)
+                            {
+                                $sourceList = results;
+                                obj.enable();
+                                callback($sourceList);
+                                obj.setValue(rutId);
+                            },
+                            error: function ()
+                            {
+                                callback();
+                            }
+                        });
+                    } else
+                    {
+                        obj.enable();
+                        callback($sourceList);
+                        obj.setValue(rutId);
+                    }
+                });
+            }
+            function loadRoute(query, callback)
+            {
+                //	if (!query.length) return callback();
+                $.ajax({
+                    url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/routelist')) ?>?q=' + encodeURIComponent(query),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    error: function ()
+                    {
+                        callback();
+                    },
+                    success: function (res)
+                    {
+                        callback(res);
+                    }
+                });
+            }
+
+            function populateZone(obj, zonId)
+            {
+                obj.load(function (callback)
+                {
+                    var obj = this;
+                    if ($sourceList == null)
+                    {
+                        xhr = $.ajax({
+                            url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allzonebyquery', ['onlyActive' => 0, 'zonId' => ''])) ?>' + zonId,
+                            dataType: 'json',
+                            data: {},
+                            success: function (results)
+                            {
+                                $sourceList = results;
+                                obj.enable();
+                                callback($sourceList);
+                                obj.setValue(zonId);
+                            },
+                            error: function ()
+                            {
+                                callback();
+                            }
+                        });
+                    } else
+                    {
+                        obj.enable();
+                        callback($sourceList);
+                        obj.setValue(zonId);
+                    }
+                });
+            }
+
+            function loadZone(query, callback)
+            {
+                $.ajax({
+                    url: '<?= CHtml::normalizeUrl(Yii::app()->createUrl('lookup/allzonebyquery')) ?>?onlyActive=0&q=' + encodeURIComponent(query),
+                    type: 'GET',
+                    dataType: 'json',
+                    global: false,
+                    error: function ()
+                    {
+                        callback();
+                    },
+                    success: function (res)
+                    {
+                        callback(res);
+                    }
+                });
+            }
 
         </script>
         <style>
@@ -630,8 +627,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 
                         <a  href="<?= Yii::app()->createUrl('admin/index/dashboard') ?>"
                             style="font: inherit !important;  padding:5px">
-<!--                            <b>Aao home</b>-->
-                          <img style="width: 100px;margin-top: 10px; height:50px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.svg?v1.1" />
+                            <img style="width: 110px;margin-top: 10px" src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo2_outstation.png?v1.1" />
                         </a>
                     </div><!-- Logo Box -->
                     <div class="search-button">
@@ -706,7 +702,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
                                 <li class="notifi">
                                     <span class="notifi-1" title="Followups assigned to my team"><a href="<?php echo Yii::app()->createUrl('admin/generalReport/serviceRequests'); ?>" class="color-white"><?= $getCountInternalCBRbyTeam ?></a></span>
                                     <span  class="notifi-2 blinking" title="Follow ups assigned to me"><a href="<?php echo Yii::app()->createUrl('admin/generalReport/serviceRequestsOwn'); ?>" class="color-white"><?= $getCountInternalCBRbyAdminID ?></a></span>
-                                    <span  class="notifi-1" title="My Request"><a  target="_blank"href="/aaohome/generalReport/cbrdetailsreport/?queueType=&event_id=&event_by=&csrId=&teamId=0&isCreated=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate ?>" class="color-white">My</a></span>
+                                    <span  class="notifi-1" title="My Request"><a  target="_blank"href="/admpnl/generalReport/cbrdetailsreport/?queueType=&event_id=&event_by=&csrId=&teamId=0&isCreated=1&fromdate=<?php echo $fromdate; ?>&todate=<?php echo $todate ?>" class="color-white">My</a></span>
                                 </li>
                             </ul>
 							<?php
@@ -766,7 +762,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 
 
 
-<!--							<li class="droplink">
+							<li class="droplink">
 								<a href="#"><span class="menu-icon fa fa-calculator"></span><p class="">Accounts</p></a>
 								<ul class="sub-menu">
 									<li>
@@ -787,10 +783,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 										<a href="<?= Yii::app()->createUrl('admin/booking/create') ?>" >
 											<div class="center-block">Create Booking (New Version)</div></a>
 									</li>
-																		<li>
-																																																	<a href="<? //= Yii::app()->createUrl('admin/booking/createnew')                                                    ?>" >
-																																																			<div class="center-block">New Booking (Old Version)</div></a>
-																																													</li>
+									<!--									<li>
+																																										  <a href="<? //= Yii::app()->createUrl('admin/booking/createnew')                                                      ?>" >
+																																										  <div class="center-block">New Booking (Old Version)</div></a>
+																																										  </li>-->
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/quoteRequest/create') ?>" >
 											<div class="center-block">Request New Quote</div></a>
@@ -822,7 +818,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 									</li>
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/report/gnowOffers') ?>" >
-											<div class="center-block">Gozo Now Offers Tracking</div></a>
+											<div class="center-block">aao Now Offers Tracking</div></a>
 									</li>
 
 									<li>
@@ -874,7 +870,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 									</li>
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/credit/list') ?>" >
-											<div class="center-block">Gozo Coins History</div></a>
+											<div class="center-block">aao Coins History</div></a>
 									</li>
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/unsubscribe/list') ?>" >
@@ -898,10 +894,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 										<a href="<?= Yii::app()->createUrl('admin/agent/form') ?>" >
 											<div class="center-block">Add Partner</div></a>
 									</li>
-									                                    <li>
-																																																	<a href="<? //= Yii::app()->createUrl('admin/agent/corporateform')                                                         ?>" >
-																																																			<div class="center-block">Add new Corporate</div></a>
-																																													</li>
+									<!--                                    <li>
+																																										  <a href="<? //= Yii::app()->createUrl('admin/agent/corporateform')                                                           ?>" >
+																																										  <div class="center-block">Add new Corporate</div></a>
+																																										  </li>-->
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/agent/list') ?>" >
 											<div class="center-block">Manage Partners</div></a>
@@ -1000,7 +996,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 									</li>
 
 									<li>
-										<a href="/aaohome/vendor/duplicatevendor">
+										<a href="/admpnl/vendor/duplicatevendor">
 											<div class="center-block">Duplicate Vendors</div></a>
 									</li>
 									<li>
@@ -1132,10 +1128,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 										<a href="<?= Yii::app()->createUrl('admin/driver/list') ?>" >
 											<div class="center-block">View List</div></a>
 									</li>
-																		<li>
-																																																	<a href="<?= Yii::app()->createUrl('admin/driver/approvelist') ?>" >
-																																																			<div class="center-block">Driver Approval List</div></a>
-																																													</li>
+									<!--									<li>
+																																										  <a href="<?= Yii::app()->createUrl('admin/driver/approvelist') ?>" >
+																																										  <div class="center-block">Driver Approval List</div></a>
+																																										  </li>-->
 
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/driver/csrApproveList') ?>" >
@@ -1164,10 +1160,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-circle"></span><p class="">Cities</p></a>
 								<ul class="sub-menu">
-<!--									<li>
+									<li>
 										<a href="<?= Yii::app()->createUrl('admin/city/add') ?>" >
 											<div class="center-block">Add City</div></a>
-									</li>-->
+									</li>
 
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/city/list') ?>" >
@@ -1328,10 +1324,10 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-cogs"></span><p class="">Zone</p></a>
 								<ul class="sub-menu">
-																		<li>
+									<!--									<li>
 																													<a href="<?= Yii::app()->createUrl('admin/zone/add') ?>" >
 																															<div class="center-block">Add Zone</div></a>
-																											</li>
+																											</li>-->
 									<li>
 										<a href="<?= Yii::app()->createUrl('admin/zone/list') ?>" >
 											<div class="center-block">View List</div></a>
@@ -1364,12 +1360,12 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 									</li>
 
 									<li>
-										<a href="<?= Yii::app()->createUrl('aaohome/broadcastNotification/add') ?>" >
+										<a href="<?= Yii::app()->createUrl('admpnl/broadcastNotification/add') ?>" >
 											<div class="center-block">New Notification </div></a>
 									</li>
 
 									<li>
-										<a href="<?= Yii::app()->createUrl('aaohome/broadcastNotification/list') ?>" >
+										<a href="<?= Yii::app()->createUrl('admpnl/broadcastNotification/list') ?>" >
 											<div class="center-block">Scheduled Notifications </div></a>
 									</li>
 									<li>
@@ -1383,11 +1379,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<li class="droplink">
 								<a href="<?= Yii::app()->createUrl('report/index/dashboard') ?>" target="_blank"><span class="menu-icon fa fa-pie-chart"></span><p class="">Reports</p><span class="arrow"></span></a>
 								<ul class="sub-menu sub-menu-scroll">
-																		<li class="droplink">
+									<!--									<li class="droplink">
 																			<a href="javascript:void(0)"><p class="">Confidential Report</p><span class="arrow"></span></a>
 																			<ul class="sub-menu">
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/report/zonewise-count') ?>" target="blank">
+																					<a href="<?= Yii::app()->createUrl('admpnl/report/zonewise-count') ?>" target="blank">
 																						<div class="center-block">Created Zone-wise Count Report</div></a>
 																				</li>
 																				<li>
@@ -1444,7 +1440,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																				</li>
 									
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/bookingPriceFactor/list') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/bookingPriceFactor/list') ?>" >
 																						<div class="center-block">Surge Quoted Situation Report</div>
 																					</a>
 																				</li>
@@ -1500,8 +1496,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Partner Performance</div></a>
 																				</li>
 																			</ul>
-																		</li>
-																		<li class="droplink">
+																		</li>-->
+									<!--									<li class="droplink">
 																			<a href="javascript:void(0)"><p class="">General Reports</p><span class="arrow"></span></a>
 																			<ul class="sub-menu">
 																				<li>
@@ -1521,7 +1517,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Penalty Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/assignmentSummary') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/assignmentSummary') ?>" >
 																						<div class="center-block">Assignment Summary</div></a>
 																				</li>
 																				<li>
@@ -1571,7 +1567,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Zero Inventory City/Zone</div></a>
 																				</li>
 																				<li>
-																						<a href="<? #= Yii::app()->createUrl('aaohome/generalReport/csrLeadPerformanceReport/')                             ?>" >
+																						<a href="<? #= Yii::app()->createUrl('admpnl/generalReport/csrLeadPerformanceReport/')                               ?>" >
 																								<div class="center-block">CSR Lead Performance Details Report</div></a>
 																				</li>
 																				<li class="droplink">
@@ -1632,15 +1628,15 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Vendor Cancellation Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/cbrdetailsreport/') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/cbrdetailsreport/') ?>" >
 																						<div class="center-block">CBR's Details Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/serviceRequests') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/serviceRequests') ?>" >
 																						<div class="center-block">Service Requests Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/bookingtrackdetails') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/bookingtrackdetails') ?>" >
 																						<div class="center-block">Booking Track Report</div></a>
 																				</li>
 																				<li>
@@ -1686,19 +1682,19 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																					</ul>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/bookingReport') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/bookingReport') ?>" >
 																						<div class="center-block">Booking Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/AttendanceReport') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/AttendanceReport') ?>" >
 																						<div class="center-block">Attendance Report</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/scq/fetchlist') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/scq/fetchlist') ?>" >
 																						<div class="center-block">Team queue</div></a>
 																				</li>
 																				<li>
-																					<a href="<?= Yii::app()->createUrl('aaohome/generalReport/csrPerformanceReport') ?>" >
+																					<a href="<?= Yii::app()->createUrl('admpnl/generalReport/csrPerformanceReport') ?>" >
 																						<div class="center-block">CSR Performance Report</div></a>
 																				</li>
 																				<li>
@@ -1706,9 +1702,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																						<div class="center-block">Vendor Compensation</div></a>
 																				</li>
 																			</ul>
-																		</li>
+																		</li>-->
 
-																		<li>
+									<!--									<li>
 																			<a href="<?= Yii::app()->createUrl('admin/zone/volumetrend') ?>" >
 																				<div class="center-block">Zonal Volume Trends</div></a>
 																		</li>
@@ -1720,7 +1716,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 																		<li>
 																			<a href="<?= Yii::app()->createUrl('admin/dialer/Audioreport') ?>" >
 																				<div class="center-block">Call Report</div></a>
-																		</li>
+																		</li>-->
 								</ul>
 							</li>
 							<li class="droplink">
@@ -1778,7 +1774,25 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 											<div class="center-block">Callback list</div></a>
 									</li>
 								</ul>
-							</li>-->
+							</li>
+
+							<li class="droplink">
+
+								<a href="#" ><span class="menu-icon fa fa-cogs"></span><p class="">Concierge Service</p></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/conciergeEvent/list') ?>" >
+											<div class="center-block">Event List</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/conciergeEvent/listEventBenefit') ?>" >
+											<div class="center-block">Benefit List</div></a>
+									</li>
+								</ul>
+							</li>
+
+
+
 
 							<?php
 							if (Yii::app()->user->checkAccess('AdminTools'))
@@ -1804,50 +1818,50 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
 							<!--							<li class="droplink">
 																																							<a href="#" ><span class="menu-icon fa fa-book"></span><p class="">Contacts</p></a>
 																																							<ul class="sub-menu">
-																																											<li>
-																																															<a href="<? //= Yii::app()->createUrl('admin/contact/form')                                                       ?>" >
-																																																			<div class="center-block">Add Contact</div></a>
-																																											</li>
-																																											<li>
-																																															<a href="<? //= Yii::app()->createUrl('admin/contact/list')                                                       ?>" >
-																																																			<div class="center-block">Manage Contacts</div></a>
-																																											</li>
-																																											
-																																											<li>
-																																															<a href="<? //= Yii::app()->createUrl('admin/contact/duplicatecontact')                                                       ?>" >
-																																																			<div class="center-block">Duplicate Contact</div></a>
-																																											</li>
-																																											
-																																											
-																																											<li>
-																																															<a href="<? //= Yii::app()->createUrl('admin/document/docsList')                                                       ?>" >
-																																																			<div class="center-block">Document Pending Approval</div></a>
-																																											</li>
-																																																			
+																																										<li>
+																																										<a href="<? //= Yii::app()->createUrl('admin/contact/form')                                                         ?>" >
+																																										<div class="center-block">Add Contact</div></a>
+																																										</li>
+																																										<li>
+																																										<a href="<? //= Yii::app()->createUrl('admin/contact/list')                                                         ?>" >
+																																										<div class="center-block">Manage Contacts</div></a>
+																																										</li>
+																																										
+																																										<li>
+																																										<a href="<? //= Yii::app()->createUrl('admin/contact/duplicatecontact')                                                         ?>" >
+																																										<div class="center-block">Duplicate Contact</div></a>
+																																										</li>
+																																										
+																																										
+																																										<li>
+																																										<a href="<? //= Yii::app()->createUrl('admin/document/docsList')                                                         ?>" >
+																																										<div class="center-block">Document Pending Approval</div></a>
+																																										</li>
+																																										
 																																							</ul>
 																																			</li>-->
 
-<!--							<li class="droplink">
+							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-sticky-note"></span><p class="">Live Helper Chat</p></a>
 								<ul class="sub-menu">
 									<li>
 										<a href="#" data-target="#pwdModal" data-toggle="modal">Reset my password</a>
 									</li>
 								</ul>
-							</li>-->
-<!--							<li class="droplink">
+							</li>
+							<li class="droplink">
 								<a href="#"><span class="menu-icon fa fa-briefcase"></span><p class="">Miscellaneous</p></a>
 								<ul class="sub-menu">
 									<li>
-										<a href="<?php //echo  Yii::app()->createUrl('aaohome/gozen') ?>">
-											<div class="center-block"> INTRANET</div></a>
+										<a href="<?= Yii::app()->createUrl('admpnl/gozen') ?>">
+											<div class="center-block">aao INTRANET</div></a>
 									</li>
 									<li>
 										<a href="https://docs.google.com/forms/d/1wyr5a1CQFlRLIYb3FqKdpKquKXd6L-pTgzLVvNH-D3g/edit?usp=sharing" target="_blank"><div class="center-block">LEAVE APPLICATION</div> </a>
 
 									</li>
 								</ul>
-							</li>-->
+							</li>
 							<div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -1903,7 +1917,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
                 </div>
 				<?php
 				$urlSegment = Yii::app()->request->url;
-				if ($urlSegment == '/aaohome/index/dashboard')
+				if ($urlSegment == '/admpnl/index/dashboard')
 				{
 					?>
 					<div class="col-xs-12">
@@ -2007,7 +2021,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
                 <div class="page-footer" style="bottom: 0; position: relative">
                     <div class="container" >
                         <p>
-                            Copyright &copy; <?php echo date('Y'); ?> by aaocab.
+                            Copyright &copy; <?php echo date('Y'); ?> by AooCab.
                             All Rights Reserved.
                         </p>
                     </div>
@@ -2021,372 +2035,367 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/aao/foll
     </body>
     <script>
 
-		$("#dialer").click(function()
-		{
-			$("#txtdialerNo").show();
-			$("#dailerBox").hide();
-		});
+        $("#dialer").click(function ()
+        {
+            $("#txtdialerNo").show();
+            $("#dailerBox").hide();
+        });
 
-		$('#txtdialerNo').keypress(function(event)
-		{
+        $('#txtdialerNo').keypress(function (event)
+        {
 
-			var keycode = (event.keyCode ? event.keyCode : event.which);
-			if (keycode == '13')
-			{
-				//alert('You pressed a "enter" key in textbox');
-				var dialerNo = $("#txtdialerNo").val();
-				$href = '<?= Yii::app()->createUrl('admin/index/saveDialer') ?>';
-				jQuery.ajax({type: 'GET', url: $href, data: {"dialerNo": dialerNo},
-					success: function(data)
-					{
-						$("#dailerBox").show();
-						$("#dailerBox").text(data);
-						$("#txtdialerNo").hide();
-					}
-				});
-			}
-		});
-
-
-
-		$('#submitButton').click(function()
-		{
-			var password = $('#password').val().trim();
-			var email = $('#email').val().trim();
-			$.ajax({
-				"type": "POST",
-				dataType: 'json',
-				"url": "<?= CHtml::normalizeUrl(Yii::app()->createUrl('bot/UpdatePassword')) ?>",
-				data: {
-					'password': password,
-					'email': email
-				},
-				"async": false,
-				"success": function(response)
-				{
-					if (response.success)
-					{
-						alert('Profile Updated Successfully With New Password');
-					}
-					else
-					{
-						alert(response.data);
-					}
-				}
-
-			});
-		});
-
-		var obj1 = new MaskFilter();
-		obj1.getnameFilter();
-		$followUp = new FollowUp();
-		$('#crtfollow').click(function()
-		{
-			$followUp.createFollowUps();
-		});
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13')
+            {
+                //alert('You pressed a "enter" key in textbox');
+                var dialerNo = $("#txtdialerNo").val();
+                $href = '<?= Yii::app()->createUrl('admin/index/saveDialer') ?>';
+                jQuery.ajax({type: 'GET', url: $href, data: {"dialerNo": dialerNo},
+                    success: function (data)
+                    {
+                        $("#dailerBox").show();
+                        $("#dailerBox").text(data);
+                        $("#txtdialerNo").hide();
+                    }
+                });
+            }
+        });
 
 
-		$(document).ready(function()
-		{
 
-			$flag = 0;
-			getBackScq();
+        $('#submitButton').click(function ()
+        {
+            var password = $('#password').val().trim();
+            var email = $('#email').val().trim();
+            $.ajax({
+                "type": "POST",
+                dataType: 'json',
+                "url": "<?= CHtml::normalizeUrl(Yii::app()->createUrl('bot/UpdatePassword')) ?>",
+                data: {
+                    'password': password,
+                    'email': email
+                },
+                "async": false,
+                "success": function (response)
+                {
+                    if (response.success)
+                    {
+                        alert('Profile Updated Successfully With New Password');
+                    } else
+                    {
+                        alert(response.data);
+                    }
+                }
 
-		});
-		function cnlSubmit()
-		{
-			$("#scqForm").hide("slow");
-		}
-		function getBackScq()
-		{
-			$flag = '<?= $_REQUEST['scq'] ?>';
-			if ($flag != '')
-			{
-				$.ajax({
-					"type": "GET",
-					"url": $baseUrl + '/aaohome/scq/showCallbackQue',
-					"data":
-							{"followupId": '<?= $_REQUEST['scq'] ?>'},
-					"dataType": "HTML",
-					"success": function(data1)
-					{
-						schedulebox = bootbox.dialog({
-							message: data1,
-							size: 'large',
-							title: '',
+            });
+        });
 
-						});
-						schedulebox.on('hidden.bs.modal', function(e)
-						{
-							$('body').addClass('modal-open');
-						});
-					}
-
-				});
-			}
-
-		}
+        var obj1 = new MaskFilter();
+        obj1.getnameFilter();
+        $followUp = new FollowUp();
+        $('#crtfollow').click(function ()
+        {
+            $followUp.createFollowUps();
+        });
 
 
-		$(document).ready(function()
-		{
-			$('#viewPersonType').change(function()
-			{
-				$("#person_unique_code").show("slow");
-				var plctext = $("#viewPersonType option:selected").text();
-				$("#person_unique_codeTxt").attr("placeholder", plctext + " code");
+        $(document).ready(function ()
+        {
 
-			});
+            $flag = 0;
+            getBackScq();
 
-			$('#person_unique_codeTxt').keypress(function(e)
-			{
-				if (e.which == 13)
-				{
-					var personType = $("#viewPersonType").val();
-					var personCode = $("#person_unique_codeTxt").val();
+        });
+        function cnlSubmit()
+        {
+            $("#scqForm").hide("slow");
+        }
+        function getBackScq()
+        {
+            $flag = '<?= $_REQUEST['scq'] ?>';
+            if ($flag != '')
+            {
+                $.ajax({
+                    "type": "GET",
+                    "url": $baseUrl + '/admpnl/scq/showCallbackQue',
+                    "data":
+                            {"followupId": '<?= $_REQUEST['scq'] ?>'},
+                    "dataType": "HTML",
+                    "success": function (data1)
+                    {
+                        schedulebox = bootbox.dialog({
+                            message: data1,
+                            size: 'large',
+                            title: '',
 
-					$.ajax({
-						"type": "POST",
-						"url": '<?= Yii::app()->createUrl("admin/index/redirectPerson"); ?>',
-						'dataType': "json",
-						"data": {"personType": personType, "personCode": personCode, "YII_CSRF_TOKEN": "<?= Yii::app()->request->csrfToken ?>"},
-						"success": function(data1)
-						{
-							if (data1.success)
-							{
-								window.open(data1.link);
-							}
-							else
-							{
-								alert("Invalid Code.");
-							}
-						},
-					});
-					return false;
-				}
-			});
+                        });
+                        schedulebox.on('hidden.bs.modal', function (e)
+                        {
+                            $('body').addClass('modal-open');
+                        });
+                    }
 
+                });
+            }
 
-			$('#bookingIdType').change(function()
-			{
-				$("#booking_unique_code").show("slow");
-				var txt;
-				var idType = $("#bookingIdType").val();
-				switch (idType)
-				{
-					case "1":
-						txt = "(Ex. 1878315)";
-						break;
-					case "2":
-						txt = "(Ex. TFR101878315/OW101878315)";
-						break;
-					case "3":
-						txt = "(Ex. NC74625558872920)";
-						break;
-				}
-				var plctext = $("#bookingIdType option:selected").text();
-				$("#booking_unique_codeTxt").attr("placeholder", txt);
-			});
+        }
 
 
-			$('#booking_unique_codeTxt').keypress(function(e)
-			{
-				var link = "";
-				if (e.which == 13)
-				{
-					var idType = $("#bookingIdType").val();
-					var idVal = $("#booking_unique_codeTxt").val();
-					switch (idType)
-					{
-						case "1":
-							link = "<?php echo Yii::app()->createUrl('aaohome/booking/view'); ?>?id=" + idVal;
-							break;
-						case "2":
-							link = "<?php echo Yii::app()->createUrl('aaohome/booking/view'); ?>?booking_id=" + idVal;
-							break;
-						case "3":
-							link = "<?php echo Yii::app()->createUrl('aaohome/booking/view'); ?>?partner_ref=" + idVal;
-							break;
-					}
-					window.open(link);
-				}
-			});
+        $(document).ready(function ()
+        {
+            $('#viewPersonType').change(function ()
+            {
+                $("#person_unique_code").show("slow");
+                var plctext = $("#viewPersonType option:selected").text();
+                $("#person_unique_codeTxt").attr("placeholder", plctext + " code");
+
+            });
+
+            $('#person_unique_codeTxt').keypress(function (e)
+            {
+                if (e.which == 13)
+                {
+                    var personType = $("#viewPersonType").val();
+                    var personCode = $("#person_unique_codeTxt").val();
+
+                    $.ajax({
+                        "type": "POST",
+                        "url": '<?= Yii::app()->createUrl("admin/index/redirectPerson"); ?>',
+                        'dataType': "json",
+                        "data": {"personType": personType, "personCode": personCode, "YII_CSRF_TOKEN": "<?= Yii::app()->request->csrfToken ?>"},
+                        "success": function (data1)
+                        {
+                            if (data1.success)
+                            {
+                                window.open(data1.link);
+                            } else
+                            {
+                                alert("Invalid Code.");
+                            }
+                        },
+                    });
+                    return false;
+                }
+            });
 
 
-			$('#furIdType').change(function()
-			{
-				$("#fur_unique_code").show("slow");
-				var txt;
-				var idType = $("#furIdType").val();
-				switch (idType)
-				{
-					case "1":
-						txt = "(Ex. 336058)";
-						break;
-				}
-				var plctext = $("#furIdType option:selected").text();
-				$("#fur_unique_codeTxt").attr("placeholder", txt);
-			});
+            $('#bookingIdType').change(function ()
+            {
+                $("#booking_unique_code").show("slow");
+                var txt;
+                var idType = $("#bookingIdType").val();
+                switch (idType)
+                {
+                    case "1":
+                        txt = "(Ex. 1878315)";
+                        break;
+                    case "2":
+                        txt = "(Ex. TFR101878315/OW101878315)";
+                        break;
+                    case "3":
+                        txt = "(Ex. NC74625558872920)";
+                        break;
+                }
+                var plctext = $("#bookingIdType option:selected").text();
+                $("#booking_unique_codeTxt").attr("placeholder", txt);
+            });
 
 
-			$('#fur_unique_codeTxt').keypress(function(e)
-			{
-				var link = "";
-				if (e.which == 13)
-				{
-					var idType = $("#furIdType").val();
-					var idVal = $("#fur_unique_codeTxt").val();
-					switch (idType)
-					{
-						case "1":
-							link = "<?php echo Yii::app()->createUrl('aaohome/scq/view'); ?>?id=" + idVal;
-							break;
-					}
-					window.open(link);
-				}
-			});
+            $('#booking_unique_codeTxt').keypress(function (e)
+            {
+                var link = "";
+                if (e.which == 13)
+                {
+                    var idType = $("#bookingIdType").val();
+                    var idVal = $("#booking_unique_codeTxt").val();
+                    switch (idType)
+                    {
+                        case "1":
+                            link = "<?php echo Yii::app()->createUrl('admpnl/booking/view'); ?>?id=" + idVal;
+                            break;
+                        case "2":
+                            link = "<?php echo Yii::app()->createUrl('admpnl/booking/view'); ?>?booking_id=" + idVal;
+                            break;
+                        case "3":
+                            link = "<?php echo Yii::app()->createUrl('admpnl/booking/view'); ?>?partner_ref=" + idVal;
+                            break;
+                    }
+                    window.open(link);
+                }
+            });
+
+
+            $('#furIdType').change(function ()
+            {
+                $("#fur_unique_code").show("slow");
+                var txt;
+                var idType = $("#furIdType").val();
+                switch (idType)
+                {
+                    case "1":
+                        txt = "(Ex. 336058)";
+                        break;
+                }
+                var plctext = $("#furIdType option:selected").text();
+                $("#fur_unique_codeTxt").attr("placeholder", txt);
+            });
+
+
+            $('#fur_unique_codeTxt').keypress(function (e)
+            {
+                var link = "";
+                if (e.which == 13)
+                {
+                    var idType = $("#furIdType").val();
+                    var idVal = $("#fur_unique_codeTxt").val();
+                    switch (idType)
+                    {
+                        case "1":
+                            link = "<?php echo Yii::app()->createUrl('admpnl/scq/view'); ?>?id=" + idVal;
+                            break;
+                    }
+                    window.open(link);
+                }
+            });
 
 
 
 
-			$('#agent_id').change(function()
-			{
-				var ag_id = $('#agent_id').val();
-				var link = "<?php echo Yii::app()->createUrl('aaohome/agent/view'); ?>?agent=" + ag_id;
-				window.open(link);
-			});
-		});
+            $('#agent_id').change(function ()
+            {
+                var ag_id = $('#agent_id').val();
+                var link = "<?php echo Yii::app()->createUrl('admpnl/agent/view'); ?>?agent=" + ag_id;
+                window.open(link);
+            });
+        });
 
 
 
-		function blinker()
-		{
-			$('.blinking').fadeOut(500);
-			$('.blinking').fadeIn(500);
-		}
-		var getCountInternalCBRbyAdminID = '<?php echo $getCountInternalCBRbyAdminID ?>';
-		if (getCountInternalCBRbyAdminID > 0)
-		{
-			setInterval(blinker, 1000);
-		}
+        function blinker()
+        {
+            $('.blinking').fadeOut(500);
+            $('.blinking').fadeIn(500);
+        }
+        var getCountInternalCBRbyAdminID = '<?php echo $getCountInternalCBRbyAdminID ?>';
+        if (getCountInternalCBRbyAdminID > 0)
+        {
+            setInterval(blinker, 1000);
+        }
 
-		$(document).ready(function()
-		{
-			var submitIcon = $('.searchbar-icon');
-			var inputBox = $('.searchbar-input');
-			var searchbar = $('.searchbar');
-			var isOpen = false;
-			submitIcon.click(function()
-			{
-				if (isOpen == false)
-				{
-					searchbar.addClass('searchbar-open');
-					inputBox.focus();
-					isOpen = true;
-				}
-				else
-				{
-					searchbar.removeClass('searchbar-open');
-					inputBox.focusout();
-					isOpen = false;
-				}
-			});
-			submitIcon.mouseup(function()
-			{
-				return false;
-			});
-			searchbar.mouseup(function()
-			{
-				return false;
-			});
-			$(document).mouseup(function()
-			{
-				if (isOpen == true)
-				{
-					$('.searchbar-icon').css('display', 'block');
-					submitIcon.click();
-				}
-			});
-		});
-		function buttonUp()
-		{
-			var inputVal = $('.searchbar-input').val();
-			inputVal = $.trim(inputVal).length;
-			if (inputVal !== 0)
-			{
-				$('.searchbar-icon').css('display', 'none');
-			}
-			else
-			{
-				$('.searchbar-input').val('');
-				$('.searchbar-icon').css('display', 'block');
-			}
-		}
+        $(document).ready(function ()
+        {
+            var submitIcon = $('.searchbar-icon');
+            var inputBox = $('.searchbar-input');
+            var searchbar = $('.searchbar');
+            var isOpen = false;
+            submitIcon.click(function ()
+            {
+                if (isOpen == false)
+                {
+                    searchbar.addClass('searchbar-open');
+                    inputBox.focus();
+                    isOpen = true;
+                } else
+                {
+                    searchbar.removeClass('searchbar-open');
+                    inputBox.focusout();
+                    isOpen = false;
+                }
+            });
+            submitIcon.mouseup(function ()
+            {
+                return false;
+            });
+            searchbar.mouseup(function ()
+            {
+                return false;
+            });
+            $(document).mouseup(function ()
+            {
+                if (isOpen == true)
+                {
+                    $('.searchbar-icon').css('display', 'block');
+                    submitIcon.click();
+                }
+            });
+        });
+        function buttonUp()
+        {
+            var inputVal = $('.searchbar-input').val();
+            inputVal = $.trim(inputVal).length;
+            if (inputVal !== 0)
+            {
+                $('.searchbar-icon').css('display', 'none');
+            } else
+            {
+                $('.searchbar-input').val('');
+                $('.searchbar-icon').css('display', 'block');
+            }
+        }
 
 
-		$href = '<?= Yii::app()->createUrl('lookup/allReportByQuery/') ?>';
-		$("#tags").autocomplete({
-			source: function(request, response)
-			{
-				$.ajax({
-					global: false,
-					url: $href + '?term=' + request.term,
-					dataType: "json",
-					"beforeSend": function()
-					{
-					},
-					"complete": function()
-					{
+        $href = '<?= Yii::app()->createUrl('lookup/allReportByQuery/') ?>';
+        $("#tags").autocomplete({
+            source: function (request, response)
+            {
+                $.ajax({
+                    global: false,
+                    url: $href + '?term=' + request.term,
+                    dataType: "json",
+                    "beforeSend": function ()
+                    {
+                    },
+                    "complete": function ()
+                    {
 
-					},
-					success: function(data)
-					{
-						response(data.result);
-					}
-				});
-			},
-			response: function(event, ui)
-			{
-				if (!ui.content.length)
-				{
-					var noResult = {value: "", label: "No results found"};
-					ui.content.push(noResult);
-				}
-			},
-			minLength: 2,
-			select: function(event, ui)
-			{
-				$(this).val("");
+                    },
+                    success: function (data)
+                    {
+                        response(data.result);
+                    }
+                });
+            },
+            response: function (event, ui)
+            {
+                if (!ui.content.length)
+                {
+                    var noResult = {value: "", label: "No results found"};
+                    ui.content.push(noResult);
+                }
+            },
+            minLength: 2,
+            select: function (event, ui)
+            {
+                $(this).val("");
 
-				if (ui.item.value != "")
-				{
-					if (event.ctrlKey)
-					{
-						window.open(ui.item.value, "_blank");
-					}
-					else
-					{
-						location.href = ui.item.value;
-					}
-				}
-				return false;
-			},
-			focus: function(event, ui)
-			{
-				this.value = ui.item.label;
-				event.preventDefault();
-			},
-			change: function(ev, ui)
-			{
-				if (!ui.item)
-				{
-					$(this).val('');
-				}
-			}
-		}).data("ui-autocomplete")._renderItem = function(ul, item)
-		{
-			return $("<li title='Press ctrl to open in new window'></li>").data("item.autocomplete", item).append("<div><a>" + item.label + "</a></div>").appendTo(ul);
-		};
+                if (ui.item.value != "")
+                {
+                    if (event.ctrlKey)
+                    {
+                        window.open(ui.item.value, "_blank");
+                    } else
+                    {
+                        location.href = ui.item.value;
+                    }
+                }
+                return false;
+            },
+            focus: function (event, ui)
+            {
+                this.value = ui.item.label;
+                event.preventDefault();
+            },
+            change: function (ev, ui)
+            {
+                if (!ui.item)
+                {
+                    $(this).val('');
+                }
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item)
+        {
+            return $("<li title='Press ctrl to open in new window'></li>").data("item.autocomplete", item).append("<div><a>" + item.label + "</a></div>").appendTo(ul);
+        };
 
 
     </script>
