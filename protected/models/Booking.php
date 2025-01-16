@@ -93,6 +93,7 @@ class Booking extends CActiveRecord
 	const Platform_GOMMT			 = 7;
 	const Platform_Spicejet		 = 9;
 	const Platform_CPAPI			 = 10;
+        const Platform_Supplier		 = 11;
 
 	public $requiredKMs				 = 0;
 	public $isconvertedToDR			 = 0;
