@@ -1,0 +1,92 @@
+2024/10/17 12:52:24 [trace] [trace.module.admin.controller.driver.add] [T: 108.28] [M: 7647.81] 
+------------------------------------------------------module.admin.controller.driver.add ACTION START------------------------------------------------------
+	URL: [GET]/aaohome/driver/add
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/index/dashboard
+	[UserID: 30] [UserType: 4]
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (263)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (309)
+2024/10/17 12:52:24 [trace] [trace.module.admin.controller.driver.add] [T: 931.349] [M: 14194.89] 
+*******************************************************module.admin.controller.driver.add ACTION DONE****************************************************************
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (266)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (352)
+2024/10/17 12:52:56 [trace] [trace.module.admin.controller.driver.add] [T: 99.792] [M: 7647.78] 
+------------------------------------------------------module.admin.controller.driver.add ACTION START------------------------------------------------------
+	URL: [GET]/aaohome/driver/add
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/vendor/list
+	[UserID: 30] [UserType: 4]
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (263)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (309)
+2024/10/17 12:52:56 [trace] [trace.module.admin.controller.driver.add] [T: 506.859] [M: 14169.18] 
+*******************************************************module.admin.controller.driver.add ACTION DONE****************************************************************
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (266)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (352)
+2024/10/17 12:54:40 [trace] [trace.module.admin.controller.driver.add] [T: 3265.657] [M: 8427.4] 
+------------------------------------------------------module.admin.controller.driver.add ACTION START------------------------------------------------------
+	URL: [POST]/aaohome/driver/add
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/driver/add
+	POST: {"YII_CSRF_TOKEN":"WXNPTUJMSWVRVldJOEx-d05yUlNaS2Uwb1Z1bjlxVVbcPYQNd6slCd-zuD_h2YBprDCwXjTsRSiXzK9TaRAgVA==","Drivers":{"drv_id_merge":"","drv_type":"3","drv_vendor_id1":"4","drv_name":"puja","drv_contact_id":"1687748","drv_contact_name":"aaa aa","drv_trip_type":["1"],"drv_is_uber_approved":"0","drv_dob_date":"01\/10\/2000","drv_doj":"01\/10\/2024","drv_zip":"700052"},"drvid":""}
+	[UserID: 30] [UserType: 4]
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (263)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (309)
+2024/10/17 12:54:42 [trace] [trace.module.admin.controller.driver.add] [T: 4641.847] [M: 12763.97] <==***Driver Id***==>4<==***Contact Id***==>1687748
+	\modules\admin\controllers\DriverController.php (723)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\models\Drivers.php (3378)
+2024/10/17 12:54:45 [error] [trace.module.admin.controller.driver.add] [T: 7759.299] [M: 20257.21] 0: {"error":{"message":"Error validating access token: Session has expired on Tuesday, 26-Dec-23 23:00:00 PST. The current time is Thursday, 17-Oct-24 00:24:44 PDT.","type":"OAuthException","code":190,"error_subcode":463,"fbtrace_id":"ASV385pE_QuGFbg1dVj24cp"}}
+	URL: [POST]/aaohome/driver/add
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/driver/add
+	POST: {"YII_CSRF_TOKEN":"WXNPTUJMSWVRVldJOEx-d05yUlNaS2Uwb1Z1bjlxVVbcPYQNd6slCd-zuD_h2YBprDCwXjTsRSiXzK9TaRAgVA==","Drivers":{"drv_id_merge":"","drv_type":"3","drv_vendor_id1":"4","drv_name":"puja","drv_contact_id":"1687748","drv_contact_name":"aaa aa","drv_trip_type":["1"],"drv_is_uber_approved":"0","drv_dob_date":"01\/10\/2000","drv_doj":"01\/10\/2024","drv_zip":"700052"},"drvid":""}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (156)
+in C:\Projects\Staging\protected\components\Whatsapp.php (86)
+2024/10/17 12:54:45 [warning] [trace.module.admin.controller.driver.add] [T: 7759.775] [M: 20258.95] 0: {"error":{"message":"Error validating access token: Session has expired on Tuesday, 26-Dec-23 23:00:00 PST. The current time is Thursday, 17-Oct-24 00:24:44 PDT.","type":"OAuthException","code":190,"error_subcode":463,"fbtrace_id":"ASV385pE_QuGFbg1dVj24cp"}}
+	URL: [POST]/aaohome/driver/add
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/driver/add
+	POST: {"YII_CSRF_TOKEN":"WXNPTUJMSWVRVldJOEx-d05yUlNaS2Uwb1Z1bjlxVVbcPYQNd6slCd-zuD_h2YBprDCwXjTsRSiXzK9TaRAgVA==","Drivers":{"drv_id_merge":"","drv_type":"3","drv_vendor_id1":"4","drv_name":"puja","drv_contact_id":"1687748","drv_contact_name":"aaa aa","drv_trip_type":["1"],"drv_is_uber_approved":"0","drv_dob_date":"01\/10\/2000","drv_doj":"01\/10\/2024","drv_zip":"700052"},"drvid":""}
+	[UserID: 30] [UserType: 4]
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/17 12:54:45 [info] [trace.module.admin.controller.driver.add] [T: 8332.794] [M: 22596.25] EmailLog Write Done: C:\Projects\Staging\protected\doc\1\mails\2024\10\17\3_7135103_.gml
+	\components\emailWrapper.php (1533)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (102)
+in C:\Projects\Staging\protected\components\Filter.php (896)
+2024/10/17 12:54:45 [trace] [trace.module.admin.controller.driver.add] [T: 8342.275] [M: 22583.04] <==Driver Id==>4<==Contact Id==>1687748
+	\modules\admin\controllers\DriverController.php (723)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\models\Drivers.php (3445)
+2024/10/17 12:56:06 [trace] [trace.module.admin.controller.driver.add] [T: 110.191] [M: 8424.09] 
+------------------------------------------------------module.admin.controller.driver.add ACTION START------------------------------------------------------
+	URL: [GET]/aaohome/driver/add?drvid=4
+	User IP: 192.168.1.240
+	Referrer: http://localhost:84/aaohome/driver/list
+	[UserID: 30] [UserType: 4]
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (263)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (309)
+2024/10/17 12:56:06 [trace] [trace.module.admin.controller.driver.add] [T: 653.97] [M: 15967.96] 
+*******************************************************module.admin.controller.driver.add ACTION DONE****************************************************************
+	C:\Projects\vendors\vendor\yiisoft\yii\framework\web\CController.php (266)
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (95)
+in C:\Projects\Staging\protected\components\Logger.php (352)

@@ -715,6 +715,9 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 							}
 							$cdt_id		 = CatDepartTeamMap::getCatdepatTeamId(rtrim($cdtId, ","));
 							$cdtModel	 = CatDepartTeamMap::model()->findByPk($cdt_id);
+                                                       // echo "<pre>";
+                                                       // print_r($mapModel);
+                                                        
 							$tName		 = $cdtModel->cdtTea->tea_name;
 							$deptName	 = $cdtModel->cdtDpt->dpt_name;
 							$catName	 = $cdtModel->cdtCat->cat_name;
@@ -913,21 +916,47 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 											<div class="center-block">Registration Progress Report</div></a>
 									</li>
 								</ul>
-							</li>
-							<!--                                                        <li class="droplink">
-																																							<a href="#" ><span class="menu-icon fa fa-user"></span><p class="">Corporate</p></a>
-																																							<ul class="sub-menu">
-																																										<li>
-																																										<a href="<? //= Yii::app()->createUrl('admin/corporate/add')                                                               ?>" >
-																																										<div class="center-block">Add new corporate</div></a>
-																																										</li>
-																																										<li>
-																																										<a href="<? //= Yii::app()->createUrl('admin/corporate/list')                                                               ?>" >
-																																										<div class="center-block">Corporate List</div></a>
-																																										</li>
-																																							</ul>
-																																			</li>-->
+							</li>-->
 							<li class="droplink">
+								<a href="#" ><span class="menu-icon fa fa-user"></span><p class="">Customers</p></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/user/list') ?>" >
+											<div class="center-block">Customers List</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/credit/list') ?>" >
+											<div class="center-block">Gozo Coins History</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/unsubscribe/list') ?>" >
+											<div class="center-block">Unsubscribe List</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/unsubscribe/add') ?>" >
+											<div class="center-block">Add Unsubscribe</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/user/sociallist') ?>" >
+											<div class="center-block">Social Link</div></a>
+									</li>
+
+								</ul>
+							</li>
+    <li class="droplink">
+        <a href="#" ><span class="menu-icon fa fa-user"></span><p class="">We</p></a>
+        <ul class="sub-menu">
+            <li>
+                <a href="<?= Yii::app()->createUrl('admin/admin/add')                                                              ?>" >
+                    <div class="center-block">Add Us</div></a>
+            </li>
+            <li>
+                <a href="<?= Yii::app()->createUrl('admin/admin/list')                                                              ?>" >
+                    <div class="center-block">Our List</div></a>
+            </li>
+        </ul>
+    </li>
+    <li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-briefcase"></span><p class="">Vendors</p></a>
 								<ul class="sub-menu">
 									<li>
@@ -1159,6 +1188,98 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/gozo/fol
 								</ul>
 							</li>
 							<li class="droplink">
+								<a href="#" ><span class="menu-icon fa fa-cogs"></span><p class="">Zone</p></a>
+								<ul class="sub-menu">
+											<li>
+													<a href="<?= Yii::app()->createUrl('admin/zone/add') ?>" >
+															<div class="center-block">Add Zone</div></a>
+											</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/zone/list') ?>" >
+											<div class="center-block">View List</div></a>
+									</li>
+
+								</ul>
+							</li>
+							<li class="droplink">
+								<a href="#" ><span class="menu-icon fa fa-user"></span><p class="">Channel Partners</p></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/agent/form') ?>" >
+											<div class="center-block">Add Partner</div></a>
+									</li>
+									                                    <li>
+																																																	<a href="<? //= Yii::app()->createUrl('admin/agent/corporateform')                                                         ?>" >
+																																																			<div class="center-block">Add new Corporate</div></a>
+																																													</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/agent/list') ?>" >
+											<div class="center-block">Manage Partners</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/agent/markupadd') ?>" >
+											<div class="center-block">Add Markup</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/agent/markuplist') ?>" >
+											<div class="center-block">Markup List</div></a>
+									</li>
+
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/agent/regprogress') ?>" >
+											<div class="center-block">Registration Progress Report</div></a>
+									</li>
+								</ul>
+							</li>
+							<li class="droplink">
+								<a href="#" ><span class="menu-icon fa fa-envelope"></span><p class="">Messages</p></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/chat') ?>" >
+											<div class="center-block">Messaging</div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/message/list') ?>" >
+											<div class="center-block">Sms Log</div></a>
+									</li>
+
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/email/list') ?>" >
+											<div class="center-block">Email Log</div></a>
+									</li>
+
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/notification/list') ?>" >
+											<div class="center-block">Notification Log</div></a>
+									</li>
+
+									<li>
+										<a href="<?= Yii::app()->createUrl('aaohome/broadcastNotification/add') ?>" >
+											<div class="center-block">New Notification </div></a>
+									</li>
+
+									<li>
+										<a href="<?= Yii::app()->createUrl('aaohome/broadcastNotification/list') ?>" >
+											<div class="center-block">Scheduled Notifications </div></a>
+									</li>
+									<li>
+										<a href="<?= Yii::app()->createUrl('report/notification/WhatsappLog') ?>" >
+											<div class="center-block">WhatsApp Log</div></a>
+									</li>
+								</ul>
+							</li>
+							<li class="droplink">
+								<a href="#" ><span class="menu-icon fa fa-envelope"></span><p class="">BroadCast Notification</p></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="<?= Yii::app()->createUrl('admin/broadcastNotification/add') ?>" >
+											<div class="center-block">BroadCast</div></a>
+									</li>
+									
+								</ul>
+							</li>
+							
+<!--							<li class="droplink">
 								<a href="#" ><span class="menu-icon fa fa-map-marker"></span><p class="">Routes</p></a>
 								<ul class="sub-menu">
 									<li>

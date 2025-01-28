@@ -1956,12 +1956,13 @@ class UserController extends Controller
 
 	public function actionLinkedUsers()
 	{
+         print_r($_REQUEST['emailphone']);
 		$error				 = '[]';
 		$returnSet			 = new ReturnSet();
-		$username			 = Yii::app()->request->getParam('emailphone');
+	echo	$username			 = Yii::app()->request->getParam('emailphone');exit;
 		$success			 = false;
 		$userModel			 = new Users("userLoginEmailPhone");
-		$userModel->username = $username;
+		 $userModel->username = $username;
 		try
 		{
 			$errors = CActiveForm::validate($userModel, null, false);

@@ -1,0 +1,42 @@
+2024/10/11 10:50:45 [warning] [module.default.controller.index.index] [T: 586.364] [M: 12339.24] 0: Couldn't download http://localhost:84/images/bx-chevron-up.svg
+The requested URL returned error: 404 Not Found
+	URL: [GET]/
+	User IP: 192.168.0.104
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/11 10:50:45 [warning] [module.default.controller.index.index] [T: 812.373] [M: 12192.32] 0: Couldn't download http://localhost:84/images/bx-arrowleft2.svg
+The requested URL returned error: 404 Not Found
+	URL: [GET]/
+	User IP: 192.168.0.104
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/11 10:50:46 [warning] [module.default.controller.index.index] [T: 990.893] [M: 12204.65] 0: Couldn't download http://localhost:84/images/bx-arrowright2.svg
+The requested URL returned error: 404 Not Found
+	URL: [GET]/
+	User IP: 192.168.0.104
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/11 15:52:04 [warning] [module.default.controller.index.index] [T: 474.197] [M: 12341.21] 0: Couldn't download http://localhost:84/images/bx-chevron-up.svg
+The requested URL returned error: 404 Not Found
+	URL: [GET]/
+	User IP: 192.168.0.104
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/11 15:52:04 [warning] [module.default.controller.index.index] [T: 629.596] [M: 12194.29] 0: Couldn't download http://localhost:84/images/bx-arrowleft2.svg
+The requested URL returned error: 404 Not Found
+	URL: [GET]/
+	User IP: 192.168.0.104
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
+2024/10/11 15:52:04 [warning] [module.default.controller.index.index] [T: 776.002] [M: 12206.62] 0: Couldn't download http://localhost:84/images/bx-arrowright2.svg
+The requested URL returned error: 404 Not Found
+	URL: [GET]/
+	User IP: 192.168.0.104
+in C:\Projects\Staging\protected\components\Logger.php (85)
+in C:\Projects\Staging\protected\components\Logger.php (132)
+in C:\Projects\Staging\protected\components\Logger.php (216)
