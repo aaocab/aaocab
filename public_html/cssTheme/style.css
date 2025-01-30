@@ -91,11 +91,11 @@ h3 {
 }
 
 body {
-  font-family: "Mulish", sans-serif !important;
-  font-optical-sizing: auto ;
-  font-weight: 400 !important;
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
   font-style: normal;
-  background: var(--bg-one) !important;
+  background: var(--bg-one);
 }
 
 header {

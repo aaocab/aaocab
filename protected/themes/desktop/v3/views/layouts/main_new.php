@@ -16,11 +16,8 @@ $bgBanner				 = ($this->fixedTop) ? "bg-banner" : "";
 <?php
 /* @var $model BookingRoute */
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/assets/plugins/form-select2/select2.css');
-$version = Yii::app()->params['siteJSVersion'].rand(99,999);
+$version = Yii::app()->params['siteJSVersion'];
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . "/js/aao/v3/bookingRoute.js?v=$version");
-
-
-
 
 $selectizeOptions = ['create'								 => false,
 	'persist'								 => true,
@@ -269,13 +266,8 @@ $btype	 = ($btype == 0) ? $bmodel->bkg_booking_type : $btype;
                                        
                                           <?php
                                           $model = new BookingRoute();
-		
-			?>
-			<?= CHtml::hiddenField('min_time[]', $minTime, array('id' => 'min_time0')) ?>
-                                          
-                         <?php
 			$widgetId			 = $ctr . "_" . random_int(99999, 10000000);
-          
+         //  $model->brt_from_city_id = 33036;
 			$this->widget('application.widgets.BRCities', array(
 				'type'				 => 1,
 				'enable'			 => ($index == 0),
@@ -283,70 +275,35 @@ $btype	 = ($btype == 0) ? $bmodel->bkg_booking_type : $btype;
 				'model'				 => $model,
 				'attribute'			 => 'brt_from_city_id',
 				'useWithBootstrap'	 => true,
-            
+                'isCookieActive'              =>     true,
+                // 'cookieSource'              =>     $cookieSourceCity,
 				"placeholder"		 => "Select City",
 			));
-			?>                 
-                                          
-                                          
-                                          
-                                          
-                                          
-                                          
+			?>
+			<?= CHtml::hiddenField('min_time[]', $minTime, array('id' => 'min_time0')) ?>
                                       </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class="from-input">
                                         <sapn class="icon"><img src="images/map.png" alt=""> </sapn>
                                         <label class="form-label">Drop Location</label>
-                                       <?php
-          //   $model->brt_to_city_id = $cookieDestinationCity;
-			$this->widget('application.widgets.BRCities', array(
-				'type'				 => 2,
-				'widgetId'			 => $widgetId,
-				'model'				 => $model,
-				'attribute'			 => 'brt_to_city_id',
-				'useWithBootstrap'	 => true,
-             
-				"placeholder"		 => "Select City",
-			));
-			?>
+                                        <input class="form-control" type="text" placeholder="Kolkata">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="from-input">
-                                    <?php
-			$minDate			 = ($model->brt_min_date != '') ? $model->brt_min_date : date('Y-m-d');
-			$formattedMinDate	 = DateTimeFormat::DateToDatePicker($minDate);
-			echo $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-				'model'			 => $model,
-				'attribute'		 => 'brt_pickup_date_date',
-				'options'		 => array('autoclose' => true, 'dateFormat' => 'dd/mm/yy', 'minDate' => $formattedMinDate),
-				'htmlOptions'	 => array('required'		 => true, 'placeholder'	 => 'Pickup Date',
-					'value'			 => $model->brt_pickup_date_date, 'id'			 => 'brt_pickup_date_date_' . $widgetId,
-					'class'			 => 'form-control datePickup border-radius')
-					), true);
-			?>
+                                      <input class="form-control" type="date" placeholder="Kolkata">
                                   </div>
                               </div>
                               <div class="col-md-6">
                                 <div class="from-input">
-                                   <?php
-			$this->widget('ext.timepicker.TimePicker', array(
-				'model'			 => $model,
-				'id'			 => 'brt_pickup_date_time_' . $widgetId,
-				'attribute'		 => 'brt_pickup_date_time',
-				'options'		 => ['widgetOptions' => array('options' => array())],
-				'htmlOptions'	 => array('required' => true, 'placeholder' => 'Pickup Time', 'class' => 'form-control border-radius timePickup text text-info col-xs-12')
-			));
-			?>
+                                    <input class="form-control" type="time" placeholder="Kolkata">
                                 </div>
                             </div>
                               </div>
 
                               <div class="text-center pt-3">
-                               <input type="button" value="Go back" rid="<?= $rid ?>"  step="<?= $pageid ?>" name="yt0" class="btn btn-light backButton">
-			<?= CHtml::submitButton('Next', array('class' => 'btn btn-primary pl-5 pr-5', 'id' => 'onewaybtn')); ?>
+                                <button class="btn btn-blue book-now btn-lg">Book Cab</button>
                               </div>
                     
                                 </div>

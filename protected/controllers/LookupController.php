@@ -213,19 +213,15 @@ class LookupController extends BaseController
 
 	public function actionCitylist1()
 	{
-
-//header('Cache-Control: max-age=14400, public', true);
-		 $query			 = Yii::app()->request->getParam('q');
-		 $city			 = Yii::app()->request->getParam('city');
+		header('Cache-Control: max-age=14400, public', true);
+		$query			 = Yii::app()->request->getParam('q');
+		$city			 = Yii::app()->request->getParam('city');
 		if($city == 0) 
 		{
 			$city = '';
 		}		
 		$datafromcity	 = Cities::model()->getJSONSourceCities($query, $city);
 
-                //print_r($datafromcity);exit;
-                
-                
 		echo $datafromcity;
 		Yii::app()->end();
 	}

@@ -115,7 +115,7 @@ var AdminBooking = function ()
 
 	this.showlinkedUser = function()
 	{
-		debugger;
+		
 		var model = {};
 		var self = this;
 

@@ -1,5 +1,5 @@
 <?php
-$version = Yii::app()->params['siteJSVersion']. rand(99,999);
+$version = Yii::app()->params['siteJSVersion'];
 
 Yii::app()->clientScript->registerScriptFile(ASSETS_URL . '/js/jquery.mask.min.js');
 Yii::app()->clientScript->registerCssFile(ASSETS_URL . '/plugins/form-select2/select2.css');

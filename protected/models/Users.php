@@ -6464,8 +6464,8 @@ class Users extends CActiveRecord
 			}
 
 			$phone					 = Filter::parsePhoneNumber($isPhone, $code, $number);
-			 $this->usr_mobile		 = $number;
-			 $this->usr_country_code	 = $code;
+			$this->usr_mobile		 = $number;
+			$this->usr_country_code	 = $code;
 			$this->usernameType		 = Stub\common\ContactVerification::TYPE_PHONE;
 		}
 		else
